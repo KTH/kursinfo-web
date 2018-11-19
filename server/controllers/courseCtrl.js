@@ -59,8 +59,9 @@ const paths = require('../server').getPaths()
 
     res.render('course/index', {
       debug: 'debug' in req.query,
-      html:html
-    ,initialState: JSON.stringify(hydrateStores(renderProps))
+      html:html,
+      title: courseCode.toUpperCase(),
+      initialState: JSON.stringify(hydrateStores(renderProps))
       //data: resp.statusCode === 200 ? safeGet(() => { return resp.body.name }) : '',
       //error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
     })
