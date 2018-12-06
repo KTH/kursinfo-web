@@ -66,6 +66,10 @@ module.exports = {
     course_language:"Undervisningsspråk",
     course_required_equipment:"Utrustningskrav",
     course_level_code:"Utbildningsnivå",
+    course_short_semester:{
+      1:"HT ",
+      2:"VT "
+    },
     course_level_code_label: {
       PREPARATORY: "Förberedande nivå",
       BASIC: "Grundnivå",

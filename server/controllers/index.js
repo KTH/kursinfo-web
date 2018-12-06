@@ -8,5 +8,6 @@
 module.exports = {
   System: require('./systemCtrl'),
   Course: require('./courseCtrl'),
+  Syllabus: require('./courseSyllabusCtrl'),
   noCourse: require('./noCourseCtrl')
 }

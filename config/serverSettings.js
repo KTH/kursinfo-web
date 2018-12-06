@@ -16,6 +16,7 @@ const devPort = devDefaults(3000)
 const devSsl = devDefaults(false)
 const devUrl = devDefaults('http://localhost:' + devPort)
 const devInnovationApi = devDefaults('http://localhost:3001/api/kursinfo?defaultTimeout=10000') // required=true&
+const devKursplanApi = devDefaults('http://localhost:3001/api/kursplan?defaultTimeout=10000')
 const devSessionKey = devDefaults('node-web.sid')
 const devSessionUseRedis = devDefaults(true)
 const devRedis = devDefaults('redis://localhost:6379/')
@@ -57,7 +58,8 @@ module.exports = {
 
   // API keys
   apiKey: {
-    nodeApi: getEnv('API_KEY', devDefaults('1234'))
+   // nodeApi: getEnv('API_KEY', devDefaults('1234')),
+    kursplanApi: getEnv('KURSPLAN_API_KEY', devDefaults('123'))
   },
 
   // Authentication
@@ -71,7 +73,8 @@ module.exports = {
 
   // Service API's
   nodeApi: {
-    nodeApi: unpackNodeApiConfig('API_URI', devInnovationApi)
+    //nodeApi: unpackNodeApiConfig('API_URI', devInnovationApi),
+    kursplanApi: unpackNodeApiConfig('KURSPLAN_API_URI', devKursplanApi)
   },
 
   // Cortina

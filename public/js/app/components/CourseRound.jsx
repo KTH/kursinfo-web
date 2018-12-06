@@ -12,7 +12,15 @@ class CourseRound extends Component {
 
     this.state = {
     }
+    this.openSyllabus=this.openSyllabus.bind(this)
   }
+
+  openSyllabus(event){
+    event.preventDefault()
+    const language = this.props.language === 0 ? "en" : "sv" 
+    window.open(`/kursinfo/kursplan/${this.props.courseData.course_code}_${event.target.id}.pdf?lang=${language}`)
+  }
+ 
   render () {
    
     //console.log("this.props.courseRound", this.props.courseRound)
@@ -77,7 +85,7 @@ class CourseRound extends Component {
               </Col>
               <Col sm="4">
                 <h4></h4> 
-                <Button color="primery" >
+                <Button color="primery" onClick={this.openSyllabus} id={this.props.courseData.course_valid_from[0] + this.props.courseData.course_valid_from[1]}>
                     {i18n.messages[this.props.language].courseInformationLabels.label_course_syllabus}
                 </Button>
                 <p className="small-text" >

@@ -106,14 +106,24 @@ class RouterStore {
           courseSemesters.push(courseRound.round_course_term[0])
           console.log("courseSemesters",courseSemesters)
       }
+
+      //*** Get list of syllabuses semesters */
+
+      const syllabuses = coursePlan.publicSyllabusVersions
+      let syllabusSemesterList = []
+      for(let i =1; i < syllabuses.length; i++ ) { 
+        syllabusSemesterList.push(syllabuses[i].validFromTerm.term)
+      }
       
       this.courseData = {
         coursePlanModel,
         courseRoundList,
         courseTitleData,
         courseSemesters,
+        syllabusSemesterList,
         language
       }
+
     }).catch(err => { //console.log(err.response);
       if (err.response) {
         throw new Error(err.message, err.response.data)

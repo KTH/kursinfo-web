@@ -16,30 +16,8 @@ import i18n from '../../../i18n'
 
 import RouterStore from './stores/RouterStore.jsx'
 import CoursePage from './pages/CoursePage.jsx'
+import SyllabusPage from './pages/SyllabusPage.jsx'
 
-class tmp extends Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      text: "hej"
-    }
-
-    this.click = this.click.bind(this)
-  }
-
-  click (e) {
-    e.preventDefault()
-    console.log(e)
-    this.setState({
-      text: 'Working!'
-    })
-  }
-
-  render () {
-    return <div onClick={this.click}>Click me! {this.state.text}</div>
-  }
-}
 
 function appFactory () {
    
@@ -66,8 +44,8 @@ function appFactory () {
       <Provider routerStore={routerStore} >
         <ProgressLayer>
           <Switch>
-            <Route  path="/kursinfo" component={ CoursePage } asyncBefore = { CoursePage.fetchData }/>
-            <Route path="/" component={ tmp } />
+            <Route path="/kursinfo/kursplan/" component={ SyllabusPage } asyncBefore = { SyllabusPage.fetchData }/>
+            <Route path="/kursinfo" component={ CoursePage } asyncBefore = { CoursePage.fetchData }/> 
           </Switch>
         </ProgressLayer>
         </Provider>
@@ -105,12 +83,12 @@ function appFactory () {
       super(props)
       this.state = {
         context,
-       id:"test"
+        id:"test"
       }
   
-      /*this.doContinueNavigation = this.doContinueNavigation.bind(this)
-      this.doCancelNavigation = this.doCancelNavigation.bind(this)
-      this.didChangeLocation = this.didChangeLocation.bind(this)*/
+      //this.doContinueNavigation = this.doContinueNavigation.bind(this)
+      //this.doCancelNavigation = this.doCancelNavigation.bind(this)
+      //this.didChangeLocation = this.didChangeLocation.bind(this)
     }
   
     getChildContext () {
@@ -166,7 +144,7 @@ function appFactory () {
   }
 
   render ({ routerStore }) {
-    console.log("!!routerStore!!",routerStore,"this.props",this.props)
+   console.log("this.props",this.props)
     return (
       <div>
         {this.props.children}
@@ -176,6 +154,8 @@ function appFactory () {
 }
 
 if (typeof window !== 'undefined') {
+  console.log("appFactory",appFactory());
+  
   render(<BrowserRouter>{appFactory()}</BrowserRouter>, document.getElementById('kth-kursinfo'))
 }
   

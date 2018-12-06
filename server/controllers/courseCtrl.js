@@ -33,8 +33,8 @@ const paths = require('../server').getPaths()
   let lang = language.getLanguage(res) || 'sv'
 
   try {
-    const client = api.nodeApi.client
-    const paths = api.nodeApi.paths
+    //const client = api.nodeApi.client
+    //const paths = api.nodeApi.paths
    // const resp = yield client.getAsync(client.resolve(paths.getDataById.uri, { id: '123' }), { useCache: true })
 
   // Render inferno app
