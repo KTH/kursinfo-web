@@ -87,7 +87,7 @@ class CoursePage extends Component {
   openSyllabus(event){
     event.preventDefault()
     const language = this.props.routerStore.courseData.language === 0 ? "en" : "sv" 
-    window.open(`/kursinfo/kursplan/${this.props.routerStore.courseData.coursePlanModel.course_code}_${event.target.id}?lang=${language}`)
+    window.open(`/student/kurser/kurs/kursplan/${this.props.routerStore.courseData.coursePlanModel.course_code}_${event.target.id}.pdf?lang=${language}`)
   }
 
   /*componentDidMount() {

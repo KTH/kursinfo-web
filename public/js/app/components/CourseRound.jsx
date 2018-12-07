@@ -18,7 +18,7 @@ class CourseRound extends Component {
   openSyllabus(event){
     event.preventDefault()
     const language = this.props.language === 0 ? "en" : "sv" 
-    window.open(`/kursinfo/kursplan/${this.props.courseData.course_code}_${event.target.id}.pdf?lang=${language}`)
+    window.open(`/student/kurser/kurs/kursplan/${this.props.courseData.course_code}_${event.target.id}.pdf?lang=${language}`)
   }
  
   render () {
