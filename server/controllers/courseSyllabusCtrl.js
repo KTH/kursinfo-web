@@ -27,7 +27,7 @@ async function  getIndex (req, res, next) {
     const paths = api.kursplanApi.paths
     console.log(api.kursplanApi)
     
-    const resp = await client.getAsync(client.resolve(paths.getSyllabusByCourseCode.uri, { courseCode: courseCode, semester: semester, language:lang }), { useCache: true })
+    const resp = await client.getAsync(client.resolve("/api/kursplan/v1/syllabus/:courseCode/:semester/:language", { courseCode: courseCode, semester: semester, language:lang }), { useCache: true })
     console.log("resp",resp.body)
     if(resp.body.syllabusHTML){
       syllabusPDF.create(resp.body.syllabusHTML.pageContentHtml, resp.body.pdfConfig).toFile('./pdfTemp.pdf', function(err, result) {
