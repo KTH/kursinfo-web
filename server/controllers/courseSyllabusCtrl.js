@@ -14,7 +14,7 @@ const serverConfig = require('../configuration').server
 module.exports = {
   getIndex: getIndex
 }
-const paths = require('../server').getPaths()
+const paths2 = require('../server').getPaths()
 
 async function  getIndex (req, res, next) {  
   const course_semester = req.params.course_semester.split('.') 
@@ -25,6 +25,8 @@ async function  getIndex (req, res, next) {
   try {
     const client = api.kursplanApi.client
     const paths = api.kursplanApi.paths
+    console.log(api.kursplanApi)
+    
     const resp = await client.getAsync(client.resolve(paths.getSyllabusByCourseCode.uri, { courseCode: courseCode, semester: semester, language:lang }), { useCache: true })
     console.log("resp",resp.body)
     if(resp.body.syllabusHTML){
