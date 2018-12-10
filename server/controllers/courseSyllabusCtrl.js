@@ -24,7 +24,7 @@ async function  getIndex (req, res, next) {
   const lang = req.query.lang || 'sv'
 
   const instance = await phantom.create()
-  console.log("This is phantom.create() test call: ",instance)
+  console.log("This is 'phantom.create()' test call: ",instance)
   
 
   try {
@@ -33,7 +33,7 @@ async function  getIndex (req, res, next) {
     console.log(api.kursplanApi)
     
     const resp = await client.getAsync(client.resolve("/api/kursplan/v1/syllabus/:courseCode/:semester/:language", { courseCode: courseCode, semester: semester, language:lang }), { useCache: true })
-    console.log("response length",resp.body.length)
+    console.log("response pdfConfig",resp.body.pdfConfig)
     if(resp.body.syllabusHTML){
       syllabusPDF.create(resp.body.syllabusHTML.pageContentHtml, resp.body.pdfConfig).toFile('./pdfTemp.pdf', function(err, result) {
         if (err) {
