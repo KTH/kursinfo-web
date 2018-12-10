@@ -5,7 +5,7 @@ COPY ["package-lock.json", "package-lock.json"]
 
 
 RUN npm install --production --no-optional
-
+RUN PHANTOMJS_CDNURL=https://npm.taobao.org/mirrors/phantomjs/ npm install phantomjs-prebuilt
 # Copy files used by Gulp.
 COPY ["config", "config"]
 COPY ["public", "public"]

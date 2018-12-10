@@ -23,10 +23,6 @@ async function  getIndex (req, res, next) {
   const semester = course_semester.length > 0 ? course_semester[0].split('_')[1] : ""
   const lang = req.query.lang || 'sv'
 
-  const instance = await phantom.create()
-  console.log("This is 'phantom.create()' test call: ",instance)
-  
-
   try {
     const client = api.kursplanApi.client
     const paths = api.kursplanApi.paths
@@ -34,6 +30,11 @@ async function  getIndex (req, res, next) {
     
     const resp = await client.getAsync(client.resolve("/api/kursplan/v1/syllabus/:courseCode/:semester/:language", { courseCode: courseCode, semester: semester, language:lang }), { useCache: true })
     console.log("response pdfConfig",resp.body.pdfConfig)
+
+    const instance = await phantom.create()
+  console.log("This is 'phantom.create()' test call: ",instance)
+
+  
     if(resp.body.syllabusHTML){
       syllabusPDF.create(resp.body.syllabusHTML.pageContentHtml, resp.body.pdfConfig).toFile('./pdfTemp.pdf', function(err, result) {
         if (err) {
