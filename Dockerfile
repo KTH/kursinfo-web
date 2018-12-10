@@ -50,4 +50,4 @@ RUN useradd --system --uid 72379 -m --shell /usr/sbin/nologin phantomjs
 USER phantomjs 
 EXPOSE 8910 
 
-CMD ["node", "app.js","/usr/local/bin/phantomjs"]
+CMD ["node", "app.js","phantomjs"]

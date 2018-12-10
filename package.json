@@ -102,7 +102,6 @@
     "husky": "^0.14.0",
     "inferno-devtools": "^3.10.1",
     "kth-node-build-commons": "^3.0.0",
-    "kth-node-inferno": "^0.3.0",
     "merge-stream": "^1.0.1",
     "mocha": "3.2.0",
     "mockery": "^2.0.0",
