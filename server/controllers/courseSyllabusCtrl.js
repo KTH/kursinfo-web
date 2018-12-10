@@ -4,6 +4,7 @@ const api = require('../api')
 const co = require('co')
 const log = require('kth-node-log')
 const { safeGet } = require('safe-utils')
+const phantom = require('phantom')
 
 let syllabusPDF = require('html-pdf')
 var fs = require('fs');
@@ -21,6 +22,10 @@ async function  getIndex (req, res, next) {
   const courseCode = course_semester.length > 0 ? course_semester[0].split('_')[0] : ""
   const semester = course_semester.length > 0 ? course_semester[0].split('_')[1] : ""
   const lang = req.query.lang || 'sv'
+
+  const instance = await phantom.create()
+  console.log(instance)
+  
 
   try {
     const client = api.kursplanApi.client
