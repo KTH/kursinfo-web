@@ -36,10 +36,11 @@ console.log("!!syllabusPDF!",syllabusPDF)
 
     //const instance = await phantom.create()
   //console.log("This is 'phantom.create()' test call: ",instance)
-
+ console.log("TJOHO!!!");
+ 
 
     if(resp.body.syllabusHTML){
-      syllabusPDF.create(resp.body.syllabusHTML.pageContentHtml, resp.body.pdfConfig).toFile('./pdfTemp.pdf', function(err, result) {
+      syllabusPDF.create(resp.body.syllabusHTML.pageContentHtml, resp.body.pdfConfig).toFile('./pdfTempFile.pdf', function(err, result) {
         if (err) {
           console.log("ERROR IN syllabusPDF.create", err);
         }
