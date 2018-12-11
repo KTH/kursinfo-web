@@ -73,6 +73,7 @@
     "passport": "^0.3.2",
     "phantom": "^6.0.3",
     "phantomjs": "^2.1.7",
+    "phantomjs-prebuilt": "^2.1.13",
     "query-string": "^6.2.0",
     "safe-utils": "^0.1.1"
   },
