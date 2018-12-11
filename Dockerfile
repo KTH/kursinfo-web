@@ -5,6 +5,7 @@ COPY ["package-lock.json", "package-lock.json"]
 
 
 RUN npm install --production --no-optional
+RUN apt-get update && apt-get install -y curl
 RUN apk update && apk add --no-cache fontconfig && \
   mkdir -p /usr/share && \
   cd /usr/share \
