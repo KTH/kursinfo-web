@@ -18,6 +18,9 @@ module.exports = {
 const paths2 = require('../server').getPaths()
 
 async function  getIndex (req, res, next) {  
+console.log("!!syllabusPDF!",syllabusPDF)
+
+
   const course_semester = req.params.course_semester.split('.') 
   const courseCode = course_semester.length > 0 ? course_semester[0].split('_')[0] : ""
   const semester = course_semester.length > 0 ? course_semester[0].split('_')[1] : ""
