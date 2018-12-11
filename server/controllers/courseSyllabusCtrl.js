@@ -31,21 +31,27 @@ async function  getIndex (req, res, next) {
     const resp = await client.getAsync(client.resolve("/api/kursplan/v1/syllabus/:courseCode/:semester/:language", { courseCode: courseCode, semester: semester, language:lang }), { useCache: true })
     console.log("response pdfConfig",resp.body.pdfConfig)
 
-    const instance = await phantom.create()
-  console.log("This is 'phantom.create()' test call: ",instance)
+    //const instance = await phantom.create()
+  //console.log("This is 'phantom.create()' test call: ",instance)
 
-  
+
     if(resp.body.syllabusHTML){
       syllabusPDF.create(resp.body.syllabusHTML.pageContentHtml, resp.body.pdfConfig).toFile('./pdfTemp.pdf', function(err, result) {
         if (err) {
           console.log(err);
         }
+        try{
         fs.readFile('./pdfTemp.pdf', function (err,data){
           res.setHeader('Content-Type', 'application/pdf')
           res.send(data)
         })
-      })
+      
+    } catch (err) {
+      log.error('Error in getIndex', { error: err })
+      next(err)
     }
+  })
+  }
     else{
       res.render('courseSyllabus/index', {
         debug: 'debug' in req.query,
