@@ -72,6 +72,7 @@
     "mobx": "^5.5.2",
     "passport": "^0.3.2",
     "phantom": "^6.0.3",
+    "phantomjs": "^2.1.7",
     "query-string": "^6.2.0",
     "safe-utils": "^0.1.1"
   },

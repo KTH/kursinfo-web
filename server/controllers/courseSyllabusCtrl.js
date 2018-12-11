@@ -4,7 +4,7 @@ const api = require('../api')
 const co = require('co')
 const log = require('kth-node-log')
 const { safeGet } = require('safe-utils')
-const phantom = require('phantom')
+const phantomPath = require('witch')('phantomjs-prebuilt', 'phantomjs')
 
 let syllabusPDF = require('html-pdf')
 var fs = require('fs');
