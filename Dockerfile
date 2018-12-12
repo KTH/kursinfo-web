@@ -22,7 +22,7 @@ COPY ["app.js", "app.js"]
 COPY ["server", "server"]
 
 ENV NODE_PATH /
-RUN npm install -g phantomjs-prebuilt
+
 EXPOSE 3000
 
 
