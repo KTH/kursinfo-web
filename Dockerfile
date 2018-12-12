@@ -7,7 +7,7 @@ COPY ["package-lock.json", "package-lock.json"]
 RUN npm install --production --no-optional
 
 RUN PHANTOMJS_CDNURL=https://bitbucket.org/ariya/phantomjs/downloads npm install phantomjs
-RUN npm install -g phantomjs-prebuilt
+
 
 # Copy files used by Gulp.
 COPY ["config", "config"]
@@ -22,7 +22,7 @@ COPY ["app.js", "app.js"]
 COPY ["server", "server"]
 
 ENV NODE_PATH /
-
+RUN npm install -g phantomjs-prebuilt
 EXPOSE 3000
 
 
