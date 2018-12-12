@@ -53,6 +53,7 @@ console.log("!!syllabusPDF!",syllabusPDF)
             error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
           })
         }
+        else{
         try{
         fs.readFile('./pdfTemp.pdf', function (err,data){
           res.setHeader('Content-Type', 'application/pdf')
@@ -65,6 +66,7 @@ console.log("!!syllabusPDF!",syllabusPDF)
       log.error('Error in getIndex -> read PDF file', { error: err })
       next(err)
     }
+  }
   })
   }
     else{
