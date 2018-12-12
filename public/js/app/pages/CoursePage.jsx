@@ -55,7 +55,7 @@ class CoursePage extends Component {
   static fetchData (routerStore, params) {
     return routerStore.getCourseInformation("sf1624","sv")
       .then((data) => {
-        console.log("data",data)
+        //console.log("data",data)
         return courseData = data
       })
   }
@@ -96,7 +96,7 @@ class CoursePage extends Component {
 
   render ({ routerStore}){
     const courseData = routerStore["courseData"]
-    console.log("routerStore in CoursePage", this.props)
+    //console.log("routerStore in CoursePage", this.props)
     const courseInformationToRounds = {
       course_code: courseData.coursePlanModel.course_code,
       course_grade_scale: courseData.coursePlanModel.course_grade_scale,

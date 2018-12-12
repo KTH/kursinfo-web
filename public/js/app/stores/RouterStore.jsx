@@ -104,7 +104,7 @@ class RouterStore {
         courseRoundList.push(courseRound)
         if(courseSemesters.indexOf(courseRound.round_course_term[0]) < 0)
           courseSemesters.push(courseRound.round_course_term[0])
-          console.log("courseSemesters",courseSemesters)
+          //console.log("courseSemesters",courseSemesters)
       }
 
       //*** Get list of syllabuses semesters */

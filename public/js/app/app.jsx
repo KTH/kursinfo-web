@@ -143,7 +143,7 @@ function appFactory () {
   }
 
   render ({ routerStore }) {
-   console.log("this.props",this.props)
+   //console.log("this.props",this.props)
     return (
       <div>
         {this.props.children}
@@ -153,7 +153,7 @@ function appFactory () {
 }
 
 if (typeof window !== 'undefined') {
-  console.log("appFactory",appFactory());
+  //console.log("appFactory",appFactory());
   
   render(<BrowserRouter>{appFactory()}</BrowserRouter>, document.getElementById('kth-kursinfo'))
 }
