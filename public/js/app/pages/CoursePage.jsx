@@ -44,8 +44,8 @@ class CoursePage extends Component {
           dropDown1: false,
           dropdown2: false
         }
-        
-      }
+    }
+
     this.handleDropdownChange = this.handleDropdownChange.bind(this)
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.toggle = this.toggle.bind(this)
@@ -89,10 +89,6 @@ class CoursePage extends Component {
     const language = this.props.routerStore.courseData.language === 0 ? "en" : "sv" 
     window.open(`/student/kurser/kurs/kursplan/${this.props.routerStore.courseData.coursePlanModel.course_code}_${event.target.id}.pdf?lang=${language}`)
   }
-
-  /*componentDidMount() {
-    window.addEventListener("keydown", (e) => console.log(e))
-  }*/
 
   render ({ routerStore}){
     const courseData = routerStore["courseData"]
@@ -166,10 +162,11 @@ class CoursePage extends Component {
         <div className="col">
             {courseData.syllabusSemesterList.length > 0 ?
               courseData.syllabusSemesterList.map((semester, index) => 
+              <span key={index}>
               <a href="#" key={index} id={semester}  onClick={this.openSyllabus}>
                 { i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
                 {i18n.messages[this.props.routerStore.courseData.language].courseInformation.course_short_semester[semester.toString().substring(4,5)]}  {semester.toString().substring(0,4)} 
-                &nbsp;  </a>  )
+                &nbsp;  </a> <br/> </span>)
              : ""
             }
         </div>

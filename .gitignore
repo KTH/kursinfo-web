@@ -40,4 +40,6 @@ dist
 slask_delete.txt
 pdfname.pdf
 pdfTemp.pdf
-
+pdfTempFile.pdf
+secrets.decrypted.env2
+.npmrc

@@ -46,7 +46,7 @@ class CourseCollapseList extends Component {
       {header:translation.courseInformation.course_literature, text:course.course_literature},
 
       {header: translation.courseRoundInformation.round_teacher, text:round ? round.round_teacher : EMPTY },
-      {header: translation.courseRoundInformation.round_time_slots, text:round ? round.round_responsibles : EMPTY },
+      {header: translation.courseRoundInformation.round_responsibles, text:round ? round.round_responsibles : EMPTY },
       {header: translation.courseRoundInformation.round_schedule, text:round ? round.round_schedule : EMPTY}
       
     ]

@@ -99,7 +99,7 @@ module.exports = {
       redis: unpackRedisConfig('REDIS_URI', devRedis)
     }
   },
-
+  
   // Session
   sessionSecret: getEnv('SESSION_SECRET', devDefaults('1234567890')),
   session: {

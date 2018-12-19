@@ -9,9 +9,6 @@ import i18n from "../../../../i18n"
 class CourseRound extends Component {
  constructor (props) {
     super(props)
-
-    this.state = {
-    }
     this.openSyllabus=this.openSyllabus.bind(this)
   }
 
@@ -99,7 +96,6 @@ class CourseRound extends Component {
      
     </div>
   )
-    
   }
 } 
 

@@ -18,6 +18,8 @@ services:
       CM_HOST_URL: 'https://www-r.referens.sys.kth.se/cm/'
       KOPPS_URI: 'https://kopps-r.referens.sys.kth.se/api/kopps/v2/?defaultTimeout=60000'
       KURSPLAN_API_URI: 'https://api-r.referens.sys.kth.se/api/kursplan?defaultTimeout=60000'
+
+      #NODE_ENV: 'development'
   
       
       # Settings for LDAP
@@ -29,58 +31,9 @@ services:
 
 
     env_file:
-      - secrets.decrypted.env
+      - .env
 
     build: .
 
     ports:
       - 3000
-
-    labels:
-      - se.kth.cluster=stage
-      - se.kth.slackChannels="#team-kursinfo-build"
-      - se.kth.importance="low"
-      - se.kth.publicName.swedish="Kusinformations Webb"
-      - se.kth.publicName.english="Web for Course Information"
-      - se.kth.description.swedish="Samla kursinformation från olika resurser för att visa upp i kursinformation sidan"
-      - se.kth.description.english="Collect information from different resources and dislay it"
-
-    deploy:
-      replicas: 1
-      update_config:
-        order: start-first
-
-      # Try to tell the system do only deploy on hosts with known
-      # allocated IP-addresses.
-      placement:
-        constraints:
-          - node.role == worker
-
-      labels:
-        - com.df.notify=true
-        - com.df.distribute=true
-        - com.df.servicePath=/student/kurser/kurs
-        - com.df.port=3000
-        - com.df.timeoutServer=90
-        - traefik.docker.network=proxy
-        - traefik.frontend.rule=PathPrefix:/student/kurser/kurs
-        - traefik.port=3000
-        - traefik.enable=true
-
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 2
-
-      resources:
-        limits:
-          cpus: '1'
-          memory: 1000M
-        reservations:
-          cpus: '0.2'
-          memory: 520M
-
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "5"
