@@ -81,6 +81,6 @@ function hydrateStores (renderProps) {
       outp[key] = encodeURIComponent(JSON.stringify(toJS(props[key], true)))
     }
   }
-  console.log("hydrateStores", outp)
+  //console.log("hydrateStores", outp)
   return outp
 }
