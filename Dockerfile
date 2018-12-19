@@ -30,4 +30,4 @@ ENV NODE_PATH /
 
 EXPOSE 3000
 
-CMD ["node", "app.js"]
+CMD ["node", "app.js","/usr/bin/phantomjs"]
