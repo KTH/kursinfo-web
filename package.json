@@ -33,7 +33,7 @@
     "component-registry": "^0.2.0",
     "cookie-parser": "^1.4.2",
     "dotenv": "^4.0.0",
-    "event-stream": "^4.0.1",
+    
     "express": "^4.13.4",
     "express-handlebars": "^3.0.0",
     "gulp-install": "^1.1.0",
