@@ -18,8 +18,6 @@ module.exports = {
 const paths2 = require('../server').getPaths()
 
 async function  getIndex (req, res, next) {  
-//console.log("!!syllabusPDF!",syllabusPDF.create)
-console.log("*******************************************")
   const course_semester = req.params.course_semester.split('.') 
   const courseCode = course_semester.length > 0 ? course_semester[0].split('_')[0] : ""
   const semester = course_semester.length > 0 ? course_semester[0].split('_')[1] : ""
@@ -28,19 +26,10 @@ console.log("*******************************************")
   try {
     const client = api.kursplanApi.client
     const paths = api.kursplanApi.paths
-    console.log("phantom", phantom)
-    console.log("*******************************************")
     const resp = await client.getAsync(client.resolve("/api/kursplan/v1/syllabus/:courseCode/:semester/:language", { courseCode: courseCode, semester: semester, language:lang }), { useCache: true })
-    console.log("!response pdfConfig!",resp.body.pdfConfig)
-    
-     const tempConfig = {
-      //"format": "A4",        
-      //"orientation": "portrait", 
-      "type": "pdf"
-      ,"phantomPath": "/usr/bin/phantomjs"
-      ,"timeout":1000
-    }
-    //console.log("!tempConfig!",tempConfig)
+  
+    resp.body.pdfConfig["phantomPath"] = phantom.path
+    console.log("phantom", phantom)
     console.log("*******************************************")
     
     if(resp.body.syllabusHTML){

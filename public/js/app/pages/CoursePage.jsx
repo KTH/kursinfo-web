@@ -27,12 +27,12 @@ import CourseTitle from "../components/CourseTitle.jsx"
 import CourseCollapseList from "../components/CourseCollapseList.jsx"
 
 
-function handleDropdownChange(thisInstance, event){
+/*function handleDropdownChange(thisInstance, event){
   event.preventDefault();
   thisInstance.setState({
     activeRoundIndex: event.target.selectedIndex
   })
-}
+}*/
 
 @inject(['routerStore']) @observer
 class CoursePage extends Component {
@@ -92,7 +92,7 @@ class CoursePage extends Component {
 
   render ({ routerStore}){
     const courseData = routerStore["courseData"]
-    //console.log("routerStore in CoursePage", this.props)
+    //console.log("routerStore in CoursePage", routerStore)
     const courseInformationToRounds = {
       course_code: courseData.coursePlanModel.course_code,
       course_grade_scale: courseData.coursePlanModel.course_grade_scale,

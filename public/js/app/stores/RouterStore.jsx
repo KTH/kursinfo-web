@@ -1,11 +1,10 @@
 'use strict'
-import { globalRegistry } from 'component-registry'
+//import { globalRegistry } from 'component-registry'
 import { observable, action } from 'mobx'
 import axios from 'axios'
-import { safeGet } from 'safe-utils'
+//import { safeGet } from 'safe-utils'
 import { EMPTY, PROGRAMME_URL } from "../util/constants"
-
-import { IDeserialize } from '../interfaces/utils'
+//import { IDeserialize } from '../interfaces/utils'
 
 
 class RouterStore {
@@ -90,8 +89,7 @@ class RouterStore {
         course_supplemental_information_url: this.isValidData(coursePlan.course.supplementaryInfoUrl, language),
         course_supplemental_information_url_text: this.isValidData(coursePlan.course.supplementaryInfoUrlName, language),
         course_supplemental_information: this.isValidData(coursePlan.course.supplementaryInfo, language),
-        course_examiners: coursePlan.examiners ?  Array.isArray(coursePlan.examiners) ? coursePlan.examiners.map(ex => 
-          `<br/><a target="_blank" href="https://www.kth.se/profile/${this.isValidData(ex.username)}/"> ${this.isValidData(ex.givenName)}  ${this.isValidData(ex.lastName)} </a>, Kontakt:${this.isValidData(ex.email)}`):"" : EMPTY
+        course_examiners: coursePlan.examiners ?  Array.isArray(coursePlan.examiners) ? this.createPersonHtml(coursePlan.examiners ): "" : EMPTY
       }
       console.log("!!coursePlanModel: OK !!")
 
@@ -159,8 +157,8 @@ class RouterStore {
       round_tutoring_language: this.isValidData(roundObject.round.language, language),
       round_campus: this.isValidData(roundObject.round.campus.label, language), 
       round_course_place: this.isValidData(roundObject.round.campus.name, language),
-      round_teacher: "investigate if it could be added in kopps API???",//roundObject.ldapTeachers.map( teacher => this.isValidData(teacher.email)), 
-      round_responsibles: "investigate if it could be added in kopps API???",//roundObject.ldapResponsibles.map( Responsibles => this.isValidData(Responsibles.email)), 
+      round_teacher: roundObject.ldapTeachers.length > 0 ? this.createPersonHtml(roundObject.ldapTeachers) : EMPTY, 
+      round_responsibles: roundObject.ldapResponsibles.length > 0 ? this.createPersonHtml(roundObject.ldapResponsibles) : EMPTY, 
       round_short_name: this.isValidData(roundObject.round.shortName, language),
       round_application_code: this.isValidData(roundObject.round.applicationCodes[0].applicationCode),
       round_schedule: this.isValidData(roundObject.schemaUrl),
@@ -190,6 +188,15 @@ class RouterStore {
   isValidData(dataObject, language = 0){
     return !dataObject ? EMPTY : dataObject
   }
+
+  createPersonHtml(personList){
+    let personString = ""
+    personList.forEach( person  => {
+      personString += `<p class = "person"><i class="icon-user"></i> <a href="https://www.kth.se/profile/${person.username}/" property="teach:teacher">${person.givenName} ${person.lastName}, </a> <i class="icon-envelope-alt"></i> ${person.email}</p>  `
+    })
+    return personString
+  }
+/*************************************************************************************************************************/
 
   @action getLdapUserByUsername (params) {
     return axios.get(this.buildApiUrl(this.paths.api.searchLdapUser.uri, params), this._getOptions()).then((res) => {
