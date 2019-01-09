@@ -15,11 +15,11 @@ class CourseRound extends Component {
   openSyllabus(event){
     event.preventDefault()
     const language = this.props.language === 0 ? "en" : "sv" 
-    window.open(`/student/kurser/kurs/kursplan/${this.props.courseData.course_code}_${event.target.id}.pdf?lang=${language}`)
+    //window.open(`/student/kurser/kurs/kursplan/${this.props.courseData.course_code}_${event.target.id}.pdf?lang=${language}`)
+    window.location = `/student/kurser/kurs/kursplan/${this.props.courseData.course_code}_${event.target.id}.pdf?lang=${language}`
   }
- 
+
   render () {
-   
     //console.log("this.props.courseRound", this.props.courseRound)
     const translate = i18n.messages[this.props.language].courseRoundInformation
     const round = this.props.courseRound
@@ -47,21 +47,22 @@ class CourseRound extends Component {
               </Row>
               {this.props.courseHasRound ?
               <Row id="secondRow">
+
               <Col sm="4">
                   <h4>{translate.round_start_date}</h4>
                   <p>{round ? round.round_start_date : EMPTY}</p>
-               
               </Col>
+
               <Col sm="4">
-              
                   <h4>{translate.round_course_place}</h4>
                   <p>{round ? round.round_course_place : EMPTY}</p>
-             
               </Col>
+
               <Col sm="4">
               <h4>{translate.round_tutoring_form}</h4>
                 <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY}  {round ? translate.round_tutoring_time_label[round.round_tutoring_time]: EMPTY}</p>
               </Col>
+              
             </Row> : ""}
             <Row id="thirdRow">
               <Col sm="4">
@@ -83,7 +84,7 @@ class CourseRound extends Component {
               <Col sm="4">
                 <h4></h4> 
                 <Button color="primery" onClick={this.openSyllabus} id={this.props.courseData.course_valid_from[0] + this.props.courseData.course_valid_from[1]}>
-                    {i18n.messages[this.props.language].courseInformationLabels.label_course_syllabus}
+                <i class="icon-file-text"></i> {i18n.messages[this.props.language].courseInformationLabels.label_course_syllabus}
                 </Button>
                 <p className="small-text" >
                   {i18n.messages[this.props.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 

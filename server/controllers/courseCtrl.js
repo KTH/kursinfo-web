@@ -12,6 +12,8 @@ const { toJS } = require('mobx')
 
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
+const paths = require('../server').getPaths()
+
 
 let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
@@ -20,9 +22,9 @@ module.exports = {
   getIndex: getIndex
 }
 
-const paths = require('../server').getPaths()
 
- async function  getIndex (req, res, next) {
+
+async function  getIndex (req, res, next) {
   if (process.env['NODE_ENV'] === 'development') {
     delete require.cache[require.resolve('../../dist/js/server/app.js')]
     const tmp = require('../../dist/js/server/app.js')
@@ -31,6 +33,7 @@ const paths = require('../server').getPaths()
   }
   const courseCode = req.params.courseCode
   let lang = language.getLanguage(res) || 'sv'
+  const ldapUser = req.session.authUser ? req.session.authUser.username : 'null'
 
   try {
     //const client = api.nodeApi.client
@@ -44,7 +47,7 @@ const paths = require('../server').getPaths()
     context
   }, appFactory())
 
-  await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, lang)
+  await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
   renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
   renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
 

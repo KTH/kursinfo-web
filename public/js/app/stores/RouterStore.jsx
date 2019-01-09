@@ -1,17 +1,15 @@
 'use strict'
-//import { globalRegistry } from 'component-registry'
 import { observable, action } from 'mobx'
 import axios from 'axios'
 //import { safeGet } from 'safe-utils'
 import { EMPTY, PROGRAMME_URL } from "../util/constants"
-//import { IDeserialize } from '../interfaces/utils'
-
 
 class RouterStore {
-  @observable language = 'sv' // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
   @observable courseData = undefined
+  
+  canEdit = false
 
-  buildApiUrl (path, params) {
+  /*buildApiUrl (path, params) {
     let host
     if (typeof window !== 'undefined') {
       host = this.apiHost
@@ -25,30 +23,10 @@ class RouterStore {
     const newPath = params ? _paramReplace(path, params) : path
 
     return [host, newPath].join('')
-  }
+  }*/
 
-  _getOptions (params) {
-    // Pass Cookie header on SSR-calls
-    let options
-    if (typeof window === 'undefined') {
-      options = {
-        headers: {
-          Cookie: this.cookieHeader,
-          Accept: 'application/json',
-          'X-Forwarded-Proto': (_webUsesSSL(this.apiHost) ? 'https' : 'http')
-        },
-        timeout: 10000,
-        params: params
-      }
-    } else {
-      options = {
-        params: params
-      }
-    }
-    return options
-  }
-  //** Handle the information from kopps.**//
-  @action getCourseInformation(courseCode, lang = 'sv', roundIndex = 0){
+  //** Handeling the course information from kopps api.**//
+  @action getCourseInformation(courseCode, ldapUsername, lang = 'sv', roundIndex = 0){
 
       return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/internal/courses/${courseCode}?lang=${lang}`).then((res) => {
   
@@ -81,7 +59,7 @@ class RouterStore {
         course_required_equipment: coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? this.isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.requiredEquipment, language): EMPTY,
         course_examination: this.getExamObject(coursePlan.examinationSets[Object.keys(coursePlan.examinationSets)[0]].examinationRounds, coursePlan.formattedGradeScales, language),
         course_examination_comments:  coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? this.isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.examComments, language):EMPTY,
-        //Not in course paln
+        //*---Not in course plan (syllabus) --*/
         course_department: this.isValidData(coursePlan.course.department.name, language),
         course_department_code: this.isValidData(coursePlan.course.department.code, language),
         course_contact_name:this.isValidData(coursePlan.course.infoContactName, language),
@@ -89,24 +67,28 @@ class RouterStore {
         course_supplemental_information_url: this.isValidData(coursePlan.course.supplementaryInfoUrl, language),
         course_supplemental_information_url_text: this.isValidData(coursePlan.course.supplementaryInfoUrlName, language),
         course_supplemental_information: this.isValidData(coursePlan.course.supplementaryInfo, language),
-        course_examiners: coursePlan.examiners ?  Array.isArray(coursePlan.examiners) ? this.createPersonHtml(coursePlan.examiners ): "" : EMPTY
+        course_examiners: coursePlan.examiners ?  Array.isArray(coursePlan.examiners) ? this.createPersonHtml(coursePlan.examiners, ldapUsername ): "" : EMPTY
       }
       console.log("!!coursePlanModel: OK !!")
 
       //***Get list of rounds and creats options for rounds dropdown**//
       let courseSemesters = []
+      let tempList = []
       let courseRound
       let courseRoundList = []
       for( let roundInfo of coursePlan.roundInfos){ 
-        courseRound = this.getRound(roundInfo)
+        courseRound = this.getRound(roundInfo, ldapUsername)
         courseRoundList.push(courseRound)
-        if(courseSemesters.indexOf(courseRound.round_course_term[0]) < 0)
-          courseSemesters.push(courseRound.round_course_term[0])
+        if(tempList.indexOf(courseRound.round_course_term[0]) < 0){
+          courseSemesters.push(courseRound.round_course_term)
+          tempList.push(courseRound.round_course_term[0])
+        }
           //console.log("courseSemesters",courseSemesters)
       }
+      courseSemesters.sort()
+      console.log("!!getRoundProgramme : OK !!")
 
       //*** Get list of syllabuses semesters */
-
       const syllabuses = coursePlan.publicSyllabusVersions
       let syllabusSemesterList = []
       for(let i =1; i < syllabuses.length; i++ ) { 
@@ -119,10 +101,10 @@ class RouterStore {
         courseTitleData,
         courseSemesters,
         syllabusSemesterList,
-        language
+        language,
+        canEdit: this.canEdit
       }
-
-    }).catch(err => { //console.log(err.response);
+    }).catch(err => { 
       if (err.response) {
         throw new Error(err.message, err.response.data)
       }
@@ -145,7 +127,7 @@ class RouterStore {
     return examString 
   }
 
-  getRound(roundObject, language = 0){ 
+  getRound(roundObject, ldapUsername, language = 0){ 
     const courseRoundModel = {
       roundId: this.isValidData(roundObject.round.ladokRoundId, language),
       round_time_slots: this.isValidData(roundObject.timeslots, language),
@@ -158,7 +140,7 @@ class RouterStore {
       round_campus: this.isValidData(roundObject.round.campus.label, language), 
       round_course_place: this.isValidData(roundObject.round.campus.name, language),
       round_teacher: roundObject.ldapTeachers.length > 0 ? this.createPersonHtml(roundObject.ldapTeachers) : EMPTY, 
-      round_responsibles: roundObject.ldapResponsibles.length > 0 ? this.createPersonHtml(roundObject.ldapResponsibles) : EMPTY, 
+      round_responsibles: roundObject.ldapResponsibles.length > 0 ? this.createPersonHtml(roundObject.ldapResponsibles, ldapUsername) : EMPTY, 
       round_short_name: this.isValidData(roundObject.round.shortName, language),
       round_application_code: this.isValidData(roundObject.round.applicationCodes[0].applicationCode),
       round_schedule: this.isValidData(roundObject.schemaUrl),
@@ -181,7 +163,6 @@ class RouterStore {
                   ${programme.title}, ${language === "sv" ? "åk" : "year" } ${programme.studyYear},${programme.electiveCondition.abbrLabel}
        </a><br/>`
     })
-    console.log("!!getRoundProgramme : OK !!")
     return programmeString
   }
 
@@ -189,10 +170,13 @@ class RouterStore {
     return !dataObject ? EMPTY : dataObject
   }
 
-  createPersonHtml(personList){
+  createPersonHtml(personList, ldapUsername=""){
     let personString = ""
     personList.forEach( person  => {
-      personString += `<p class = "person"><i class="icon-user"></i> <a href="https://www.kth.se/profile/${person.username}/" property="teach:teacher">${person.givenName} ${person.lastName}, </a> <i class="icon-envelope-alt"></i> ${person.email}</p>  `
+      personString += `<p class = "person"><i class="icon-user"></i> <a href="https://www.kth.se/profile/${person.username}/" target="_blank" property="teach:teacher">${person.givenName} ${person.lastName}, </a> <i class="icon-envelope-alt"></i> ${person.email}</p>  `
+      //Check if the logged in user is examinator or responsible and can edit course page
+      if(ldapUsername === person.username)
+        this.canEdit = true
     })
     return personString
   }

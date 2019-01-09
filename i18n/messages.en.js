@@ -66,8 +66,8 @@ module.exports = {
     course_required_equipment:"Required equipment",
     course_level_code:"Education cycle",
     course_short_semester:{
-      1:"Autumn ",
-      2:"Spring "
+      1:"Spring ",
+      2:"Autumn "
     },
     course_level_code_label: {
       PREPARATORY: "Pre-university level",

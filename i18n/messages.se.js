@@ -67,8 +67,8 @@ module.exports = {
     course_required_equipment:"Utrustningskrav",
     course_level_code:"Utbildningsnivå",
     course_short_semester:{
-      1:"HT ",
-      2:"VT "
+      1:"VT ",
+      2:"HT "
     },
     course_level_code_label: {
       PREPARATORY: "Förberedande nivå",

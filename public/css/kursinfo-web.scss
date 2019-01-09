@@ -81,6 +81,13 @@
     border-radius: 5px;
     margin-top:20px;
 
+    .btn-primery{
+        background: #24a0d8;
+        color:#fff;
+        font-size: 18px;
+    }
+    
+
     p {
         margin: 0 0 0.1em 0;
         font-size: 17px;
@@ -134,16 +141,22 @@ select{
     border-top: 0px;
     border-radius:5px; 
 }
-.btn-primery{
-    background: #24a0d8;
-    color:#fff;
-    font-size: 18px;
-}
 
 #roundDropDownLabel{
     font-size: 1.7rem
 }
-
+#courseDropdownMenu{
+    background: #f6f6f6;
+    padding-top: 15px;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
 .person{
     margin-bottom: 0.3rem;
 }
+
+.editButton{
+    float:right;
+    margin-right:20px;
+}
+
