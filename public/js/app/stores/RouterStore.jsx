@@ -6,10 +6,10 @@ import { EMPTY, PROGRAMME_URL } from "../util/constants"
 
 class RouterStore {
   @observable courseData = undefined
-  
+  @observable sellingText = undefined
   canEdit = false
 
-  /*buildApiUrl (path, params) {
+  buildApiUrl (path, params) {
     let host
     if (typeof window !== 'undefined') {
       host = this.apiHost
@@ -23,12 +23,46 @@ class RouterStore {
     const newPath = params ? _paramReplace(path, params) : path
 
     return [host, newPath].join('')
-  }*/
+  }
+
+  _getOptions (params) {
+    // Pass Cookie header on SSR-calls
+    let options
+    if (typeof window === 'undefined') {
+      options = {
+        headers: {
+          Cookie: this.cookieHeader,
+          Accept: 'application/json',
+          'X-Forwarded-Proto': (_webUsesSSL(this.apiHost) ? 'https' : 'http')
+        },
+        timeout: 10000,
+        params: params
+      }
+    } else {
+      options = {
+        params: params
+      }
+    }
+    return options
+  }
+
+  @action getCourseSellingText(courseCode, lang = 'sv'){
+    console.log("SELLINGTEXT.....", this.paths)
+    /*return axios.get(`http://localhost:3001/api/kursinfo/v1/sellingInfo/${courseCode}/`).then( res => { //TODO: use buildApiUrl
+      console.log("SELLINGTEXT", res)
+      this.sellingText = res.sellingText
+    }).catch(err => { 
+      if (err.response) {
+        throw new Error(err.message, err.response.data)
+      }
+      throw err
+    })*/
+  }
 
   //** Handeling the course information from kopps api.**//
   @action getCourseInformation(courseCode, ldapUsername, lang = 'sv', roundIndex = 0){
 
-      return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/internal/courses/${courseCode}?lang=${lang}`).then((res) => {
+      return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/internal/courses/${courseCode}?lang=${lang}`).then((res) => { //TODO: use buildApiUrl
   
       const coursePlan = res.data
       const language = lang === 'en' ? 0 : 1

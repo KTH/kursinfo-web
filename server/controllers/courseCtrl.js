@@ -31,7 +31,7 @@ async function  getIndex (req, res, next) {
     appFactory = tmp.appFactory
     doAllAsyncBefore = tmp.doAllAsyncBefore
   }
-  const courseCode = req.params.courseCode
+  const courseCode = req.params.courseCode.toUpperCase()
   let lang = language.getLanguage(res) || 'sv'
   const ldapUser = req.session.authUser ? req.session.authUser.username : 'null'
 
@@ -48,6 +48,7 @@ async function  getIndex (req, res, next) {
   }, appFactory())
 
   await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
+  //await renderProps.props.children.props.routerStore.getCourseSellingText(courseCode, lang)
   renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
   renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
 

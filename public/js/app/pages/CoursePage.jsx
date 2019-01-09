@@ -136,15 +136,16 @@ class CoursePage extends Component {
         </div>  
 
         {/* ---COURSE ROUND HEADER--- */}
+        {courseData.courseSemesters.length === 0 ? "" :  
         <div id="courseRoundHeader" className="col-12">
-                <h2> Kursinformation för kurstillfället
+         <h2> Kursinformation för kurstillfället
                 {` ${i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]]} 
                   ${courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0]}  
                   ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name},     
                   ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}` 
                 } 
               </h2>
-          </div>   
+              </div>   }
         {/* ---COURSE ROUND KEY INFORMATION--- */}
         <CourseRound
           courseRound= {courseData.courseRoundList[this.state.activeRoundIndex]}

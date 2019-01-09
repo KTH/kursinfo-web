@@ -189,6 +189,13 @@ appRoute.get('system.index', config.proxyPrefixPath.uri + '/kursplan/:course_sem
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', serverLogin, Course.getIndex)
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/', serverLogin, noCourse.getIndex)
 appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isAdmin'), Course.getIndex)
+
+/*appRoute.get('admin.getList', config.proxyPrefixPath.uri + '/api/:type', getServerGatewayLogin(), requireRole('isAdmin', 'isEditor'), Admin.getList)
+appRoute.post('admin.createItem', config.proxyPrefixPath.uri + '/api/:type', getServerGatewayLogin(), requireRole('isAdmin', 'isEditor'), Admin.createItem)
+appRoute.put('admin.saveItem', config.proxyPrefixPath.uri + '/api/:type/:id', getServerGatewayLogin(), requireRole('isAdmin', 'isEditor'), Admin.saveItem)
+appRoute.get('admin.getItem', config.proxyPrefixPath.uri + '/api/:type/:id', getServerGatewayLogin(), requireRole('isAdmin', 'isEditor'), Admin.getItem)
+appRoute.delete('admin.removeItem', config.proxyPrefixPath.uri + '/api/:type/:id', getServerGatewayLogin(), requireRole('isAdmin', 'isEditor'), Admin.removeItem)
+*/
 server.use('/', appRoute.getRouter())
 
 // Not found etc
