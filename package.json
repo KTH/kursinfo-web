@@ -59,6 +59,7 @@
     "kth-node-monitor": "^0.1.5",
     "kth-node-passport-cas": "^3.1.6",
     "kth-node-redis": "^1.2.0",
+    "kth-node-response": "https://github.com/KTH/kth-node-response#v1.0.0",
     "kth-node-server": "^3.0.3",
     "kth-node-session": "^1.0.0",
     "kth-node-web-common": "^1.0.2",

@@ -85,6 +85,7 @@ class CoursePage extends Component {
 
   render ({ routerStore}){
     const courseData = routerStore["courseData"]
+    const introText = routerStore.sellingText ? routerStore.sellingText : courseData.coursePlanModel.course_recruitment_text
     console.log("routerStore in CoursePage", routerStore)
     const courseInformationToRounds = {
       course_code: courseData.coursePlanModel.course_code,
@@ -107,7 +108,7 @@ class CoursePage extends Component {
         {/* ---INTRO TEXT--- */}
         <div id="courseIntroText" 
           className = "col-12" 
-          dangerouslySetInnerHTML = {{ __html:courseData.coursePlanModel.course_recruitment_text}}>
+          dangerouslySetInnerHTML = {{ __html:introText}}>
         </div>
 
          {/* ---COURSE ROUND DROPDOWN HEADER--- */}
@@ -116,36 +117,40 @@ class CoursePage extends Component {
 
         {/* ---COURSE ROUND DROPDOWN--- */}
         <div id="courseDropdownMenu" className="col">
-        {courseData.courseSemesters.length === 0 ? "" :
-         <div>
-              <h4>Välj en kursomgång ( totalt {courseData.courseRoundList.length} st för denna kurs ):</h4>
-          </div>
-         }
+          {courseData.courseSemesters.length === 0 ? "" :
+            <div>
+                <h4>Välj en kursomgång ( totalt {courseData.courseRoundList.length} st för denna kurs ):</h4>
+            </div>
+          }
           <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
-            {courseData.courseSemesters.length === 0 ? <h4>Denna kursen har inga kursomgångar/kurstillfällen</h4> : courseData.courseSemesters.map((semester, index)=>{
-                return <DropdownCreater 
-                          courseRoundList = {courseData.courseRoundList} 
-                          callerInstance = {this} 
-                          year = {semester[0]} 
-                          semester={semester[1]} 
-                          language ={courseData.language}
-                          index = {index}
-                      />
-            })}
+              { courseData.courseSemesters.length === 0 ? <h4>Denna kursen har inga kursomgångar/kurstillfällen</h4> : 
+                courseData.courseSemesters.map((semester, index)=>{
+                  return <DropdownCreater 
+                            courseRoundList = {courseData.courseRoundList} 
+                            callerInstance = {this} 
+                            year = {semester[0]} 
+                            semester={semester[1]} 
+                            language ={courseData.language}
+                            index = {index}
+                        />
+                })
+              }
           </div>
         </div>  
 
         {/* ---COURSE ROUND HEADER--- */}
-        {courseData.courseSemesters.length === 0 ? "" :  
-        <div id="courseRoundHeader" className="col-12">
-         <h2> Kursinformation för kurstillfället
-                {` ${i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]]} 
-                  ${courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0]}  
-                  ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name},     
-                  ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}` 
-                } 
-              </h2>
-              </div>   }
+        { courseData.courseSemesters.length === 0 ? "" :  
+          <div id="courseRoundHeader" className="col-12">
+            <h2> Kursinformation för kurstillfället
+                  {` ${i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]]} 
+                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0]}  
+                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name},     
+                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}` 
+                  } 
+            </h2>
+          </div>   
+        }
+
         {/* ---COURSE ROUND KEY INFORMATION--- */}
         <CourseRound
           courseRound= {courseData.courseRoundList[this.state.activeRoundIndex]}

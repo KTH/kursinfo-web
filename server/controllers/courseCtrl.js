@@ -9,6 +9,9 @@ const { createElement } = require('inferno-create-element')
 const { renderToString } = require('inferno-server')
 const { StaticRouter, BrowserRouter } = require('inferno-router')
 const { toJS } = require('mobx')
+const httpResponse = require('kth-node-response')
+
+const sellingText = require('../apiCalls/sellingText')
 
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
@@ -19,7 +22,30 @@ let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
 
 module.exports = {
-  getIndex: getIndex
+  getIndex: getIndex,
+  getSellingText: co.wrap(_getSellingText)
+}
+
+function * _getSellingText(req, res) {
+  const courseCode = req.params.courseCode
+   
+  try {
+    const apiResponse = yield sellingText.getSellingText(courseCode)
+    console.log("_getSellingText", apiResponse)
+
+    if (apiResponse.statusCode === 404) {
+      return httpResponse.json(res, apiResponse.body)
+    }
+
+    if (apiResponse.statusCode !== 200) {
+      return httpResponse.jsonError(res, apiResponse.statusCode)
+    }
+
+    return httpResponse.json(res, apiResponse.body)
+  } catch (err) {
+    log.error('Exception calling from API ', { error: err })
+    return err
+  }
 }
 
 
@@ -36,30 +62,28 @@ async function  getIndex (req, res, next) {
   const ldapUser = req.session.authUser ? req.session.authUser.username : 'null'
 
   try {
-    //const client = api.nodeApi.client
-    //const paths = api.nodeApi.paths
-   // const resp = yield client.getAsync(client.resolve(paths.getDataById.uri, { id: '123' }), { useCache: true })
+    // Render inferno app
+    const context = {}
+    const renderProps = createElement(StaticRouter, {
+      location: req.url,
+      context
+    }, appFactory())
 
-  // Render inferno app
-  const context = {}
-  const renderProps = createElement(StaticRouter, {
-    location: req.url,
-    context
-  }, appFactory())
+  
+    renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
+    renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
+    await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
+    await renderProps.props.children.props.routerStore.getCourseSellingText(courseCode, lang)
 
-  await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
-  //await renderProps.props.children.props.routerStore.getCourseSellingText(courseCode, lang)
-  renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
-  renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
+    // console.log("!!renderProps!!", renderProps)
+    await doAllAsyncBefore({
+      pathname: req.originalUrl,
+      query: (req.originalUrl === undefined || req.originalUrl.indexOf('?') === -1) ? undefined : req.originalUrl.substring(req.originalUrl.indexOf('?'), req.originalUrl.length),
+      routerStore: renderProps.props.children.props.routerStore,
+      routes: renderProps.props.children.props.children.props.children.props.children
+    })
 
-  // console.log("!!renderProps!!", renderProps)
-  await doAllAsyncBefore({
-    pathname: req.originalUrl,
-    query: (req.originalUrl === undefined || req.originalUrl.indexOf('?') === -1) ? undefined : req.originalUrl.substring(req.originalUrl.indexOf('?'), req.originalUrl.length),
-    routerStore: renderProps.props.children.props.routerStore,
-    routes: renderProps.props.children.props.children.props.children.props.children
-  })
-  const html = renderToString(renderProps)
+    const html = renderToString(renderProps)
 
     res.render('course/index', {
       debug: 'debug' in req.query,
@@ -85,6 +109,5 @@ function hydrateStores (renderProps) {
       outp[key] = encodeURIComponent(JSON.stringify(toJS(props[key], true)))
     }
   }
-  //console.log("hydrateStores", outp)
   return outp
 }

@@ -4,6 +4,23 @@ import axios from 'axios'
 //import { safeGet } from 'safe-utils'
 import { EMPTY, PROGRAMME_URL } from "../util/constants"
 
+const paramRegex = /\/(:[^\/\s]*)/g
+
+function _paramReplace (path, params) {
+  let tmpPath = path
+  const tmpArray = tmpPath.match(paramRegex)
+  console.log("tmpArray",tmpArray);
+  
+  tmpArray && tmpArray.forEach(element => {
+    tmpPath = tmpPath.replace(element, '/' + params[element.slice(2)])
+  })
+  return tmpPath
+}
+
+function _webUsesSSL (url) {
+  return url.startsWith('https:')
+}
+
 class RouterStore {
   @observable courseData = undefined
   @observable sellingText = undefined
@@ -46,22 +63,19 @@ class RouterStore {
     return options
   }
 
-  @action getCourseSellingText(courseCode, lang = 'sv'){
-    console.log("SELLINGTEXT.....", this.paths)
-    /*return axios.get(`http://localhost:3001/api/kursinfo/v1/sellingInfo/${courseCode}/`).then( res => { //TODO: use buildApiUrl
-      console.log("SELLINGTEXT", res)
-      this.sellingText = res.sellingText
+  @action getCourseSellingText(courseCode,lang = 'sv'){
+    return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri,  {courseCode:courseCode}), this._getOptions()).then( res => {
+      this.sellingText = res.data.sellingText
     }).catch(err => { 
       if (err.response) {
         throw new Error(err.message, err.response.data)
       }
       throw err
-    })*/
+    })
   }
 
   //** Handeling the course information from kopps api.**//
   @action getCourseInformation(courseCode, ldapUsername, lang = 'sv', roundIndex = 0){
-
       return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/internal/courses/${courseCode}?lang=${lang}`).then((res) => { //TODO: use buildApiUrl
   
       const coursePlan = res.data
