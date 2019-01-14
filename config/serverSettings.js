@@ -102,7 +102,7 @@ module.exports = {
       redis: unpackRedisConfig('REDIS_URI', devRedis)
     },
     ugRedis: {
-      redis: unpackRedisConfig('UG_REDIS_URI', devRedisUG)
+      redis: unpackRedisConfig(getEnv('UG_REDIS_URI'), devRedisUG)
     }
   },
   
