@@ -105,6 +105,10 @@ class CoursePage extends Component {
             canEdit = {courseData.canEdit}
         />
 
+        <div className="col-12 isCancelled">
+          <h3>TODO ---Denna kurs är avbruten--- TODO </h3>
+        </div>
+
         {/* ---INTRO TEXT--- */}
         <div id="courseIntroText" 
           className = "col-12" 

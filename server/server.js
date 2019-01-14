@@ -191,6 +191,7 @@ appRoute.get('system.index', config.proxyPrefixPath.uri + '/', serverLogin, noCo
 appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isAdmin'), Course.getIndex)
 
 appRoute.get('api.sellingText', '/api/kursinfo/getSellingTextByCourse/:courseCode', Course.getSellingText)
+appRoute.get('redis.ugCache', '/reids/kursinfo/ugChache/:key/:type', Course.getCourseEmployees)
 
 server.use('/', appRoute.getRouter())
 

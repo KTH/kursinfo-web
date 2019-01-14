@@ -15,8 +15,7 @@ class CourseRound extends Component {
   openSyllabus(event){
     event.preventDefault()
     const language = this.props.language === 0 ? "en" : "sv" 
-    //window.open(`/student/kurser/kurs/kursplan/${this.props.courseData.course_code}_${event.target.id}.pdf?lang=${language}`)
-    window.location = `/student/kurser/kurs/kursplan/${this.props.courseData.course_code}_${event.target.id}.pdf?lang=${language}`
+    window.open(`/student/kurser/kurs/kursplan/${this.props.courseData.course_code}_${event.target.id}.pdf?lang=${language}`)
   }
 
   render () {
@@ -83,6 +82,8 @@ class CourseRound extends Component {
               </Col>
               <Col sm="4">
                 <h4></h4> 
+                {this.props.courseData.course_valid_from.length > 0 ?
+                <span>
                 <Button color="primery" onClick={this.openSyllabus} id={this.props.courseData.course_valid_from[0] + this.props.courseData.course_valid_from[1]}>
                 <i class="icon-file-text"></i> {i18n.messages[this.props.language].courseInformationLabels.label_course_syllabus}
                 </Button>
@@ -90,6 +91,8 @@ class CourseRound extends Component {
                   {i18n.messages[this.props.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
                   {this.props.courseData.course_valid_from[0]}
                 </p>
+                </span>
+                : "" }
               </Col>
             </Row> 
           </Col>

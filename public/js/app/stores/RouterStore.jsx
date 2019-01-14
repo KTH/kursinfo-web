@@ -1,4 +1,4 @@
-'use strict'
+ 'use strict'
 import { observable, action } from 'mobx'
 import axios from 'axios'
 //import { safeGet } from 'safe-utils'
@@ -9,8 +9,6 @@ const paramRegex = /\/(:[^\/\s]*)/g
 function _paramReplace (path, params) {
   let tmpPath = path
   const tmpArray = tmpPath.match(paramRegex)
-  console.log("tmpArray",tmpArray);
-  
   tmpArray && tmpArray.forEach(element => {
     tmpPath = tmpPath.replace(element, '/' + params[element.slice(2)])
   })
@@ -24,8 +22,14 @@ function _webUsesSSL (url) {
 class RouterStore {
   @observable courseData = undefined
   @observable sellingText = undefined
-  canEdit = false
+  @observable canEdit = false
+  @observable isCancelled = false
+  @observable isCurrentSyllabus = false
 
+  keyList ={
+    teachers:[],
+    responsibles:[]
+  }
   buildApiUrl (path, params) {
     let host
     if (typeof window !== 'undefined') {
@@ -74,12 +78,26 @@ class RouterStore {
     })
   }
 
+  @action getCourseEmployees( key , type="multi", lang = 'sv'){
+    return axios.get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type })).then( result => {
+     console.log('getCourseEmployees', result)
+      return result.data && result.data.lengt > 0 ? this.createPersonHtml(result.data) : EMPTY
+    }).catch(err => { 
+      if (err.response) {
+        throw new Error(err.message, err.response.data)
+      }
+      throw err
+    })
+  }
+
   //** Handeling the course information from kopps api.**//
   @action getCourseInformation(courseCode, ldapUsername, lang = 'sv', roundIndex = 0){
-      return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/internal/courses/${courseCode}?lang=${lang}`).then((res) => { //TODO: use buildApiUrl
-  
+      return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/v2/course/${encodeURIComponent(courseCode)}/detailedinformation?l=${lang}`).then((res) => { //TODO: use buildApiUrl
       const coursePlan = res.data
       const language = lang === 'en' ? 0 : 1
+
+      this.isCancelled = coursePlan.course.cancelled
+      // TODO this.isCurrentSyllabus = 
 
       const courseTitleData = {
         course_code: this.isValidData(coursePlan.course.courseCode),
@@ -105,7 +123,7 @@ class RouterStore {
         course_literature: coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? this.isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.literature, language): EMPTY, 
         course_valid_from: coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? this.isValidData(coursePlan.publicSyllabusVersions[0].validFromTerm.term).toString().match(/.{1,4}/g) : [], 
         course_required_equipment: coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? this.isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.requiredEquipment, language): EMPTY,
-        course_examination: this.getExamObject(coursePlan.examinationSets[Object.keys(coursePlan.examinationSets)[0]].examinationRounds, coursePlan.formattedGradeScales, language),
+        course_examination: coursePlan.examinationSets.hasOwnProperty('examinationRounds') ? this.getExamObject(coursePlan.examinationSets[Object.keys(coursePlan.examinationSets)[0]].examinationRounds, coursePlan.formattedGradeScales, language): EMPTY,
         course_examination_comments:  coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? this.isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.examComments, language):EMPTY,
         //*---Not in course plan (syllabus) --*/
         course_department: this.isValidData(coursePlan.course.department.name, language),
@@ -117,29 +135,32 @@ class RouterStore {
         course_supplemental_information: this.isValidData(coursePlan.course.supplementaryInfo, language),
         course_examiners: coursePlan.examiners ?  Array.isArray(coursePlan.examiners) ? this.createPersonHtml(coursePlan.examiners, ldapUsername ): "" : EMPTY
       }
-      console.log("!!coursePlanModel: OK !!")
+      console.log("!!coursePlanModel: OK !!", coursePlanModel)
 
       //***Get list of rounds and creats options for rounds dropdown**//
       let courseSemesters = []
       let tempList = []
       let courseRound
       let courseRoundList = []
+      const thisStore = this
       for( let roundInfo of coursePlan.roundInfos){ 
-        courseRound = this.getRound(roundInfo, ldapUsername)
+        courseRound =  this.getRound(roundInfo, courseCode, ldapUsername)
         courseRoundList.push(courseRound)
-        if(tempList.indexOf(courseRound.round_course_term[0]) < 0){
-          courseSemesters.push(courseRound.round_course_term)
-          tempList.push(courseRound.round_course_term[0])
+        if(courseRound.round_course_term && tempList.indexOf(courseRound.round_course_term[0]) < 0){
+            courseSemesters.push(courseRound.round_course_term)
+            tempList.push(courseRound.round_course_term[0])
         }
-          //console.log("courseSemesters",courseSemesters)
+        this.keyList.teachers.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.teachers`)
+        this.keyList.responsibles.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`)
       }
       courseSemesters.sort()
-      console.log("!!getRoundProgramme : OK !!")
+      console.log("!!courseRound: OK !!")
+
 
       //*** Get list of syllabuses semesters */
       const syllabuses = coursePlan.publicSyllabusVersions
       let syllabusSemesterList = []
-      for(let i =1; i < syllabuses.length; i++ ) { 
+      for(let i = 1; i < syllabuses.length; i++ ) { 
         syllabusSemesterList.push(syllabuses[i].validFromTerm.term)
       }
       
@@ -175,7 +196,8 @@ class RouterStore {
     return examString 
   }
 
-  getRound(roundObject, ldapUsername, language = 0){ 
+  getRound(roundObject, courseCode, ldapUsername, language = 0){ 
+    
     const courseRoundModel = {
       roundId: this.isValidData(roundObject.round.ladokRoundId, language),
       round_time_slots: this.isValidData(roundObject.timeslots, language),
@@ -187,8 +209,6 @@ class RouterStore {
       round_tutoring_language: this.isValidData(roundObject.round.language, language),
       round_campus: this.isValidData(roundObject.round.campus.label, language), 
       round_course_place: this.isValidData(roundObject.round.campus.name, language),
-      round_teacher: roundObject.ldapTeachers.length > 0 ? this.createPersonHtml(roundObject.ldapTeachers) : EMPTY, 
-      round_responsibles: roundObject.ldapResponsibles.length > 0 ? this.createPersonHtml(roundObject.ldapResponsibles, ldapUsername) : EMPTY, 
       round_short_name: this.isValidData(roundObject.round.shortName, language),
       round_application_code: this.isValidData(roundObject.round.applicationCodes[0].applicationCode),
       round_schedule: this.isValidData(roundObject.schemaUrl),
@@ -220,7 +240,7 @@ class RouterStore {
 
   createPersonHtml(personList, ldapUsername=""){
     let personString = ""
-    personList.forEach( person  => {
+    personList.forEach( person  => {console.log("person",person)
       personString += `<p class = "person"><i class="icon-user"></i> <a href="https://www.kth.se/profile/${person.username}/" target="_blank" property="teach:teacher">${person.givenName} ${person.lastName}, </a> <i class="icon-envelope-alt"></i> ${person.email}</p>  `
       //Check if the logged in user is examinator or responsible and can edit course page
       if(ldapUsername === person.username)
@@ -314,10 +334,6 @@ class RouterStore {
       }
     }
   }
-
 }
 
-
-
 export default RouterStore
-

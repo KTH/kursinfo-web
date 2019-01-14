@@ -7,7 +7,7 @@
  * *************************************************
  *
  */
-const { getEnv, devDefaults, unpackLDAPConfig, unpackRedisConfig, unpackNodeApiConfig } = require('kth-node-configuration')
+const { getEnv, devDefaults, unpackLDAPConfig, unpackKOPPSConfig, unpackRedisConfig, unpackNodeApiConfig } = require('kth-node-configuration')
 const { typeConversion } = require('kth-node-configuration/lib/utils')
 const { safeGet } = require('safe-utils')
 
@@ -17,9 +17,11 @@ const devSsl = devDefaults(false)
 const devUrl = devDefaults('http://localhost:' + devPort)
 const devInnovationApi = devDefaults('http://localhost:3001/api/kursinfo?defaultTimeout=10000') // required=true&
 const devKursplanApi = devDefaults('http://localhost:3001/api/kursplan?defaultTimeout=10000')
+const devKoppsApi = devDefaults('https://api-r.referens.sys.kth.se/api/kopps/v2/')
 const devSessionKey = devDefaults('node-web.sid')
 const devSessionUseRedis = devDefaults(true)
 const devRedis = devDefaults('redis://localhost:6379/')
+const devRedisUG = devDefaults('team-studam-ref-redis-193.redis.cache.windows.net:6380,password=9g1815SJ915fjWl1bqJ2wtn+TSX1i5vAL0z38eSLg7M=,ssl=True,abortConnect=False')
 const devLdap = undefined // Do not enter LDAP_URI or LDAP_PASSWORD here, use env_vars
 const devSsoBaseURL = devDefaults('https://login-r.referens.sys.kth.se')
 const devLdapBase = devDefaults('OU=UG,DC=ref,DC=ug,DC=kth,DC=se')
@@ -59,7 +61,7 @@ module.exports = {
   // API keys
   apiKey: {
     nodeApi: getEnv('API_KEY', devDefaults('1234')),
-    kursplanApi: getEnv('KURSPLAN_API_KEY', devDefaults('123'))
+    kursplanApi: getEnv('KURSPLAN_API_KEY', devDefaults('5678'))
   },
 
   // Authentication
@@ -75,6 +77,7 @@ module.exports = {
   nodeApi: {
     nodeApi: unpackNodeApiConfig('API_URI', devInnovationApi),
     kursplanApi: unpackNodeApiConfig('KURSPLAN_API_URI', devKursplanApi)
+    
   },
 
   // Cortina
@@ -97,6 +100,9 @@ module.exports = {
   cache: {
     cortinaBlock: {
       redis: unpackRedisConfig('REDIS_URI', devRedis)
+    },
+    ugRedis: {
+      redis: unpackRedisConfig('UG_REDIS_URI', devRedisUG)
     }
   },
   
@@ -111,5 +117,8 @@ module.exports = {
       proxy: safeGet(() => getEnv('SESSION_TRUST_PROXY', true) === 'true')
     },
     redisOptions: unpackRedisConfig('REDIS_URI', devRedis)
-  }
+  },
+
+  koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi)
+
 }
