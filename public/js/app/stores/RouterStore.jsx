@@ -68,6 +68,7 @@ class RouterStore {
   }
 
   @action getCourseSellingText(courseCode,lang = 'sv'){
+    try{
     return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri,  {courseCode:courseCode}), this._getOptions()).then( res => {
       this.sellingText = res.data.sellingText
     }).catch(err => { 
@@ -76,9 +77,15 @@ class RouterStore {
       }
       throw err
     })
+  } catch (err) {
+    log.error('Exception calling from ugRedis - multi', { error: err })
+      return err
   }
+}
+  
 
   @action getCourseEmployees( key , type="multi", lang = 'sv'){
+    try{
     return axios.get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type })).then( result => {
      console.log('getCourseEmployees', result)
       return result.data && result.data.lengt > 0 ? this.createPersonHtml(result.data) : EMPTY
@@ -88,7 +95,11 @@ class RouterStore {
       }
       throw err
     })
+  } catch (err) {
+    log.error('Exception calling from ugRedis - multi', { error: err })
+      return err
   }
+}
 
   //** Handeling the course information from kopps api.**//
   @action getCourseInformation(courseCode, ldapUsername, lang = 'sv', roundIndex = 0){

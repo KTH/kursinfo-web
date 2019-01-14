@@ -101,9 +101,9 @@ module.exports = {
     cortinaBlock: {
       redis: unpackRedisConfig('REDIS_URI', devRedis)
     },
-    ugRedis: {
+   /* ugRedis: {
       redis: unpackRedisConfig(getEnv('UG_REDIS_URI'), devRedisUG)
-    }
+    }*/
   },
   
   // Session
