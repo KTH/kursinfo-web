@@ -110,7 +110,7 @@ class CoursePage extends Component {
         {routerStore.isCancelled ?
           <div className="col-12 isCancelled">
             <Alert color="info" aria-live="polite">
-                <h3>TODO ---Denna kurs är avbruten--- TODO </h3>
+                <h3>{i18n.messages[courseData.language].courseInformationLabels.label_course_cancelled} </h3>
               </Alert>
           </div>
          :""}
