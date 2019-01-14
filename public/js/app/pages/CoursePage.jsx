@@ -17,6 +17,7 @@ import Dropdown from 'inferno-bootstrap/dist/Dropdown'
 import DropdownMenu from 'inferno-bootstrap/dist/DropdownMenu'
 import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
 import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
+import Alert from 'inferno-bootstrap/dist/Alert'
 
 import i18n from "../../../../i18n"
 import { EMPTY, FORSKARUTB_URL } from "../util/constants"
@@ -105,9 +106,15 @@ class CoursePage extends Component {
             canEdit = {courseData.canEdit}
         />
 
-        <div className="col-12 isCancelled">
-          <h3>TODO ---Denna kurs är avbruten--- TODO </h3>
-        </div>
+         {/* ---TEXT FOR CANCELLED COURSE --- */}
+        {routerStore.isCancelled ?
+          <div className="col-12 isCancelled">
+            <Alert color="info" aria-live="polite">
+                <h3>TODO ---Denna kurs är avbruten--- TODO </h3>
+              </Alert>
+          </div>
+         :""}
+
 
         {/* ---INTRO TEXT--- */}
         <div id="courseIntroText" 

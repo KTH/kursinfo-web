@@ -131,7 +131,7 @@ async function  getIndex (req, res, next) {
     renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
     await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
-    await renderProps.props.children.props.routerStore.getCourseSellingText(courseCode, lang)
+    //await renderProps.props.children.props.routerStore.getCourseSellingText(courseCode, lang)
     renderProps.props.children.props.routerStore.courseData.coursePlanModel.course_examiners = await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
    
     //*** Get teacher and responsible from ugRedis ***// TODO - find a better solution for this...
