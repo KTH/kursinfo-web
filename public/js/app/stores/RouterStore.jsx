@@ -88,7 +88,7 @@ class RouterStore {
     try{
     return axios.get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type })).then( result => {
      console.log('getCourseEmployees', result)
-      return result.data && result.data.lengt > 0 ? this.createPersonHtml(result.data) : EMPTY
+      return result.data && result.data.length > 0 ? this.createPersonHtml(result.data) : EMPTY
     }).catch(err => { 
       if (err.response) {
         throw new Error(err.message, err.response.data)

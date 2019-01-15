@@ -98,7 +98,6 @@ function * _getSellingText(req, res) {
     if (apiResponse.statusCode !== 200) {
       return httpResponse.jsonError(res, apiResponse.statusCode)
     }
-
     return httpResponse.json(res, apiResponse.body)
   } catch (err) {
     log.error('Exception calling from API ', { error: err })
@@ -132,7 +131,7 @@ async function  getIndex (req, res, next) {
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
     await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
    //c await renderProps.props.children.props.routerStore.getCourseSellingText(courseCode, lang)
-    //renderProps.props.children.props.routerStore.courseData.coursePlanModel.course_examiners = await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
+    renderProps.props.children.props.routerStore.courseData.coursePlanModel.course_examiners = await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
    
     //*** Get teacher and responsible from ugRedis ***// TODO - find a better solution for this...
     const roundsKeys = renderProps.props.children.props.routerStore.keyList

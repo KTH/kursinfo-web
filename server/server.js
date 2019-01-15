@@ -186,7 +186,7 @@ server.use('/', systemRoute.getRouter())
 const appRoute = AppRouter()
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/kursplan/:course_semester', Syllabus.getIndex)
 //appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', Course.getIndex)
-appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', serverLogin, Course.getIndex)
+appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', /*serverLogin,*/ Course.getIndex)
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/', serverLogin, noCourse.getIndex)
 appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isAdmin'), Course.getIndex)
 
