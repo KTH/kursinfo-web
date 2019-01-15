@@ -33,7 +33,7 @@ module.exports = {
 function * _getCourseEmployees(req, res) {
   let key = req.params.key
   const type = req.params.type
-   console.log("key", key)
+   //console.log("key", key)
    key = key.replace(/_/g,'.')
    switch(type){
      //**************************************************************************************************************/
@@ -42,7 +42,7 @@ function * _getCourseEmployees(req, res) {
      case "multi":
         try {
          yield redis( "ugRedis", serverConfig.cache.ugRedis.redis)
-            .then(function(ugClient) { console.log("test",key )
+            .then(function(ugClient) { //console.log("test",key )
               return ugClient.multi()
               .hgetall("SF1624.20182.*")
               .mget(key+".teachers", key+".courseresponsible")
@@ -66,11 +66,10 @@ function * _getCourseEmployees(req, res) {
     case "examiners":
     try {
       yield redis( "ugRedis", serverConfig.cache.ugRedis.redis)
-        .then(function(ugClient) { console.log("test",key )
+        .then(function(ugClient) { //console.log("test",key )
           return ugClient.getAsync(key+".examiner")
         })
         .then(function(returnValue) {
-          console.log("ugRedis - examiners - VALUE",returnValue)
           return httpResponse.json(res, returnValue)
         })
         .catch(function(err) {
@@ -89,7 +88,7 @@ function * _getSellingText(req, res) {
    
   try {
     const apiResponse = yield sellingText.getSellingText(courseCode)
-    console.log("_getSellingText", apiResponse)
+    //console.log("_getSellingText", apiResponse)
 
     if (apiResponse.statusCode === 404) {
       return httpResponse.json(res, apiResponse.body)
@@ -138,7 +137,7 @@ async function  getIndex (req, res, next) {
     let rounds = renderProps.props.children.props.routerStore.courseData.courseRoundList
     try {
       await redis( "ugRedis", serverConfig.cache.ugRedis.redis)
-         .then(function(ugClient) { console.log("test",roundsKeys.teachers )
+         .then(function(ugClient) { //console.log("test",roundsKeys.teachers )
            return ugClient.multi()
            .mget(roundsKeys.teachers)
            .mget(roundsKeys.responsibles)

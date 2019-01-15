@@ -87,7 +87,7 @@ class RouterStore {
   @action getCourseEmployees( key , type="multi", lang = 'sv'){
     try{
     return axios.get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type })).then( result => {
-     console.log('getCourseEmployees', result)
+     //console.log('getCourseEmployees', result)
       return result.data && result.data.length > 0 ? this.createPersonHtml(result.data) : EMPTY
     }).catch(err => { 
       if (err.response) {
@@ -134,7 +134,7 @@ class RouterStore {
         course_literature: coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? this.isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.literature, language): EMPTY, 
         course_valid_from: coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? this.isValidData(coursePlan.publicSyllabusVersions[0].validFromTerm.term).toString().match(/.{1,4}/g) : [], 
         course_required_equipment: coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? this.isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.requiredEquipment, language): EMPTY,
-        course_examination: coursePlan.examinationSets.hasOwnProperty('examinationRounds') ? this.getExamObject(coursePlan.examinationSets[Object.keys(coursePlan.examinationSets)[0]].examinationRounds, coursePlan.formattedGradeScales, language): EMPTY,
+        course_examination: coursePlan.examinationSets && Object.keys(coursePlan.examinationSets).length > 0 && coursePlan.examinationSets[Object.keys(coursePlan.examinationSets)[0]].hasOwnProperty('examinationRounds') ? this.getExamObject(coursePlan.examinationSets[Object.keys(coursePlan.examinationSets)[0]].examinationRounds, coursePlan.formattedGradeScales, language): EMPTY,
         course_examination_comments:  coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? this.isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.examComments, language):EMPTY,
         //*---Not in course plan (syllabus) --*/
         course_department: this.isValidData(coursePlan.course.department.name, language),
@@ -251,7 +251,7 @@ class RouterStore {
 
   createPersonHtml(personList, ldapUsername=""){
     let personString = ""
-    personList.forEach( person  => {console.log("person",person)
+    personList.forEach( person  => {//console.log("person",person)
       personString += `<p class = "person"><i class="icon-user"></i> <a href="https://www.kth.se/profile/${person.username}/" target="_blank" property="teach:teacher">${person.givenName} ${person.lastName}, </a> <i class="icon-envelope-alt"></i> ${person.email}</p>  `
       //Check if the logged in user is examinator or responsible and can edit course page
       if(ldapUsername === person.username)
