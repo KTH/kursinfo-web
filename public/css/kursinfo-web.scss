@@ -38,7 +38,13 @@
         outline-offset: 0;
     }
 }
-
+.language-container{
+    display: block;
+    height: 20px;
+    a{
+        float:right;
+    }
+}
 .preArticleParagraphs, h2.secondTitle {
     border-bottom: 1px solid #808080;
     color: #666666;
@@ -63,6 +69,7 @@
 #course-title{
     border-bottom: 0px;
     margin: 0px;
+    margin-top: 40px;
 }
 
 .paddingX15{

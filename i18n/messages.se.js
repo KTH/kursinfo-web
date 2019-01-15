@@ -30,9 +30,9 @@ module.exports = {
     field_label_post_example: 'Min datamodell(Svar från api anrop POST): ',
 
     lang_block_id: '1.272446',
-    locale_text: 'Kursinformation på svenska',
+    locale_text: 'Course information in English',
 
-    site_name: 'Course information',
+    site_name: 'Kursinformation',
     host_name: 'KTH'
   },
   courseInformationLabels: {
@@ -45,7 +45,8 @@ module.exports = {
     label_course_finalize: 'Slutföra kurs',
     label_course_other: 'Kontakt och övrig information',
     label_postgraduate_course: 'Forskarkurser på ',
-    label_course_cancelled: 'Detta är en nedlagd kurs.'
+    label_course_cancelled: 'Detta är en nedlagd kurs.',
+    label_last_exam: 'Sista planerade examination: '
   },
   courseInformation:{
     roundId:'Kursomgångs nr',

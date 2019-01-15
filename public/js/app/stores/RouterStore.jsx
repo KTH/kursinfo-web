@@ -144,7 +144,9 @@ class RouterStore {
         course_supplemental_information_url: this.isValidData(coursePlan.course.supplementaryInfoUrl, language),
         course_supplemental_information_url_text: this.isValidData(coursePlan.course.supplementaryInfoUrlName, language),
         course_supplemental_information: this.isValidData(coursePlan.course.supplementaryInfo, language),
-        course_examiners: coursePlan.examiners ?  Array.isArray(coursePlan.examiners) ? this.createPersonHtml(coursePlan.examiners, ldapUsername ): "" : EMPTY
+        course_examiners: coursePlan.examiners ?  Array.isArray(coursePlan.examiners) ? this.createPersonHtml(coursePlan.examiners, ldapUsername ): "" : EMPTY,
+        course_last_exam: coursePlan.course.lastExamTerm ? coursePlan.course.lastExamTerm.term.toString().match(/.{1,4}/g) : []
+      
       }
       console.log("!!coursePlanModel: OK !!", coursePlanModel)
 

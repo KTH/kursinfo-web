@@ -30,9 +30,9 @@ module.exports = {
     field_label_post_example: 'My modelData(Response from api call POST): ',
 
     lang_block_id: '1.77273',
-    locale_text: 'Course information in English',
+    locale_text: 'Kursinformation på svenska',
 
-    site_name: 'Kursinformation',
+    site_name: 'Course information',
     host_name: 'KTH'
   },
   courseInformationLabels: {
@@ -45,7 +45,8 @@ module.exports = {
     label_course_finalize: 'Finalize course',
     label_course_other: 'Contact and additional information',
     label_postgraduate_course: 'Postgraduate courses at ',
-    label_course_cancelled: 'This course has been cancelled.'
+    label_course_cancelled: 'This course has been cancelled.',
+    label_last_exam: 'Last planned examination: '
   },
   courseInformation: {
     course_title:'Title english',

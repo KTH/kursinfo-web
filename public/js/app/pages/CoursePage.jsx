@@ -99,6 +99,12 @@ class CoursePage extends Component {
     return (
       <div  key="kursinfo-container" className="kursinfo-main-page col" >
 
+        <div className="language-container"> 
+            <a href={`/student/kurser/kurs/${this.props.routerStore.courseData.coursePlanModel.course_code}?l=${routerStore.courseData.language === 0 ? "sv" : "en"}`}>
+              {i18n.messages[courseData.language].messages.locale_text}
+            </a>
+        </div>
+
         {/* ---COURSE TITEL--- */}
         <CourseTitle key = "title"
             courseTitleData = {courseData.courseTitleData}
@@ -111,6 +117,9 @@ class CoursePage extends Component {
           <div className="col-12 isCancelled">
             <Alert color="info" aria-live="polite">
                 <h3>{i18n.messages[courseData.language].courseInformationLabels.label_course_cancelled} </h3>
+                <p>{i18n.messages[courseData.language].courseInformationLabels.label_last_exam}  
+                    {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.coursePlanModel.course_last_exam[1]]} {courseData.coursePlanModel.course_last_exam[0]}
+                </p>
               </Alert>
           </div>
          :""}
