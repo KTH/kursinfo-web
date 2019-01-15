@@ -78,13 +78,13 @@ class CourseCollapseList extends Component {
 
   getOther(translation){
     const course = this.state.store.coursePlanModel
-    const prepare = [
-      {header:translation.courseInformation.course_department, text:course.course_department},
-      {header:translation.courseInformation.course_contact_name, text:course.course_contact_name},
-      {header:translation.courseInformation.course_supplemental_information, text:course.course_supplemental_information},
-      {header:translation.courseInformation.course_supplemental_information_url, text:course.course_supplemental_information_url},
-      {header:translation.courseInformation.course_supplemental_information_url_text, text:course.course_supplemental_information_url_text}
-    ]
+    let prepare = []
+    prepare.push({header:translation.courseInformation.course_department, text:course.course_department})
+    if(course.course_contact_name !== EMPTY) prepare.push({header:translation.courseInformation.course_contact_name, text: course.course_contact_name}) 
+    if(course.course_supplemental_information !== EMPTY) prepare.push({header:translation.courseInformation.course_supplemental_information, text:course.course_supplemental_information})
+    if(course.course_supplemental_information_url !== EMPTY) prepare.push({header:translation.courseInformation.course_supplemental_information_url, text:course.course_supplemental_information_url})
+    if(course.course_supplemental_information_url_text !== EMPTY) prepare.push({header:translation.courseInformation.course_supplemental_information_url_text, text:course.course_supplemental_information_url_text})
+    
     return prepare
   }
   
