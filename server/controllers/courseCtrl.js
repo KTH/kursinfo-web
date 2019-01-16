@@ -30,6 +30,7 @@ module.exports = {
 
 //** TODO Function for SF1624.20182.9.teachers, SF1624.20182.9.courseresponsible, SF1624.examiner */
 
+
 function * _getCourseEmployees(req, res) {
   let key = req.params.key
   const type = req.params.type
@@ -116,7 +117,6 @@ async function  getIndex (req, res, next) {
   const courseCode = req.params.courseCode.toUpperCase()
   let lang = language.getLanguage(res) || 'sv'
   const ldapUser = req.session.authUser ? req.session.authUser.username : 'null'
-
   try {
     // Render inferno app
     const context = {}
@@ -130,7 +130,7 @@ async function  getIndex (req, res, next) {
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
     await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
     await renderProps.props.children.props.routerStore.getCourseSellingText(courseCode, lang)
-    renderProps.props.children.props.routerStore.courseData.coursePlanModel.course_examiners = await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
+    renderProps.props.children.props.routerStore.courseData.coursePlan.course_examiners = await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
    
     //*** Get teacher and responsible from ugRedis ***// TODO - find a better solution for this...
     const roundsKeys = renderProps.props.children.props.routerStore.keyList
@@ -147,7 +147,9 @@ async function  getIndex (req, res, next) {
            for(let index = 0; index < returnValue[0].length; index++){
             rounds[index].round_teacher  = returnValue[0][index] !== null ? createPersonHtml(JSON.parse(returnValue[0][index])) : ""
             rounds[index].round_responsibles = returnValue[1][index] !== null ? createPersonHtml(JSON.parse(returnValue[1][index]), ldapUser) : ""
-           }
+            if (returnValue[1][index].username === ldapUser)
+            renderProps.props.children.props.routerStore.canEdit = true
+          }
            renderProps.props.children.props.routerStore.courseData.courseRoundList = rounds
          })
          .catch(function(err) {
@@ -177,8 +179,14 @@ async function  getIndex (req, res, next) {
     })
   } catch (err) {
     log.error('Error in getIndex', { error: err })
+
     next(err)
   }
+}
+
+function errorHandler (err, req, res, next) {
+  res.status(500)
+  res.render('error', { error: err })
 }
 
 function createPersonHtml(personList, ldapUsername=""){

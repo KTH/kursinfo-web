@@ -18,7 +18,7 @@ class CourseCollapseList extends Component {
   }
 
   getIntro(translation){
-    const course = this.state.store.coursePlanModel
+    const course = this.state.store.coursePlan
     const round = this.state.store.courseRoundList[this.props.roundIndex]
     const intro = [
       {header: translation.courseRoundInformation.round_target_group, text: round ? round.round_target_group : EMPTY },
@@ -38,7 +38,7 @@ class CourseCollapseList extends Component {
   }
 
   getPrepare(translation){
-    const course = this.state.store.coursePlanModel
+    const course = this.state.store.coursePlan
     const round = this.state.store.courseRoundList[this.props.roundIndex]
     const prepare = [
       {header:translation.courseInformation.course_suggested_addon_studies, text:course.course_suggested_addon_studies},
@@ -54,7 +54,7 @@ class CourseCollapseList extends Component {
   }
 
   getDuring(translation){
-    const course = this.state.store.coursePlanModel
+    const course = this.state.store.coursePlan
     const round = this.state.store.courseRoundList[this.props.roundIndex]
     const during = [
       {header:"Kurs-PM", text:"Här visas kurs-PM"},
@@ -66,7 +66,7 @@ class CourseCollapseList extends Component {
   }
 
   getFinalize(translation){
-    const course = this.state.store.coursePlanModel
+    const course = this.state.store.coursePlan
     const prepare = [
       {header:translation.courseInformation.course_examination, text:course.course_examination},
       {header:translation.courseInformation.course_examination_comments, text:course.course_examination_comments},
@@ -77,7 +77,7 @@ class CourseCollapseList extends Component {
   }
 
   getOther(translation){
-    const course = this.state.store.coursePlanModel
+    const course = this.state.store.coursePlan
     let prepare = []
     prepare.push({header:translation.courseInformation.course_department, text:course.course_department})
     if(course.course_contact_name !== EMPTY) prepare.push({header:translation.courseInformation.course_contact_name, text: course.course_contact_name}) 

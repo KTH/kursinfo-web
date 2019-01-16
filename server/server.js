@@ -171,7 +171,7 @@ server.use(excludeExpression, require('kth-node-web-common/lib/web/crawlerRedire
  * ******* APPLICATION ROUTES *******
  * **********************************
  */
-const { System, Course, Syllabus, noCourse, Api } = require('./controllers')
+const { System, Course, Syllabus, noCourse} = require('./controllers')
 const { requireRole } = require('./authentication')
 
 // System routes
@@ -186,8 +186,8 @@ server.use('/', systemRoute.getRouter())
 const appRoute = AppRouter()
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/kursplan/:course_semester', Syllabus.getIndex)
 //appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', Course.getIndex)
-appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', /*serverLogin,*/ Course.getIndex)
-appRoute.get('system.index', config.proxyPrefixPath.uri + '/', serverLogin, noCourse.getIndex)
+appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', getServerGatewayLogin(), Course.getIndex)
+appRoute.get('system.index', config.proxyPrefixPath.uri + '/', noCourse.getIndex)
 appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isAdmin'), Course.getIndex)
 
 appRoute.get('api.sellingText', '/api/kursinfo/getSellingTextByCourse/:courseCode', Course.getSellingText)
