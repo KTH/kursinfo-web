@@ -34,40 +34,41 @@ module.exports = {
 function * _getCourseEmployees(req, res) {
   let key = req.params.key
   const type = req.params.type
-   //console.log("key", key)
    key = key.replace(/_/g,'.')
    switch(type){
      //**************************************************************************************************************/
-     //**** Retuns a list with examiners. Key is built up with: course code.year+semester (example: SF1824.20182) ***/
+     //**** Retuns two lists with teachers and reponsibles for each course round. 
+     //**** The keys are built up with: course code.year+semester.roundId (example: SF1624.20182.1)
      //**************************************************************************************************************/
      case "multi":
-        try {
-         yield redis( "ugRedis", serverConfig.cache.ugRedis.redis)
-            .then(function(ugClient) { //console.log("test",key )
-              return ugClient.multi()
-              .hgetall("SF1624.20182.*")
-              .mget(key+".teachers", key+".courseresponsible")
-              .execAsync()
-            })
-            .then(function(returnValue) {
-              console.log("ugRedis - multi -VALUE",returnValue)
-              return httpResponse.json(res, returnValue)
-            })
-            .catch(function(err) {
-              console.log("ugRedis - multi error:: ", err)
-            })
-        } catch (err) {
-          log.error('Exception calling from ugRedis - multi', { error: err })
-            return err
-        }
-     break;
+      try {
+        const roundsKeys = JSON.parse(req.body.params)
+        yield redis( "ugRedis", serverConfig.cache.ugRedis.redis)
+          .then(function(ugClient) { 
+            return ugClient.multi()
+            .mget(roundsKeys.teachers)
+            .mget(roundsKeys.responsibles)
+            .execAsync()
+          })
+          .then(function(returnValue) {
+           // console.log("ugRedis - multi -VALUE",returnValue)
+            return httpResponse.json(res, returnValue)
+          })
+          .catch(function(err) {
+            console.log("ugRedis - error:: ", err)
+          })
+      } catch (err) {
+        log.error('Exception calling from ugRedis - multi', { error: err })
+          return err
+      }
+    break;
     //*********************************************************/
     //**** Retuns a list with examiners. Key is course code ***/
     //*********************************************************/
     case "examiners":
     try {
       yield redis( "ugRedis", serverConfig.cache.ugRedis.redis)
-        .then(function(ugClient) { //console.log("test",key )
+        .then(function(ugClient) { 
           return ugClient.getAsync(key+".examiner")
         })
         .then(function(returnValue) {
@@ -130,35 +131,8 @@ async function  getIndex (req, res, next) {
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
     await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
     await renderProps.props.children.props.routerStore.getCourseSellingText(courseCode, lang)
-    renderProps.props.children.props.routerStore.courseData.coursePlan.course_examiners = await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
-   
-    //*** Get teacher and responsible from ugRedis ***// TODO - find a better solution for this...
-    const roundsKeys = renderProps.props.children.props.routerStore.keyList
-    let rounds = renderProps.props.children.props.routerStore.courseData.courseRoundList
-    try {
-      await redis( "ugRedis", serverConfig.cache.ugRedis.redis)
-         .then(function(ugClient) { //console.log("test",roundsKeys.teachers )
-           return ugClient.multi()
-           .mget(roundsKeys.teachers)
-           .mget(roundsKeys.responsibles)
-           .execAsync()
-         })
-         .then(function(returnValue) {
-           for(let index = 0; index < returnValue[0].length; index++){
-            rounds[index].round_teacher  = returnValue[0][index] !== null ? createPersonHtml(JSON.parse(returnValue[0][index])) : ""
-            rounds[index].round_responsibles = returnValue[1][index] !== null ? createPersonHtml(JSON.parse(returnValue[1][index]), ldapUser) : ""
-            if (returnValue[1][index].username === ldapUser)
-            renderProps.props.children.props.routerStore.canEdit = true
-          }
-           renderProps.props.children.props.routerStore.courseData.courseRoundList = rounds
-         })
-         .catch(function(err) {
-           console.log("ugRedis - error:: ", err)
-         })
-     } catch (err) {
-       log.error('Exception calling from ugRedis - multi', { error: err })
-         return err
-     }
+    await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi') 
+    await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
 
     await doAllAsyncBefore({
       pathname: req.originalUrl,
@@ -182,22 +156,6 @@ async function  getIndex (req, res, next) {
 
     next(err)
   }
-}
-
-function errorHandler (err, req, res, next) {
-  res.status(500)
-  res.render('error', { error: err })
-}
-
-function createPersonHtml(personList, ldapUsername=""){
-  let personString = ""
-  personList.forEach( person  => {
-    personString += `<p class = "person"><i class="icon-user"></i> <a href="https://www.kth.se/profile/${person.username}/" target="_blank" property="teach:teacher">${person.givenName} ${person.lastName}, </a> <i class="icon-envelope-alt"></i> ${person.email}</p>  `
-    //Check if the logged in user is examinator or responsible and can edit course page
-    if(ldapUsername === person.username)
-      this.canEdit = true
-  })
-  return personString
 }
 
 function hydrateStores (renderProps) {

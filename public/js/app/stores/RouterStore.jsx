@@ -24,7 +24,7 @@ class RouterStore {
   @observable sellingText = undefined
   @observable canEdit = false
   @observable isCancelled = false
-  @observable isCurrentSyllabus = false
+  @observable isCurrentSyllabus = true
 
   keyList ={
     teachers:[],
@@ -42,9 +42,7 @@ class RouterStore {
     if (host[host.length - 1] === '/') {
       host = host.slice(0, host.length - 1)
     }
-
     const newPath = params ? _paramReplace(path, params) : path
-
     return [host, newPath].join('')
   }
 
@@ -69,8 +67,8 @@ class RouterStore {
     return options
   }
 
+
   @action getCourseSellingText(courseCode,lang = 'sv'){
-    try{
     return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri,  {courseCode:courseCode}), this._getOptions()).then( res => {
       this.sellingText = res.data.sellingText
     }).catch(err => { 
@@ -79,75 +77,82 @@ class RouterStore {
       }
       throw err
     })
-  } catch (err) {
-    log.error('Exception calling from ugRedis - multi', { error: err })
-      return err
   }
-}
   
 
-  @action getCourseEmployees( key , type="multi", lang = 'sv'){
-    try{
-    return axios.get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type })).then( result => {
-     //console.log('getCourseEmployees', result)
-      return result.data && result.data.length > 0 ? this.createPersonHtml(result.data) : EMPTY
+  @action getCourseEmployeesPost( key , type="multi", lang = 'sv'){
+
+    if(this.courseData.courseRoundList.length === 0 ) return ""
+
+    return axios.post(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type }),this._getOptions(JSON.stringify(this.keyList))).then( result => {
+      //console.log('getCourseEmployeesPost', result)
+      const returnValue = result.data
+      let rounds = this.courseData.courseRoundList
+      for(let index = 0; index < returnValue[0].length; index++){
+        rounds[index].round_teacher  = returnValue[0][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[0][index])) : ""
+        rounds[index].round_responsibles = returnValue[1][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[1][index])) : ""
+      }
+      this.courseData.courseRoundList = rounds
+      //return result.data && result.data.length > 0 ? this.createPersonHtml(result.data) : EMPTY
     }).catch(err => { 
       if (err.response) {
         throw new Error(err.message, err.response.data)
       }
       throw err
     })
-  } catch (err) {
-    log.error('Exception calling from ugRedis - multi', { error: err })
-      return err
+  } 
+
+  @action getCourseEmployees( key , type="examinator", lang = 'sv'){
+    return axios.get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type })).then( result => {
+    //console.log('getCourseEmployees', result)
+      this.courseData.coursePlan.course_examiners = result.data && result.data.length > 0 ? this.createPersonHtml(result.data) : EMPTY
+    }).catch(err => { 
+      if (err.response) {
+        throw new Error(err.message, err.response.data)
+      }
+      throw err
+    })
   }
-}
 
   //** Handeling the course information from kopps api.**//
   @action getCourseInformation(courseCode, ldapUsername, lang = 'sv', roundIndex = 0){
       return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/v2/course/${encodeURIComponent(courseCode)}/detailedinformation?l=${lang}`).then((res) => { //TODO: use buildApiUrl
-      const courseData = safeGet(() => res.data, {})
-      
-      const language = lang === 'en' ? 0 : 1
+        const courseResult = safeGet(() => res.data, {})
+        const language = lang === 'en' ? 0 : 1
 
-      this.isCancelled = courseData.course.cancelled
-      this.user = ldapUsername
+        this.isCancelled = courseResult.course.cancelled
+        this.user = ldapUsername
       // TODO this.isCurrentSyllabus = 
 
-      //*****************************************//
+    
       //*** Get list of syllabuses semesters ***//
-      //*****************************************//
-      const syllabuses = courseData.publicSyllabusVersions
+      const syllabuses = courseResult.publicSyllabusVersions
       let syllabusSemesterList = []
-      for(let i = 0; i < syllabuses.length; i++ ) { 
+      for(let i = 1; i < syllabuses.length; i++ ) { 
         syllabusSemesterList.push(syllabuses[i].validFromTerm.term)
       }
 
-      //*****************************************//
       //*** Title data  ***//
-      //*****************************************//
       const courseTitleData = {
-        course_code: this.isValidData(courseData.course.courseCode),
-        course_title: this.isValidData(courseData.course.title),
-        course_other_title:this.isValidData(courseData.course.titleOther),
-        course_credits:this.isValidData(courseData.course.credits)
+        course_code: this.isValidData(courseResult.course.courseCode),
+        course_title: this.isValidData(courseResult.course.title),
+        course_other_title:this.isValidData(courseResult.course.titleOther),
+        course_credits:this.isValidData(courseResult.course.credits)
       }
+      console.log("!!titleData: OK !!")
 
-      //*******************************************************//
+     
       //*** Get list of syllabuses ***//
-      //*******************************************************//
-      let coursePlan = this.getCoursePlanData(courseData, 0, language)
-      console.log("!!coursePlan: OK !!", coursePlan)
+      let coursePlan = this.getCoursePlanData(courseResult, 0, language)
+      console.log("!!coursePlan: OK !!")
 
-      //********************************************************************************************//
+      
       //***Get list of rounds, semesters and keys for teachers and responsibles to use in ugRedis **//
-      //********************************************************************************************//
       let courseSemesters = []
       let tempList = []
       let courseRound
       let courseRoundList = []
-      const thisStore = this
-      for( let roundInfo of courseData.roundInfos){ 
+      for( let roundInfo of courseResult.roundInfos){ 
         courseRound =  this.getRound(roundInfo, courseCode, ldapUsername)
         courseRoundList.push(courseRound)
         if(courseRound.round_course_term && tempList.indexOf(courseRound.round_course_term[0]) < 0){
@@ -160,14 +165,14 @@ class RouterStore {
       courseSemesters.sort()
       console.log("!!courseRound: OK !!")
 
+      
       this.courseData = {
         coursePlan,
         courseRoundList,
         courseTitleData,
         courseSemesters,
         syllabusSemesterList,
-        language,
-        canEdit: this.canEdit
+        language
       }
     }).catch(err => { 
       if (err.response) {
@@ -177,36 +182,36 @@ class RouterStore {
     })
   }
 
-  getCoursePlanData(courseData, semester = 0, language){
+  getCoursePlanData(courseResult, semester = 0, language){
     return {
-      course_code: this.isValidData(courseData.course.courseCode),
-      course_title: this.isValidData(courseData.course.title),
-      course_other_title:this.isValidData(courseData.course.titleOther),
-      course_main_subject: courseData.mainSubjects ?  Array.isArray(courseData.mainSubjects) ? courseData.mainSubjects.map(sub => sub + " ") : this.isValidData(courseData.mainSubjects) : EMPTY,
-      course_credits:this.isValidData(courseData.course.credits),
-      course_grade_scale: this.isValidData(courseData.formattedGradeScales[courseData.course.gradeScaleCode],language), //TODO: can this be an array?
-      course_level_code: this.isValidData(courseData.course.educationalLevelCode),
-      course_recruitment_text: this.isValidData(courseData.course.recruitmentText),
-      course_goals: courseData.publicSyllabusVersions && courseData.publicSyllabusVersions.length > 0 ? this.isValidData(courseData.publicSyllabusVersions[0].courseSyllabus.goals, language) : EMPTY,
-      course_content:  courseData.publicSyllabusVersions && courseData.publicSyllabusVersions.length > 0 ? this.isValidData(courseData.publicSyllabusVersions[0].courseSyllabus.content, language): EMPTY,
-      course_disposition:  courseData.publicSyllabusVersions && courseData.publicSyllabusVersions.length > 0 ? this.isValidData(courseData.publicSyllabusVersions[0].courseSyllabus.disposition, language): EMPTY, 
-      course_eligibility:  courseData.publicSyllabusVersions && courseData.publicSyllabusVersions.length > 0 ? this.isValidData(courseData.publicSyllabusVersions[0].courseSyllabus.eligibility, language): EMPTY, 
-      course_requirments_for_final_grade:  courseData.publicSyllabusVersions && courseData.publicSyllabusVersions.length > 0 ? this.isValidData(courseData.publicSyllabusVersions[0].courseSyllabus.reqsForFinalGrade, language): EMPTY,
-      course_literature: courseData.publicSyllabusVersions && courseData.publicSyllabusVersions.length > 0 ? this.isValidData(courseData.publicSyllabusVersions[0].courseSyllabus.literature, language): EMPTY, 
-      course_valid_from: courseData.publicSyllabusVersions && courseData.publicSyllabusVersions.length > 0 ? this.isValidData(courseData.publicSyllabusVersions[0].validFromTerm.term).toString().match(/.{1,4}/g) : [], 
-      course_required_equipment: courseData.publicSyllabusVersions && courseData.publicSyllabusVersions.length > 0 ? this.isValidData(courseData.publicSyllabusVersions[0].courseSyllabus.requiredEquipment, language): EMPTY,
-      course_examination: courseData.examinationSets && Object.keys(courseData.examinationSets).length > 0 && courseData.examinationSets[Object.keys(courseData.examinationSets)[0]].hasOwnProperty('examinationRounds') ? this.getExamObject(courseData.examinationSets[Object.keys(courseData.examinationSets)[0]].examinationRounds, courseData.formattedGradeScales, language): EMPTY,
-      course_examination_comments:  courseData.publicSyllabusVersions && courseData.publicSyllabusVersions.length > 0 ? this.isValidData(courseData.publicSyllabusVersions[0].courseSyllabus.examComments, language):EMPTY,
+      course_code: this.isValidData(courseResult.course.courseCode),
+      course_title: this.isValidData(courseResult.course.title),
+      course_other_title:this.isValidData(courseResult.course.titleOther),
+      course_main_subject: courseResult.mainSubjects ?  Array.isArray(courseResult.mainSubjects) ? courseResult.mainSubjects.map(sub => sub + " ") : this.isValidData(courseResult.mainSubjects) : EMPTY,
+      course_credits:this.isValidData(courseResult.course.credits),
+      course_grade_scale: this.isValidData(courseResult.formattedGradeScales[courseResult.course.gradeScaleCode],language), //TODO: can this be an array?
+      course_level_code: this.isValidData(courseResult.course.educationalLevelCode),
+      course_recruitment_text: this.isValidData(courseResult.course.recruitmentText),
+      course_goals: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[0].courseSyllabus.goals, language) : EMPTY,
+      course_content:  courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[0].courseSyllabus.content, language): EMPTY,
+      course_disposition:  courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[0].courseSyllabus.disposition, language): EMPTY, 
+      course_eligibility:  courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[0].courseSyllabus.eligibility, language): EMPTY, 
+      course_requirments_for_final_grade:  courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[0].courseSyllabus.reqsForFinalGrade, language): EMPTY,
+      course_literature: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[0].courseSyllabus.literature, language): EMPTY, 
+      course_valid_from: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[0].validFromTerm.term).toString().match(/.{1,4}/g) : [], 
+      course_required_equipment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[0].courseSyllabus.requiredEquipment, language): EMPTY,
+      course_examination: courseResult.examinationSets && Object.keys(courseResult.examinationSets).length > 0 && courseResult.examinationSets[Object.keys(courseResult.examinationSets)[0]].hasOwnProperty('examinationRounds') ? this.getExamObject(courseResult.examinationSets[Object.keys(courseResult.examinationSets)[0]].examinationRounds, courseResult.formattedGradeScales, language): EMPTY,
+      course_examination_comments:  courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[0].courseSyllabus.examComments, language):EMPTY,
       //*---Not in course plan (syllabus) --*/
-      course_department: this.isValidData(courseData.course.department.name, language),
-      course_department_code: this.isValidData(courseData.course.department.code, language),
-      course_contact_name:this.isValidData(courseData.course.infoContactName, language),
-      course_suggested_addon_studies: this.isValidData(courseData.course.addOn, language),
-      course_supplemental_information_url: this.isValidData(courseData.course.supplementaryInfoUrl, language),
-      course_supplemental_information_url_text: this.isValidData(courseData.course.supplementaryInfoUrlName, language),
-      course_supplemental_information: this.isValidData(courseData.course.supplementaryInfo, language),
-      course_examiners: courseData.examiners ?  Array.isArray(courseData.examiners) ? this.createPersonHtml(courseData.examiners, ldapUsername ): "" : EMPTY,
-      course_last_exam: courseData.course.lastExamTerm ? courseData.course.lastExamTerm.term.toString().match(/.{1,4}/g) : []
+      course_department: this.isValidData(courseResult.course.department.name, language),
+      course_department_code: this.isValidData(courseResult.course.department.code, language),
+      course_contact_name:this.isValidData(courseResult.course.infoContactName, language),
+      course_suggested_addon_studies: this.isValidData(courseResult.course.addOn, language),
+      course_supplemental_information_url: this.isValidData(courseResult.course.supplementaryInfoUrl, language),
+      course_supplemental_information_url_text: this.isValidData(courseResult.course.supplementaryInfoUrlName, language),
+      course_supplemental_information: this.isValidData(courseResult.course.supplementaryInfo, language),
+      course_examiners: courseResult.examiners ?  Array.isArray(courseResult.examiners) ? this.createPersonHtml(courseResult.examiners): "" : EMPTY,
+      course_last_exam: courseResult.course.lastExamTerm ? courseResult.course.lastExamTerm.term.toString().match(/.{1,4}/g) : []
     }
   }
 
@@ -226,7 +231,6 @@ class RouterStore {
   }
 
   getRound(roundObject, courseCode, ldapUsername, language = 0){ 
-    
     const courseRoundModel = {
       roundId: this.isValidData(roundObject.round.ladokRoundId, language),
       round_time_slots: this.isValidData(roundObject.timeslots, language),
@@ -269,10 +273,10 @@ class RouterStore {
 
   createPersonHtml(personList){
     let personString = ""
-    personList.forEach( person  => {//console.log("person",person)
+    personList.forEach( person  => {
       personString += `<p class = "person"><i class="icon-user"></i> <a href="https://www.kth.se/profile/${person.username}/" target="_blank" property="teach:teacher">${person.givenName} ${person.lastName}, </a> <i class="icon-envelope-alt"></i> ${person.email}</p>  `
       //Check if the logged in user is examinator or responsible and can edit course page
-      if(this.user === person.username)
+      if(this.user === person.username) //TODO: DELETE
         this.canEdit = true
     })
     return personString

@@ -13,7 +13,7 @@ class CourseTitle extends Component {
     event.preventDefault()
     const language = this.props.language === 0 ? "en" : "sv" 
     //window.open(`/student/kurser/kurs/admin/${this.props.courseTitleData.course_code}?lang=${language}`)
-    window.location = `https://app-r.referens.sys.kth.se/admin/kurser/kurs/${this.props.courseTitleData.course_code}?lang=${language}`//`/student/kurser/kurs/admin/${this.props.courseTitleData.course_code}?lang=${language}`
+    window.location = `/admin/kurser/kurs/${this.props.courseTitleData.course_code}?lang=${language}`//`/student/kurser/kurs/admin/${this.props.courseTitleData.course_code}?lang=${language}`
   }
 
   render () {

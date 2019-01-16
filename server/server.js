@@ -192,6 +192,7 @@ appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServe
 
 appRoute.get('api.sellingText', '/api/kursinfo/getSellingTextByCourse/:courseCode', Course.getSellingText)
 appRoute.get('redis.ugCache', '/reids/kursinfo/ugChache/:key/:type', Course.getCourseEmployees)
+appRoute.post('redis.ugCache', '/reids/kursinfo/ugChache/:key/:type', Course.getCourseEmployees)
 
 server.use('/', appRoute.getRouter())
 
