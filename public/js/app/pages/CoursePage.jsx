@@ -34,6 +34,7 @@ class CoursePage extends Component {
     super(props)
     this.state = {
         activeRoundIndex: 0,
+        activeSyllabusIndex: this.props.routerStore.defaultIndex,
         dropdownsIsOpen:{
           dropDown1: false,
           dropdown2: false
@@ -81,26 +82,26 @@ class CoursePage extends Component {
   openSyllabus(event){
     event.preventDefault()
     const language = this.props.routerStore.courseData.language === 0 ? "en" : "sv" 
-    window.open(`/student/kurser/kurs/kursplan/${this.props.routerStore.courseData.coursePlan.course_code}_${event.target.id}.pdf?lang=${language}`)
+    window.open(`/student/kurser/kurs/kursplan/${this.props.routerStore.courseData.coursePlan[this.state.activeSyllabusIndex].course_code}_${event.target.id}.pdf?lang=${language}`)
   }
 
   render ({ routerStore}){
     const courseData = routerStore["courseData"]
-    const introText = routerStore.sellingText ? routerStore.sellingText : courseData.coursePlan.course_recruitment_text
+    const introText = routerStore.sellingText ? routerStore.sellingText : courseData.coursePlan[this.state.activeSyllabusIndex].course_recruitment_text
     console.log("routerStore in CoursePage", routerStore)
     const courseInformationToRounds = {
-      course_code: courseData.coursePlan.course_code,
-      course_grade_scale: courseData.coursePlan.course_grade_scale,
-      course_level_code: courseData.coursePlan.course_level_code,
-      course_main_subject: courseData.coursePlan.course_main_subject,
-      course_valid_from: courseData.coursePlan.course_valid_from
+      course_code: courseData.coursePlan[this.state.activeSyllabusIndex].course_code,
+      course_grade_scale: courseData.coursePlan[this.state.activeSyllabusIndex].course_grade_scale,
+      course_level_code: courseData.coursePlan[this.state.activeSyllabusIndex].course_level_code,
+      course_main_subject: courseData.coursePlan[this.state.activeSyllabusIndex].course_main_subject,
+      course_valid_from: courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from
     }
     
     return (
       <div  key="kursinfo-container" className="kursinfo-main-page col" >
 
         <div className="language-container"> 
-            <a href={`/student/kurser/kurs/${this.props.routerStore.courseData.coursePlan.course_code}?l=${routerStore.courseData.language === 0 ? "sv" : "en"}`}>
+            <a href={`/student/kurser/kurs/${this.props.routerStore.courseData.coursePlan[this.state.activeSyllabusIndex].course_code}?l=${routerStore.courseData.language === 0 ? "sv" : "en"}`}>
               {i18n.messages[courseData.language].messages.locale_text}
             </a>
         </div>
@@ -118,7 +119,7 @@ class CoursePage extends Component {
             <Alert color="info" aria-live="polite">
                 <h3>{i18n.messages[courseData.language].courseInformationLabels.label_course_cancelled} </h3>
                 <p>{i18n.messages[courseData.language].courseInformationLabels.label_last_exam}  
-                    {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.coursePlan.course_last_exam[1]]} {courseData.coursePlan.course_last_exam[0]}
+                    {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_last_exam[1]]} {courseData.coursePlan[this.state.activeSyllabusIndex].course_last_exam[0]}
                 </p>
               </Alert>
           </div>
@@ -196,11 +197,11 @@ class CoursePage extends Component {
         </div>
 
         {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
-        {courseData.coursePlan.course_level_code === "RESEARCH" ?
+        {courseData.coursePlan[this.state.activeSyllabusIndex].course_level_code === "RESEARCH" ?
           <span>
             <h3>Forskarkurs</h3>
-            <a target="_blank" href={`${FORSKARUTB_URL}/${courseData.coursePlan.course_department_code}`}> 
-            {i18n.messages[courseData.language].courseInformationLabels.label_postgraduate_course} {courseData.coursePlan.course_department}
+            <a target="_blank" href={`${FORSKARUTB_URL}/${courseData.coursePlan[this.state.activeSyllabusIndex].course_department_code}`}> 
+            {i18n.messages[courseData.language].courseInformationLabels.label_postgraduate_course} {courseData.coursePlan[this.state.activeSyllabusIndex].course_department}
             </a> 
           </span>
           : ""}
@@ -210,7 +211,7 @@ class CoursePage extends Component {
         {/* ---COLLAPSE CONTAINER---  */}
         <CourseCollapseList 
             roundIndex={this.state.activeRoundIndex} 
-            courseData = {courseData.coursePlan} 
+            courseData = {courseData.coursePlan[this.state.activeSyllabusIndex]} 
             className="ExampleCollapseContainer" 
             isOpen={true} 
             color="blue"

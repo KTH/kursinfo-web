@@ -2,6 +2,7 @@ import { Component } from 'inferno'
 //import Button from 'inferno-bootstrap/dist/Button'
 import Button from 'inferno-bootstrap/lib/Button'
 import i18n from "../../../../i18n"
+import { EMPTY } from "../util/constants"
 
 class CourseTitle extends Component {
   constructor(props){
@@ -18,11 +19,12 @@ class CourseTitle extends Component {
 
   render () {
     const title = this.props.courseTitleData
+    title.course_credits = title.course_credits !== EMPTY && title.course_credits.toString().indexOf('.') < 0 ? title.course_credits+".0": title.course_credits
     return (
       <div id="course-title" className="col">
         <h1><span property="aiiso:code">{title.course_code}</span>
-        <span property="teach:courseTitle"> {title.course_title},</span>
-        <span content={title.course_credits} datatype="xsd:decimal" property="teach:ects"> {title.course_credits} {this.props.language === 0 ? " credits" : " hp"} </span>
+        <span property="teach:courseTitle"> {title.course_title}</span>
+        <span content={title.course_credits} datatype="xsd:decimal" property="teach:ects"> {this.props.language === 0 ? title.course_credits : title.course_credits.toString().replace('.',',') }&nbsp;{this.props.language === 0 ? "credits" : "hp"} </span>
         </h1>
         {
           this.props.canEdit ?  <Button className="editButton" color="primery" onClick={this.openEdit} id={title.course_code}><i className="icon-edit"></i> Edit course </Button> : ""
