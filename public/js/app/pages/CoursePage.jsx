@@ -177,6 +177,7 @@ class CoursePage extends Component {
           index={this.state.activeRoundIndex}
           courseData = {courseInformationToRounds}
           language={courseData.language}
+          imageUrl = {routerStore.image}
           courseHasRound ={courseData.courseSemesters.length > 0 }
         />
 

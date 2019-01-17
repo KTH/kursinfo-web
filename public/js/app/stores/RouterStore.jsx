@@ -31,6 +31,7 @@ class RouterStore {
     responsibles:[]
   }
   user = ""
+  image = ""
 
   buildApiUrl (path, params) {
     let host
@@ -67,6 +68,10 @@ class RouterStore {
     return options
   }
 
+  getImage(type="normal"){
+    this.image = `/static/img/course/${Math.floor((Math.random() * 3) + 1)}_${type}.jpg`
+  }
+
 
   @action getCourseSellingText(courseCode,lang = 'sv'){
     return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri,  {courseCode:courseCode}), this._getOptions()).then( res => {
@@ -89,8 +94,8 @@ class RouterStore {
       const returnValue = result.data
       let rounds = this.courseData.courseRoundList
       for(let index = 0; index < returnValue[0].length; index++){
-        rounds[index].round_teacher  = returnValue[0][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[0][index])) : ""
-        rounds[index].round_responsibles = returnValue[1][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[1][index])) : ""
+        rounds[index].round_teacher  = returnValue[0][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[0][index]),'teacher') : ""
+        rounds[index].round_responsibles = returnValue[1][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[1][index]), 'responsible') : ""
       }
       this.courseData.courseRoundList = rounds
       //return result.data && result.data.length > 0 ? this.createPersonHtml(result.data) : EMPTY
@@ -105,7 +110,7 @@ class RouterStore {
   @action getCourseEmployees( key , type="examinator", lang = 'sv'){
     return axios.get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type })).then( result => {
     //console.log('getCourseEmployees', result)
-      this.courseData.coursePlan.course_examiners = result.data && result.data.length > 0 ? this.createPersonHtml(result.data) : EMPTY
+      this.courseData.coursePlan.course_examiners = result.data && result.data.length > 0 ? this.createPersonHtml(result.data, 'examiner') : EMPTY
     }).catch(err => { 
       if (err.response) {
         throw new Error(err.message, err.response.data)
@@ -122,6 +127,7 @@ class RouterStore {
 
         this.isCancelled = courseResult.course.cancelled
         this.user = ldapUsername
+        this.getImage("normal")
       // TODO this.isCurrentSyllabus = 
 
     
@@ -271,12 +277,12 @@ class RouterStore {
     return !dataObject ? EMPTY : dataObject
   }
 
-  createPersonHtml(personList){
+  createPersonHtml(personList, type){
     let personString = ""
     personList.forEach( person  => {
       personString += `<p class = "person"><i class="icon-user"></i> <a href="https://www.kth.se/profile/${person.username}/" target="_blank" property="teach:teacher">${person.givenName} ${person.lastName}, </a> <i class="icon-envelope-alt"></i> ${person.email}</p>  `
       //Check if the logged in user is examinator or responsible and can edit course page
-      if(this.user === person.username) //TODO: DELETE
+      if(this.user === person.username && ( type=== 'responsible' || type=== 'examiner')) //TODO: DELETE
         this.canEdit = true
     })
     return personString

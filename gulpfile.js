@@ -6,7 +6,7 @@ const globals = {
   dirname: __dirname
 }
 
-const { moveResources, sass, vendor, clean } = require('kth-node-build-commons').tasks(globals)
+const { webpack, moveResources, sass, vendor, clean } = require('kth-node-build-commons').tasks(globals)
 
 /* Inferno build tasks */
 
@@ -51,6 +51,7 @@ const infernoServerTask = require('kth-node-inferno/gulpTasks/infernoServerTask'
  */
 
 // *** JavaScript helper tasks ***
+gulp.task('webpack', webpack)
 gulp.task('vendor', vendor)
 
 gulp.task('moveResources', function () {
@@ -63,7 +64,7 @@ gulp.task('moveResources', function () {
 
 gulp.task('moveImages', function () {
   // Move project image files
-  return gulp.src('./public/img/**/*')
+  return gulp.src('./public/img/**/*.*')
     .pipe(gulp.dest('dist/img'))
 })
 
@@ -84,11 +85,12 @@ gulp.task('inferno', function () {
 
 gulp.task('clean', clean)
 
-gulp.task('build', ['moveResources', 'moveImages', 'vendor', 'inferno'], () => sass())
+gulp.task('build', ['moveResources', 'moveImages', 'vendor', 'webpack', 'inferno'], () => sass())
 
 gulp.task('watch', ['build'], function () {
-  gulp.watch(['./public/js/app/**/*.jsx', './public/js/app/**/*.js'], ['inferno'])
+  gulp.watch(['./public/css/**/*.scss'], ['transpileSass'])
   gulp.watch(['./public/img/**/*.*'], ['moveImages'])
   gulp.watch(['./public/js/vendor.js'], ['vendor'])
-  gulp.watch(['./public/css/**/*.scss'], ['transpileSass'])
+  gulp.watch(['./public/js/app/**/*.js', './public/js/components/**/*'], ['webpack'])
+  gulp.watch(['./public/js/app/**/*.jsx', './public/js/app/**/*.js'], ['inferno'])
 })
