@@ -27,9 +27,7 @@ class CourseRound extends Component {
       <div id="RoundContainer" className=" col key-info">{this.props.courseHasRound}
         <Row>
           <Col sm="4" id="imageContainer">
-            <img src="//www.kth.se/polopoly_fs/1.841226!/image/f9520503_335_200.jpg" alt="" height="" width=""/>
-            <img src={this.props.imageUrl} alt="" height="" width=""/>
-        
+            <img src={this.props.imageUrl} alt="" height="200" width="335"/>
           </Col>
           <Col sm="7" id="roundKeyInformation">
             <Row id="firstRow">

@@ -69,7 +69,7 @@ class RouterStore {
   }
 
   getImage(type="normal"){
-    this.image = `/static/img/course/${Math.floor((Math.random() * 3) + 1)}_${type}.jpg`
+    this.image = `${this.browserConfig.proxyPrefixPath.uri}/static/img/courses/${Math.floor((Math.random() * 3) + 1)}_${type}.jpg`
   }
 
 
