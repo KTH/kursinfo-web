@@ -111,10 +111,10 @@ class RouterStore {
   @action getCourseEmployees( key , type="examinator", lang = 'sv'){
     return axios.get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type })).then( result => {
     //console.log('getCourseEmployees', result)
-      const examiners = result.data && result.data.length > 0 ? this.createPersonHtml(result.data, 'examiner') : EMPTY
-      this.courseData.coursePlan.forEach(( examiner, index ) => {
+      this.courseData.courseInfo.course_examiners = result.data && result.data.length > 0 ? this.createPersonHtml(result.data, 'examiner') : EMPTY
+      /*this.courseData.coursePlan.forEach(( examiner, index ) => {
         this.courseData.coursePlan[index].course_examiners = examiners
-      })
+      })*/
     }).catch(err => { 
       if (err.response) {
         throw new Error(err.message, err.response.data)
@@ -144,9 +144,9 @@ class RouterStore {
         this.getDefaultInformationForCurrentDate()
         
       // TODO this.isCurrentSyllabus = 
-
-    
-      //*** Get list of syllabuses semesters ***//
+       const courseInfo = this.getCourseDefaultInformation(courseResult, language)
+       console.log("!! courseInfo: OK !!")
+      //*** Get list of syllabuses and semesters ***//
       let coursePlan =[]
       let syllabusSemesterList = []
       const syllabuses = courseResult.publicSyllabusVersions
@@ -159,6 +159,8 @@ class RouterStore {
       else{
         coursePlan[0] = this.getCoursePlanData(courseResult, 0, language)
       }
+      console.log("!! syllabusSemesterList and coursePlan: OK !!")
+      
       //*** Title data  ***//
       const courseTitleData = {
         course_code: this.isValidData(courseResult.course.courseCode),
@@ -168,12 +170,6 @@ class RouterStore {
       }
       console.log("!!titleData: OK !!")
 
-     
-      //*** Get list of syllabuses ***//
-      
-      console.log("!!coursePlan: OK !!")
-
-      
       //***Get list of rounds, semesters and keys for teachers and responsibles to use in ugRedis **//
       let courseSemesters = []
       let tempList = []
@@ -195,6 +191,7 @@ class RouterStore {
       
       this.courseData = {
         coursePlan,
+        courseInfo,
         courseRoundList,
         courseTitleData,
         courseSemesters,
@@ -209,16 +206,26 @@ class RouterStore {
     })
   }
 
-  getCoursePlanData(courseResult, semester = 0, language){
-    return {
+  getCourseDefaultInformation(courseResult, language){
+    return{
       course_code: this.isValidData(courseResult.course.courseCode),
-      course_title: this.isValidData(courseResult.course.title),
-      course_other_title:this.isValidData(courseResult.course.titleOther),
-      course_main_subject: courseResult.mainSubjects ?  Array.isArray(courseResult.mainSubjects) ? courseResult.mainSubjects.toString() : this.isValidData(courseResult.mainSubjects) : EMPTY,
-      course_credits:this.isValidData(courseResult.course.credits),
       course_grade_scale: this.isValidData(courseResult.formattedGradeScales[courseResult.course.gradeScaleCode],language), //TODO: can this be an array?
       course_level_code: this.isValidData(courseResult.course.educationalLevelCode),
       course_recruitment_text: this.isValidData(courseResult.course.recruitmentText),
+      course_department: this.isValidData(courseResult.course.department.name, language),
+      course_department_code: this.isValidData(courseResult.course.department.code, language),
+      course_contact_name:this.isValidData(courseResult.course.infoContactName, language),
+      course_suggested_addon_studies: this.isValidData(courseResult.course.addOn, language),
+      course_supplemental_information_url: this.isValidData(courseResult.course.supplementaryInfoUrl, language),
+      course_supplemental_information_url_text: this.isValidData(courseResult.course.supplementaryInfoUrlName, language),
+      course_supplemental_information: this.isValidData(courseResult.course.supplementaryInfo, language),
+      course_examiners: EMPTY,
+      course_last_exam: courseResult.course.lastExamTerm ? courseResult.course.lastExamTerm.term.toString().match(/.{1,4}/g) : []
+    }
+  }
+
+  getCoursePlanData(courseResult, semester = 0, language){
+    return {
       course_goals: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.goals, language) : EMPTY,
       course_content:  courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.content, language): EMPTY,
       course_disposition:  courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.disposition, language): EMPTY, 
@@ -229,16 +236,6 @@ class RouterStore {
       course_required_equipment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.requiredEquipment, language): EMPTY,
       course_examination: courseResult.examinationSets && Object.keys(courseResult.examinationSets).length > 0 && courseResult.examinationSets[Object.keys(courseResult.examinationSets)[0]].hasOwnProperty('examinationRounds') ? this.getExamObject(courseResult.examinationSets[Object.keys(courseResult.examinationSets)[0]].examinationRounds, courseResult.formattedGradeScales, language): EMPTY,
       course_examination_comments:  courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.examComments, language):EMPTY,
-      //*---Not in course plan (syllabus) --*/
-      course_department: this.isValidData(courseResult.course.department.name, language),
-      course_department_code: this.isValidData(courseResult.course.department.code, language),
-      course_contact_name:this.isValidData(courseResult.course.infoContactName, language),
-      course_suggested_addon_studies: this.isValidData(courseResult.course.addOn, language),
-      course_supplemental_information_url: this.isValidData(courseResult.course.supplementaryInfoUrl, language),
-      course_supplemental_information_url_text: this.isValidData(courseResult.course.supplementaryInfoUrlName, language),
-      course_supplemental_information: this.isValidData(courseResult.course.supplementaryInfo, language),
-      course_examiners: EMPTY,
-      course_last_exam: courseResult.course.lastExamTerm ? courseResult.course.lastExamTerm.term.toString().match(/.{1,4}/g) : []
     }
   }
 

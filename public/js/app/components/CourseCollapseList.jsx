@@ -14,12 +14,12 @@ class CourseCollapseList extends Component {
     this.state = {
       openMenue: 0,
       store:this.props.routerStore["courseData"],
-      coursePlan: this.props.coursePlan
+      coursePlan: this.props.coursePlan[0]
     }
   }
 
   getIntro(translation){
-    const course = this.props.courseData
+    const syllabus = this.props.coursePlan
     const round = this.state.store.courseRoundList[this.props.roundIndex]
     const intro = [
       {header: translation.courseRoundInformation.round_target_group, text: round ? round.round_target_group : EMPTY },
@@ -29,22 +29,23 @@ class CourseCollapseList extends Component {
       {header: translation.courseRoundInformation.round_end_date, text: round ?round.round_end_date : EMPTY },
       {header: translation.courseRoundInformation.round_max_seats, text: round ? round.round_max_seats : EMPTY },
 
-      {header:translation.courseInformation.course_eligibility, text:course.course_eligibility},
-      {header:translation.courseInformation.course_content, text:course.course_content},
-      {header:translation.courseInformation.course_goals, text:course.course_goals},
-      {header:translation.courseInformation.course_disposition, text:course.course_disposition}
+      {header:translation.courseInformation.course_eligibility, text:syllabus.course_eligibility},
+      {header:translation.courseInformation.course_content, text:syllabus.course_content},
+      {header:translation.courseInformation.course_goals, text:syllabus.course_goals},
+      {header:translation.courseInformation.course_disposition, text:syllabus.course_disposition}
     
     ]
     return intro
   }
 
   getPrepare(translation){
-    const course = this.props.courseData
+    const course = this.props.courseInfo
+    const syllabus = this.props.coursePlan
     const round = this.state.store.courseRoundList[this.props.roundIndex]
     const prepare = [
       {header:translation.courseInformation.course_suggested_addon_studies, text:course.course_suggested_addon_studies},
-      {header:translation.courseInformation.course_required_equipment, text:course.course_required_equipment},
-      {header:translation.courseInformation.course_literature, text:course.course_literature},
+      {header:translation.courseInformation.course_required_equipment, text:syllabus.course_required_equipment},
+      {header:translation.courseInformation.course_literature, text:syllabus.course_literature},
 
       {header: translation.courseRoundInformation.round_teacher, text:round ? round.round_teacher : EMPTY },
       {header: translation.courseRoundInformation.round_responsibles, text:round ? round.round_responsibles : EMPTY },
@@ -55,8 +56,8 @@ class CourseCollapseList extends Component {
   }
 
   getDuring(translation){
-    const course = this.props.courseData
-    const round = this.state.store.courseRoundList[this.props.roundIndex]
+    const course = this.props.courseInfo
+    const syllabus = this.props.coursePlan
     const during = [
       {header:"Kurs-PM", text:"Här visas kurs-PM"},
       {header:"Canvas länk", text:"Länk till Canvas"},
@@ -67,20 +68,22 @@ class CourseCollapseList extends Component {
   }
 
   getFinalize(translation){
-    const course = this.props.courseData
+    const course = this.props.courseInfo
+    const syllabus = this.props.coursePlan
     const prepare = [
-      {header:translation.courseInformation.course_examination, text:course.course_examination},
-      {header:translation.courseInformation.course_examination_comments, text:course.course_examination_comments},
-      {header:translation.courseInformation.course_requirments_for_final_grade, text:course.course_requirments_for_final_grade},
+      {header:translation.courseInformation.course_examination, text:syllabus.course_examination},
+      {header:translation.courseInformation.course_examination_comments, text:syllabus.course_examination_comments},
+      {header:translation.courseInformation.course_requirments_for_final_grade, text:syllabus.course_requirments_for_final_grade},
       {header:translation.courseInformation.course_examiners, text:course.course_examiners}
     ]
     return prepare
   }
 
   getOther(translation){
-    const course = this.props.courseData
+    const course = this.props.courseInfo
+    const syllabus = this.props.coursePlan
     let prepare = []
-    prepare.push({header:translation.courseInformation.course_department, text:course.course_department})
+    prepare.push({header:translation.courseInformation.course_department, text: course.course_department})
     if(course.course_contact_name !== EMPTY) prepare.push({header:translation.courseInformation.course_contact_name, text: course.course_contact_name}) 
     if(course.course_supplemental_information !== EMPTY) prepare.push({header:translation.courseInformation.course_supplemental_information, text:course.course_supplemental_information})
     if(course.course_supplemental_information_url !== EMPTY) prepare.push({header:translation.courseInformation.course_supplemental_information_url, text:course.course_supplemental_information_url})

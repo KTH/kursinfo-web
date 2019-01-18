@@ -90,10 +90,10 @@ class CoursePage extends Component {
     const introText = routerStore.sellingText ? routerStore.sellingText : courseData.coursePlan[this.state.activeSyllabusIndex].course_recruitment_text
     console.log("routerStore in CoursePage", routerStore)
     const courseInformationToRounds = {
-      course_code: courseData.coursePlan[this.state.activeSyllabusIndex].course_code,
-      course_grade_scale: courseData.coursePlan[this.state.activeSyllabusIndex].course_grade_scale,
-      course_level_code: courseData.coursePlan[this.state.activeSyllabusIndex].course_level_code,
-      course_main_subject: courseData.coursePlan[this.state.activeSyllabusIndex].course_main_subject,
+      course_code: courseData.courseInfo.course_code,
+      course_grade_scale: courseData.courseInfo.course_grade_scale,
+      course_level_code: courseData.courseInfo.course_level_code,
+      course_main_subject: courseData.courseInfo.course_main_subject,
       course_valid_from: courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from
     }
     
@@ -101,7 +101,7 @@ class CoursePage extends Component {
       <div  key="kursinfo-container" className="kursinfo-main-page col" >
 
         <div className="language-container"> 
-            <a href={`/student/kurser/kurs/${this.props.routerStore.courseData.coursePlan[this.state.activeSyllabusIndex].course_code}?l=${routerStore.courseData.language === 0 ? "sv" : "en"}`}>
+            <a href={`/student/kurser/kurs/${courseData.courseInfo.course_code}?l=${courseData.language === 0 ? "sv" : "en"}`}>
               {i18n.messages[courseData.language].messages.locale_text}
             </a>
         </div>
@@ -131,10 +131,6 @@ class CoursePage extends Component {
           className = "col-12" 
           dangerouslySetInnerHTML = {{ __html:introText}}>
         </div>
-
-         {/* ---COURSE ROUND DROPDOWN HEADER--- */}
-         
-
 
         {/* ---COURSE ROUND DROPDOWN--- */}
         <div id="courseDropdownMenu" className="col">
@@ -197,10 +193,10 @@ class CoursePage extends Component {
         </div>
 
         {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
-        {courseData.coursePlan[this.state.activeSyllabusIndex].course_level_code === "RESEARCH" ?
+        {courseData.courseInfo.course_level_code === "RESEARCH" ?
           <span>
             <h3>Forskarkurs</h3>
-            <a target="_blank" href={`${FORSKARUTB_URL}/${courseData.coursePlan[this.state.activeSyllabusIndex].course_department_code}`}> 
+            <a target="_blank" href={`${FORSKARUTB_URL}/${courseData.courseInfo.course_department_code}`}> 
             {i18n.messages[courseData.language].courseInformationLabels.label_postgraduate_course} {courseData.coursePlan[this.state.activeSyllabusIndex].course_department}
             </a> 
           </span>
@@ -211,7 +207,8 @@ class CoursePage extends Component {
         {/* ---COLLAPSE CONTAINER---  */}
         <CourseCollapseList 
             roundIndex={this.state.activeRoundIndex} 
-            courseData = {courseData.coursePlan[this.state.activeSyllabusIndex]} 
+            courseInfo = {courseData.courseInfo} 
+            coursePlan = {courseData.coursePlan[this.state.activeSyllabusIndex]} 
             className="ExampleCollapseContainer" 
             isOpen={true} 
             color="blue"
