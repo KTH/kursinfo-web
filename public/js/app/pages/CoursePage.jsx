@@ -33,15 +33,15 @@ class CoursePage extends Component {
   constructor (props) {
     super(props)
     this.state = {
-        activeRoundIndex: 0,
-        activeSyllabusIndex: this.props.routerStore.defaultIndex,
+        activeRoundIndex: this.props.routerStore.defaultIndex,
+        activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[this.props.routerStore.defaultIndex] || 0,
         dropdownsIsOpen:{
           dropDown1: false,
           dropdown2: false
         }
     }
 
-    this.handleDropdownChange = this.handleDropdownChange.bind(this)
+    //this.handleDropdownChange = this.handleDropdownChange.bind(this)
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.toggle = this.toggle.bind(this)
     this.openSyllabus = this.openSyllabus.bind(this)
@@ -68,26 +68,20 @@ class CoursePage extends Component {
     event.preventDefault()
     const selectInfo = event.target.id.split('_')
     this.setState({
-      activeRoundIndex: selectInfo[1]
-    })
-  }
-
-  handleDropdownChange(event){
-    event.preventDefault();
-    this.setState({
-      activeRoundIndex: event.target.selectedIndex
+      activeRoundIndex: selectInfo[1],
+      activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[selectInfo[2]]
     })
   }
 
   openSyllabus(event){
     event.preventDefault()
     const language = this.props.routerStore.courseData.language === 0 ? "en" : "sv" 
-    window.open(`/student/kurser/kurs/kursplan/${this.props.routerStore.courseData.coursePlan[this.state.activeSyllabusIndex].course_code}_${event.target.id}.pdf?lang=${language}`)
+    window.open(`/student/kurser/kurs/kursplan/${this.props.routerStore.courseData.courseInfo.course_code}_${event.target.id}.pdf?lang=${language}`)
   }
 
   render ({ routerStore}){
     const courseData = routerStore["courseData"]
-    const introText = routerStore.sellingText ? routerStore.sellingText : courseData.coursePlan[this.state.activeSyllabusIndex].course_recruitment_text
+    const introText = routerStore.sellingText ? routerStore.sellingText : courseData.courseInfo.course_recruitment_text
     console.log("routerStore in CoursePage", routerStore)
     const courseInformationToRounds = {
       course_code: courseData.courseInfo.course_code,
@@ -119,7 +113,7 @@ class CoursePage extends Component {
             <Alert color="info" aria-live="polite">
                 <h3>{i18n.messages[courseData.language].courseInformationLabels.label_course_cancelled} </h3>
                 <p>{i18n.messages[courseData.language].courseInformationLabels.label_last_exam}  
-                    {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_last_exam[1]]} {courseData.coursePlan[this.state.activeSyllabusIndex].course_last_exam[0]}
+                    {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]} {courseData.courseInfo.course_last_exam[0]}
                 </p>
               </Alert>
           </div>
@@ -148,7 +142,7 @@ class CoursePage extends Component {
                             year = {semester[0]} 
                             semester={semester[1]} 
                             language ={courseData.language}
-                            index = {index}
+                            parentIndex = {index}
                         />
                 })
               }
@@ -223,12 +217,12 @@ class CoursePage extends Component {
 //*******************************************************************************************************************//
 
 
-const DropdownCreater = ({ courseRoundList , callerInstance, semester, year = "2018", language =0, index = 0}) => {
+const DropdownCreater = ({ courseRoundList , callerInstance, semester, year = "2018", language =0, parentIndex = 0}) => {
   let listIndex = []
-  const dropdownID = "dropdown"+index
+  const dropdownID = "dropdown"+parentIndex
   return(
     <div className = "col-2">
-      <Dropdown isOpen={callerInstance.state.dropdownsIsOpen[dropdownID]} toggle={callerInstance.toggle} key={"dropD"+index}>
+      <Dropdown isOpen={callerInstance.state.dropdownsIsOpen[dropdownID]} toggle={callerInstance.toggle} key={"dropD"+parentIndex}>
                 <DropdownToggle id={dropdownID} caret>
                   {i18n.messages[language].courseInformation.course_short_semester[semester]} {year}
                 </DropdownToggle>
@@ -241,7 +235,7 @@ const DropdownCreater = ({ courseRoundList , callerInstance, semester, year = "2
                     }
                   }).map( (courseRound, index) =>{
                   return (
-                      <DropdownItem key ={index} id={dropdownID+"_"+listIndex[index]} onClick = {callerInstance.handleDropdownSelect}> 
+                      <DropdownItem key ={index} id={dropdownID+"_"+listIndex[index]+"_"+parentIndex} onClick = {callerInstance.handleDropdownSelect}> 
                         {
                           `${courseRound.round_type} för ${courseRound.round_short_name}` 
                         } 

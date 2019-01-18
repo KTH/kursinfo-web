@@ -89,7 +89,7 @@ class CourseRound extends Component {
                 </Button>
                 <p className="small-text" >
                   {i18n.messages[this.props.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
-                  {this.props.courseData.course_valid_from[0]}
+                  {i18n.messages[this.props.language].courseInformation.course_short_semester[this.props.courseData.course_valid_from[1]]}  {this.props.courseData.course_valid_from[0]}
                 </p>
                 </span>
                 : "" }

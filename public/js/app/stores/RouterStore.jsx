@@ -26,6 +26,8 @@ class RouterStore {
   @observable isCancelled = false
   @observable isCurrentSyllabus = true
 
+  roundsSyllabusIndex = []
+
   keyList ={
     teachers:[],
     responsibles:[]
@@ -134,19 +136,19 @@ class RouterStore {
 
   //** Handeling the course information from kopps api.**//
   @action getCourseInformation(courseCode, ldapUsername, lang = 'sv', roundIndex = 0){
-      return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/v2/course/${encodeURIComponent(courseCode)}/detailedinformation?l=${lang}`).then((res) => { //TODO: use buildApiUrl
-        const courseResult = safeGet(() => res.data, {})
-        const language = lang === 'en' ? 0 : 1
+    return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/v2/course/${encodeURIComponent(courseCode)}/detailedinformation?l=${lang}`).then((res) => { //TODO: use buildApiUrl
+      const courseResult = safeGet(() => res.data, {})
+      const language = lang === 'en' ? 0 : 1
 
-        this.isCancelled = courseResult.course.cancelled
-        this.user = ldapUsername
-        this.getImage("normal")
-        this.getDefaultInformationForCurrentDate()
+      this.isCancelled = courseResult.course.cancelled
+      this.user = ldapUsername
+      this.getImage("normal")
+      this.getDefaultInformationForCurrentDate()
         
       // TODO this.isCurrentSyllabus = 
-       const courseInfo = this.getCourseDefaultInformation(courseResult, language)
-       console.log("!! courseInfo: OK !!")
-      //*** Get list of syllabuses and semesters ***//
+      const courseInfo = this.getCourseDefaultInformation(courseResult, language)
+      console.log("!! courseInfo: OK !!", courseInfo)
+       //*** Get list of syllabuses and semesters ***//
       let coursePlan =[]
       let syllabusSemesterList = []
       const syllabuses = courseResult.publicSyllabusVersions
@@ -159,8 +161,8 @@ class RouterStore {
       else{
         coursePlan[0] = this.getCoursePlanData(courseResult, 0, language)
       }
-      console.log("!! syllabusSemesterList and coursePlan: OK !!")
-      
+      console.log("!! syllabusSemesterList and coursePlan: OK !!", coursePlan)
+
       //*** Title data  ***//
       const courseTitleData = {
         course_code: this.isValidData(courseResult.course.courseCode),
@@ -186,9 +188,28 @@ class RouterStore {
         this.keyList.responsibles.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`)
       }
       courseSemesters.sort()
-      console.log("!!courseRound: OK !!")
-
+      console.log("!!courseRound: OK !!", courseSemesters, syllabusSemesterList)
       
+      for(let index=0; index < courseSemesters.length; index++){
+        console.log(courseSemesters[index].join(''))
+        if(Number(syllabusSemesterList[0]) > Number(courseSemesters[index].join('')) )
+          for(let whileIndex=1; whileIndex < courseSemesters.length; whileIndex++){
+            if(Number(syllabusSemesterList[whileIndex]) > Number(courseSemesters[index].join('')) )
+              console.log("find other syllabus2")
+            else{
+              console.log("correct syllabus2")
+              this.roundsSyllabusIndex[index]=whileIndex
+              break
+            }
+          }
+        else{
+          console.log("correct syllabus")
+          this.roundsSyllabusIndex[index]=0
+        }
+      }
+      console.log(this.roundsSyllabusIndex)
+      this.defaultIndex = courseSemesters.length > 0 ? courseSemesters.length - 1 : 0//TODO: Needs a function based of todays date
+
       this.courseData = {
         coursePlan,
         courseInfo,
@@ -211,6 +232,7 @@ class RouterStore {
       course_code: this.isValidData(courseResult.course.courseCode),
       course_grade_scale: this.isValidData(courseResult.formattedGradeScales[courseResult.course.gradeScaleCode],language), //TODO: can this be an array?
       course_level_code: this.isValidData(courseResult.course.educationalLevelCode),
+      course_main_subject: courseResult.mainSubjects ?  Array.isArray(courseResult.mainSubjects) ? courseResult.mainSubjects.toString() : this.isValidData(courseResult.mainSubjects) : EMPTY,
       course_recruitment_text: this.isValidData(courseResult.course.recruitmentText),
       course_department: this.isValidData(courseResult.course.department.name, language),
       course_department_code: this.isValidData(courseResult.course.department.code, language),
@@ -299,7 +321,7 @@ class RouterStore {
     let personString = ""
     personList.forEach( person  => {
       personString += `<p class = "person"><i class="icon-user"></i> <a href="https://www.kth.se/profile/${person.username}/" target="_blank" property="teach:teacher">${person.givenName} ${person.lastName}, </a> <i class="icon-envelope-alt"></i> ${person.email}</p>  `
-      //Check if the logged in user is examinator or responsible and can edit course page
+      //** Check if the logged in user is examinator or responsible and can edit course page **/
       if(this.user === person.username && ( type=== 'responsible' || type=== 'examiner')) //TODO: DELETE
         this.canEdit = true
     })
