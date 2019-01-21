@@ -13,6 +13,7 @@ const { toJS } = require('mobx')
 const httpResponse = require('kth-node-response')
 
 const sellingText = require('../apiCalls/sellingText')
+const koppsCourseData = require('../apiCalls/koppsCourseData')
 
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
@@ -25,7 +26,8 @@ let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 module.exports = {
   getIndex: getIndex,
   getSellingText: co.wrap(_getSellingText),
-  getCourseEmployees: co.wrap(_getCourseEmployees)
+  getCourseEmployees: co.wrap(_getCourseEmployees),
+  getKoppsCourseData: co.wrap(_getKoppsCourseData)
 }
 
 //** TODO Function for SF1624.20182.9.teachers, SF1624.20182.9.courseresponsible, SF1624.examiner */
@@ -90,7 +92,7 @@ function * _getSellingText(req, res) {
    
   try {
     const apiResponse = yield sellingText.getSellingText(courseCode)
-    //console.log("_getSellingText", apiResponse)
+    console.log("_getSellingText", apiResponse)
 
     if (apiResponse.statusCode === 404) {
       return httpResponse.json(res, apiResponse.body)
@@ -102,6 +104,26 @@ function * _getSellingText(req, res) {
     return httpResponse.json(res, apiResponse.body)
   } catch (err) {
     log.error('Exception calling from API ', { error: err })
+    return err
+  }
+}
+
+function * _getKoppsCourseData(req, res) {
+
+  const courseCode = req.params.courseCode
+  const language = req.params.courseCode || 'sv'
+
+ try {
+    const apiResponse = yield koppsCourseData.getKoppsCourseData(courseCode, language)
+
+    if (apiResponse.statusCode !== 200) {
+      return httpResponse.jsonError(res, apiResponse.statusCode)
+    }
+
+    return httpResponse.json(res, apiResponse.body)
+    
+  } catch (err) {
+    log.error('Exception calling from koppsAPI ', { error: err })
     return err
   }
 }
@@ -129,11 +151,13 @@ async function  getIndex (req, res, next) {
   
     renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
+  
     await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
+    //if(renderProps.props.children.props.routerStore.getCourseInformation.)
     await renderProps.props.children.props.routerStore.getCourseSellingText(courseCode, lang)
     await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi') 
     await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
-
+   
     await doAllAsyncBefore({
       pathname: req.originalUrl,
       query: (req.originalUrl === undefined || req.originalUrl.indexOf('?') === -1) ? undefined : req.originalUrl.substring(req.originalUrl.indexOf('?'), req.originalUrl.length),
