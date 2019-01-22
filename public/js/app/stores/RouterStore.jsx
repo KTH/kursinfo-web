@@ -126,6 +126,10 @@ class RouterStore {
   }
 
   @action getCurrentSemesterToShow(date=""){
+
+    if(this.courseSemesters.length === 0)
+      return 0
+      
     let thisDate = date === "" ? new Date() :new Date(date)
     let showSemester = 0
     let returnIndex = -1

@@ -34,7 +34,7 @@ class CoursePage extends Component {
   constructor (props) {
     super(props)
     this.state = {
-        activeRoundIndex: this.props.routerStore.courseData.courseSemesters[this.props.routerStore.defaultIndex][3],
+        activeRoundIndex: this.props.routerStore.courseData.courseSemesters.length > 0 ? this.props.routerStore.courseData.courseSemesters[this.props.routerStore.defaultIndex][3] : 0,
         activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[this.props.routerStore.defaultIndex] || 0,
         dropdownsIsOpen:{
           dropDown1: false,
