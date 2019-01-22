@@ -2,7 +2,7 @@
 import { observable, action } from 'mobx'
 import axios from 'axios'
 import { safeGet } from 'safe-utils'
-import { EMPTY, PROGRAMME_URL } from "../util/constants"
+import { EMPTY, PROGRAMME_URL, MAX_1_MONTH, MAX_2_MONTH } from "../util/constants"
 
 const paramRegex = /\/(:[^\/\s]*)/g
 
@@ -24,10 +24,10 @@ class RouterStore {
   @observable sellingText = undefined
   @observable canEdit = false
   @observable isCancelled = false
-  @observable isCurrentSyllabus = true
+ // @observable isCurrentSyllabus = true
 
   roundsSyllabusIndex = []
-
+  courseSemesters=[]
   keyList ={
     teachers:[],
     responsibles:[]
@@ -97,8 +97,8 @@ class RouterStore {
       const returnValue = result.data
       let rounds = this.courseData.courseRoundList
       for(let index = 0; index < returnValue[0].length; index++){
-        rounds[index].round_teacher  = returnValue[0][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[0][index]),'teacher') : ""
-        rounds[index].round_responsibles = returnValue[1][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[1][index]), 'responsible') : ""
+        rounds[index].round_teacher  = returnValue[0][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[0][index]),'teacher') : EMPTY
+        rounds[index].round_responsibles = returnValue[1][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[1][index]), 'responsible') : EMPTY
       }
       this.courseData.courseRoundList = rounds
       //return result.data && result.data.length > 0 ? this.createPersonHtml(result.data) : EMPTY
@@ -125,13 +125,40 @@ class RouterStore {
     })
   }
 
-  getDefaultInformationForCurrentDate(){
-    let thisDate = new Date();
-    const currentDate = {
-      year:thisDate.getFullYear(),
-      month:thisDate.getMonth()+1,
-      day: thisDate.getDay()
+  @action getCurrentSemesterToShow(date=""){
+    let thisDate = date === "" ? new Date() :new Date(date)
+    let showSemester = 0
+    let returnIndex = -1
+    let yearMatch = -1
+
+    if( thisDate.getMonth()+1 >= MAX_1_MONTH && thisDate.getMonth()+1 < MAX_2_MONTH ){
+      showSemester = `${thisDate.getFullYear()}2`
     }
+    else{
+      if(thisDate.getMonth()+1 < MAX_1_MONTH){
+        showSemester = `${thisDate.getFullYear()}1`
+      }
+      else{
+        showSemester = `${thisDate.getFullYear()+1}1`
+       }
+    }
+      console.log(this.courseSemesters.indexOf(showSemester))
+      console.log(thisDate, showSemester)
+
+      for(let index=0; index<this.courseSemesters.length; index++){
+        if(this.courseSemesters[index][2]=== showSemester){
+          returnIndex = index
+        }
+        if(thisDate.getMonth()+1 > MAX_2_MONTH && Number(this.courseSemesters[index][0])=== thisDate.getFullYear()){
+          yearMatch = index
+        }
+        if(thisDate.getMonth()+1 < MAX_1_MONTH && Number(this.courseSemesters[index][0])=== thisDate.getFullYear()-1){
+          yearMatch = index
+        }
+      }
+      console.log("what???",returnIndex, yearMatch )
+      console.log(thisDate, showSemester)
+    return returnIndex > -1 ? returnIndex : yearMatch
   }
 
   //** Handeling the course information from kopps api.**//
@@ -143,7 +170,8 @@ class RouterStore {
         this.isCancelled = courseResult.course.cancelled
         this.user = ldapUsername
         this.getImage("normal")
-        this.getDefaultInformationForCurrentDate()
+
+       
           
         // TODO this.isCurrentSyllabus = 
         const courseInfo = this.getCourseDefaultInformation(courseResult, language)
@@ -180,9 +208,9 @@ class RouterStore {
         for( let roundInfo of courseResult.roundInfos){ 
           courseRound =  this.getRound(roundInfo, courseCode, ldapUsername)
           courseRoundList.push(courseRound)
-          if(courseRound.round_course_term && tempList.indexOf(courseRound.round_course_term[0]) < 0){
-              courseSemesters.push(courseRound.round_course_term)
-              tempList.push(courseRound.round_course_term[0])
+          if(courseRound.round_course_term && tempList.indexOf(courseRound.round_course_term.join('')) < 0){
+              courseSemesters.push([...courseRound.round_course_term, courseRound.round_course_term.join(''), courseRoundList.length-1])
+              tempList.push(courseRound.round_course_term.join(''))
           }
           this.keyList.teachers.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.teachers`)
           this.keyList.responsibles.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`)
@@ -191,10 +219,12 @@ class RouterStore {
         console.log("!!courseRound: OK !!", courseSemesters, syllabusSemesterList)
         
         for(let index=0; index < courseSemesters.length; index++){
-          console.log(courseSemesters[index].join(''))
-          if(Number(syllabusSemesterList[0]) > Number(courseSemesters[index].join('')) )
+
+          //if(currentSemester.year=== Number(courseSemesters[index][0]) && currentSemester.semester=== Number(courseSemesters[index][1]))
+            //this.defaultIndex = index
+          if(Number(syllabusSemesterList[0]) > Number(courseSemesters[index][2]) )
             for(let whileIndex=1; whileIndex < courseSemesters.length; whileIndex++){
-              if(Number(syllabusSemesterList[whileIndex]) > Number(courseSemesters[index].join('')) )
+              if(Number(syllabusSemesterList[whileIndex]) > Number(courseSemesters[index][2]) )
                 console.log("find other syllabus2")
               else{
                 console.log("correct syllabus2")
@@ -207,8 +237,11 @@ class RouterStore {
             this.roundsSyllabusIndex[index]=0
           }
         }
-        console.log("this.roundsSyllabusIndex", this.roundsSyllabusIndex)
-        this.defaultIndex = courseSemesters.length > 0 ? courseSemesters.length - 1 : 0//TODO: Needs a function based of todays date
+
+        this.courseSemesters = courseSemesters
+        this.defaultIndex = this.getCurrentSemesterToShow()
+        console.log("this.roundsSyllabusIndex", this.roundsSyllabusIndex, this.defaultIndex)
+        //this.defaultIndex = this.defaultIndex === -1 && courseSemesters.length > 0 ? courseSemesters.length - 1 : 0//TODO: Needs a function based of todays date
 
         this.courseData = {
           coursePlan,

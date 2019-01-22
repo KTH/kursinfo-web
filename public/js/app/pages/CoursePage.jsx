@@ -1,4 +1,4 @@
-import { render, Component, linkEvent } from 'inferno'
+import { render, Component } from 'inferno'
 import { inject, observer } from 'inferno-mobx'
 
 /*import Dropdown from 'kth-style-inferno-bootstrap/dist/Dropdown'
@@ -19,6 +19,7 @@ import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
 import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
 import Alert from 'inferno-bootstrap/dist/Alert'
 
+
 import i18n from "../../../../i18n"
 import { EMPTY, FORSKARUTB_URL } from "../util/constants"
 
@@ -33,18 +34,39 @@ class CoursePage extends Component {
   constructor (props) {
     super(props)
     this.state = {
-        activeRoundIndex: this.props.routerStore.defaultIndex,
+        activeRoundIndex: this.props.routerStore.courseData.courseSemesters[this.props.routerStore.defaultIndex][3],
         activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[this.props.routerStore.defaultIndex] || 0,
         dropdownsIsOpen:{
           dropDown1: false,
           dropdown2: false
-        }
+        },
+        timeMachineValue: ""
     }
 
-    //this.handleDropdownChange = this.handleDropdownChange.bind(this)
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.toggle = this.toggle.bind(this)
     this.openSyllabus = this.openSyllabus.bind(this)
+
+    //Temp!!
+    this.handleDateInput=this.handleDateInput.bind(this)
+    this.timeMachine=this.timeMachine.bind(this)
+  }
+
+  handleDateInput(event){
+    console.log(event.target.value)
+    this.setState({
+      timeMachineValue: event.target.value
+    })
+  }
+
+  timeMachine(event){
+    event.preventDefault()
+    const newIndex= this.props.routerStore.getCurrentSemesterToShow(this.state.timeMachineValue)
+    console.log("newIndex",newIndex)
+    this.setState({
+      activeRoundIndex: this.props.routerStore.courseData.courseSemesters[newIndex][3],
+      activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex] || 0
+    })
   }
 
   static fetchData (routerStore, params) {
@@ -54,6 +76,8 @@ class CoursePage extends Component {
         return courseData = data
       })
   }
+
+  
 
   toggle() {
     let prevState = this.state
@@ -141,6 +165,7 @@ class CoursePage extends Component {
                             callerInstance = {this} 
                             year = {semester[0]} 
                             semester={semester[1]} 
+                            yearSemester={semester[2]} 
                             language ={courseData.language}
                             parentIndex = {index}
                         />
@@ -148,6 +173,9 @@ class CoursePage extends Component {
               }
           </div>
         </div>  
+        <lable>Time machine for testing default information: </lable>
+        <input type="date" onChange={this.handleDateInput} />
+        <button onClick={this.timeMachine}>Travel in time!</button>
 
         {/* ---COURSE ROUND HEADER--- */}
         { courseData.courseSemesters.length === 0 ? "" :  
@@ -217,7 +245,7 @@ class CoursePage extends Component {
 //*******************************************************************************************************************//
 
 
-const DropdownCreater = ({ courseRoundList , callerInstance, semester, year = "2018", language =0, parentIndex = 0}) => {
+const DropdownCreater = ({ courseRoundList , callerInstance, semester, year = "2018", yearSemester, language =0, parentIndex = 0}) => {
   let listIndex = []
   const dropdownID = "dropdown"+parentIndex
   return(
@@ -229,7 +257,7 @@ const DropdownCreater = ({ courseRoundList , callerInstance, semester, year = "2
                 <DropdownMenu>
                 {
                   courseRoundList.filter( (courseRound, index) =>{
-                    if(courseRound.round_course_term[0] === year){
+                    if(courseRound.round_course_term.join('') === yearSemester){
                       listIndex.push(index)
                       return courseRound
                     }
