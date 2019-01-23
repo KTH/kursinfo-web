@@ -4,8 +4,11 @@
 <!--script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script-->
 {{prefixScript '/static/js/app.js' 'scripts'}}
 
-
-<!--h1>Kurinformation - Sprint 1</h1-->
+<div class="container articleNavigation"><br/>
+    <div class="row justify-content-between">
+        {{breadcrumbs breadcrumbsPath lang}}
+    </div>
+  </div>
 
 {{#if error}}
   <p>Error: {{error}}</p>
