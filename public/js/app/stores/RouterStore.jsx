@@ -2,7 +2,7 @@
 import { observable, action } from 'mobx'
 import axios from 'axios'
 import { safeGet } from 'safe-utils'
-import { EMPTY, PROGRAMME_URL, MAX_1_MONTH, MAX_2_MONTH } from "../util/constants"
+import { EMPTY, PROGRAMME_URL, MAX_1_MONTH, MAX_2_MONTH, COURSE_IMG_URL } from "../util/constants"
 
 const paramRegex = /\/(:[^\/\s]*)/g
 
@@ -24,6 +24,7 @@ class RouterStore {
   @observable sellingText = undefined
   @observable canEdit = false
   @observable isCancelled = false
+  @observable showCourseWebbLink = false
  // @observable isCurrentSyllabus = true
 
   roundsSyllabusIndex = []
@@ -71,14 +72,21 @@ class RouterStore {
     return options
   }
 
-  getImage(type="normal"){
-    this.image = `${this.browserConfig.proxyPrefixPath.uri}/static/img/courses/${Math.floor((Math.random() * 3) + 1)}_${type}.jpg`
+  getImage(courseCode, type="normal"){
+    const image = `${this.browserConfig.proxyPrefixPath.uri}${COURSE_IMG_URL}${Math.floor((Math.random() * 3) + 1)}_${type}.jpg`
+    return image
   }
 
 
   @action getCourseSellingText(courseCode,lang = 'sv'){
     return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri,  {courseCode:courseCode}), this._getOptions()).then( res => {
-      this.sellingText = res.data.sellingText
+      console.log(res.data)
+      this.showCourseWebbLink = res.data.isCourseWebLink
+      this.sellingText = {
+          sv: res.data.sellingText_sv ? res.data.sellingText_sv : "", 
+          en: res.data.sellingText_en ? res.data.sellingText_en : ""
+        }
+      this.image = res.data.imageInfo ? this.browserConfig.proxyPrefixPath.uri + COURSE_IMG_URL + res.data.imageInfo : this.getImage( courseCode, "normal") //TODO: 
     }).catch(err => { 
       if (err.response) {
         throw new Error(err.message, err.response.data)

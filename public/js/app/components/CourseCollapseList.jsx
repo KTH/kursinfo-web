@@ -59,11 +59,11 @@ class CourseCollapseList extends Component {
     const course = this.props.courseInfo
     const syllabus = this.props.coursePlan
     const during = [
-      {header:"Kurs-PM", text:"Här visas kurs-PM"},
-      {header:"Canvas länk", text:"Länk till Canvas"},
-      {header:"Kurswebb länk??", text:"Visas här? Endast om den är ikryssad i admin?"}
-
+      {header:"Kurs-PM", text:"Här visas kurs-PM??"},
+      {header:"Canvas länk", text:"Länk till Canvas"}
     ]
+    if(this.props.showCourseLink)
+      during.push({header:"Kurswebb länk", text:`<a href='https://www.kth.se/social/course/${this.props.courseInfo.course_code}'> Gå till Kurswebben</a>`})
     return during
   }
 

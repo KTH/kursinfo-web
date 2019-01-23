@@ -77,8 +77,6 @@ class CoursePage extends Component {
       })
   }
 
-  
-
   toggle() {
     let prevState = this.state
     const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
@@ -105,7 +103,8 @@ class CoursePage extends Component {
 
   render ({ routerStore}){
     const courseData = routerStore["courseData"]
-    const introText = routerStore.sellingText ? routerStore.sellingText : courseData.courseInfo.course_recruitment_text
+    const language = this.props.routerStore.courseData.language === 0 ? "en" : "sv" 
+    const introText = routerStore.sellingText && routerStore.sellingText[language].length > 0 ? routerStore.sellingText[language] : courseData.courseInfo.course_recruitment_text
     console.log("routerStore in CoursePage", routerStore)
     const courseInformationToRounds = {
       course_code: courseData.courseInfo.course_code,
@@ -167,9 +166,13 @@ class CoursePage extends Component {
               }
           </div>
         </div>  
-        <lable>Time machine for testing default information: </lable>
-        <input type="date" onChange={this.handleDateInput} />
-        <button onClick={this.timeMachine}>Travel in time!</button>
+
+        {/* ---TEMP: test of dates --- */}
+        <div style="padding:5px; border: 3px dotted pink;">
+          <lable>Time machine for testing default information: </lable>
+          <input type="date" onChange={this.handleDateInput} />
+          <button onClick={this.timeMachine}>Travel in time!</button>
+        </div>
 
         {/* ---COURSE ROUND HEADER--- */}
         { courseData.courseSemesters.length === 0 ? "" :  
@@ -228,6 +231,7 @@ class CoursePage extends Component {
             className="ExampleCollapseContainer" 
             isOpen={true} 
             color="blue"
+            showCourseLink = {routerStore.showCourseWebbLink} 
           />
         <br/>
       </div>

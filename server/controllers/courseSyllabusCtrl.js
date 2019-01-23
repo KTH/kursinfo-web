@@ -28,12 +28,34 @@ async function  getIndex (req, res, next) {
     const paths = api.kursplanApi.paths
     const resp = await client.getAsync(client.resolve("/api/kursplan/v1/syllabus/:courseCode/:semester/:language", { courseCode: courseCode, semester: semester, language:lang }), { useCache: true })
   
-    resp.body.pdfConfig["phantomPath"] = phantom.path
-    console.log("phantom", phantom)
-    console.log("*******************************************")
+    
     
     if(resp.body.syllabusHTML){
-      syllabusPDF.create(resp.body.syllabusHTML.pageContentHtml, resp.body.pdfConfig).toFile('./pdfTempFile.pdf', function(err, result) {
+      resp.body.pdfConfig["phantomPath"] = phantom.path
+      console.log("phantom", phantom)
+      console.log("*******************************************")
+      
+      syllabusPDF.create(resp.body.syllabusHTML.pageContentHtml, resp.body.pdfConfig).toBuffer(function(err, buffer){
+        if (err) {
+          console.log("ERROR IN syllabusPDF.create", err)
+          console.log("*******************************************")
+          //******TEMP********
+          const backuphtml = resp.body.syllabusHTML.pageContentHtml
+          res.render('courseSyllabus/index', {
+            debug: 'debug' in req.query,
+            html:backuphtml,
+            title: courseCode.toUpperCase(),
+            data: resp.statusCode === 200 ? safeGet(() => { return resp.body.name }) : '',
+            error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
+          })
+        }
+        else{
+            res.contentType("application/pdf")
+            res.send(buffer)
+        }
+      })
+
+      /*syllabusPDF.create(resp.body.syllabusHTML.pageContentHtml, resp.body.pdfConfig).toFile('./pdfTempFile.pdf', function(err, result) {
         if (err) {
           console.log("ERROR IN syllabusPDF.create", err)
           console.log("*******************************************")
@@ -60,7 +82,7 @@ async function  getIndex (req, res, next) {
             next(err)
           }
         }
-      })
+      })*/
     }
     else{
       res.render('courseSyllabus/index', {
