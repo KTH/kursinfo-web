@@ -118,12 +118,6 @@ class CoursePage extends Component {
     return (
       <div  key="kursinfo-container" className="kursinfo-main-page col" >
 
-        <div className="language-container"> 
-            <a href={`/student/kurser/kurs/${courseData.courseInfo.course_code}?l=${courseData.language === 0 ? "sv" : "en"}`}>
-              {i18n.messages[courseData.language].messages.locale_text}
-            </a>
-        </div>
-
         {/* ---COURSE TITEL--- */}
         <CourseTitle key = "title"
             courseTitleData = {courseData.courseTitleData}

@@ -129,7 +129,7 @@ class RouterStore {
 
     if(this.courseSemesters.length === 0)
       return 0
-      
+
     let thisDate = date === "" ? new Date() :new Date(date)
     let showSemester = 0
     let returnIndex = -1
@@ -383,6 +383,13 @@ class RouterStore {
   
   @action hasBreadcrumbs () {
     return this.breadcrumbs.length > 0
+  }
+
+  @action getBreadcrumbs () {
+    return {
+      url:`/student/kurser/org/${this.courseData.courseInfo.course_department_code}`, 
+      label:this.courseData.courseInfo.course_department
+    }
   }
 
   @action setBrowserConfig (config, paths, apiHost, profileBaseUrl) {

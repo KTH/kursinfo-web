@@ -18,7 +18,7 @@ module.exports = {
     /**
      * Message keys
      */
-    service_name: 'Node application name',
+    service_name: 'course',
 
     example_message_key: 'This is an english translation of a label',
 
@@ -31,9 +31,10 @@ module.exports = {
 
     lang_block_id: '1.77273',
     locale_text: 'Course information in English',
-
     site_name: 'Course information',
-    host_name: 'KTH'
+    host_name: 'KTH',
+    page_student:'STUDENT AT KTH',
+    page_course_programme: 'COURSE AND PROGRAMME DIRECTORY'
   },
   courseInformationLabels: {
     label_course_syllabus: 'Course Syllabus',

@@ -38,20 +38,14 @@
         outline-offset: 0;
     }
 }
-.language-container{
-    display: block;
-    height: 20px;
-    a{
-        float:right;
-    }
-}
+
 .preArticleParagraphs, h2.secondTitle {
-    border-bottom: 1px solid #808080;
+    /*border-bottom: 1px solid #808080;
     color: #666666;
     font-family: 'garamond pro',garamond,'times new roman',times,serif;
     font-size: 2.5rem;
-    font-weight: normal;
-    margin: 0;
+    font-weight: normal;*/
+    margin-top: -30px;
     padding: 0;
 }
 .title{
@@ -69,17 +63,12 @@
 #course-title{
     border-bottom: 0px;
     margin: 0px;
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .paddingX15{
     padding-left: 15px;
   }
-
-/*.tab-content .tab-pane {
-      border: 0px;
-      border-top: 1px dotted #b9bbbd;
-  }*/
   
   .key-info{
     border: 2px solid #e3e4e4;
