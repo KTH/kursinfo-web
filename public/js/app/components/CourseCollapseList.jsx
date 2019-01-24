@@ -4,7 +4,8 @@ import { globalRegistry } from 'component-registry'
 
 import i18n from "../../../../i18n"
 import CourseCollapse from './CourseCollapse.jsx'
-import { EMPTY } from '../util/constants';
+
+import { EMPTY, COURSE_WEB_URL} from '../util/constants'
 
 @inject(['routerStore']) @observer
 class CourseCollapseList extends Component {
@@ -63,7 +64,7 @@ class CourseCollapseList extends Component {
       {header:"Canvas länk", text:"Länk till Canvas"}
     ]
     if(this.props.showCourseLink)
-      during.push({header:"Kurswebb länk", text:`<a href='https://www.kth.se/social/course/${this.props.courseInfo.course_code}'> Gå till Kurswebben</a>`})
+      during.push({header:"Kurswebb länk", text:`<a target='_blank' href='${COURSE_WEB_URL}${this.props.courseInfo.course_code}'> ${translation.courseInformationLabels.label_course_web_link}</a>`})
     return during
   }
 

@@ -48,7 +48,8 @@ module.exports = {
     label_course_other: 'Kontakt och övrig information',
     label_postgraduate_course: 'Forskarkurser på ',
     label_course_cancelled: 'Detta är en nedlagd kurs.',
-    label_last_exam: 'Sista planerade examination: '
+    label_last_exam: 'Sista planerade examination: ',
+    label_course_web_link: 'Kurswebb'
   },
   courseInformation:{
     roundId:'Kursomgångs nr',

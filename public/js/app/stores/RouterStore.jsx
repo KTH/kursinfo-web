@@ -143,6 +143,7 @@ class RouterStore {
     let returnIndex = -1
     let yearMatch = -1
 
+    //*******Calculating current semester based on todays date ********/
     if( thisDate.getMonth()+1 >= MAX_1_MONTH && thisDate.getMonth()+1 < MAX_2_MONTH ){
       showSemester = `${thisDate.getFullYear()}2`
     }
@@ -154,9 +155,8 @@ class RouterStore {
         showSemester = `${thisDate.getFullYear()+1}1`
        }
     }
-      console.log(this.courseSemesters.indexOf(showSemester))
-      console.log(thisDate, showSemester)
-
+      
+    //*******Check if course has a round for current semester otherwise it shows the previos the semester********/
       for(let index=0; index<this.courseSemesters.length; index++){
         if(this.courseSemesters[index][2]=== showSemester){
           returnIndex = index
@@ -170,7 +170,11 @@ class RouterStore {
       }
       console.log("what???",returnIndex, yearMatch )
       console.log(thisDate, showSemester)
-    return returnIndex > -1 ? returnIndex : yearMatch
+    //*******In case there should be no match at all, take the last senester in the list ********/
+      if(returnIndex === -1 && yearMatch === -1)
+        return courseSemesters.length-1
+
+      return returnIndex > -1 ? returnIndex : yearMatch
   }
 
   //** Handeling the course information from kopps api.**//
