@@ -73,20 +73,29 @@ class RouterStore {
   }
 
   getImage(courseCode, type="normal"){
-    const image = `${this.browserConfig.proxyPrefixPath.uri}${COURSE_IMG_URL}${Math.floor((Math.random() * 3) + 1)}_${type}.jpg`
-    return image
+    const image =`${Math.floor((Math.random() * 3) + 1)}_${type}.jpg`
+    const response = axios.get(this.buildApiUrl(this.paths.api.setImage.uri, { courseCode: courseCode, imageName:image })).then( response =>{
+      console.log("IMAGE SET->",response, image)
+    })
+    .catch(err => { 
+      if (err.response) {
+        throw new Error(err.message, err.response.data)
+      }
+      throw err
+    })
+    return `${this.browserConfig.proxyPrefixPath.uri}${COURSE_IMG_URL}${image}`
   }
 
 
   @action getCourseSellingText(courseCode,lang = 'sv'){
     return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri,  {courseCode:courseCode}), this._getOptions()).then( res => {
-      console.log(res.data)
+      //console.log(res.data)
       this.showCourseWebbLink = res.data.isCourseWebLink
       this.sellingText = {
           sv: res.data.sellingText_sv ? res.data.sellingText_sv : "", 
           en: res.data.sellingText_en ? res.data.sellingText_en : ""
         }
-      this.image = res.data.imageInfo ? this.browserConfig.proxyPrefixPath.uri + COURSE_IMG_URL + res.data.imageInfo : this.getImage( courseCode, "normal") //TODO: 
+      this.image =  res.data.imageInfo /*&& res.data.imageInfo.length > 0 */? this.browserConfig.proxyPrefixPath.uri + COURSE_IMG_URL + res.data.imageInfo : this.getImage(courseCode , "normal" ) //TODO: 
     }).catch(err => { 
       if (err.response) {
         throw new Error(err.message, err.response.data)

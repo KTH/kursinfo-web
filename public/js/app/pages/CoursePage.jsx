@@ -53,7 +53,6 @@ class CoursePage extends Component {
   }
 
   handleDateInput(event){
-    console.log(event.target.value)
     this.setState({
       timeMachineValue: event.target.value
     })

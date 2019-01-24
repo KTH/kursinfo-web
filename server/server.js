@@ -191,6 +191,7 @@ appRoute.get('system.index', config.proxyPrefixPath.uri + '/', noCourse.getIndex
 appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isAdmin'), Course.getIndex)
 
 appRoute.get('api.sellingText', '/api/kursinfo/getSellingTextByCourse/:courseCode', Course.getSellingText)
+appRoute.get('api.setImage', '/api/kursinfo/setImageByCourse/:courseCode/:imageName', Course.setImage)
 appRoute.get('api.koppsCourseData', '/api/kursinfo/getKoppsCourseDataByCourse/:courseCode/:language', Course.getKoppsCourseData)
 appRoute.get('redis.ugCache', '/reids/kursinfo/ugChache/:key/:type', Course.getCourseEmployees)
 appRoute.post('redis.ugCache', '/reids/kursinfo/ugChache/:key/:type', Course.getCourseEmployees)

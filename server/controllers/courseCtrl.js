@@ -13,7 +13,7 @@ const { toJS } = require('mobx')
 const httpResponse = require('kth-node-response')
 const i18n = require('../../i18n')
 
-const sellingText = require('../apiCalls/sellingText')
+const courseApi = require('../apiCalls/sellingText')
 const koppsCourseData = require('../apiCalls/koppsCourseData')
 
 const browserConfig = require('../configuration').browser
@@ -28,7 +28,8 @@ module.exports = {
   getIndex: getIndex,
   getSellingText: co.wrap(_getSellingText),
   getCourseEmployees: co.wrap(_getCourseEmployees),
-  getKoppsCourseData: co.wrap(_getKoppsCourseData)
+  getKoppsCourseData: co.wrap(_getKoppsCourseData),
+  setImage: co.wrap(_setImage)
 }
 
 //** TODO Function for SF1624.20182.9.teachers, SF1624.20182.9.courseresponsible, SF1624.examiner */
@@ -92,8 +93,7 @@ function * _getSellingText(req, res) {
   const courseCode = req.params.courseCode
    
   try {
-    const apiResponse = yield sellingText.getSellingText(courseCode)
-    console.log("_getSellingText", apiResponse)
+    const apiResponse = yield courseApi.getSellingText(courseCode)
 
     if (apiResponse.statusCode === 404) {
       return httpResponse.json(res, apiResponse.body)
@@ -125,6 +125,19 @@ function * _getKoppsCourseData(req, res) {
     
   } catch (err) {
     log.error('Exception calling from koppsAPI ', { error: err })
+    return err
+  }
+}
+
+async function  _setImage (req, res, next) {
+  const courseCode = req.params.courseCode
+  const imageName = req.params.imageName
+  try{
+    const sendBody = {courseCode: courseCode, imageInfo: imageName}
+    const response = await courseApi.setImage(sendBody, courseCode)
+    return httpResponse.json(res, response)
+  } catch (err) {
+    log.error('Exception calling from _setImage ', { error: err })
     return err
   }
 }
