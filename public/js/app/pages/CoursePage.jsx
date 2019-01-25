@@ -34,7 +34,7 @@ class CoursePage extends Component {
   constructor (props) {
     super(props)
     this.state = {
-        activeRoundIndex: this.props.routerStore.courseData.courseSemesters.length > 0 ? this.props.routerStore.courseData.courseSemesters[this.props.routerStore.defaultIndex][3] : 0,
+        activeRoundIndex: this.props.routerStore.courseSemesters.length > 0 ? this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][3] : 0,
         activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[this.props.routerStore.defaultIndex] || 0,
         dropdownsIsOpen:{
           dropDown1: false,
@@ -63,7 +63,7 @@ class CoursePage extends Component {
     const newIndex= this.props.routerStore.getCurrentSemesterToShow(this.state.timeMachineValue)
     console.log("newIndex",newIndex)
     this.setState({
-      activeRoundIndex: this.props.routerStore.courseData.courseSemesters[newIndex][3],
+      activeRoundIndex: this.props.routerStore.courseSemesters[newIndex][3],
       activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex] || 0
     })
   }
@@ -144,14 +144,14 @@ class CoursePage extends Component {
 
         {/* ---COURSE ROUND DROPDOWN--- */}
         <div id="courseDropdownMenu" className="col">
-          {courseData.courseSemesters.length === 0 ? "" :
+          {routerStore.courseSemesters.length === 0 ? "" :
             <div>
                 <h4>Välj en kursomgång ( totalt {courseData.courseRoundList.length} st för denna kurs ):</h4>
             </div>
           }
           <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
-              { courseData.courseSemesters.length === 0 ? <h4>Denna kursen har inga kursomgångar/kurstillfällen</h4> : 
-                courseData.courseSemesters.map((semester, index)=>{
+              { routerStore.courseSemesters.length === 0 ? <h4>Denna kursen har inga kursomgångar/kurstillfällen</h4> : 
+                routerStore.courseSemesters.map((semester, index)=>{
                   return <DropdownCreater 
                             courseRoundList = {courseData.courseRoundList} 
                             callerInstance = {this} 
@@ -174,7 +174,7 @@ class CoursePage extends Component {
         </div>
 
         {/* ---COURSE ROUND HEADER--- */}
-        { courseData.courseSemesters.length === 0 ? "" :  
+        { routerStore.courseSemesters.length === 0 ? "" :  
           <div id="courseRoundHeader" className="col-12">
             <h2> Kursinformation för kurstillfället
                   {` ${i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]]} 
@@ -193,7 +193,7 @@ class CoursePage extends Component {
           courseData = {courseInformationToRounds}
           language={courseData.language}
           imageUrl = {routerStore.image}
-          courseHasRound ={courseData.courseSemesters.length > 0 }
+          courseHasRound ={routerStore.courseSemesters.length > 0 }
         />
 
 

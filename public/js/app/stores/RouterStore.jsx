@@ -71,9 +71,9 @@ class RouterStore {
     }
     return options
   }
-
+/******************************************************************************************************************************************* */
   getImage(courseCode, type="normal"){
-    const image =`${Math.floor((Math.random() * 3) + 1)}_${type}.jpg`
+    const image =`${Math.floor((Math.random() * 7) + 1)}_${type}.jpg`
     const response = axios.get(this.buildApiUrl(this.paths.api.setImage.uri, { courseCode: courseCode, imageName:image })).then( response =>{
       console.log("IMAGE SET->",response, image)
     })
@@ -87,7 +87,7 @@ class RouterStore {
   }
 
 
-  @action getCourseSellingText(courseCode,lang = 'sv'){
+  @action getCourseAdminInfo(courseCode,imageList,lang = 'sv'){
     return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri,  {courseCode:courseCode}), this._getOptions()).then( res => {
       //console.log(res.data)
       this.showCourseWebbLink = res.data.isCourseWebLink
@@ -131,9 +131,6 @@ class RouterStore {
     return axios.get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type })).then( result => {
     //console.log('getCourseEmployees', result)
       this.courseData.courseInfo.course_examiners = result.data && result.data.length > 0 ? this.createPersonHtml(result.data, 'examiner') : EMPTY
-      /*this.courseData.coursePlan.forEach(( examiner, index ) => {
-        this.courseData.coursePlan[index].course_examiners = examiners
-      })*/
     }).catch(err => { 
       if (err.response) {
         throw new Error(err.message, err.response.data)
@@ -165,8 +162,8 @@ class RouterStore {
        }
     }
       
-    //*******Check if course has a round for current semester otherwise it shows the previos the semester********/
-      for(let index=0; index<this.courseSemesters.length; index++){
+    //*******Check if course has a round for current semester otherwise it shows the previous semester********/
+      for(let index=0; index < this.courseSemesters.length; index++){
         if(this.courseSemesters[index][2]=== showSemester){
           returnIndex = index
         }
@@ -177,7 +174,7 @@ class RouterStore {
           yearMatch = index
         }
       }
-      console.log("what???",returnIndex, yearMatch )
+      console.log("what???",returnIndex, yearMatch ) //TODO: delete
       console.log(thisDate, showSemester)
     //*******In case there should be no match at all, take the last senester in the list ********/
       if(returnIndex === -1 && yearMatch === -1)
@@ -192,88 +189,55 @@ class RouterStore {
       const courseResult = safeGet(() => res.data, {})
       const language = lang === 'en' ? 0 : 1
 
-        this.isCancelled = courseResult.course.cancelled
-        this.user = ldapUsername
-        this.getImage("normal")
+      this.isCancelled = courseResult.course.cancelled
+      this.user = ldapUsername
 
-       
-          
-        // TODO this.isCurrentSyllabus = 
-        const courseInfo = this.getCourseDefaultInformation(courseResult, language)
-        console.log("!! courseInfo: OK !!", courseInfo)
-        //*** Get list of syllabuses and semesters ***//
-        let coursePlan =[]
-        let syllabusSemesterList = []
-        const syllabuses = courseResult.publicSyllabusVersions
-        if(syllabuses.length > 0){
-          for(let i = 0; i < syllabuses.length; i++ ) { 
-            syllabusSemesterList.push(syllabuses[i].validFromTerm.term)
-            coursePlan.push(this.getCoursePlanData(courseResult, i, language))
-          }
-        }
-        else{
-          coursePlan[0] = this.getCoursePlanData(courseResult, 0, language)
-        }
-        console.log("!! syllabusSemesterList and coursePlan: OK !!", coursePlan)
+      //*** Coruse information that is static on the course side ***//
+      const courseInfo = this.getCourseDefaultInformation(courseResult, language)
+      console.log("!! courseInfo: OK !!", courseInfo)
 
-        //*** Title data  ***//
-        const courseTitleData = {
-          course_code: this.isValidData(courseResult.course.courseCode),
-          course_title: this.isValidData(courseResult.course.title),
-          course_other_title:this.isValidData(courseResult.course.titleOther),
-          course_credits:this.isValidData(courseResult.course.credits)
-        }
-        console.log("!!titleData: OK !!")
+      //*** Course title data  ***//
+      const courseTitleData = {
+        course_code: this.isValidData(courseResult.course.courseCode),
+        course_title: this.isValidData(courseResult.course.title),
+        course_other_title:this.isValidData(courseResult.course.titleOther),
+        course_credits:this.isValidData(courseResult.course.credits)
+      }
+      console.log("!!titleData: OK !!")
 
-        //***Get list of rounds, semesters and keys for teachers and responsibles to use in ugRedis **//
-        let courseSemesters = []
-        let tempList = []
-        let courseRound
-        let courseRoundList = []
-        for( let roundInfo of courseResult.roundInfos){ 
-          courseRound =  this.getRound(roundInfo, courseCode, ldapUsername)
-          courseRoundList.push(courseRound)
-          if(courseRound.round_course_term && tempList.indexOf(courseRound.round_course_term.join('')) < 0){
-              courseSemesters.push([...courseRound.round_course_term, courseRound.round_course_term.join(''), courseRoundList.length-1])
-              tempList.push(courseRound.round_course_term.join(''))
-          }
-          this.keyList.teachers.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.teachers`)
-          this.keyList.responsibles.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`)
+
+      //*** Get list of syllabuses and valid syllabus semesters ***//
+      let coursePlan =[]
+      let syllabusSemesterList = []
+      const syllabuses = courseResult.publicSyllabusVersions
+      if(syllabuses.length > 0){
+        for(let i = 0; i < syllabuses.length; i++ ) { 
+          syllabusSemesterList.push(syllabuses[i].validFromTerm.term)
+          coursePlan.push(this.getCoursePlanData(courseResult, i, language))
         }
-        courseSemesters.sort()
-        console.log("!!courseRound: OK !!", courseSemesters, syllabusSemesterList)
+      }
+      else{
+        coursePlan[0] = this.getCoursePlanData(courseResult, 0, language)
+      }
+      console.log("!! syllabusSemesterList and coursePlan: OK !!", coursePlan)
+
         
-        for(let index=0; index < courseSemesters.length; index++){
 
-          //if(currentSemester.year=== Number(courseSemesters[index][0]) && currentSemester.semester=== Number(courseSemesters[index][1]))
-            //this.defaultIndex = index
-          if(Number(syllabusSemesterList[0]) > Number(courseSemesters[index][2]) )
-            for(let whileIndex=1; whileIndex < courseSemesters.length; whileIndex++){
-              if(Number(syllabusSemesterList[whileIndex]) > Number(courseSemesters[index][2]) )
-                console.log("find other syllabus2")
-              else{
-                console.log("correct syllabus2")
-                this.roundsSyllabusIndex[index]=whileIndex
-                break
-              }
-            }
-          else{
-            console.log("correct syllabus")
-            this.roundsSyllabusIndex[index]=0
-          }
-        }
+      //***Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis **//
+      const courseRoundList = this.getRounds(courseResult.roundInfos,  courseCode)
 
-        this.courseSemesters = courseSemesters
-        this.defaultIndex = this.getCurrentSemesterToShow()
-        console.log("this.roundsSyllabusIndex", this.roundsSyllabusIndex, this.defaultIndex)
-        //this.defaultIndex = this.defaultIndex === -1 && courseSemesters.length > 0 ? courseSemesters.length - 1 : 0//TODO: Needs a function based of todays date
+      //***Sets roundsSyllabusIndex, an array used for connecting rounds with correct syllabus **//
+      this.getRoundsAndSyllabusConnection(syllabusSemesterList)
 
+      //***Get the index for start informatin based on time of year ***/
+      this.defaultIndex = this.getCurrentSemesterToShow()
+      console.log("this.roundsSyllabusIndex", this.roundsSyllabusIndex, this.defaultIndex)
+        
         this.courseData = {
           coursePlan,
           courseInfo,
           courseRoundList,
           courseTitleData,
-          courseSemesters,
           syllabusSemesterList,
           language
         }
@@ -334,7 +298,46 @@ class RouterStore {
     return examString 
   }
 
-  getRound(roundObject, courseCode, ldapUsername, language = 0){ 
+  getRounds(roundInfos, syllabusSemesterList, courseCode){
+    let tempList = []
+    let courseRound
+    let courseRoundList = []
+    for( let roundInfo of roundInfos){ 
+      courseRound =  this.getRound(roundInfo)
+      courseRoundList.push(courseRound)
+      if(courseRound.round_course_term && tempList.indexOf(courseRound.round_course_term.join('')) < 0){
+          this.courseSemesters.push([...courseRound.round_course_term, courseRound.round_course_term.join(''), courseRoundList.length-1])
+          tempList.push(courseRound.round_course_term.join(''))
+      }
+      this.keyList.teachers.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.teachers`)
+      this.keyList.responsibles.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`)
+    }
+    this.courseSemesters.sort()
+    console.log("!!courseRound: OK !!")
+    
+    return courseRoundList
+  }
+
+  getRoundsAndSyllabusConnection(syllabusSemesterList){
+    for(let index=0; index < this.courseSemesters.length; index++){
+      if(Number(syllabusSemesterList[0]) > Number(this.courseSemesters[index][2]) )
+        for(let whileIndex=1; whileIndex < this.courseSemesters.length; whileIndex++){
+          if(Number(syllabusSemesterList[whileIndex]) > Number(this.courseSemesters[index][2]) )
+            console.log("find other syllabus2")
+          else{
+            console.log("correct syllabus2")
+            this.roundsSyllabusIndex[index]=whileIndex
+            break
+          }
+        }
+      else{
+        console.log("correct syllabus")
+        this.roundsSyllabusIndex[index]=0
+      }
+    }
+  }
+
+  getRound(roundObject, language = 0){ 
     const courseRoundModel = {
       roundId: this.isValidData(roundObject.round.ladokRoundId, language),
       round_time_slots: this.isValidData(roundObject.timeslots, language),
@@ -398,13 +401,13 @@ class RouterStore {
     })
   }
   
-  @action clearBreadcrumbs () {
+  /*@action clearBreadcrumbs () {
     this.breadcrumbs.replace([])
   }
   
   @action hasBreadcrumbs () {
     return this.breadcrumbs.length > 0
-  }
+  }*/
 
   @action getBreadcrumbs () {
     return {

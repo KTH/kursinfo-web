@@ -8,7 +8,7 @@ const language = require('kth-node-web-common/lib/language')
 const { safeGet } = require('safe-utils')
 const { createElement } = require('inferno-create-element')
 const { renderToString } = require('inferno-server')
-const { StaticRouter, BrowserRouter } = require('inferno-router')
+const { StaticRouter } = require('inferno-router')
 const { toJS } = require('mobx')
 const httpResponse = require('kth-node-response')
 const i18n = require('../../i18n')
@@ -19,7 +19,8 @@ const koppsCourseData = require('../apiCalls/koppsCourseData')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const paths = require('../server').getPaths()
-
+//var fs = require('fs')
+var glob = require("glob")
 
 let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
@@ -91,7 +92,7 @@ function * _getCourseEmployees(req, res) {
 
 function * _getSellingText(req, res) {
   const courseCode = req.params.courseCode
-   
+ 
   try {
     const apiResponse = yield courseApi.getSellingText(courseCode)
 
@@ -102,9 +103,10 @@ function * _getSellingText(req, res) {
     if (apiResponse.statusCode !== 200) {
       return httpResponse.jsonError(res, apiResponse.statusCode)
     }
+    console.log(apiResponse.body)
     return httpResponse.json(res, apiResponse.body)
   } catch (err) {
-    log.error('Exception calling from API ', { error: err })
+    log.error('Exception calling from course API _getSellingText', { error: err })
     return err
   }
 }
@@ -151,6 +153,9 @@ async function  getIndex (req, res, next) {
     appFactory = tmp.appFactory
     doAllAsyncBefore = tmp.doAllAsyncBefore
   }
+
+  let imageList = "" //await glob.sync("**/dist/img/courses/*.jpg") 
+  
   const courseCode = req.params.courseCode.toUpperCase()
   let lang = language.getLanguage(res) || 'sv'
   const ldapUser = req.session.authUser ? req.session.authUser.username : 'null'
@@ -168,7 +173,7 @@ async function  getIndex (req, res, next) {
   
     await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
     //if(renderProps.props.children.props.routerStore.getCourseInformation.)
-    await renderProps.props.children.props.routerStore.getCourseSellingText(courseCode, lang)
+    await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, imageList, lang)
     await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi') 
     await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
     const breadcrumDepartment = await renderProps.props.children.props.routerStore.getBreadcrumbs()
