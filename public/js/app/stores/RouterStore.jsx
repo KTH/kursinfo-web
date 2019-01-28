@@ -129,7 +129,6 @@ class RouterStore {
 
   @action getCourseEmployees( key , type="examinator", lang = 'sv'){
     return axios.get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type })).then( result => {
-    //console.log('getCourseEmployees', result)
       this.courseData.courseInfo.course_examiners = result.data && result.data.length > 0 ? this.createPersonHtml(result.data, 'examiner') : EMPTY
     }).catch(err => { 
       if (err.response) {
@@ -360,8 +359,6 @@ class RouterStore {
       round_part_of_programme: roundObject.usage.length > 0 ? this.getRoundProgramme(roundObject.usage, language) : EMPTY,
       round_state: this.isValidData(roundObject.round.state)
     }
-    console.log("courseRoundModel.round_state",courseRoundModel.round_state)
-
     return courseRoundModel
   }
 
@@ -404,14 +401,6 @@ class RouterStore {
     })
   }
   
-  /*@action clearBreadcrumbs () {
-    this.breadcrumbs.replace([])
-  }
-  
-  @action hasBreadcrumbs () {
-    return this.breadcrumbs.length > 0
-  }*/
-
   @action getBreadcrumbs () {
     return {
       url:`/student/kurser/org/${this.courseData.courseInfo.course_department_code}`, 

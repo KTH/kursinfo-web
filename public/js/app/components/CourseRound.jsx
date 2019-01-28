@@ -98,7 +98,7 @@ class CourseRound extends Component {
             </Row> 
           </Col>
        </Row>
-       {round.round_state !== "APPROVED" ? 
+       {this.props.courseHasRound && round.round_state !== "APPROVED" ? 
          <Alert color="info" aria-live="polite" >
             <h4 style="margin-left: 80px;">{i18n.messages[this.props.language].courseInformationLabels.lable_round_state[round.round_state]} </h4>
          </Alert>
