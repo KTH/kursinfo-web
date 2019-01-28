@@ -3,6 +3,7 @@ import { renderString } from 'inferno-formlib/lib/widgets/common'
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
 import Button from 'inferno-bootstrap/dist/Button'
+import Alert from 'inferno-bootstrap/dist/Alert'
 import { EMPTY } from "../util/constants"
 import i18n from "../../../../i18n"
 
@@ -97,7 +98,11 @@ class CourseRound extends Component {
             </Row> 
           </Col>
        </Row>
-     
+       {round.round_state !== "APPROVED" ? 
+         <Alert color="info" aria-live="polite" >
+            <h4 style="margin-left: 80px;">{i18n.messages[this.props.language].courseInformationLabels.lable_round_state[round.round_state]} </h4>
+         </Alert>
+         :""}
     </div>
   )
   }

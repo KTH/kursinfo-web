@@ -357,8 +357,11 @@ class RouterStore {
       round_max_seats: this.isValidData(roundObject.round.maxSeats, language),
       round_type: roundObject.round.applicationCodes.length > 0 ? this.isValidData(roundObject.round.applicationCodes[0].courseRoundType.name) : EMPTY, //TODO: Map array
       round_application_link:  this.isValidData(roundObject.admissionLinkUrl),
-      round_part_of_programme: roundObject.usage.length > 0 ? this.getRoundProgramme(roundObject.usage, language) : EMPTY
+      round_part_of_programme: roundObject.usage.length > 0 ? this.getRoundProgramme(roundObject.usage, language) : EMPTY,
+      round_state: this.isValidData(roundObject.round.state)
     }
+    console.log("courseRoundModel.round_state",courseRoundModel.round_state)
+
     return courseRoundModel
   }
 

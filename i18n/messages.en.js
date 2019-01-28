@@ -48,7 +48,11 @@ module.exports = {
     label_postgraduate_course: 'Postgraduate courses at ',
     label_course_cancelled: 'This course has been cancelled.',
     label_last_exam: 'Last planned examination: ',
-    label_course_web_link: 'Course web'
+    label_course_web_link: 'Course web',
+    lable_round_state:{
+      CANCELLED: 'This round is cancelled',
+      FULL: 'This round is full'
+    }
   },
   courseInformation: {
     course_title:'Title english',

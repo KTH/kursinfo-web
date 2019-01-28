@@ -49,7 +49,11 @@ module.exports = {
     label_postgraduate_course: 'Forskarkurser på ',
     label_course_cancelled: 'Detta är en nedlagd kurs.',
     label_last_exam: 'Sista planerade examination: ',
-    label_course_web_link: 'Kurswebb'
+    label_course_web_link: 'Kurswebb',
+    lable_round_state:{
+      CANCELLED: 'Kurstillfälle inställt',
+      FULL: 'Kurstillfälle fullsatt'
+    }
   },
   courseInformation:{
     roundId:'Kursomgångs nr',
