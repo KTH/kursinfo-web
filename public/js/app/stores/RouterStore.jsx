@@ -178,7 +178,7 @@ class RouterStore {
       console.log(thisDate, showSemester)
     //*******In case there should be no match at all, take the last senester in the list ********/
       if(returnIndex === -1 && yearMatch === -1)
-        return courseSemesters.length-1
+        return this.courseSemesters.length-1
 
       return returnIndex > -1 ? returnIndex : yearMatch
   }
