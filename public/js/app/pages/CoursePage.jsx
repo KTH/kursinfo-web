@@ -12,7 +12,8 @@ import DropdownMenu from 'kth-style-iinferno-bootstrap/dist/DropdownMenu'
 import DropdownItem from 'kth-style-iinferno-bootstrap/dist/DropdownItem'
 import DropdownToggle from 'kth-style-iinferno-bootstrap/dist/DropdownToggle'
 */
-
+import Row from 'inferno-bootstrap/dist/Row'
+import Col from 'inferno-bootstrap/dist/Col'
 import Dropdown from 'inferno-bootstrap/dist/Dropdown'
 import DropdownMenu from 'inferno-bootstrap/dist/DropdownMenu'
 import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
@@ -135,13 +136,20 @@ class CoursePage extends Component {
           </div>
          :""}
 
-
         {/* ---INTRO TEXT--- */}
-        <div id="courseIntroText" 
-          className = "col-12" 
-          dangerouslySetInnerHTML = {{ __html:introText}}>
-        </div>
+        <Row id="courseIntroText">
+          <Col sm="7">
+            <div 
+              className = "col-12" 
+              dangerouslySetInnerHTML = {{ __html:introText}}>
+            </div>
+          </Col>
+          <Col sm="4" id="imageContainer">
+            <img src={routerStore.image} alt="" height="auto" width="100%"/>
+          </Col>
+        </Row>
 
+        
         {/* ---COURSE ROUND DROPDOWN--- */}
         <div id="courseDropdownMenu" className="col">
           {routerStore.courseSemesters.length === 0 ? "" :
@@ -166,12 +174,7 @@ class CoursePage extends Component {
           </div>
         </div>  
 
-        {/* ---TEMP: test of dates --- */}
-        <div style="padding:5px; border: 3px dotted pink;">
-          <lable>Time machine for testing default information: </lable>
-          <input type="date" onChange={this.handleDateInput} />
-          <button onClick={this.timeMachine}>Travel in time!</button>
-        </div>
+        
 
         {/* ---COURSE ROUND HEADER--- */}
         { routerStore.courseSemesters.length === 0 ? "" :  
@@ -196,20 +199,6 @@ class CoursePage extends Component {
           courseHasRound ={routerStore.courseSemesters.length > 0 }
         />
 
-
-      {/* ---TEMP: OLDER SYLLABUSES LINKS--- */}
-        <div className="col">
-            {courseData.syllabusSemesterList.length > 0 ?
-              courseData.syllabusSemesterList.map((semester, index) => 
-              <span key={index}>
-              <a href="#" key={index} id={semester}  onClick={this.openSyllabus}>
-                { i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
-                {i18n.messages[this.props.routerStore.courseData.language].courseInformation.course_short_semester[semester.toString().substring(4,5)]}  {semester.toString().substring(0,4)} 
-                &nbsp;  </a> <br/> </span>)
-             : ""
-            }
-        </div>
-
         {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
         {courseData.courseInfo.course_level_code === "RESEARCH" ?
           <span>
@@ -233,6 +222,25 @@ class CoursePage extends Component {
             showCourseLink = {routerStore.showCourseWebbLink} 
           />
         <br/>
+        {/* ---TEMP: OLDER SYLLABUSES LINKS--- */}
+        <div className="col">
+            {courseData.syllabusSemesterList.length > 0 ?
+              courseData.syllabusSemesterList.map((semester, index) => 
+              <span key={index}>
+              <a href="#" key={index} id={semester}  onClick={this.openSyllabus}>
+                { i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
+                {i18n.messages[this.props.routerStore.courseData.language].courseInformation.course_short_semester[semester.toString().substring(4,5)]}  {semester.toString().substring(0,4)} 
+                &nbsp;  </a> <br/> </span>)
+             : ""
+            }
+        </div>
+        <br/>
+        {/* ---TEMP: test of dates --- */}
+        <div style="padding:5px; border: 3px dotted pink;">
+          <lable>Time machine for testing default information: </lable>
+          <input type="date" onChange={this.handleDateInput} />
+          <button onClick={this.timeMachine}>Travel in time!</button>
+        </div>
       </div>
     )
   }

@@ -27,9 +27,6 @@ class CourseRound extends Component {
     return (
       <div id="RoundContainer" className=" col key-info">{this.props.courseHasRound}
         <Row>
-          <Col sm="4" id="imageContainer">
-            <img src={this.props.imageUrl} alt="" height="200" width="335"/>
-          </Col>
           <Col sm="7" id="roundKeyInformation">
             <Row id="firstRow">
                 <Col sm="4">
