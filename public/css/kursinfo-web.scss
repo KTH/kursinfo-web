@@ -10,34 +10,7 @@
 @import "node_modules/bootstrap/scss/mixins";*/
 
 
-/*.collapseContainer{
-    margin-top: -27px;
 
-    .card-body{
-        padding: 20px 40px;
-
-        p{
-            font-size: 16px;
-        }
-    }
-}*/
-
-.collapseBtn{
-    margin-top: 3px;
-    width: 100%;
-    color: #fff;
-    background: #24a0d8;
-    text-align: left;
-    font-size: 1.4rem;
-    margin-bottom: 2px;
-
-    &:hover, &:focus, &:active{
-        color: #fff;
-        outline: none;
-        background: #24a0d8;
-        outline-offset: 0;
-    }
-}
 
 .dropdown-clean{
     border: none;
@@ -48,11 +21,6 @@
 }
 
 .preArticleParagraphs, h2.secondTitle {
-    /*border-bottom: 1px solid #808080;
-    color: #666666;
-    font-family: 'garamond pro',garamond,'times new roman',times,serif;
-    font-size: 2.5rem;
-    font-weight: normal;*/
     margin-top: -20px;
     padding: 0;
 }
@@ -167,6 +135,5 @@ select{
 
 .editButton{
     float:right;
-    margin-right:20px;
 }
 
