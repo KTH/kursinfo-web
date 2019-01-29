@@ -1,11 +1,7 @@
 import { Component } from 'inferno'
-import Collapse from 'inferno-bootstrap/dist/Collapse'
-import Card from 'inferno-bootstrap/dist/Card/Card'
-import CardBody from 'inferno-bootstrap/dist/Card/CardBody'
 import Button from 'inferno-bootstrap/dist/Button'
-//import i18n from "../../../../i18n"
 
-class CourseCollapse extends Component {
+class CourseSection extends Component {
   constructor(props) {
     super(props)
 
@@ -14,30 +10,31 @@ class CourseCollapse extends Component {
       class: 'collapseBtn',
       iconClass: props.isOpen ? "icon-chevron-down":"icon-chevron-right"
     }
-    this.doToggle = this.doToggle.bind(this)
+    //this.doToggle = this.doToggle.bind(this)
   }
 
-  doToggle(e) {
+  /*doToggle(e) {
     e.preventDefault()
     this.setState({
       isOpen: !this.state.isOpen,
       iconClass: !this.state.isOpen ? "icon-chevron-down":"icon-chevron-right"
     })
-  }
+  }*/
 
   render() {
     return (
-      <div className="col-12"> 
-        
+      <section> 
+        <div className="col">
               {this.props.courseData.map((data)=>
               <span>
                  <h3>{data.header}</h3> 
                 <p dangerouslySetInnerHTML={{ __html:data.text}}/>
                </span>
               )}
-      </div>  
+        </div>
+      </section>  
     )
   }
 }
 
-export default CourseCollapse
+export default CourseSection

@@ -27,7 +27,7 @@ import { EMPTY, FORSKARUTB_URL } from "../util/constants"
 //Components
 import CourseRound from "../components/CourseRound.jsx"
 import CourseTitle from "../components/CourseTitle.jsx"
-import CourseCollapseList from "../components/CourseCollapseList.jsx"
+import CourseSectionList from "../components/CourseSectionList.jsx"
 
 
 @inject(['routerStore']) @observer
@@ -106,7 +106,7 @@ class CoursePage extends Component {
     event.preventDefault()
     const language = this.props.routerStore.courseData.language === 0 ? "en" : "sv" 
     //window.open(`/student/kurser/kurs/admin/${this.props.courseTitleData.course_code}?lang=${language}`)
-    window.open(`/admin/kurser/kurs/${this.props.routerStore.courseData.courseInfo.course_code}?lang=${language}`)
+    window.location =`/admin/kurser/kurs/${this.props.routerStore.courseData.courseInfo.course_code}?l=${language}`
   }
 
   render ({ routerStore}){
@@ -148,12 +148,11 @@ class CoursePage extends Component {
 
         {/* ---INTRO TEXT--- */}
         <Row id="courseIntroText">
-        <Col sm="4" id="imageContainer">
+        <Col sm="5" xs="12"  id="imageContainer">
             <img src={routerStore.image} alt="" height="auto" width="100%"/>
           </Col>
-          <Col sm="7">
+          <Col sm="7" xs="12">
             <div 
-              className = "col-12" 
               dangerouslySetInnerHTML = {{ __html:introText}}>
             </div>
           </Col>
@@ -167,7 +166,7 @@ class CoursePage extends Component {
 
         
         {/* ---COURSE ROUND DROPDOWN--- */}
-        <div id="courseDropdownMenu" className="col">
+        <div id="courseDropdownMenu" className="">
           <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
               { routerStore.courseSemesters.length === 0 ? <h4>Denna kursen har inga kursomgångar/kurstillfällen</h4> : 
                 routerStore.courseSemesters.map((semester, index)=>{
@@ -183,13 +182,13 @@ class CoursePage extends Component {
                 })
               }
           </div>
-        </div>  
+        </div>   
 
         
 
         {/* ---COURSE ROUND HEADER--- */}
         { routerStore.courseSemesters.length === 0 ? "" :  
-          <div id="courseRoundHeader" className="col-12">
+          <Row id="courseRoundHeader" className="col">
             <h4>
                   {` ${i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]]} 
                     ${courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0]}  
@@ -197,7 +196,7 @@ class CoursePage extends Component {
                     ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}` 
                   } 
             </h4>
-          </div>   
+          </Row>   
         }
 
         {/* ---COURSE ROUND KEY INFORMATION--- */}
@@ -222,8 +221,8 @@ class CoursePage extends Component {
         <br/>
 
 
-        {/* ---COLLAPSE CONTAINER---  */}
-        <CourseCollapseList 
+        {/* --- COURSE INFORATION CONTAINER---  */}
+        <CourseSectionList 
             roundIndex={this.state.activeRoundIndex} 
             courseInfo = {courseData.courseInfo} 
             coursePlan = {courseData.coursePlan[this.state.activeSyllabusIndex]} 
@@ -232,6 +231,8 @@ class CoursePage extends Component {
             color="blue"
             showCourseLink = {routerStore.showCourseWebbLink} 
           />
+
+
         <br/>
         {/* ---TEMP: OLDER SYLLABUSES LINKS--- */}
         <div className="col">
@@ -257,7 +258,7 @@ class CoursePage extends Component {
         {
           routerStore.canEdit ? 
             <Button className="editButton" color="primery" onClick={this.openEdit} id={courseData.courseInfo.course_code}>
-             <i className="icon-edit"></i> Edit course 
+             <i className="icon-edit"></i> {i18n.messages[courseData.language].courseInformationLabels.label_edit}
             </Button> 
           : ""
         }

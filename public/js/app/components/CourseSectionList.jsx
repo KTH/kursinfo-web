@@ -3,12 +3,12 @@ import { inject, observer } from 'inferno-mobx'
 import { globalRegistry } from 'component-registry'
 
 import i18n from "../../../../i18n"
-import CourseCollapse from './CourseCollapse.jsx'
+import CourseSection from './CourseSections.jsx'
 
 import { EMPTY, COURSE_WEB_URL} from '../util/constants'
 
 @inject(['routerStore']) @observer
-class CourseCollapseList extends Component {
+class CourseSectionList extends Component {
   constructor(props) {
     super(props)
 
@@ -99,14 +99,14 @@ class CourseCollapseList extends Component {
     const translation = i18n.messages[this.state.store.language]
     return (
       <div className="row">
-        <CourseCollapse courseData = {this.getIntro(translation)} header={translation.courseInformationLabels.label_course_intro} className="collapseHeader" isOpen={false} color="blue"/>
-        <CourseCollapse courseData = {this.getPrepare(translation)} header={translation.courseInformationLabels.label_course_prepare} className="collapseHeader" isOpen={false} color="blue"/>
-        <CourseCollapse courseData = {this.getDuring(translation)} header={translation.courseInformationLabels.label_course_during} className="collapseHeader" isOpen={false} color="blue"/>
-        <CourseCollapse courseData = {this.getFinalize(translation)} header={translation.courseInformationLabels.label_course_finalize} className="collapseHeader" isOpen={false} color="blue"/>
-        <CourseCollapse courseData = {this.getOther(translation)} header={translation.courseInformationLabels.label_course_other} className="collapseHeader" isOpen={false} color="blue"/>
+        <CourseSection courseData = {this.getIntro(translation)} header={translation.courseInformationLabels.label_course_intro} className="collapseHeader" isOpen={false} color="blue"/>
+        <CourseSection courseData = {this.getPrepare(translation)} header={translation.courseInformationLabels.label_course_prepare} className="collapseHeader" isOpen={false} color="blue"/>
+        <CourseSection courseData = {this.getDuring(translation)} header={translation.courseInformationLabels.label_course_during} className="collapseHeader" isOpen={false} color="blue"/>
+        <CourseSection courseData = {this.getFinalize(translation)} header={translation.courseInformationLabels.label_course_finalize} className="collapseHeader" isOpen={false} color="blue"/>
+        <CourseSection courseData = {this.getOther(translation)} header={translation.courseInformationLabels.label_course_other} className="collapseHeader" isOpen={false} color="blue"/>
       </div>  
     )
   }
 }
 
-export default CourseCollapseList
+export default CourseSectionList

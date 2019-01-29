@@ -111,7 +111,7 @@ function * _getSellingText(req, res) {
   }
 }
 
-function * _getKoppsCourseData(req, res) {
+function * _getKoppsCourseData(req, res, next) {
 
   const courseCode = req.params.courseCode
   const language = req.params.courseCode || 'sv'

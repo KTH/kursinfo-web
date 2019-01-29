@@ -50,6 +50,7 @@ module.exports = {
     label_course_cancelled: 'Detta är en nedlagd kurs.',
     label_last_exam: 'Sista planerade examination: ',
     label_course_web_link: 'Kurswebb',
+    label_edit:'Reigera',
     lable_round_state:{
       CANCELLED: 'Kurstillfälle inställt',
       FULL: 'Kurstillfälle fullsatt'

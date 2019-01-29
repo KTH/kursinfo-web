@@ -49,6 +49,7 @@ module.exports = {
     label_course_cancelled: 'This course has been cancelled.',
     label_last_exam: 'Last planned examination: ',
     label_course_web_link: 'Course web',
+    label_edit:'Edit',
     lable_round_state:{
       CANCELLED: 'This round is cancelled',
       FULL: 'This round is full'
