@@ -8,6 +8,7 @@ const nock = require('nock')
 const mockery = require('mockery')
 const httpMocks = require('node-mocks-http')
 
+
 const mockLogger = {}
 mockLogger.debug = mockLogger.info = mockLogger.error = mockLogger.warn = console.log
 mockLogger.init = () => {}
@@ -19,7 +20,7 @@ mockery.enable({
 })
 
 const paths = require('../mocks/apipaths.json')
-const api = nock('http://localhost:3001/api/node')
+const api = nock('http://localhost:3001/api/kursinfo')
   .get('/_paths')
   .reply(200, paths)
   .get('/_checkAPIkey')

@@ -22,13 +22,18 @@ class CourseTitle extends Component {
     title.course_credits = title.course_credits !== EMPTY && title.course_credits.toString().indexOf('.') < 0 ? title.course_credits+".0": title.course_credits
     return (
       <div id="course-title" className="col">
-        <h1><span property="aiiso:code">{title.course_code}</span>
-        <span property="teach:courseTitle"> {title.course_title}</span>
-        <span content={title.course_credits} datatype="xsd:decimal" property="teach:ects"> {this.props.language === 0 ? title.course_credits : title.course_credits.toString().replace('.',',') }&nbsp;{this.props.language === 0 ? "credits" : "hp"} </span>
-        </h1>
         {
-          this.props.canEdit ?  <Button className="editButton" color="primery" onClick={this.openEdit} id={title.course_code}><i className="icon-edit"></i> Edit course </Button> : ""
+          this.props.canEdit ? 
+            <Button className="editButton" color="primery" onClick={this.openEdit} id={title.course_code}>
+             <i className="icon-edit"></i> Edit course 
+            </Button> 
+          : ""
         }
+        <h1>
+          <span property="aiiso:code">{title.course_code}</span>
+          <span property="teach:courseTitle"> {title.course_title}</span>
+          <span content={title.course_credits} datatype="xsd:decimal" property="teach:ects"> {this.props.language === 0 ? title.course_credits : title.course_credits.toString().replace('.',',') }&nbsp;{this.props.language === 0 ? "credits" : "hp"} </span>
+        </h1>
         <h2 className="secondTitle">
           <span property="teach:courseTitle">{title.course_other_title}</span>
         </h2>
