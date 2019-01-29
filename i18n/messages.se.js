@@ -53,7 +53,8 @@ module.exports = {
     lable_round_state:{
       CANCELLED: 'Kurstillfälle inställt',
       FULL: 'Kurstillfälle fullsatt'
-    }
+    },
+    course_info_header: 'Kursinformation'
   },
   courseInformation:{
     roundId:'Kursomgångs nr',

@@ -28,23 +28,13 @@ class CourseCollapse extends Component {
   render() {
     return (
       <div className="col-12"> 
-        <Button className={this.state.class} 
-                onClick={this.doToggle}>
-                <i class={this.state.iconClass}></i>&nbsp; 
-                {this.props.header}
-        </Button>
-        <Collapse isOpen={this.state.isOpen}>
-          <Card className="collapseContainer">
-            <CardBody>
+        
               {this.props.courseData.map((data)=>
               <span>
                  <h3>{data.header}</h3> 
                 <p dangerouslySetInnerHTML={{ __html:data.text}}/>
                </span>
               )}
-            </CardBody>
-          </Card>
-        </Collapse>  
       </div>  
     )
   }

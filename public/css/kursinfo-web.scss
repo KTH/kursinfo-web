@@ -39,6 +39,14 @@
     }
 }
 
+.dropdown-clean{
+    border: none;
+    margin: 2px;
+    padding: 2px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
 .preArticleParagraphs, h2.secondTitle {
     /*border-bottom: 1px solid #808080;
     color: #666666;
@@ -71,7 +79,6 @@
   }
   
   .key-info{
-    border: 2px solid #e3e4e4;
     min-width: 100%;
     background: #fff;
     border-radius: 5px;
@@ -116,9 +123,17 @@ p.small-text{
 
 #courseIntroText{
     padding-top:30px;
-     
+    padding-bottom:30px;
+    
     p{
         font-size: 18px;
+    }
+}
+
+#courseRoundHeader{
+    h4{
+        font-size: 18px;
+        font-weight: 400;
     }
 }
 
@@ -142,10 +157,9 @@ select{
     font-size: 1.7rem
 }
 #courseDropdownMenu{
-    background: #f6f6f6;
-    padding-top: 15px;
+    padding-top: 45px;
     padding-bottom: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 .person{
     margin-bottom: 0.3rem;

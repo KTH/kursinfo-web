@@ -19,7 +19,7 @@ import DropdownMenu from 'inferno-bootstrap/dist/DropdownMenu'
 import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
 import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
 import Alert from 'inferno-bootstrap/dist/Alert'
-
+import Button from 'inferno-bootstrap/lib/Button'
 
 import i18n from "../../../../i18n"
 import { EMPTY, FORSKARUTB_URL } from "../util/constants"
@@ -47,6 +47,7 @@ class CoursePage extends Component {
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.toggle = this.toggle.bind(this)
     this.openSyllabus = this.openSyllabus.bind(this)
+    this.openEdit = this.openEdit.bind(this)
 
     //Temp!!
     this.handleDateInput=this.handleDateInput.bind(this)
@@ -101,6 +102,13 @@ class CoursePage extends Component {
     window.open(`/student/kurser/kurs/kursplan/${this.props.routerStore.courseData.courseInfo.course_code}_${event.target.id}.pdf?lang=${language}`)
   }
 
+  openEdit(){
+    event.preventDefault()
+    const language = this.props.routerStore.courseData.language === 0 ? "en" : "sv" 
+    //window.open(`/student/kurser/kurs/admin/${this.props.courseTitleData.course_code}?lang=${language}`)
+    window.open(`/admin/kurser/kurs/${this.props.routerStore.courseData.courseInfo.course_code}?lang=${language}`)
+  }
+
   render ({ routerStore}){
     const courseData = routerStore["courseData"]
     const language = this.props.routerStore.courseData.language === 0 ? "en" : "sv" 
@@ -116,7 +124,9 @@ class CoursePage extends Component {
     
     return (
       <div  key="kursinfo-container" className="kursinfo-main-page col" >
-
+      <Row>
+        <Col sm="2" xs="1"></Col>
+        <Col sm="8" xs="12">
         {/* ---COURSE TITEL--- */}
         <CourseTitle key = "title"
             courseTitleData = {courseData.courseTitleData}
@@ -138,25 +148,26 @@ class CoursePage extends Component {
 
         {/* ---INTRO TEXT--- */}
         <Row id="courseIntroText">
+        <Col sm="4" id="imageContainer">
+            <img src={routerStore.image} alt="" height="auto" width="100%"/>
+          </Col>
           <Col sm="7">
             <div 
               className = "col-12" 
               dangerouslySetInnerHTML = {{ __html:introText}}>
             </div>
           </Col>
-          <Col sm="4" id="imageContainer">
-            <img src={routerStore.image} alt="" height="auto" width="100%"/>
-          </Col>
         </Row>
+
+       <Row>
+         <Col sm="12">
+          <h2>{i18n.messages[courseData.language].courseInformationLabels.course_info_header} </h2>
+         </Col>
+       </Row>
 
         
         {/* ---COURSE ROUND DROPDOWN--- */}
         <div id="courseDropdownMenu" className="col">
-          {routerStore.courseSemesters.length === 0 ? "" :
-            <div>
-                <h4>Välj en kursomgång ( totalt {courseData.courseRoundList.length} st för denna kurs ):</h4>
-            </div>
-          }
           <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
               { routerStore.courseSemesters.length === 0 ? <h4>Denna kursen har inga kursomgångar/kurstillfällen</h4> : 
                 routerStore.courseSemesters.map((semester, index)=>{
@@ -179,13 +190,13 @@ class CoursePage extends Component {
         {/* ---COURSE ROUND HEADER--- */}
         { routerStore.courseSemesters.length === 0 ? "" :  
           <div id="courseRoundHeader" className="col-12">
-            <h2> Kursinformation för kurstillfället
+            <h4>
                   {` ${i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]]} 
                     ${courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0]}  
                     ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name},     
                     ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}` 
                   } 
-            </h2>
+            </h4>
           </div>   
         }
 
@@ -241,6 +252,17 @@ class CoursePage extends Component {
           <input type="date" onChange={this.handleDateInput} />
           <button onClick={this.timeMachine}>Travel in time!</button>
         </div>
+        </Col>
+        <Col sm="2" xs="1">
+        {
+          routerStore.canEdit ? 
+            <Button className="editButton" color="primery" onClick={this.openEdit} id={courseData.courseInfo.course_code}>
+             <i className="icon-edit"></i> Edit course 
+            </Button> 
+          : ""
+        }
+        </Col>
+        </Row>
       </div>
     )
   }
@@ -255,8 +277,8 @@ const DropdownCreater = ({ courseRoundList , callerInstance, semester, year = "2
   const dropdownID = "dropdown"+parentIndex
   return(
     <div className = "col-2">
-      <Dropdown isOpen={callerInstance.state.dropdownsIsOpen[dropdownID]} toggle={callerInstance.toggle} key={"dropD"+parentIndex}>
-                <DropdownToggle id={dropdownID} caret>
+      <Dropdown  isOpen={callerInstance.state.dropdownsIsOpen[dropdownID]} toggle={callerInstance.toggle} key={"dropD"+parentIndex}>
+                <DropdownToggle className="dropdown-clean" id={dropdownID} caret>
                   {i18n.messages[language].courseInformation.course_short_semester[semester]} {year}
                 </DropdownToggle>
                 <DropdownMenu>

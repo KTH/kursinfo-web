@@ -52,7 +52,8 @@ module.exports = {
     lable_round_state:{
       CANCELLED: 'This round is cancelled',
       FULL: 'This round is full'
-    }
+    },
+    course_info_header: 'Course information'
   },
   courseInformation: {
     course_title:'Title english',
