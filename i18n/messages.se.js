@@ -51,6 +51,7 @@ module.exports = {
     label_last_exam: 'Sista planerade examination: ',
     label_course_web_link: 'Kurswebb',
     label_edit:'Reigera',
+    lable_no_rounds: 'Denna kurs har ännu inga kurstillfällen',
     lable_round_state:{
       CANCELLED: 'Kurstillfälle inställt',
       FULL: 'Kurstillfälle fullsatt'

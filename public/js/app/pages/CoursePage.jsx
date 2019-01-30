@@ -180,9 +180,10 @@ class CoursePage extends Component {
         {/* ---COURSE ROUND DROPDOWN--- */}
         <div id="courseDropdownMenu" className="">
           <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
-              { routerStore.courseSemesters.length === 0 ? <h4>Denna kursen har inga kursomgångar/kurstillfällen</h4> : 
-                routerStore.courseSemesters.map((semester, index)=>{
-                  return <DropdownCreater 
+              { routerStore.courseSemesters.length === 0 ? 
+                  <Alert color="info">{i18n.messages[courseData.language].courseInformationLabels.lable_no_rounds}</Alert> : 
+                  routerStore.courseSemesters.map((semester, index)=>{
+                    return <DropdownCreater 
                             courseRoundList = {courseData.courseRoundList} 
                             callerInstance = {this} 
                             year = {semester[0]} 
