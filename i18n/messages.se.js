@@ -58,7 +58,12 @@ module.exports = {
       CANCELLED: 'Kurstillfälle inställt',
       FULL: 'Kurstillfälle fullsatt'
     },
-    course_info_header: 'Kursinformation'
+    header_course_info: 'Kursinformation',
+    header_content: 'Innehåll och mål',
+    header_execution: 'Kurslitteratur och genomförande',
+    header_examination: 'Examination och slutförande',
+    header_contact: 'Kontakt och ytterligare information'
+       
   },
   courseInformation:{
     roundId:'Kursomgångs nr',
@@ -106,7 +111,7 @@ module.exports = {
     round_part_of_programme: 'Del av program',
     round_responsibles: 'Kursansvarig',
     round_end_date: 'Kursen slutar',
-    round_start_date: 'Kursen startar',
+    round_start_date: 'Varaktighet',
     round_teacher: 'Lärare',
     round_target_group: 'Målgrupp',
     round_short_name: 'Namn - kort ',

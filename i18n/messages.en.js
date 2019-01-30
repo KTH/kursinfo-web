@@ -57,7 +57,11 @@ module.exports = {
       CANCELLED: 'This round is cancelled',
       FULL: 'This round is full'
     },
-    course_info_header: 'Course information'
+    header_course_info: 'Course information',
+    header_content: 'Content and outcome',
+    header_execution: 'Literature and execution',
+    header_examination: 'Examination and fulfillment',
+    header_contact: 'Contact and further information'
   },
   courseInformation: {
     course_title:'Title english',
@@ -103,7 +107,7 @@ module.exports = {
     round_part_of_programme: 'Part of programme',
     round_responsibles: 'Course responsible',
     round_end_date: 'End date',
-    round_start_date: 'Start date',
+    round_start_date: 'Duration',
     round_teacher: 'Teacher',
     round_target_group: 'Target group',
     round_short_name: 'Short name',

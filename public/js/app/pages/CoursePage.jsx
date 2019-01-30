@@ -173,7 +173,7 @@ class CoursePage extends Component {
 
        <Row>
          <Col sm="12">
-          <h2>{i18n.messages[courseData.language].courseInformationLabels.course_info_header} </h2>
+          <h2>{i18n.messages[courseData.language].courseInformationLabels.header_course_info} </h2>
          </Col>
        </Row>
 
@@ -235,6 +235,18 @@ class CoursePage extends Component {
           : ""}
         <br/>
 
+         {/* --- COURSE INFORATION CONTAINER---  */}
+         <CourseSectionList 
+            roundIndex={this.state.activeRoundIndex} 
+            courseInfo = {courseData.courseInfo} 
+            coursePlan = {courseData.coursePlan[this.state.activeSyllabusIndex]} 
+            className="ExampleCollapseContainer" 
+            isOpen={true} 
+            color="blue"
+            showCourseLink = {routerStore.showCourseWebbLink} 
+            partToShow = "first"
+          />
+
          {/* --- COURSE FILE LINKS---  */}
          <CourseFileLinks
             index={this.state.activeRoundIndex}
@@ -242,7 +254,7 @@ class CoursePage extends Component {
             courseHasRound ={routerStore.courseSemesters.length > 0 }
             syllabusValidFrom = {courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from}
             courseCode= {courseData.courseInfo.course_code}
-            scheduleUrl = {courseData.courseRoundList[this.state.activeRoundIndex].round_schedule}
+            scheduleUrl = {routerStore.courseSemesters.length > 0 ? courseData.courseRoundList[this.state.activeRoundIndex].round_schedule : "https://thoughtcatalog.com/january-nelson/2018/06/funny-stories/"}
           />
 
         {/* --- COURSE INFORATION CONTAINER---  */}
@@ -254,7 +266,7 @@ class CoursePage extends Component {
             isOpen={true} 
             color="blue"
             showCourseLink = {routerStore.showCourseWebbLink} 
-            showPart = "first"
+            partToShow = "second"
           />
 
          
