@@ -38,7 +38,7 @@ class CoursePage extends Component {
         activeRoundIndex: this.props.routerStore.courseSemesters.length > 0 ? this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][3] : 0,
         activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[this.props.routerStore.defaultIndex] || 0,
         dropdownsIsOpen:{},
-        activeDropdown: "roundDropdown0",
+        activeDropdown: "roundDropdown"+this.props.routerStore.defaultIndex,
         dropdownOpen:false,
         timeMachineValue: ""
     }
@@ -125,7 +125,7 @@ class CoursePage extends Component {
     const courseData = routerStore["courseData"]
     const language = this.props.routerStore.courseData.language === 0 ? "en" : "sv" 
     const introText = routerStore.sellingText && routerStore.sellingText[language].length > 0 ? routerStore.sellingText[language] : courseData.courseInfo.course_recruitment_text
-    //console.log("routerStore in CoursePage", routerStore)
+    console.log("routerStore in CoursePage", routerStore)
     const courseInformationToRounds = {
       course_code: courseData.courseInfo.course_code,
       course_grade_scale: courseData.courseInfo.course_grade_scale,
@@ -291,7 +291,7 @@ const DropdownCreater = ({ courseRoundList , callerInstance, semester, year = "2
   return(
     <div className = "col-2">
       <Dropdown  group isOpen={callerInstance.state.dropdownsIsOpen[dropdownID]} toggle={callerInstance.toggle} key={"dropD"+parentIndex} >
-                <DropdownToggle className={callerInstance.state.activeDropdown===dropdownID ? "is-active dropdown-clean": "dropdown-clean"} id={dropdownID}  >
+                <DropdownToggle className={callerInstance.state.activeDropdown===dropdownID ? "is-active dropdown-clean": "dropdown-clean"} id={dropdownID} caret >
                   {i18n.messages[language].courseInformation.course_short_semester[semester]} {year}
                 </DropdownToggle>
                 <DropdownMenu>

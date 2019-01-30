@@ -18,7 +18,7 @@
     font-weight: 400;
     border-radius: 0 !important;
     background-color: #fff !important;
-    &:hover, &.is-active{
+    &:hover, &:focus, &.is-active{
         background-color: #fff;
         border-radius: 0;
         border: none;
