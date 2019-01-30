@@ -25,7 +25,7 @@ import i18n from "../../../../i18n"
 import { EMPTY, FORSKARUTB_URL } from "../util/constants"
 
 //Components
-import CourseRound from "../components/CourseRound.jsx"
+import CourseKeyInformation from "../components/CourseKeyInformation.jsx"
 import CourseTitle from "../components/CourseTitle.jsx"
 import CourseSectionList from "../components/CourseSectionList.jsx"
 
@@ -213,7 +213,7 @@ class CoursePage extends Component {
         }
 
         {/* ---COURSE ROUND KEY INFORMATION--- */}
-        <CourseRound
+        <CourseKeyInformation
           courseRound= {courseData.courseRoundList[this.state.activeRoundIndex]}
           index={this.state.activeRoundIndex}
           courseData = {courseInformationToRounds}
@@ -248,7 +248,7 @@ class CoursePage extends Component {
 
         <br/>
         {/* ---TEMP: OLDER SYLLABUSES LINKS--- */}
-        <div className="col-12">
+        <div className="col">
             {courseData.syllabusSemesterList.length > 0 ?
               courseData.syllabusSemesterList.map((semester, index) => 
               <span key={index}>
