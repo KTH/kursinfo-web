@@ -37,10 +37,9 @@ class CoursePage extends Component {
     this.state = {
         activeRoundIndex: this.props.routerStore.courseSemesters.length > 0 ? this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][3] : 0,
         activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[this.props.routerStore.defaultIndex] || 0,
-        dropdownsIsOpen:{
-          dropDown1: false,
-          dropdown2: false
-        },
+        dropdownsIsOpen:{},
+        activeDropdown: "roundDropdown0",
+        dropdownOpen:false,
         timeMachineValue: ""
     }
 
@@ -81,18 +80,31 @@ class CoursePage extends Component {
   toggle() {
     let prevState = this.state
     const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
-    prevState.dropdownsIsOpen[selectedInfo] = !prevState.dropdownsIsOpen[selectedInfo]
-    this.setState({
-      prevState
+    prevState.dropdownsIsOpen = this.clearDropdowns(prevState.dropdownsIsOpen, selectedInfo)
+    prevState.dropdownsIsOpen[selectedInfo] =  ! prevState.dropdownsIsOpen[selectedInfo]
+    console.log("PREV2", prevState)
+      this.setState({
+        prevState
+      })
+  }
+
+  clearDropdowns(dropdownList, dontChangeKey){
+    Object.keys(dropdownList).forEach(function(key) {
+      if(key !== dontChangeKey)
+        dropdownList[key] = false
     })
+    return dropdownList
   }
 
   handleDropdownSelect(){
     event.preventDefault()
+    let prevState = this.state
     const selectInfo = event.target.id.split('_')
+    prevState.activeRoundIndex = selectInfo[1]
+    prevState.activeSyllabusIndex = this.props.routerStore.roundsSyllabusIndex[selectInfo[2]]
+    prevState.activeDropdown = selectInfo[0]
     this.setState({
-      activeRoundIndex: selectInfo[1],
-      activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[selectInfo[2]]
+      prevState
     })
   }
 
@@ -113,7 +125,7 @@ class CoursePage extends Component {
     const courseData = routerStore["courseData"]
     const language = this.props.routerStore.courseData.language === 0 ? "en" : "sv" 
     const introText = routerStore.sellingText && routerStore.sellingText[language].length > 0 ? routerStore.sellingText[language] : courseData.courseInfo.course_recruitment_text
-    console.log("routerStore in CoursePage", routerStore)
+    //console.log("routerStore in CoursePage", routerStore)
     const courseInformationToRounds = {
       course_code: courseData.courseInfo.course_code,
       course_grade_scale: courseData.courseInfo.course_grade_scale,
@@ -275,11 +287,11 @@ class CoursePage extends Component {
 
 const DropdownCreater = ({ courseRoundList , callerInstance, semester, year = "2018", yearSemester, language =0, parentIndex = 0}) => {
   let listIndex = []
-  const dropdownID = "dropdown"+parentIndex
+  const dropdownID = "roundDropdown"+parentIndex
   return(
     <div className = "col-2">
-      <Dropdown  isOpen={callerInstance.state.dropdownsIsOpen[dropdownID]} toggle={callerInstance.toggle} key={"dropD"+parentIndex}>
-                <DropdownToggle className="dropdown-clean" id={dropdownID} caret>
+      <Dropdown  group isOpen={callerInstance.state.dropdownsIsOpen[dropdownID]} toggle={callerInstance.toggle} key={"dropD"+parentIndex} >
+                <DropdownToggle className={callerInstance.state.activeDropdown===dropdownID ? "is-active dropdown-clean": "dropdown-clean"} id={dropdownID}  >
                   {i18n.messages[language].courseInformation.course_short_semester[semester]} {year}
                 </DropdownToggle>
                 <DropdownMenu>

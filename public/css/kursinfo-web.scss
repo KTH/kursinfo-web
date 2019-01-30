@@ -16,7 +16,17 @@
     padding: 2px;
     font-size: 18px;
     font-weight: 400;
+    border-radius: 0 !important;
+    background-color: #fff !important;
+    &:hover, &.is-active{
+        background-color: #fff;
+        border-radius: 0;
+        border: none;
+        border-bottom: 5px solid #006cb7 !important;
+    }
 }
+
+
 
 .preArticleParagraphs, h2.secondTitle {
     margin-top: -20px;

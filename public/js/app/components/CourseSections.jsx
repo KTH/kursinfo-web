@@ -24,7 +24,7 @@ class CourseSection extends Component {
   render() {
     return (
       <section> 
-        <div className="col">
+        <div className="col-12">
               {this.props.courseData.map((data)=>
               <span>
                  <h3>{data.header}</h3> 
