@@ -248,7 +248,7 @@ class CoursePage extends Component {
 
         <br/>
         {/* ---TEMP: OLDER SYLLABUSES LINKS--- */}
-        <div className="col">
+        <div className="col-12">
             {courseData.syllabusSemesterList.length > 0 ?
               courseData.syllabusSemesterList.map((semester, index) => 
               <span key={index}>
