@@ -51,6 +51,8 @@ module.exports = {
     label_course_web_link: 'Course web',
     label_edit:'Edit',
     lable_no_rounds: ' No rounds for this course',
+    label_course_pm: "Course - PM",
+    label_schedule: 'Schedule',
     lable_round_state:{
       CANCELLED: 'This round is cancelled',
       FULL: 'This round is full'

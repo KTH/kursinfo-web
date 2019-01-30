@@ -28,6 +28,7 @@ import { EMPTY, FORSKARUTB_URL } from "../util/constants"
 import CourseKeyInformation from "../components/CourseKeyInformation.jsx"
 import CourseTitle from "../components/CourseTitle.jsx"
 import CourseSectionList from "../components/CourseSectionList.jsx"
+import CourseFileLinks from "../components/CourseFileLinks.jsx"
 
 
 @inject(['routerStore']) @observer
@@ -203,11 +204,12 @@ class CoursePage extends Component {
         { routerStore.courseSemesters.length === 0 ? "" :  
           <Row id="courseRoundHeader" className="col">
             <h4>
-                  {` ${i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]]} 
+                  {` 
+                    ${i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]]} 
                     ${courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0]}  
                     ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name},     
-                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}` 
-                  } 
+                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}
+                  `} 
             </h4>
           </Row>   
         }
@@ -233,6 +235,15 @@ class CoursePage extends Component {
           : ""}
         <br/>
 
+         {/* --- COURSE FILE LINKS---  */}
+         <CourseFileLinks
+            index={this.state.activeRoundIndex}
+            language={courseData.language}
+            courseHasRound ={routerStore.courseSemesters.length > 0 }
+            syllabusValidFrom = {courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from}
+            courseCode= {courseData.courseInfo.course_code}
+            scheduleUrl = {courseData.courseRoundList[this.state.activeRoundIndex].round_schedule}
+          />
 
         {/* --- COURSE INFORATION CONTAINER---  */}
         <CourseSectionList 
@@ -243,7 +254,11 @@ class CoursePage extends Component {
             isOpen={true} 
             color="blue"
             showCourseLink = {routerStore.showCourseWebbLink} 
+            showPart = "first"
           />
+
+         
+
 
 
         <br/>
