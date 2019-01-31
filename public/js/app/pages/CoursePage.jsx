@@ -83,6 +83,7 @@ class CoursePage extends Component {
     const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
     prevState.dropdownsIsOpen = this.clearDropdowns(prevState.dropdownsIsOpen, selectedInfo)
     prevState.dropdownsIsOpen[selectedInfo] =  ! prevState.dropdownsIsOpen[selectedInfo]
+    prevState.activeDropdown = selectedInfo
     console.log("PREV2", prevState)
       this.setState({
         prevState
@@ -316,7 +317,7 @@ const DropdownCreater = ({ courseRoundList , callerInstance, semester, year = "2
   let listIndex = []
   const dropdownID = "roundDropdown"+parentIndex
   return(
-    <div className = "col-2">
+    <div className = "col-3 round-dropdowns">
       <Dropdown  group isOpen={callerInstance.state.dropdownsIsOpen[dropdownID]} toggle={callerInstance.toggle} key={"dropD"+parentIndex} >
                 <DropdownToggle className={callerInstance.state.activeDropdown===dropdownID ? "is-active dropdown-clean": "dropdown-clean"} id={dropdownID} caret >
                   {i18n.messages[language].courseInformation.course_short_semester[semester]} {year}

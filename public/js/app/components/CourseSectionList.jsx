@@ -31,7 +31,7 @@ class CourseSectionList extends Component {
     return intro
   }
 
-  getPrepare(translation){
+  getContent(translation){
     const course = this.props.courseInfo
     const syllabus = this.props.coursePlan
     
@@ -43,7 +43,7 @@ class CourseSectionList extends Component {
     return prepare
   }
 
-  getDuring(translation){
+  getExecution(translation){
     const course = this.props.courseInfo
     const syllabus = this.props.coursePlan
     const during = [
@@ -56,7 +56,7 @@ class CourseSectionList extends Component {
     return during
   }
 
-  getFinalize(translation){
+  getExamination(translation){
     const course = this.props.courseInfo
     const syllabus = this.props.coursePlan
     const prepare = [
@@ -100,9 +100,9 @@ class CourseSectionList extends Component {
        :""} 
        {this.props.partToShow === "second" ?
        <span>
-        <CourseSection sectionHeader ={translation.courseInformationLabels.header_content} courseData = {this.getPrepare(translation)} />
-        <CourseSection sectionHeader ={translation.courseInformationLabels.header_execution} courseData = {this.getDuring(translation)} />
-        <CourseSection sectionHeader ={translation.courseInformationLabels.header_examination} courseData = {this.getFinalize(translation)} />
+        <CourseSection sectionHeader ={translation.courseInformationLabels.header_content} courseData = {this.getContent(translation)} />
+        <CourseSection sectionHeader ={translation.courseInformationLabels.header_execution} courseData = {this.getExecution(translation)} />
+        <CourseSection sectionHeader ={translation.courseInformationLabels.header_examination} courseData = {this.getExamination(translation)} />
         <CourseSection sectionHeader ={translation.courseInformationLabels.header_contact} courseData = {this.getOther(translation)} />
         </span>
         :""} 

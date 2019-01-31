@@ -199,6 +199,7 @@ appRoute.post('redis.ugCache', '/reids/kursinfo/ugChache/:key/:type', Course.get
 server.use('/', appRoute.getRouter())
 
 // Not found etc
+server.use(noCourse.getIndex)
 server.use(System.notFound)
 server.use(System.final)
 
