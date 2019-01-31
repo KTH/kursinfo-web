@@ -25,7 +25,7 @@ class CourseFileLinks extends Component {
     const round = this.props.courseRound
     return (
       <Row id="courseLinks">
-        <Col sm="12">
+        <Col sm="12" xs="12">
           {this.props.syllabusValidFrom.length > 0 ?
           <span>
             <i class="fas fa-file-pdf"></i> 
@@ -40,13 +40,13 @@ class CourseFileLinks extends Component {
           </span>
           : "" }
        </Col>
-        <Col sm="12">
+        <Col sm="12" xs="12">
           <i class="fas fa-file-pdf"></i>
           <a href="javascript" onClick={this.openSyllabus} id={this.props.syllabusValidFrom[0] + this.props.syllabusValidFrom[1]}>
             {i18n.messages[this.props.language].courseInformationLabels.label_course_pm} 
           </a> ( 20xx-xx-xx )
           </Col>
-        <Col sm="12">
+        <Col sm="12" xs="12">
         <i className="icon-schedule"></i> <a target="_blank" href={this.props.scheduleUrl} >
           {i18n.messages[this.props.language].courseInformationLabels.label_schedule}
           </a>

@@ -9,6 +9,15 @@
 @import "node_modules/kth-style/public/sass/bootstrap/variables";
 @import "node_modules/bootstrap/scss/mixins";*/
 
+.preArticleParagraphs, h2.secondTitle {
+    margin-top: -20px;
+    padding: 0;
+}
+
+h2 {
+    margin-top: 70px;
+    margin-bottom: 30px;
+}
 
 .dropdown-clean{
     border: none;
@@ -26,29 +35,23 @@
     }
 }
 
-
-
-.preArticleParagraphs, h2.secondTitle {
-    margin-top: -20px;
-    padding: 0;
-}
-/*.title{
-    padding: 0px 0px 10px 0px;
-    margin: 0px;
-    font-size: 34px;
-    font-size: 3.1rem;
-    color: #000000;
-    font-weight: normal;
-    line-height: '110%';
-    font-family: 'Georgia Regular', 'Georgia', 'garamond pro', garamond, 'times new roman', times, serif, 'droid sans';
-    border-bottom: 1px dotted #b9bbbd;
-}*/
-
 #course-title{
     border-bottom: 0px;
     margin: 0px;
     margin-top: 20px;
 }
+
+#courseIntroText{
+    padding-top:30px;
+    padding-bottom:30px;
+    img {
+        float: left;
+        margin: 8px 20px 10px 0;
+        width:100%;
+        max-width: 400px;
+    }    
+}
+
 
 .paddingX15{
     padding-left: 15px;
@@ -79,14 +82,7 @@ p.small-text{
     margin-bottom: 0.1rem;
 } 
 
-#courseIntroText{
-    padding-top:30px;
-    padding-bottom:30px;
-    img {
-        float: left;
-        margin: 8px 20px 10px 0;
-    }    
-}
+
 
 #courseLinks{
     padding-top:30px;
