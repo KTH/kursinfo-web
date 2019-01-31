@@ -228,7 +228,7 @@ class CoursePage extends Component {
           <span>
             <h3>Forskarkurs</h3>
             <a target="_blank" href={`${FORSKARUTB_URL}/${courseData.courseInfo.course_department_code}`}> 
-            {i18n.messages[courseData.language].courseInformationLabels.label_postgraduate_course} {courseData.coursePlan[this.state.activeSyllabusIndex].course_department}
+            {i18n.messages[courseData.language].courseInformationLabels.label_postgraduate_course} {courseData.courseInfo.course_department}
             </a> 
           </span>
           : ""}
