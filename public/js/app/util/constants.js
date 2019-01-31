@@ -1,5 +1,5 @@
 export const PROGRAMME_URL = "https://www.kth.se/student/kurser/program"
-export const EMPTY = "--no information--"
+export const EMPTY = "Ingen information / No information"
 export const FORSKARUTB_URL = "https://www.kth.se/utbildning/forskarutbildning/kurser/org"
 export const COURSE_IMG_URL = "/static/img/courses/"
 export const COURSE_WEB_URL = "https://www.kth.se/social/course/"

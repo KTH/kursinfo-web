@@ -33,18 +33,18 @@ class CourseFileLinks extends Component {
                 {i18n.messages[this.props.language].courseInformationLabels.label_course_syllabus}
             </a>
           
-          <p className="small-text" >
-            {i18n.messages[this.props.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
-            {i18n.messages[this.props.language].courseInformation.course_short_semester[this.props.syllabusValidFrom[1]]}  {this.props.syllabusValidFrom[0]}
-          </p>
+          <span className="small-text" >
+          &nbsp;( {i18n.messages[this.props.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
+            {i18n.messages[this.props.language].courseInformation.course_short_semester[this.props.syllabusValidFrom[1]]}  {this.props.syllabusValidFrom[0]} )
+          </span>
           </span>
           : "" }
        </Col>
         <Col sm="12">
           <i class="fas fa-file-pdf"></i>
           <a href="javascript" onClick={this.openSyllabus} id={this.props.syllabusValidFrom[0] + this.props.syllabusValidFrom[1]}>
-            {i18n.messages[this.props.language].courseInformationLabels.label_course_pm} 20xx-xx-xx
-          </a>
+            {i18n.messages[this.props.language].courseInformationLabels.label_course_pm} 
+          </a> ( 20xx-xx-xx )
           </Col>
         <Col sm="12">
         <i className="icon-schedule"></i> <a target="_blank" href={this.props.scheduleUrl} >

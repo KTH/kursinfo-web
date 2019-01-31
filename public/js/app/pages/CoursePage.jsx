@@ -333,7 +333,11 @@ const DropdownCreater = ({ courseRoundList , callerInstance, semester, year = "2
                   return (
                       <DropdownItem key ={index} id={dropdownID+"_"+listIndex[index]+"_"+parentIndex} onClick = {callerInstance.handleDropdownSelect}> 
                         {
-                          `${courseRound.round_type} för ${courseRound.round_short_name}` 
+                          ` 
+                          ${i18n.messages[language].courseInformation.course_short_semester[semester]} ${year} 
+                          ${courseRound.round_course_term[0]}  
+                          ${courseRound.round_short_name},     
+                          ${courseRound.round_type}`
                         } 
                       </DropdownItem>
                   )
