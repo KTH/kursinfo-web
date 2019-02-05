@@ -52,6 +52,7 @@ class CoursePage extends Component {
     //Temp!!
     this.handleDateInput=this.handleDateInput.bind(this)
     this.timeMachine=this.timeMachine.bind(this)
+   
   }
 
   handleDateInput(event){
@@ -63,7 +64,6 @@ class CoursePage extends Component {
   timeMachine(event){
     event.preventDefault()
     const newIndex= this.props.routerStore.getCurrentSemesterToShow(this.state.timeMachineValue)
-    console.log("newIndex",newIndex)
     this.setState({
       activeRoundIndex: this.props.routerStore.courseSemesters[newIndex][3],
       activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex] || 0
@@ -78,16 +78,16 @@ class CoursePage extends Component {
       })
   }
 
-  toggle() {
-    let prevState = this.state
-    const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
-    prevState.dropdownsIsOpen = this.clearDropdowns(prevState.dropdownsIsOpen, selectedInfo)
-    prevState.dropdownsIsOpen[selectedInfo] =  ! prevState.dropdownsIsOpen[selectedInfo]
-    prevState.activeDropdown = selectedInfo
-    console.log("PREV2", prevState)
+  toggle(event) { 
+    if(event){
+      const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
+      let prevState = this.state
+      prevState.dropdownsIsOpen = this.clearDropdowns(prevState.dropdownsIsOpen, selectedInfo)
+      prevState.dropdownsIsOpen[selectedInfo] =  ! prevState.dropdownsIsOpen[selectedInfo]
       this.setState({
         prevState
       })
+    }
   }
 
   clearDropdowns(dropdownList, dontChangeKey){
@@ -98,7 +98,7 @@ class CoursePage extends Component {
     return dropdownList
   }
 
-  handleDropdownSelect(){
+  handleDropdownSelect(event){
     event.preventDefault()
     let prevState = this.state
     const selectInfo = event.target.id.split('_')
@@ -108,6 +108,7 @@ class CoursePage extends Component {
     this.setState({
       prevState
     })
+    this.toggle(event)
   }
 
   openSyllabus(event){
@@ -298,7 +299,7 @@ class CoursePage extends Component {
         {
           routerStore.canEdit ? 
             <Button className="editButton" color="primery" onClick={this.openEdit} id={courseData.courseInfo.course_code}>
-             <i className="icon-edit"></i> {i18n.messages[courseData.language].courseInformationLabels.label_edit}
+             <i class="fas fa-edit"></i> {i18n.messages[courseData.language].courseInformationLabels.label_edit}
             </Button> 
           : ""
         }

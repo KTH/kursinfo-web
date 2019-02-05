@@ -20,7 +20,7 @@ class CourseFileLinks extends Component {
   }
 
   render () {
-    console.log("this.props.courseRound", this.props)
+    //console.log("this.props.courseRound", this.props)
     const translate = i18n.messages[this.props.language].courseRoundInformation
     const round = this.props.courseRound
     return (

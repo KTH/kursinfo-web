@@ -159,6 +159,8 @@ async function  getIndex (req, res, next) {
   const courseCode = req.params.courseCode.toUpperCase()
   let lang = language.getLanguage(res) || 'sv'
   const ldapUser = req.session.authUser ? req.session.authUser.username : 'null'
+  console.log("ldapUser",ldapUser)
+  
   try {
     // Render inferno app
     const context = {}

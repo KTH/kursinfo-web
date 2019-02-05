@@ -62,7 +62,7 @@ passport.use(strategy)
 
 passport.use(new GatewayStrategy({
   casUrl: config.cas.ssoBaseURL
-}, function (result, done) {
+}, function (result, done) {console.log("ldapUser", result.user)
   log.debug({ result: result }, `CAS Gateway user: ${result.user}`)
   done(null, result.user, result)
 }))

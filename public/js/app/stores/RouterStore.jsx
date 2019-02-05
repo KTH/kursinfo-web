@@ -75,7 +75,7 @@ class RouterStore {
   getImage(courseCode, type="normal"){
     const image =`${Math.floor((Math.random() * 7) + 1)}_${type}.jpg`
     const response = axios.get(this.buildApiUrl(this.paths.api.setImage.uri, { courseCode: courseCode, imageName:image })).then( response =>{
-      console.log("IMAGE SET->",response, image)
+      //console.log("IMAGE SET->",response, image)
     })
     .catch(err => { 
       if (err.response) {
@@ -110,7 +110,7 @@ class RouterStore {
     if(this.courseData.courseRoundList.length === 0 ) return ""
 
     return axios.post(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type }),this._getOptions(JSON.stringify(this.keyList))).then( result => {
-      console.log('getCourseEmployeesPost', result)
+     // console.log('getCourseEmployeesPost', result)
       const returnValue = result.data
       let rounds = this.courseData.courseRoundList
       for(let index = 0; index < returnValue[0].length; index++){
@@ -173,8 +173,8 @@ class RouterStore {
           yearMatch = index
         }
       }
-      console.log("what???",returnIndex, yearMatch ) //TODO: delete
-      console.log(thisDate, showSemester)
+     // console.log("what???",returnIndex, yearMatch ) //TODO: delete
+     // console.log(thisDate, showSemester)
     //*******In case there should be no match at all, take the last senester in the list ********/
       if(returnIndex === -1 && yearMatch === -1)
         return this.courseSemesters.length-1
@@ -230,7 +230,7 @@ class RouterStore {
 
       //***Get the index for start informatin based on time of year ***/
       this.defaultIndex = this.getCurrentSemesterToShow()
-      console.log("this.roundsSyllabusIndex", this.roundsSyllabusIndex, this.defaultIndex)
+      //console.log("this.roundsSyllabusIndex", this.roundsSyllabusIndex, this.defaultIndex)
         
         this.courseData = {
           coursePlan,
@@ -324,13 +324,13 @@ class RouterStore {
           if(Number(syllabusSemesterList[whileIndex]) > Number(this.courseSemesters[index][2]) )
             console.log("find other syllabus2")
           else{
-            console.log("correct syllabus2")
+           // console.log("correct syllabus2")
             this.roundsSyllabusIndex[index]=whileIndex
             break
           }
         }
       else{
-        console.log("correct syllabus")
+        //console.log("correct syllabus")
         this.roundsSyllabusIndex[index]=0
       }
     }
@@ -381,7 +381,11 @@ class RouterStore {
   createPersonHtml(personList, type){
     let personString = ""
     personList.forEach( person  => {
-      personString += `<p class = "person"><i class="icon-user"></i> <a href="https://www.kth.se/profile/${person.username}/" target="_blank" property="teach:teacher">${person.givenName} ${person.lastName}, </a> <i class="icon-envelope-alt"></i> ${person.email}</p>  `
+      personString += `<p class = "person">
+          <i class="fas fa-user-alt"></i> 
+          <a href="https://www.kth.se/profile/${person.username}/" target="_blank" property="teach:teacher">${person.givenName} ${person.lastName}, </a> 
+          <i class="far fa-envelope"></i> ${person.email}
+          </p>  `
       //** Check if the logged in user is examinator or responsible and can edit course page **/
       if(this.user === person.username && ( type=== 'responsible' || type=== 'examiner')) //TODO: DELETE
         this.canEdit = true
