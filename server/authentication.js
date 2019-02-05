@@ -14,7 +14,8 @@ const GatewayStrategy = require('kth-node-passport-cas').GatewayStrategy
  * to Passport which implements the necessary serialization and deserialization logic. In a typical
  * application, this will be as simple as serializing the user ID, and finding the user by ID when deserializing.
  */
-passport.serializeUser(function (user, done) {
+passport.serializeUser(function (user, done) { console.log("user, done",user, done)
+
   if (user) {
     log.debug('User serialized: ' + user)
     done(null, user)

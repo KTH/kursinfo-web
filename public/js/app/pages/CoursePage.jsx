@@ -128,7 +128,7 @@ class CoursePage extends Component {
     const courseData = routerStore["courseData"]
     const language = this.props.routerStore.courseData.language === 0 ? "en" : "sv" 
     const introText = routerStore.sellingText && routerStore.sellingText[language].length > 0 ? routerStore.sellingText[language] : courseData.courseInfo.course_recruitment_text
-    console.log("routerStore in CoursePage", routerStore)
+    console.log("routerStore in CoursePage", routerStore.user, routerStore.courseData.courseInfo.courseCode)
     const courseInformationToRounds = {
       course_code: courseData.courseInfo.course_code,
       course_grade_scale: courseData.courseInfo.course_grade_scale,
