@@ -110,7 +110,7 @@ class RouterStore {
     if(this.courseData.courseRoundList.length === 0 ) return ""
 
     return axios.post(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type }),this._getOptions(JSON.stringify(this.keyList))).then( result => {
-      //console.log('getCourseEmployeesPost', result)
+      console.log('getCourseEmployeesPost', result)
       const returnValue = result.data
       let rounds = this.courseData.courseRoundList
       for(let index = 0; index < returnValue[0].length; index++){
@@ -297,7 +297,7 @@ class RouterStore {
     return examString 
   }
 
-  getRounds(roundInfos, syllabusSemesterList, courseCode){
+  getRounds(roundInfos, courseCode){
     let tempList = []
     let courseRound
     let courseRoundList = []
