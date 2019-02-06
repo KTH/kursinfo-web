@@ -336,8 +336,7 @@ const DropdownCreater = ({ courseRoundList , callerInstance, semester, year = "2
                         {
                           ` 
                           ${i18n.messages[language].courseInformation.course_short_semester[semester]} ${year} 
-                          ${courseRound.round_course_term[0]}  
-                          ${courseRound.round_short_name},     
+                          ${courseRound.round_short_name !== EMPTY ? courseRound.round_short_name : "" },     
                           ${courseRound.round_type}`
                         } 
                       </DropdownItem>

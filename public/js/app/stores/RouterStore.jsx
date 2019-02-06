@@ -346,8 +346,8 @@ class RouterStore {
       round_tutoring_form: this.isValidData(roundObject.round.tutoringForm.name, language), //ASK FOR CHANGE???
       round_tutoring_time: this.isValidData(roundObject.round.tutoringTimeOfDay.name, language), 
       round_tutoring_language: this.isValidData(roundObject.round.language, language),
-      round_campus: this.isValidData(roundObject.round.campus.label, language), 
-      round_course_place: this.isValidData(roundObject.round.campus.name, language),
+      round_course_place: this.isValidData(roundObject.round.campus.label, language), 
+      round_campus: this.isValidData(roundObject.round.campus.name, language),
       round_short_name: this.isValidData(roundObject.round.shortName, language),
       round_application_code: this.isValidData(roundObject.round.applicationCodes[0].applicationCode),
       round_schedule: this.isValidData(roundObject.schemaUrl),
