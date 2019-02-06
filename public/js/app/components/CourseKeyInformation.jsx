@@ -1,8 +1,6 @@
 import { Component } from 'inferno'
-import { renderString } from 'inferno-formlib/lib/widgets/common'
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
-import Button from 'inferno-bootstrap/dist/Button'
 import Alert from 'inferno-bootstrap/dist/Alert'
 import { EMPTY } from "../util/constants"
 import i18n from "../../../../i18n"
@@ -25,7 +23,7 @@ class CourseKeyInformation extends Component {
     const round = this.props.courseRound
     const course = this.props.courseData
     return (
-      <div id="RoundContainer" className=" col key-info">{this.props.courseHasRound}
+      <div id="RoundContainer" className="key-info">{this.props.courseHasRound}
         <Row>
           <Col sm="12" id="roundKeyInformation">
             <Row id="firstRow">
@@ -96,15 +94,5 @@ class CourseKeyInformation extends Component {
 } 
 
 
-
-const InformationSet = ({label = "Rubrik", text}) => {
-  return(
-    <div>
-      <h2>{label}</h2>
-      <p dangerouslySetInnerHTML={{ __html:text}}/>
-    </div>
-
-  )
-}
 
 export default CourseKeyInformation

@@ -96,14 +96,14 @@ class CourseSectionList extends Component {
     return (
       <div className="row">
       {this.props.partToShow === "first" ?
-        <CourseSection sectionHeader ="" courseData = {this.getIntro(translation)} />
+        <CourseSection sectionHeader =""  headerType = '4' courseData = {this.getIntro(translation)} />
        :""} 
        {this.props.partToShow === "second" ?
        <span>
-        <CourseSection sectionHeader ={translation.courseInformationLabels.header_content} courseData = {this.getContent(translation)} />
-        <CourseSection sectionHeader ={translation.courseInformationLabels.header_execution} courseData = {this.getExecution(translation)} />
-        <CourseSection sectionHeader ={translation.courseInformationLabels.header_examination} courseData = {this.getExamination(translation)} />
-        <CourseSection sectionHeader ={translation.courseInformationLabels.header_contact} courseData = {this.getOther(translation)} />
+        <CourseSection sectionHeader ={translation.courseInformationLabels.header_content} headerType = '3' courseData = {this.getContent(translation)} />
+        <CourseSection sectionHeader ={translation.courseInformationLabels.header_execution} headerType = '3' courseData = {this.getExecution(translation)} />
+        <CourseSection sectionHeader ={translation.courseInformationLabels.header_examination} headerType = '3' courseData = {this.getExamination(translation)} />
+        <CourseSection sectionHeader ={translation.courseInformationLabels.header_contact} headerType = '3' courseData = {this.getOther(translation)} />
         </span>
         :""} 
         </div>  

@@ -1,18 +1,18 @@
 import { Component } from 'inferno'
-import Button from 'inferno-bootstrap/dist/Button'
 
 class CourseSection extends Component {
   render() {
+    const props = this.props
     return (
       <section className="col-12"> 
         <div >
-        <h2>{this.props.sectionHeader}</h2>
-              {this.props.courseData.map((data)=>
+          {props.sectionHeader.length > 0 ? <h2>{props.sectionHeader}</h2> : ""} 
+          {props.courseData.map((data)=>
               <span>
-                 <h3>{data.header}</h3> 
+                {this.props.headerType === '4' ? <h4>{data.header}</h4> : <h3>{data.header}</h3> }
                 <p dangerouslySetInnerHTML={{ __html:data.text}}/>
                </span>
-              )}
+          )}
         </div>
       </section>  
     )

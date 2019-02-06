@@ -14,35 +14,6 @@
     padding: 0;
 }
 
-.round-dropdowns{
-    @media (max-width: 376px){
-    & > .btn-group>.btn:first-child {
-            margin-left: -10px;
-        }
-    }
-}
-
-h2 {
-    margin-top: 70px;
-    margin-bottom: 30px;
-}
-
-.dropdown-clean{
-    border: none;
-    margin: 2px;
-    padding: 2px;
-    font-size: 18px;
-    font-weight: 400;
-    border-radius: 0 !important;
-    background-color: #fff !important;
-    &:hover, &:focus, &.is-active{
-        background-color: #fff;
-        border-radius: 0;
-        border: none;
-        border-bottom: 5px solid #006cb7 !important;
-    }
-}
-
 #course-title{
     border-bottom: 0px;
     margin: 0px;
@@ -50,8 +21,8 @@ h2 {
 }
 
 #courseIntroText{
-    padding-top:30px;
-    padding-bottom:30px;
+    padding-top:10px;
+    padding-bottom:10px;
     img {
         float: left;
         margin: 8px 20px 10px 0;
@@ -60,15 +31,70 @@ h2 {
     }    
 }
 
+h2 {
+    margin-top: 70px;
+    margin-bottom: 30px;
+}
 
-.paddingX15{
-    padding-left: 15px;
-  }
-  
-  .key-info{
+
+
+#courseDropdownMenu{
+    margin-bottom: 20px;
+    border-top: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+    padding-top: 10px;
+    
+    #roundDropDownLabel{
+        font-size: 1.7rem
+    }
+
+    .round-dropdowns{
+        @media (max-width: 376px){
+        & > .btn-group>.btn:first-child {
+                margin-left: -10px;
+                font-size: 0.8rem
+            }
+        }
+    }
+    
+    .dropdown-clean{
+        border: none;
+        margin: 2px;
+        padding: 2px;
+        font-size: 18px;
+        font-weight: 400;
+        border-radius: 0 !important;
+        background-color: #fff !important;
+        &:hover, &:focus, &.is-active{
+            background-color: #fff;
+            border-radius: 0;
+            border: none;
+            border-bottom: 5px solid #006cb7 !important;
+        }
+    }
+
+    select{
+        margin-top: 40px;
+        border: none;
+        border-bottom: #ddd 1px solid;
+        font-size: 0.8rem;
+        font-weight: 700;
+    }
+}
+
+#courseRoundHeader{
+    padding-top:20px;
+
+    h4{
+        font-size: 18px;
+        font-weight: 400;
+    }
+}
+
+.key-info{
     p {
         margin: 0 0 0.1em 0;
-        font-size: 17px;
+        font-size: 1rem;
     }
 
     h4 {
@@ -79,48 +105,14 @@ h2 {
        // display:none;
     }
 
-    div{
-        padding-left:5px;
-        padding-right:5px;
-    }
-
   }
+
+
+
   
-p.small-text{
-    font-size: 12px;
-    margin-bottom: 0.1rem;
-} 
-
-
-
 #courseLinks{
     padding-top:30px;
     padding-bottom:30px;
-}
-
-#courseRoundHeader{
-    h4{
-        font-size: 18px;
-        font-weight: 400;
-    }
-}
-
-select{
-    margin-top: 40px;
-    border: none;
-    border-bottom: #ddd 1px solid;
-    font-size: 16px;
-    font-weight: 700;
-}
-
-#roundDropDownLabel{
-    font-size: 1.7rem
-}
-
-#courseDropdownMenu{
-    padding-top: 45px;
-    padding-bottom: 20px;
-    margin-bottom: 20px;
 }
 
 .person{

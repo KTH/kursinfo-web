@@ -10,7 +10,7 @@ class CourseTitle extends Component {
     const title = this.props.courseTitleData
     title.course_credits = title.course_credits !== EMPTY && title.course_credits.toString().indexOf('.') < 0 ? title.course_credits+".0": title.course_credits
     return (
-      <div id="course-title" className="">
+      <div id="course-title" className="col">
         <h1>
           <span property="aiiso:code">{title.course_code}</span>
           <span property="teach:courseTitle"> {title.course_title}</span>

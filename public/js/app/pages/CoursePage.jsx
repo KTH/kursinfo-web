@@ -197,9 +197,6 @@ class CoursePage extends Component {
                 })
               }
           </div>
-        </div>   
-
-        
 
         {/* ---COURSE ROUND HEADER--- */}
         { routerStore.courseSemesters.length === 0 ? "" :  
@@ -214,7 +211,7 @@ class CoursePage extends Component {
             </h4>
           </Row>   
         }
-
+      </div> 
         {/* ---COURSE ROUND KEY INFORMATION--- */}
         <CourseKeyInformation
           courseRound= {courseData.courseRoundList[this.state.activeRoundIndex]}
@@ -234,20 +231,21 @@ class CoursePage extends Component {
             </a> 
           </span>
           : ""}
-        <br/>
+       
 
-         {/* --- COURSE INFORATION CONTAINER---  */}
-         <CourseSectionList 
-            roundIndex={this.state.activeRoundIndex} 
-            courseInfo = {courseData.courseInfo} 
-            coursePlan = {courseData.coursePlan[this.state.activeSyllabusIndex]} 
-            className="ExampleCollapseContainer" 
-            isOpen={true} 
-            color="blue"
-            showCourseLink = {routerStore.showCourseWebbLink} 
-            partToShow = "first"
-          />
-
+         {/* --- COURSE INFORMATION CONTAINER---  */}
+         <div className="key-info">
+          <CourseSectionList 
+              roundIndex={this.state.activeRoundIndex} 
+              courseInfo = {courseData.courseInfo} 
+              coursePlan = {courseData.coursePlan[this.state.activeSyllabusIndex]} 
+              className="ExampleCollapseContainer" 
+              isOpen={true} 
+              color="blue"
+              showCourseLink = {routerStore.showCourseWebbLink} 
+              partToShow = "first"
+            />
+         
          {/* --- COURSE FILE LINKS---  */}
          <CourseFileLinks
             index={this.state.activeRoundIndex}
@@ -257,7 +255,11 @@ class CoursePage extends Component {
             courseCode= {courseData.courseInfo.course_code}
             scheduleUrl = {routerStore.courseSemesters.length > 0 ? courseData.courseRoundList[this.state.activeRoundIndex].round_schedule : "https://thoughtcatalog.com/january-nelson/2018/06/funny-stories/"}
           />
+        </div>
 
+
+
+        
         {/* --- COURSE INFORATION CONTAINER---  */}
         <CourseSectionList 
             roundIndex={this.state.activeRoundIndex} 
