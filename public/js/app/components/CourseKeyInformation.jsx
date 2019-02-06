@@ -31,13 +31,13 @@ class CourseKeyInformation extends Component {
             <Row id="firstRow">
                 <Col sm="3">
                   <h4>{i18n.messages[this.props.language].courseInformation.course_level_code}</h4>
-                  <p><i class="fas fa-university"></i>{i18n.messages[this.props.language].courseInformation.course_level_code_label[course.course_level_code]}</p>
+                  <p>{i18n.messages[this.props.language].courseInformation.course_level_code_label[course.course_level_code]}</p>
                 </Col>
                 <Col sm="3">
                 {this.props.courseHasRound ?
                     <span>
                       <h4>{translate.round_tutoring_form}</h4>
-                      <p><i class="fas fa-business-time"></i>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY}  {round ? translate.round_tutoring_time_label[round.round_tutoring_time]: EMPTY}</p>
+                      <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY}  {round ? translate.round_tutoring_time_label[round.round_tutoring_time]: EMPTY}</p>
                   
                     </span>
                   : ""}
@@ -47,32 +47,34 @@ class CourseKeyInformation extends Component {
                 {this.props.courseHasRound ?
                 <span>
                   <h4>{translate.round_tutoring_language}</h4>
-                  <p><i class="fas fa-globe"></i>{round ? round.round_tutoring_language : EMPTY}</p>
+                  <p>{round ? round.round_tutoring_language : EMPTY}</p>
                 </span>
                 : ""}
               </Col> 
+
               <Col sm="3">
                 {this.props.courseHasRound ?
                 <span>
                   <h4>{translate.round_periods}</h4>
-                  <p><i class="fas fa-calendar-week"></i>{round ? round.round_periods : EMPTY}</p>
+                  <p>{round ? round.round_periods : EMPTY}</p>
                 </span>
                 : ""}
               </Col>
             </Row>
             {this.props.courseHasRound ?
               <Row id="secondRow">
+                
                 <Col sm="3">
                   <h4>{translate.round_course_place}</h4>
-                  <p><i class="fas fa-home"></i>{round ? round.round_course_place : EMPTY}</p>
+                  <p>{round ? round.round_course_place : EMPTY}</p>
                 </Col>
                 <Col sm="3">
                   <h4>{translate.round_max_seats}</h4>
-                  <p><i class="fas fa-chair"></i>{round ? round.round_max_seats : EMPTY}</p>
+                  <p>{round ? round.round_max_seats : EMPTY}</p>
                 </Col>
                 <Col sm="3">
                   <h4>{translate.round_application_code}</h4>
-                  <p><i class="fas fa-barcode"></i>{round ? round.round_application_code : EMPTY}</p>
+                  <p>{round ? round.round_application_code : EMPTY}</p>
                 </Col>
                 <Col sm="3">
                 <h4>{translate.round_start_date}</h4>
