@@ -343,7 +343,7 @@ class RouterStore {
       round_start_date: this.isValidData(roundObject.round.firstTuitionDate, language),
       round_end_date: this.isValidData(roundObject.round.lastTuitionDate, language),
       round_target_group:  this.isValidData(roundObject.round.targetGroup, language),
-      round_tutoring_form: this.isValidData(roundObject.round.tutoringForm.name, language), //ASK FOR CHANGE???
+      round_tutoring_form: this.isValidData(roundObject.round.tutoringForm.name, language), 
       round_tutoring_time: this.isValidData(roundObject.round.tutoringTimeOfDay.name, language), 
       round_tutoring_language: this.isValidData(roundObject.round.language, language),
       round_course_place: this.isValidData(roundObject.round.campus.label, language), 
@@ -368,7 +368,7 @@ class RouterStore {
       programmeString += 
       `<a target="_blank" 
                   href="${PROGRAMME_URL}/${programme.programmeCode}/${programme.progAdmissionTerm.term}/arskurs${programme.studyYear}">
-                  ${programme.title}, ${language === "sv" ? "åk" : "year" } ${programme.studyYear},${programme.electiveCondition.abbrLabel}
+                  ${programme.title}, ${language === 0 ? "åk" : "year" } ${programme.studyYear},${programme.electiveCondition.abbrLabel}
        </a><br/>`
     })
     return programmeString

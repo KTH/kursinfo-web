@@ -15,8 +15,10 @@
 }
 
 .round-dropdowns{
+    @media (max-width: 376px){
     & > .btn-group>.btn:first-child {
-        margin-left: -10px;
+            margin-left: -10px;
+        }
     }
 }
 
