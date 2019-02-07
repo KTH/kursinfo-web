@@ -114,7 +114,7 @@ function * _getSellingText(req, res) {
 function * _getKoppsCourseData(req, res, next) {
 
   const courseCode = req.params.courseCode
-  const language = req.params.language || 'sv'
+  const language = req.params.courseCode || 'sv'
 
  try {
     const apiResponse = yield koppsCourseData.getKoppsCourseData(courseCode, language)

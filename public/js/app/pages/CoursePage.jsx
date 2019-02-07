@@ -140,8 +140,8 @@ class CoursePage extends Component {
     return (
       <div  key="kursinfo-container" className="kursinfo-main-page col" >
       <Row>
-        <Col sm="2" xs="1"></Col>
-        <Col sm="8" xs="12">
+        <Col sm="1" xs="1"></Col>
+        <Col sm="10" xs="12">
         {/* ---COURSE TITEL--- */}
         <CourseTitle key = "title"
             courseTitleData = {courseData.courseTitleData}
@@ -178,9 +178,10 @@ class CoursePage extends Component {
          </Col>
        </Row>
 
-        
+       
         {/* ---COURSE ROUND DROPDOWN--- */}
         <div id="courseDropdownMenu" className="">
+       
           <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
               { routerStore.courseSemesters.length === 0 ? 
                   <Alert color="info">{i18n.messages[courseData.language].courseInformationLabels.lable_no_rounds}</Alert> : 
@@ -196,8 +197,9 @@ class CoursePage extends Component {
                         />
                 })
               }
+              
           </div>
-
+          
         {/* ---COURSE ROUND HEADER--- */}
         { routerStore.courseSemesters.length === 0 ? "" :  
           <Row id="courseRoundHeader" className="col">
@@ -211,6 +213,7 @@ class CoursePage extends Component {
             </h4>
           </Row>   
         }
+        
       </div> 
         {/* ---COURSE ROUND KEY INFORMATION--- */}
         <CourseKeyInformation
@@ -256,10 +259,9 @@ class CoursePage extends Component {
             scheduleUrl = {routerStore.courseSemesters.length > 0 ? courseData.courseRoundList[this.state.activeRoundIndex].round_schedule : "https://thoughtcatalog.com/january-nelson/2018/06/funny-stories/"}
           />
         </div>
+       
 
 
-
-        
         {/* --- COURSE INFORATION CONTAINER---  */}
         <CourseSectionList 
             roundIndex={this.state.activeRoundIndex} 
@@ -297,7 +299,7 @@ class CoursePage extends Component {
           <button onClick={this.timeMachine}>Travel in time!</button>
         </div>
         </Col>
-        <Col sm="2" xs="1">
+        <Col sm="1" xs="1">
         {
           routerStore.canEdit ? 
             <Button className="editButton" color="primery" onClick={this.openEdit} id={courseData.courseInfo.course_code}>

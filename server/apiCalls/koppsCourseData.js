@@ -18,6 +18,7 @@ module.exports = {
 }
 
 function * getKoppsCourseData (courseCode, lang = 'sv') {
+
   try{
     return yield koppsApi.getAsync(`course/${encodeURIComponent(courseCode)}/detailedinformation?l=${lang}`)
   } catch (err) {

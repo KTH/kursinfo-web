@@ -39,6 +39,7 @@ module.exports = {
   },
   courseInformationLabels: {
     label_course_syllabus: 'Kursplan',
+    label_course_syllabuses: 'Kursplaner',
     label_course_syllabus_valid_from:  'Gäller från och med',
     label_programme_year: 'Åk  ',
     label_course_intro: 'Inför kursval',
@@ -54,6 +55,8 @@ module.exports = {
     label_course_pm: "Kurs - PM",
     lable_no_rounds: 'Denna kurs har inga kurstillfällen',
     label_schedule: 'Schema',
+    label_statistics: 'Kursutveckling',
+    lable_canavas_example: 'Canvas exempelkurs',
     lable_round_state:{
       CANCELLED: 'Kurstillfälle inställt',
       FULL: 'Kurstillfälle fullsatt'

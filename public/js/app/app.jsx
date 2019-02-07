@@ -16,6 +16,7 @@ import i18n from '../../../i18n'
 
 import RouterStore from './stores/RouterStore.jsx'
 import CoursePage from './pages/CoursePage.jsx'
+import CoursePage2 from './pages/CoursePage2.jsx'
 
 
 function appFactory () {
@@ -43,7 +44,9 @@ function appFactory () {
       <Provider routerStore={routerStore} >
         <ProgressLayer>
           <Switch>
+            <Route  path="/student/kurser/kurs/2/" component={ CoursePage2 } asyncBefore = { CoursePage2.fetchData }/>
             <Route  path="/student/kurser/kurs" component={ CoursePage } asyncBefore = { CoursePage.fetchData }/>
+            
             <Route path="/" component={ CoursePage } />
           </Switch>
         </ProgressLayer>

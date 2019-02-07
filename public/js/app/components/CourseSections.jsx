@@ -6,8 +6,8 @@ class CourseSection extends Component {
     return (
       <section className="col-12"> 
         <div >
-          {props.sectionHeader.length > 0 ? <h2>{props.sectionHeader}</h2> : ""} 
-          {props.courseData.map((data)=>
+          {this.props.sectionHeader.length > 0 ? <h2 className={this.props.class}>{this.props.sectionHeader}</h2> : ""} 
+          {this.props.courseData.map((data)=>
               <span>
                 {this.props.headerType === '4' ? <h4>{data.header}</h4> : <h3>{data.header}</h3> }
                 <p dangerouslySetInnerHTML={{ __html:data.text}}/>

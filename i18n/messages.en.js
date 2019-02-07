@@ -38,6 +38,7 @@ module.exports = {
   },
   courseInformationLabels: {
     label_course_syllabus: 'Course Syllabus',
+    label_course_syllabuses: 'Course Syllabuses',
     label_course_syllabus_valid_from: 'Valid from',
     label_programme_year: 'year ',
     label_course_intro: 'Intoduction',
@@ -53,6 +54,8 @@ module.exports = {
     lable_no_rounds: ' No rounds for this course',
     label_course_pm: "Course memo",
     label_schedule: 'Schedule',
+    label_statistics: 'Course statistics',
+    lable_canavas_example: 'Canvas example course',
     lable_round_state:{
       CANCELLED: 'This round is cancelled',
       FULL: 'This round is full'
