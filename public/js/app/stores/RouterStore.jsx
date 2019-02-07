@@ -382,9 +382,9 @@ class RouterStore {
     let personString = ""
     personList.forEach( person  => {
       personString += `<p class = "person">
-          <i class="fas fa-user-alt"></i> 
+          <i class="fas fa-user-alt"></i>
           <a href="https://www.kth.se/profile/${person.username}/" target="_blank" property="teach:teacher">${person.givenName} ${person.lastName}, </a> 
-          <i class="far fa-envelope"></i> ${person.email}
+          <i class="far fa-envelope"></i>&nbsp;${person.email}
           </p>  `
       //** Check if the logged in user is examinator or responsible and can edit course page **/
       if(this.user === person.username && ( type=== 'responsible' || type=== 'examiner')) //TODO: DELETE

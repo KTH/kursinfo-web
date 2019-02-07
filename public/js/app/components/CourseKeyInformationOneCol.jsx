@@ -82,10 +82,10 @@ class CourseKeyInformationOneCol extends Component {
                   <p><i class="fas fa-hourglass-end"></i>{round ? round.round_end_date : EMPTY}</p>
 
                   <h4>{translate.round_teacher}</h4>
-                    <p>{round ? round.round_teacher : EMPTY}</p>
-
+                  <span dangerouslySetInnerHTML = {{ __html:round.round_teacher }}></span>
+                   
                     <h4>{translate.round_responsibles}</h4>
-                    <p>{round ? round.round_responsibles : EMPTY}</p>
+                    <span dangerouslySetInnerHTML = {{ __html:round.round_responsibles }}></span>
                   </span>
                    
                   : ""}
