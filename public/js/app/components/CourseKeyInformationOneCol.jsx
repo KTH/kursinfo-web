@@ -5,6 +5,8 @@ import Alert from 'inferno-bootstrap/dist/Alert'
 import { EMPTY } from "../util/constants"
 import i18n from "../../../../i18n"
 
+import CourseFileLinks from "./CourseFileLinks.jsx"
+
 class CourseKeyInformationOneCol extends Component {
  constructor (props) {
     super(props)
@@ -35,6 +37,16 @@ class CourseKeyInformationOneCol extends Component {
             
             </h3></div>
              :""}
+             {this.props.courseHasRound ?
+                    <span>
+                      <h4>{translate.round_target_group}</h4>
+                      <span dangerouslySetInnerHTML = {{ __html:round.round_target_group }}></span>
+
+                      <h4>{translate.round_part_of_programme}</h4>
+                      <span dangerouslySetInnerHTML = {{ __html:round.round_part_of_programme }}></span>
+                    </span>
+                  : ""}
+            
                   <h4>{i18n.messages[this.props.language].courseInformation.course_level_code}</h4>
                   <p>{i18n.messages[this.props.language].courseInformation.course_level_code_label[course.course_level_code]}</p>
               
@@ -87,8 +99,16 @@ class CourseKeyInformationOneCol extends Component {
                     <h4>{translate.round_responsibles}</h4>
                     <span dangerouslySetInnerHTML = {{ __html:round.round_responsibles }}></span>
                   </span>
-                   
                   : ""}
+
+                  <CourseFileLinks
+                    index=""
+                    language={this.props.language}
+                    courseHasRound ={this.props.courseHasRound }
+                    syllabusValidFrom = ""
+                    courseCode= {course.course_code}
+                    scheduleUrl = {round > 0 ? round.round_schedule : "https://thoughtcatalog.com/january-nelson/2018/06/funny-stories/"}
+                />
           </Col>
        </Row>
        {this.props.courseHasRound && round.round_state !== "APPROVED" ? 

@@ -1,22 +1,9 @@
 import { render, Component } from 'inferno'
 import { inject, observer } from 'inferno-mobx'
 
-/*import Dropdown from 'kth-style-inferno-bootstrap/dist/Dropdown'
-import DropdownMenu from 'kth-style-inferno-bootstrap/dist/DropdownMenu'
-import DropdownItem from 'kth-style-inferno-bootstrap/dist/DropdownItem'
-import DropdownToggle from 'kth-style-inferno-bootstrap/dist/DropdownToggle'
 
-
-import Dropdown from 'kth-style-iinferno-bootstrap/dist/Dropdown'
-import DropdownMenu from 'kth-style-iinferno-bootstrap/dist/DropdownMenu'
-import DropdownItem from 'kth-style-iinferno-bootstrap/dist/DropdownItem'
-import DropdownToggle from 'kth-style-iinferno-bootstrap/dist/DropdownToggle'
-*/
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
-import Dropdown from 'inferno-bootstrap/dist/Dropdown'
-import DropdownMenu from 'inferno-bootstrap/dist/DropdownMenu'
-import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
 import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
 import Alert from 'inferno-bootstrap/dist/Alert'
 import Button from 'inferno-bootstrap/lib/Button'
@@ -29,6 +16,7 @@ import CourseKeyInformationOneCol from "../components/CourseKeyInformationOneCol
 import CourseTitle from "../components/CourseTitle.jsx"
 import CourseSectionList from "../components/CourseSectionList.jsx"
 import CourseFileLinks from "../components/CourseFileLinks.jsx"
+import DropdownCreater from "../components/DropdownCreater.jsx"
 
 
 @inject(['routerStore']) @observer
@@ -229,14 +217,14 @@ class CoursePage2 extends Component {
           {/* ---COURSE ROUND HEADER--- */}
           { routerStore.courseSemesters.length === 0 ? "" :  
             <Row id="courseRoundHeader" className="col">
-              <h3>
+              <h4>
                     {` 
                       ${i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]]} 
                       ${courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0]}  
                       ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : ""}     
                       ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}
                     `} 
-              </h3>
+              </h4>
             </Row>   
           }
           </div> 
@@ -276,25 +264,9 @@ class CoursePage2 extends Component {
         
 
           {/* --- INFORMATION CONTAINER---  */}
-          <div className="key-info">
-            <CourseSectionList 
-                roundIndex={this.state.activeRoundIndex} 
-                courseInfo = {courseData.courseInfo} 
-                coursePlan = {courseData.coursePlan[this.state.activeSyllabusIndex]} 
-                showCourseLink = {routerStore.showCourseWebbLink} 
-                partToShow = "first"
-              />
           
-          {/* --- COURSE FILE LINKS---  */}
-          <CourseFileLinks
-              index={this.state.activeRoundIndex}
-              language={courseData.language}
-              courseHasRound ={routerStore.courseSemesters.length > 0 }
-              syllabusValidFrom = {courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from}
-              courseCode= {courseData.courseInfo.course_code}
-              scheduleUrl = {routerStore.courseSemesters.length > 0 ? courseData.courseRoundList[this.state.activeRoundIndex].round_schedule : "https://thoughtcatalog.com/january-nelson/2018/06/funny-stories/"}
-            />
-          </div>
+          
+          
           <div className="key-info">
            {/* ---TEMP: OLDER SYLLABUSES LINKS--- */}
            <h4>{i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_course_syllabuses}</h4>
@@ -391,38 +363,6 @@ class CoursePage2 extends Component {
 //*******************************************************************************************************************//
 
 
-const DropdownCreater = ({ courseRoundList , callerInstance, semester, year = "2018", yearSemester, language =0, parentIndex = 0}) => {
-  let listIndex = []
-  const dropdownID = "roundDropdown"+parentIndex
-  return(
-    <div className = "col-3 round-dropdowns">
-      <Dropdown  group isOpen={callerInstance.state.dropdownsIsOpen[dropdownID]} toggle={callerInstance.toggle} key={"dropD"+parentIndex} >
-                <DropdownToggle className={callerInstance.state.activeDropdown===dropdownID ? "is-active dropdown-clean": "dropdown-clean"} id={dropdownID} caret >
-                  {i18n.messages[language].courseInformation.course_short_semester[semester]} {year}
-                </DropdownToggle>
-                <DropdownMenu>
-                {
-                  courseRoundList.filter( (courseRound, index) =>{
-                    if(courseRound.round_course_term.join('') === yearSemester){
-                      listIndex.push(index)
-                      return courseRound
-                    }
-                  }).map( (courseRound, index) =>{
-                  return (
-                      <DropdownItem key ={index} id={dropdownID+"_"+listIndex[index]+"_"+parentIndex} onClick = {callerInstance.handleDropdownSelect}> 
-                        {
-                          ` 
-                          ${i18n.messages[language].courseInformation.course_short_semester[semester]} ${year} 
-                          ${courseRound.round_short_name !== EMPTY ? courseRound.round_short_name : "" },     
-                          ${courseRound.round_type}`
-                        } 
-                      </DropdownItem>
-                  )
-                })}
-            </DropdownMenu>
-          </Dropdown>
-      </div>
-  )
-}
+
 
 export default CoursePage2

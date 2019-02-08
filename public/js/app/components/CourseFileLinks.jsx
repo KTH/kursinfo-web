@@ -1,10 +1,6 @@
 import { Component } from 'inferno'
-import { renderString } from 'inferno-formlib/lib/widgets/common'
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
-import Button from 'inferno-bootstrap/dist/Button'
-import Alert from 'inferno-bootstrap/dist/Alert'
-import { EMPTY } from "../util/constants"
 import i18n from "../../../../i18n"
 
 class CourseFileLinks extends Component {
@@ -43,7 +39,7 @@ class CourseFileLinks extends Component {
        {/* ---LINK TO ROUND PM/MEMO ?IF ROUND HAS ONE-- */}
         <Col sm="12" xs="12">
           <i class="fas fa-file-pdf"></i>
-          <a href="javascript" onClick={this.openSyllabus} id={this.props.syllabusValidFrom[0] + this.props.syllabusValidFrom[1]}>
+          <a href="javascript" onClick={this.openSyllabus} id={"pm_"}>
             {i18n.messages[this.props.language].courseInformationLabels.label_course_pm} 
           </a> ( 20xx-xx-xx )
           </Col>

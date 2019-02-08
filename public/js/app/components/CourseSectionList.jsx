@@ -23,9 +23,8 @@ class CourseSectionList extends Component {
     const syllabus = this.props.coursePlan
     const round = this.state.store.courseRoundList[this.props.roundIndex]
     const intro = [
-      {header:translation.courseInformation.course_eligibility, text:syllabus.course_eligibility},
       {header: translation.courseRoundInformation.round_target_group, text: round ? round.round_target_group : EMPTY },
-      {header: translation.courseRoundInformation.round_part_of_programme, text:round ? round.round_part_of_programme : EMPTY },
+      {header: translation.courseRoundInformation.round_part_of_programme, text:round ? round.round_part_of_programme : EMPTY }
       
     ]
     return intro
@@ -47,6 +46,7 @@ class CourseSectionList extends Component {
     const course = this.props.courseInfo
     const syllabus = this.props.coursePlan
     const during = [
+      {header:translation.courseInformation.course_eligibility, text:syllabus.course_eligibility},
       {header:translation.courseInformation.course_suggested_addon_studies, text:course.course_suggested_addon_studies},
       {header:translation.courseInformation.course_required_equipment, text:syllabus.course_required_equipment},
       {header:translation.courseInformation.course_literature, text:syllabus.course_literature}

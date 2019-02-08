@@ -223,7 +223,7 @@ class RouterStore {
         
 
       //***Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis **//
-      const courseRoundList = this.getRounds(courseResult.roundInfos,  courseCode)
+      const courseRoundList = this.getRounds(courseResult.roundInfos,  courseCode, language)
 
       //***Sets roundsSyllabusIndex, an array used for connecting rounds with correct syllabus **//
       this.getRoundsAndSyllabusConnection(syllabusSemesterList)
@@ -297,12 +297,12 @@ class RouterStore {
     return examString 
   }
 
-  getRounds(roundInfos, courseCode){
+  getRounds(roundInfos, courseCode, language){
     let tempList = []
     let courseRound
     let courseRoundList = []
     for( let roundInfo of roundInfos){ 
-      courseRound =  this.getRound(roundInfo)
+      courseRound =  this.getRound(roundInfo, language)
       courseRoundList.push(courseRound)
       if(courseRound.round_course_term && tempList.indexOf(courseRound.round_course_term.join('')) < 0){
           this.courseSemesters.push([...courseRound.round_course_term, courseRound.round_course_term.join(''), courseRoundList.length-1])
@@ -359,6 +359,8 @@ class RouterStore {
       round_part_of_programme: roundObject.usage.length > 0 ? this.getRoundProgramme(roundObject.usage, language) : EMPTY,
       round_state: this.isValidData(roundObject.round.state)
     }
+    if(courseRoundModel.round_short_name === EMPTY)
+      courseRoundModel.round_short_name = `${language === 0 ? 'Start date' : 'Startdatum'}  ${courseRoundModel.round_start_date}`
     return courseRoundModel
   }
 
@@ -366,10 +368,12 @@ class RouterStore {
     let programmeString = ""
     programmes.forEach(programme => {
       programmeString += 
-      `<a target="_blank" 
-                  href="${PROGRAMME_URL}/${programme.programmeCode}/${programme.progAdmissionTerm.term}/arskurs${programme.studyYear}">
-                  ${programme.title}, ${language === 0 ? "åk" : "year" } ${programme.studyYear},${programme.electiveCondition.abbrLabel}
-       </a><br/>`
+      `<p>
+          <a target="_blank" 
+                  href="${PROGRAMME_URL}/${programme.programmeCode}/${programme.progAdmissionTerm.term}/arskurs${programme.studyYear}${programme.specCode ? '#inr'+programme.specCode:""}">
+                  ${programme.title}, ${language === 0 ? "year" : "åk"  } ${programme.studyYear}, ${programme.specCode ? programme.specCode+', ' :""}${programme.electiveCondition.abbrLabel}
+        </a>
+      </p>`
     })
     return programmeString
   }

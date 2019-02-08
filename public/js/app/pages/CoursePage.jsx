@@ -1,23 +1,9 @@
-import { render, Component } from 'inferno'
+import { Component } from 'inferno'
 import { inject, observer } from 'inferno-mobx'
 
-/*import Dropdown from 'kth-style-inferno-bootstrap/dist/Dropdown'
-import DropdownMenu from 'kth-style-inferno-bootstrap/dist/DropdownMenu'
-import DropdownItem from 'kth-style-inferno-bootstrap/dist/DropdownItem'
-import DropdownToggle from 'kth-style-inferno-bootstrap/dist/DropdownToggle'
 
-
-import Dropdown from 'kth-style-iinferno-bootstrap/dist/Dropdown'
-import DropdownMenu from 'kth-style-iinferno-bootstrap/dist/DropdownMenu'
-import DropdownItem from 'kth-style-iinferno-bootstrap/dist/DropdownItem'
-import DropdownToggle from 'kth-style-iinferno-bootstrap/dist/DropdownToggle'
-*/
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
-import Dropdown from 'inferno-bootstrap/dist/Dropdown'
-import DropdownMenu from 'inferno-bootstrap/dist/DropdownMenu'
-import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
-import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
 import Alert from 'inferno-bootstrap/dist/Alert'
 import Button from 'inferno-bootstrap/lib/Button'
 
@@ -29,7 +15,7 @@ import CourseKeyInformation from "../components/CourseKeyInformation.jsx"
 import CourseTitle from "../components/CourseTitle.jsx"
 import CourseSectionList from "../components/CourseSectionList.jsx"
 import CourseFileLinks from "../components/CourseFileLinks.jsx"
-
+import DropdownCreater from "../components/DropdownCreater.jsx"
 
 @inject(['routerStore']) @observer
 class CoursePage extends Component {
@@ -181,7 +167,7 @@ class CoursePage extends Component {
        
         {/* ---COURSE ROUND DROPDOWN--- */}
         <div id="courseDropdownMenu" className="">
-       
+       <h3>Välj ett kurstillfälle:</h3>
           <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
               { routerStore.courseSemesters.length === 0 ? 
                   <Alert color="info">{i18n.messages[courseData.language].courseInformationLabels.lable_no_rounds}</Alert> : 
@@ -312,44 +298,6 @@ class CoursePage extends Component {
       </div>
     )
   }
-}
-
-
-//*******************************************************************************************************************//
-
-
-const DropdownCreater = ({ courseRoundList , callerInstance, semester, year = "2018", yearSemester, language =0, parentIndex = 0}) => {
-  let listIndex = []
-  const dropdownID = "roundDropdown"+parentIndex
-  return(
-    <div className = "col-3 round-dropdowns">
-      <Dropdown  group isOpen={callerInstance.state.dropdownsIsOpen[dropdownID]} toggle={callerInstance.toggle} key={"dropD"+parentIndex} >
-                <DropdownToggle className={callerInstance.state.activeDropdown===dropdownID ? "is-active dropdown-clean": "dropdown-clean"} id={dropdownID} caret >
-                  {i18n.messages[language].courseInformation.course_short_semester[semester]} {year}
-                </DropdownToggle>
-                <DropdownMenu>
-                {
-                  courseRoundList.filter( (courseRound, index) =>{
-                    if(courseRound.round_course_term.join('') === yearSemester){
-                      listIndex.push(index)
-                      return courseRound
-                    }
-                  }).map( (courseRound, index) =>{
-                  return (
-                      <DropdownItem key ={index} id={dropdownID+"_"+listIndex[index]+"_"+parentIndex} onClick = {callerInstance.handleDropdownSelect}> 
-                        {
-                          ` 
-                          ${i18n.messages[language].courseInformation.course_short_semester[semester]} ${year} 
-                          ${courseRound.round_short_name !== EMPTY ? courseRound.round_short_name : "" },     
-                          ${courseRound.round_type}`
-                        } 
-                      </DropdownItem>
-                  )
-                })}
-            </DropdownMenu>
-          </Dropdown>
-      </div>
-  )
 }
 
 export default CoursePage
