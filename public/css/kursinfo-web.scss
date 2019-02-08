@@ -39,7 +39,7 @@ h2 {
 
 
 #courseDropdownMenu{
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     border-top: 1px solid #0580ac;
     border-bottom: 1px solid #0580ac;
     margin-top: 40px;
@@ -93,7 +93,7 @@ h2 {
 }
 
 .key-info{
-    p {
+    p, a {
         font-size: 1rem;
     }
 
@@ -164,6 +164,7 @@ h2 {
 }
 
 #coreContent{
+    padding-left:0;
     .first-header{
         margin-top: 10px;
     }

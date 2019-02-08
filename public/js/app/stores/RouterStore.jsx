@@ -319,18 +319,20 @@ class RouterStore {
 
   getRoundsAndSyllabusConnection(syllabusSemesterList){
     for(let index=0; index < this.courseSemesters.length; index++){
-      if(Number(syllabusSemesterList[0]) > Number(this.courseSemesters[index][2]) )
-        for(let whileIndex=1; whileIndex < this.courseSemesters.length; whileIndex++){
+      if(Number(syllabusSemesterList[0]) > Number(this.courseSemesters[index][2]) /*&& this.courseSemesters.length > 1*/){
+        for(let whileIndex=1; whileIndex < syllabusSemesterList.length; whileIndex++){
           if(Number(syllabusSemesterList[whileIndex]) > Number(this.courseSemesters[index][2]) )
             console.log("find other syllabus2")
           else{
-           // console.log("correct syllabus2")
+           console.log("correct syllabus2")
             this.roundsSyllabusIndex[index]=whileIndex
             break
           }
         }
+      }
       else{
-        //console.log("correct syllabus")
+        console.log("correct syllabus")
+        console.log("syllabusSemesterList", syllabusSemesterList, this.courseSemesters)
         this.roundsSyllabusIndex[index]=0
       }
     }

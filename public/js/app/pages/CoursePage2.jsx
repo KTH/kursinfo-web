@@ -1,12 +1,10 @@
-import { render, Component } from 'inferno'
+import { Component } from 'inferno'
 import { inject, observer } from 'inferno-mobx'
 
-
-import Row from 'inferno-bootstrap/dist/Row'
-import Col from 'inferno-bootstrap/dist/Col'
-import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
 import Alert from 'inferno-bootstrap/dist/Alert'
 import Button from 'inferno-bootstrap/lib/Button'
+import Col from 'inferno-bootstrap/dist/Col'
+import Row from 'inferno-bootstrap/dist/Row'
 
 import i18n from "../../../../i18n"
 import { EMPTY, FORSKARUTB_URL } from "../util/constants"
@@ -127,211 +125,195 @@ class CoursePage2 extends Component {
     
     return (
       <div  key="kursinfo-container" className="kursinfo-main-page col" > 
-    {/***************************************************************************************************************/}
-    {/*                                                   INTRO                                                     */}
-    {/***************************************************************************************************************/}
-      <Row>
-        <Col sm="1" xs="1"></Col>
+        <Row>
+          <Col sm="1" xs="1"></Col>
+          {/***************************************************************************************************************/}
+          {/*                                                   INTRO                                                     */}
+          {/***************************************************************************************************************/}
           <Col sm="10" xs="12">
-          {/* ---COURSE TITEL--- */}
-          <CourseTitle key = "title"
-              courseTitleData = {courseData.courseTitleData}
-              language = {courseData.language}
-              canEdit = {routerStore.canEdit}
-          />
 
-          {/* ---TEXT FOR CANCELLED COURSE --- */}
-          {routerStore.isCancelled ?
-            <div className="col-12 isCancelled">
-              <Alert color="info" aria-live="polite">
-                  <h3>{i18n.messages[courseData.language].courseInformationLabels.label_course_cancelled} </h3>
-                  <p>{i18n.messages[courseData.language].courseInformationLabels.label_last_exam}  
-                      {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]} {courseData.courseInfo.course_last_exam[0]}
-                  </p>
-                </Alert>
-            </div>
-          :""}
+            {/* ---COURSE TITEL--- */}
+            <CourseTitle key = "title"
+                courseTitleData = {courseData.courseTitleData}
+                language = {courseData.language}
+                canEdit = {routerStore.canEdit}
+            />
 
-          {/* ---INTRO TEXT--- */}
-          <Row id="courseIntroText">
-          
-            <Col sm="12" xs="12">
-            <img src={routerStore.image} alt="" height="auto" width="300px"/>
-              <div 
-                dangerouslySetInnerHTML = {{ __html:introText}}>
+            {/* ---TEXT FOR CANCELLED COURSE --- */}
+            {routerStore.isCancelled ?
+              <div className="col-12 isCancelled">
+                <Alert color="info" aria-live="polite">
+                    <h3>{i18n.messages[courseData.language].courseInformationLabels.label_course_cancelled} </h3>
+                    <p>{i18n.messages[courseData.language].courseInformationLabels.label_last_exam}  
+                        {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]} {courseData.courseInfo.course_last_exam[0]}
+                    </p>
+                  </Alert>
               </div>
-            </Col>
-          </Row>
+            :""}
 
+            {/* ---INTRO TEXT--- */}
+            <Row id="courseIntroText">
+              <Col sm="12" xs="12">
+                <img src={routerStore.image} alt="" height="auto" width="300px"/>
+                <div 
+                  dangerouslySetInnerHTML = {{ __html:introText}}>
+                </div>
+              </Col>
+            </Row>
+          {/***************************************************************************************************************/}
+          {/*                                         DROPDOWN MENUE                                                      */}
+          {/***************************************************************************************************************/}
+          <Row>
+            <Col sm="12">
+              <h2>{i18n.messages[courseData.language].courseInformationLabels.header_course_info} </h2>
 
-
-
-    {/***************************************************************************************************************/}
-    {/*                                         DROPDOWN MENUE                                                      */}
-    {/***************************************************************************************************************/}
-      <Row>
-        <Col sm="12">
-          <h2>{i18n.messages[courseData.language].courseInformationLabels.header_course_info} </h2>
-
-          { courseData.courseRoundList.length === 0 ?  "" :
-          <Alert color="grey">
-            Det finns totalt {courseData.courseRoundList.length} st kurstillfällen för den här kursen.
-            <br/><br/>
-            Just nu visas information för kurstillfälle <b>
-            {` 
-                      ${i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]]} 
-                      ${courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0]}  
-                      ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : ""},     
-                      ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}
-                    `}  </b>
-            med kursplan som  {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus_valid_from.toLowerCase() }<b>&nbsp; 
-            {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]]} &nbsp;{courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0]} 
-            </b> <br/>
+              { courseData.courseRoundList.length === 0 ?  "" :
+                <Alert color="grey">
+                  Det finns totalt {courseData.courseRoundList.length} st kurstillfällen för den här kursen.
+                  <br/><br/>
+                  Just nu visas information för kurstillfälle 
+                  <b>{` 
+                    ${i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]]} 
+                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0]}  
+                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : ""},     
+                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}
+                  `} </b>
+                  med kursplan {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus_valid_from.toLowerCase() }
+                  <b>
+                    &nbsp; {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]]} &nbsp;{courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0]} 
+                  </b> <br/>
+                </Alert> 
+              }
+              
+              
+              {/* ---COURSE ROUND DROPDOWN--- */}
+              <div id="courseDropdownMenu" className="">
+                <h3>Välj ett kurstillfälle:</h3>
+                  <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
+                    {routerStore.courseSemesters.length === 0 ? 
+                      <Alert color="info">
+                        {i18n.messages[courseData.language].courseInformationLabels.lable_no_rounds}
+                      </Alert> : 
+                      routerStore.courseSemesters.map((semester, index)=>{
+                        return <DropdownCreater 
+                                  courseRoundList = {courseData.courseRoundList} 
+                                  callerInstance = {this} 
+                                  year = {semester[0]} 
+                                  semester={semester[1]} 
+                                  yearSemester={semester[2]} 
+                                  language ={courseData.language}
+                                  parentIndex = {index}
+                              />
+                      })
+                    }
+             </div>
             
-
-          </Alert> 
-          }
-
-
-          {/* ---COURSE ROUND DROPDOWN--- */}
-          <div id="courseDropdownMenu" className="">
-        <h3>Välj ett kurstillfälle:</h3>
-            <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
-                { routerStore.courseSemesters.length === 0 ? 
-                    <Alert color="info">{i18n.messages[courseData.language].courseInformationLabels.lable_no_rounds}</Alert> : 
-                    routerStore.courseSemesters.map((semester, index)=>{
-                      return <DropdownCreater 
-                              courseRoundList = {courseData.courseRoundList} 
-                              callerInstance = {this} 
-                              year = {semester[0]} 
-                              semester={semester[1]} 
-                              yearSemester={semester[2]} 
-                              language ={courseData.language}
-                              parentIndex = {index}
-                          />
-                  })
-                }
-                
-            </div>
-            
-          {/* ---COURSE ROUND HEADER--- */}
-          { routerStore.courseSemesters.length === 0 ? "" :  
-            <Row id="courseRoundHeader" className="col">
-              <h4>
-                    {` 
-                      ${i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]]} 
-                      ${courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0]}  
-                      ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : ""}     
-                      ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}
-                    `} 
-              </h4>
-            </Row>   
-          }
+            {/* ---COURSE ROUND HEADER--- */}
+            { routerStore.courseSemesters.length === 0 ? "" :  
+              <Row id="courseRoundHeader" className="col">
+                <h4>
+                  {` 
+                    ${i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]]} 
+                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0]}  
+                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : ""}     
+                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}
+                  `} 
+                </h4>
+              </Row>   
+            }
           </div> 
-          </Col>
-        </Row> 
-
-
-
-
-        {/***************************************************************************************************************/}
-        {/*                                                KEY INFORMATION                                              */}
-        {/***************************************************************************************************************/}
-        <Row> 
+        </Col>
+      </Row> 
+      {/***************************************************************************************************************/}
+      {/*                                                KEY INFORMATION                                              */}
+      {/***************************************************************************************************************/}
+      <Row> 
         <Col >
-        <Col id="keyInformationContainer" sm="4" xs="12" className="float-md-right" >
+          <Col id="keyInformationContainer" sm="4" xs="12" className="float-md-right" >
 
          
-          {/* ---COURSE ROUND KEY INFORMATION--- */}
-          <CourseKeyInformationOneCol
-            courseRound= {courseData.courseRoundList[this.state.activeRoundIndex]}
-            index={this.state.activeRoundIndex}
-            courseData = {courseInformationToRounds}
-            language={courseData.language}
-            imageUrl = {routerStore.image}
-            courseHasRound ={routerStore.courseSemesters.length > 0 }
-          />
+            {/* ---COURSE ROUND KEY INFORMATION--- */}
+            <CourseKeyInformationOneCol
+              courseRound= {courseData.courseRoundList[this.state.activeRoundIndex]}
+              index={this.state.activeRoundIndex}
+              courseData = {courseInformationToRounds}
+              language={courseData.language}
+              imageUrl = {routerStore.image}
+              courseHasRound ={routerStore.courseSemesters.length > 0 }
+            />
 
-          {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
-          {courseData.courseInfo.course_level_code === "RESEARCH" ?
-            <span>
-              <h3>Forskarkurs</h3>
-              <a target="_blank" href={`${FORSKARUTB_URL}/${courseData.courseInfo.course_department_code}`}> 
-              {i18n.messages[courseData.language].courseInformationLabels.label_postgraduate_course} {courseData.courseInfo.course_department}
-              </a> 
-            </span>
+            {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
+            {courseData.courseInfo.course_level_code === "RESEARCH" ?
+              <span>
+                <h3>Forskarkurs</h3>
+                <a target="_blank" href={`${FORSKARUTB_URL}/${courseData.courseInfo.course_department_code}`}> 
+                  {i18n.messages[courseData.language].courseInformationLabels.label_postgraduate_course} {courseData.courseInfo.course_department}
+                </a> 
+              </span>
             : ""}
-        
-
-          {/* --- INFORMATION CONTAINER---  */}
-          
-          
           
           <div className="key-info">
-           {/* ---TEMP: OLDER SYLLABUSES LINKS--- */}
-           <h4>{i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_course_syllabuses}</h4>
-            {courseData.syllabusSemesterList.length > 0 ?
-              courseData.syllabusSemesterList.map((semester, index) => 
-              <span key={index}>
-              <a href="#" key={index} id={semester}  onClick={this.openSyllabus}>
-                { i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
-                {i18n.messages[this.props.routerStore.courseData.language].courseInformation.course_short_semester[semester.toString().substring(4,5)]}  {semester.toString().substring(0,4)} 
-                &nbsp;  </a> <br/> </span>)
-             : ""
-            }
-            <h4>
-               <a href="https://www.skrattnet.se/roliga-texter/avslojande-statistik" target="_blank" >
-                  {i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_statistics}
-                </a>
-            </h4>
-            <h4>
+            {/* ---STATISTICS LINK--- */}
+            <p>
+              <i class="fas fa-chart-line"></i>
+              <a href="https://www.skrattnet.se/roliga-texter/avslojande-statistik" target="_blank" >
+                {i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_statistics}
+              </a>
+            </p>
+
+            {/* ---CANAVAS EXAMPLE LINK--- */}
+            <p>
+              <i class="fas fa-toilet-paper"></i>
               <a href="https://www.youtube.com/watch?v=s0JA9MgoT4o" target="_blank" >
                 {i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.lable_canavas_example}
               </a>
-              </h4>
+            </p>
+
+            {/* --- ALL SYLLABUS LINKS--- */}
+            <h4>{i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_course_syllabuses}</h4>
+              {courseData.syllabusSemesterList.length > 0 ?
+                courseData.syllabusSemesterList.map((semester, index) => 
+                <span key={index}>
+                  <a href="#" key={index} id={semester}  onClick={this.openSyllabus}>
+                    { i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
+                    {i18n.messages[this.props.routerStore.courseData.language].courseInformation.course_short_semester[semester.toString().substring(4,5)]}  {semester.toString().substring(0,4)} 
+                    &nbsp;  
+                  </a> <br/> 
+                </span>)
+              : "" }
+           
           </div>
         </Col>
 
         {/***************************************************************************************************************/}
         {/*                                 SYLLABUS + OTHER COURSE INFORMATION                                         */}
         {/***************************************************************************************************************/}
-
         <Col id="coreContent" sm="8" xs="12" >
+
+        {/* --- ACTIVE SYLLABUS LINK---  */}
         {courseData.coursePlan.length > 0 ?
           <span>
             <i class="fas fa-file-pdf"></i> 
             <a href="javascript" onClick={this.openSyllabus} id={courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0] + courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]}>
                 {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus}
             </a>
-          <span className="small-text" >
-          &nbsp;( {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
-            {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]]}  {courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0]} )
+            <span className="small-text" >
+              &nbsp;( {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
+              {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]]}  {courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0]} )
+            </span>
           </span>
-          </span>
-          : "" }
+        : "" }
 
-        {/* --- COURSE INFORATION CONTAINER---  */}
+        {/* --- COURSE INFORMATION CONTAINER---  */}
         <CourseSectionList 
-            roundIndex={this.state.activeRoundIndex} 
-            courseInfo = {courseData.courseInfo} 
-            coursePlan = {courseData.coursePlan[this.state.activeSyllabusIndex]} 
-            showCourseLink = {routerStore.showCourseWebbLink} 
-            partToShow = "second"
-          />
+          roundIndex={this.state.activeRoundIndex} 
+          courseInfo = {courseData.courseInfo} 
+          coursePlan = {courseData.coursePlan[this.state.activeSyllabusIndex]} 
+          showCourseLink = {routerStore.showCourseWebbLink} 
+          partToShow = "second"
+        />
 
-        <br/>
-        {/* ---TEMP: OLDER SYLLABUSES LINKS--- */}
-        <div className="col">
-            {courseData.syllabusSemesterList.length > 0 ?
-              courseData.syllabusSemesterList.map((semester, index) => 
-              <span key={index}>
-              <a href="#" key={index} id={semester}  onClick={this.openSyllabus}>
-                { i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
-                {i18n.messages[this.props.routerStore.courseData.language].courseInformation.course_short_semester[semester.toString().substring(4,5)]}  {semester.toString().substring(0,4)} 
-                &nbsp;  </a> <br/> </span>)
-             : ""
-            }
-        </div>
+       
         <br/>
         {/* ---TEMP: test of dates --- */}
         <div style="padding:5px; border: 3px dotted pink;">
@@ -339,12 +321,13 @@ class CoursePage2 extends Component {
           <input type="date" onChange={this.handleDateInput} />
           <button onClick={this.timeMachine}>Travel in time!</button>
         </div>
-        </Col>
-        </Col>
-        </Row>
+      </Col>
+     </Col>
+    </Row>
+  </Col>
 
-        </Col>
-        <Col sm="1" xs="1">
+  {/* ---EDIT BUTTON --- */}
+  <Col sm="1" xs="1">
         {
           routerStore.canEdit ? 
             <Button className="editButton" color="primery" onClick={this.openEdit} id={courseData.courseInfo.course_code}>
@@ -358,11 +341,6 @@ class CoursePage2 extends Component {
     )
   }
 }
-
-
-//*******************************************************************************************************************//
-
-
 
 
 export default CoursePage2
