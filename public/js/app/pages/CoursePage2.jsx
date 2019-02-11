@@ -263,7 +263,7 @@ class CoursePage2 extends Component {
 
             {/* ---CANAVAS EXAMPLE LINK--- */}
             <p>
-              <i class="fas fa-toilet-paper"></i>
+            <i class="fas fa-desktop"></i>
               <a href="https://www.youtube.com/watch?v=s0JA9MgoT4o" target="_blank" >
                 {i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.lable_canavas_example}
               </a>
@@ -274,7 +274,7 @@ class CoursePage2 extends Component {
               {courseData.syllabusSemesterList.length > 0 ?
                 courseData.syllabusSemesterList.map((semester, index) => 
                 <span key={index}>
-                  <a href="#" key={index} id={semester}  onClick={this.openSyllabus}>
+                 <i class="fas fa-file-pdf"></i><a href="#" key={index} id={semester}  onClick={this.openSyllabus}>
                     { i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
                     {i18n.messages[this.props.routerStore.courseData.language].courseInformation.course_short_semester[semester.toString().substring(4,5)]}  {semester.toString().substring(0,4)} 
                     &nbsp;  
