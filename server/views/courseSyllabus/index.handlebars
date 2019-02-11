@@ -6,16 +6,15 @@
 
 
 <!--h1>Kurinformation - Sprint 1</h1-->
-
+<div class="col" id="kth-kursplan-no-syllabus">
+  
 {{#if error}}
-  <p>Error: {{error}}</p>
+<h3>{{{html}}}</h3>
+  <p style="font-size:10px;">Error: {{error}}</p>
 {{else}}
   <div id="api-data">{{data}}</div>
 {{/if}}
-
-
-
-<div id="kth-kursplan-no-syllabus"><br><br><br><br>{{{html}}}<br><br><br><br></div>
+</div>
 <script>
 
   

@@ -28,7 +28,8 @@ class CoursePage2 extends Component {
         activeDropdown: "roundDropdown"+this.props.routerStore.defaultIndex,
         dropdownOpen:false,
         timeMachineValue: "",
-        fade: false
+        keyInfoFade: false,
+        syllabusInfoFade: false
     }
 
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
@@ -75,14 +76,15 @@ componentDidMount(){
       })
   }
 
-  toggle(event, runFade=false) { 
+  toggle(event, keyInfoFade=false, syllabusInfoFade=false) { 
     if(event){
       const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
       let prevState = this.state
       prevState.dropdownsIsOpen = this.clearDropdowns(prevState.dropdownsIsOpen, selectedInfo)
       prevState.dropdownsIsOpen[selectedInfo] =  ! prevState.dropdownsIsOpen[selectedInfo]
-      prevState.fade = runFade
-      console.log("toggle", prevState.fade, runFade)
+      prevState.keyInfoFade = keyInfoFade
+      prevState.syllabusInfoFade = syllabusInfoFade
+      console.log("toggle", prevState.fade, keyInfoFade, syllabusInfoFade)
       this.setState({
         prevState
       })
@@ -100,14 +102,16 @@ componentDidMount(){
   handleDropdownSelect(event){
     event.preventDefault()
     let prevState = this.state
+    
     const selectInfo = event.target.id.split('_')
-    prevState.activeRoundIndex = selectInfo[1]
+    let syllabusChange = prevState.activeSyllabusIndex !== this.props.routerStore.roundsSyllabusIndex[selectInfo[2]]
     prevState.activeSyllabusIndex = this.props.routerStore.roundsSyllabusIndex[selectInfo[2]]
-    prevState.activeDropdown = selectInfo[0]
+    prevState.activeRoundIndex = selectInfo[1]
+    prevState.activeDropdown = selectInfo[0] 
     this.setState({
       prevState
     })
-    this.toggle(event, true)
+    this.toggle(event, true, syllabusChange)
   }
 
   openSyllabus(event){
@@ -253,7 +257,7 @@ componentDidMount(){
               language={courseData.language}
               imageUrl = {routerStore.image}
               courseHasRound ={routerStore.courseSemesters.length > 0 }
-              fade ={this.state.fade}
+              fade ={this.state.keyInfoFade}
             />
 
             {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
@@ -302,8 +306,8 @@ componentDidMount(){
         {/***************************************************************************************************************/}
         {/*                                 SYLLABUS + OTHER COURSE INFORMATION                                         */}
         {/***************************************************************************************************************/}
-        <Col id="coreContent" sm="8" xs="12" >
-
+        <Col id="coreContent"  sm="8" xs="12" >
+        <div className={` fade-container ${this.state.syllabusInfoFade === true ? " fadeOutIn" : ""}`}>
         {/* --- ACTIVE SYLLABUS LINK---  */}
         {courseData.coursePlan.length > 0 ?
           <span>
@@ -334,6 +338,7 @@ componentDidMount(){
           <lable>Time machine for testing default information: </lable>
           <input type="date" onChange={this.handleDateInput} />
           <button onClick={this.timeMachine}>Travel in time!</button>
+        </div>
         </div>
       </Col>
      </Col>

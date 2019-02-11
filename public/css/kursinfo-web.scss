@@ -172,7 +172,7 @@ h2 {
     margin-bottom: 10px;
 }
 
-#CourseKeyInformationOneCol, #roundKeyInformation {
+#CourseKeyInformationOneCol, #roundKeyInformation, #coreContent{
     @keyframes fadeOutIn {
         0% {opacity: 1;}
         50% {opacity: 0;}
