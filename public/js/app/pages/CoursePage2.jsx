@@ -28,7 +28,7 @@ class CoursePage2 extends Component {
         activeDropdown: "roundDropdown"+this.props.routerStore.defaultIndex,
         dropdownOpen:false,
         timeMachineValue: "",
-        load: true
+        fade: false
     }
 
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
@@ -75,13 +75,14 @@ componentDidMount(){
       })
   }
 
-  toggle(event) { 
+  toggle(event, runFade=false) { 
     if(event){
       const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
       let prevState = this.state
       prevState.dropdownsIsOpen = this.clearDropdowns(prevState.dropdownsIsOpen, selectedInfo)
       prevState.dropdownsIsOpen[selectedInfo] =  ! prevState.dropdownsIsOpen[selectedInfo]
-      prevState.load = true
+      prevState.fade = runFade
+      console.log("toggle", prevState.fade, runFade)
       this.setState({
         prevState
       })
@@ -103,11 +104,10 @@ componentDidMount(){
     prevState.activeRoundIndex = selectInfo[1]
     prevState.activeSyllabusIndex = this.props.routerStore.roundsSyllabusIndex[selectInfo[2]]
     prevState.activeDropdown = selectInfo[0]
-    prevState.load = true
     this.setState({
       prevState
     })
-    this.toggle(event)
+    this.toggle(event, true)
   }
 
   openSyllabus(event){
@@ -253,7 +253,7 @@ componentDidMount(){
               language={courseData.language}
               imageUrl = {routerStore.image}
               courseHasRound ={routerStore.courseSemesters.length > 0 }
-              load ={this.state.load}
+              fade ={this.state.fade}
             />
 
             {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}

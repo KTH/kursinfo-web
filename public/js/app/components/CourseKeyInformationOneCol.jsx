@@ -25,9 +25,11 @@ class CourseKeyInformationOneCol extends Component {
     const round = this.props.courseRound
     const course = this.props.courseData
     return (
-      <div id="CourseKeyInformationOneCol" className={`key-info ${this.props.load === true ? " load" : ""}`}>
+      <div id="CourseKeyInformationOneCol" className="key-info">
+      
         <Row>
           <Col sm="12" id="roundKeyInformation"> 
+          <div className={` fade-container ${this.props.fade === true ? " fadeOutIn" : ""}`} key="fadeDiv1">
           {this.props.courseHasRound ?
           <div style="text-align: center; border-bottom:1px solid #fff;display:none;"><i className="fas fa-info-circle"></i><h3>Valt kurstillfälle: <br/>{
           `${i18n.messages[this.props.language].courseInformation.course_short_semester[round.round_course_term[1]]} 
@@ -109,6 +111,7 @@ class CourseKeyInformationOneCol extends Component {
                     courseCode= {course.course_code}
                     scheduleUrl = {round > 0 ? round.round_schedule : "https://thoughtcatalog.com/january-nelson/2018/06/funny-stories/"}
                 />
+                </div>
           </Col>
        </Row>
        {this.props.courseHasRound && round.round_state !== "APPROVED" ? 
