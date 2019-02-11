@@ -25,11 +25,11 @@ class CourseKeyInformationOneCol extends Component {
     const round = this.props.courseRound
     const course = this.props.courseData
     return (
-      <div id="CourseKeyInformationOneCol" className="key-info">
+      <div id="CourseKeyInformationOneCol" className={`key-info ${this.props.load === true ? " load" : ""}`}>
         <Row>
           <Col sm="12" id="roundKeyInformation"> 
           {this.props.courseHasRound ?
-          <div style="text-align: center; border-bottom:1px solid #fff;"><i className="fas fa-info-circle"></i><h3>Valt kurstillfälle: <br/>{
+          <div style="text-align: center; border-bottom:1px solid #fff;display:none;"><i className="fas fa-info-circle"></i><h3>Valt kurstillfälle: <br/>{
           `${i18n.messages[this.props.language].courseInformation.course_short_semester[round.round_course_term[1]]} 
                       ${round.round_course_term[0]}  
                       ${round.round_short_name !== EMPTY ? round.round_short_name : ""}

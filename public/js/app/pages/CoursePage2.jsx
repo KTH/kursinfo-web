@@ -27,7 +27,8 @@ class CoursePage2 extends Component {
         dropdownsIsOpen:{},
         activeDropdown: "roundDropdown"+this.props.routerStore.defaultIndex,
         dropdownOpen:false,
-        timeMachineValue: ""
+        timeMachineValue: "",
+        load: true
     }
 
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
@@ -40,6 +41,16 @@ class CoursePage2 extends Component {
     this.timeMachine=this.timeMachine.bind(this)
    
   }
+ /* componentWillMount(){
+    console.log("componentWillMount!!!!!!!!!!!")
+  }
+  componentWillUpdate(){
+    console.log("UPPPPPPPPPDATE!!!!!!!!!!!")
+  }
+componentDidMount(){
+  console.log("componentDidMount!!!!!!!!!!!")
+}*/
+
 
   handleDateInput(event){
     this.setState({
@@ -70,6 +81,7 @@ class CoursePage2 extends Component {
       let prevState = this.state
       prevState.dropdownsIsOpen = this.clearDropdowns(prevState.dropdownsIsOpen, selectedInfo)
       prevState.dropdownsIsOpen[selectedInfo] =  ! prevState.dropdownsIsOpen[selectedInfo]
+      prevState.load = true
       this.setState({
         prevState
       })
@@ -91,6 +103,7 @@ class CoursePage2 extends Component {
     prevState.activeRoundIndex = selectInfo[1]
     prevState.activeSyllabusIndex = this.props.routerStore.roundsSyllabusIndex[selectInfo[2]]
     prevState.activeDropdown = selectInfo[0]
+    prevState.load = true
     this.setState({
       prevState
     })
@@ -168,7 +181,7 @@ class CoursePage2 extends Component {
               <h2>{i18n.messages[courseData.language].courseInformationLabels.header_course_info} </h2>
 
               { courseData.courseRoundList.length === 0 ?  "" :
-                <Alert color="grey">
+                <Alert color="grey" style="display:none;">
                   Det finns totalt {courseData.courseRoundList.length} st kurstillfällen för den här kursen.
                   <br/><br/>
                   Just nu visas information för kurstillfälle 
@@ -213,8 +226,8 @@ class CoursePage2 extends Component {
               <Row id="courseRoundHeader" className="col">
                 <h4>
                   {` 
-                    ${i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]]} 
-                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0]}  
+                     
+                    
                     ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : ""}     
                     ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}
                   `} 
@@ -240,6 +253,7 @@ class CoursePage2 extends Component {
               language={courseData.language}
               imageUrl = {routerStore.image}
               courseHasRound ={routerStore.courseSemesters.length > 0 }
+              load ={this.state.load}
             />
 
             {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
