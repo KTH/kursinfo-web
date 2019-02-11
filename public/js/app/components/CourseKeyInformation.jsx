@@ -26,6 +26,7 @@ class CourseKeyInformation extends Component {
       <div id="RoundContainer" className="key-info">{this.props.courseHasRound}
         <Row>
           <Col sm="12" id="roundKeyInformation">
+          <div className={` fade-container ${this.props.fade === true ? " fadeOutIn" : ""}`} key="fadeDiv1">
             <Row id="firstRow">
                 <Col sm="3">
                   <h4>{i18n.messages[this.props.language].courseInformation.course_level_code}</h4>
@@ -81,6 +82,7 @@ class CourseKeyInformation extends Component {
               </Col>
               
             </Row> : ""}
+            </div>
           </Col>
        </Row>
        {this.props.courseHasRound && round.round_state !== "APPROVED" ? 

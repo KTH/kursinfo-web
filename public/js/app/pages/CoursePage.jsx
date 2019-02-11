@@ -27,7 +27,8 @@ class CoursePage extends Component {
         dropdownsIsOpen:{},
         activeDropdown: "roundDropdown"+this.props.routerStore.defaultIndex,
         dropdownOpen:false,
-        timeMachineValue: ""
+        timeMachineValue: "",
+        fade: false
     }
 
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
@@ -64,12 +65,13 @@ class CoursePage extends Component {
       })
   }
 
-  toggle(event) { 
+  toggle(event, runFade=false) { 
     if(event){
       const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
       let prevState = this.state
       prevState.dropdownsIsOpen = this.clearDropdowns(prevState.dropdownsIsOpen, selectedInfo)
       prevState.dropdownsIsOpen[selectedInfo] =  ! prevState.dropdownsIsOpen[selectedInfo]
+      prevState.fade = runFade
       this.setState({
         prevState
       })
@@ -94,7 +96,7 @@ class CoursePage extends Component {
     this.setState({
       prevState
     })
-    this.toggle(event)
+    this.toggle(event, true)
   }
 
   openSyllabus(event){
@@ -209,6 +211,7 @@ class CoursePage extends Component {
           language={courseData.language}
           imageUrl = {routerStore.image}
           courseHasRound ={routerStore.courseSemesters.length > 0 }
+          fade = {this.state.fade}
         />
 
         {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
