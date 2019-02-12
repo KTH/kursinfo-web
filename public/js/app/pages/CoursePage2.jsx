@@ -133,7 +133,8 @@ class CoursePage2 extends Component {
     return (
       <div  key="kursinfo-container" className="kursinfo-main-page col" > 
         <Row>
-          <Col sm="1" xs="1"></Col>
+          
+          <Col sm="1" xs="1"> </Col>
           {/***************************************************************************************************************/}
           {/*                                                   INTRO                                                     */}
           {/***************************************************************************************************************/}
@@ -231,11 +232,12 @@ class CoursePage2 extends Component {
           </div> 
         </Col>
       </Row> 
-      {/***************************************************************************************************************/}
-      {/*                                                KEY INFORMATION                                              */}
-      {/***************************************************************************************************************/}
+      
       <Row> 
         <Col >
+          {/***************************************************************************************************************/}
+          {/*                                      RIGHT COLUMN - KEY INFORMATION                                         */}
+          {/***************************************************************************************************************/}
           <Col id="keyInformationContainer" sm="4" xs="12" className="float-md-right" >
 
          
@@ -260,7 +262,41 @@ class CoursePage2 extends Component {
               </span>
             : ""}
           
-          <div className="key-info">
+          
+        </Col>
+
+        {/***************************************************************************************************************/}
+        {/*                           LEFT COLUMN - SYLLABUS + OTHER COURSE INFORMATION                                 */}
+        {/***************************************************************************************************************/}
+        <Col id="coreContent"  sm="8" xs="12" className="float-md-left">
+        <div className={` fade-container ${this.state.syllabusInfoFade === true ? " fadeOutIn" : ""}`}>
+        {/* --- ACTIVE SYLLABUS LINK---  */}
+        {courseData.coursePlan.length > 0 ?
+          <span>
+            <i class="fas fa-file-pdf"></i> 
+            <a href="javascript" onClick={this.openSyllabus} id={courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0] + courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]}>
+                {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus}
+            </a>
+            <span className="small-text" >
+              &nbsp;( {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
+              {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]]}  {courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0]} )
+            </span>
+          </span>
+        : "" }
+
+        {/* --- COURSE INFORMATION CONTAINER---  */}
+        <CourseSectionList 
+          roundIndex={this.state.activeRoundIndex} 
+          courseInfo = {courseData.courseInfo} 
+          coursePlan = {courseData.coursePlan[this.state.activeSyllabusIndex]} 
+          showCourseLink = {routerStore.showCourseWebbLink} 
+          partToShow = "second"
+        />
+        </div>
+      </Col>
+        
+      <Col id="keyInformationContainer" sm="4" xs="12" className="float-md-right" >
+      <div className="key-info">
             {/* ---STATISTICS LINK--- */}
             <p>
               <i class="fas fa-chart-line"></i>
@@ -291,47 +327,18 @@ class CoursePage2 extends Component {
               : "" }
            
           </div>
-        </Col>
+          </Col>
 
-        {/***************************************************************************************************************/}
-        {/*                                 SYLLABUS + OTHER COURSE INFORMATION                                         */}
-        {/***************************************************************************************************************/}
-        <Col id="coreContent"  sm="8" xs="12" >
-        <div className={` fade-container ${this.state.syllabusInfoFade === true ? " fadeOutIn" : ""}`}>
-        {/* --- ACTIVE SYLLABUS LINK---  */}
-        {courseData.coursePlan.length > 0 ?
-          <span>
-            <i class="fas fa-file-pdf"></i> 
-            <a href="javascript" onClick={this.openSyllabus} id={courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0] + courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]}>
-                {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus}
-            </a>
-            <span className="small-text" >
-              &nbsp;( {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
-              {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]]}  {courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0]} )
-            </span>
-          </span>
-        : "" }
 
-        {/* --- COURSE INFORMATION CONTAINER---  */}
-        <CourseSectionList 
-          roundIndex={this.state.activeRoundIndex} 
-          courseInfo = {courseData.courseInfo} 
-          coursePlan = {courseData.coursePlan[this.state.activeSyllabusIndex]} 
-          showCourseLink = {routerStore.showCourseWebbLink} 
-          partToShow = "second"
-        />
 
-       
-        <br/>
+     </Col>
+     <br/>
         {/* ---TEMP: test of dates --- */}
         <div style="padding:5px; border: 3px dotted pink;">
           <lable>Time machine for testing default information: </lable>
           <input type="date" onChange={this.handleDateInput} />
           <button onClick={this.timeMachine}>Travel in time!</button>
         </div>
-        </div>
-      </Col>
-     </Col>
     </Row>
   </Col>
 

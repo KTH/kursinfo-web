@@ -120,7 +120,9 @@ h2 {
 }
 
 .editButton{
-    float:right;
+    @media (min-width: 768px){
+        float:right;
+    }
 }
 
 /*ICONS*/
@@ -156,8 +158,12 @@ h2 {
 
 #coreContent{
     padding-left:0;
+    padding-top:40px;
     .first-header{
         margin-top: 10px;
+    }
+    @media (min-width: 768px){
+        padding-top:0px;
     }
 }
 .alert-grey{
