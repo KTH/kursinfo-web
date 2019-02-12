@@ -42,16 +42,6 @@ class CoursePage2 extends Component {
     this.timeMachine=this.timeMachine.bind(this)
    
   }
- /* componentWillMount(){
-    console.log("componentWillMount!!!!!!!!!!!")
-  }
-  componentWillUpdate(){
-    console.log("UPPPPPPPPPDATE!!!!!!!!!!!")
-  }
-componentDidMount(){
-  console.log("componentDidMount!!!!!!!!!!!")
-}*/
-
 
   handleDateInput(event){
     this.setState({

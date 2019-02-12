@@ -28,7 +28,8 @@ class CoursePage extends Component {
         activeDropdown: "roundDropdown"+this.props.routerStore.defaultIndex,
         dropdownOpen:false,
         timeMachineValue: "",
-        fade: false
+        keyInfoFade: false,
+        syllabusInfoFade: false
     }
 
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
@@ -65,13 +66,15 @@ class CoursePage extends Component {
       })
   }
 
-  toggle(event, runFade=false) { 
+  toggle(event, keyInfoFade=false, syllabusInfoFade=false) { 
     if(event){
       const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
       let prevState = this.state
       prevState.dropdownsIsOpen = this.clearDropdowns(prevState.dropdownsIsOpen, selectedInfo)
       prevState.dropdownsIsOpen[selectedInfo] =  ! prevState.dropdownsIsOpen[selectedInfo]
-      prevState.fade = runFade
+      prevState.keyInfoFade = keyInfoFade
+      prevState.syllabusInfoFade = syllabusInfoFade
+      console.log("toggle", prevState.fade, keyInfoFade, syllabusInfoFade)
       this.setState({
         prevState
       })
@@ -89,14 +92,16 @@ class CoursePage extends Component {
   handleDropdownSelect(event){
     event.preventDefault()
     let prevState = this.state
+    
     const selectInfo = event.target.id.split('_')
-    prevState.activeRoundIndex = selectInfo[1]
+    let syllabusChanged = prevState.activeSyllabusIndex !== this.props.routerStore.roundsSyllabusIndex[selectInfo[2]]
     prevState.activeSyllabusIndex = this.props.routerStore.roundsSyllabusIndex[selectInfo[2]]
-    prevState.activeDropdown = selectInfo[0]
+    prevState.activeRoundIndex = selectInfo[1]
+    prevState.activeDropdown = selectInfo[0] 
     this.setState({
       prevState
     })
-    this.toggle(event, true)
+    this.toggle(event, true, syllabusChanged)
   }
 
   openSyllabus(event){
@@ -204,6 +209,7 @@ class CoursePage extends Component {
         
       </div> 
         {/* ---COURSE ROUND KEY INFORMATION--- */}
+       
         <CourseKeyInformation
           courseRound= {courseData.courseRoundList[this.state.activeRoundIndex]}
           index={this.state.activeRoundIndex}
@@ -211,7 +217,7 @@ class CoursePage extends Component {
           language={courseData.language}
           imageUrl = {routerStore.image}
           courseHasRound ={routerStore.courseSemesters.length > 0 }
-          fade = {this.state.fade}
+          fade = {this.state.keyInfoFade}
         />
 
         {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
@@ -224,7 +230,7 @@ class CoursePage extends Component {
           </span>
           : ""}
        
-
+       <div className={` fade-container ${this.state.syllabusInfoFade === true ? " fadeOutIn" : ""}`}>
          {/* --- COURSE INFORMATION CONTAINER---  */}
          <div className="key-info">
           <CourseSectionList 
@@ -262,7 +268,7 @@ class CoursePage extends Component {
             showCourseLink = {routerStore.showCourseWebbLink} 
             partToShow = "second"
           />
-
+        </div>
          
 
 
