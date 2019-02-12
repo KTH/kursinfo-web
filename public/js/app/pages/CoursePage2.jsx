@@ -297,7 +297,7 @@ class CoursePage2 extends Component {
         </div>
 
             {/* ---STATISTICS LINK--- */}
-            <h4>Kursens utveckling</h4>
+            <h3>Kursens utveckling</h3>
             <p>
               
               <a href="https://www.skrattnet.se/roliga-texter/avslojande-statistik" target="_blank" >
@@ -306,7 +306,7 @@ class CoursePage2 extends Component {
             </p>
 
             {/* --- ALL SYLLABUS LINKS--- */}
-            <h4>{i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_course_syllabuses}</h4>
+            <h3>{i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_course_syllabuses}</h3>
               {courseData.syllabusSemesterList.length > 0 ?
                 courseData.syllabusSemesterList.map((semester, index) => 
                 <span key={index}>
