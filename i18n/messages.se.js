@@ -62,8 +62,8 @@ module.exports = {
       FULL: 'Kurstillfälle fullsatt'
     },
     header_course_info: 'Kursinformation',
-    header_content: 'Innehåll och mål',
-    header_execution: 'Kurslitteratur och genomförande',
+    header_content: 'Kursens huvudsakliga innehåll',
+    header_execution: 'Kurslitteratur och förberedelser',
     header_examination: 'Examination och slutförande',
     header_contact: 'Kontakt och ytterligare information'
        

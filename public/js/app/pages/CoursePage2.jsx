@@ -221,8 +221,6 @@ class CoursePage2 extends Component {
               <Row id="courseRoundHeader" className="col">
                 <h4>
                   {` 
-                     
-                    
                     ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : ""}     
                     ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}
                   `} 
@@ -239,7 +237,7 @@ class CoursePage2 extends Component {
           {/*                                      RIGHT COLUMN - KEY INFORMATION                                         */}
           {/***************************************************************************************************************/}
           <Col id="keyInformationContainer" sm="4" xs="12" className="float-md-right" >
-
+            <h2 style="margin-top:0px">Kurstillfälle och genomförande</h2>
          
             {/* ---COURSE ROUND KEY INFORMATION--- */}
             <CourseKeyInformationOneCol
@@ -284,6 +282,10 @@ class CoursePage2 extends Component {
           </span>
         : "" }
 
+
+
+
+
         {/* --- COURSE INFORMATION CONTAINER---  */}
         <CourseSectionList 
           roundIndex={this.state.activeRoundIndex} 
@@ -293,23 +295,13 @@ class CoursePage2 extends Component {
           partToShow = "second"
         />
         </div>
-      </Col>
-        
-      <Col id="keyInformationContainer" sm="4" xs="12" className="float-md-right" >
-      <div className="key-info">
+
             {/* ---STATISTICS LINK--- */}
+            <h4>Kursens utveckling</h4>
             <p>
-              <i class="fas fa-chart-line"></i>
+              
               <a href="https://www.skrattnet.se/roliga-texter/avslojande-statistik" target="_blank" >
                 {i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_statistics}
-              </a>
-            </p>
-
-            {/* ---CANAVAS EXAMPLE LINK--- */}
-            <p>
-            <i class="fas fa-desktop"></i>
-              <a href="https://www.youtube.com/watch?v=s0JA9MgoT4o" target="_blank" >
-                {i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.lable_canavas_example}
               </a>
             </p>
 
@@ -326,19 +318,18 @@ class CoursePage2 extends Component {
                 </span>)
               : "" }
            
-          </div>
-          </Col>
-
-
-
+        
+      </Col>
+        
      </Col>
      <br/>
-        {/* ---TEMP: test of dates --- */}
-        <div style="padding:5px; border: 3px dotted pink;">
+        {/* ---TEMP: test of dates --- 
+
+        <span style="padding:5px; border: 3px dotted pink;">
           <lable>Time machine for testing default information: </lable>
           <input type="date" onChange={this.handleDateInput} />
           <button onClick={this.timeMachine}>Travel in time!</button>
-        </div>
+        </span>*/}
     </Row>
   </Col>
 

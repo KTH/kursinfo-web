@@ -87,8 +87,7 @@ class CourseKeyInformationOneCol extends Component {
                   <p>{round ? round.round_max_seats : EMPTY}</p>
                 
                   
-                  <h4>{translate.round_application_code}</h4>
-                  <p>{round ? round.round_application_code : EMPTY}</p>
+                 
                
                   
                 <h4>{translate.round_start_date}</h4>
@@ -100,6 +99,9 @@ class CourseKeyInformationOneCol extends Component {
                    
                     <h4>{translate.round_responsibles}</h4>
                     <span dangerouslySetInnerHTML = {{ __html:round.round_responsibles }}></span>
+
+                    <h4>{translate.round_time_slots}</h4>
+                    <span dangerouslySetInnerHTML = {{ __html:round.round_time_slots }}></span>
                   </span>
                   : ""}
 
@@ -111,7 +113,21 @@ class CourseKeyInformationOneCol extends Component {
                     courseCode= {course.course_code}
                     scheduleUrl = {round > 0 ? round.round_schedule : "https://thoughtcatalog.com/january-nelson/2018/06/funny-stories/"}
                 />
+                 {/* ---CANAVAS EXAMPLE LINK--- */}
+        
+            <i class="fas fa-desktop"></i>
+              <a href="https://www.youtube.com/watch?v=s0JA9MgoT4o" target="_blank" >
+                {i18n.messages[this.props.language].courseInformationLabels.lable_canavas_example}
+              </a>
+            
                 </div>
+          </Col>
+          </Row>
+          <Row>
+          <Col>
+          <h3 style="background: #fff;margin: 20px -15px;padding: 20px 15px 10px;">Välja kurs</h3>
+          <h4>{translate.round_application_code}</h4>
+                  <p>{round ? round.round_application_code : EMPTY}</p>
           </Col>
        </Row>
        {this.props.courseHasRound && round.round_state !== "APPROVED" ? 
