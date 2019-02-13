@@ -36,13 +36,29 @@ class CoursePage2 extends Component {
     this.toggle = this.toggle.bind(this)
     this.openSyllabus = this.openSyllabus.bind(this)
     this.openEdit = this.openEdit.bind(this)
+    this.dropdownHover = this.dropdownHover.bind(this)
+    this.dropdownLeave = this.dropdownLeave.bind(this)
 
     //Temp!!
     this.handleDateInput=this.handleDateInput.bind(this)
     this.timeMachine=this.timeMachine.bind(this)
    
   }
+  dropdownHover(){
+    let prevState = this.state
+    const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
+    prevState.dropdownsIsOpen[selectedInfo] =  true
+    this.setState({prevState});
+  }
 
+  dropdownLeave(){
+    let prevState = this.state
+    const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
+    prevState.dropdownsIsOpen[selectedInfo] =  false
+    this.setState({prevState});
+  }
+
+//Temp!!
   handleDateInput(event){
     this.setState({
       timeMachineValue: event.target.value
@@ -268,6 +284,8 @@ class CoursePage2 extends Component {
         {/***************************************************************************************************************/}
         <Col id="coreContent"  sm="8" xs="12" className="float-md-left">
         <div className={` fade-container ${this.state.syllabusInfoFade === true ? " fadeOutIn" : ""}`}>
+
+
         {/* --- ACTIVE SYLLABUS LINK---  */}
         {courseData.coursePlan.length > 0 ?
           <span>
@@ -282,10 +300,6 @@ class CoursePage2 extends Component {
           </span>
         : "" }
 
-
-
-
-
         {/* --- COURSE INFORMATION CONTAINER---  */}
         <CourseSectionList 
           roundIndex={this.state.activeRoundIndex} 
@@ -294,31 +308,29 @@ class CoursePage2 extends Component {
           showCourseLink = {routerStore.showCourseWebbLink} 
           partToShow = "second"
         />
-        </div>
-
-            {/* ---STATISTICS LINK--- */}
-            <h3>Kursens utveckling</h3>
+      
+          {/* ---STATISTICS LINK--- */}
+          <h2>Kursens utveckling</h2>
             <p>
               
               <a href="https://www.skrattnet.se/roliga-texter/avslojande-statistik" target="_blank" >
-                {i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_statistics}
+                {i18n.messages[courseData.language].courseInformationLabels.label_statistics}
               </a>
             </p>
 
             {/* --- ALL SYLLABUS LINKS--- */}
-            <h3>{i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_course_syllabuses}</h3>
+            <h2>{i18n.messages[courseData.language].courseInformationLabels.label_course_syllabuses}</h2>
               {courseData.syllabusSemesterList.length > 0 ?
                 courseData.syllabusSemesterList.map((semester, index) => 
                 <span key={index}>
                  <i class="fas fa-file-pdf"></i><a href="#" key={index} id={semester}  onClick={this.openSyllabus}>
-                    { i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
-                    {i18n.messages[this.props.routerStore.courseData.language].courseInformation.course_short_semester[semester.toString().substring(4,5)]}  {semester.toString().substring(0,4)} 
+                    {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
+                    {i18n.messages[courseData.language].courseInformation.course_short_semester[semester.toString().substring(4,5)]}  {semester.toString().substring(0,4)} 
                     &nbsp;  
                   </a> <br/> 
                 </span>)
               : "" }
-           
-        
+            </div>
       </Col>
         
      </Col>
