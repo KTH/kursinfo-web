@@ -47,6 +47,8 @@ class CoursePage2 extends Component {
   dropdownHover(){
     let prevState = this.state
     const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
+    prevState.keyInfoFade = false
+    prevState.syllabusInfoFade = false
     prevState.dropdownsIsOpen[selectedInfo] =  true
     this.setState({prevState});
   }
