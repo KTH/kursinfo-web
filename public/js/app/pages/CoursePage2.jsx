@@ -65,6 +65,7 @@ class CoursePage2 extends Component {
       this.setState({ 
         activeSemester: Number(selectedSemester[1]),
         activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[Number(selectedSemester[1])] || 0,
+        activeRoundIndex: this.props.routerStore.courseSemesters[Number(selectedSemester[1])][3],
         activeDropdown: selectedSemester[0],
         syllabusInfoFade: syllabusChange,
         forceAnimationKey:"test"+Math.random()
@@ -207,62 +208,29 @@ class CoursePage2 extends Component {
           <Row>
             <Col sm="12">
               <h2>{i18n.messages[courseData.language].courseInformationLabels.header_course_info} </h2>
-
-              { courseData.courseRoundList.length === 0 ?  "" :
-                <Alert color="grey" style="display:none;">
-                  Det finns totalt {courseData.courseRoundList.length} st kurstillfällen för den här kursen.
-                  <br/><br/>
-                  Just nu visas information för kurstillfälle 
-                  <b>{` 
-                    ${i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]]} 
-                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0]}  
-                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : ""},     
-                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}
-                  `} </b>
-                  med kursplan {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus_valid_from.toLowerCase() }
-                  <b>
-                    &nbsp; {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]]} &nbsp;{courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0]} 
-                  </b> <br/>
-                </Alert> 
-              }
-              
               
               {/* ---COURSE ROUND DROPDOWN--- */}
-              <div id="courseDropdownMenu" className="">
-                <h3>Välj en termin:</h3>
+              {routerStore.courseSemesters.length === 0 ? "" :
+                <div id="courseDropdownMenu" className="">
+                  <h3>Välj en termin:</h3>
                   <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
-                    {routerStore.courseSemesters.length === 0 ? 
-                      <Alert color="info">
-                        {i18n.messages[courseData.language].courseInformationLabels.lable_no_rounds}
-                      </Alert> : 
+                    {
                       routerStore.courseSemesters.map((semester, index)=>{
-
                         return  <Button  style="margin-right:20px;margin-left:15px;" 
                                   key={"semesterBtn"+index} 
                                   id={"semesterBtn"+index+"_"+index}
                                   className={"semesterBtn"+this.state.activeSemester==="semesterBtn"+index ? "is-active dropdown-clean": "dropdown-clean"} 
                                   onClick={this.handleSemesterButtonClick}
-                                 >
-                                    {i18n.messages[courseData.language].courseInformation.course_short_semester[semester[1]]} {semester[0]}
+                                >
+                                  {i18n.messages[courseData.language].courseInformation.course_short_semester[semester[1]]} {semester[0]}
                                 </Button>
-                      })
-                    }
-             </div>
-            
-            {/* ---COURSE ROUND HEADER--- */}
-            { routerStore.courseSemesters.length === 0 ? "" :  
-              <Row id="courseRoundHeader" style="display:none;" className="col">
-                <h4>
-                  {` 
-                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : ""}     
-                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}
-                  `} 
-                </h4>
-              </Row>   
-            }
-          </div> 
-        </Col>
-      </Row> 
+                        })
+                      }
+                    </div>
+                </div>
+              }
+          </Col>
+        </Row> 
       
       <Row> 
         <Col >
@@ -279,6 +247,7 @@ class CoursePage2 extends Component {
                       <Alert color="info">
                         {i18n.messages[courseData.language].courseInformationLabels.lable_no_rounds}
                       </Alert> : 
+                      routerStore.courseSemesters.length > 1 ? 
                        <DropdownCreater2
                             courseRoundList = {courseData.courseRoundList} 
                             callerInstance = {this} 
@@ -288,7 +257,7 @@ class CoursePage2 extends Component {
                             language ={courseData.language}
                             parentIndex = "0"
                         />
-                      
+                      :""
                     }
                   </div>
              </div>
@@ -402,6 +371,16 @@ class CoursePage2 extends Component {
 const DropdownCreater2 = ({ courseRoundList , callerInstance, semester, year = "2018", yearSemester, language =0, parentIndex = 0}) => {
   let listIndex = []
   const dropdownID = "roundDropdown"+parentIndex
+
+  courseRoundList.filter( (courseRound, index) =>{
+    if(courseRound.round_course_term.join('') === yearSemester){
+        listIndex.push(index)
+        return courseRound
+    }
+  })
+  if(listIndex.length < 2)
+    return ""
+  else
   return(
     <div className = "col-12 round-dropdowns">
       <Dropdown  group 

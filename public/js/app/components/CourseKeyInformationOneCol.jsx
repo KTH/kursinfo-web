@@ -35,7 +35,9 @@ class CourseKeyInformationOneCol extends Component {
             {this.props.courseHasRound ?
               <div style="border-bottom:1px solid #fff;">
                 <h4>
-                  {`   
+                  {`
+                  ${i18n.messages[this.props.language].courseInformation.course_short_semester[round.round_course_term[1]]} 
+                  ${round.round_course_term[0]}  
                     ${round.round_short_name !== EMPTY ? round.round_short_name : ""}     
                     ${round.round_type}
                   `}
