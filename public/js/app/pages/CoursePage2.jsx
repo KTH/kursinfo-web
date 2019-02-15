@@ -274,7 +274,6 @@ class CoursePage2 extends Component {
 
             {/* ---COURSE ROUND DROPDOWN--- */}
             <div id="roundDropdownMenu" className="">
-                <h3>Välj ett kurstillfälle:</h3>
                   <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
                     {routerStore.courseSemesters.length === 0 ? 
                       <Alert color="info">
