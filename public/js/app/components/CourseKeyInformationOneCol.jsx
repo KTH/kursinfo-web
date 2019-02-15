@@ -10,14 +10,14 @@ import CourseFileLinks from "./CourseFileLinks.jsx"
 class CourseKeyInformationOneCol extends Component {
  constructor (props) {
     super(props)
-    this.openSyllabus=this.openSyllabus.bind(this)
+    //this.openSyllabus=this.openSyllabus.bind(this)
   }
 
-  openSyllabus(event){
+  /*openSyllabus(event){
     event.preventDefault()
     const language = this.props.language === 0 ? "en" : "sv" 
     window.open(`/student/kurser/kurs/kursplan/${this.props.courseData.course_code}_${event.target.id}.pdf?lang=${language}`)
-  }
+  }*/
 
   render () {
     //console.log("this.props.courseRound", this.props)
@@ -47,91 +47,74 @@ class CourseKeyInformationOneCol extends Component {
 
 
              {this.props.courseHasRound ?
-                    <span>
-                      <h4>{translate.round_target_group}</h4>
-                      <span dangerouslySetInnerHTML = {{ __html:round.round_target_group }}></span>
+                <span>
+                  <h4>{translate.round_target_group}</h4>
+                  <span dangerouslySetInnerHTML = {{ __html:round.round_target_group }}></span>
 
-                      <h4>{translate.round_part_of_programme}</h4>
-                      <span dangerouslySetInnerHTML = {{ __html:round.round_part_of_programme }}></span>
-                    </span>
-                  : ""}
-            
-                  <h4>{i18n.messages[this.props.language].courseInformation.course_level_code}</h4>
-                  <p>{i18n.messages[this.props.language].courseInformation.course_level_code_label[course.course_level_code]}</p>
-              
-                {this.props.courseHasRound ?
-                    <span>
-                      <h4>{translate.round_tutoring_form}</h4>
-                      <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY}  {round ? translate.round_tutoring_time_label[round.round_tutoring_time]: EMPTY}</p>
-                  
-                    </span>
-                  : ""}
-                
-                 {this.props.courseHasRound ?
-                <span>
-                  <h4>{translate.round_tutoring_language}</h4>
-                  <p>{round ? round.round_tutoring_language : EMPTY}</p>
-                </span>
-                : ""}
-              
-              
-                {this.props.courseHasRound ?
-                <span>
+                  <h4>{translate.round_part_of_programme}</h4>
+                  <span dangerouslySetInnerHTML = {{ __html:round.round_part_of_programme }}></span>
+
                   <h4>{translate.round_periods}</h4>
                   <p>{round ? round.round_periods : EMPTY}</p>
                 </span>
-                : ""}
-             
-             
-            {this.props.courseHasRound ?
-             
-             <span>
+              : ""}
+            
+              <h4>{i18n.messages[this.props.language].courseInformation.course_level_code}</h4>
+              <p>{i18n.messages[this.props.language].courseInformation.course_level_code_label[course.course_level_code]}</p>
+              
+              {this.props.courseHasRound ?
+                <span>
+                  <h4>{translate.round_tutoring_form}</h4>
+                  <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY}  {round ? translate.round_tutoring_time_label[round.round_tutoring_time]: EMPTY}</p>
+                    
+                  <h4>{translate.round_tutoring_language}</h4>
+                  <p>{round ? round.round_tutoring_language : EMPTY}</p>
+                
                   <h4>{translate.round_course_place}</h4>
                   <p>{round ? round.round_course_place : EMPTY}</p>
                
-                  
                   <h4>{translate.round_max_seats}</h4>
                   <p>{round ? round.round_max_seats : EMPTY}</p>
                
-                  
-                <h4>{translate.round_start_date}</h4>
+                  <h4>{translate.round_start_date}</h4>
                   <p><i class="fas fa-hourglass-start"></i>{round ? round.round_start_date : EMPTY}</p>
                   <p><i class="fas fa-hourglass-end"></i>{round ? round.round_end_date : EMPTY}</p>
 
                   <h4>{translate.round_teacher}</h4>
                   <span dangerouslySetInnerHTML = {{ __html:round.round_teacher }}></span>
                    
-                    <h4>{translate.round_responsibles}</h4>
-                    <span dangerouslySetInnerHTML = {{ __html:round.round_responsibles }}></span>
+                  <h4>{translate.round_responsibles}</h4>
+                  <span dangerouslySetInnerHTML = {{ __html:round.round_responsibles }}></span>
 
-                    <h4>{translate.round_time_slots}</h4>
-                    <span dangerouslySetInnerHTML = {{ __html:round.round_time_slots }}></span>
-                  </span>
-                  : ""}
+                  <h4>{translate.round_time_slots}</h4>
+                  <span dangerouslySetInnerHTML = {{ __html:round.round_time_slots }}></span>
+                </span>
+              : ""}
 
-                  <CourseFileLinks
-                    index=""
-                    language={this.props.language}
-                    courseHasRound ={this.props.courseHasRound }
-                    syllabusValidFrom = ""
-                    courseCode= {course.course_code}
-                    scheduleUrl = {round > 0 ? round.round_schedule : "https://thoughtcatalog.com/january-nelson/2018/06/funny-stories/"}
-                />
-                 {/* ---CANAVAS EXAMPLE LINK--- */}
-        
-            <i class="fas fa-desktop"></i>
+              <CourseFileLinks
+                index=""
+                language={this.props.language}
+                courseHasRound ={this.props.courseHasRound }
+                syllabusValidFrom = ""
+                courseCode= {course.course_code}
+                scheduleUrl = {round > 0 ? round.round_schedule : "https://thoughtcatalog.com/january-nelson/2018/06/funny-stories/"}
+              />
+              
+              
+              {/* ---CANAVAS EXAMPLE LINK--- */}
+              <i class="fas fa-desktop"></i>
               <a href="https://www.youtube.com/watch?v=s0JA9MgoT4o" target="_blank" >
                 {i18n.messages[this.props.language].courseInformationLabels.lable_canavas_example}
               </a>
             
-                </div>
+            </div>
           </Col>
-          </Row>
-          <Row>
+        </Row>
+        <Row>
           <Col>
-          <h3 style="background: #fff;margin: 20px -15px;padding: 20px 15px 10px;">Välja kurs</h3>
-          <h4>{translate.round_application_code}</h4>
-                  <p>{round ? round.round_application_code : EMPTY}</p>
+            <h3 style="background: #fff;margin: 20px -15px;padding: 20px 15px 10px;">Välja kurs</h3>
+            <h4>{translate.round_application_code}</h4>
+            <p>{round ? round.round_application_code : EMPTY}</p>
           </Col>
        </Row>
        {this.props.courseHasRound && round.round_state !== "APPROVED" ? 

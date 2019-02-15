@@ -35,8 +35,7 @@ class CoursePage2 extends Component {
         dropdownOpen:false,
         timeMachineValue: "",
         keyInfoFade: false,
-        syllabusInfoFade: false,
-        forceAnimationKey: "test0"
+        syllabusInfoFade: false
     }
 
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
@@ -56,30 +55,25 @@ class CoursePage2 extends Component {
     let prevState = this.state
     const selectedSemester = event.target.id.split('_')
     if(selectedSemester && selectedSemester[0].indexOf('semesterBtn') > -1){
-      let syllabusChange = prevState.activeSyllabusIndex !== this.props.routerStore.roundsSyllabusIndex[Number(selectedSemester[1])]
-      if(syllabusChange){
-        this.setState({ syllabusInfoFade: false,
-          forceAnimationKey:"test"+Math.random()
-         })
-        console.log("this state",this.state)}
+      const newIndex = Number(selectedSemester[1])
+      prevState.syllabusInfoFade  = prevState.activeSyllabusIndex !== this.props.routerStore.roundsSyllabusIndex[newIndex]
+
       this.setState({ 
-        activeSemester: Number(selectedSemester[1]),
-        activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[Number(selectedSemester[1])] || 0,
-        activeRoundIndex: this.props.routerStore.courseSemesters[Number(selectedSemester[1])][3],
+        activeSemester: newIndex,
+        activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex] || 0,
+        activeRoundIndex: this.props.routerStore.courseSemesters[newIndex][3],
         activeDropdown: selectedSemester[0],
-        syllabusInfoFade: syllabusChange,
-        forceAnimationKey:"test"+Math.random()
+        syllabusInfoFade: prevState.syllabusInfoFade,
       })
     }
   }
 
-  componentDidMount(){
-    console.log("componentDidMount")
-  }
   componentDidUpdate(){
-    console.log("componentDidUpdate")
-    //if(this.state.syllabusInfoFade)
-      //this.setState({ syllabusInfoFade: false })
+    //Reset animation after triggered
+    if(this.state.syllabusInfoFade){
+      let that = this
+      setTimeout(()=> { that.setState({ syllabusInfoFade: false }) }, 500)
+    }
   }
 
 //Temp!!
@@ -294,7 +288,7 @@ class CoursePage2 extends Component {
 
 
         {/* --- ACTIVE SYLLABUS LINK---  */}
-        {courseData.coursePlan.length > 0 ?
+        {courseData.syllabusSemesterList.length > 0 ?
           <span>
             <i class="fas fa-file-pdf"></i> 
             <a href="javascript" onClick={this.openSyllabus} id={courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0] + courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]}>
@@ -337,7 +331,7 @@ class CoursePage2 extends Component {
                   </a> <br/> 
                 </span>)
               : "" }
-            </div>
+          </div>
       </Col>
         
      </Col>
@@ -412,7 +406,8 @@ const DropdownCreater2 = ({ courseRoundList , callerInstance, semester, year = "
                      ${courseRound.round_type}`
                   }       
                 </DropdownItem>
-              ) })
+              ) 
+            })
           }
           </DropdownMenu>
         </Dropdown>
