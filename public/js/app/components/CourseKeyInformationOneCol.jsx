@@ -29,16 +29,21 @@ class CourseKeyInformationOneCol extends Component {
       
         <Row>
           <Col sm="12" id="roundKeyInformation"> 
-          <div className={` fade-container ${this.props.fade === true ? " fadeOutIn" : ""}`} key="fadeDiv1">
-          {this.props.courseHasRound ?
-          <div style="text-align: center; border-bottom:1px solid #fff;display:none;"><i className="fas fa-info-circle"></i><h3>Valt kurstillfälle: <br/>{
-          `${i18n.messages[this.props.language].courseInformation.course_short_semester[round.round_course_term[1]]} 
-                      ${round.round_course_term[0]}  
-                      ${round.round_short_name !== EMPTY ? round.round_short_name : ""}
-                      `}
+            <div className={` fade-container ${this.props.fade === true ? " fadeOutIn" : ""}`} key="fadeDiv1">
             
-            </h3></div>
-             :""}
+            {/* ---COURSE ROUND HEADER--- */}
+            {this.props.courseHasRound ?
+              <div style="border-bottom:1px solid #fff;">
+                <h4>
+                  {`   
+                    ${round.round_short_name !== EMPTY ? round.round_short_name : ""}     
+                    ${round.round_type}
+                  `}
+                </h4>
+              </div>
+              :""}
+
+
              {this.props.courseHasRound ?
                     <span>
                       <h4>{translate.round_target_group}</h4>
@@ -85,9 +90,6 @@ class CourseKeyInformationOneCol extends Component {
                   
                   <h4>{translate.round_max_seats}</h4>
                   <p>{round ? round.round_max_seats : EMPTY}</p>
-                
-                  
-                 
                
                   
                 <h4>{translate.round_start_date}</h4>

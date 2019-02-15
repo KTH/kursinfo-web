@@ -14,7 +14,12 @@ import CourseKeyInformationOneCol from "../components/CourseKeyInformationOneCol
 import CourseTitle from "../components/CourseTitle.jsx"
 import CourseSectionList from "../components/CourseSectionList.jsx"
 import CourseFileLinks from "../components/CourseFileLinks.jsx"
-import DropdownCreater from "../components/DropdownCreater.jsx"
+//import DropdownCreater from "../components/DropdownCreater.jsx"
+
+import Dropdown from 'inferno-bootstrap/dist/Dropdown'
+import DropdownMenu from 'inferno-bootstrap/dist/DropdownMenu'
+import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
+import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
 
 
 @inject(['routerStore']) @observer
@@ -23,41 +28,57 @@ class CoursePage2 extends Component {
     super(props)
     this.state = {
         activeRoundIndex: this.props.routerStore.courseSemesters.length > 0 ? this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][3] : 0,
+        activeSemester: this.props.routerStore.defaultIndex,
         activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[this.props.routerStore.defaultIndex] || 0,
         dropdownsIsOpen:{},
         activeDropdown: "roundDropdown"+this.props.routerStore.defaultIndex,
         dropdownOpen:false,
         timeMachineValue: "",
         keyInfoFade: false,
-        syllabusInfoFade: false
+        syllabusInfoFade: false,
+        forceAnimationKey: "test0"
     }
 
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.toggle = this.toggle.bind(this)
     this.openSyllabus = this.openSyllabus.bind(this)
     this.openEdit = this.openEdit.bind(this)
-    this.dropdownHover = this.dropdownHover.bind(this)
-    this.dropdownLeave = this.dropdownLeave.bind(this)
+    this.handleSemesterButtonClick = this.handleSemesterButtonClick.bind(this)
 
     //Temp!!
     this.handleDateInput=this.handleDateInput.bind(this)
     this.timeMachine=this.timeMachine.bind(this)
    
   }
-  dropdownHover(){
+ 
+  handleSemesterButtonClick(){
+    event.preventDefault()
     let prevState = this.state
-    const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
-    prevState.keyInfoFade = false
-    prevState.syllabusInfoFade = false
-    prevState.dropdownsIsOpen[selectedInfo] =  true
-    this.setState({prevState});
+    const selectedSemester = event.target.id.split('_')
+    if(selectedSemester && selectedSemester[0].indexOf('semesterBtn') > -1){
+      let syllabusChange = prevState.activeSyllabusIndex !== this.props.routerStore.roundsSyllabusIndex[Number(selectedSemester[1])]
+      if(syllabusChange){
+        this.setState({ syllabusInfoFade: false,
+          forceAnimationKey:"test"+Math.random()
+         })
+        console.log("this state",this.state)}
+      this.setState({ 
+        activeSemester: Number(selectedSemester[1]),
+        activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[Number(selectedSemester[1])] || 0,
+        activeDropdown: selectedSemester[0],
+        syllabusInfoFade: syllabusChange,
+        forceAnimationKey:"test"+Math.random()
+      })
+    }
   }
 
-  dropdownLeave(){
-    let prevState = this.state
-    const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
-    prevState.dropdownsIsOpen[selectedInfo] =  false
-    this.setState({prevState});
+  componentDidMount(){
+    console.log("componentDidMount")
+  }
+  componentDidUpdate(){
+    console.log("componentDidUpdate")
+    //if(this.state.syllabusInfoFade)
+      //this.setState({ syllabusInfoFade: false })
   }
 
 //Temp!!
@@ -91,7 +112,6 @@ class CoursePage2 extends Component {
       prevState.dropdownsIsOpen = this.clearDropdowns(prevState.dropdownsIsOpen, selectedInfo)
       prevState.dropdownsIsOpen[selectedInfo] =  ! prevState.dropdownsIsOpen[selectedInfo]
       prevState.keyInfoFade = keyInfoFade
-      prevState.syllabusInfoFade = syllabusInfoFade
       console.log("toggle", prevState.fade, keyInfoFade, syllabusInfoFade)
       this.setState({
         prevState
@@ -109,17 +129,11 @@ class CoursePage2 extends Component {
 
   handleDropdownSelect(event){
     event.preventDefault()
-    let prevState = this.state
-    
     const selectInfo = event.target.id.split('_')
-    let syllabusChange = prevState.activeSyllabusIndex !== this.props.routerStore.roundsSyllabusIndex[selectInfo[2]]
-    prevState.activeSyllabusIndex = this.props.routerStore.roundsSyllabusIndex[selectInfo[2]]
-    prevState.activeRoundIndex = selectInfo[1]
-    prevState.activeDropdown = selectInfo[0] 
     this.setState({
-      prevState
+      activeRoundIndex: selectInfo[1]
     })
-    this.toggle(event, true, syllabusChange)
+    this.toggle(event, true)
   }
 
   openSyllabus(event){
@@ -140,6 +154,7 @@ class CoursePage2 extends Component {
     const language = this.props.routerStore.courseData.language === 0 ? "en" : "sv" 
     const introText = routerStore.sellingText && routerStore.sellingText[language].length > 0 ? routerStore.sellingText[language] : courseData.courseInfo.course_recruitment_text
     console.log("routerStore in CoursePage", routerStore)
+    console.log("state in CoursePage", this.state)
     const courseInformationToRounds = {
       course_code: courseData.courseInfo.course_code,
       course_grade_scale: courseData.courseInfo.course_grade_scale,
@@ -214,29 +229,29 @@ class CoursePage2 extends Component {
               
               {/* ---COURSE ROUND DROPDOWN--- */}
               <div id="courseDropdownMenu" className="">
-                <h3>Välj ett kurstillfälle:</h3>
+                <h3>Välj en termin:</h3>
                   <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
                     {routerStore.courseSemesters.length === 0 ? 
                       <Alert color="info">
                         {i18n.messages[courseData.language].courseInformationLabels.lable_no_rounds}
                       </Alert> : 
                       routerStore.courseSemesters.map((semester, index)=>{
-                        return <DropdownCreater 
-                                  courseRoundList = {courseData.courseRoundList} 
-                                  callerInstance = {this} 
-                                  year = {semester[0]} 
-                                  semester={semester[1]} 
-                                  yearSemester={semester[2]} 
-                                  language ={courseData.language}
-                                  parentIndex = {index}
-                              />
+
+                        return  <Button  style="margin-right:20px;margin-left:15px;" 
+                                  key={"semesterBtn"+index} 
+                                  id={"semesterBtn"+index+"_"+index}
+                                  className={"semesterBtn"+this.state.activeSemester==="semesterBtn"+index ? "is-active dropdown-clean": "dropdown-clean"} 
+                                  onClick={this.handleSemesterButtonClick}
+                                 >
+                                    {i18n.messages[courseData.language].courseInformation.course_short_semester[semester[1]]} {semester[0]}
+                                </Button>
                       })
                     }
              </div>
             
             {/* ---COURSE ROUND HEADER--- */}
             { routerStore.courseSemesters.length === 0 ? "" :  
-              <Row id="courseRoundHeader" className="col">
+              <Row id="courseRoundHeader" style="display:none;" className="col">
                 <h4>
                   {` 
                     ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : ""}     
@@ -256,7 +271,29 @@ class CoursePage2 extends Component {
           {/***************************************************************************************************************/}
           <Col id="keyInformationContainer" sm="4" xs="12" className="float-md-right" >
             <h2 style="margin-top:0px">Kurstillfälle och genomförande</h2>
-         
+
+            {/* ---COURSE ROUND DROPDOWN--- */}
+            <div id="roundDropdownMenu" className="">
+                <h3>Välj ett kurstillfälle:</h3>
+                  <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
+                    {routerStore.courseSemesters.length === 0 ? 
+                      <Alert color="info">
+                        {i18n.messages[courseData.language].courseInformationLabels.lable_no_rounds}
+                      </Alert> : 
+                       <DropdownCreater2
+                            courseRoundList = {courseData.courseRoundList} 
+                            callerInstance = {this} 
+                            year = {routerStore.courseSemesters[this.state.activeSemester][0]} 
+                            semester={ routerStore.courseSemesters[this.state.activeSemester][1]} 
+                            yearSemester={routerStore.courseSemesters[this.state.activeSemester][2]} 
+                            language ={courseData.language}
+                            parentIndex = "0"
+                        />
+                      
+                    }
+                  </div>
+             </div>
+
             {/* ---COURSE ROUND KEY INFORMATION--- */}
             <CourseKeyInformationOneCol
               courseRound= {courseData.courseRoundList[this.state.activeRoundIndex]}
@@ -285,7 +322,7 @@ class CoursePage2 extends Component {
         {/*                           LEFT COLUMN - SYLLABUS + OTHER COURSE INFORMATION                                 */}
         {/***************************************************************************************************************/}
         <Col id="coreContent"  sm="8" xs="12" className="float-md-left">
-        <div className={` fade-container ${this.state.syllabusInfoFade === true ? " fadeOutIn" : ""}`}>
+        <div key={this.state.forceAnimationKey} className={` fade-container ${this.state.syllabusInfoFade === true ? " fadeOutIn" : ""}`}>
 
 
         {/* --- ACTIVE SYLLABUS LINK---  */}
@@ -312,7 +349,7 @@ class CoursePage2 extends Component {
         />
       
           {/* ---STATISTICS LINK--- */}
-          <h2>Kursens utveckling</h2>
+          <h3>Kursens utveckling</h3>
             <p>
               
               <a href="https://www.skrattnet.se/roliga-texter/avslojande-statistik" target="_blank" >
@@ -321,7 +358,7 @@ class CoursePage2 extends Component {
             </p>
 
             {/* --- ALL SYLLABUS LINKS--- */}
-            <h2>{i18n.messages[courseData.language].courseInformationLabels.label_course_syllabuses}</h2>
+            <h3>{i18n.messages[courseData.language].courseInformationLabels.label_course_syllabuses}</h3>
               {courseData.syllabusSemesterList.length > 0 ?
                 courseData.syllabusSemesterList.map((semester, index) => 
                 <span key={index}>
@@ -363,5 +400,46 @@ class CoursePage2 extends Component {
   }
 }
 
+const DropdownCreater2 = ({ courseRoundList , callerInstance, semester, year = "2018", yearSemester, language =0, parentIndex = 0}) => {
+  let listIndex = []
+  const dropdownID = "roundDropdown"+parentIndex
+  return(
+    <div className = "col-12 round-dropdowns">
+      <Dropdown  group 
+          isOpen={callerInstance.state.dropdownsIsOpen[dropdownID]} 
+          toggle={callerInstance.toggle} 
+          key={"dropD"+parentIndex} 
+          onMouseOver={callerInstance.dropdownHover}  
+          onMouseLeave={callerInstance.dropdownLeave}  
+          id={dropdownID}
+          className="select-round"
+          >
+         <DropdownToggle 
+            className={callerInstance.state.activeDropdown===dropdownID ? "is-active dropdown-clean": "dropdown-clean"} 
+            id={dropdownID} caret >
+               Kurstillfällen för {i18n.messages[language].courseInformation.course_short_semester[semester]} {year}
+          </DropdownToggle>
+          <DropdownMenu>
+          {
+            courseRoundList.filter( (courseRound, index) =>{
+              if(courseRound.round_course_term.join('') === yearSemester){
+                  listIndex.push(index)
+                  return courseRound
+              }
+            }).map( (courseRound, index) =>{
+              return (
+                <DropdownItem key ={index} id={dropdownID+"_"+listIndex[index]+"_"+parentIndex} onClick = {callerInstance.handleDropdownSelect}> 
+                  {
+                    `${courseRound.round_short_name !== EMPTY ? courseRound.round_short_name : "" },     
+                     ${courseRound.round_type}`
+                  }       
+                </DropdownItem>
+              ) })
+          }
+          </DropdownMenu>
+        </Dropdown>
+      </div>
+  )
+}
 
 export default CoursePage2

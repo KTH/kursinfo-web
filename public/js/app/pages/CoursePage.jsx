@@ -1,24 +1,24 @@
 import { Component } from 'inferno'
 import { inject, observer } from 'inferno-mobx'
 
-
-import Row from 'inferno-bootstrap/dist/Row'
-import Col from 'inferno-bootstrap/dist/Col'
 import Alert from 'inferno-bootstrap/dist/Alert'
 import Button from 'inferno-bootstrap/lib/Button'
+import Col from 'inferno-bootstrap/dist/Col'
+import Row from 'inferno-bootstrap/dist/Row'
 
 import i18n from "../../../../i18n"
 import { EMPTY, FORSKARUTB_URL } from "../util/constants"
 
 //Components
-import CourseKeyInformation from "../components/CourseKeyInformation.jsx"
+import CourseKeyInformationOneCol from "../components/CourseKeyInformationOneCol.jsx"
 import CourseTitle from "../components/CourseTitle.jsx"
 import CourseSectionList from "../components/CourseSectionList.jsx"
 import CourseFileLinks from "../components/CourseFileLinks.jsx"
 import DropdownCreater from "../components/DropdownCreater.jsx"
 
+
 @inject(['routerStore']) @observer
-class CoursePage extends Component {
+class CoursePage2 extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -36,13 +36,31 @@ class CoursePage extends Component {
     this.toggle = this.toggle.bind(this)
     this.openSyllabus = this.openSyllabus.bind(this)
     this.openEdit = this.openEdit.bind(this)
+    this.dropdownHover = this.dropdownHover.bind(this)
+    this.dropdownLeave = this.dropdownLeave.bind(this)
 
     //Temp!!
     this.handleDateInput=this.handleDateInput.bind(this)
     this.timeMachine=this.timeMachine.bind(this)
    
   }
+  dropdownHover(){
+    let prevState = this.state
+    const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
+    prevState.keyInfoFade = false
+    prevState.syllabusInfoFade = false
+    prevState.dropdownsIsOpen[selectedInfo] =  true
+    this.setState({prevState});
+  }
 
+  dropdownLeave(){
+    let prevState = this.state
+    const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
+    prevState.dropdownsIsOpen[selectedInfo] =  false
+    this.setState({prevState});
+  }
+
+//Temp!!
   handleDateInput(event){
     this.setState({
       timeMachineValue: event.target.value
@@ -94,14 +112,14 @@ class CoursePage extends Component {
     let prevState = this.state
     
     const selectInfo = event.target.id.split('_')
-    let syllabusChanged = prevState.activeSyllabusIndex !== this.props.routerStore.roundsSyllabusIndex[selectInfo[2]]
+    let syllabusChange = prevState.activeSyllabusIndex !== this.props.routerStore.roundsSyllabusIndex[selectInfo[2]]
     prevState.activeSyllabusIndex = this.props.routerStore.roundsSyllabusIndex[selectInfo[2]]
     prevState.activeRoundIndex = selectInfo[1]
     prevState.activeDropdown = selectInfo[0] 
     this.setState({
       prevState
     })
-    this.toggle(event, true, syllabusChanged)
+    this.toggle(event, true, syllabusChange)
   }
 
   openSyllabus(event){
@@ -121,7 +139,8 @@ class CoursePage extends Component {
     const courseData = routerStore["courseData"]
     const language = this.props.routerStore.courseData.language === 0 ? "en" : "sv" 
     const introText = routerStore.sellingText && routerStore.sellingText[language].length > 0 ? routerStore.sellingText[language] : courseData.courseInfo.course_recruitment_text
-    console.log("routerStore in CoursePage", routerStore.user, routerStore.courseData.courseInfo.courseCode)
+    console.log("routerStore in CoursePage", routerStore)
+    console.log("state in CoursePage", this.state)
     const courseInformationToRounds = {
       course_code: courseData.courseInfo.course_code,
       course_grade_scale: courseData.courseInfo.course_grade_scale,
@@ -131,170 +150,207 @@ class CoursePage extends Component {
     }
     
     return (
-      <div  key="kursinfo-container" className="kursinfo-main-page col" >
-      <Row>
-        <Col sm="1" xs="1"></Col>
-        <Col sm="10" xs="12">
-        {/* ---COURSE TITEL--- */}
-        <CourseTitle key = "title"
-            courseTitleData = {courseData.courseTitleData}
-            language = {courseData.language}
-            canEdit = {routerStore.canEdit}
-        />
-
-         {/* ---TEXT FOR CANCELLED COURSE --- */}
-        {routerStore.isCancelled ?
-          <div className="col-12 isCancelled">
-            <Alert color="info" aria-live="polite">
-                <h3>{i18n.messages[courseData.language].courseInformationLabels.label_course_cancelled} </h3>
-                <p>{i18n.messages[courseData.language].courseInformationLabels.label_last_exam}  
-                    {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]} {courseData.courseInfo.course_last_exam[0]}
-                </p>
-              </Alert>
-          </div>
-         :""}
-
-        {/* ---INTRO TEXT--- */}
-        <Row id="courseIntroText">
-        
-          <Col sm="12" xs="12">
-          <img src={routerStore.image} alt="" height="auto" width="300px"/>
-            <div 
-              dangerouslySetInnerHTML = {{ __html:introText}}>
-            </div>
-          </Col>
-        </Row>
-
-       <Row>
-         <Col sm="12">
-          <h2>{i18n.messages[courseData.language].courseInformationLabels.header_course_info} </h2>
-         </Col>
-       </Row>
-
-       
-        {/* ---COURSE ROUND DROPDOWN--- */}
-        <div id="courseDropdownMenu" className="">
-       <h3>Välj ett kurstillfälle:</h3>
-          <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
-              { routerStore.courseSemesters.length === 0 ? 
-                  <Alert color="info">{i18n.messages[courseData.language].courseInformationLabels.lable_no_rounds}</Alert> : 
-                  routerStore.courseSemesters.map((semester, index)=>{
-                    return <DropdownCreater 
-                            courseRoundList = {courseData.courseRoundList} 
-                            callerInstance = {this} 
-                            year = {semester[0]} 
-                            semester={semester[1]} 
-                            yearSemester={semester[2]} 
-                            language ={courseData.language}
-                            parentIndex = {index}
-                        />
-                })
-              }
-              
-          </div>
+      <div  key="kursinfo-container" className="kursinfo-main-page col" > 
+        <Row>
           
-        {/* ---COURSE ROUND HEADER--- */}
-        { routerStore.courseSemesters.length === 0 ? "" :  
-          <Row id="courseRoundHeader" className="col">
-            <h4>
-                  {` 
+          <Col sm="1" xs="1"> </Col>
+          {/***************************************************************************************************************/}
+          {/*                                                   INTRO                                                     */}
+          {/***************************************************************************************************************/}
+          <Col sm="10" xs="12">
+
+            {/* ---COURSE TITEL--- */}
+            <CourseTitle key = "title"
+                courseTitleData = {courseData.courseTitleData}
+                language = {courseData.language}
+                canEdit = {routerStore.canEdit}
+            />
+
+            {/* ---TEXT FOR CANCELLED COURSE --- */}
+            {routerStore.isCancelled ?
+              <div className="col-12 isCancelled">
+                <Alert color="info" aria-live="polite">
+                    <h3>{i18n.messages[courseData.language].courseInformationLabels.label_course_cancelled} </h3>
+                    <p>{i18n.messages[courseData.language].courseInformationLabels.label_last_exam}  
+                        {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]} {courseData.courseInfo.course_last_exam[0]}
+                    </p>
+                  </Alert>
+              </div>
+            :""}
+
+            {/* ---INTRO TEXT--- */}
+            <Row id="courseIntroText">
+              <Col sm="12" xs="12">
+                <img src={routerStore.image} alt="" height="auto" width="300px"/>
+                <div 
+                  dangerouslySetInnerHTML = {{ __html:introText}}>
+                </div>
+              </Col>
+            </Row>
+          {/***************************************************************************************************************/}
+          {/*                                         DROPDOWN MENUE                                                      */}
+          {/***************************************************************************************************************/}
+          <Row>
+            <Col sm="12">
+              <h2>{i18n.messages[courseData.language].courseInformationLabels.header_course_info} </h2>
+
+              { courseData.courseRoundList.length === 0 ?  "" :
+                <Alert color="grey" style="display:none;">
+                  Det finns totalt {courseData.courseRoundList.length} st kurstillfällen för den här kursen.
+                  <br/><br/>
+                  Just nu visas information för kurstillfälle 
+                  <b>{` 
                     ${i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]]} 
                     ${courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0]}  
-                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name},     
+                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : ""},     
+                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}
+                  `} </b>
+                  med kursplan {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus_valid_from.toLowerCase() }
+                  <b>
+                    &nbsp; {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]]} &nbsp;{courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0]} 
+                  </b> <br/>
+                </Alert> 
+              }
+              
+              
+              {/* ---COURSE ROUND DROPDOWN--- */}
+              <div id="courseDropdownMenu" className="">
+                <h3>Välj ett kurstillfälle:</h3>
+                  <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
+                    {routerStore.courseSemesters.length === 0 ? 
+                      <Alert color="info">
+                        {i18n.messages[courseData.language].courseInformationLabels.lable_no_rounds}
+                      </Alert> : 
+                      routerStore.courseSemesters.map((semester, index)=>{
+                        return <DropdownCreater 
+                                  courseRoundList = {courseData.courseRoundList} 
+                                  callerInstance = {this} 
+                                  year = {semester[0]} 
+                                  semester={semester[1]} 
+                                  yearSemester={semester[2]} 
+                                  language ={courseData.language}
+                                  parentIndex = {index}
+                          
+                              />
+                      })
+                    }
+             </div>
+            
+            {/* ---COURSE ROUND HEADER--- */}
+            { routerStore.courseSemesters.length === 0 ? "" :  
+              <Row id="courseRoundHeader" className="col">
+                <h4>
+                  {` 
+                    ${courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : ""}     
                     ${courseData.courseRoundList[this.state.activeRoundIndex].round_type}
                   `} 
-            </h4>
-          </Row>   
-        }
-        
-      </div> 
-        {/* ---COURSE ROUND KEY INFORMATION--- */}
-       
-        <CourseKeyInformation
-          courseRound= {courseData.courseRoundList[this.state.activeRoundIndex]}
-          index={this.state.activeRoundIndex}
-          courseData = {courseInformationToRounds}
-          language={courseData.language}
-          imageUrl = {routerStore.image}
-          courseHasRound ={routerStore.courseSemesters.length > 0 }
-          fade = {this.state.keyInfoFade}
-        />
-
-        {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
-        {courseData.courseInfo.course_level_code === "RESEARCH" ?
-          <span>
-            <h3>Forskarkurs</h3>
-            <a target="_blank" href={`${FORSKARUTB_URL}/${courseData.courseInfo.course_department_code}`}> 
-            {i18n.messages[courseData.language].courseInformationLabels.label_postgraduate_course} {courseData.courseInfo.course_department}
-            </a> 
-          </span>
-          : ""}
-       
-       <div className={` fade-container ${this.state.syllabusInfoFade === true ? " fadeOutIn" : ""}`}>
-         {/* --- COURSE INFORMATION CONTAINER---  */}
-         <div className="key-info">
-          <CourseSectionList 
-              roundIndex={this.state.activeRoundIndex} 
-              courseInfo = {courseData.courseInfo} 
-              coursePlan = {courseData.coursePlan[this.state.activeSyllabusIndex]} 
-              className="ExampleCollapseContainer" 
-              isOpen={true} 
-              color="blue"
-              showCourseLink = {routerStore.showCourseWebbLink} 
-              partToShow = "first"
-            />
-         
-         {/* --- COURSE FILE LINKS---  */}
-         <CourseFileLinks
-            index={this.state.activeRoundIndex}
-            language={courseData.language}
-            courseHasRound ={routerStore.courseSemesters.length > 0 }
-            syllabusValidFrom = {courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from}
-            courseCode= {courseData.courseInfo.course_code}
-            scheduleUrl = {routerStore.courseSemesters.length > 0 ? courseData.courseRoundList[this.state.activeRoundIndex].round_schedule : "https://thoughtcatalog.com/january-nelson/2018/06/funny-stories/"}
-          />
-        </div>
-       
-
-
-        {/* --- COURSE INFORATION CONTAINER---  */}
-        <CourseSectionList 
-            roundIndex={this.state.activeRoundIndex} 
-            courseInfo = {courseData.courseInfo} 
-            coursePlan = {courseData.coursePlan[this.state.activeSyllabusIndex]} 
-            className="ExampleCollapseContainer" 
-            isOpen={true} 
-            color="blue"
-            showCourseLink = {routerStore.showCourseWebbLink} 
-            partToShow = "second"
-          />
-        </div>
-         
-
-
-
-        <br/>
-        {/* ---TEMP: OLDER SYLLABUSES LINKS--- */}
-        <div className="col">
-            {courseData.syllabusSemesterList.length > 0 ?
-              courseData.syllabusSemesterList.map((semester, index) => 
-              <span key={index}>
-              <a href="#" key={index} id={semester}  onClick={this.openSyllabus}>
-                { i18n.messages[this.props.routerStore.courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
-                {i18n.messages[this.props.routerStore.courseData.language].courseInformation.course_short_semester[semester.toString().substring(4,5)]}  {semester.toString().substring(0,4)} 
-                &nbsp;  </a> <br/> </span>)
-             : ""
+                </h4>
+              </Row>   
             }
-        </div>
-        <br/>
-        {/* ---TEMP: test of dates --- */}
-        <div style="padding:5px; border: 3px dotted pink;">
+          </div> 
+        </Col>
+      </Row> 
+      
+      <Row> 
+        <Col >
+          {/***************************************************************************************************************/}
+          {/*                                      RIGHT COLUMN - KEY INFORMATION                                         */}
+          {/***************************************************************************************************************/}
+          <Col id="keyInformationContainer" sm="4" xs="12" className="float-md-right" >
+            <h2 style="margin-top:0px">Kurstillfälle och genomförande</h2>
+         
+            {/* ---COURSE ROUND KEY INFORMATION--- */}
+            <CourseKeyInformationOneCol
+              courseRound= {courseData.courseRoundList[this.state.activeRoundIndex]}
+              index={this.state.activeRoundIndex}
+              courseData = {courseInformationToRounds}
+              language={courseData.language}
+              imageUrl = {routerStore.image}
+              courseHasRound ={routerStore.courseSemesters.length > 0 }
+              fade ={this.state.keyInfoFade}
+            />
+
+            {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
+            {courseData.courseInfo.course_level_code === "RESEARCH" ?
+              <span>
+                <h3>Forskarkurs</h3>
+                <a target="_blank" href={`${FORSKARUTB_URL}/${courseData.courseInfo.course_department_code}`}> 
+                  {i18n.messages[courseData.language].courseInformationLabels.label_postgraduate_course} {courseData.courseInfo.course_department}
+                </a> 
+              </span>
+            : ""}
+          
+          
+        </Col>
+
+        {/***************************************************************************************************************/}
+        {/*                           LEFT COLUMN - SYLLABUS + OTHER COURSE INFORMATION                                 */}
+        {/***************************************************************************************************************/}
+        <Col id="coreContent"  sm="8" xs="12" className="float-md-left">
+        <div className={` fade-container ${this.state.syllabusInfoFade === true ? " fadeOutIn" : ""}`}>
+
+
+        {/* --- ACTIVE SYLLABUS LINK---  */}
+        {courseData.coursePlan.length > 0 ?
+          <span>
+            <i class="fas fa-file-pdf"></i> 
+            <a href="javascript" onClick={this.openSyllabus} id={courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0] + courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]}>
+                {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus}
+            </a>
+            <span className="small-text" >
+              &nbsp;( {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
+              {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]]}  {courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0]} )
+            </span>
+          </span>
+        : "" }
+
+        {/* --- COURSE INFORMATION CONTAINER---  */}
+        <CourseSectionList 
+          roundIndex={this.state.activeRoundIndex} 
+          courseInfo = {courseData.courseInfo} 
+          coursePlan = {courseData.coursePlan[this.state.activeSyllabusIndex]} 
+          showCourseLink = {routerStore.showCourseWebbLink} 
+          partToShow = "second"
+        />
+      
+          {/* ---STATISTICS LINK--- */}
+          <h3>Kursens utveckling</h3>
+            <p>
+              
+              <a href="https://www.skrattnet.se/roliga-texter/avslojande-statistik" target="_blank" >
+                {i18n.messages[courseData.language].courseInformationLabels.label_statistics}
+              </a>
+            </p>
+
+            {/* --- ALL SYLLABUS LINKS--- */}
+            <h3>{i18n.messages[courseData.language].courseInformationLabels.label_course_syllabuses}</h3>
+              {courseData.syllabusSemesterList.length > 0 ?
+                courseData.syllabusSemesterList.map((semester, index) => 
+                <span key={index}>
+                 <i class="fas fa-file-pdf"></i><a href="#" key={index} id={semester}  onClick={this.openSyllabus}>
+                    {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
+                    {i18n.messages[courseData.language].courseInformation.course_short_semester[semester.toString().substring(4,5)]}  {semester.toString().substring(0,4)} 
+                    &nbsp;  
+                  </a> <br/> 
+                </span>)
+              : "" }
+            </div>
+      </Col>
+        
+     </Col>
+     <br/>
+        {/* ---TEMP: test of dates --- 
+
+        <span style="padding:5px; border: 3px dotted pink;">
           <lable>Time machine for testing default information: </lable>
           <input type="date" onChange={this.handleDateInput} />
           <button onClick={this.timeMachine}>Travel in time!</button>
-        </div>
-        </Col>
-        <Col sm="1" xs="1">
+        </span>*/}
+    </Row>
+  </Col>
+
+  {/* ---EDIT BUTTON --- */}
+  <Col sm="1" xs="1">
         {
           routerStore.canEdit ? 
             <Button className="editButton" color="primery" onClick={this.openEdit} id={courseData.courseInfo.course_code}>
@@ -309,4 +365,5 @@ class CoursePage extends Component {
   }
 }
 
-export default CoursePage
+
+export default CoursePage2

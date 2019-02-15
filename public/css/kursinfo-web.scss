@@ -50,6 +50,7 @@ h2 {
     }
 
     .round-dropdowns{
+
         @media (max-width: 376px){
         & > .btn-group>.btn:first-child {
                 margin-left: -10px;
@@ -84,6 +85,14 @@ h2 {
         border-bottom: #ddd 1px solid;
         font-size: 0.8rem;
         font-weight: 700;
+    }
+}
+
+.select-round{
+    width: 100%;
+
+    & > .btn{
+        width: 100%;
     }
 }
 
