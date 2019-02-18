@@ -77,17 +77,11 @@ class CourseKeyInformationOneCol extends Component {
                   <p>{round ? round.round_max_seats : EMPTY}</p>
                
                   <h4>{translate.round_start_date}</h4>
-                  <p><i class="fas fa-hourglass-start"></i>{round ? round.round_start_date : EMPTY}</p>
+                  <p className="clear-margin-bottom"><i class="fas fa-hourglass-start"></i>{round ? round.round_start_date : EMPTY}</p>
                   <p><i class="fas fa-hourglass-end"></i>{round ? round.round_end_date : EMPTY}</p>
 
-                  <h4>{translate.round_teacher}</h4>
-                  <span dangerouslySetInnerHTML = {{ __html:round.round_teacher }}></span>
-                   
-                  <h4>{translate.round_responsibles}</h4>
-                  <span dangerouslySetInnerHTML = {{ __html:round.round_responsibles }}></span>
-
                   <h4>{translate.round_time_slots}</h4>
-                  <span dangerouslySetInnerHTML = {{ __html:round.round_time_slots }}></span>
+                  <span dangerouslySetInnerHTML = {{ __html:course.round_time_slots }}></span>
                 </span>
               : ""}
 
@@ -106,13 +100,41 @@ class CourseKeyInformationOneCol extends Component {
               <a href="https://www.youtube.com/watch?v=s0JA9MgoT4o" target="_blank" >
                 {i18n.messages[this.props.language].courseInformationLabels.lable_canavas_example}
               </a>
-            
             </div>
           </Col>
         </Row>
         <Row>
           <Col>
-            <h3 style="background: #fff;margin: 20px -15px;padding: 20px 15px 10px;">Välja kurs</h3>
+          {this.props.courseHasRound ?
+            <span>
+              <h3 className="right-column-header">Kontakt</h3>
+
+              <h4>{translate.round_responsibles}</h4>
+              <span dangerouslySetInnerHTML = {{ __html:round.round_responsibles }}></span>
+              
+
+              <h4>{translate.round_teacher}</h4>
+              <span dangerouslySetInnerHTML = {{ __html:round.round_teacher }}></span>
+              </span>       
+              
+            :""}
+
+            <h4>{i18n.messages[this.props.language].courseInformation.course_examiners}</h4>
+            <span dangerouslySetInnerHTML = {{ __html:course.course_examiners }}></span>
+
+            {course.course_contact_name !== EMPTY ?
+              <span>
+                <h4>{i18n.messages[this.props.language].courseInformation.course_contact_name}</h4> 
+                <p>{course.course_contact_name}</p>
+
+              </span>
+            : "" }
+              
+          </Col>
+       </Row>
+        <Row>
+          <Col>
+            <h3 className="right-column-header">Välja kurs</h3>
             <h4>{translate.round_application_code}</h4>
             <p>{round ? round.round_application_code : EMPTY}</p>
           </Col>

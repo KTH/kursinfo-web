@@ -7,7 +7,7 @@ import Col from 'inferno-bootstrap/dist/Col'
 import Row from 'inferno-bootstrap/dist/Row'
 
 import i18n from "../../../../i18n"
-import { EMPTY, FORSKARUTB_URL } from "../util/constants"
+import { EMPTY, FORSKARUTB_URL, ADMIN_URL, SYLLABUS_URL } from "../util/constants"
 
 //Components
 import CourseKeyInformationOneCol from "../components/CourseKeyInformationOneCol.jsx"
@@ -107,7 +107,7 @@ class CoursePage2 extends Component {
       prevState.dropdownsIsOpen = this.clearDropdowns(prevState.dropdownsIsOpen, selectedInfo)
       prevState.dropdownsIsOpen[selectedInfo] =  ! prevState.dropdownsIsOpen[selectedInfo]
       prevState.keyInfoFade = keyInfoFade
-      console.log("toggle", prevState.fade, keyInfoFade, syllabusInfoFade)
+
       this.setState({
         prevState
       })
@@ -134,14 +134,13 @@ class CoursePage2 extends Component {
   openSyllabus(event){
     event.preventDefault()
     const language = this.props.routerStore.courseData.language === 0 ? "en" : "sv" 
-    window.open(`/student/kurser/kurs/kursplan/${this.props.routerStore.courseData.courseInfo.course_code}_${event.target.id}.pdf?lang=${language}`)
+    window.open(`${SYLLABUS_URL}/${this.props.routerStore.courseData.courseInfo.course_code}_${event.target.id}.pdf?lang=${language}`)
   }
 
   openEdit(){
     event.preventDefault()
     const language = this.props.routerStore.courseData.language === 0 ? "en" : "sv" 
-    //window.open(`/student/kurser/kurs/admin/${this.props.courseTitleData.course_code}?lang=${language}`)
-    window.location =`/admin/kurser/kurs/${this.props.routerStore.courseData.courseInfo.course_code}?l=${language}`
+    window.location =`${ADMIN_URL}${this.props.routerStore.courseData.courseInfo.course_code}?l=${language}`
   }
 
   render ({ routerStore}){
@@ -152,14 +151,14 @@ class CoursePage2 extends Component {
     console.log("state in CoursePage", this.state)
     const courseInformationToRounds = {
       course_code: courseData.courseInfo.course_code,
-      course_grade_scale: courseData.courseInfo.course_grade_scale,
-      course_level_code: courseData.courseInfo.course_level_code,
+      course_examiners: courseData.courseInfo.course_examiners,
+      course_contact_name: courseData.courseInfo.course_contact_name,
       course_main_subject: courseData.courseInfo.course_main_subject,
-      course_valid_from: courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from
+      course_valid_from: courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from,
     }
     
     return (
-      <div  key="kursinfo-container" className="kursinfo-main-page col" > 
+      <div  key="kursinfo-container" className="col" id="kursinfo-main-page" > 
         <Row>
           
           <Col sm="1" xs="1"> </Col>
@@ -235,7 +234,7 @@ class CoursePage2 extends Component {
             <h2 style="margin-top:0px">Kurstillfälle och genomförande</h2>
 
             {/* ---COURSE ROUND DROPDOWN--- */}
-            <div id="roundDropdownMenu" className="">
+            <div id="semesterDropdownMenue" className="">
                   <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
                     {routerStore.courseSemesters.length === 0 ? 
                       <Alert color="info">
@@ -301,26 +300,28 @@ class CoursePage2 extends Component {
           </span>
         : "" }
 
-        {/* --- COURSE INFORMATION CONTAINER---  */}
-        <CourseSectionList 
+         {/* --- COURSE INFORMATION CONTAINER---  */}
+         <CourseSectionList 
           roundIndex={this.state.activeRoundIndex} 
           courseInfo = {courseData.courseInfo} 
           coursePlan = {courseData.coursePlan[this.state.activeSyllabusIndex]} 
           showCourseLink = {routerStore.showCourseWebbLink} 
-          partToShow = "second"
+          partToShow = "firstBlock"
         />
+
+       
       
           {/* ---STATISTICS LINK--- */}
-          <h3>Kursens utveckling</h3>
+          <h2>Kursens utveckling</h2>
             <p>
               
-              <a href="https://www.skrattnet.se/roliga-texter/avslojande-statistik" target="_blank" >
+            <i class="fas fa-chart-line"></i> <a href="https://www.skrattnet.se/roliga-texter/avslojande-statistik" target="_blank" >
                 {i18n.messages[courseData.language].courseInformationLabels.label_statistics}
               </a>
             </p>
 
             {/* --- ALL SYLLABUS LINKS--- */}
-            <h3>{i18n.messages[courseData.language].courseInformationLabels.label_course_syllabuses}</h3>
+            <h2>{i18n.messages[courseData.language].courseInformationLabels.label_course_syllabuses}</h2>
               {courseData.syllabusSemesterList.length > 0 ?
                 courseData.syllabusSemesterList.map((semester, index) => 
                 <span key={index}>
@@ -332,6 +333,15 @@ class CoursePage2 extends Component {
                 </span>)
               : "" }
           </div>
+
+           {/* --- COURSE INFORMATION CONTAINER---  */}
+        <CourseSectionList 
+          roundIndex={this.state.activeRoundIndex} 
+          courseInfo = {courseData.courseInfo} 
+          coursePlan = {courseData.coursePlan[this.state.activeSyllabusIndex]} 
+          showCourseLink = {routerStore.showCourseWebbLink} 
+          partToShow = "secondBlock"
+        />
       </Col>
         
      </Col>

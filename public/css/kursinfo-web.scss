@@ -9,6 +9,11 @@
 @import "node_modules/kth-style/public/sass/bootstrap/variables";
 @import "node_modules/bootstrap/scss/mixins";*/
 
+
+#kursinfo-main-page{ 
+    margin-bottom: 20px;
+}
+
 .preArticleParagraphs, h2.secondTitle {
     margin-top: -20px;
     padding: 0;
@@ -39,7 +44,7 @@ h2 {
 
 
 #courseDropdownMenu{
-    margin-bottom: 70px;
+    margin-bottom: 10px;
     border-top: 1px solid #0580ac;
     border-bottom: 1px solid #0580ac;
     margin-top: 40px;
@@ -59,22 +64,6 @@ h2 {
         }
     }
     
-    .dropdown-clean{
-        border: none;
-        margin: 2px;
-        padding: 2px;
-        font-size: 18px;
-        font-weight: 400;
-        border-radius: 0 !important;
-        background-color: #fff !important;
-        &:hover, &:focus, &:active, &.is-active{
-            background-color: #fff;
-            border-radius: 0;
-            border: none;
-            border-bottom: 5px solid #006cb7 !important;
-        }
-    }
-
     .dropdown-menu {
         margin:0;
     }
@@ -88,12 +77,33 @@ h2 {
     }
 }
 
+#semesterDropdownMenue, #roundDropdownMenu{
+& > .dropdown-clean{
+    border: none;
+    margin: 2px;
+    padding: 2px;
+    font-size: 18px;
+    font-weight: 400;
+    border-radius: 0 !important;
+    background-color: #fff !important;
+    &:hover, &:focus, &:active, &.is-active{
+        background-color: #fff;
+        border-radius: 0;
+        border: none;
+        border-bottom: 5px solid #006cb7 !important;
+    }
+}
+}
+
 .select-round{
     width: 100%;
     .btn-secondary{
-        background-color: rgb(0, 129, 175);
-        color: #fff;
-        border: 0;
+            /* background-color: #0081af; */
+    /* color: #fff; */
+    border: 0;
+    border-bottom: 1px solid #0081af;
+    border-top: 1px solid #0081af;
+    border-radius: unset;
     }
     & > .btn{
         width: 100%;
@@ -161,6 +171,7 @@ h2 {
 
 /************************************************/
 #keyInformationContainer{
+    margin-top: 70px;
     .key-info{
         padding: 15px;
         background: #f6f6f6;
@@ -177,7 +188,7 @@ h2 {
     padding-left:0;
     padding-top:40px;
     .first-header{
-        margin-top: 10px;
+        margin-top: 40px;
     }
     @media (min-width: 768px){
         padding-top:0px;
@@ -205,6 +216,16 @@ h2 {
       .fadeOutIn {
         animation-name: fadeOutIn;
         animation-duration: 800ms;
+       }
+
+       .right-column-header{
+        background: #fff;
+        margin: 20px -15px;
+        padding: 20px 15px 10px;
+       }
+
+       .clear-margin-bottom{
+           margin-bottom: 0;
        }
 }
 

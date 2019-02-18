@@ -106,7 +106,19 @@ class CourseSectionList extends Component {
         <CourseSection sectionHeader ={translation.courseInformationLabels.header_contact} headerType = '3' courseData = {this.getOther(translation)} />
         </span>
         :""} 
-        </div>  
+
+      {this.props.partToShow === "firstBlock" ?
+       <span>
+        <CourseSection sectionHeader ={translation.courseInformationLabels.header_content} headerType = '3' class= "first-header" courseData = {this.getContent(translation)} />
+        <CourseSection sectionHeader ={translation.courseInformationLabels.header_execution} headerType = '3' courseData = {this.getExecution(translation)} />
+        <CourseSection sectionHeader ={translation.courseInformationLabels.header_examination} headerType = '3' courseData = {this.getExamination(translation)} />
+        </span>
+      :""} 
+
+      {this.props.partToShow === "secondBlock" ?
+        <CourseSection sectionHeader ={translation.courseInformationLabels.header_contact} headerType = '3' courseData = {this.getOther(translation)} />
+        : ""}
+    </div>  
     )
   }
 }

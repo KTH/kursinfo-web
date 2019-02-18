@@ -255,7 +255,7 @@ class RouterStore {
       course_level_code: this.isValidData(courseResult.course.educationalLevelCode),
       course_main_subject: courseResult.mainSubjects ?  Array.isArray(courseResult.mainSubjects) ? courseResult.mainSubjects.toString() : this.isValidData(courseResult.mainSubjects) : EMPTY,
       course_recruitment_text: this.isValidData(courseResult.course.recruitmentText),
-      course_department: this.isValidData(courseResult.course.department.name, language),
+      course_department: this.isValidData(courseResult.course.department.name, language)!== EMPTY ? '<a href="https://www.kth.se/' + courseResult.course.department.name.split('/')[0].toLowerCase()+'/" target="blank"/>'+courseResult.course.department.name+'</a>' : EMPTY,
       course_department_code: this.isValidData(courseResult.course.department.code, language),
       course_contact_name:this.isValidData(courseResult.course.infoContactName, language),
       course_suggested_addon_studies: this.isValidData(courseResult.course.addOn, language),
@@ -389,9 +389,10 @@ class RouterStore {
     personList.forEach( person  => {
       personString += `<p class = "person">
           <i class="fas fa-user-alt"></i>
-          <a href="https://www.kth.se/profile/${person.username}/" target="_blank" property="teach:teacher">${person.givenName} ${person.lastName}, </a> 
-          <i class="far fa-envelope"></i>&nbsp;${person.email}
+          <a href="https://www.kth.se/profile/${person.username}/" target="_blank" property="teach:teacher">${person.givenName} ${person.lastName} </a> 
+          
           </p>  `
+          //<i class="far fa-envelope"></i>&nbsp;${person.email}
       //** Check if the logged in user is examinator or responsible and can edit course page **/
       if(this.user === person.username && ( type=== 'responsible' || type=== 'examiner')) //TODO: DELETE
         this.canEdit = true
