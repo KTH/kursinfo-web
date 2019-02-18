@@ -64,6 +64,7 @@ class CoursePage2 extends Component {
         activeRoundIndex: this.props.routerStore.courseSemesters[newIndex][3],
         activeDropdown: selectedSemester[0],
         syllabusInfoFade: prevState.syllabusInfoFade,
+        keyInfoFade:true
       })
     }
   }
@@ -72,11 +73,11 @@ class CoursePage2 extends Component {
     //Reset animation after triggered
     if(this.state.syllabusInfoFade){
       let that = this
-      setTimeout(()=> { that.setState({ syllabusInfoFade: false }) }, 500)
+      setTimeout(()=> { that.setState({ syllabusInfoFade: false,  keyInfoFade:false}) }, 500)
     }
   }
 
-//Temp!!
+//Temp!!*******
   handleDateInput(event){
     this.setState({
       timeMachineValue: event.target.value
@@ -91,7 +92,7 @@ class CoursePage2 extends Component {
       activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex] || 0
     })
   }
-
+//!!!********
   static fetchData (routerStore, params) {
     return routerStore.getCourseInformation("sf1624","sv")
       .then((data) => {
@@ -107,7 +108,6 @@ class CoursePage2 extends Component {
       prevState.dropdownsIsOpen = this.clearDropdowns(prevState.dropdownsIsOpen, selectedInfo)
       prevState.dropdownsIsOpen[selectedInfo] =  ! prevState.dropdownsIsOpen[selectedInfo]
       prevState.keyInfoFade = keyInfoFade
-
       this.setState({
         prevState
       })
@@ -154,6 +154,7 @@ class CoursePage2 extends Component {
       course_examiners: courseData.courseInfo.course_examiners,
       course_contact_name: courseData.courseInfo.course_contact_name,
       course_main_subject: courseData.courseInfo.course_main_subject,
+      course_level_code: courseData.courseInfo.course_level_code,
       course_valid_from: courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from,
     }
     
