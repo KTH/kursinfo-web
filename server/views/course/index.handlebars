@@ -3,10 +3,16 @@
 </script>
 {{prefixScript '/static/js/app.js' 'scripts'}}
 
-<div class="container articleNavigation"><br/>
+<div class="container articleNavigation course-page">
+   
     <div class="row justify-content-between">
+      <div class="col-1 col-sm-1"> </div>
+   <div class="col-xs-12 col-sm-10"> 
         {{breadcrumbs breadcrumbsPath lang}}
+        </div>
+     <div class="col-1 col-sm-1"> </div>
     </div>
+    
   </div>
 
 {{#if error}}
