@@ -76,7 +76,7 @@ class CourseSectionList extends Component {
     let prepare = [
       {header: translation.courseInformation.course_department, text: course.course_department  },
       {header: translation.courseInformation.course_main_subject, text: course.course_main_subject  },
-      {header: translation.courseRoundInformation.round_time_slots, text: round ?round.round_time_slots : EMPTY },
+     /* {header: translation.courseRoundInformation.round_time_slots, text: round ?round.round_time_slots : EMPTY },*/
       {header: translation.courseRoundInformation.round_teacher, text:round ? round.round_teacher : EMPTY },
       {header: translation.courseRoundInformation.round_responsibles, text:round ? round.round_responsibles : EMPTY }
       
