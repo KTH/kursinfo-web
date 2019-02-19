@@ -73,8 +73,13 @@ class CoursePage2 extends Component {
     //Reset animation after triggered
     if(this.state.syllabusInfoFade){
       let that = this
-      setTimeout(()=> { that.setState({ syllabusInfoFade: false,  keyInfoFade:false}) }, 500)
+      setTimeout(()=> { that.setState({ syllabusInfoFade: false,  keyInfoFade:false}) }, 800)
     }
+    else 
+      if(this.state.keyInfoFade){
+        let that = this
+        setTimeout(()=> { that.setState({keyInfoFade:false}) }, 500)
+      }
   }
 
 //Temp!!*******
@@ -134,7 +139,7 @@ class CoursePage2 extends Component {
   openSyllabus(event){
     event.preventDefault()
     const language = this.props.routerStore.courseData.language === 0 ? "en" : "sv" 
-    window.open(`${SYLLABUS_URL}/${this.props.routerStore.courseData.courseInfo.course_code}_${event.target.id}.pdf?lang=${language}`)
+    window.open(`${SYLLABUS_URL}${this.props.routerStore.courseData.courseInfo.course_code}_${event.target.id}.pdf?lang=${language}`)
   }
 
   openEdit(){
@@ -146,9 +151,12 @@ class CoursePage2 extends Component {
   render ({ routerStore}){
     const courseData = routerStore["courseData"]
     const language = this.props.routerStore.courseData.language === 0 ? "en" : "sv" 
+    const translation = i18n.messages[courseData.language]
     const introText = routerStore.sellingText && routerStore.sellingText[language].length > 0 ? routerStore.sellingText[language] : courseData.courseInfo.course_recruitment_text
+   
     console.log("routerStore in CoursePage", routerStore)
     console.log("state in CoursePage", this.state)
+
     const courseInformationToRounds = {
       course_code: courseData.courseInfo.course_code,
       course_examiners: courseData.courseInfo.course_examiners,
@@ -166,7 +174,7 @@ class CoursePage2 extends Component {
           {/***************************************************************************************************************/}
           {/*                                                   INTRO                                                     */}
           {/***************************************************************************************************************/}
-          <Col sm="10" xs="12">
+          <Col sm="12" xs="12" lg="10">
 
             {/* ---COURSE TITEL--- */}
             <CourseTitle key = "title"
@@ -179,9 +187,9 @@ class CoursePage2 extends Component {
             {routerStore.isCancelled ?
               <div className="col-12 isCancelled">
                 <Alert color="info" aria-live="polite">
-                    <h3>{i18n.messages[courseData.language].courseInformationLabels.label_course_cancelled} </h3>
-                    <p>{i18n.messages[courseData.language].courseInformationLabels.label_last_exam}  
-                        {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]} {courseData.courseInfo.course_last_exam[0]}
+                    <h3>{translation.courseInformationLabels.label_course_cancelled} </h3>
+                    <p>{translation.courseInformationLabels.label_last_exam}  
+                        {translation.courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]} {courseData.courseInfo.course_last_exam[0]}
                     </p>
                   </Alert>
               </div>
@@ -201,9 +209,9 @@ class CoursePage2 extends Component {
           {/***************************************************************************************************************/}
           <Row>
             <Col sm="12">
-              <h2>{i18n.messages[courseData.language].courseInformationLabels.header_course_info} </h2>
+              <h2>{translation.courseInformationLabels.header_course_info} </h2>
               
-              {/* ---COURSE ROUND DROPDOWN--- */}
+              {/* ---COURSE SEMESTER BUTTONS--- */}
               {routerStore.courseSemesters.length === 0 ? "" :
                 <div id="courseDropdownMenu" className="">
                   <h3>Välj en termin:</h3>
@@ -216,16 +224,34 @@ class CoursePage2 extends Component {
                                   className={"semesterBtn"+this.state.activeSemester==="semesterBtn"+index ? "is-active dropdown-clean": "dropdown-clean"} 
                                   onClick={this.handleSemesterButtonClick}
                                 >
-                                  {i18n.messages[courseData.language].courseInformation.course_short_semester[semester[1]]} {semester[0]}
+                                  {translation.courseInformation.course_short_semester[semester[1]]} {semester[0]}
                                 </Button>
                         })
                       }
                     </div>
                 </div>
               }
+            <Row id="syllabusLink">
+              <Col  sm="12">
+                {/* --- ACTIVE SYLLABUS LINK---  */}
+                <div key="fade-2" className={` fade-container ${this.state.syllabusInfoFade === true ? " fadeOutIn" : ""}`}>
+                  {courseData.syllabusSemesterList.length > 0 ?
+                    <span>
+                      <i class="fas fa-file-pdf"></i> 
+                      <a href="javascript" onClick={this.openSyllabus} id={courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0] + courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]}>
+                          {translation.courseInformationLabels.label_course_syllabus}
+                      </a>
+                      <span className="small-text" >
+                        &nbsp;( {translation.courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
+                        {translation.courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]]}  {courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0]} )
+                      </span>
+                    </span>
+                  : "" }
+                </div>
+              </Col>
+            </Row>
           </Col>
         </Row> 
-      
       <Row> 
         <Col >
           {/***************************************************************************************************************/}
@@ -239,7 +265,7 @@ class CoursePage2 extends Component {
                   <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
                     {routerStore.courseSemesters.length === 0 ? 
                       <Alert color="info">
-                        {i18n.messages[courseData.language].courseInformationLabels.lable_no_rounds}
+                        {translation.courseInformationLabels.lable_no_rounds}
                       </Alert> : 
                       routerStore.courseSemesters.length > 1 ? 
                        <DropdownCreater2
@@ -272,7 +298,7 @@ class CoursePage2 extends Component {
               <span>
                 <h3>Forskarkurs</h3>
                 <a target="_blank" href={`${FORSKARUTB_URL}/${courseData.courseInfo.course_department_code}`}> 
-                  {i18n.messages[courseData.language].courseInformationLabels.label_postgraduate_course} {courseData.courseInfo.course_department}
+                  {translation.courseInformationLabels.label_postgraduate_course} {courseData.courseInfo.course_department}
                 </a> 
               </span>
             : ""}
@@ -284,22 +310,22 @@ class CoursePage2 extends Component {
         {/*                           LEFT COLUMN - SYLLABUS + OTHER COURSE INFORMATION                                 */}
         {/***************************************************************************************************************/}
         <Col id="coreContent"  sm="8" xs="12" className="float-md-left">
-        <div key={this.state.forceAnimationKey} className={` fade-container ${this.state.syllabusInfoFade === true ? " fadeOutIn" : ""}`}>
+        <div key="fade-2" className={` fade-container ${this.state.syllabusInfoFade === true ? " fadeOutIn" : ""}`}>
 
 
         {/* --- ACTIVE SYLLABUS LINK---  */}
-        {courseData.syllabusSemesterList.length > 0 ?
+        {/*courseData.syllabusSemesterList.length > 0 ?
           <span>
             <i class="fas fa-file-pdf"></i> 
             <a href="javascript" onClick={this.openSyllabus} id={courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0] + courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]}>
-                {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus}
+                {translation.courseInformationLabels.label_course_syllabus}
             </a>
             <span className="small-text" >
-              &nbsp;( {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
-              {i18n.messages[courseData.language].courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]]}  {courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0]} )
+              &nbsp;( {translation.courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
+              {translation.courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]]}  {courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0]} )
             </span>
           </span>
-        : "" }
+              : "" */}
 
          {/* --- COURSE INFORMATION CONTAINER---  */}
          <CourseSectionList 
@@ -317,18 +343,18 @@ class CoursePage2 extends Component {
             <p>
               
             <i class="fas fa-chart-line"></i> <a href="https://www.skrattnet.se/roliga-texter/avslojande-statistik" target="_blank" >
-                {i18n.messages[courseData.language].courseInformationLabels.label_statistics}
+                {translation.courseInformationLabels.label_statistics}
               </a>
             </p>
 
             {/* --- ALL SYLLABUS LINKS--- */}
-            <h2>{i18n.messages[courseData.language].courseInformationLabels.label_course_syllabuses}</h2>
+            <h2>{translation.courseInformationLabels.label_course_syllabuses}</h2>
               {courseData.syllabusSemesterList.length > 0 ?
                 courseData.syllabusSemesterList.map((semester, index) => 
                 <span key={index}>
                  <i class="fas fa-file-pdf"></i><a href="#" key={index} id={semester}  onClick={this.openSyllabus}>
-                    {i18n.messages[courseData.language].courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
-                    {i18n.messages[courseData.language].courseInformation.course_short_semester[semester.toString().substring(4,5)]}  {semester.toString().substring(0,4)} 
+                    {translation.courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
+                    {translation.courseInformation.course_short_semester[semester.toString().substring(4,5)]}  {semester.toString().substring(0,4)} 
                     &nbsp;  
                   </a> <br/> 
                 </span>)
@@ -362,7 +388,7 @@ class CoursePage2 extends Component {
         {
           routerStore.canEdit ? 
             <Button className="editButton" color="primery" onClick={this.openEdit} id={courseData.courseInfo.course_code}>
-             <i class="fas fa-edit"></i> {i18n.messages[courseData.language].courseInformationLabels.label_edit}
+             <i class="fas fa-edit"></i> {translation.courseInformationLabels.label_edit}
             </Button> 
           : ""
         }

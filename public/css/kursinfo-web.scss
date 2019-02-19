@@ -17,8 +17,9 @@
 }
 
 .preArticleParagraphs, h2.secondTitle {
-    margin-top: 0px;
+    margin-top: -10px;
     padding: 0;
+    font-size: 1.2rem;
 }
 
 #course-title{
@@ -173,7 +174,7 @@ h2 {
 
 /************************************************/
 #keyInformationContainer{
-    margin-top: 70px;
+    margin-top: 40px;
     .key-info{
         padding: 15px;
         background: #f6f6f6;
@@ -208,7 +209,7 @@ h2 {
     margin-bottom: 10px;
 }
 
-#CourseKeyInformationOneCol, #roundKeyInformation, #coreContent{
+#CourseKeyInformationOneCol, #roundKeyInformation, #coreContent,#syllabusLink{
     @keyframes fadeOutIn {
         0% {opacity: 1;}
         50% {opacity: 0;}

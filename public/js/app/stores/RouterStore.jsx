@@ -255,7 +255,7 @@ class RouterStore {
       course_level_code: this.isValidData(courseResult.course.educationalLevelCode),
       course_main_subject: courseResult.mainSubjects ?  Array.isArray(courseResult.mainSubjects) ? courseResult.mainSubjects.toString() : this.isValidData(courseResult.mainSubjects) : EMPTY,
       course_recruitment_text: this.isValidData(courseResult.course.recruitmentText),
-      course_department: this.isValidData(courseResult.course.department.name, language)!== EMPTY ? '<a href="https://www.kth.se/' + courseResult.course.department.name.split('/')[0].toLowerCase()+'/" target="blank"/>'+courseResult.course.department.name+'</a>' : EMPTY,
+      course_department: this.isValidData(courseResult.course.department.name, language)!== EMPTY ? '<a href="https://www.kth.se/' + courseResult.course.department.name.split('/')[0].toLowerCase()+'/" target="blank">'+courseResult.course.department.name+'</a>' : EMPTY,
       course_department_code: this.isValidData(courseResult.course.department.code, language),
       course_contact_name:this.isValidData(courseResult.course.infoContactName, language),
       course_suggested_addon_studies: this.isValidData(courseResult.course.addOn, language),
