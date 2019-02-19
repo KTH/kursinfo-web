@@ -10,14 +10,14 @@
 @import "node_modules/bootstrap/scss/mixins";*/
 
 .course-page{
-    margin: 10px 0px 0px 10px;
+    margin: 10px 0px 0px 10px !important;
 }
 #kursinfo-main-page{ 
     margin-bottom: 20px;
 }
 
 .preArticleParagraphs, h2.secondTitle {
-    margin-top: -10px;
+    margin-top: -1px;
     padding: 0;
     font-size: 1.2rem;
 }
@@ -71,13 +71,13 @@ h2 {
         margin:0;
     }
 
-    select{
+   /* select{
         margin-top: 40px;
         border: none;
         border-bottom: #ddd 1px solid;
         font-size: 0.8rem;
         font-weight: 700;
-    }
+    }*/
 }
 
 #semesterDropdownMenue, #roundDropdownMenu{
@@ -113,12 +113,26 @@ h2 {
     }
 }
 
-#courseRoundHeader{
+/*#courseRoundHeader{
     padding-top:20px;
 
     h4{
         font-size: 18px;
         font-weight: 400;
+    }
+}*/
+
+#keyInformationContainer{
+    margin-top: 40px;
+    .key-info{
+        padding: 15px;
+        background: #f6f6f6;
+        margin-top: 10px;
+    }
+    .fa-info-circle{
+    color: #257fab;
+    font-size: 48px;
+    padding-left: 15px;
     }
 }
 
@@ -128,18 +142,25 @@ h2 {
     }
 
     h4 {
-        font-size: 18px;
+        /*font-size: 18px;
         color: #111;
-        font-weight: 700;
+        font-weight: 700;*/
         margin: 1rem 0 .5rem 0;
-       // display:none;
-    }
+        }
 
   }
 
+  #coreContent{
+    padding-left:0;
+    padding-top:40px;
+    .first-header{
+        margin-top: 40px;
+    }
+    @media (min-width: 768px){
+        padding-top:0px;
+    }
+}
 
-
-  
 #courseLinks{
     padding-top:30px;
     /*padding-bottom:30px;*/
@@ -173,42 +194,10 @@ h2 {
 
 
 /************************************************/
-#keyInformationContainer{
-    margin-top: 40px;
-    .key-info{
-        padding: 15px;
-        background: #f6f6f6;
-        margin-top: 10px;
-    }
-    .fa-info-circle{
-    color: #257fab;
-    font-size: 48px;
-    padding-left: 15px;
-    }
-}
 
-#coreContent{
-    padding-left:0;
-    padding-top:40px;
-    .first-header{
-        margin-top: 40px;
-    }
-    @media (min-width: 768px){
-        padding-top:0px;
-    }
-}
-.alert-grey{
-    color: #000;
-    font-size: 1.2rem;
-    min-height: 4.4rem;
-    border-radius: .15rem;
-    position: relative;
-    padding: 1.2rem 1.2rem 1rem 1.4rem;
-    background-color: #f6f6f6;
-    border: 1px solid #f6f6f6;
-    margin-bottom: 10px;
-}
 
+
+/* Animation */
 #CourseKeyInformationOneCol, #roundKeyInformation, #coreContent,#syllabusLink{
     @keyframes fadeOutIn {
         0% {opacity: 1;}
