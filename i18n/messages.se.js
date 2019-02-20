@@ -36,6 +36,7 @@ module.exports = {
     host_name: 'KTH',
     page_student:'STUDENT PÅ KTH',
     page_course_programme: 'KURS- OCH PROGRAMKATALOGEN'
+    
   },
   courseInformationLabels: {
     label_course_syllabus: 'Kursplan',
@@ -65,8 +66,10 @@ module.exports = {
     header_content: 'Kursens huvudsakliga innehåll',
     header_execution: 'Kurslitteratur och förberedelser',
     header_examination: 'Examination och slutförande',
-    header_contact: 'Kontakt och ytterligare information'
-       
+    header_contact: 'Ytterligare information',
+    empty_text: "Ingen information inlagd"  ,
+    no_schedule: "Inget schema ",
+    no_memo: "Inget PM "
   },
   courseInformation:{
     roundId:'Kursomgångs nr',

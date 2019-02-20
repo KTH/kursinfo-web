@@ -23,8 +23,8 @@ class CourseSectionList extends Component {
     const syllabus = this.props.coursePlan
     const round = this.state.store.courseRoundList[this.props.roundIndex]
     const intro = [
-      {header: translation.courseRoundInformation.round_target_group, text: round ? round.round_target_group : EMPTY },
-      {header: translation.courseRoundInformation.round_part_of_programme, text:round ? round.round_part_of_programme : EMPTY }
+      {header: translation.courseRoundInformation.round_target_group, text: round ? round.round_target_group : EMPTY[this.state.store.language] },
+      {header: translation.courseRoundInformation.round_part_of_programme, text:round ? round.round_part_of_programme : EMPTY[this.state.store.language] }
       
     ]
     return intro
@@ -76,15 +76,15 @@ class CourseSectionList extends Component {
     let prepare = [
       {header: translation.courseInformation.course_department, text: course.course_department  },
       {header: translation.courseInformation.course_main_subject, text: course.course_main_subject  },
-     /* {header: translation.courseRoundInformation.round_time_slots, text: round ?round.round_time_slots : EMPTY },*/
-      {header: translation.courseRoundInformation.round_teacher, text:round ? round.round_teacher : EMPTY },
-      {header: translation.courseRoundInformation.round_responsibles, text:round ? round.round_responsibles : EMPTY }
+     /* {header: translation.courseRoundInformation.round_time_slots, text: round ?round.round_time_slots : EMPTY[this.state.store.language] },
+      {header: translation.courseRoundInformation.round_teacher, text:round ? round.round_teacher : EMPTY[this.state.store.language] },
+      {header: translation.courseRoundInformation.round_responsibles, text:round ? round.round_responsibles : EMPTY[this.state.store.language] }*/
       
     ]
-    if(course.course_contact_name !== EMPTY) prepare.push({header:translation.courseInformation.course_contact_name, text: course.course_contact_name}) 
-    if(course.course_supplemental_information !== EMPTY) prepare.push({header:translation.courseInformation.course_supplemental_information, text:course.course_supplemental_information})
-    if(course.course_supplemental_information_url !== EMPTY) prepare.push({header:translation.courseInformation.course_supplemental_information_url, text:course.course_supplemental_information_url})
-    if(course.course_supplemental_information_url_text !== EMPTY) prepare.push({header:translation.courseInformation.course_supplemental_information_url_text, text:course.course_supplemental_information_url_text})
+    //if(course.course_contact_name !== EMPTY[this.state.store.language]) prepare.push({header:translation.courseInformation.course_contact_name, text: course.course_contact_name}) 
+    if(course.course_supplemental_information !== EMPTY[this.state.store.language]) prepare.push({header:translation.courseInformation.course_supplemental_information, text:course.course_supplemental_information})
+    if(course.course_supplemental_information_url !== EMPTY[this.state.store.language]) prepare.push({header:translation.courseInformation.course_supplemental_information_url, text:course.course_supplemental_information_url})
+    if(course.course_supplemental_information_url_text !== EMPTY[this.state.store.language]) prepare.push({header:translation.courseInformation.course_supplemental_information_url_text, text:course.course_supplemental_information_url_text})
     
     return prepare
   }

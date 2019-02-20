@@ -218,6 +218,7 @@ class CoursePage2 extends Component {
                   <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
                     {
                       routerStore.courseSemesters.map((semester, index)=>{
+                      
                         return  <Button  style="margin-right:20px;margin-left:15px;" 
                                   key={"semesterBtn"+index} 
                                   id={"semesterBtn"+index+"_"+index}
@@ -238,7 +239,11 @@ class CoursePage2 extends Component {
                   {courseData.syllabusSemesterList.length > 0 ?
                     <span>
                       <i class="fas fa-file-pdf"></i> 
-                      <a href="javascript" onClick={this.openSyllabus} id={courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0] + courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]}>
+                      <a 
+                        href={`${SYLLABUS_URL}${routerStore.courseData.courseInfo.course_code}_${courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from.join('')}.pdf?lang=${language}`}  
+                        id={courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from.join('')}
+                        target="_blank"
+                      >
                           {translation.courseInformationLabels.label_course_syllabus}
                       </a>
                       <span className="small-text" >
@@ -263,6 +268,13 @@ class CoursePage2 extends Component {
             {/* ---COURSE ROUND DROPDOWN--- */}
             <div id="semesterDropdownMenue" className="">
                   <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
+
+                    {routerStore.courseSemesters.length > 0 && courseData.courseRoundList[this.state.activeRoundIndex].round_state !== "APPROVED" ? 
+                      <Alert color="info" aria-live="polite" >
+                          <h4 style="margin-left: 80px;">{i18n.messages[courseData.language].courseInformationLabels.lable_round_state[courseData.courseRoundList[this.state.activeRoundIndex].round_state]} </h4>
+                      </Alert>
+                    :""}
+
                     {routerStore.courseSemesters.length === 0 ? 
                       <Alert color="info">
                         {translation.courseInformationLabels.lable_no_rounds}
@@ -292,25 +304,13 @@ class CoursePage2 extends Component {
               courseHasRound ={routerStore.courseSemesters.length > 0 }
               fade ={this.state.keyInfoFade}
             />
-
-            {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
-            {courseData.courseInfo.course_level_code === "RESEARCH" ?
-              <span>
-                <h3>Forskarkurs</h3>
-                <a target="_blank" href={`${FORSKARUTB_URL}/${courseData.courseInfo.course_department_code}`}> 
-                  {translation.courseInformationLabels.label_postgraduate_course} {courseData.courseInfo.course_department}
-                </a> 
-              </span>
-            : ""}
-          
-          
         </Col>
 
         {/***************************************************************************************************************/}
         {/*                           LEFT COLUMN - SYLLABUS + OTHER COURSE INFORMATION                                 */}
         {/***************************************************************************************************************/}
         <Col id="coreContent"  sm="8" xs="12" className="float-md-left">
-        <div key="fade-2" className={` fade-container ${this.state.syllabusInfoFade === true ? " fadeOutIn" : ""}`}>
+          <div key="fade-2" className={` fade-container ${this.state.syllabusInfoFade === true ? " fadeOutIn" : ""}`}>
 
 
         {/* --- ACTIVE SYLLABUS LINK---  */}
@@ -369,6 +369,16 @@ class CoursePage2 extends Component {
           showCourseLink = {routerStore.showCourseWebbLink} 
           partToShow = "secondBlock"
         />
+
+        {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
+        {courseData.courseInfo.course_level_code === "RESEARCH" ?
+              <span>
+                <h3>Forskarkurs</h3>
+                <a target="_blank" href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}> 
+                  {translation.courseInformationLabels.label_postgraduate_course} {courseData.courseInfo.course_department}
+                </a> 
+              </span>
+            : ""}
       </Col>
         
      </Col>
@@ -439,7 +449,7 @@ const DropdownCreater2 = ({ courseRoundList , callerInstance, semester, year = "
               return (
                 <DropdownItem key ={index} id={dropdownID+"_"+listIndex[index]+"_"+parentIndex} onClick = {callerInstance.handleDropdownSelect}> 
                   {
-                    `${courseRound.round_short_name !== EMPTY ? courseRound.round_short_name : "" },     
+                    `${courseRound.round_short_name !== EMPTY[language] ? courseRound.round_short_name : "" },     
                      ${courseRound.round_type}`
                   }       
                 </DropdownItem>

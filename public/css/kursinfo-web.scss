@@ -70,32 +70,29 @@ h2 {
     .dropdown-menu {
         margin:0;
     }
-
-   /* select{
-        margin-top: 40px;
-        border: none;
-        border-bottom: #ddd 1px solid;
-        font-size: 0.8rem;
-        font-weight: 700;
-    }*/
 }
 
 #semesterDropdownMenue, #roundDropdownMenu{
-& > .dropdown-clean{
-    border: none;
-    margin: 2px;
-    padding: 2px;
-    font-size: 18px;
-    font-weight: 400;
-    border-radius: 0 !important;
-    background-color: #fff !important;
-    &:hover, &:focus, &:active, &.is-active{
-        background-color: #fff;
-        border-radius: 0;
+    & > .dropdown-clean{
         border: none;
-        border-bottom: 5px solid #006cb7 !important;
+        margin: 2px;
+        padding: 2px;
+        font-size: 18px;
+        font-weight: 400;
+        border-radius: 0 !important;
+        background-color: #fff !important;
+        &:hover, &:focus, &:active, &.is-active{
+            background-color: #fff;
+            border-radius: 0;
+            border: none;
+            border-bottom: 5px solid #006cb7 !important;
+        }
     }
-}
+    .alert-info{
+        margin-left:15px;
+        margin-right:15px;
+    }
+    
 }
 
 .select-round{
@@ -103,10 +100,13 @@ h2 {
     .btn-secondary{
             /* background-color: #0081af; */
     /* color: #fff; */
+    background-color: #0081af;
+    border-color: #0081af;
+    color: #fff;
     border: 0;
-    border-bottom: 1px solid #0081af;
+    /* border-bottom: 1px solid #0081af;
     border-top: 1px solid #0081af;
-    border-radius: unset;
+    border-radius: unset;*/
     }
     & > .btn{
         width: 100%;

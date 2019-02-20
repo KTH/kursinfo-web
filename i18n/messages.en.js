@@ -64,7 +64,10 @@ module.exports = {
     header_content: 'Content and outcome',
     header_execution: 'Literature and execution',
     header_examination: 'Examination and fulfillment',
-    header_contact: 'Contact and further information'
+    header_contact: 'Further information',
+    empty_text: "No information added",
+    no_schedule: "No schedule ",
+    no_memo: "No memo "
   },
   courseInformation: {
     course_title:'Title english',
