@@ -269,12 +269,6 @@ class CoursePage2 extends Component {
             <div id="semesterDropdownMenue" className="">
                   <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
 
-                    {routerStore.courseSemesters.length > 0 && courseData.courseRoundList[this.state.activeRoundIndex].round_state !== "APPROVED" ? 
-                      <Alert color="info" aria-live="polite" >
-                          <h4 style="margin-left: 80px;">{i18n.messages[courseData.language].courseInformationLabels.lable_round_state[courseData.courseRoundList[this.state.activeRoundIndex].round_state]} </h4>
-                      </Alert>
-                    :""}
-
                     {routerStore.courseSemesters.length === 0 ? 
                       <Alert color="info">
                         {translation.courseInformationLabels.lable_no_rounds}
@@ -291,6 +285,11 @@ class CoursePage2 extends Component {
                         />
                       :""
                     }
+                    {routerStore.courseSemesters.length > 0 && courseData.courseRoundList[this.state.activeRoundIndex].round_state !== "APPROVED" ? 
+                      <Alert color="info" aria-live="polite" >
+                          <h4>{i18n.messages[courseData.language].courseInformationLabels.lable_round_state[courseData.courseRoundList[this.state.activeRoundIndex].round_state]} </h4>
+                      </Alert>
+                    :""}
                   </div>
              </div>
 
