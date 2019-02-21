@@ -55,8 +55,8 @@ class CourseKeyInformationOneCol extends Component {
                   <span dangerouslySetInnerHTML = {{ __html:round.round_part_of_programme }}></span>
 
                   <h4>{translate.round_periods}</h4>
-                  <p>{round ? round.round_periods : EMPTY[this.props.language]}</p>
-
+                  <span dangerouslySetInnerHTML = {{ __html:round.round_periods }}></span>
+                  
                   <h4>{translate.round_start_date}</h4>
                   <p className="clear-margin-bottom"><i class="fas fa-hourglass-start"></i>{round ? round.round_start_date : EMPTY[this.props.language]}</p>
                   <p><i class="fas fa-hourglass-end"></i>{round ? round.round_end_date : EMPTY[this.props.language]}</p>
@@ -109,7 +109,7 @@ class CourseKeyInformationOneCol extends Component {
         </Row>
         <Row>
           <Col>
-              <h3 className="right-column-header">Kontakt</h3>
+              <h3 className="right-column-header">{i18n.messages[this.props.language].courseInformationLabels.header_contact}</h3>
 
               {course.course_contact_name !== EMPTY[this.props.language] ?
                 <span>
@@ -135,7 +135,7 @@ class CourseKeyInformationOneCol extends Component {
        </Row>
         <Row>
           <Col>
-            <h3 className="right-column-header">Välja kurs</h3>
+            <h3 className="right-column-header">{i18n.messages[this.props.language].courseInformationLabels.header_select_course}</h3>
             <h4>{translate.round_application_code}</h4>
             <p>{round ? round.round_application_code : EMPTY[this.props.language]}</p>
           </Col>

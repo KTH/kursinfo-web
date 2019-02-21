@@ -214,7 +214,7 @@ class CoursePage2 extends Component {
               {/* ---COURSE SEMESTER BUTTONS--- */}
               {routerStore.courseSemesters.length === 0 ? "" :
                 <div id="courseDropdownMenu" className="">
-                  <h3>Välj en termin:</h3>
+                  <h3>{translation.courseInformationLabels.header_semester_menue}</h3>
                   <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
                     {
                       routerStore.courseSemesters.map((semester, index)=>{
@@ -246,10 +246,17 @@ class CoursePage2 extends Component {
                       >
                           {translation.courseInformationLabels.label_course_syllabus}
                       </a>
-                      <span className="small-text" >
+                      {/*<span className="small-text" >
                         &nbsp;( {translation.courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
                         {translation.courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]]}  {courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0]} )
-                      </span>
+                        </span>*/}
+                      <span className="small-text" >
+                      {` ( ${translation.courseInformationLabels.label_course_syllabus_valid_from }
+                        ${translation.courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]]}  ${courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0]} 
+                        
+                        ${ courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_to.length > 0 ? translation.courseInformationLabels.label_course_syllabus_valid_to + translation.courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_to[1]] +" "+courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_to[0]: ""} )
+                      `}   
+                        </span>
                     </span>
                   : "" }
                 </div>
@@ -263,7 +270,7 @@ class CoursePage2 extends Component {
           {/*                                      RIGHT COLUMN - KEY INFORMATION                                         */}
           {/***************************************************************************************************************/}
           <Col id="keyInformationContainer" sm="4" xs="12" className="float-md-right" >
-            <h2 style="margin-top:0px">Kurstillfälle och genomförande</h2>
+            <h2 style="margin-top:0px">{translation.courseInformationLabels.header_round}</h2>
 
             {/* ---COURSE ROUND DROPDOWN--- */}
             <div id="semesterDropdownMenue" className="">
@@ -282,6 +289,7 @@ class CoursePage2 extends Component {
                             yearSemester={routerStore.courseSemesters[this.state.activeSemester][2]} 
                             language ={courseData.language}
                             parentIndex = "0"
+                            lable = {translation.courseInformationLabels.lable_round_dropdown}
                         />
                       :""
                     }
@@ -338,7 +346,7 @@ class CoursePage2 extends Component {
        
       
           {/* ---STATISTICS LINK--- */}
-          <h2>Kursens utveckling</h2>
+          <h2> {translation.courseInformationLabels.header_statistics}</h2>
             <p>
               
             <i class="fas fa-chart-line"></i> <a href="https://www.skrattnet.se/roliga-texter/avslojande-statistik" target="_blank" >
@@ -347,7 +355,7 @@ class CoursePage2 extends Component {
             </p>
 
             {/* --- ALL SYLLABUS LINKS--- */}
-            <h2>{translation.courseInformationLabels.label_course_syllabuses}</h2>
+            <h2>{translation.courseInformationLabels.header_syllabuses}</h2>
               {courseData.syllabusSemesterList.length > 0 ?
                 courseData.syllabusSemesterList.map((semester, index) => 
                 <span key={index}>
@@ -408,7 +416,7 @@ class CoursePage2 extends Component {
   }
 }
 
-const DropdownCreater2 = ({ courseRoundList , callerInstance, semester, year = "2018", yearSemester, language =0, parentIndex = 0}) => {
+const DropdownCreater2 = ({ courseRoundList , callerInstance, semester, year = "2018", yearSemester, language =0, parentIndex = 0, lable=""}) => {
   let listIndex = []
   const dropdownID = "roundDropdown"+parentIndex
 
@@ -435,7 +443,7 @@ const DropdownCreater2 = ({ courseRoundList , callerInstance, semester, year = "
          <DropdownToggle 
             className={callerInstance.state.activeDropdown===dropdownID ? "is-active dropdown-clean": "dropdown-clean"} 
             id={dropdownID} caret >
-               Kurstillfällen för {i18n.messages[language].courseInformation.course_short_semester[semester]} {year}
+               {lable} {i18n.messages[language].courseInformation.course_short_semester[semester]} {year}
           </DropdownToggle>
           <DropdownMenu>
           {

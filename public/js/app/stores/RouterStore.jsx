@@ -3,7 +3,7 @@ import { observable, action } from 'mobx'
 import axios from 'axios'
 import { safeGet } from 'safe-utils'
 import { EMPTY, PROGRAMME_URL, MAX_1_MONTH, MAX_2_MONTH, COURSE_IMG_URL } from "../util/constants"
-
+import i18n from "../../../../i18n"
 const paramRegex = /\/(:[^\/\s]*)/g
 
 function _paramReplace (path, params) {
@@ -210,17 +210,21 @@ class RouterStore {
       //*** Get list of syllabuses and valid syllabus semesters ***//
       let coursePlan =[]
       let syllabusSemesterList = []
+      let tempSyllabus = {}
       const syllabuses = courseResult.publicSyllabusVersions
       if(syllabuses.length > 0){
         for(let i = 0; i < syllabuses.length; i++ ) { 
           syllabusSemesterList.push(syllabuses[i].validFromTerm.term)
-          coursePlan.push(this.getCoursePlanData(courseResult, i, language))
+          tempSyllabus = this.getSyllabusData(courseResult, i, language)
+          if(i > 0)
+            tempSyllabus.course_valid_to = this.getSyllabusEndSemester(syllabusSemesterList[i-1].toString().match(/.{1,4}/g) )
+          coursePlan.push(tempSyllabus)
         }
       }
       else{
-        coursePlan[0] = this.getCoursePlanData(courseResult, 0, language)
+        coursePlan[0] = this.getSyllabusData(courseResult, 0, language)
       }
-      console.log("!! syllabusSemesterList and coursePlan: OK !!", coursePlan)
+      console.log("!! syllabusSemesterList and coursePlan: OK !!")
 
         
 
@@ -269,7 +273,7 @@ class RouterStore {
     }
   }
 
-  getCoursePlanData(courseResult, semester = 0, language){
+  getSyllabusData(courseResult, semester = 0, language){
     return {
       course_goals: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.goals, language) : EMPTY[language],
       course_content:  courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.content, language): EMPTY[language],
@@ -278,9 +282,20 @@ class RouterStore {
       course_requirments_for_final_grade:  courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.reqsForFinalGrade, language): EMPTY[language],
       course_literature: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.literature, language): EMPTY[language], 
       course_valid_from: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].validFromTerm.term).toString().match(/.{1,4}/g) : [], 
+      course_valid_to:[],
       course_required_equipment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.requiredEquipment, language): EMPTY[language],
       course_examination: courseResult.examinationSets && Object.keys(courseResult.examinationSets).length > 0 && courseResult.examinationSets[Object.keys(courseResult.examinationSets)[0]].hasOwnProperty('examinationRounds') ? this.getExamObject(courseResult.examinationSets[Object.keys(courseResult.examinationSets)[0]].examinationRounds, courseResult.formattedGradeScales, language): EMPTY[language],
-      course_examination_comments:  courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.examComments, language):EMPTY[language],
+      course_examination_comments:  courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.examComments, language):EMPTY[language]
+    }
+  }
+
+  getSyllabusEndSemester(newerSyllabus){
+  //**Sets the end semester for syllabus */
+    if(newerSyllabus[1] === '1'){
+      return  [Number(newerSyllabus[0])-1, "2"]
+    }
+    else{
+      return  [Number(newerSyllabus[0]), "1"]
     }
   }
 
@@ -291,7 +306,7 @@ class RouterStore {
        examString += `<li>${exam.examCode} - 
                       ${exam.title},
                       ${exam.credits},  
-                      Betygskala: ${grades[exam.gradeScaleCode]}             
+                      ${language === 0 ? "Grading scale" : "Betygskala"}: ${grades[exam.gradeScaleCode]}             
                       </li>`
       }
     }
@@ -314,10 +329,13 @@ class RouterStore {
       this.keyList.responsibles.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`)
     }
     this.courseSemesters.sort()
+
+    
     console.log("!!courseRound: OK !!")
     
     return courseRoundList
   }
+
 
   getRoundsAndSyllabusConnection(syllabusSemesterList){
     for(let index=0; index < this.courseSemesters.length; index++){
@@ -326,15 +344,15 @@ class RouterStore {
           if(Number(syllabusSemesterList[whileIndex]) > Number(this.courseSemesters[index][2]) )
             console.log("find other syllabus2")
           else{
-           console.log("correct syllabus2")
+          // console.log("correct syllabus2")
             this.roundsSyllabusIndex[index]=whileIndex
             break
           }
         }
       }
       else{
-        console.log("correct syllabus")
-        console.log("syllabusSemesterList", syllabusSemesterList, this.courseSemesters)
+       // console.log("correct syllabus")
+       // console.log("syllabusSemesterList", syllabusSemesterList, this.courseSemesters)
         this.roundsSyllabusIndex[index]=0
       }
     }
@@ -356,7 +374,7 @@ class RouterStore {
       round_application_code: this.isValidData(roundObject.round.applicationCodes[0].applicationCode),
       round_schedule: this.isValidData(roundObject.schemaUrl),
       round_course_term: this.isValidData(roundObject.round.startTerm.term).toString().length > 0 ? roundObject.round.startTerm.term.toString().match(/.{1,4}/g) : [],
-      round_periods: this.isValidData(roundObject.round.courseRoundTerms[0].formattedPeriodsAndCredits),
+      round_periods: this.getRoundPeriodes(roundObject.round.courseRoundTerms,language),
       round_max_seats: this.isValidData(roundObject.round.maxSeats, language),
       round_type: roundObject.round.applicationCodes.length > 0 ? this.isValidData(roundObject.round.applicationCodes[0].courseRoundType.name) : EMPTY[language], //TODO: Map array
       round_application_link:  this.isValidData(roundObject.admissionLinkUrl),
@@ -365,6 +383,7 @@ class RouterStore {
     }
     if(courseRoundModel.round_short_name === EMPTY[language])
       courseRoundModel.round_short_name = `${language === 0 ? 'Start date' : 'Startdatum'}  ${courseRoundModel.round_start_date}`
+    //console.log("PERIODES", roundObject.round.courseRoundTerms)
     return courseRoundModel
   }
 
@@ -380,6 +399,25 @@ class RouterStore {
       </p>`
     })
     return programmeString
+  }
+
+  getRoundPeriodes(periodeList,language=0){
+    var periodeString =""
+    if(periodeList){
+      if(periodeList.length > 1 ){
+        periodeList.map( periode =>{
+        return  periodeString += `<p class="periode-list">
+                                ${i18n.messages[language].courseInformation.course_short_semester[periode.term.term.toString().match(/.{1,4}/g)[1]]} 
+                                ${periode.term.term.toString().match(/.{1,4}/g)[0]}: 
+                                ${periode.formattedPeriodsAndCredits}
+                                </p>`
+        })
+        return periodeString
+      }
+      else
+        return periodeList[0].formattedPeriodsAndCredits
+    }
+    return EMPTY[language]
   }
 
   isValidData(dataObject, language = 0){
