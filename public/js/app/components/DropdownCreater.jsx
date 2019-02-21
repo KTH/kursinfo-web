@@ -18,7 +18,7 @@ const DropdownCreater = ({ courseRoundList , callerInstance, semester, year = "2
             onMouseOver={callerInstance.dropdownHover}  
             onMouseLeave={callerInstance.dropdownLeave}  id={dropdownID}>
            <DropdownToggle 
-              className={callerInstance.state.activeDropdown===dropdownID ? "is-active dropdown-clean": "dropdown-clean"} 
+              className={callerInstance.state.activeDropdown===dropdownID ? "is-active button-clean": "button-clean"} 
               id={dropdownID} caret >
                   {i18n.messages[language].courseInformation.course_short_semester[semester]} {year}
             </DropdownToggle>

@@ -7096,7 +7096,7 @@ var DropdownCreater = function DropdownCreater(_ref) {
     'isOpen': callerInstance.state.dropdownsIsOpen[dropdownID],
     'toggle': callerInstance.toggle,
     children: [(0, _inferno.createComponentVNode)(2, _DropdownToggle2.default, {
-      'className': callerInstance.state.activeDropdown === dropdownID ? "is-active dropdown-clean" : "dropdown-clean",
+      'className': callerInstance.state.activeDropdown === dropdownID ? "is-active button-clean" : "button-clean",
       'id': dropdownID,
       'caret': true,
       children: [_i18n2.default.messages[language].courseInformation.course_short_semester[semester], ' ', year]
@@ -9718,13 +9718,13 @@ var CoursePage = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class 
               'parentIndex': index
             });
           }), 0, {
-            'id': 'semesterDropdownMenue'
-          }, 'semesterDropdownMenue'), routerStore.courseSemesters.length === 0 ? "" : (0, _inferno.createComponentVNode)(2, _Row2.default, {
+            'id': 'semesterButtonMenue'
+          }, 'semesterButtonMenue'), routerStore.courseSemesters.length === 0 ? "" : (0, _inferno.createComponentVNode)(2, _Row2.default, {
             'id': 'courseRoundHeader',
             'className': 'col',
             children: (0, _inferno.createVNode)(1, 'h4', null, ' \n                    ' + _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]] + ' \n                    ' + courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0] + '  \n                    ' + courseData.courseRoundList[this.state.activeRoundIndex].round_short_name + ',     \n                    ' + courseData.courseRoundList[this.state.activeRoundIndex].round_type + '\n                  ', 0)
           })], 0, {
-            'id': 'courseDropdownMenu'
+            'id': 'semesterMenu'
           }), (0, _inferno.createComponentVNode)(2, _CourseKeyInformation2.default, {
             'courseRound': courseData.courseRoundList[this.state.activeRoundIndex],
             'index': this.state.activeRoundIndex,
@@ -10042,13 +10042,13 @@ var CoursePage2 = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class
                   'parentIndex': index
                 });
               }), 0, {
-                'id': 'semesterDropdownMenue'
-              }, 'semesterDropdownMenue'), routerStore.courseSemesters.length === 0 ? "" : (0, _inferno.createComponentVNode)(2, _Row2.default, {
+                'id': 'semesterButtonMenue'
+              }, 'semesterButtonMenue'), routerStore.courseSemesters.length === 0 ? "" : (0, _inferno.createComponentVNode)(2, _Row2.default, {
                 'id': 'courseRoundHeader',
                 'className': 'col',
                 children: (0, _inferno.createVNode)(1, 'h4', null, ' \n                      ' + _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]] + ' \n                      ' + courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0] + '  \n                      ' + (courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== _constants.EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : "") + '     \n                      ' + courseData.courseRoundList[this.state.activeRoundIndex].round_type + '\n                    ', 0)
               })], 0, {
-                'id': 'courseDropdownMenu'
+                'id': 'semesterMenu'
               })]
             })
           }), (0, _inferno.createComponentVNode)(2, _Row2.default, {

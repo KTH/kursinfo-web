@@ -67,6 +67,7 @@ module.exports = {
     header_further: 'Further information',
     header_round: 'Rounds and implementation',
     header_select_course: 'Application',
+    header_postgraduate_course: 'Postgraduate course ',
     empty_text: "No information added",
     no_schedule: "No schedule ",
     no_memo: "No memo "

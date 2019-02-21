@@ -46,7 +46,7 @@ h2 {
 
 
 
-#courseDropdownMenu{
+#semesterMenu{
     margin-bottom: 10px;
     border-top: 1px solid #0580ac;
     border-bottom: 1px solid #0580ac;
@@ -72,8 +72,8 @@ h2 {
     }
 }
 
-#semesterDropdownMenue, #roundDropdownMenu{
-    & > .dropdown-clean{
+#semesterButtonMenue, #roundDropdownMenu{
+    & > .button-clean{
         border: none;
         margin: 2px;
         padding: 2px;

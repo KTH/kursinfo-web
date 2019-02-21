@@ -214,9 +214,9 @@ class CoursePage2 extends Component {
               
               
               {/* ---COURSE ROUND DROPDOWN--- */}
-              <div id="courseDropdownMenu" className="">
+              <div id="semesterMenu" className="">
                 <h3>Välj ett kurstillfälle:</h3>
-                  <div className="row" id="semesterDropdownMenue" key="semesterDropdownMenue">
+                  <div className="row" id="semesterButtonMenue" key="semesterButtonMenue">
                     {routerStore.courseSemesters.length === 0 ? 
                       <Alert color="info">
                         {i18n.messages[courseData.language].courseInformationLabels.lable_no_rounds}

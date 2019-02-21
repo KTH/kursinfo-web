@@ -54,6 +54,7 @@ module.exports = {
     label_statistics: 'Kursutveckling',
     lable_canavas_example: 'Canvas exempelkurs',
     lable_round_dropdown: 'Välj kurstillfälle för',
+
     lable_round_state:{
       CANCELLED: 'Kurstillfälle inställt',
       FULL: 'Kurstillfälle fullsatt'
@@ -69,6 +70,7 @@ module.exports = {
     header_further: 'Ytterligare information',
     header_round: 'Kurstillfälle och genomförande',
     header_select_course: 'Kursval',
+    header_postgraduate_course: 'Forskarkurs ',
     empty_text: "Ingen information inlagd"  ,
     no_schedule: "Schema saknas",
     no_memo: "Kurs-PM saknas "
