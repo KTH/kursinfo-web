@@ -195,7 +195,7 @@ class RouterStore {
 
       //*** Coruse information that is static on the course side ***//
       const courseInfo = this.getCourseDefaultInformation(courseResult, language)
-      console.log("!! courseInfo: OK !!", courseInfo)
+      console.log("!! courseInfo: OK !!")
 
       //*** Course title data  ***//
       const courseTitleData = {
@@ -208,7 +208,7 @@ class RouterStore {
 
 
       //*** Get list of syllabuses and valid syllabus semesters ***//
-      let coursePlan =[]
+      let syllabusList =[]
       let syllabusSemesterList = []
       let tempSyllabus = {}
       const syllabuses = courseResult.publicSyllabusVersions
@@ -218,18 +218,19 @@ class RouterStore {
           tempSyllabus = this.getSyllabusData(courseResult, i, language)
           if(i > 0)
             tempSyllabus.course_valid_to = this.getSyllabusEndSemester(syllabusSemesterList[i-1].toString().match(/.{1,4}/g) )
-          coursePlan.push(tempSyllabus)
+          syllabusList.push(tempSyllabus)
         }
       }
       else{
-        coursePlan[0] = this.getSyllabusData(courseResult, 0, language)
+        syllabusList[0] = this.getSyllabusData(courseResult, 0, language)
       }
-      console.log("!! syllabusSemesterList and coursePlan: OK !!")
+      console.log("!! syllabusSemesterList and syllabusList: OK !!")
 
         
 
       //***Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis **//
       const courseRoundList = this.getRounds(courseResult.roundInfos,  courseCode, language)
+      const courseRoundList2 = this.getRounds2(courseResult.roundInfos,  courseCode, language)
 
       //***Sets roundsSyllabusIndex, an array used for connecting rounds with correct syllabus **//
       this.getRoundsAndSyllabusConnection(syllabusSemesterList)
@@ -239,9 +240,10 @@ class RouterStore {
       //console.log("this.roundsSyllabusIndex", this.roundsSyllabusIndex, this.defaultIndex)
         
         this.courseData = {
-          coursePlan,
+          syllabusList,
           courseInfo,
           courseRoundList,
+          courseRoundList2,
           courseTitleData,
           syllabusSemesterList,
           language
@@ -335,6 +337,31 @@ class RouterStore {
     
     return courseRoundList
   }
+
+  getRounds2(roundInfos, courseCode, language){
+    let tempList = []
+    let courseRound
+    let courseRoundList = {}
+    for( let roundInfo of roundInfos){ 
+      courseRound =  this.getRound(roundInfo, language)
+  
+      if(courseRound.round_course_term && tempList.indexOf(courseRound.round_course_term.join('')) < 0){
+         // this.courseSemesters.push([...courseRound.round_course_term, courseRound.round_course_term.join(''), courseRoundList.length-1])
+          tempList.push(courseRound.round_course_term.join(''))
+          courseRoundList[courseRound.round_course_term.join('')] =[]
+      }
+      courseRoundList[courseRound.round_course_term.join('')].push(courseRound)
+      //this.keyList.teachers.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.teachers`)
+      //this.keyList.responsibles.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`)
+    }
+   // this.courseSemesters.sort()
+
+    
+    console.log("!!courseRound: OK !!", courseRoundList)
+    
+    return courseRoundList
+  }
+
 
 
   getRoundsAndSyllabusConnection(syllabusSemesterList){

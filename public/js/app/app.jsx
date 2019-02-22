@@ -9,10 +9,9 @@ import { configure } from "mobx"
 import queryString from 'query-string'
 import { globalRegistry, createUtility } from 'component-registry'
 
-import { renderString } from 'inferno-formlib/lib/widgets/common'
+
 import { IMobxStore } from './interfaces/utils'
 
-import i18n from '../../../i18n'
 
 import RouterStore from './stores/RouterStore.jsx'
 import CoursePage from './pages/CoursePage.jsx'

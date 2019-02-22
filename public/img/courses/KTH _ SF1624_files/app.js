@@ -6883,7 +6883,7 @@ var CourseSectionList = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(
     _this.state = {
       openMenue: 0,
       store: _this.props.routerStore["courseData"],
-      coursePlan: _this.props.coursePlan[0]
+      syllabusList: _this.props.syllabusList[0]
     };
     return _this;
   }
@@ -6891,7 +6891,7 @@ var CourseSectionList = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(
   _createClass(CourseSectionList, [{
     key: 'getIntro',
     value: function getIntro(translation) {
-      var syllabus = this.props.coursePlan;
+      var syllabus = this.props.syllabusList;
       var round = this.state.store.courseRoundList[this.props.roundIndex];
       var intro = [{ header: translation.courseRoundInformation.round_target_group, text: round ? round.round_target_group : _constants.EMPTY }, { header: translation.courseRoundInformation.round_part_of_programme, text: round ? round.round_part_of_programme : _constants.EMPTY }];
       return intro;
@@ -6900,7 +6900,7 @@ var CourseSectionList = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(
     key: 'getContent',
     value: function getContent(translation) {
       var course = this.props.courseInfo;
-      var syllabus = this.props.coursePlan;
+      var syllabus = this.props.syllabusList;
 
       var prepare = [{ header: translation.courseInformation.course_content, text: syllabus.course_content }, { header: translation.courseInformation.course_goals, text: syllabus.course_goals }, { header: translation.courseInformation.course_disposition, text: syllabus.course_disposition }];
       return prepare;
@@ -6909,7 +6909,7 @@ var CourseSectionList = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(
     key: 'getExecution',
     value: function getExecution(translation) {
       var course = this.props.courseInfo;
-      var syllabus = this.props.coursePlan;
+      var syllabus = this.props.syllabusList;
       var during = [{ header: translation.courseInformation.course_eligibility, text: syllabus.course_eligibility }, { header: translation.courseInformation.course_suggested_addon_studies, text: course.course_suggested_addon_studies }, { header: translation.courseInformation.course_required_equipment, text: syllabus.course_required_equipment }, { header: translation.courseInformation.course_literature, text: syllabus.course_literature }];
       if (this.props.showCourseLink) during.push({ header: "Kurswebb länk", text: '<a target=\'_blank\' href=\'' + _constants.COURSE_WEB_URL + this.props.courseInfo.course_code + '\'> ' + translation.courseInformationLabels.label_course_web_link + '</a>' });
       return during;
@@ -6918,7 +6918,7 @@ var CourseSectionList = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(
     key: 'getExamination',
     value: function getExamination(translation) {
       var course = this.props.courseInfo;
-      var syllabus = this.props.coursePlan;
+      var syllabus = this.props.syllabusList;
       var prepare = [{ header: translation.courseInformation.course_grade_scale, text: course.course_grade_scale }, { header: translation.courseInformation.course_examination, text: syllabus.course_examination }, { header: translation.courseInformation.course_examination_comments, text: syllabus.course_examination_comments }, { header: translation.courseInformation.course_requirments_for_final_grade, text: syllabus.course_requirments_for_final_grade }, { header: translation.courseInformation.course_examiners, text: course.course_examiners }];
       return prepare;
     }
@@ -6926,7 +6926,7 @@ var CourseSectionList = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(
     key: 'getOther',
     value: function getOther(translation) {
       var course = this.props.courseInfo;
-      var syllabus = this.props.coursePlan;
+      var syllabus = this.props.syllabusList;
       var round = this.state.store.courseRoundList[this.props.roundIndex];
       var prepare = [{ header: translation.courseInformation.course_department, text: course.course_department }, { header: translation.courseInformation.course_main_subject, text: course.course_main_subject }, { header: translation.courseRoundInformation.round_time_slots, text: round ? round.round_time_slots : _constants.EMPTY }, { header: translation.courseRoundInformation.round_teacher, text: round ? round.round_teacher : _constants.EMPTY }, { header: translation.courseRoundInformation.round_responsibles, text: round ? round.round_responsibles : _constants.EMPTY }];
       if (course.course_contact_name !== _constants.EMPTY) prepare.push({ header: translation.courseInformation.course_contact_name, text: course.course_contact_name });
@@ -9667,7 +9667,7 @@ var CoursePage = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class 
         course_grade_scale: courseData.courseInfo.course_grade_scale,
         course_level_code: courseData.courseInfo.course_level_code,
         course_main_subject: courseData.courseInfo.course_main_subject,
-        course_valid_from: courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from
+        course_valid_from: courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from
       };
 
       return (0, _inferno.createVNode)(1, 'div', 'kursinfo-main-page col', (0, _inferno.createComponentVNode)(2, _Row2.default, {
@@ -9738,7 +9738,7 @@ var CoursePage = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class 
           })], 4) : "", (0, _inferno.createVNode)(1, 'div', 'key-info', [(0, _inferno.createComponentVNode)(2, _CourseSectionList2.default, {
             'roundIndex': this.state.activeRoundIndex,
             'courseInfo': courseData.courseInfo,
-            'coursePlan': courseData.coursePlan[this.state.activeSyllabusIndex],
+            'syllabusList': courseData.syllabusList[this.state.activeSyllabusIndex],
             'className': 'ExampleCollapseContainer',
             'isOpen': true,
             'color': 'blue',
@@ -9748,13 +9748,13 @@ var CoursePage = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class 
             'index': this.state.activeRoundIndex,
             'language': courseData.language,
             'courseHasRound': routerStore.courseSemesters.length > 0,
-            'syllabusValidFrom': courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from,
+            'syllabusValidFrom': courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from,
             'courseCode': courseData.courseInfo.course_code,
             'scheduleUrl': routerStore.courseSemesters.length > 0 ? courseData.courseRoundList[this.state.activeRoundIndex].round_schedule : "https://thoughtcatalog.com/january-nelson/2018/06/funny-stories/"
           })], 0), (0, _inferno.createComponentVNode)(2, _CourseSectionList2.default, {
             'roundIndex': this.state.activeRoundIndex,
             'courseInfo': courseData.courseInfo,
-            'coursePlan': courseData.coursePlan[this.state.activeSyllabusIndex],
+            'syllabusList': courseData.syllabusList[this.state.activeSyllabusIndex],
             'className': 'ExampleCollapseContainer',
             'isOpen': true,
             'color': 'blue',
@@ -9990,7 +9990,7 @@ var CoursePage2 = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class
         course_grade_scale: courseData.courseInfo.course_grade_scale,
         course_level_code: courseData.courseInfo.course_level_code,
         course_main_subject: courseData.courseInfo.course_main_subject,
-        course_valid_from: courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from
+        course_valid_from: courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from
       };
 
       return (0, _inferno.createVNode)(1, 'div', 'kursinfo-main-page col', (0, _inferno.createComponentVNode)(2, _Row2.default, {
@@ -10027,7 +10027,7 @@ var CoursePage2 = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class
               'sm': '12',
               children: [(0, _inferno.createVNode)(1, 'h2', null, [_i18n2.default.messages[courseData.language].courseInformationLabels.header_course_info, (0, _inferno.createTextVNode)(' ')], 0), courseData.courseRoundList.length === 0 ? "" : (0, _inferno.createComponentVNode)(2, _Alert2.default, {
                 'color': 'grey',
-                children: ['Det finns totalt ', courseData.courseRoundList.length, ' st kurstillf\xE4llen f\xF6r den h\xE4r kursen.', (0, _inferno.createVNode)(1, 'br'), (0, _inferno.createVNode)(1, 'br'), 'Just nu visas information f\xF6r kurstillf\xE4lle ', (0, _inferno.createVNode)(1, 'b', null, [' \n                      ' + _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]] + ' \n                      ' + courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0] + '  \n                      ' + (courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== _constants.EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : "") + ',     \n                      ' + courseData.courseRoundList[this.state.activeRoundIndex].round_type + '\n                    ', (0, _inferno.createTextVNode)('  ')], 0), 'med kursplan som  ', _i18n2.default.messages[courseData.language].courseInformationLabels.label_course_syllabus_valid_from.toLowerCase(), (0, _inferno.createVNode)(1, 'b', null, [(0, _inferno.createTextVNode)('\xA0'), _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]], (0, _inferno.createTextVNode)(' \xA0'), courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0]], 0), ' ', (0, _inferno.createVNode)(1, 'br')]
+                children: ['Det finns totalt ', courseData.courseRoundList.length, ' st kurstillf\xE4llen f\xF6r den h\xE4r kursen.', (0, _inferno.createVNode)(1, 'br'), (0, _inferno.createVNode)(1, 'br'), 'Just nu visas information f\xF6r kurstillf\xE4lle ', (0, _inferno.createVNode)(1, 'b', null, [' \n                      ' + _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]] + ' \n                      ' + courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0] + '  \n                      ' + (courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== _constants.EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : "") + ',     \n                      ' + courseData.courseRoundList[this.state.activeRoundIndex].round_type + '\n                    ', (0, _inferno.createTextVNode)('  ')], 0), 'med kursplan som  ', _i18n2.default.messages[courseData.language].courseInformationLabels.label_course_syllabus_valid_from.toLowerCase(), (0, _inferno.createVNode)(1, 'b', null, [(0, _inferno.createTextVNode)('\xA0'), _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]], (0, _inferno.createTextVNode)(' \xA0'), courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0]], 0), ' ', (0, _inferno.createVNode)(1, 'br')]
               }), (0, _inferno.createVNode)(1, 'div', '', [(0, _inferno.createVNode)(1, 'h3', null, (0, _inferno.createTextVNode)('V\xE4lj ett kurstillf\xE4lle:'), 2), (0, _inferno.createVNode)(1, 'div', 'row', routerStore.courseSemesters.length === 0 ? (0, _inferno.createComponentVNode)(2, _Alert2.default, {
                 'color': 'info',
                 children: _i18n2.default.messages[courseData.language].courseInformationLabels.lable_no_rounds
@@ -10085,14 +10085,14 @@ var CoursePage2 = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class
                 'id': 'coreContent',
                 'sm': '8',
                 'xs': '12',
-                children: [courseData.coursePlan.length > 0 ? (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'i', 'fas fa-file-pdf'), (0, _inferno.createVNode)(1, 'a', null, _i18n2.default.messages[courseData.language].courseInformationLabels.label_course_syllabus, 0, {
+                children: [courseData.syllabusList.length > 0 ? (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'i', 'fas fa-file-pdf'), (0, _inferno.createVNode)(1, 'a', null, _i18n2.default.messages[courseData.language].courseInformationLabels.label_course_syllabus, 0, {
                   'href': 'javascript',
                   'onClick': this.openSyllabus,
-                  'id': courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0] + courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]
-                }), (0, _inferno.createVNode)(1, 'span', 'small-text', [(0, _inferno.createTextVNode)('\xA0( '), _i18n2.default.messages[courseData.language].courseInformationLabels.label_course_syllabus_valid_from, (0, _inferno.createTextVNode)('\xA0'), _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[1]], (0, _inferno.createTextVNode)('  '), courseData.coursePlan[this.state.activeSyllabusIndex].course_valid_from[0], (0, _inferno.createTextVNode)(' )')], 0)], 4) : "", (0, _inferno.createComponentVNode)(2, _CourseSectionList2.default, {
+                  'id': courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0] + courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]
+                }), (0, _inferno.createVNode)(1, 'span', 'small-text', [(0, _inferno.createTextVNode)('\xA0( '), _i18n2.default.messages[courseData.language].courseInformationLabels.label_course_syllabus_valid_from, (0, _inferno.createTextVNode)('\xA0'), _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]], (0, _inferno.createTextVNode)('  '), courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0], (0, _inferno.createTextVNode)(' )')], 0)], 4) : "", (0, _inferno.createComponentVNode)(2, _CourseSectionList2.default, {
                   'roundIndex': this.state.activeRoundIndex,
                   'courseInfo': courseData.courseInfo,
-                  'coursePlan': courseData.coursePlan[this.state.activeSyllabusIndex],
+                  'syllabusList': courseData.syllabusList[this.state.activeSyllabusIndex],
                   'showCourseLink': routerStore.showCourseWebbLink,
                   'partToShow': 'second'
                 }), (0, _inferno.createVNode)(1, 'br'), (0, _inferno.createVNode)(1, 'div', 'col', courseData.syllabusSemesterList.length > 0 ? courseData.syllabusSemesterList.map(function (semester, index) {
@@ -10458,18 +10458,18 @@ var RouterStore = (_class = function () {
         console.log("!!titleData: OK !!");
 
         //*** Get list of syllabuses and valid syllabus semesters ***//
-        var coursePlan = [];
+        var syllabusList = [];
         var syllabusSemesterList = [];
         var syllabuses = courseResult.publicSyllabusVersions;
         if (syllabuses.length > 0) {
           for (var i = 0; i < syllabuses.length; i++) {
             syllabusSemesterList.push(syllabuses[i].validFromTerm.term);
-            coursePlan.push(_this4.getCoursePlanData(courseResult, i, language));
+            syllabusList.push(_this4.getsyllabusListData(courseResult, i, language));
           }
         } else {
-          coursePlan[0] = _this4.getCoursePlanData(courseResult, 0, language);
+          syllabusList[0] = _this4.getsyllabusListData(courseResult, 0, language);
         }
-        console.log("!! syllabusSemesterList and coursePlan: OK !!", coursePlan);
+        console.log("!! syllabusSemesterList and syllabusList: OK !!", syllabusList);
 
         //***Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis **//
         var courseRoundList = _this4.getRounds(courseResult.roundInfos, courseCode, language);
@@ -10482,7 +10482,7 @@ var RouterStore = (_class = function () {
         //console.log("this.roundsSyllabusIndex", this.roundsSyllabusIndex, this.defaultIndex)
 
         _this4.courseData = {
-          coursePlan: coursePlan,
+          syllabusList: syllabusList,
           courseInfo: courseInfo,
           courseRoundList: courseRoundList,
           courseTitleData: courseTitleData,
@@ -10517,8 +10517,8 @@ var RouterStore = (_class = function () {
       };
     }
   }, {
-    key: 'getCoursePlanData',
-    value: function getCoursePlanData(courseResult) {
+    key: 'getsyllabusListData',
+    value: function getsyllabusListData(courseResult) {
       var semester = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
       var language = arguments[2];
 

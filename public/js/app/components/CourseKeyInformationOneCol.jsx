@@ -10,17 +10,10 @@ import CourseFileLinks from "./CourseFileLinks.jsx"
 class CourseKeyInformationOneCol extends Component {
  constructor (props) {
     super(props)
-    //this.openSyllabus=this.openSyllabus.bind(this)
   }
 
-  /*openSyllabus(event){
-    event.preventDefault()
-    const language = this.props.language === 0 ? "en" : "sv" 
-    window.open(`/student/kurser/kurs/kursplan/${this.props.courseData.course_code}_${event.target.id}.pdf?lang=${language}`)
-  }*/
-
   render () {
-    //console.log("this.props.courseRound", this.props)
+    console.log("this.props.courseRound", this.props)
     const translate = i18n.messages[this.props.language].courseRoundInformation
     const round = this.props.courseRound
     const course = this.props.courseData
@@ -32,7 +25,7 @@ class CourseKeyInformationOneCol extends Component {
             <div className={` fade-container ${this.props.fade === true ? " fadeOutIn" : ""}`} key="fadeDiv1">
             
             {/* ---COURSE ROUND HEADER--- */}
-            {this.props.courseHasRound ?
+            {this.props.courseHasRound && this.props.showRoundData ?
               <div style="border-bottom:1px solid #fff;">
                 <h4>
                   {`
@@ -46,7 +39,7 @@ class CourseKeyInformationOneCol extends Component {
               :""}
 
 
-             {this.props.courseHasRound ?
+             {this.props.courseHasRound && this.props.showRoundData ?
                 <span>
                   <h4>{translate.round_target_group}</h4>
                   <span dangerouslySetInnerHTML = {{ __html:round.round_target_group }}></span>
@@ -64,12 +57,18 @@ class CourseKeyInformationOneCol extends Component {
                   <h4>{translate.round_course_place}</h4>
                   <p>{round ? round.round_course_place : EMPTY[this.props.language]}</p>
                 </span>
-              : ""}
+              : 
+                <span>
+                  <h4>Inget kurstillfälle är valt</h4>
+                  <p>Välj kurstillfälle ovan för att se information om kurstillfälle</p>
+                  <br/>
+                  <br/>
+                </span>
+              }
             
-              <h4>{i18n.messages[this.props.language].courseInformation.course_level_code}</h4>
-              <p>{i18n.messages[this.props.language].courseInformation.course_level_code_label[course.course_level_code]}</p>
               
-              {this.props.courseHasRound ?
+              
+              {this.props.courseHasRound && this.props.showRoundData ? 
                 <span>
                   <h4>{translate.round_tutoring_form}</h4>
                   <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[this.props.language]}  {round ? translate.round_tutoring_time_label[round.round_tutoring_time]: EMPTY[this.props.language]}</p>
@@ -86,17 +85,20 @@ class CourseKeyInformationOneCol extends Component {
 
                   <h4>{translate.round_time_slots}</h4>
                   <p dangerouslySetInnerHTML = {{ __html:round.round_time_slots }}></p>
-                </span>
+               
+
+                <CourseFileLinks
+                  index=""
+                  language={this.props.language}
+                  courseHasRound ={this.props.courseHasRound }
+                  syllabusValidFrom = ""
+                  courseCode= {course.course_code}
+                  scheduleUrl = {round > 0 ? round.round_schedule : EMPTY[this.props.language]}
+                />
+                 </span>
               : ""}
 
-              <CourseFileLinks
-                index=""
-                language={this.props.language}
-                courseHasRound ={this.props.courseHasRound }
-                syllabusValidFrom = ""
-                courseCode= {course.course_code}
-                scheduleUrl = {round > 0 ? round.round_schedule : EMPTY[this.props.language]}
-              />
+             
               
               
               {/* ---CANAVAS EXAMPLE LINK--- 
@@ -121,7 +123,7 @@ class CourseKeyInformationOneCol extends Component {
               <h4>{i18n.messages[this.props.language].courseInformation.course_examiners}</h4>
               <span dangerouslySetInnerHTML = {{ __html:course.course_examiners }}></span>
 
-              {this.props.courseHasRound ?
+              {this.props.courseHasRound && this.props.showRoundData ?
                 <span>
                   <h4>{translate.round_responsibles}</h4>
                   <span dangerouslySetInnerHTML = {{ __html:round.round_responsibles }}></span>
@@ -136,8 +138,12 @@ class CourseKeyInformationOneCol extends Component {
         <Row>
           <Col>
             <h3 className="right-column-header">{i18n.messages[this.props.language].courseInformationLabels.header_select_course}</h3>
-            <h4>{translate.round_application_code}</h4>
-            <p>{round ? round.round_application_code : EMPTY[this.props.language]}</p>
+            {this.props.courseHasRound && this.props.showRoundData ?
+              <span>
+                <h4>{translate.round_application_code}</h4>
+                <p>{round ? round.round_application_code : EMPTY[this.props.language]}</p>
+              </span>
+            :""}
           </Col>
        </Row>
       </div>

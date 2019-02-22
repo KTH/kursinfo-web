@@ -15,24 +15,12 @@ class CourseSectionList extends Component {
     this.state = {
       openMenue: 0,
       store:this.props.routerStore["courseData"],
-      coursePlan: this.props.coursePlan[0]
+      syllabusList: this.props.syllabusList[0]
     }
   }
 
-  getIntro(translation){
-    const syllabus = this.props.coursePlan
-    const round = this.state.store.courseRoundList[this.props.roundIndex]
-    const intro = [
-      {header: translation.courseRoundInformation.round_target_group, text: round ? round.round_target_group : EMPTY[this.state.store.language] },
-      {header: translation.courseRoundInformation.round_part_of_programme, text:round ? round.round_part_of_programme : EMPTY[this.state.store.language] }
-      
-    ]
-    return intro
-  }
-
   getContent(translation){
-    const course = this.props.courseInfo
-    const syllabus = this.props.coursePlan
+    const syllabus = this.props.syllabusList
     
     const prepare = [
       {header:translation.courseInformation.course_content, text:syllabus.course_content},
@@ -44,7 +32,7 @@ class CourseSectionList extends Component {
 
   getExecution(translation){
     const course = this.props.courseInfo
-    const syllabus = this.props.coursePlan
+    const syllabus = this.props.syllabusList
     const during = [
       {header:translation.courseInformation.course_eligibility, text:syllabus.course_eligibility},
       {header:translation.courseInformation.course_suggested_addon_studies, text:course.course_suggested_addon_studies},
@@ -58,7 +46,7 @@ class CourseSectionList extends Component {
 
   getExamination(translation){
     const course = this.props.courseInfo
-    const syllabus = this.props.coursePlan
+    const syllabus = this.props.syllabusList
     const prepare = [
       {header:translation.courseInformation.course_grade_scale, text:course.course_grade_scale},
       {header:translation.courseInformation.course_examination, text:syllabus.course_examination},
@@ -71,11 +59,10 @@ class CourseSectionList extends Component {
 
   getOther(translation){
     const course = this.props.courseInfo
-    const syllabus = this.props.coursePlan
-    const round = this.state.store.courseRoundList[this.props.roundIndex]
     let prepare = [
       {header: translation.courseInformation.course_department, text: course.course_department  },
       {header: translation.courseInformation.course_main_subject, text: course.course_main_subject  },
+      {header: translation.courseInformation.course_level_code, text: course.course_level_code  }
      /* {header: translation.courseRoundInformation.round_time_slots, text: round ?round.round_time_slots : EMPTY[this.state.store.language] },
       {header: translation.courseRoundInformation.round_teacher, text:round ? round.round_teacher : EMPTY[this.state.store.language] },
       {header: translation.courseRoundInformation.round_responsibles, text:round ? round.round_responsibles : EMPTY[this.state.store.language] }*/
@@ -95,28 +82,16 @@ class CourseSectionList extends Component {
     const translation = i18n.messages[this.state.store.language]
     return (
       <div className="row">
-      {this.props.partToShow === "first" ?
-        <CourseSection sectionHeader =""  headerType = '4' class= "first-header" courseData = {this.getIntro(translation)} />
-       :""} 
-       {this.props.partToShow === "second" ?
-       <span>
-        <CourseSection sectionHeader ={translation.courseInformationLabels.header_content} headerType = '3' class= "first-header" courseData = {this.getContent(translation)} />
-        <CourseSection sectionHeader ={translation.courseInformationLabels.header_execution} headerType = '3' courseData = {this.getExecution(translation)} />
-        <CourseSection sectionHeader ={translation.courseInformationLabels.header_examination} headerType = '3' courseData = {this.getExamination(translation)} />
-        <CourseSection sectionHeader ={translation.courseInformationLabels.header_further} headerType = '3' courseData = {this.getOther(translation)} />
-        </span>
+        {this.props.partToShow === "firstBlock" ?
+        <span>
+          <CourseSection sectionHeader ={translation.courseInformationLabels.header_content} headerType = '3' class= "first-header" courseData = {this.getContent(translation)} />
+          <CourseSection sectionHeader ={translation.courseInformationLabels.header_execution} headerType = '3' courseData = {this.getExecution(translation)} />
+          <CourseSection sectionHeader ={translation.courseInformationLabels.header_examination} headerType = '3' courseData = {this.getExamination(translation)} />
+          </span>
         :""} 
 
-      {this.props.partToShow === "firstBlock" ?
-       <span>
-        <CourseSection sectionHeader ={translation.courseInformationLabels.header_content} headerType = '3' class= "first-header" courseData = {this.getContent(translation)} />
-        <CourseSection sectionHeader ={translation.courseInformationLabels.header_execution} headerType = '3' courseData = {this.getExecution(translation)} />
-        <CourseSection sectionHeader ={translation.courseInformationLabels.header_examination} headerType = '3' courseData = {this.getExamination(translation)} />
-        </span>
-      :""} 
-
-      {this.props.partToShow === "secondBlock" ?
-        <CourseSection sectionHeader ={translation.courseInformationLabels.header_further} headerType = '3' courseData = {this.getOther(translation)} />
+        {this.props.partToShow === "secondBlock" ?
+          <CourseSection sectionHeader ={translation.courseInformationLabels.header_further} headerType = '3' courseData = {this.getOther(translation)} />
         : ""}
     </div>  
     )
