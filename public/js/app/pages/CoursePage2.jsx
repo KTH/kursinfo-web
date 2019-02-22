@@ -28,13 +28,13 @@ class CoursePage2 extends Component {
     this.state = {
         activeRoundIndex:0,
         activeSemesterIndex: this.props.routerStore.defaultIndex,
-        activeSemester: this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][2],
+        activeSemester: this.props.routerStore.courseSemesters.length> 0 ? [this.props.routerStore.defaultIndex][2] : 0,
         activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[this.props.routerStore.defaultIndex] || 0,
         dropdownOpen:false,
         timeMachineValue: "",//Temp
         keyInfoFade: false,
         syllabusInfoFade: false,
-        showRoundData: this.props.routerStore.courseData.courseRoundList2[this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][2]].length > 1 ? false : true
+        showRoundData: this.props.routerStore.courseSemesters.length > 0 && this.props.routerStore.courseData.courseRoundList2[this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][2]].length > 1 ? false : true
     }
 
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
@@ -59,7 +59,7 @@ class CoursePage2 extends Component {
 
       this.setState({ 
         activeSemesterIndex: newIndex,
-        activeSemester: this.props.routerStore.courseSemesters[newIndex][2],
+        activeSemester: this.props.routerStore.courseSemesters[newIndex][2]|| 0,
         activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex] || 0,
         syllabusInfoFade: prevState.syllabusInfoFade,
         keyInfoFade:true,
@@ -92,7 +92,7 @@ class CoursePage2 extends Component {
     event.preventDefault()
     const newIndex= this.props.routerStore.getCurrentSemesterToShow(this.state.timeMachineValue)
     this.setState({
-      activeRoundIndex: this.props.routerStore.courseSemesters[newIndex][2],
+      activeRoundIndex: this.props.routerStore.courseSemesters[newIndex][2] || 0,
       activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex] || 0
     })
   }
@@ -283,6 +283,7 @@ class CoursePage2 extends Component {
              </div>
 
             {/* ---COURSE ROUND KEY INFORMATION--- */}
+            {routerStore.courseSemesters.length > 0 ?
             <CourseKeyInformationOneCol
               courseRound= {courseData.courseRoundList2[this.state.activeSemester][this.state.activeRoundIndex]}
               courseData = {courseInformationToRounds}
@@ -290,7 +291,7 @@ class CoursePage2 extends Component {
               courseHasRound ={routerStore.courseSemesters.length > 0 }
               fade ={this.state.keyInfoFade}
               showRoundData ={this.state.showRoundData === false && courseData.courseRoundList2[this.state.activeSemester].length > 1 ? false : true}
-            />
+            />:""}
         </Col>
 
         {/***************************************************************************************************************/}
@@ -390,7 +391,7 @@ const DropdownCreater2 = ({ courseRoundList , callerInstance, semester, year = "
   let listIndex = []
   const dropdownID = "roundDropdown"+parentIndex
 
-  if(courseRoundList.length < 2)
+  if(courseRoundList && courseRoundList.length < 2)
     return ""
   else
   return(

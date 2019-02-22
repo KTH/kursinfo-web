@@ -383,6 +383,8 @@ class RouterStore {
         this.roundsSyllabusIndex[index]=0
       }
     }
+    console.log("getRoundsAndSyllabusConnection");
+    
   }
 
   getRound(roundObject, language = 0){ 
