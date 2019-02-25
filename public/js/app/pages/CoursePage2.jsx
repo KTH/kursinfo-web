@@ -48,20 +48,21 @@ class CoursePage2 extends Component {
    
   }
  
-  handleSemesterButtonClick(){
+  handleSemesterButtonClick(event){
     event.preventDefault()
     let prevState = this.state
     const selectedSemester = event.target.id.split('_')
     if(selectedSemester && selectedSemester[0].indexOf('semesterBtn') > -1){
       const newIndex = Number(selectedSemester[1])
       prevState.syllabusInfoFade  = prevState.activeSyllabusIndex !== this.props.routerStore.roundsSyllabusIndex[newIndex]
-      const showRoundData = this.props.routerStore.courseData.courseRoundList2[this.state.activeSemester].length > 1 ? false : true
+      const showRoundData = this.props.routerStore.courseData.courseRoundList2[this.props.routerStore.courseSemesters[newIndex][2]].length > 1 ? false : true
 
       this.setState({ 
         activeSemesterIndex: newIndex,
         activeSemester: this.props.routerStore.courseSemesters[newIndex][2]|| 0,
         activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex] || 0,
         syllabusInfoFade: prevState.syllabusInfoFade,
+        activeRoundIndex: 0,
         keyInfoFade:true,
         showRoundData: showRoundData
       })
