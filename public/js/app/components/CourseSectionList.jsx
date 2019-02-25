@@ -60,7 +60,7 @@ class CourseSectionList extends Component {
   getOther(translation){
     const course = this.props.courseInfo
     let prepare = [
-      {header: translation.courseInformation.course_department, text: course.course_department  },
+      {header: translation.courseInformation.course_department, text: course.course_department_link  },
       {header: translation.courseInformation.course_main_subject, text: course.course_main_subject  },
       {header: translation.courseInformation.course_level_code, text: course.course_level_code  }
      /* {header: translation.courseRoundInformation.round_time_slots, text: round ?round.round_time_slots : EMPTY[this.state.store.language] },

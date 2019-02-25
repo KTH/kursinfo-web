@@ -28,7 +28,7 @@ class CoursePage2 extends Component {
     this.state = {
         activeRoundIndex:0,
         activeSemesterIndex: this.props.routerStore.defaultIndex,
-        activeSemester: this.props.routerStore.courseSemesters.length> 0 ? [this.props.routerStore.defaultIndex][2] : 0,
+        activeSemester: this.props.routerStore.courseSemesters.length> 0 ? this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][2] : 0,
         activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[this.props.routerStore.defaultIndex] || 0,
         dropdownOpen:false,
         timeMachineValue: "",//Temp
@@ -261,7 +261,7 @@ class CoursePage2 extends Component {
                       <Alert color="info">
                         {translation.courseInformationLabels.lable_no_rounds}
                       </Alert> : 
-                      courseData.courseRoundList2[this.state.activeSemester].length  > 1 ? 
+                      courseData.courseRoundList2[this.state.activeSemester] && courseData.courseRoundList2[this.state.activeSemester].length  > 1 ? 
                        <DropdownCreater2
                             courseRoundList = {courseData.courseRoundList2[this.state.activeSemester]} 
                             callerInstance = {this} 
@@ -352,8 +352,9 @@ class CoursePage2 extends Component {
         {courseData.courseInfo.course_level_code === "RESEARCH" ?
               <span>
                 <h3>{translation.courseInformationLabels.header_postgraduate_course}</h3>
+                {translation.courseInformationLabels.label_postgraduate_course}
                 <a target="_blank" href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}> 
-                  {translation.courseInformationLabels.label_postgraduate_course} {courseData.courseInfo.course_department}
+                   {courseData.courseInfo.course_department}
                 </a> 
               </span>
             : ""}
