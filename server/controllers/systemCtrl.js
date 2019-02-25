@@ -49,6 +49,7 @@ function _final (err, req, res, next) {
   const statusCode = err.status || err.statusCode || 500
   const isProd = (/prod/gi).test(process.env.NODE_ENV)
   const lang = language.getLanguage(res)
+console.log("!ERROR!",statusCode, next);
 
   res.format({
     'text/html': () => {
