@@ -118,11 +118,10 @@ function * _getKoppsCourseData(req, res, next) {
 
  try {
     const apiResponse = yield koppsCourseData.getKoppsCourseData(courseCode, language)
-
     if (apiResponse.statusCode !== 200) {
       return httpResponse.jsonError(res, apiResponse.statusCode)
     }
-
+    
     return httpResponse.json(res, apiResponse.body)
     
   } catch (err) {

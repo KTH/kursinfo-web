@@ -118,11 +118,12 @@ function * _getKoppsCourseData(req, res, next) {
 
  try {
     const apiResponse = yield koppsCourseData.getKoppsCourseData(courseCode, language)
-
     if (apiResponse.statusCode !== 200) {
-      return httpResponse.jsonError(res, apiResponse.statusCode)
+      res.status(apiResponse.statusCode)
+      res.statusCode = apiResponse.statusCode;
+      res.send(courseCode)
     }
-
+   
     return httpResponse.json(res, apiResponse.body)
     
   } catch (err) {
@@ -205,7 +206,6 @@ async function  getIndex (req, res, next) {
     })
   } catch (err) {
     log.error('Error in getIndex', { error: err })
-
     next(err)
   }
 }

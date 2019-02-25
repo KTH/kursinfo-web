@@ -45,18 +45,25 @@ function _notFound (req, res, next) {
 // this function must keep this signature for it to work properly
 function _final (err, req, res, next) {
   log.error({ err: err }, 'Unhandled error')
+  let statusCode 
+  let courseCode = ""
+  if(err.response){
+    statusCode = err.response.status 
+    courseCode = err.response.data ? err.response.data : ""
+  }
+  else
+   statusCode = err.status || err.statusCode || 500
 
-  const statusCode = err.status || err.statusCode || 500
   const isProd = (/prod/gi).test(process.env.NODE_ENV)
   const lang = language.getLanguage(res)
-console.log("!ERROR!",statusCode, next);
+
 
   res.format({
     'text/html': () => {
       res.status(statusCode).render('system/error', {
         layout: 'errorLayout',
         message: err.message,
-        friendly: _getFriendlyErrorMessage(lang, statusCode),
+        friendly: _getFriendlyErrorMessage(lang, statusCode, courseCode),
         error: isProd ? {} : err,
         status: statusCode,
         debug: 'debug' in req.query
@@ -66,7 +73,7 @@ console.log("!ERROR!",statusCode, next);
     'application/json': () => {
       res.status(statusCode).json({
         message: err.message,
-        friendly: _getFriendlyErrorMessage(lang, statusCode),
+        friendly: _getFriendlyErrorMessage(lang, statusCode, courseCode),
         error: isProd ? undefined : err.stack
       })
     },
@@ -77,10 +84,12 @@ console.log("!ERROR!",statusCode, next);
   })
 }
 
-function _getFriendlyErrorMessage (lang, statusCode) {
+function _getFriendlyErrorMessage (lang, statusCode, courseCode) {
   switch (statusCode) {
     case 404:
-      return i18n.message('error_not_found', lang)
+    if(courseCode.length > 0)
+      return i18n.message('error_course_not_found', lang) + courseCode
+    return i18n.message('error_not_found', lang)
     default:
       return i18n.message('error_generic', lang)
   }

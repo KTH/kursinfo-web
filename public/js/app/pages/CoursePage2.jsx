@@ -26,10 +26,9 @@ class CoursePage2 extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      activeSemester: this.props.routerStore.courseSemesters && this.props.routerStore.courseSemesters.length > 0 ? this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][2] : 0,
         activeRoundIndex:0,
         activeSemesterIndex: this.props.routerStore.defaultIndex,
-        activeSemester2222: this.props.routerStore.courseSemesters && this.props.routerStore.courseSemesters.length > 0 ? this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][2] : 0,
+        activeSemester: this.props.routerStore.courseSemesters.length > 0 ? this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][2] : 0,
         activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[this.props.routerStore.defaultIndex] || 0,
         dropdownOpen:false,
         timeMachineValue: "",//Temp

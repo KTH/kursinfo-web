@@ -248,9 +248,9 @@ class RouterStore {
           syllabusSemesterList,
           language
         }
-    }).catch(err => { 
-      if (err.response) {
-        throw new Error(err.message, err.response.data)
+    }).catch(err => {
+      if (err.response) { 
+        throw  err
       }
       throw err
     })
