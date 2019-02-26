@@ -19,8 +19,10 @@ class CourseKeyInformationOneCol extends Component {
     const course = this.props.courseData
     return (
       <div id="CourseKeyInformationOneCol" className="key-info">
-      
-        <Row>
+        <Row id="roundFirstPart">
+          {/***************************************************************************************************************/}
+          {/*                                  Round information  - first part                                         */}
+          {/***************************************************************************************************************/}
           <Col sm="12" id="roundKeyInformation"> 
             <div className={` fade-container ${this.props.fade === true ? " fadeOutIn" : ""}`} key="fadeDiv1">
             
@@ -38,7 +40,7 @@ class CourseKeyInformationOneCol extends Component {
               </div>
               :""}
 
-
+              {/* ---COURSE ROUND INFORMATION--- */}
              {this.props.courseHasRound && this.props.showRoundData ?
                 <span>
                   <h4>{translate.round_target_group}</h4>
@@ -58,15 +60,16 @@ class CourseKeyInformationOneCol extends Component {
                   <p>{round ? round.round_course_place : EMPTY[this.props.language]}</p>
                 </span>
               : 
+              //* ---SELECT A ROUND BOX --- *//
                 <span className="text-center2">
                   <h4>{i18n.messages[this.props.language].courseInformationLabels.header_no_round_selected}</h4>
                   <p>{i18n.messages[this.props.language].courseInformationLabels.no_round_selected}</p>
-                  
                 </span>
               }
-            
-              
-              
+
+              {/***************************************************************************************************************/}
+              {/*                                     Round contact information                                               */}
+              {/***************************************************************************************************************/}
               {this.props.courseHasRound && this.props.showRoundData ? 
                 <span>
                   <h4>{translate.round_tutoring_form}</h4>
@@ -74,42 +77,34 @@ class CourseKeyInformationOneCol extends Component {
                     
                   <h4>{translate.round_tutoring_language}</h4>
                   <p>{round ? round.round_tutoring_language : EMPTY[this.props.language]}</p>
-                
-                 
                
                   <h4>{translate.round_max_seats}</h4>
                   <p>{round ? round.round_max_seats : EMPTY[this.props.language]}</p>
                
-                  
-
                   <h4>{translate.round_time_slots}</h4>
                   <p dangerouslySetInnerHTML = {{ __html:round.round_time_slots }}></p>
                
 
-                <CourseFileLinks
-                  index=""
-                  language={this.props.language}
-                  courseHasRound ={this.props.courseHasRound }
-                  syllabusValidFrom = ""
-                  courseCode= {course.course_code}
-                  scheduleUrl = {round > 0 ? round.round_schedule : EMPTY[this.props.language]}
-                />
-                 </span>
+                  <CourseFileLinks
+                    index=""
+                    language={this.props.language}
+                    courseHasRound ={this.props.courseHasRound }
+                    syllabusValidFrom = ""
+                    courseCode= {course.course_code}
+                    scheduleUrl = {round > 0 ? round.round_schedule : EMPTY[this.props.language]}
+                  />
+
+              </span>
               : ""}
 
-             
-              
-              
-              {/* ---CANAVAS EXAMPLE LINK--- 
-              <i class="fas fa-desktop"></i>
-              <a href="https://www.youtube.com/watch?v=s0JA9MgoT4o" target="_blank" >
-                {i18n.messages[this.props.language].courseInformationLabels.lable_canavas_example}
-              </a>*/}
             </div>
           </Col>
         </Row>
-        <Row>
+        <Row id="roundContact">
           <Col>
+          {/***************************************************************************************************************/}
+          {/*                                     Round - contact information                                             */}
+          {/***************************************************************************************************************/}
           {this.props.courseHasRound && this.props.showRoundData ?
              <span>
               <h3 className="right-column-header">{i18n.messages[this.props.language].courseInformationLabels.header_contact}</h3>
@@ -121,24 +116,23 @@ class CourseKeyInformationOneCol extends Component {
                 </span>
               : "" }
 
-              <h4>{i18n.messages[this.props.language].courseInformation.course_examiners}</h4>
-              <span dangerouslySetInnerHTML = {{ __html:course.course_examiners }}></span>
+                <h4>{i18n.messages[this.props.language].courseInformation.course_examiners}</h4>
+                <span dangerouslySetInnerHTML = {{ __html:course.course_examiners }}></span>
 
-             
-               
-                  <h4>{translate.round_responsibles}</h4>
-                  <span dangerouslySetInnerHTML = {{ __html:round.round_responsibles }}></span>
-                  
-
-                  <h4>{translate.round_teacher}</h4>
-                  <span dangerouslySetInnerHTML = {{ __html:round.round_teacher }}></span>
-                </span>       
+                <h4>{translate.round_responsibles}</h4>
+                <span dangerouslySetInnerHTML = {{ __html:round.round_responsibles }}></span>
+                    
+                <h4>{translate.round_teacher}</h4>
+                <span dangerouslySetInnerHTML = {{ __html:round.round_teacher }}></span>
+              </span>       
               :""}
           </Col>
        </Row>
-        <Row>
+        <Row id="roundApply">
           <Col>
-           
+            {/***************************************************************************************************************/}
+            {/*                                     Round - application information                                         */}
+            {/***************************************************************************************************************/}
             {this.props.courseHasRound && this.props.showRoundData ?
               <span>
                 <h3 className="right-column-header">{i18n.messages[this.props.language].courseInformationLabels.header_select_course}</h3>

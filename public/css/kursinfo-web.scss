@@ -96,30 +96,10 @@ h2 {
 
 .select-round{
     width: 100%;
-     /* .btn-secondary{
-           background-color: #0081af; */
-    /* color: #fff; */
-    /*background-color: #0081af;
-    border-color: #0081af;
-    color: #fff;
-    border: 0;*/
-    /* border-bottom: 1px solid #0081af;
-    border-top: 1px solid #0081af;
-    border-radius: unset;
-    }*/
     & > .btn{
         width: 100%;
     }
 }
-
-/*#courseRoundHeader{
-    padding-top:20px;
-
-    h4{
-        font-size: 18px;
-        font-weight: 400;
-    }
-}*/
 
 #keyInformationContainer{
     margin-top: 40px;
@@ -139,14 +119,10 @@ h2 {
     p, a {
         font-size: 1rem;
     }
-
+    
     h4 {
-        /*font-size: 18px;
-        color: #111;
-        font-weight: 700;*/
         margin: 1rem 0 .5rem 0;
         }
-
   }
 
   #coreContent{
@@ -174,6 +150,10 @@ h2 {
         float:right;
     }
 }
+.no-padding{
+  padding: 5px;
+}
+
 
 /*ICONS*/
 .icon-schedule{
@@ -219,4 +199,6 @@ h2 {
            margin-bottom: 0;
        }
 }
+
+
 

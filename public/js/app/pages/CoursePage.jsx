@@ -182,9 +182,9 @@ class CoursePage extends Component {
             :""}
 
             {/* ---INTRO TEXT--- */}
-            <Row id="courseIntroText">
+            <Row id="courseIntroText" key="courseIntroText">
               <Col sm="12" xs="12">
-                <img src={routerStore.image} alt="" height="auto" width="300px"/>
+                <img src={routerStore.image} alt="" height="auto" width="300px" title="inspiration image"/>
                 <div 
                   dangerouslySetInnerHTML = {{ __html:introText}}>
                 </div>

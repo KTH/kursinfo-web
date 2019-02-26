@@ -317,7 +317,7 @@ class RouterStore {
   }
 
   getExamObject(dataObject, grades, language = 0){
-    let examString = ""
+    let examString = "<ul class='no-padding' >"
     if(dataObject.length > 0){
       for(let exam of dataObject){
        examString += `<li>${exam.examCode} - 
@@ -327,6 +327,7 @@ class RouterStore {
                       </li>`
       }
     }
+    examString += "</ul>"
     console.log("!!getExamObject is ok!!")
     return examString 
   }
