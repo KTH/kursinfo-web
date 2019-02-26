@@ -90,12 +90,9 @@ class RouterStore {
 
   @action getCourseAdminInfo(courseCode,imageList,lang = 'sv'){
     return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri,  {courseCode:courseCode}), this._getOptions()).then( res => {
-      //console.log(res.data)
+      //console.log("getCourseAdminInfo",res.data)
       this.showCourseWebbLink = res.data.isCourseWebLink
-      this.sellingText = {
-          sv: res.data.sellingText_sv ? res.data.sellingText_sv : "", 
-          en: res.data.sellingText_en ? res.data.sellingText_en : ""
-        }
+      this.sellingText = res.data.sellingText
       this.image =  res.data.imageInfo /*&& res.data.imageInfo.length > 0 */? this.browserConfig.proxyPrefixPath.uri + COURSE_IMG_URL + res.data.imageInfo : this.getImage(courseCode , "normal" ) //TODO: 
     }).catch(err => { 
       if (err.response) {
@@ -111,14 +108,31 @@ class RouterStore {
     if(this.courseData.courseRoundList.length === 0 ) return ""
 
     return axios.post(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type }),this._getOptions(JSON.stringify(this.keyList))).then( result => {
-     // console.log('getCourseEmployeesPost', result)
+      console.log('getCourseEmployeesPost', [...this.courseData.courseRoundList2])
       const returnValue = result.data
-      let rounds = this.courseData.courseRoundList
-      for(let index = 0; index < returnValue[0].length; index++){
-        rounds[index].round_teacher  = returnValue[0][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[0][index]),'teacher') : EMPTY[this.activeLanguage]
-        rounds[index].round_responsibles = returnValue[1][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[1][index]), 'responsible') : EMPTY[this.activeLanguage]
+      const emptyString = EMPTY[this.activeLanguage]
+      let roundList = this.courseData.courseRoundList2
+      let roundId = 0
+      const thisStore = this
+      Object.keys(roundList).forEach(function(key) {
+        console.log(key, roundList[key]);
+        let rounds = roundList[key]
+        for(let index = 0; index < rounds.length; index++){
+        rounds[index].round_teacher  = returnValue[0][roundId] !== null ? thisStore.createPersonHtml(JSON.parse(returnValue[0][roundId]),'teacher') : emptyString
+        rounds[index].round_responsibles = returnValue[1][roundId] !== null ? thisStore.createPersonHtml(JSON.parse(returnValue[1][roundId]), 'responsible') : emptyString
+        roundId++
       }
-      this.courseData.courseRoundList = rounds
+      thisStore.courseData.courseRoundList2[key] = rounds
+      
+      });
+      
+    
+      let rounds2 = this.courseData.courseRoundList
+      for(let index = 0; index < returnValue[0].length; index++){
+        rounds2[index].round_teacher  = returnValue[0][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[0][index]),'teacher') : emptyString
+        rounds2[index].round_responsibles = returnValue[1][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[1][index]), 'responsible') : emptyString
+      }
+      this.courseData.courseRoundList = rounds2
       //return result.data && result.data.length > 0 ? this.createPersonHtml(result.data) : EMPTY[this.activeLanguage]
     }).catch(err => { 
       if (err.response) {

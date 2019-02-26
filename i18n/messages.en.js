@@ -71,7 +71,9 @@ module.exports = {
     header_postgraduate_course: 'Postgraduate course ',
     empty_text: "No information added",
     no_schedule: "No schedule ",
-    no_memo: "No memo "
+    no_memo: "No memo ",
+    header_no_round_selected: 'No round selected',
+    no_round_selected: 'Please select a round abow to see round information'
   },
   courseInformation: {
     course_title:'Title english',

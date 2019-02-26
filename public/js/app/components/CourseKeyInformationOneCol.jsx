@@ -58,11 +58,10 @@ class CourseKeyInformationOneCol extends Component {
                   <p>{round ? round.round_course_place : EMPTY[this.props.language]}</p>
                 </span>
               : 
-                <span>
-                  <h4>Inget kurstillfälle är valt</h4>
-                  <p>Välj kurstillfälle ovan för att se information om kurstillfälle</p>
-                  <br/>
-                  <br/>
+                <span className="text-center2">
+                  <h4>{i18n.messages[this.props.language].courseInformationLabels.header_no_round_selected}</h4>
+                  <p>{i18n.messages[this.props.language].courseInformationLabels.no_round_selected}</p>
+                  
                 </span>
               }
             

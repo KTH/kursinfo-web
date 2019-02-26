@@ -74,7 +74,9 @@ module.exports = {
     header_postgraduate_course: 'Forskarkurs ',
     empty_text: "Ingen information inlagd"  ,
     no_schedule: "Schema saknas",
-    no_memo: "Kurs-PM saknas "
+    no_memo: "Kurs-PM saknas ",
+    header_no_round_selected: 'Inget kurstillfälle är valt',
+    no_round_selected: 'Välj kurstillfälle ovan för att se information om kurstillfälle'
   },
   courseInformation:{
     roundId:'Kursomgångs nr',
