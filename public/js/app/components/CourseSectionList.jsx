@@ -77,7 +77,7 @@ class CourseSectionList extends Component {
     //console.log(this.routerStore)
     const translation = i18n.messages[this.state.store.language]
     return (
-      <div className="row">
+      <div className="row" id={this.props.partToShow}>
         {this.props.partToShow === "firstBlock" ?
         <span>
           <CourseSection sectionHeader ={translation.courseInformationLabels.header_content} headerType = '3' class= "first-header" courseData = {this.getContent(translation)} />
