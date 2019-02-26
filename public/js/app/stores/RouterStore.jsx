@@ -73,130 +73,7 @@ class RouterStore {
     return options
   }
 /******************************************************************************************************************************************* */
-  getImage(courseCode, type="normal"){
-    const image =`${Math.floor((Math.random() * 7) + 1)}_${type}.jpg`
-    const response = axios.get(this.buildApiUrl(this.paths.api.setImage.uri, { courseCode: courseCode, imageName:image })).then( response =>{
-      //console.log("IMAGE SET->",response, image)
-    })
-    .catch(err => { 
-      if (err.response) {
-        throw new Error(err.message, err.response.data)
-      }
-      throw err
-    })
-    return `${this.browserConfig.proxyPrefixPath.uri}${COURSE_IMG_URL}${image}`
-  }
-
-
-  @action getCourseAdminInfo(courseCode,imageList,lang = 'sv'){
-    return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri,  {courseCode:courseCode}), this._getOptions()).then( res => {
-      //console.log("getCourseAdminInfo",res.data)
-      this.showCourseWebbLink = res.data.isCourseWebLink
-      this.sellingText = res.data.sellingText
-      this.image =  res.data.imageInfo /*&& res.data.imageInfo.length > 0 */? this.browserConfig.proxyPrefixPath.uri + COURSE_IMG_URL + res.data.imageInfo : this.getImage(courseCode , "normal" ) //TODO: 
-    }).catch(err => { 
-      if (err.response) {
-        throw new Error(err.message, err.response.data)
-      }
-      throw err
-    })
-  }
-  
-
-  @action getCourseEmployeesPost( key , type="multi", lang = "sv"){
-
-    if(this.courseData.courseRoundList.length === 0 ) return ""
-
-    return axios.post(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type }),this._getOptions(JSON.stringify(this.keyList))).then( result => {
-      console.log('getCourseEmployeesPost', [...this.courseData.courseRoundList2])
-      const returnValue = result.data
-      const emptyString = EMPTY[this.activeLanguage]
-      let roundList = this.courseData.courseRoundList2
-      let roundId = 0
-      const thisStore = this
-      Object.keys(roundList).forEach(function(key) {
-        console.log(key, roundList[key]);
-        let rounds = roundList[key]
-        for(let index = 0; index < rounds.length; index++){
-        rounds[index].round_teacher  = returnValue[0][roundId] !== null ? thisStore.createPersonHtml(JSON.parse(returnValue[0][roundId]),'teacher') : emptyString
-        rounds[index].round_responsibles = returnValue[1][roundId] !== null ? thisStore.createPersonHtml(JSON.parse(returnValue[1][roundId]), 'responsible') : emptyString
-        roundId++
-      }
-      thisStore.courseData.courseRoundList2[key] = rounds
-      
-      });
-      
-    
-      let rounds2 = this.courseData.courseRoundList
-      for(let index = 0; index < returnValue[0].length; index++){
-        rounds2[index].round_teacher  = returnValue[0][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[0][index]),'teacher') : emptyString
-        rounds2[index].round_responsibles = returnValue[1][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[1][index]), 'responsible') : emptyString
-      }
-      this.courseData.courseRoundList = rounds2
-      //return result.data && result.data.length > 0 ? this.createPersonHtml(result.data) : EMPTY[this.activeLanguage]
-    }).catch(err => { 
-      if (err.response) {
-        throw new Error(err.message, err.response.data)
-      }
-      throw err
-    })
-  } 
-
-  @action getCourseEmployees( key , type="examinator", lang = 0){
-    return axios.get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type })).then( result => {
-      this.courseData.courseInfo.course_examiners = result.data && result.data.length > 0 ? this.createPersonHtml(result.data, 'examiner') : EMPTY[this.activeLanguage]
-    }).catch(err => { 
-      if (err.response) {
-        throw new Error(err.message, err.response.data)
-      }
-      throw err
-    })
-  }
-
-  @action getCurrentSemesterToShow(date=""){
-
-    if(this.courseSemesters.length === 0)
-      return 0
-
-    let thisDate = date === "" ? new Date() :new Date(date)
-    let showSemester = 0
-    let returnIndex = -1
-    let yearMatch = -1
-
-    //*******Calculating current semester based on todays date ********/
-    if( thisDate.getMonth()+1 >= MAX_1_MONTH && thisDate.getMonth()+1 < MAX_2_MONTH ){
-      showSemester = `${thisDate.getFullYear()}2`
-    }
-    else{
-      if(thisDate.getMonth()+1 < MAX_1_MONTH){
-        showSemester = `${thisDate.getFullYear()}1`
-      }
-      else{
-        showSemester = `${thisDate.getFullYear()+1}1`
-       }
-    }
-      
-    //*******Check if course has a round for current semester otherwise it shows the previous semester********/
-      for(let index=0; index < this.courseSemesters.length; index++){
-        if(this.courseSemesters[index][2]=== showSemester){
-          returnIndex = index
-        }
-        if(thisDate.getMonth()+1 > MAX_2_MONTH && Number(this.courseSemesters[index][0])=== thisDate.getFullYear()){
-          yearMatch = index
-        }
-        if(thisDate.getMonth()+1 < MAX_1_MONTH && Number(this.courseSemesters[index][0])=== thisDate.getFullYear()-1){
-          yearMatch = index
-        }
-      }
-     // console.log("what???",returnIndex, yearMatch ) //TODO: delete
-     // console.log(thisDate, showSemester)
-    //*******In case there should be no match at all, take the last senester in the list ********/
-      if(returnIndex === -1 && yearMatch === -1)
-        return this.courseSemesters.length-1
-
-      return returnIndex > -1 ? returnIndex : yearMatch
-  }
-
+ 
   //** Handeling the course information from kopps api.**//
   @action getCourseInformation(courseCode, ldapUsername, lang = 'sv', roundIndex = 0){
     return axios.get(this.buildApiUrl(this.paths.api.koppsCourseData.uri,  {courseCode:courseCode,language:lang}), this._getOptions()).then((res) => { 
@@ -464,6 +341,131 @@ class RouterStore {
     }
     return EMPTY[language]
   }
+
+  getImage(courseCode, type="normal"){
+    const image =`${Math.floor((Math.random() * 7) + 1)}_${type}.jpg`
+    const response = axios.get(this.buildApiUrl(this.paths.api.setImage.uri, { courseCode: courseCode, imageName:image })).then( response =>{
+      //console.log("IMAGE SET->",response, image)
+    })
+    .catch(err => { 
+      if (err.response) {
+        throw new Error(err.message, err.response.data)
+      }
+      throw err
+    })
+    return `${this.browserConfig.proxyPrefixPath.uri}${COURSE_IMG_URL}${image}`
+  }
+
+
+  @action getCourseAdminInfo(courseCode,imageList,lang = 'sv'){
+    return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri,  {courseCode:courseCode}), this._getOptions()).then( res => {
+      //console.log("getCourseAdminInfo",res.data)
+      this.showCourseWebbLink = res.data.isCourseWebLink
+      this.sellingText = res.data.sellingText
+      this.image =  res.data.imageInfo /*&& res.data.imageInfo.length > 0 */? this.browserConfig.proxyPrefixPath.uri + COURSE_IMG_URL + res.data.imageInfo : this.getImage(courseCode , "normal" ) //TODO: 
+    }).catch(err => { 
+      if (err.response) {
+        throw new Error(err.message, err.response.data)
+      }
+      throw err
+    })
+  }
+  
+
+  @action getCourseEmployeesPost( key , type="multi", lang = "sv"){
+
+    if(this.courseData.courseRoundList.length === 0 ) return ""
+
+    return axios.post(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type }),this._getOptions(JSON.stringify(this.keyList))).then( result => {
+      console.log('getCourseEmployeesPost', [...this.courseData.courseRoundList2])
+      const returnValue = result.data
+      const emptyString = EMPTY[this.activeLanguage]
+      let roundList = this.courseData.courseRoundList2
+      let roundId = 0
+      const thisStore = this
+      Object.keys(roundList).forEach(function(key) {
+        console.log(key, roundList[key]);
+        let rounds = roundList[key]
+        for(let index = 0; index < rounds.length; index++){
+        rounds[index].round_teacher  = returnValue[0][roundId] !== null ? thisStore.createPersonHtml(JSON.parse(returnValue[0][roundId]),'teacher') : emptyString
+        rounds[index].round_responsibles = returnValue[1][roundId] !== null ? thisStore.createPersonHtml(JSON.parse(returnValue[1][roundId]), 'responsible') : emptyString
+        roundId++
+      }
+      thisStore.courseData.courseRoundList2[key] = rounds
+      
+      });
+      
+    
+      let rounds2 = this.courseData.courseRoundList
+      for(let index = 0; index < returnValue[0].length; index++){
+        rounds2[index].round_teacher  = returnValue[0][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[0][index]),'teacher') : emptyString
+        rounds2[index].round_responsibles = returnValue[1][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[1][index]), 'responsible') : emptyString
+      }
+      this.courseData.courseRoundList = rounds2
+      //return result.data && result.data.length > 0 ? this.createPersonHtml(result.data) : EMPTY[this.activeLanguage]
+    }).catch(err => { 
+      if (err.response) {
+        throw new Error(err.message, err.response.data)
+      }
+      throw err
+    })
+  } 
+
+  @action getCourseEmployees( key , type="examinator", lang = 0){
+    return axios.get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type })).then( result => {
+      this.courseData.courseInfo.course_examiners = result.data && result.data.length > 0 ? this.createPersonHtml(result.data, 'examiner') : EMPTY[this.activeLanguage]
+    }).catch(err => { 
+      if (err.response) {
+        throw new Error(err.message, err.response.data)
+      }
+      throw err
+    })
+  }
+
+  @action getCurrentSemesterToShow(date=""){
+
+    if(this.courseSemesters.length === 0)
+      return 0
+
+    let thisDate = date === "" ? new Date() :new Date(date)
+    let showSemester = 0
+    let returnIndex = -1
+    let yearMatch = -1
+
+    //*******Calculating current semester based on todays date ********/
+    if( thisDate.getMonth()+1 >= MAX_1_MONTH && thisDate.getMonth()+1 < MAX_2_MONTH ){
+      showSemester = `${thisDate.getFullYear()}2`
+    }
+    else{
+      if(thisDate.getMonth()+1 < MAX_1_MONTH){
+        showSemester = `${thisDate.getFullYear()}1`
+      }
+      else{
+        showSemester = `${thisDate.getFullYear()+1}1`
+       }
+    }
+      
+    //*******Check if course has a round for current semester otherwise it shows the previous semester********/
+      for(let index=0; index < this.courseSemesters.length; index++){
+        if(this.courseSemesters[index][2]=== showSemester){
+          returnIndex = index
+        }
+        if(thisDate.getMonth()+1 > MAX_2_MONTH && Number(this.courseSemesters[index][0])=== thisDate.getFullYear()){
+          yearMatch = index
+        }
+        if(thisDate.getMonth()+1 < MAX_1_MONTH && Number(this.courseSemesters[index][0])=== thisDate.getFullYear()-1){
+          yearMatch = index
+        }
+      }
+     // console.log("what???",returnIndex, yearMatch ) //TODO: delete
+     // console.log(thisDate, showSemester)
+    //*******In case there should be no match at all, take the last senester in the list ********/
+      if(returnIndex === -1 && yearMatch === -1)
+        return this.courseSemesters.length-1
+
+      return returnIndex > -1 ? returnIndex : yearMatch
+  }
+
 
   isValidData(dataObject, language = 0){
     return !dataObject ? EMPTY[language] : dataObject

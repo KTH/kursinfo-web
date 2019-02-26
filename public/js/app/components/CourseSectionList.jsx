@@ -62,7 +62,7 @@ class CourseSectionList extends Component {
     let prepare = [
       {header: translation.courseInformation.course_department, text: course.course_department_link  },
       {header: translation.courseInformation.course_main_subject, text: course.course_main_subject  },
-      {header: translation.courseInformation.course_level_code, text: course.course_level_code  }
+      {header: translation.courseInformation.course_level_code, text: translation.courseInformation.course_level_code_label[course.course_level_code]}
     ]
     if(course.course_contact_name !== EMPTY[this.state.store.language]) prepare.push({header:translation.courseInformation.course_contact_name, text: course.course_contact_name}) 
     if(course.course_supplemental_information !== EMPTY[this.state.store.language]) prepare.push({header:translation.courseInformation.course_supplemental_information, text:course.course_supplemental_information})

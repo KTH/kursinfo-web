@@ -255,8 +255,8 @@ class CoursePage extends Component {
             <h2 style="margin-top:0px">{translation.courseInformationLabels.header_round}</h2>
 
             {/* ---COURSE ROUND DROPDOWN--- */}
-            <div id="semesterButtonMenue" className="">
-                  <div className="row" id="semesterButtonMenue" key="semesterButtonMenue">
+            <div id="roundDropdownMenu" className="">
+                  <div className="row" id="roundDropdown" key="roundDropdown">
 
                     {routerStore.courseSemesters.length === 0 ? 
                       <Alert color="info">
@@ -308,8 +308,6 @@ class CoursePage extends Component {
           showCourseLink = {routerStore.showCourseWebbLink} 
           partToShow = "firstBlock"
         />
-
-       
       
           {/* ---STATISTICS LINK--- */}
           <h2> {translation.courseInformationLabels.header_statistics}</h2>
