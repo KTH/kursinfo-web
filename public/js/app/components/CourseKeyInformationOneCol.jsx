@@ -111,6 +111,8 @@ class CourseKeyInformationOneCol extends Component {
         </Row>
         <Row>
           <Col>
+          {this.props.courseHasRound && this.props.showRoundData ?
+             <span>
               <h3 className="right-column-header">{i18n.messages[this.props.language].courseInformationLabels.header_contact}</h3>
 
               {course.course_contact_name !== EMPTY[this.props.language] ?
@@ -123,8 +125,8 @@ class CourseKeyInformationOneCol extends Component {
               <h4>{i18n.messages[this.props.language].courseInformation.course_examiners}</h4>
               <span dangerouslySetInnerHTML = {{ __html:course.course_examiners }}></span>
 
-              {this.props.courseHasRound && this.props.showRoundData ?
-                <span>
+             
+               
                   <h4>{translate.round_responsibles}</h4>
                   <span dangerouslySetInnerHTML = {{ __html:round.round_responsibles }}></span>
                   
@@ -137,9 +139,10 @@ class CourseKeyInformationOneCol extends Component {
        </Row>
         <Row>
           <Col>
-            <h3 className="right-column-header">{i18n.messages[this.props.language].courseInformationLabels.header_select_course}</h3>
+           
             {this.props.courseHasRound && this.props.showRoundData ?
               <span>
+                <h3 className="right-column-header">{i18n.messages[this.props.language].courseInformationLabels.header_select_course}</h3>
                 <h4>{translate.round_application_code}</h4>
                 <p>{round ? round.round_application_code : EMPTY[this.props.language]}</p>
               </span>

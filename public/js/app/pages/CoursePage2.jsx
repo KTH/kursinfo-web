@@ -26,15 +26,14 @@ class CoursePage2 extends Component {
   constructor (props) {
     super(props)
     this.state = {
-        activeRoundIndex:0,
-        activeSemesterIndex: this.props.routerStore.defaultIndex,
-        activeSemester: this.props.routerStore.courseSemesters.length > 0 ? this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][2] : 0,
+        activeRoundIndex: this.props.routerStore.courseSemesters.length > 0 ? this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][3] : 0,
+        activeSemester: this.props.routerStore.defaultIndex,
         activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[this.props.routerStore.defaultIndex] || 0,
         dropdownOpen:false,
         timeMachineValue: "",//Temp
         keyInfoFade: false,
         syllabusInfoFade: false,
-        showRoundData: this.props.routerStore.courseSemesters.length > 0 && this.props.routerStore.courseData.courseRoundList2[this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][2]].length > 1 ? false : true
+        firstVisit: true
     }
 
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
@@ -48,23 +47,20 @@ class CoursePage2 extends Component {
    
   }
  
-  handleSemesterButtonClick(event){
+  handleSemesterButtonClick(){
     event.preventDefault()
     let prevState = this.state
     const selectedSemester = event.target.id.split('_')
     if(selectedSemester && selectedSemester[0].indexOf('semesterBtn') > -1){
       const newIndex = Number(selectedSemester[1])
       prevState.syllabusInfoFade  = prevState.activeSyllabusIndex !== this.props.routerStore.roundsSyllabusIndex[newIndex]
-      const showRoundData = this.props.routerStore.courseData.courseRoundList2[this.props.routerStore.courseSemesters[newIndex][2]].length > 1 ? false : true
 
       this.setState({ 
-        activeSemesterIndex: newIndex,
-        activeSemester: this.props.routerStore.courseSemesters[newIndex][2]|| 0,
+        activeSemester: newIndex,
         activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex] || 0,
+        activeRoundIndex: this.props.routerStore.courseSemesters[newIndex][3],
         syllabusInfoFade: prevState.syllabusInfoFade,
-        activeRoundIndex: 0,
-        keyInfoFade:true,
-        showRoundData: showRoundData
+        keyInfoFade:true
       })
     }
   }
@@ -93,7 +89,7 @@ class CoursePage2 extends Component {
     event.preventDefault()
     const newIndex= this.props.routerStore.getCurrentSemesterToShow(this.state.timeMachineValue)
     this.setState({
-      activeRoundIndex: this.props.routerStore.courseSemesters[newIndex][2] || 0,
+      activeRoundIndex: this.props.routerStore.courseSemesters[newIndex][3],
       activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex] || 0
     })
   }
@@ -122,8 +118,7 @@ class CoursePage2 extends Component {
     event.preventDefault()
     const selectInfo = event.target.id.split('_')
     this.setState({
-      activeRoundIndex: selectInfo[1],
-      showRoundData: true
+      activeRoundIndex: selectInfo[1]
     })
     this.toggle(event, true)
   }
@@ -208,7 +203,7 @@ class CoursePage2 extends Component {
                         return  <Button  style="margin-right:20px;margin-left:15px;" 
                                   key={"semesterBtn"+index} 
                                   id={"semesterBtn"+index+"_"+index}
-                                  className={"semesterBtn"+this.state.activeSemesterIndex==="semesterBtn"+index ? "is-active button-clean": "button-clean"} 
+                                  className={"semesterBtn"+this.state.activeSemester==="semesterBtn"+index ? "is-active button-clean": "button-clean"} 
                                   onClick={this.handleSemesterButtonClick}
                                 >
                                   {translation.courseInformation.course_short_semester[semester[1]]} {semester[0]}
@@ -262,37 +257,38 @@ class CoursePage2 extends Component {
                       <Alert color="info">
                         {translation.courseInformationLabels.lable_no_rounds}
                       </Alert> : 
-                      courseData.courseRoundList2[this.state.activeSemester] && courseData.courseRoundList2[this.state.activeSemester].length  > 1 ? 
+                      routerStore.courseSemesters.length > 1 ? 
                        <DropdownCreater2
-                            courseRoundList = {courseData.courseRoundList2[this.state.activeSemester]} 
+                            courseRoundList = {courseData.courseRoundList} 
                             callerInstance = {this} 
-                            year = {routerStore.courseSemesters[this.state.activeSemesterIndex][0]} 
-                            semester={ routerStore.courseSemesters[this.state.activeSemesterIndex][1]} 
-                            yearSemester={routerStore.courseSemesters[this.state.activeSemesterIndex][2]} 
+                            year = {routerStore.courseSemesters[this.state.activeSemester][0]} 
+                            semester={ routerStore.courseSemesters[this.state.activeSemester][1]} 
+                            yearSemester={routerStore.courseSemesters[this.state.activeSemester][2]} 
                             language ={courseData.language}
                             parentIndex = "0"
                             lable = {translation.courseInformationLabels.lable_round_dropdown}
                         />
                       :""
                     }
-                    {routerStore.courseSemesters.length > 0 && courseData.courseRoundList2[this.state.activeSemester][this.state.activeRoundIndex].round_state !== "APPROVED" ? 
+                    {routerStore.courseSemesters.length > 0 && courseData.courseRoundList[this.state.activeRoundIndex].round_state !== "APPROVED" ? 
                       <Alert color="info" aria-live="polite" >
-                          <h4>{i18n.messages[courseData.language].courseInformationLabels.lable_round_state[courseData.courseRoundList2[this.state.activeSemester][this.state.activeRoundIndex].round_state]} </h4>
+                          <h4>{i18n.messages[courseData.language].courseInformationLabels.lable_round_state[courseData.courseRoundList[this.state.activeRoundIndex].round_state]} </h4>
                       </Alert>
                     :""}
                   </div>
              </div>
 
             {/* ---COURSE ROUND KEY INFORMATION--- */}
-            {routerStore.courseSemesters.length > 0 ?
             <CourseKeyInformationOneCol
-              courseRound= {courseData.courseRoundList2[this.state.activeSemester][this.state.activeRoundIndex]}
+              courseRound= {courseData.courseRoundList[this.state.activeRoundIndex]}
+              index={this.state.activeRoundIndex}
               courseData = {courseInformationToRounds}
               language={courseData.language}
+              imageUrl = {routerStore.image}
               courseHasRound ={routerStore.courseSemesters.length > 0 }
               fade ={this.state.keyInfoFade}
-              showRoundData ={this.state.showRoundData === false && courseData.courseRoundList2[this.state.activeSemester].length > 1 ? false : true}
-            />:""}
+              showRoundData = {true}
+            />
         </Col>
 
         {/***************************************************************************************************************/}
@@ -303,6 +299,7 @@ class CoursePage2 extends Component {
 
          {/* --- COURSE INFORMATION CONTAINER---  */}
          <CourseSectionList 
+          roundIndex={this.state.activeRoundIndex} 
           courseInfo = {courseData.courseInfo} 
           syllabusList = {courseData.syllabusList[this.state.activeSyllabusIndex]} 
           showCourseLink = {routerStore.showCourseWebbLink} 
@@ -343,6 +340,7 @@ class CoursePage2 extends Component {
 
            {/* --- COURSE INFORMATION CONTAINER---  */}
         <CourseSectionList 
+          roundIndex={this.state.activeRoundIndex} 
           courseInfo = {courseData.courseInfo} 
           syllabusList = {courseData.syllabusList[this.state.activeSyllabusIndex]} 
           showCourseLink = {routerStore.showCourseWebbLink} 
@@ -353,9 +351,8 @@ class CoursePage2 extends Component {
         {courseData.courseInfo.course_level_code === "RESEARCH" ?
               <span>
                 <h3>{translation.courseInformationLabels.header_postgraduate_course}</h3>
-                {translation.courseInformationLabels.label_postgraduate_course}
                 <a target="_blank" href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}> 
-                   {courseData.courseInfo.course_department}
+                  {translation.courseInformationLabels.label_postgraduate_course} {courseData.courseInfo.course_department}
                 </a> 
               </span>
             : ""}
@@ -393,7 +390,13 @@ const DropdownCreater2 = ({ courseRoundList , callerInstance, semester, year = "
   let listIndex = []
   const dropdownID = "roundDropdown"+parentIndex
 
-  if(courseRoundList && courseRoundList.length < 2)
+  courseRoundList.filter( (courseRound, index) =>{
+    if(courseRound.round_course_term.join('') === yearSemester){
+        listIndex.push(index)
+        return courseRound
+    }
+  })
+  if(listIndex.length < 2)
     return ""
   else
   return(
@@ -414,9 +417,14 @@ const DropdownCreater2 = ({ courseRoundList , callerInstance, semester, year = "
           </DropdownToggle>
           <DropdownMenu>
           {
-            courseRoundList.map( (courseRound, index) =>{
+            courseRoundList.filter( (courseRound, index) =>{
+              if(courseRound.round_course_term.join('') === yearSemester){
+                  listIndex.push(index)
+                  return courseRound
+              }
+            }).map( (courseRound, index) =>{
               return (
-                <DropdownItem key ={index} id={dropdownID+"_"+index+"_"+parentIndex} onClick = {callerInstance.handleDropdownSelect}> 
+                <DropdownItem key ={index} id={dropdownID+"_"+listIndex[index]+"_"+parentIndex} onClick = {callerInstance.handleDropdownSelect}> 
                   {
                     `${courseRound.round_short_name !== EMPTY[language] ? courseRound.round_short_name : "" },     
                      ${courseRound.round_type}`

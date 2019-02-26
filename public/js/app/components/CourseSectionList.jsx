@@ -63,12 +63,8 @@ class CourseSectionList extends Component {
       {header: translation.courseInformation.course_department, text: course.course_department_link  },
       {header: translation.courseInformation.course_main_subject, text: course.course_main_subject  },
       {header: translation.courseInformation.course_level_code, text: course.course_level_code  }
-     /* {header: translation.courseRoundInformation.round_time_slots, text: round ?round.round_time_slots : EMPTY[this.state.store.language] },
-      {header: translation.courseRoundInformation.round_teacher, text:round ? round.round_teacher : EMPTY[this.state.store.language] },
-      {header: translation.courseRoundInformation.round_responsibles, text:round ? round.round_responsibles : EMPTY[this.state.store.language] }*/
-      
     ]
-    //if(course.course_contact_name !== EMPTY[this.state.store.language]) prepare.push({header:translation.courseInformation.course_contact_name, text: course.course_contact_name}) 
+    if(course.course_contact_name !== EMPTY[this.state.store.language]) prepare.push({header:translation.courseInformation.course_contact_name, text: course.course_contact_name}) 
     if(course.course_supplemental_information !== EMPTY[this.state.store.language]) prepare.push({header:translation.courseInformation.course_supplemental_information, text:course.course_supplemental_information})
     if(course.course_supplemental_information_url !== EMPTY[this.state.store.language]) prepare.push({header:translation.courseInformation.course_supplemental_information_url, text:course.course_supplemental_information_url})
     if(course.course_supplemental_information_url_text !== EMPTY[this.state.store.language]) prepare.push({header:translation.courseInformation.course_supplemental_information_url_text, text:course.course_supplemental_information_url_text})
