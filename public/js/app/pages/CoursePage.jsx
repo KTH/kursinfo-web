@@ -180,7 +180,8 @@ class CoursePage extends Component {
                 <Alert color="info" aria-live="polite">
                     <h3>{translation.courseInformationLabels.label_course_cancelled} </h3>
                     <p>{translation.courseInformationLabels.label_last_exam}  
-                        {translation.courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]} {courseData.courseInfo.course_last_exam[0]}
+                        {translation.courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]} 
+                        {courseData.courseInfo.course_last_exam[0]}
                     </p>
                   </Alert>
               </div>
@@ -232,7 +233,7 @@ class CoursePage extends Component {
                       <i class="fas fa-file-pdf"></i> 
                       <a 
                         href={`${SYLLABUS_URL}${courseData.courseInfo.course_code}_${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('')}.pdf?lang=${language}`}  
-                        id={courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('')}
+                        id={courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('')+"_active"}
                         target="_blank"
                       >
                           {translation.courseInformationLabels.label_course_syllabus}
@@ -318,7 +319,7 @@ class CoursePage extends Component {
           <h2> {translation.courseInformationLabels.header_statistics}</h2>
             <p>
               <i class="fas fa-chart-line"></i> 
-              <a href="https://www.skrattnet.se/roliga-texter/avslojande-statistik" target="_blank" >
+              <a href="" target="_blank" >
                 {translation.courseInformationLabels.label_statistics}
               </a>
             </p>

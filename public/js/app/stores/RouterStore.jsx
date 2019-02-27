@@ -155,7 +155,7 @@ class RouterStore {
       course_main_subject: courseResult.mainSubjects ?  Array.isArray(courseResult.mainSubjects) ? courseResult.mainSubjects.toString() : this.isValidData(courseResult.mainSubjects) : EMPTY[language],
       course_recruitment_text: this.isValidData(courseResult.course.recruitmentText),
       course_department: this.isValidData(courseResult.course.department.name, language),
-      course_department_link: this.isValidData(courseResult.course.department.name, language)!== EMPTY[language] ? '<a href="https://www.kth.se/' + courseResult.course.department.name.split('/')[0].toLowerCase()+'/" target="blank">'+courseResult.course.department.name+'</a>' : EMPTY[language],
+      course_department_link: this.isValidData(courseResult.course.department.name, language)!== EMPTY[language] ? '<a href="/' + courseResult.course.department.name.split('/')[0].toLowerCase()+'/" target="blank">'+courseResult.course.department.name+'</a>' : EMPTY[language],
       course_department_code: this.isValidData(courseResult.course.department.code, language),
       course_contact_name:this.isValidData(courseResult.course.infoContactName, language),
       course_suggested_addon_studies: this.isValidData(courseResult.course.addOn, language),
@@ -476,7 +476,7 @@ class RouterStore {
     personList.forEach( person  => {
       personString += `<p class = "person">
           <i class="fas fa-user-alt"></i>
-          <a href="https://www.kth.se/profile/${person.username}/" target="_blank" property="teach:teacher">${person.givenName} ${person.lastName} </a> 
+          <a href="/profile/${person.username}/" target="_blank" property="teach:teacher">${person.givenName} ${person.lastName} </a> 
           
           </p>  `
           //<i class="far fa-envelope"></i>&nbsp;${person.email}

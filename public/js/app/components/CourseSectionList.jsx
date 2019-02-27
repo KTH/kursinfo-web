@@ -80,14 +80,14 @@ class CourseSectionList extends Component {
       <div className="row" id={this.props.partToShow}>
         {this.props.partToShow === "firstBlock" ?
         <span>
-          <CourseSection sectionHeader ={translation.courseInformationLabels.header_content} headerType = '3' class= "first-header" courseData = {this.getContent(translation)} />
-          <CourseSection sectionHeader ={translation.courseInformationLabels.header_execution} headerType = '3' courseData = {this.getExecution(translation)} />
-          <CourseSection sectionHeader ={translation.courseInformationLabels.header_examination} headerType = '3' courseData = {this.getExamination(translation)} />
+          <CourseSection sectionHeader ={translation.courseInformationLabels.header_content} headerType = '3' class= "first-header" courseData = {this.getContent(translation)} sectionId="Content" />
+          <CourseSection sectionHeader ={translation.courseInformationLabels.header_execution} headerType = '3' courseData = {this.getExecution(translation)} sectionId="Execution"/>
+          <CourseSection sectionHeader ={translation.courseInformationLabels.header_examination} headerType = '3' courseData = {this.getExamination(translation)} sectionId="Examination"/>
           </span>
         :""} 
 
         {this.props.partToShow === "secondBlock" ?
-          <CourseSection sectionHeader ={translation.courseInformationLabels.header_further} headerType = '3' courseData = {this.getOther(translation)} />
+          <CourseSection sectionHeader ={translation.courseInformationLabels.header_further} headerType = '3' courseData = {this.getOther(translation)} sectionId="Other" />
         : ""}
     </div>  
     )
