@@ -20,6 +20,11 @@ import DropdownMenu from 'inferno-bootstrap/dist/DropdownMenu'
 import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
 import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
 
+/*import Dropdown from 'kth-style-inferno-bootstrap/dist/Dropdown'
+import DropdownMenu from 'kth-style-inferno-bootstrap/dist/DropdownMenu'
+import DropdownItem from 'kth-style-inferno-bootstrap/dist/DropdownItem'
+import DropdownToggle from 'kth-style-inferno-bootstrap/dist/DropdownToggle'*/
+
 
 @inject(['routerStore']) @observer
 class CoursePage extends Component {
@@ -226,7 +231,7 @@ class CoursePage extends Component {
                     <span>
                       <i class="fas fa-file-pdf"></i> 
                       <a 
-                        href={`${SYLLABUS_URL}${routerStore.courseData.courseInfo.course_code}_${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('')}.pdf?lang=${language}`}  
+                        href={`${SYLLABUS_URL}${courseData.courseInfo.course_code}_${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('')}.pdf?lang=${language}`}  
                         id={courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('')}
                         target="_blank"
                       >
@@ -234,9 +239,9 @@ class CoursePage extends Component {
                       </a>
                       <span className="small-text" >
                       {` ( ${translation.courseInformationLabels.label_course_syllabus_valid_from }
-                        ${translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]]}  ${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0]} 
-                        
-                        ${ courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to.length > 0 ? translation.courseInformationLabels.label_course_syllabus_valid_to + translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[1]] +" "+courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[0]: ""} )
+                          ${translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]]}  ${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0]} 
+                          ${ courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to.length > 0 ? 
+                              translation.courseInformationLabels.label_course_syllabus_valid_to + translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[1]] +" "+courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[0]: ""} )
                       `}   
                         </span>
                     </span>
@@ -263,7 +268,7 @@ class CoursePage extends Component {
                         {translation.courseInformationLabels.lable_no_rounds}
                       </Alert> : 
                       courseData.courseRoundList2[this.state.activeSemester] && courseData.courseRoundList2[this.state.activeSemester].length  > 1 ? 
-                       <DropdownCreater2
+                       <DropdownCreater
                             courseRoundList = {courseData.courseRoundList2[this.state.activeSemester]} 
                             callerInstance = {this} 
                             year = {routerStore.courseSemesters[this.state.activeSemesterIndex][0]} 
@@ -312,8 +317,8 @@ class CoursePage extends Component {
           {/* ---STATISTICS LINK--- */}
           <h2> {translation.courseInformationLabels.header_statistics}</h2>
             <p>
-              
-            <i class="fas fa-chart-line"></i> <a href="https://www.skrattnet.se/roliga-texter/avslojande-statistik" target="_blank" >
+              <i class="fas fa-chart-line"></i> 
+              <a href="https://www.skrattnet.se/roliga-texter/avslojande-statistik" target="_blank" >
                 {translation.courseInformationLabels.label_statistics}
               </a>
             </p>
@@ -387,7 +392,7 @@ class CoursePage extends Component {
   }
 }
 
-const DropdownCreater2 = ({ courseRoundList , callerInstance, semester, year = "2018", yearSemester, language =0, parentIndex = 0, lable=""}) => {
+const DropdownCreater = ({ courseRoundList , callerInstance, semester, year = "2018", yearSemester, language =0, parentIndex = 0, lable=""}) => {
   let listIndex = []
   const dropdownID = "roundDropdown"+parentIndex
 
@@ -408,7 +413,8 @@ const DropdownCreater2 = ({ courseRoundList , callerInstance, semester, year = "
          <DropdownToggle 
             className={callerInstance.state.activeDropdown===dropdownID ? "is-active button-clean": "button-clean"} 
             id={dropdownID} caret >
-               {lable} {i18n.messages[language].courseInformation.course_short_semester[semester]} {year}
+              {lable} {i18n.messages[language].courseInformation.course_short_semester[semester]} {year}
+            
           </DropdownToggle>
           <DropdownMenu>
           {

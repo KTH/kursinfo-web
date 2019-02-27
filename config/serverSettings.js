@@ -60,7 +60,7 @@ module.exports = {
 
   // API keys
   apiKey: {
-    nodeApi: getEnv('API_KEY', devDefaults('1234')),
+    kursinfoApi: getEnv('API_KEY', devDefaults('1234')),
     kursplanApi: getEnv('KURSPLAN_API_KEY', devDefaults('5678'))
   },
 
@@ -75,7 +75,7 @@ module.exports = {
 
   // Service API's
   nodeApi: {
-    nodeApi: unpackNodeApiConfig('API_URI', devInnovationApi),
+    kursinfoApi: unpackNodeApiConfig('API_URI', devInnovationApi),
     kursplanApi: unpackNodeApiConfig('KURSPLAN_API_URI', devKursplanApi)
     
   },

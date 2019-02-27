@@ -16,6 +16,7 @@ const co = require('co')
 const Promise = require('bluebird')
 const registry = require('component-registry').globalRegistry
 const { IHealthCheck } = require('kth-node-monitor').interfaces
+const redis = require('kth-node-redis')
 
 /*
  * ----------------------------------------------------------------
@@ -121,8 +122,9 @@ function _about (req, res) {
 /* GET /_monitor
  * Monitor page
  */
-function _monitor (req, res) {
+async function _monitor (req, res) {
   const apiConfig = config.nodeApi
+  const ugRedis = config.cache.ugRedis.redis
 
   // Check APIs
   const subSystems = Object.keys(api).map((apiKey) => {
@@ -143,10 +145,39 @@ function _monitor (req, res) {
 
   // Determine system health based on the results of the checks above. Expects
   // arrays of promises as input. This returns a promise
-  const systemHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-system-check')
-  const systemStatus = systemHealthUtil.status(localSystems, subSystems)
+   try{ 
+   await redis( "ugRedis", ugRedis.redis)
+           .then(function(ugClient) { console.log("ugClient", ugClient)
+           const  status ={
+              key:"ugRedis",
+              message:"- ugRedis connection: OK ",
+              required:undefined,
+              responseTime:undefined,
+              statusCode:200
+           }
+           subSystems.push(status)
+           return status
+           })
 
-  systemStatus.then((status) => {
+          }    
+    catch(err) {
+             console.log("ugRedis - error:: ", err)
+             const  status ={
+              key:"ugRedis",
+              message:"- ugRedis connection: " + err.message,
+              required:undefined,
+              responseTime:undefined,
+              statusCode:500
+            }
+            subSystems.push(status)
+            return status
+           }
+
+   const systemHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-system-check')
+   const systemStatus = systemHealthUtil.status(localSystems, subSystems)
+ 
+   systemStatus.then((status) => { console.log(status)
+   
     // Return the result either as JSON or text
     if (req.headers['accept'] === 'application/json') {
       let outp = systemHealthUtil.renderJSON(status)
@@ -160,6 +191,8 @@ function _monitor (req, res) {
   })
 }
 
+
+    
 /* GET /robots.txt
  * Robots.txt page
  */
