@@ -200,7 +200,8 @@ async function  getIndex (req, res, next) {
       html:html,
       title: courseCode.toUpperCase(),
       initialState: JSON.stringify(hydrateStores(renderProps)),
-      lang: lang
+      lang: lang,
+      description: lang === 'sv' ? "KTH kursinformation för "+courseCode.toUpperCase() : "KTH course information "+courseCode.toUpperCase()
       //data: resp.statusCode === 200 ? safeGet(() => { return resp.body.name }) : '',
       //error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
     })

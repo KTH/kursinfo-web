@@ -2,7 +2,7 @@
   "//": "JSHint configuration - http://jshint.com/docs/options/",
   "name": "kursinfo-web",
   "version": "2.0.0",
-  "description": "Template project for a node express web server",
+  "description": "Course information page",
   "main": "app.js",
   "private": true,
   "license": "MIT",
