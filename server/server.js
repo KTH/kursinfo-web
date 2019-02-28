@@ -63,6 +63,8 @@ const browserConfigHandler = require('kth-node-configuration').getHandler(browse
 const express = require('express')
 const compression = require('compression')
 server.use(compression())
+const minify = require('express-minify');
+server.use(minify());
 
 // helper
 function setCustomCacheControl (res, path) {

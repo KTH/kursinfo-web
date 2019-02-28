@@ -128,17 +128,16 @@ class RouterStore {
 
       //***Get the index for start informatin based on time of year ***/
       this.defaultIndex = this.getCurrentSemesterToShow()
-      //console.log("this.roundsSyllabusIndex", this.roundsSyllabusIndex, this.defaultIndex)
         
-        this.courseData = {
-          syllabusList,
-          courseInfo,
-          courseRoundList,
-          courseRoundList2,
-          courseTitleData,
-          syllabusSemesterList,
-          language
-        }
+      this.courseData = {
+        syllabusList,
+        courseInfo,
+        courseRoundList,
+        courseRoundList2,
+        courseTitleData,
+        syllabusSemesterList,
+        language
+      }
     }).catch(err => {
       if (err.response) { 
         throw  err
@@ -184,7 +183,7 @@ class RouterStore {
   }
 
   getSyllabusEndSemester(newerSyllabus){
-  //**Sets the end semester for syllabus */
+  //**Sets the end semester for older syllabuses */
     if(newerSyllabus[1] === '1'){
       return  [Number(newerSyllabus[0])-1, "2"]
     }
@@ -224,10 +223,7 @@ class RouterStore {
       this.keyList.responsibles.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`)
     }
     this.courseSemesters.sort()
-
-    
     console.log("!!courseRound: OK !!")
-    
     return courseRoundList
   }
 
@@ -249,9 +245,7 @@ class RouterStore {
     }
    // this.courseSemesters.sort()
 
-    
-    console.log("!!courseRound: OK !!", courseRoundList)
-    
+    console.log("!!courseRound2: OK !!", courseRoundList)
     return courseRoundList
   }
 
