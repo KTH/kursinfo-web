@@ -114,7 +114,7 @@ class RouterStore {
 
       //***** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis *****//
       const courseRoundList = this.getRounds(courseResult.roundInfos,  courseCode, language)
-      const courseRoundList2 = this.getRounds2(courseResult.roundInfos,  courseCode, language)
+      const roundList = this.getRounds2(courseResult.roundInfos,  courseCode, language)
 
       //***** Sets roundsSyllabusIndex, an array used for connecting rounds with correct syllabus *****//
       this.getRoundsAndSyllabusConnection(syllabusSemesterList)
@@ -126,7 +126,7 @@ class RouterStore {
         syllabusList,
         courseInfo,
         courseRoundList,
-        courseRoundList2,
+        roundList,
         courseTitleData,
         syllabusSemesterList,
         language
@@ -423,10 +423,10 @@ class RouterStore {
     if(this.courseData.courseRoundList.length === 0 ) return ""
 
     return axios.post(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type }),this._getOptions(JSON.stringify(this.keyList))).then( result => {
-      console.log('getCourseEmployeesPost', [...this.courseData.courseRoundList2])
+      console.log('getCourseEmployeesPost', [...this.courseData.roundList])
       const returnValue = result.data
       const emptyString = EMPTY[this.activeLanguage]
-      let roundList = this.courseData.courseRoundList2
+      let roundList = this.courseData.roundList
       let roundId = 0
       const thisStore = this
       Object.keys(roundList).forEach(function(key) {
@@ -437,7 +437,7 @@ class RouterStore {
           rounds[index].round_responsibles = returnValue[1][roundId] !== null ? thisStore.createPersonHtml(JSON.parse(returnValue[1][roundId]), 'responsible') : emptyString
           roundId++
         }
-      thisStore.courseData.courseRoundList2[key] = rounds
+      thisStore.courseData.roundList[key] = rounds
       });
       //TODO: DELETE
       let rounds2 = this.courseData.courseRoundList

@@ -87,7 +87,7 @@ class CourseKeyInformation extends Component {
        </Row>
        {this.props.courseHasRound && round.round_state !== "APPROVED" ? 
          <Alert color="info" aria-live="polite" >
-            <h4 style="margin-left: 80px;">{i18n.messages[this.props.language].courseInformationLabels.lable_round_state[round.round_state]} </h4>
+            <h4 style="margin-left: 80px;">{i18n.messages[this.props.language].corseLabels.lable_round_state[round.round_state]} </h4>
          </Alert>
          :""}
       </div>

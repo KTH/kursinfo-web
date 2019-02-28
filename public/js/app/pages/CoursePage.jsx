@@ -39,7 +39,7 @@ class CoursePage extends Component {
         timeMachineValue: "",//Temp
         keyInfoFade: false,
         syllabusInfoFade: false,
-        showRoundData: this.props.routerStore.courseSemesters.length > 0 && this.props.routerStore.courseData.courseRoundList2[this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][2]].length > 1 ? false : true
+        showRoundData: this.props.routerStore.courseSemesters.length > 0 && this.props.routerStore.courseData.roundList[this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][2]].length > 1 ? false : true
     }
 
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
@@ -60,7 +60,7 @@ class CoursePage extends Component {
     if(selectedSemester && selectedSemester[0].indexOf('semesterBtn') > -1){
       const newIndex = Number(selectedSemester[1])
       prevState.syllabusInfoFade  = prevState.activeSyllabusIndex !== this.props.routerStore.roundsSyllabusIndex[newIndex]
-      const showRoundData = this.props.routerStore.courseData.courseRoundList2[this.props.routerStore.courseSemesters[newIndex][2]].length > 1 ? false : true
+      const showRoundData = this.props.routerStore.courseData.roundList[this.props.routerStore.courseSemesters[newIndex][2]].length > 1 ? false : true
 
       this.setState({ 
         activeSemesterIndex: newIndex,
@@ -178,8 +178,8 @@ class CoursePage extends Component {
             {routerStore.isCancelled ?
               <div className="col-12 isCancelled">
                 <Alert color="info" aria-live="polite">
-                    <h3>{translation.courseInformationLabels.label_course_cancelled} </h3>
-                    <p>{translation.courseInformationLabels.label_last_exam}  
+                    <h3>{translation.corseLabels.label_course_cancelled} </h3>
+                    <p>{translation.corseLabels.label_last_exam}  
                         {translation.courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]} 
                         {courseData.courseInfo.course_last_exam[0]}
                     </p>
@@ -201,12 +201,12 @@ class CoursePage extends Component {
           {/***************************************************************************************************************/}
           <Row id="semesterContainer" key="semesterContainer"> 
             <Col sm="12">
-              <h2>{translation.courseInformationLabels.header_course_info} </h2>
+              <h2>{translation.corseLabels.header_course_info} </h2>
               
               {/* ---COURSE SEMESTER BUTTONS--- */}
               {routerStore.courseSemesters.length === 0 ? "" :
                 <div id="semesterMenu" className="">
-                  <h3>{translation.courseInformationLabels.header_semester_menue}</h3>
+                  <h3>{translation.corseLabels.header_semester_menue}</h3>
                   <div className="row" id="semesterButtonMenue" key="semesterButtonMenue">
                     {
                       routerStore.courseSemesters.map((semester, index)=>{
@@ -236,13 +236,13 @@ class CoursePage extends Component {
                         id={courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('')+"_active"}
                         target="_blank"
                       >
-                          {translation.courseInformationLabels.label_course_syllabus}
+                          {translation.corseLabels.label_course_syllabus}
                       </a>
                       <span className="small-text" >
-                      {` ( ${translation.courseInformationLabels.label_course_syllabus_valid_from }
+                      {` ( ${translation.corseLabels.label_course_syllabus_valid_from }
                           ${translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]]}  ${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0]} 
                           ${ courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to.length > 0 ? 
-                              translation.courseInformationLabels.label_course_syllabus_valid_to + translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[1]] +" "+courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[0]: ""} )
+                              translation.corseLabels.label_course_syllabus_valid_to + translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[1]] +" "+courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[0]: ""} )
                       `}   
                         </span>
                     </span>
@@ -258,7 +258,7 @@ class CoursePage extends Component {
           {/*                                      RIGHT COLUMN - KEY INFORMATION                                         */}
           {/***************************************************************************************************************/}
           <Col id="keyInformationContainer" sm="4" xs="12" className="float-md-right" >
-            <h2 style="margin-top:0px">{translation.courseInformationLabels.header_round}</h2>
+            <h2 style="margin-top:0px">{translation.corseLabels.header_round}</h2>
 
             {/* ---COURSE ROUND DROPDOWN--- */}
             <div id="roundDropdownMenu" className="">
@@ -266,24 +266,24 @@ class CoursePage extends Component {
 
                     {routerStore.courseSemesters.length === 0 ? 
                       <Alert color="info">
-                        {translation.courseInformationLabels.lable_no_rounds}
+                        {translation.corseLabels.lable_no_rounds}
                       </Alert> : 
-                      courseData.courseRoundList2[this.state.activeSemester] && courseData.courseRoundList2[this.state.activeSemester].length  > 1 ? 
+                      courseData.roundList[this.state.activeSemester] && courseData.roundList[this.state.activeSemester].length  > 1 ? 
                        <DropdownCreater
-                            courseRoundList = {courseData.courseRoundList2[this.state.activeSemester]} 
+                            courseRoundList = {courseData.roundList[this.state.activeSemester]} 
                             callerInstance = {this} 
                             year = {routerStore.courseSemesters[this.state.activeSemesterIndex][0]} 
                             semester={ routerStore.courseSemesters[this.state.activeSemesterIndex][1]} 
                             yearSemester={routerStore.courseSemesters[this.state.activeSemesterIndex][2]} 
                             language ={courseData.language}
                             parentIndex = "0"
-                            lable = {translation.courseInformationLabels.lable_round_dropdown}
+                            lable = {translation.corseLabels.lable_round_dropdown}
                         />
                       :""
                     }
-                    {routerStore.courseSemesters.length > 0 && courseData.courseRoundList2[this.state.activeSemester][this.state.activeRoundIndex].round_state !== "APPROVED" ? 
+                    {routerStore.courseSemesters.length > 0 && courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state !== "APPROVED" ? 
                       <Alert color="info" aria-live="polite" >
-                          <h4>{i18n.messages[courseData.language].courseInformationLabels.lable_round_state[courseData.courseRoundList2[this.state.activeSemester][this.state.activeRoundIndex].round_state]} </h4>
+                          <h4>{i18n.messages[courseData.language].corseLabels.lable_round_state[courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state]} </h4>
                       </Alert>
                     :""}
                   </div>
@@ -292,12 +292,12 @@ class CoursePage extends Component {
             {/* ---COURSE ROUND KEY INFORMATION--- */}
             {routerStore.courseSemesters.length > 0 ?
             <CourseKeyInformationOneCol
-              courseRound= {courseData.courseRoundList2[this.state.activeSemester][this.state.activeRoundIndex]}
+              courseRound= {courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex]}
               courseData = {courseInformationToRounds}
               language={courseData.language}
               courseHasRound ={routerStore.courseSemesters.length > 0 }
               fade ={this.state.keyInfoFade}
-              showRoundData ={this.state.showRoundData === false && courseData.courseRoundList2[this.state.activeSemester].length > 1 ? false : true}
+              showRoundData ={this.state.showRoundData === false && courseData.roundList[this.state.activeSemester].length > 1 ? false : true}
             />:""}
         </Col>
 
@@ -316,16 +316,16 @@ class CoursePage extends Component {
         />
       
           {/* ---STATISTICS LINK--- */}
-          <h2> {translation.courseInformationLabels.header_statistics}</h2>
+          <h2> {translation.corseLabels.header_statistics}</h2>
             <p>
               <i class="fas fa-chart-line"></i> 
               <a href="" target="_blank" >
-                {translation.courseInformationLabels.label_statistics}
+                {translation.corseLabels.label_statistics}
               </a>
             </p>
 
             {/* --- ALL SYLLABUS LINKS--- */}
-            <h2>{translation.courseInformationLabels.header_syllabuses}</h2>
+            <h2>{translation.corseLabels.header_syllabuses}</h2>
               {courseData.syllabusSemesterList.length > 0 ?
                 courseData.syllabusSemesterList.map((semester, index) => 
                   <span key={index}>
@@ -336,7 +336,7 @@ class CoursePage extends Component {
                       id={semester}
                       target="_blank"  
                     >
-                      {translation.courseInformationLabels.label_course_syllabus_valid_from }&nbsp; 
+                      {translation.corseLabels.label_course_syllabus_valid_from }&nbsp; 
                       {translation.courseInformation.course_short_semester[semester.toString().substring(4,5)]}  {semester.toString().substring(0,4)} 
                       &nbsp;  
                     </a> <br/> 
@@ -356,8 +356,8 @@ class CoursePage extends Component {
         {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
         {courseData.courseInfo.course_level_code === "RESEARCH" ?
               <span>
-                <h3>{translation.courseInformationLabels.header_postgraduate_course}</h3>
-                {translation.courseInformationLabels.label_postgraduate_course}
+                <h3>{translation.corseLabels.header_postgraduate_course}</h3>
+                {translation.corseLabels.label_postgraduate_course}
                 <a target="_blank" href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}> 
                    {courseData.courseInfo.course_department}
                 </a> 
@@ -382,7 +382,7 @@ class CoursePage extends Component {
         {
           routerStore.canEdit ? 
             <Button className="editButton" color="primery" onClick={this.openEdit} id={courseData.courseInfo.course_code}>
-             <i class="fas fa-edit"></i> {translation.courseInformationLabels.label_edit}
+             <i class="fas fa-edit"></i> {translation.corseLabels.label_edit}
             </Button> 
           : ""
         }
@@ -393,7 +393,7 @@ class CoursePage extends Component {
   }
 }
 
-const DropdownCreater = ({ courseRoundList , callerInstance, semester, year = "2018", yearSemester, language =0, parentIndex = 0, lable=""}) => {
+const DropdownCreater = ({ courseRoundList , callerInstance, semester, year, yearSemester, language =0, parentIndex = 0, lable=""}) => {
   let listIndex = []
   const dropdownID = "roundDropdown"+parentIndex
 
