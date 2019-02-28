@@ -62,7 +62,9 @@ const browserConfig = require('./configuration').browser
 const browserConfigHandler = require('kth-node-configuration').getHandler(browserConfig, getPaths())
 const express = require('express')
 const compression = require('compression')
-server.use(compression())
+server.use(compression({
+  filter: function () { return true; }
+}))
 const minify = require('express-minify');
 server.use(minify());
 
@@ -84,7 +86,7 @@ server.use(config.proxyPrefixPath.uri + '/static/bootstrap', express.static('./n
 // Map kth-style.
 server.use(config.proxyPrefixPath.uri + '/static/kth-style', express.static('./node_modules/kth-style/dist'))
 
-server.use(config.proxyPrefixPath.uri + '/static/js/app.js', express.static('./dist/js/app.js'))
+//server.use(config.proxyPrefixPath.uri + '/static/js/app.js', express.static('./dist/js/app.js'))
 // Map static content like images, css and js.
 server.use(config.proxyPrefixPath.uri + '/static', express.static('./dist'))
 // Return 404 if static file isn't found so we don't go through the rest of the pipeline
