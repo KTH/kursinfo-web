@@ -22,12 +22,11 @@ function _webUsesSSL (url) {
 class RouterStore {
   @observable courseData = undefined
   @observable sellingText = undefined
-  @observable canEdit = false
-  @observable isCancelled = false
-  @observable showCourseWebbLink = false
- // @observable isCurrentSyllabus = true
 
- activeLanguage = 0
+  canEdit = false
+  isCancelled = false
+  showCourseWebbLink = false
+  activeLanguage = 0
   roundsSyllabusIndex = []
   courseSemesters=[]
   keyList ={
@@ -72,8 +71,10 @@ class RouterStore {
     }
     return options
   }
+
 /******************************************************************************************************************************************* */
- 
+/*                                                       COLLECTED COURSE INFORMATION                                                        */
+/******************************************************************************************************************************************* */
   //** Handeling the course information from kopps api.**//
   @action getCourseInformation(courseCode, ldapUsername, lang = 'sv', roundIndex = 0){
     return axios.get(this.buildApiUrl(this.paths.api.koppsCourseData.uri,  {courseCode:courseCode,language:lang}), this._getOptions()).then((res) => { 
@@ -84,31 +85,25 @@ class RouterStore {
       this.isCancelled = courseResult.course.cancelled
       this.user = ldapUsername
 
-      //*** Coruse information that is static on the course side ***//
+      //***** Coruse information that is static on the course side *****//
       const courseInfo = this.getCourseDefaultInformation(courseResult, language)
       console.log("!! courseInfo: OK !!")
 
-      //*** Course title data  ***//
-      const courseTitleData = {
-        course_code: this.isValidData(courseResult.course.courseCode),
-        course_title: this.isValidData(courseResult.course.title),
-        course_other_title:this.isValidData(courseResult.course.titleOther),
-        course_credits:this.isValidData(courseResult.course.credits)
-      }
+      //***** Course title data  *****//
+      const courseTitleData = this.getTitleData(courseResult)
       console.log("!!titleData: OK !!")
 
-
-      //*** Get list of syllabuses and valid syllabus semesters ***//
+      //***** Get list of syllabuses and valid syllabus semesters *****//
       let syllabusList =[]
       let syllabusSemesterList = []
       let tempSyllabus = {}
       const syllabuses = courseResult.publicSyllabusVersions
       if(syllabuses.length > 0){
-        for(let i = 0; i < syllabuses.length; i++ ) { 
-          syllabusSemesterList.push(syllabuses[i].validFromTerm.term)
-          tempSyllabus = this.getSyllabusData(courseResult, i, language)
-          if(i > 0)
-            tempSyllabus.course_valid_to = this.getSyllabusEndSemester(syllabusSemesterList[i-1].toString().match(/.{1,4}/g) )
+        for(let index = 0; index < syllabuses.length; index++ ) { 
+          syllabusSemesterList.push(syllabuses[index].validFromTerm.term)
+          tempSyllabus = this.getSyllabusData(courseResult, index, language)
+          if(index > 0)
+            tempSyllabus.course_valid_to = this.getSyllabusEndSemester(syllabusSemesterList[index-1].toString().match(/.{1,4}/g) )
           syllabusList.push(tempSyllabus)
         }
       }
@@ -117,16 +112,14 @@ class RouterStore {
       }
       console.log("!! syllabusSemesterList and syllabusList: OK !!")
 
-        
-
-      //***Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis **//
+      //***** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis *****//
       const courseRoundList = this.getRounds(courseResult.roundInfos,  courseCode, language)
       const courseRoundList2 = this.getRounds2(courseResult.roundInfos,  courseCode, language)
 
-      //***Sets roundsSyllabusIndex, an array used for connecting rounds with correct syllabus **//
+      //***** Sets roundsSyllabusIndex, an array used for connecting rounds with correct syllabus *****//
       this.getRoundsAndSyllabusConnection(syllabusSemesterList)
 
-      //***Get the index for start informatin based on time of year ***/
+      //***** Get the index for start informatin based on time of year *****/
       this.defaultIndex = this.getCurrentSemesterToShow()
         
       this.courseData = {
@@ -144,6 +137,18 @@ class RouterStore {
       }
       throw err
     })
+  }
+/******************************************************************************************************************************************* */
+/*                                                          BASIC COURSE DATA                                                                */
+/******************************************************************************************************************************************* */
+
+  getTitleData(courseResult){
+    return {
+      course_code: this.isValidData(courseResult.course.courseCode),
+      course_title: this.isValidData(courseResult.course.title),
+      course_other_title:this.isValidData(courseResult.course.titleOther),
+      course_credits:this.isValidData(courseResult.course.credits)
+    }
   }
 
   getCourseDefaultInformation(courseResult, language){
@@ -166,6 +171,10 @@ class RouterStore {
     }
   }
 
+/******************************************************************************************************************************************* */
+/*                                                                SYLLABUS                                                                   */
+/******************************************************************************************************************************************* */
+
   getSyllabusData(courseResult, semester = 0, language){
     return {
       course_goals: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.goals, language) : EMPTY[language],
@@ -182,8 +191,8 @@ class RouterStore {
     }
   }
 
+  //**** Sets the end semester for older syllabuses *****/
   getSyllabusEndSemester(newerSyllabus){
-  //**Sets the end semester for older syllabuses */
     if(newerSyllabus[1] === '1'){
       return  [Number(newerSyllabus[0])-1, "2"]
     }
@@ -191,6 +200,49 @@ class RouterStore {
       return  [Number(newerSyllabus[0]), "1"]
     }
   }
+
+  @action getCurrentSemesterToShow(date=""){
+    if(this.courseSemesters.length === 0)
+      return 0
+
+    let thisDate = date === "" ? new Date() :new Date(date)
+    let showSemester = 0
+    let returnIndex = -1
+    let yearMatch = -1
+
+    //****** Calculating current semester based on todays date ******/
+    if( thisDate.getMonth()+1 >= MAX_1_MONTH && thisDate.getMonth()+1 < MAX_2_MONTH ){
+      showSemester = `${thisDate.getFullYear()}2`
+    }
+    else{
+      if(thisDate.getMonth()+1 < MAX_1_MONTH){
+        showSemester = `${thisDate.getFullYear()}1`
+      }
+      else{
+        showSemester = `${thisDate.getFullYear()+1}1`
+       }
+    }
+      
+      //****** Check if course has a round for current semester otherwise it shows the previous semester *****/
+      for(let index=0; index < this.courseSemesters.length; index++){
+        if(this.courseSemesters[index][2]=== showSemester){
+          returnIndex = index
+        }
+        if(thisDate.getMonth()+1 > MAX_2_MONTH && Number(this.courseSemesters[index][0])=== thisDate.getFullYear()){
+          yearMatch = index
+        }
+        if(thisDate.getMonth()+1 < MAX_1_MONTH && Number(this.courseSemesters[index][0])=== thisDate.getFullYear()-1){
+          yearMatch = index
+        }
+      }
+
+    //***** In case there should be no match at all, take the last senester in the list ******/
+    if(returnIndex === -1 && yearMatch === -1)
+      return this.courseSemesters.length-1
+
+    return returnIndex > -1 ? returnIndex : yearMatch
+  }
+
 
   getExamObject(dataObject, grades, language = 0){
     let examString = "<ul class='ul-no-padding' >"
@@ -208,6 +260,10 @@ class RouterStore {
     return examString 
   }
 
+/******************************************************************************************************************************************* */
+/*                                                                ROUNDS                                                                     */
+/******************************************************************************************************************************************* */
+
   getRounds(roundInfos, courseCode, language){
     let tempList = []
     let courseRound
@@ -219,10 +275,10 @@ class RouterStore {
           this.courseSemesters.push([...courseRound.round_course_term, courseRound.round_course_term.join(''), courseRoundList.length-1])
           tempList.push(courseRound.round_course_term.join(''))
       }
-      this.keyList.teachers.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.teachers`)
-      this.keyList.responsibles.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`)
+      //this.keyList.teachers.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.teachers`)
+      //this.keyList.responsibles.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`)
     }
-    this.courseSemesters.sort()
+    //this.courseSemesters.sort()
     console.log("!!courseRound: OK !!")
     return courseRoundList
   }
@@ -235,21 +291,18 @@ class RouterStore {
       courseRound =  this.getRound(roundInfo, language)
   
       if(courseRound.round_course_term && tempList.indexOf(courseRound.round_course_term.join('')) < 0){
-         // this.courseSemesters.push([...courseRound.round_course_term, courseRound.round_course_term.join(''), courseRoundList.length-1])
-          tempList.push(courseRound.round_course_term.join(''))
-          courseRoundList[courseRound.round_course_term.join('')] =[]
+        tempList.push(courseRound.round_course_term.join(''))
+        courseRoundList[courseRound.round_course_term.join('')] = []
       }
       courseRoundList[courseRound.round_course_term.join('')].push(courseRound)
-      //this.keyList.teachers.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.teachers`)
-      //this.keyList.responsibles.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`)
+      this.keyList.teachers.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.teachers`)
+      this.keyList.responsibles.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`)
     }
-   // this.courseSemesters.sort()
+    this.courseSemesters.sort()
 
     console.log("!!courseRound2: OK !!", courseRoundList)
     return courseRoundList
   }
-
-
 
   getRoundsAndSyllabusConnection(syllabusSemesterList){
     for(let index=0; index < this.courseSemesters.length; index++){
@@ -258,20 +311,16 @@ class RouterStore {
           if(Number(syllabusSemesterList[whileIndex]) > Number(this.courseSemesters[index][2]) )
             console.log("find other syllabus2")
           else{
-          // console.log("correct syllabus2")
             this.roundsSyllabusIndex[index]=whileIndex
             break
           }
         }
       }
       else{
-       // console.log("correct syllabus")
-       // console.log("syllabusSemesterList", syllabusSemesterList, this.courseSemesters)
         this.roundsSyllabusIndex[index]=0
       }
     }
-    console.log("getRoundsAndSyllabusConnection");
-    
+    //console.log("getRoundsAndSyllabusConnection");
   }
 
   getRound(roundObject, language = 0){ 
@@ -299,7 +348,6 @@ class RouterStore {
     }
     if(courseRoundModel.round_short_name === EMPTY[language])
       courseRoundModel.round_short_name = `${language === 0 ? 'Start date' : 'Startdatum'}  ${courseRoundModel.round_start_date}`
-    //console.log("PERIODES", roundObject.round.courseRoundTerms)
     return courseRoundModel
   }
 
@@ -335,7 +383,9 @@ class RouterStore {
     }
     return EMPTY[language]
   }
-
+/******************************************************************************************************************************************* */
+/*                                                                ADMIN                                                                      */
+/******************************************************************************************************************************************* */
   getImage(courseCode, type="normal"){
     const image =`${Math.floor((Math.random() * 7) + 1)}_${type}.jpg`
     const response = axios.get(this.buildApiUrl(this.paths.api.setImage.uri, { courseCode: courseCode, imageName:image })).then( response =>{
@@ -365,7 +415,9 @@ class RouterStore {
     })
   }
   
-
+/******************************************************************************************************************************************* */
+/*                                            UG REDIS - examiners, teachers and responsibles                                                */
+/******************************************************************************************************************************************* */
   @action getCourseEmployeesPost( key , type="multi", lang = "sv"){
 
     if(this.courseData.courseRoundList.length === 0 ) return ""
@@ -381,22 +433,20 @@ class RouterStore {
         console.log(key, roundList[key]);
         let rounds = roundList[key]
         for(let index = 0; index < rounds.length; index++){
-        rounds[index].round_teacher  = returnValue[0][roundId] !== null ? thisStore.createPersonHtml(JSON.parse(returnValue[0][roundId]),'teacher') : emptyString
-        rounds[index].round_responsibles = returnValue[1][roundId] !== null ? thisStore.createPersonHtml(JSON.parse(returnValue[1][roundId]), 'responsible') : emptyString
-        roundId++
-      }
+          rounds[index].round_teacher  = returnValue[0][roundId] !== null ? thisStore.createPersonHtml(JSON.parse(returnValue[0][roundId]),'teacher') : emptyString
+          rounds[index].round_responsibles = returnValue[1][roundId] !== null ? thisStore.createPersonHtml(JSON.parse(returnValue[1][roundId]), 'responsible') : emptyString
+          roundId++
+        }
       thisStore.courseData.courseRoundList2[key] = rounds
-      
       });
-      
-    
+      //TODO: DELETE
       let rounds2 = this.courseData.courseRoundList
       for(let index = 0; index < returnValue[0].length; index++){
         rounds2[index].round_teacher  = returnValue[0][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[0][index]),'teacher') : emptyString
         rounds2[index].round_responsibles = returnValue[1][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[1][index]), 'responsible') : emptyString
       }
+      
       this.courseData.courseRoundList = rounds2
-      //return result.data && result.data.length > 0 ? this.createPersonHtml(result.data) : EMPTY[this.activeLanguage]
     }).catch(err => { 
       if (err.response) {
         throw new Error(err.message, err.response.data)
@@ -416,51 +466,6 @@ class RouterStore {
     })
   }
 
-  @action getCurrentSemesterToShow(date=""){
-
-    if(this.courseSemesters.length === 0)
-      return 0
-
-    let thisDate = date === "" ? new Date() :new Date(date)
-    let showSemester = 0
-    let returnIndex = -1
-    let yearMatch = -1
-
-    //*******Calculating current semester based on todays date ********/
-    if( thisDate.getMonth()+1 >= MAX_1_MONTH && thisDate.getMonth()+1 < MAX_2_MONTH ){
-      showSemester = `${thisDate.getFullYear()}2`
-    }
-    else{
-      if(thisDate.getMonth()+1 < MAX_1_MONTH){
-        showSemester = `${thisDate.getFullYear()}1`
-      }
-      else{
-        showSemester = `${thisDate.getFullYear()+1}1`
-       }
-    }
-      
-    //*******Check if course has a round for current semester otherwise it shows the previous semester********/
-      for(let index=0; index < this.courseSemesters.length; index++){
-        if(this.courseSemesters[index][2]=== showSemester){
-          returnIndex = index
-        }
-        if(thisDate.getMonth()+1 > MAX_2_MONTH && Number(this.courseSemesters[index][0])=== thisDate.getFullYear()){
-          yearMatch = index
-        }
-        if(thisDate.getMonth()+1 < MAX_1_MONTH && Number(this.courseSemesters[index][0])=== thisDate.getFullYear()-1){
-          yearMatch = index
-        }
-      }
-     // console.log("what???",returnIndex, yearMatch ) //TODO: delete
-     // console.log(thisDate, showSemester)
-    //*******In case there should be no match at all, take the last senester in the list ********/
-      if(returnIndex === -1 && yearMatch === -1)
-        return this.courseSemesters.length-1
-
-      return returnIndex > -1 ? returnIndex : yearMatch
-  }
-
-
   isValidData(dataObject, language = 0){
     return !dataObject ? EMPTY[language] : dataObject
   }
@@ -470,12 +475,13 @@ class RouterStore {
     personList.forEach( person  => {
       personString += `<p class = "person">
           <i class="fas fa-user-alt"></i>
-          <a href="/profile/${person.username}/" target="_blank" property="teach:teacher">${person.givenName} ${person.lastName} </a> 
-          
+            <a href="/profile/${person.username}/" target="_blank" property="teach:teacher">
+              ${person.givenName} ${person.lastName} 
+            </a> 
           </p>  `
           //<i class="far fa-envelope"></i>&nbsp;${person.email}
       //** Check if the logged in user is examinator or responsible and can edit course page **/
-      if(this.user === person.username && ( type=== 'responsible' || type=== 'examiner')) //TODO: DELETE
+      if(this.user === person.username && ( type=== 'responsible' || type=== 'examiner')) //TODO:
         this.canEdit = true
     })
     return personString

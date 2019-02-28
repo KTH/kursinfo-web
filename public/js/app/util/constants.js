@@ -1,6 +1,6 @@
 import { log } from "util";
 
-export const PROGRAMME_URL = "https://www.kth.se/student/kurser/program"
+export const PROGRAMME_URL = "/student/kurser/program"
 export const EMPTY = ["No information added", "Ingen information tillagd"]
 export const FORSKARUTB_URL = "https://www.kth.se/utbildning/forskarutbildning/kurser/org/"
 export const COURSE_IMG_URL = "/static/img/courses/"
