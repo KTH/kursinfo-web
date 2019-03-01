@@ -1,6 +1,5 @@
 'use strict'
 
-const api = require('../api')
 const co = require('co')
 const log = require('kth-node-log')
 const redis = require('kth-node-redis')
@@ -200,9 +199,7 @@ async function  getIndex (req, res, next) {
       initialState: JSON.stringify(hydrateStores(renderProps)),
       lang: lang,
       description: lang === 'sv' ? "KTH kursinformation för "+courseCode.toUpperCase() : "KTH course information "+courseCode.toUpperCase()
-      //data: resp.statusCode === 200 ? safeGet(() => { return resp.body.name }) : '',
-      //error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
-    })
+      })
   } catch (err) {
     log.error('Error in getIndex', { error: err })
     next(err)
