@@ -1884,15 +1884,15 @@ var CourseFileLinks = function (_Component) {
         children: [(0, _inferno.createComponentVNode)(2, _Col2.default, {
           'sm': '12',
           'xs': '12',
-          children: this.props.syllabusValidFrom.length > 0 ? (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'i', 'fas fa-file-pdf'), (0, _inferno.createVNode)(1, 'a', null, _i18n2.default.messages[this.props.language].corseLabels.label_course_syllabus, 0, {
+          children: this.props.syllabusValidFrom.length > 0 ? (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'i', 'fas fa-file-pdf'), (0, _inferno.createVNode)(1, 'a', null, _i18n2.default.messages[this.props.language].courseLabels.label_course_syllabus, 0, {
             'href': 'javascript',
             'onClick': this.openSyllabus,
             'id': this.props.syllabusValidFrom[0] + this.props.syllabusValidFrom[1]
-          }), (0, _inferno.createVNode)(1, 'span', 'small-text', [(0, _inferno.createTextVNode)('\xA0( '), _i18n2.default.messages[this.props.language].corseLabels.label_course_syllabus_valid_from, (0, _inferno.createTextVNode)('\xA0'), _i18n2.default.messages[this.props.language].courseInformation.course_short_semester[this.props.syllabusValidFrom[1]], (0, _inferno.createTextVNode)('  '), this.props.syllabusValidFrom[0], (0, _inferno.createTextVNode)(' )')], 0)], 4) : ""
+          }), (0, _inferno.createVNode)(1, 'span', 'small-text', [(0, _inferno.createTextVNode)('\xA0( '), _i18n2.default.messages[this.props.language].courseLabels.label_course_syllabus_valid_from, (0, _inferno.createTextVNode)('\xA0'), _i18n2.default.messages[this.props.language].courseInformation.course_short_semester[this.props.syllabusValidFrom[1]], (0, _inferno.createTextVNode)('  '), this.props.syllabusValidFrom[0], (0, _inferno.createTextVNode)(' )')], 0)], 4) : ""
         }), (0, _inferno.createComponentVNode)(2, _Col2.default, {
           'sm': '12',
           'xs': '12',
-          children: [(0, _inferno.createVNode)(1, 'i', 'fas fa-file-pdf'), (0, _inferno.createVNode)(1, 'a', null, _i18n2.default.messages[this.props.language].corseLabels.label_course_pm, 0, {
+          children: [(0, _inferno.createVNode)(1, 'i', 'fas fa-file-pdf'), (0, _inferno.createVNode)(1, 'a', null, _i18n2.default.messages[this.props.language].courseLabels.label_course_pm, 0, {
             'href': 'javascript',
             'onClick': this.openSyllabus,
             'id': "pm_"
@@ -1900,7 +1900,7 @@ var CourseFileLinks = function (_Component) {
         }), (0, _inferno.createComponentVNode)(2, _Col2.default, {
           'sm': '12',
           'xs': '12',
-          children: [(0, _inferno.createVNode)(1, 'i', 'icon-schedule'), ' ', (0, _inferno.createVNode)(1, 'a', null, _i18n2.default.messages[this.props.language].corseLabels.label_schedule, 0, {
+          children: [(0, _inferno.createVNode)(1, 'i', 'icon-schedule'), ' ', (0, _inferno.createVNode)(1, 'a', null, _i18n2.default.messages[this.props.language].courseLabels.label_schedule, 0, {
             'target': '_blank',
             'href': this.props.scheduleUrl
           })]
@@ -6911,7 +6911,7 @@ var CourseSectionList = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(
       var course = this.props.courseInfo;
       var syllabus = this.props.syllabusList;
       var during = [{ header: translation.courseInformation.course_eligibility, text: syllabus.course_eligibility }, { header: translation.courseInformation.course_suggested_addon_studies, text: course.course_suggested_addon_studies }, { header: translation.courseInformation.course_required_equipment, text: syllabus.course_required_equipment }, { header: translation.courseInformation.course_literature, text: syllabus.course_literature }];
-      if (this.props.showCourseLink) during.push({ header: "Kurswebb länk", text: '<a target=\'_blank\' href=\'' + _constants.COURSE_WEB_URL + this.props.courseInfo.course_code + '\'> ' + translation.corseLabels.label_course_web_link + '</a>' });
+      if (this.props.showCourseLink) during.push({ header: "Kurswebb länk", text: '<a target=\'_blank\' href=\'' + _constants.COURSE_WEB_URL + this.props.courseInfo.course_code + '\'> ' + translation.courseLabels.label_course_web_link + '</a>' });
       return during;
     }
   }, {
@@ -6949,20 +6949,20 @@ var CourseSectionList = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(
         'class': 'first-header',
         'courseData': this.getIntro(translation)
       }) : "", this.props.partToShow === "second" ? (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createComponentVNode)(2, _CourseSections2.default, {
-        'sectionHeader': translation.corseLabels.header_content,
+        'sectionHeader': translation.courseLabels.header_content,
         'headerType': '3',
         'class': 'first-header',
         'courseData': this.getContent(translation)
       }), (0, _inferno.createComponentVNode)(2, _CourseSections2.default, {
-        'sectionHeader': translation.corseLabels.header_execution,
+        'sectionHeader': translation.courseLabels.header_execution,
         'headerType': '3',
         'courseData': this.getExecution(translation)
       }), (0, _inferno.createComponentVNode)(2, _CourseSections2.default, {
-        'sectionHeader': translation.corseLabels.header_examination,
+        'sectionHeader': translation.courseLabels.header_examination,
         'headerType': '3',
         'courseData': this.getExamination(translation)
       }), (0, _inferno.createComponentVNode)(2, _CourseSections2.default, {
-        'sectionHeader': translation.corseLabels.header_contact,
+        'sectionHeader': translation.courseLabels.header_contact,
         'headerType': '3',
         'courseData': this.getOther(translation)
       })], 4) : ""], 0);
@@ -9306,7 +9306,7 @@ var CourseKeyInformation = function (_Component) {
       }), this.props.courseHasRound && round.round_state !== "APPROVED" ? (0, _inferno.createComponentVNode)(2, _Alert2.default, {
         'color': 'info',
         'aria-live': 'polite',
-        children: (0, _inferno.createVNode)(1, 'h4', null, [_i18n2.default.messages[this.props.language].corseLabels.lable_round_state[round.round_state], (0, _inferno.createTextVNode)(' ')], 0, {
+        children: (0, _inferno.createVNode)(1, 'h4', null, [_i18n2.default.messages[this.props.language].courseLabels.lable_round_state[round.round_state], (0, _inferno.createTextVNode)(' ')], 0, {
           'style': 'margin-left: 80px;'
         })
       }) : ""], 0, {
@@ -9418,7 +9418,7 @@ var CourseKeyInformationOneCol = function (_Component) {
       }), this.props.courseHasRound && round.round_state !== "APPROVED" ? (0, _inferno.createComponentVNode)(2, _Alert2.default, {
         'color': 'info',
         'aria-live': 'polite',
-        children: (0, _inferno.createVNode)(1, 'h4', null, [_i18n2.default.messages[this.props.language].corseLabels.lable_round_state[round.round_state], (0, _inferno.createTextVNode)(' ')], 0, {
+        children: (0, _inferno.createVNode)(1, 'h4', null, [_i18n2.default.messages[this.props.language].courseLabels.lable_round_state[round.round_state], (0, _inferno.createTextVNode)(' ')], 0, {
           'style': 'margin-left: 80px;'
         })
       }) : ""], 0, {
@@ -9684,7 +9684,7 @@ var CoursePage = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class 
           }, 'title'), routerStore.isCancelled ? (0, _inferno.createVNode)(1, 'div', 'col-12 isCancelled', (0, _inferno.createComponentVNode)(2, _Alert2.default, {
             'color': 'info',
             'aria-live': 'polite',
-            children: [(0, _inferno.createVNode)(1, 'h3', null, [_i18n2.default.messages[courseData.language].corseLabels.label_course_cancelled, (0, _inferno.createTextVNode)(' ')], 0), (0, _inferno.createVNode)(1, 'p', null, [_i18n2.default.messages[courseData.language].corseLabels.label_last_exam, _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]], (0, _inferno.createTextVNode)(' '), courseData.courseInfo.course_last_exam[0]], 0)]
+            children: [(0, _inferno.createVNode)(1, 'h3', null, [_i18n2.default.messages[courseData.language].courseLabels.label_course_cancelled, (0, _inferno.createTextVNode)(' ')], 0), (0, _inferno.createVNode)(1, 'p', null, [_i18n2.default.messages[courseData.language].courseLabels.label_last_exam, _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]], (0, _inferno.createTextVNode)(' '), courseData.courseInfo.course_last_exam[0]], 0)]
           }), 2) : "", (0, _inferno.createComponentVNode)(2, _Row2.default, {
             'id': 'courseIntroText',
             children: (0, _inferno.createComponentVNode)(2, _Col2.default, {
@@ -9702,11 +9702,11 @@ var CoursePage = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class 
           }), (0, _inferno.createComponentVNode)(2, _Row2.default, {
             children: (0, _inferno.createComponentVNode)(2, _Col2.default, {
               'sm': '12',
-              children: (0, _inferno.createVNode)(1, 'h2', null, [_i18n2.default.messages[courseData.language].corseLabels.header_course_info, (0, _inferno.createTextVNode)(' ')], 0)
+              children: (0, _inferno.createVNode)(1, 'h2', null, [_i18n2.default.messages[courseData.language].courseLabels.header_course_info, (0, _inferno.createTextVNode)(' ')], 0)
             })
           }), (0, _inferno.createVNode)(1, 'div', '', [(0, _inferno.createVNode)(1, 'h3', null, (0, _inferno.createTextVNode)('V\xE4lj ett kurstillf\xE4lle:'), 2), (0, _inferno.createVNode)(1, 'div', 'row', routerStore.courseSemesters.length === 0 ? (0, _inferno.createComponentVNode)(2, _Alert2.default, {
             'color': 'info',
-            children: _i18n2.default.messages[courseData.language].corseLabels.lable_no_rounds
+            children: _i18n2.default.messages[courseData.language].courseLabels.lable_no_rounds
           }) : routerStore.courseSemesters.map(function (semester, index) {
             return (0, _inferno.createComponentVNode)(2, _DropdownCreater2.default, {
               'courseRoundList': courseData.courseRoundList,
@@ -9732,7 +9732,7 @@ var CoursePage = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class 
             'language': courseData.language,
             'imageUrl': routerStore.image,
             'courseHasRound': routerStore.courseSemesters.length > 0
-          }), courseData.courseInfo.course_level_code === "RESEARCH" ? (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'h3', null, (0, _inferno.createTextVNode)('Forskarkurs'), 2), (0, _inferno.createVNode)(1, 'a', null, [_i18n2.default.messages[courseData.language].corseLabels.label_postgraduate_course, (0, _inferno.createTextVNode)(' '), courseData.courseInfo.course_department], 0, {
+          }), courseData.courseInfo.course_level_code === "RESEARCH" ? (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'h3', null, (0, _inferno.createTextVNode)('Forskarkurs'), 2), (0, _inferno.createVNode)(1, 'a', null, [_i18n2.default.messages[courseData.language].courseLabels.label_postgraduate_course, (0, _inferno.createTextVNode)(' '), courseData.courseInfo.course_department], 0, {
             'target': '_blank',
             'href': _constants.FORSKARUTB_URL + '/' + courseData.courseInfo.course_department_code
           })], 4) : "", (0, _inferno.createVNode)(1, 'div', 'key-info', [(0, _inferno.createComponentVNode)(2, _CourseSectionList2.default, {
@@ -9761,7 +9761,7 @@ var CoursePage = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class 
             'showCourseLink': routerStore.showCourseWebbLink,
             'partToShow': 'second'
           }), (0, _inferno.createVNode)(1, 'br'), (0, _inferno.createVNode)(1, 'div', 'col', courseData.syllabusSemesterList.length > 0 ? courseData.syllabusSemesterList.map(function (semester, index) {
-            return (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'a', null, [_i18n2.default.messages[_this2.props.routerStore.courseData.language].corseLabels.label_course_syllabus_valid_from, (0, _inferno.createTextVNode)('\xA0'), _i18n2.default.messages[_this2.props.routerStore.courseData.language].courseInformation.course_short_semester[semester.toString().substring(4, 5)], (0, _inferno.createTextVNode)('  '), semester.toString().substring(0, 4), (0, _inferno.createTextVNode)('\xA0  ')], 0, {
+            return (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'a', null, [_i18n2.default.messages[_this2.props.routerStore.courseData.language].courseLabels.label_course_syllabus_valid_from, (0, _inferno.createTextVNode)('\xA0'), _i18n2.default.messages[_this2.props.routerStore.courseData.language].courseInformation.course_short_semester[semester.toString().substring(4, 5)], (0, _inferno.createTextVNode)('  '), semester.toString().substring(0, 4), (0, _inferno.createTextVNode)('\xA0  ')], 0, {
               'href': '#',
               'id': semester,
               'onClick': _this2.openSyllabus
@@ -9782,7 +9782,7 @@ var CoursePage = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class 
             'color': 'primery',
             'onClick': this.openEdit,
             'id': courseData.courseInfo.course_code,
-            children: [(0, _inferno.createVNode)(1, 'i', 'fas fa-edit'), ' ', _i18n2.default.messages[courseData.language].corseLabels.label_edit]
+            children: [(0, _inferno.createVNode)(1, 'i', 'fas fa-edit'), ' ', _i18n2.default.messages[courseData.language].courseLabels.label_edit]
           }) : ""
         })]
       }), 2, null, 'kursinfo-container');
@@ -10007,7 +10007,7 @@ var CoursePage2 = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class
           }, 'title'), routerStore.isCancelled ? (0, _inferno.createVNode)(1, 'div', 'col-12 isCancelled', (0, _inferno.createComponentVNode)(2, _Alert2.default, {
             'color': 'info',
             'aria-live': 'polite',
-            children: [(0, _inferno.createVNode)(1, 'h3', null, [_i18n2.default.messages[courseData.language].corseLabels.label_course_cancelled, (0, _inferno.createTextVNode)(' ')], 0), (0, _inferno.createVNode)(1, 'p', null, [_i18n2.default.messages[courseData.language].corseLabels.label_last_exam, _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]], (0, _inferno.createTextVNode)(' '), courseData.courseInfo.course_last_exam[0]], 0)]
+            children: [(0, _inferno.createVNode)(1, 'h3', null, [_i18n2.default.messages[courseData.language].courseLabels.label_course_cancelled, (0, _inferno.createTextVNode)(' ')], 0), (0, _inferno.createVNode)(1, 'p', null, [_i18n2.default.messages[courseData.language].courseLabels.label_last_exam, _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]], (0, _inferno.createTextVNode)(' '), courseData.courseInfo.course_last_exam[0]], 0)]
           }), 2) : "", (0, _inferno.createComponentVNode)(2, _Row2.default, {
             'id': 'courseIntroText',
             children: (0, _inferno.createComponentVNode)(2, _Col2.default, {
@@ -10025,12 +10025,12 @@ var CoursePage2 = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class
           }), (0, _inferno.createComponentVNode)(2, _Row2.default, {
             children: (0, _inferno.createComponentVNode)(2, _Col2.default, {
               'sm': '12',
-              children: [(0, _inferno.createVNode)(1, 'h2', null, [_i18n2.default.messages[courseData.language].corseLabels.header_course_info, (0, _inferno.createTextVNode)(' ')], 0), courseData.courseRoundList.length === 0 ? "" : (0, _inferno.createComponentVNode)(2, _Alert2.default, {
+              children: [(0, _inferno.createVNode)(1, 'h2', null, [_i18n2.default.messages[courseData.language].courseLabels.header_course_info, (0, _inferno.createTextVNode)(' ')], 0), courseData.courseRoundList.length === 0 ? "" : (0, _inferno.createComponentVNode)(2, _Alert2.default, {
                 'color': 'grey',
-                children: ['Det finns totalt ', courseData.courseRoundList.length, ' st kurstillf\xE4llen f\xF6r den h\xE4r kursen.', (0, _inferno.createVNode)(1, 'br'), (0, _inferno.createVNode)(1, 'br'), 'Just nu visas information f\xF6r kurstillf\xE4lle ', (0, _inferno.createVNode)(1, 'b', null, [' \n                      ' + _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]] + ' \n                      ' + courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0] + '  \n                      ' + (courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== _constants.EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : "") + ',     \n                      ' + courseData.courseRoundList[this.state.activeRoundIndex].round_type + '\n                    ', (0, _inferno.createTextVNode)('  ')], 0), 'med kursplan som  ', _i18n2.default.messages[courseData.language].corseLabels.label_course_syllabus_valid_from.toLowerCase(), (0, _inferno.createVNode)(1, 'b', null, [(0, _inferno.createTextVNode)('\xA0'), _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]], (0, _inferno.createTextVNode)(' \xA0'), courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0]], 0), ' ', (0, _inferno.createVNode)(1, 'br')]
+                children: ['Det finns totalt ', courseData.courseRoundList.length, ' st kurstillf\xE4llen f\xF6r den h\xE4r kursen.', (0, _inferno.createVNode)(1, 'br'), (0, _inferno.createVNode)(1, 'br'), 'Just nu visas information f\xF6r kurstillf\xE4lle ', (0, _inferno.createVNode)(1, 'b', null, [' \n                      ' + _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]] + ' \n                      ' + courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0] + '  \n                      ' + (courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== _constants.EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : "") + ',     \n                      ' + courseData.courseRoundList[this.state.activeRoundIndex].round_type + '\n                    ', (0, _inferno.createTextVNode)('  ')], 0), 'med kursplan som  ', _i18n2.default.messages[courseData.language].courseLabels.label_course_syllabus_valid_from.toLowerCase(), (0, _inferno.createVNode)(1, 'b', null, [(0, _inferno.createTextVNode)('\xA0'), _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]], (0, _inferno.createTextVNode)(' \xA0'), courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0]], 0), ' ', (0, _inferno.createVNode)(1, 'br')]
               }), (0, _inferno.createVNode)(1, 'div', '', [(0, _inferno.createVNode)(1, 'h3', null, (0, _inferno.createTextVNode)('V\xE4lj ett kurstillf\xE4lle:'), 2), (0, _inferno.createVNode)(1, 'div', 'row', routerStore.courseSemesters.length === 0 ? (0, _inferno.createComponentVNode)(2, _Alert2.default, {
                 'color': 'info',
-                children: _i18n2.default.messages[courseData.language].corseLabels.lable_no_rounds
+                children: _i18n2.default.messages[courseData.language].courseLabels.lable_no_rounds
               }) : routerStore.courseSemesters.map(function (semester, index) {
                 return (0, _inferno.createComponentVNode)(2, _DropdownCreater2.default, {
                   'courseRoundList': courseData.courseRoundList,
@@ -10065,19 +10065,19 @@ var CoursePage2 = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class
                   'language': courseData.language,
                   'imageUrl': routerStore.image,
                   'courseHasRound': routerStore.courseSemesters.length > 0
-                }), courseData.courseInfo.course_level_code === "RESEARCH" ? (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'h3', null, (0, _inferno.createTextVNode)('Forskarkurs'), 2), (0, _inferno.createVNode)(1, 'a', null, [_i18n2.default.messages[courseData.language].corseLabels.label_postgraduate_course, (0, _inferno.createTextVNode)(' '), courseData.courseInfo.course_department], 0, {
+                }), courseData.courseInfo.course_level_code === "RESEARCH" ? (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'h3', null, (0, _inferno.createTextVNode)('Forskarkurs'), 2), (0, _inferno.createVNode)(1, 'a', null, [_i18n2.default.messages[courseData.language].courseLabels.label_postgraduate_course, (0, _inferno.createTextVNode)(' '), courseData.courseInfo.course_department], 0, {
                   'target': '_blank',
                   'href': _constants.FORSKARUTB_URL + '/' + courseData.courseInfo.course_department_code
-                })], 4) : "", (0, _inferno.createVNode)(1, 'div', 'key-info', [(0, _inferno.createVNode)(1, 'h4', null, _i18n2.default.messages[this.props.routerStore.courseData.language].corseLabels.label_course_syllabuses, 0), courseData.syllabusSemesterList.length > 0 ? courseData.syllabusSemesterList.map(function (semester, index) {
-                  return (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'a', null, [_i18n2.default.messages[_this2.props.routerStore.courseData.language].corseLabels.label_course_syllabus_valid_from, (0, _inferno.createTextVNode)('\xA0'), _i18n2.default.messages[_this2.props.routerStore.courseData.language].courseInformation.course_short_semester[semester.toString().substring(4, 5)], (0, _inferno.createTextVNode)('  '), semester.toString().substring(0, 4), (0, _inferno.createTextVNode)('\xA0  ')], 0, {
+                })], 4) : "", (0, _inferno.createVNode)(1, 'div', 'key-info', [(0, _inferno.createVNode)(1, 'h4', null, _i18n2.default.messages[this.props.routerStore.courseData.language].courseLabels.label_course_syllabuses, 0), courseData.syllabusSemesterList.length > 0 ? courseData.syllabusSemesterList.map(function (semester, index) {
+                  return (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'a', null, [_i18n2.default.messages[_this2.props.routerStore.courseData.language].courseLabels.label_course_syllabus_valid_from, (0, _inferno.createTextVNode)('\xA0'), _i18n2.default.messages[_this2.props.routerStore.courseData.language].courseInformation.course_short_semester[semester.toString().substring(4, 5)], (0, _inferno.createTextVNode)('  '), semester.toString().substring(0, 4), (0, _inferno.createTextVNode)('\xA0  ')], 0, {
                     'href': '#',
                     'id': semester,
                     'onClick': _this2.openSyllabus
                   }, index), (0, _inferno.createTextVNode)(' '), (0, _inferno.createVNode)(1, 'br'), (0, _inferno.createTextVNode)(' ')], 8, null, index);
-                }) : "", (0, _inferno.createVNode)(1, 'h4', null, (0, _inferno.createVNode)(1, 'a', null, _i18n2.default.messages[this.props.routerStore.courseData.language].corseLabels.label_statistics, 0, {
+                }) : "", (0, _inferno.createVNode)(1, 'h4', null, (0, _inferno.createVNode)(1, 'a', null, _i18n2.default.messages[this.props.routerStore.courseData.language].courseLabels.label_statistics, 0, {
                   'href': 'https://www.skrattnet.se/roliga-texter/avslojande-statistik',
                   'target': '_blank'
-                }), 2), (0, _inferno.createVNode)(1, 'h4', null, (0, _inferno.createVNode)(1, 'a', null, _i18n2.default.messages[this.props.routerStore.courseData.language].corseLabels.lable_canavas_example, 0, {
+                }), 2), (0, _inferno.createVNode)(1, 'h4', null, (0, _inferno.createVNode)(1, 'a', null, _i18n2.default.messages[this.props.routerStore.courseData.language].courseLabels.lable_canavas_example, 0, {
                   'href': 'https://www.youtube.com/watch?v=s0JA9MgoT4o',
                   'target': '_blank'
                 }), 2)], 0)]
@@ -10085,18 +10085,18 @@ var CoursePage2 = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class
                 'id': 'coreContent',
                 'sm': '8',
                 'xs': '12',
-                children: [courseData.syllabusList.length > 0 ? (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'i', 'fas fa-file-pdf'), (0, _inferno.createVNode)(1, 'a', null, _i18n2.default.messages[courseData.language].corseLabels.label_course_syllabus, 0, {
+                children: [courseData.syllabusList.length > 0 ? (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'i', 'fas fa-file-pdf'), (0, _inferno.createVNode)(1, 'a', null, _i18n2.default.messages[courseData.language].courseLabels.label_course_syllabus, 0, {
                   'href': 'javascript',
                   'onClick': this.openSyllabus,
                   'id': courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0] + courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]
-                }), (0, _inferno.createVNode)(1, 'span', 'small-text', [(0, _inferno.createTextVNode)('\xA0( '), _i18n2.default.messages[courseData.language].corseLabels.label_course_syllabus_valid_from, (0, _inferno.createTextVNode)('\xA0'), _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]], (0, _inferno.createTextVNode)('  '), courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0], (0, _inferno.createTextVNode)(' )')], 0)], 4) : "", (0, _inferno.createComponentVNode)(2, _CourseSectionList2.default, {
+                }), (0, _inferno.createVNode)(1, 'span', 'small-text', [(0, _inferno.createTextVNode)('\xA0( '), _i18n2.default.messages[courseData.language].courseLabels.label_course_syllabus_valid_from, (0, _inferno.createTextVNode)('\xA0'), _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]], (0, _inferno.createTextVNode)('  '), courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0], (0, _inferno.createTextVNode)(' )')], 0)], 4) : "", (0, _inferno.createComponentVNode)(2, _CourseSectionList2.default, {
                   'roundIndex': this.state.activeRoundIndex,
                   'courseInfo': courseData.courseInfo,
                   'syllabusList': courseData.syllabusList[this.state.activeSyllabusIndex],
                   'showCourseLink': routerStore.showCourseWebbLink,
                   'partToShow': 'second'
                 }), (0, _inferno.createVNode)(1, 'br'), (0, _inferno.createVNode)(1, 'div', 'col', courseData.syllabusSemesterList.length > 0 ? courseData.syllabusSemesterList.map(function (semester, index) {
-                  return (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'a', null, [_i18n2.default.messages[_this2.props.routerStore.courseData.language].corseLabels.label_course_syllabus_valid_from, (0, _inferno.createTextVNode)('\xA0'), _i18n2.default.messages[_this2.props.routerStore.courseData.language].courseInformation.course_short_semester[semester.toString().substring(4, 5)], (0, _inferno.createTextVNode)('  '), semester.toString().substring(0, 4), (0, _inferno.createTextVNode)('\xA0  ')], 0, {
+                  return (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'a', null, [_i18n2.default.messages[_this2.props.routerStore.courseData.language].courseLabels.label_course_syllabus_valid_from, (0, _inferno.createTextVNode)('\xA0'), _i18n2.default.messages[_this2.props.routerStore.courseData.language].courseInformation.course_short_semester[semester.toString().substring(4, 5)], (0, _inferno.createTextVNode)('  '), semester.toString().substring(0, 4), (0, _inferno.createTextVNode)('\xA0  ')], 0, {
                     'href': '#',
                     'id': semester,
                     'onClick': _this2.openSyllabus
@@ -10120,7 +10120,7 @@ var CoursePage2 = (_dec = (0, _infernoMobx.inject)(['routerStore']), _dec(_class
             'color': 'primery',
             'onClick': this.openEdit,
             'id': courseData.courseInfo.course_code,
-            children: [(0, _inferno.createVNode)(1, 'i', 'fas fa-edit'), ' ', _i18n2.default.messages[courseData.language].corseLabels.label_edit]
+            children: [(0, _inferno.createVNode)(1, 'i', 'fas fa-edit'), ' ', _i18n2.default.messages[courseData.language].courseLabels.label_edit]
           }) : ""
         })]
       }), 0, null, 'kursinfo-container');
@@ -10859,7 +10859,7 @@ module.exports = {
     page_student: 'STUDENT AT KTH',
     page_course_programme: 'COURSE AND PROGRAMME DIRECTORY'
   },
-  corseLabels: {
+  courseLabels: {
     label_course_syllabus: 'Course Syllabus',
     label_course_syllabuses: 'Course Syllabuses',
     label_course_syllabus_valid_from: 'Valid from',
@@ -11008,7 +11008,7 @@ module.exports = {
     page_student: 'STUDENT PÅ KTH',
     page_course_programme: 'KURS- OCH PROGRAMKATALOGEN'
   },
-  corseLabels: {
+  courseLabels: {
     label_course_syllabus: 'Kursplan',
     label_course_syllabuses: 'Kursplaner',
     label_course_syllabus_valid_from: 'Gäller från och med',

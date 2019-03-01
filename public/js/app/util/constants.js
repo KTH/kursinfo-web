@@ -1,4 +1,4 @@
-import { log } from "util";
+
 
 export const PROGRAMME_URL = "/student/kurser/program"
 export const EMPTY = ["No information added", "Ingen information tillagd"]
@@ -11,5 +11,5 @@ export const MAX_2_DAY = 1
 export const MAX_2_MONTH = 9
 export const ADMIN_URL = '/admin/kurser/kurs/'
 export const SYLLABUS_URL ='/student/kurser/kurs/kursplan/'
-
+export const BREADCRUMB_URL = '/student/kurser/kurser-inom-program'
 

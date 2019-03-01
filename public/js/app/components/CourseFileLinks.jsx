@@ -28,10 +28,10 @@ class CourseFileLinks extends Component {
           <span>
             <i class="fas fa-file-pdf"></i> 
             <a href="javascript" onClick={this.openSyllabus} id={this.props.syllabusValidFrom[0] + this.props.syllabusValidFrom[1]}>
-                {i18n.messages[this.props.language].corseLabels.label_course_syllabus}
+                {i18n.messages[this.props.language].courseLabels.label_course_syllabus}
             </a>
           <span className="small-text" >
-          &nbsp;( {i18n.messages[this.props.language].corseLabels.label_course_syllabus_valid_from }&nbsp; 
+          &nbsp;( {i18n.messages[this.props.language].courseLabels.label_course_syllabus_valid_from }&nbsp; 
             {i18n.messages[this.props.language].courseInformation.course_short_semester[this.props.syllabusValidFrom[1]]}  {this.props.syllabusValidFrom[0]} )
           </span>
           </span>
@@ -40,9 +40,9 @@ class CourseFileLinks extends Component {
        {/* ---LINK TO ROUND PM/MEMO ?IF ROUND HAS ONE-- */}
         <Col sm="12" xs="12">
           <i class="fas fa-file-pdf"></i>
-          {i18n.messages[this.props.language].corseLabels.no_memo} 
+          {i18n.messages[this.props.language].courseLabels.no_memo} 
          {/*<a href="pm-url" id={"pm_"}>
-            {i18n.messages[this.props.language].corseLabels.label_course_pm} 
+            {i18n.messages[this.props.language].courseLabels.label_course_pm} 
           </a> ( 20xx-xx-xx )*/} 
           </Col>
          {/* ---LINK TO ROUND SCHEDULE-- */}
@@ -50,10 +50,10 @@ class CourseFileLinks extends Component {
         <i className="icon-schedule"></i> 
         {this.props.scheduleUrl !== EMPTY[this.props.language] ?
           <a target="_blank" href={this.props.scheduleUrl} >
-          {i18n.messages[this.props.language].corseLabels.label_schedule}
+          {i18n.messages[this.props.language].courseLabels.label_schedule}
           </a>
           :
-          <span>{i18n.messages[this.props.language].corseLabels.no_schedule}</span>
+          <span>{i18n.messages[this.props.language].courseLabels.no_schedule}</span>
         }
           </Col>
       </Row>

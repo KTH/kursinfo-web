@@ -13,7 +13,7 @@ const { toJS } = require('mobx')
 const httpResponse = require('kth-node-response')
 const i18n = require('../../i18n')
 
-const courseApi = require('../apiCalls/sellingText')
+const courseApi = require('../apiCalls/kursinfoAdmin')
 const koppsCourseData = require('../apiCalls/koppsCourseData')
 
 const browserConfig = require('../configuration').browser
@@ -160,7 +160,6 @@ async function  getIndex (req, res, next) {
   const courseCode = req.params.courseCode.toUpperCase()
   let lang = language.getLanguage(res) || 'sv'
   const ldapUser = req.session.authUser ? req.session.authUser.username : 'null'
-  console.log("ldapUser",ldapUser)
   
   try {
     // Render inferno app
@@ -175,7 +174,6 @@ async function  getIndex (req, res, next) {
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
   
     await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
-    //if(renderProps.props.children.props.routerStore.getCourseInformation.)
     await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, imageList, lang)
     await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi') 
     await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')

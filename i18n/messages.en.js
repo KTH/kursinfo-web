@@ -37,7 +37,7 @@ module.exports = {
     page_student:'STUDENT AT KTH',
     page_course_programme: 'COURSE AND PROGRAMME DIRECTORY'
   },
-  corseLabels: {
+  courseLabels: {
     label_course_syllabus: 'Course Syllabus',
     label_course_syllabus_valid_from: 'Valid from',
     label_course_syllabus_valid_to:  'to end of ',

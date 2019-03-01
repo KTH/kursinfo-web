@@ -13,7 +13,7 @@ const { toJS } = require('mobx')
 const httpResponse = require('kth-node-response')
 const i18n = require('../../i18n')
 
-const courseApi = require('../apiCalls/sellingText')
+const courseApi = require('../apiCalls/kursinfoAdmin')
 const koppsCourseData = require('../apiCalls/koppsCourseData')
 
 const browserConfig = require('../configuration').browser

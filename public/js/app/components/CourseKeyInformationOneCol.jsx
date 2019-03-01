@@ -62,8 +62,8 @@ class CourseKeyInformationOneCol extends Component {
               : 
               //* ---SELECT A ROUND BOX --- *//
                 <span className="text-center2">
-                  <h4>{i18n.messages[this.props.language].corseLabels.header_no_round_selected}</h4>
-                  <p>{i18n.messages[this.props.language].corseLabels.no_round_selected}</p>
+                  <h4>{i18n.messages[this.props.language].courseLabels.header_no_round_selected}</h4>
+                  <p>{i18n.messages[this.props.language].courseLabels.no_round_selected}</p>
                 </span>
               }
 
@@ -107,7 +107,7 @@ class CourseKeyInformationOneCol extends Component {
           {/***************************************************************************************************************/}
           {this.props.courseHasRound && this.props.showRoundData ?
              <span>
-              <h3 className="right-column-header">{i18n.messages[this.props.language].corseLabels.header_contact}</h3>
+              <h3 className="right-column-header">{i18n.messages[this.props.language].courseLabels.header_contact}</h3>
 
               {course.course_contact_name !== EMPTY[this.props.language] ?
                 <span>
@@ -135,7 +135,7 @@ class CourseKeyInformationOneCol extends Component {
             {/***************************************************************************************************************/}
             {this.props.courseHasRound && this.props.showRoundData ?
               <span>
-                <h3 className="right-column-header">{i18n.messages[this.props.language].corseLabels.header_select_course}</h3>
+                <h3 className="right-column-header">{i18n.messages[this.props.language].courseLabels.header_select_course}</h3>
                 <h4>{translate.round_application_code}</h4>
                 <p>{round ? round.round_application_code : EMPTY[this.props.language]}</p>
               </span>

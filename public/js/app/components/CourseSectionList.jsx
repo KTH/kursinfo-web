@@ -40,7 +40,7 @@ class CourseSectionList extends Component {
       {header:translation.courseInformation.course_literature, text:syllabus.course_literature}
     ]
     if(this.props.showCourseLink)
-      during.push({header:"Kurswebb länk", text:`<a target='_blank' href='${COURSE_WEB_URL}${this.props.courseInfo.course_code}'> ${translation.corseLabels.label_course_web_link}</a>`})
+      during.push({header:"Kurswebb länk", text:`<a target='_blank' href='${COURSE_WEB_URL}${this.props.courseInfo.course_code}'> ${translation.courseLabels.label_course_web_link}</a>`})
     return during
   }
 
@@ -80,14 +80,14 @@ class CourseSectionList extends Component {
       <div className="row" id={this.props.partToShow}>
         {this.props.partToShow === "firstBlock" ?
         <span>
-          <CourseSection sectionHeader ={translation.corseLabels.header_content} headerType = '3' class= "first-header" courseData = {this.getContent(translation)} sectionId="Content" />
-          <CourseSection sectionHeader ={translation.corseLabels.header_execution} headerType = '3' courseData = {this.getExecution(translation)} sectionId="Execution"/>
-          <CourseSection sectionHeader ={translation.corseLabels.header_examination} headerType = '3' courseData = {this.getExamination(translation)} sectionId="Examination"/>
+          <CourseSection sectionHeader ={translation.courseLabels.header_content} headerType = '3' class= "first-header" courseData = {this.getContent(translation)} sectionId="Content" />
+          <CourseSection sectionHeader ={translation.courseLabels.header_execution} headerType = '3' courseData = {this.getExecution(translation)} sectionId="Execution"/>
+          <CourseSection sectionHeader ={translation.courseLabels.header_examination} headerType = '3' courseData = {this.getExamination(translation)} sectionId="Examination"/>
           </span>
         :""} 
 
         {this.props.partToShow === "secondBlock" ?
-          <CourseSection sectionHeader ={translation.corseLabels.header_further} headerType = '3' courseData = {this.getOther(translation)} sectionId="Other" />
+          <CourseSection sectionHeader ={translation.courseLabels.header_further} headerType = '3' courseData = {this.getOther(translation)} sectionId="Other" />
         : ""}
     </div>  
     )

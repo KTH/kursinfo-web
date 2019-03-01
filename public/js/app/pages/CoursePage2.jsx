@@ -168,8 +168,8 @@ class CoursePage2 extends Component {
             {routerStore.isCancelled ?
               <div className="col-12 isCancelled">
                 <Alert color="info" aria-live="polite">
-                    <h3>{translation.corseLabels.label_course_cancelled} </h3>
-                    <p>{translation.corseLabels.label_last_exam}  
+                    <h3>{translation.courseLabels.label_course_cancelled} </h3>
+                    <p>{translation.courseLabels.label_last_exam}  
                         {translation.courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]} {courseData.courseInfo.course_last_exam[0]}
                     </p>
                   </Alert>
@@ -190,12 +190,12 @@ class CoursePage2 extends Component {
           {/***************************************************************************************************************/}
           <Row id="semesterContainer" key="semesterContainer"> 
             <Col sm="12">
-              <h2>{translation.corseLabels.header_course_info} </h2>
+              <h2>{translation.courseLabels.header_course_info} </h2>
               
               {/* ---COURSE SEMESTER BUTTONS--- */}
               {routerStore.courseSemesters.length === 0 ? "" :
                 <div id="semesterMenu" className="">
-                  <h3>{translation.corseLabels.header_semester_menue}</h3>
+                  <h3>{translation.courseLabels.header_semester_menue}</h3>
                   <div className="row" id="semesterButtonMenue" key="semesterButtonMenue">
                     {
                       routerStore.courseSemesters.map((semester, index)=>{
@@ -225,13 +225,13 @@ class CoursePage2 extends Component {
                         id={courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('')}
                         target="_blank"
                       >
-                          {translation.corseLabels.label_course_syllabus}
+                          {translation.courseLabels.label_course_syllabus}
                       </a>
                       <span className="small-text" >
-                      {` ( ${translation.corseLabels.label_course_syllabus_valid_from }
+                      {` ( ${translation.courseLabels.label_course_syllabus_valid_from }
                         ${translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]]}  ${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0]} 
                         
-                        ${ courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to.length > 0 ? translation.corseLabels.label_course_syllabus_valid_to + translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[1]] +" "+courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[0]: ""} )
+                        ${ courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to.length > 0 ? translation.courseLabels.label_course_syllabus_valid_to + translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[1]] +" "+courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[0]: ""} )
                       `}   
                         </span>
                     </span>
@@ -247,7 +247,7 @@ class CoursePage2 extends Component {
           {/*                                      RIGHT COLUMN - KEY INFORMATION                                         */}
           {/***************************************************************************************************************/}
           <Col id="keyInformationContainer" sm="4" xs="12" className="float-md-right" >
-            <h2 style="margin-top:0px">{translation.corseLabels.header_round}</h2>
+            <h2 style="margin-top:0px">{translation.courseLabels.header_round}</h2>
 
             {/* ---COURSE ROUND DROPDOWN--- */}
             <div id="semesterButtonMenue" className="">
@@ -255,7 +255,7 @@ class CoursePage2 extends Component {
 
                     {routerStore.courseSemesters.length === 0 ? 
                       <Alert color="info">
-                        {translation.corseLabels.lable_no_rounds}
+                        {translation.courseLabels.lable_no_rounds}
                       </Alert> : 
                       routerStore.courseSemesters.length > 1 ? 
                        <DropdownCreater2
@@ -266,13 +266,13 @@ class CoursePage2 extends Component {
                             yearSemester={routerStore.courseSemesters[this.state.activeSemester][2]} 
                             language ={courseData.language}
                             parentIndex = "0"
-                            lable = {translation.corseLabels.lable_round_dropdown}
+                            lable = {translation.courseLabels.lable_round_dropdown}
                         />
                       :""
                     }
                     {routerStore.courseSemesters.length > 0 && courseData.courseRoundList[this.state.activeRoundIndex].round_state !== "APPROVED" ? 
                       <Alert color="info" aria-live="polite" >
-                          <h4>{translation.corseLabels.lable_round_state[courseData.courseRoundList[this.state.activeRoundIndex].round_state]} </h4>
+                          <h4>{translation.courseLabels.lable_round_state[courseData.courseRoundList[this.state.activeRoundIndex].round_state]} </h4>
                       </Alert>
                     :""}
                   </div>
@@ -309,16 +309,16 @@ class CoursePage2 extends Component {
        
       
           {/* ---STATISTICS LINK--- */}
-          <h2> {translation.corseLabels.header_statistics}</h2>
+          <h2> {translation.courseLabels.header_statistics}</h2>
             <p>
               
             <i class="fas fa-chart-line"></i> <a href="https://www.skrattnet.se/roliga-texter/avslojande-statistik" target="_blank" >
-                {translation.corseLabels.label_statistics}
+                {translation.courseLabels.label_statistics}
               </a>
             </p>
 
             {/* --- ALL SYLLABUS LINKS--- */}
-            <h2>{translation.corseLabels.header_syllabuses}</h2>
+            <h2>{translation.courseLabels.header_syllabuses}</h2>
               {courseData.syllabusSemesterList.length > 0 ?
                 courseData.syllabusSemesterList.map((semester, index) => 
                   <span key={index}>
@@ -329,7 +329,7 @@ class CoursePage2 extends Component {
                       id={semester}
                       target="_blank"  
                     >
-                      {translation.corseLabels.label_course_syllabus_valid_from }&nbsp; 
+                      {translation.courseLabels.label_course_syllabus_valid_from }&nbsp; 
                       {translation.courseInformation.course_short_semester[semester.toString().substring(4,5)]}  {semester.toString().substring(0,4)} 
                       &nbsp;  
                     </a> <br/> 
@@ -350,9 +350,9 @@ class CoursePage2 extends Component {
         {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
         {courseData.courseInfo.course_level_code === "RESEARCH" ?
               <span>
-                <h3>{translation.corseLabels.header_postgraduate_course}</h3>
+                <h3>{translation.courseLabels.header_postgraduate_course}</h3>
                 <a target="_blank" href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}> 
-                  {translation.corseLabels.label_postgraduate_course} {courseData.courseInfo.course_department}
+                  {translation.courseLabels.label_postgraduate_course} {courseData.courseInfo.course_department}
                 </a> 
               </span>
             : ""}
@@ -375,7 +375,7 @@ class CoursePage2 extends Component {
         {
           routerStore.canEdit ? 
             <Button className="editButton" color="primery" onClick={this.openEdit} id={courseData.courseInfo.course_code}>
-             <i class="fas fa-edit"></i> {translation.corseLabels.label_edit}
+             <i class="fas fa-edit"></i> {translation.courseLabels.label_edit}
             </Button> 
           : ""
         }

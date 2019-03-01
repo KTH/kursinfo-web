@@ -39,7 +39,7 @@ module.exports = {
     page_course_programme: 'KURS- OCH PROGRAMKATALOGEN'
     
   },
-  corseLabels: {
+  courseLabels: {
     label_course_syllabus: 'Kursplan',
     label_course_syllabus_valid_from:  'Gäller från och med',
     label_course_syllabus_valid_to:  'till slutet av ',
