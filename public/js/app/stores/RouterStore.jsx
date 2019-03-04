@@ -176,7 +176,7 @@ class RouterStore {
 /******************************************************************************************************************************************* */
 
   getSyllabusData(courseResult, semester = 0, language){
-    console.log("courseResult.examinationSets",courseResult.examinationSets)
+    //console.log("courseResult.examinationSets",courseResult.examinationSets)
     
     return {
       course_goals: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.goals, language) : EMPTY[language],
@@ -188,7 +188,7 @@ class RouterStore {
       course_valid_from: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].validFromTerm.term).toString().match(/.{1,4}/g) : [], 
       course_valid_to:[],
       course_required_equipment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.requiredEquipment, language): EMPTY[language],
-      course_examination: courseResult.examinationSets && Object.keys(courseResult.examinationSets).length > 0 && courseResult.examinationSets[Object.keys(courseResult.examinationSets)[0]].hasOwnProperty('examinationRounds') ? this.getExamObject(courseResult.examinationSets[Object.keys(courseResult.examinationSets)[0]].examinationRounds, courseResult.formattedGradeScales, language): EMPTY[language],
+      course_examination: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 && courseResult.examinationSets && Object.keys(courseResult.examinationSets).length > 0 ? this.getExamObject(courseResult.examinationSets, courseResult.formattedGradeScales, language, courseResult.publicSyllabusVersions[semester].validFromTerm.term ): EMPTY[language],
       course_examination_comments:  courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.examComments, language):EMPTY[language]
     }
   }
@@ -245,17 +245,25 @@ class RouterStore {
     return returnIndex > -1 ? returnIndex : yearMatch
   }
 
-
-  getExamObject(dataObject, grades, language = 0){
-    console.log("dataObject", dataObject)
+  getExamObject(dataObject, grades, language = 0, semester=""){
+    var matchingExamSemester = ""
+    Object.keys(dataObject).forEach(function(key) {
+      if(Number(semester) >= Number(key)){
+        matchingExamSemester = key
+      }
+    })
     let examString = "<ul class='ul-no-padding' >"
-    if(dataObject.length > 0){
-      for(let exam of dataObject){
-       examString += `<li>${exam.examCode} - 
-                      ${exam.title},
-                      ${exam.credits},  
-                      ${language === 0 ? "Grading scale" : "Betygskala"}: ${grades[exam.gradeScaleCode]}             
-                      </li>`
+    if(dataObject[matchingExamSemester].examinationRounds.length > 0){
+      for(let exam of dataObject[matchingExamSemester].examinationRounds){
+       
+          //** Adding a decimal if it's missing in credits **/
+          exam.credits = exam.credits !== EMPTY[language] && exam.credits.toString().length === 1 ? exam.credits+".0": exam.credits
+  
+          examString += `<li>${exam.examCode} - 
+                          ${exam.title},
+                          ${language === 0 ? exam.credits : exam.credits.toString().replace('.',',')} ${language === 0 ? " credits" : " hp"},  
+                          ${language === 0 ? "Grading scale" : "Betygskala"}: ${grades[exam.gradeScaleCode]}              
+                          </li>`
       }
     }
     examString += "</ul>"
