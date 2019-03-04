@@ -176,6 +176,8 @@ class RouterStore {
 /******************************************************************************************************************************************* */
 
   getSyllabusData(courseResult, semester = 0, language){
+    console.log("courseResult.examinationSets",courseResult.examinationSets)
+    
     return {
       course_goals: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.goals, language) : EMPTY[language],
       course_content:  courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.content, language): EMPTY[language],
@@ -245,6 +247,7 @@ class RouterStore {
 
 
   getExamObject(dataObject, grades, language = 0){
+    console.log("dataObject", dataObject)
     let examString = "<ul class='ul-no-padding' >"
     if(dataObject.length > 0){
       for(let exam of dataObject){

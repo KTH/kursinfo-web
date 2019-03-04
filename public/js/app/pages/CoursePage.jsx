@@ -161,13 +161,19 @@ class CoursePage extends Component {
     return (
       <div  key="kursinfo-container" className="col" id="kursinfo-main-page" > 
          <Row id="pageContainer" key="pageContainer"> 
-          <Col sm="1" xs="1" id="left" key="left"> </Col>
+         {/* <Col sm="1" xs="1" id="left" key="left"> </Col>*/}
+          <Col sm="12" xs="12" lg="12" id="middle" key="middle">
 
+          {
+            routerStore.canEdit ? 
+              <Button className="editButton" color="primery" onClick={this.openEdit} id={courseData.courseInfo.course_code}>
+              <i class="fas fa-edit"></i> {translation.courseLabels.label_edit}
+              </Button> 
+            : ""
+          }
           {/***************************************************************************************************************/}
           {/*                                                   INTRO                                                     */}
           {/***************************************************************************************************************/}
-          <Col sm="12" xs="12" lg="10" id="middle" key="middle">
-
             {/* ---COURSE TITEL--- */}
             <CourseTitle key = "title"
                 courseTitleData = {courseData.courseTitleData}
@@ -379,15 +385,9 @@ class CoursePage extends Component {
   </Col>
 
   {/* ---EDIT BUTTON --- */}
-  <Col sm="1" xs="1" id="right" key="right">
-        {
-          routerStore.canEdit ? 
-            <Button className="editButton" color="primery" onClick={this.openEdit} id={courseData.courseInfo.course_code}>
-             <i class="fas fa-edit"></i> {translation.courseLabels.label_edit}
-            </Button> 
-          : ""
-        }
-        </Col>
+{/* <Col sm="1" xs="1" id="right" key="right">*/}
+        
+      {/*   </Col>*/}
         </Row>
       </div>
     )
@@ -411,8 +411,9 @@ const DropdownCreater = ({ courseRoundList , callerInstance, semester, year, yea
           className="select-round"
           >
          <DropdownToggle 
-            id={dropdownID} caret >
-              {lable} {i18n.messages[language].courseInformation.course_short_semester[semester]} {year}
+            id={dropdownID}  >
+             <span>{lable} {i18n.messages[language].courseInformation.course_short_semester[semester]} {year}</span> 
+             <span caret className="caretholder"></span>
             
           </DropdownToggle>
           <DropdownMenu>

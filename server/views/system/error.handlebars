@@ -4,13 +4,17 @@
   window.StatusCode = ({{status}} || 500)
 </script>
 {{/extend}}
+{{prefixScript '/static/js/app/view/errorModule.js'}}
 
-<h1>{{status}}</h1>
-<h3>{{friendly}}</h3>
+<div class="errorMain">
+  {{{blocks.image}}}
+  <h1>{{status}}</h1>
+  <h3>{{friendly}}</h3>
 
-<div class="message">
-  <p class="kthLovesGeeks">HTTP {{status}}: {{message}}</p>
-  {{#if error.stack}}
-    <pre>{{error}}</pre>
-  {{/if}}
+  <div class="card card-body bg-light">
+    <p class="kthLovesGeeks">HTTP {{status}}: {{message}}</p>
+    {{#if error.stack}}
+      <pre>{{error.stack}}</pre>
+    {{/if}}
+  </div>
 </div>

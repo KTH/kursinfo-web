@@ -63,9 +63,9 @@
     "kth-node-response": "https://github.com/KTH/kth-node-response#v1.0.0",
     "kth-node-server": "^3.0.3",
     "kth-node-session": "^1.0.0",
-    "kth-node-web-common": "^1.0.2",
-    "kth-style": "^3.0.0-beta.41",
-    "kth-style-inferno-bootstrap": "^0.1.22",
+    "kth-node-web-common": "^3.0.5",
+    "kth-style": "^3.2.1",
+    "kth-style-inferno-bootstrap": "^0.1.25",
     "locale": "^0.1.0",
     "mobx": "^5.5.2",
     "passport": "^0.3.2",
@@ -89,6 +89,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "babel-plugin-module-resolver": "^3.1.2",
     "browser-sync": "^2.12.8",
     "chai": "^4.0.2",
     "concurrently": "^2.1.0",
@@ -128,6 +129,18 @@
     "presets": [
       "es2015",
       "stage-0"
+    ],
+    "plugins": [
+      [
+        "module-resolver",
+        {
+          "alias": {
+            "^inferno-bootstrap/lib(.+).jsx": "inferno-bootstrap/dist\\1",
+            "^kth-style-inferno-bootstrap/lib(.+).jsx": "kth-style-inferno-bootstrap/dist\\1",
+            "^inferno-formlib/lib(.+).jsx": "inferno-formlib/dist\\1"
+          }
+        }
+      ]
     ]
   }
 }

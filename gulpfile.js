@@ -2,6 +2,8 @@
 const gulp = require('gulp')
 const mergeStream = require('merge-stream')
 
+const { moveHandlebarPages } = require('kth-node-web-common/gulp')
+
 const globals = {
   dirname: __dirname
 }
@@ -53,8 +55,9 @@ const infernoServerTask = require('kth-node-inferno/gulpTasks/infernoServerTask'
 // *** JavaScript helper tasks ***
 gulp.task('webpack', webpack)
 gulp.task('vendor', vendor)
+gulp.task('moveHandlebarPages', moveHandlebarPages)
 
-gulp.task('moveResources', function () {
+gulp.task('moveResources', ['moveHandlebarPages'], function () {
   return mergeStream(
     moveResources.moveKthStyle(),
     moveResources.moveBootstrap(),

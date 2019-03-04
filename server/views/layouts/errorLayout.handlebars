@@ -8,46 +8,34 @@
     <meta name="description" content="{{description}}">
     <link rel="shortcut icon" id="favicon" href="//www.kth.se/img/icon/favicon.ico">
 
-    {{prefixStyle '/static/css/bootstrap/bootstrap.min.css' 'styles' 'screen'}}
-    {{prefixStyle '/static/css/kth-style/kth-bootstrap-theme.css' 'styles' 'screen'}}
+    {{prefixStyle '/static/kth-style/css/kth-bootstrap.css' 'styles' 'screen'}}
+    
     {{#extend 'styles'}}
       <style>
-        #kth-pmenu #menu-bar-wrapper {
-          z-index: 9999;
-        }
-
-        body.error {
-          background-color: #e3e5e3;
-        }
-
-        body.error .content {
+        body.error .errorMain {
           box-shadow: 0 0 5px 5px #aeb4ae;
           background-color: #fff;
           transform: rotate(-5deg);
-          -moz-transform: rotate(-5deg);
-          -webkit-transform: rotate(-5deg);
           padding: 30px 40px 40px;
-          max-width: 550px;
-          margin: 30px auto;
+          max-width: 750px;
+          margin: 30px auto;    
+          margin-top: 5rem;
         }
-
-        body.error .content h1 {
-          font-size: 2.8rem;
-          font-family: Georgia Regular,Georgia,garamond pro,garamond,times new roman,times,serif;
-          font-weight: 400;
-          border-bottom: none;
-        }
-
-        body.error .content .kthLovesGeeks {
+        
+        body.error .kthLovesGeeks {
           color: #b9bbbd;
         }
+
+        .logo {
+          margin-bottom: 1rem;
+        }
+
       </style>
     {{/extend}}
 
     {{{render 'styles'}}}
 
     {{prefixScript '/static/js/vendor.js' 'head-scripts'}}
-    {{prefixScript '/static/browserConfig' 'head-scripts'}}
     {{#extend 'head-scripts'}}
         <script src="//www.kth.se/social/toolbar/widget.js"></script>
         <!-- analytics start -->
@@ -55,18 +43,10 @@
         <!-- analytics end -->
     {{/extend}}
 
-    {{#if debug}}
-      {{prefixScript '/static/js/lib/firebug-lite/build/firebug-lite.js' 'head-scripts'}}
-    {{/if}}
-
     {{{render 'head-scripts'}}}
   </head>
   <body class="error code{{status}} use-personal-menu">
-    <div class="content">
-      {{> kthHeader }}
-      {{{body}}}
-    </div>
-
+    {{{body}}}
     {{{render 'scripts'}}}
   </body>
 </html>
