@@ -51,7 +51,8 @@ class RouterStore {
     return [host, newPath].join('')
   }
 
-  _getOptions (params) {
+  _getOptions (params) {console.log("_getOptions", this.cookieHeader)
+  
     // Pass Cookie header on SSR-calls
     let options
     if (typeof window === 'undefined') {
@@ -76,7 +77,7 @@ class RouterStore {
 /*                                                       COLLECTED COURSE INFORMATION                                                        */
 /******************************************************************************************************************************************* */
   //** Handeling the course information from kopps api.**//
-  @action getCourseInformation(courseCode, ldapUsername, lang = 'sv', roundIndex = 0){
+  @action getCourseInformation(courseCode, ldapUsername, lang = 'sv', roundIndex = 0){ console.log("hhhhhh")
     return axios.get(this.buildApiUrl(this.paths.api.koppsCourseData.uri,  {courseCode:courseCode,language:lang}), this._getOptions()).then((res) => { 
       const courseResult = safeGet(() => res.data, {})
       const language = lang === 'en' ? 0 : 1
@@ -151,7 +152,7 @@ class RouterStore {
     }
   }
 
-  getCourseDefaultInformation(courseResult, language){console.log(courseResult.mainSubjects)
+  getCourseDefaultInformation(courseResult, language){
   
     return{
       course_code: this.isValidData(courseResult.course.courseCode),
@@ -246,7 +247,7 @@ class RouterStore {
     return returnIndex > -1 ? returnIndex : yearMatch
   }
 
-  getExamObject(dataObject, grades, language = 0, semester=""){ console.log(dataObject, semester)
+  getExamObject(dataObject, grades, language = 0, semester=""){ 
     var matchingExamSemester = ""
     Object.keys(dataObject).forEach(function(key) {
       if(Number(semester) >= Number(key)){
@@ -312,7 +313,7 @@ class RouterStore {
     }
     this.courseSemesters.sort()
 
-    console.log("!!courseRound2: OK !!", courseRoundList)
+    console.log("!!courseRound2: OK !!")
     return courseRoundList
   }
 
@@ -435,14 +436,12 @@ class RouterStore {
     if(this.courseData.courseRoundList.length === 0 ) return ""
 
     return axios.post(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type }),this._getOptions(JSON.stringify(this.keyList))).then( result => {
-      console.log('getCourseEmployeesPost', [...this.courseData.roundList])
       const returnValue = result.data
       const emptyString = EMPTY[this.activeLanguage]
       let roundList = this.courseData.roundList
       let roundId = 0
       const thisStore = this
       Object.keys(roundList).forEach(function(key) {
-        console.log(key, roundList[key]);
         let rounds = roundList[key]
         for(let index = 0; index < rounds.length; index++){
           rounds[index].round_teacher  = returnValue[0][roundId] !== null ? thisStore.createPersonHtml(JSON.parse(returnValue[0][roundId]),'teacher') : emptyString
@@ -527,7 +526,7 @@ class RouterStore {
 
   @action __SSR__setCookieHeader (cookieHeader) {
     if (typeof window === 'undefined') {
-      this.cookieHeader = cookieHeader
+      this.cookieHeader = cookieHeader || ""
     }
   }
 
