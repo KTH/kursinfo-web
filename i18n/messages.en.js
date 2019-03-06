@@ -41,6 +41,7 @@ module.exports = {
     label_course_syllabus: 'Course Syllabus',
     label_course_syllabus_valid_from: 'Valid from',
     label_course_syllabus_valid_to:  'to end of ',
+    label_no_syllabus: 'This course has no syllabus',
     label_programme_year: 'year ',
     label_postgraduate_course: 'Postgraduate courses at ',
     label_course_cancelled: 'This course has been cancelled.',

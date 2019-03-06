@@ -151,12 +151,13 @@ class RouterStore {
     }
   }
 
-  getCourseDefaultInformation(courseResult, language){
+  getCourseDefaultInformation(courseResult, language){console.log(courseResult.mainSubjects)
+  
     return{
       course_code: this.isValidData(courseResult.course.courseCode),
       course_grade_scale: this.isValidData(courseResult.formattedGradeScales[courseResult.course.gradeScaleCode],language), //TODO: can this be an array?
       course_level_code: this.isValidData(courseResult.course.educationalLevelCode),
-      course_main_subject: courseResult.mainSubjects ?  Array.isArray(courseResult.mainSubjects) ? courseResult.mainSubjects.toString() : this.isValidData(courseResult.mainSubjects) : EMPTY[language],
+      course_main_subject: courseResult.mainSubjects && courseResult.mainSubjects.length > 0 ? courseResult.mainSubjects.toString() : EMPTY[language],
       course_recruitment_text: this.isValidData(courseResult.course.recruitmentText),
       course_department: this.isValidData(courseResult.course.department.name, language),
       course_department_link: this.isValidData(courseResult.course.department.name, language)!== EMPTY[language] ? '<a href="/' + courseResult.course.department.name.split('/')[0].toLowerCase()+'/" target="blank">'+courseResult.course.department.name+'</a>' : EMPTY[language],
@@ -245,7 +246,7 @@ class RouterStore {
     return returnIndex > -1 ? returnIndex : yearMatch
   }
 
-  getExamObject(dataObject, grades, language = 0, semester=""){
+  getExamObject(dataObject, grades, language = 0, semester=""){ console.log(dataObject, semester)
     var matchingExamSemester = ""
     Object.keys(dataObject).forEach(function(key) {
       if(Number(semester) >= Number(key)){
@@ -253,7 +254,7 @@ class RouterStore {
       }
     })
     let examString = "<ul class='ul-no-padding' >"
-    if(dataObject[matchingExamSemester].examinationRounds.length > 0){
+    if(dataObject[matchingExamSemester] && dataObject[matchingExamSemester].examinationRounds.length > 0){
       for(let exam of dataObject[matchingExamSemester].examinationRounds){
        
           //** Adding a decimal if it's missing in credits **/

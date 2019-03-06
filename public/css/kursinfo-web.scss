@@ -92,7 +92,7 @@ h2 {
         }
     }
     .alert-info{
-        margin: 10px 15px 0px 15px;
+        margin: 10px 15px 0px 0px;
    }
 }
 
@@ -230,4 +230,24 @@ h2 {
 }
 
 
+///*************************************///
+.alert-info {
+    color: #000;
+    font-size: 1em;
+    min-height: 3.4rem;
+    border-radius: .15rem;
+    position: relative;
+    padding: 1rem 1rem 1rem 4.4rem;
+    background-color: #fcf8e3;
+    border: 1px solid #faebcc;
 
+    &::before{
+        font-size: 1.4rem;
+        position: absolute;
+        top: 10%;
+        left: .2em;
+        width: 2em;
+        content: url(//www.kth.se/img/kth-style/icons/alert-info.svg);
+    }
+    
+}

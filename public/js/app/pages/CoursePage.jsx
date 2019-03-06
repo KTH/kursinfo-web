@@ -204,17 +204,20 @@ class CoursePage extends Component {
               </Col>
             </Row>
           {/***************************************************************************************************************/}
-          {/*                                         DROPDOWN MENUE                                                      */}
+          {/*                                         SEMESTER MENUE                                                      */}
           {/***************************************************************************************************************/}
           <Row id="semesterContainer" key="semesterContainer"> 
             <Col sm="12">
               <h2>{translation.courseLabels.header_course_info} </h2>
               
               {/* ---COURSE SEMESTER BUTTONS--- */}
-              {routerStore.courseSemesters.length === 0 ? "" :
-                <div id="semesterMenu" className="">
+              {routerStore.courseSemesters.length === 0 ? 
+                <Alert color="info" aria-live="polite">
+                  {translation.courseLabels.label_no_syllabus}  
+                </Alert> :
+                <div id="semesterMenu" >
                   <h3>{translation.courseLabels.header_semester_menue}</h3>
-                  <div className="row" id="semesterButtonMenue" key="semesterButtonMenue">
+                    <div className="row" id="semesterButtonMenue" key="semesterButtonMenue">
                     {
                       routerStore.courseSemesters.map((semester, index)=>{
                       
@@ -349,7 +352,7 @@ class CoursePage extends Component {
                     </a> <br/> 
                   </span>
                 )
-              : "" }
+              : EMPTY[courseData.language] }
           </div>
 
            {/* --- COURSE INFORMATION CONTAINER---  */}
