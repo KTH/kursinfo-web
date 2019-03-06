@@ -102,7 +102,7 @@ function * _getSellingText(req, res) {
     if (apiResponse.statusCode !== 200) {
       return httpResponse.jsonError(res, apiResponse.statusCode)
     }
-    console.log(apiResponse.body)
+    //console.log(apiResponse.body)
     return httpResponse.json(res, apiResponse.body)
   } catch (err) {
     log.error('Exception calling from course API _getSellingText', { error: err })
@@ -127,7 +127,7 @@ function * _getKoppsCourseData(req, res, next) {
     
   } catch (err) {
     log.error('Exception calling from koppsAPI ', { error: err })
-    return err
+    next(err)
   }
 }
 
