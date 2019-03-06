@@ -35,7 +35,7 @@ module.exports = {
 //** TODO Function for SF1624.20182.9.teachers, SF1624.20182.9.courseresponsible, SF1624.examiner */
 
 
-function * _getCourseEmployees(req, res) {
+function * _getCourseEmployees(req, res) { //console.log("TEST")
   let key = req.params.key
   const type = req.params.type
    key = key.replace(/_/g,'.')
@@ -146,7 +146,7 @@ async function  _setImage (req, res, next) {
 
 
 
-async function  getIndex (req, res, next) {
+async function  getIndex (req, res, next) { //console.log("TEST getIndex")
   if (process.env['NODE_ENV'] === 'development') {
     delete require.cache[require.resolve('../../dist/js/server/app.js')]
     const tmp = require('../../dist/js/server/app.js')

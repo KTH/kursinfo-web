@@ -33,24 +33,13 @@
         "type": "api_key"
       }
     },
-    "getDataById": {
-      "uri": "/api/kursplan/v1/data/:id",
+    "getSyllabusByCourseCode": {
+      "uri": "/api/kursplan/v1/syllabus/courseCode/semester/language",
       "method": "GET",
       "apikey": {
         "scope_required": true,
         "scopes": [
           "read"
-        ],
-        "type": "api_key"
-      }
-    },
-    "postDataById": {
-      "uri": "/api/kursplan/v1/data/:id",
-      "method": "POST",
-      "apikey": {
-        "scope_required": true,
-        "scopes": [
-          "write"
         ],
         "type": "api_key"
       }
