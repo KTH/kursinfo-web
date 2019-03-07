@@ -146,7 +146,7 @@ class CoursePage extends Component {
     const translation = i18n.messages[courseData.language]
     const introText = routerStore.sellingText && routerStore.sellingText[language].length > 0 ? routerStore.sellingText[language] : courseData.courseInfo.course_recruitment_text
    
-    console.log("routerStore in CoursePage", routerStore)
+    //console.log("routerStore in CoursePage", routerStore)
     //console.log("state in CoursePage", this.state)
 
     const courseInformationToRounds = {
