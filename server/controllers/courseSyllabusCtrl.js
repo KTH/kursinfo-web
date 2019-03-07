@@ -31,8 +31,8 @@ async function  getIndex (req, res, next) {
     
     if(resp.body.syllabusHTML){
       resp.body.pdfConfig["phantomPath"] = phantom.path
-      console.log("phantom", phantom)
-      console.log("*******************************************")
+      //console.log("phantom", phantom)
+      //console.log("*******************************************")
       
       syllabusPDF.create(resp.body.syllabusHTML.pageContentHtml, resp.body.pdfConfig).toBuffer(function(err, buffer){
         if (err) {
@@ -53,35 +53,6 @@ async function  getIndex (req, res, next) {
             res.send(buffer)
         }
       })
-
-      /*syllabusPDF.create(resp.body.syllabusHTML.pageContentHtml, resp.body.pdfConfig).toFile('./pdfTempFile.pdf', function(err, result) {
-        if (err) {
-          console.log("ERROR IN syllabusPDF.create", err)
-          console.log("*******************************************")
-          //******TEMP********
-          const backuphtml = resp.body.syllabusHTML.pageContentHtml
-          res.render('courseSyllabus/index', {
-            debug: 'debug' in req.query,
-            html:backuphtml,
-            title: courseCode.toUpperCase(),
-            data: resp.statusCode === 200 ? safeGet(() => { return resp.body.name }) : '',
-            error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
-          })
-        }
-        else{
-          try{
-            fs.readFile('./pdfTempFile.pdf', function (err,data){
-              res.setHeader('Content-Type', 'application/pdf')
-              console.log("!!readPDFfile data!!", data)
-              console.log("*******************************************")
-              res.send(data)
-            })
-          } catch (err) {
-            log.error('Error in getIndex -> read PDF file', { error: err })
-            next(err)
-          }
-        }
-      })*/
     }
     else{
       res.render('courseSyllabus/index', {
@@ -93,7 +64,7 @@ async function  getIndex (req, res, next) {
       })
     }
   } catch (err) {
-    log.error('Error in getIndex', { error: err })
+    log.error('Error in Syllabus/getIndex', { error: err })
     next(err)
   }
 }
