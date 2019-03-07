@@ -119,6 +119,10 @@ module.exports = {
     redisOptions: unpackRedisConfig('REDIS_URI', devRedis)
   },
 
-  koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi)
+  koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
+
+  appInsights: {
+    instrumentationKey: getEnv('APPINSIGHTS_INSTRUMENTATIONKEY')
+  }
 
 }
