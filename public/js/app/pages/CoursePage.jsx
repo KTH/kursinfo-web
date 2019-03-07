@@ -146,7 +146,7 @@ class CoursePage extends Component {
     const translation = i18n.messages[courseData.language]
     const introText = routerStore.sellingText && routerStore.sellingText[language].length > 0 ? routerStore.sellingText[language] : courseData.courseInfo.course_recruitment_text
    
-    //console.log("routerStore in CoursePage", routerStore)
+    console.log("routerStore in CoursePage", routerStore)
     //console.log("state in CoursePage", this.state)
 
     const courseInformationToRounds = {
@@ -212,8 +212,12 @@ class CoursePage extends Component {
               
               {/* ---COURSE SEMESTER BUTTONS--- */}
               {routerStore.courseSemesters.length === 0 ? 
+                courseData.syllabusSemesterList.length === 0 ?
+                  <Alert color="info" aria-live="polite">
+                    {translation.courseLabels.label_no_syllabus}  
+                  </Alert> :
                 <Alert color="info" aria-live="polite">
-                  {translation.courseLabels.label_no_syllabus}  
+                  {translation.courseLabels.lable_no_rounds}  
                 </Alert> :
                 <div id="semesterMenu" >
                   <h3>{translation.courseLabels.header_semester_menue}</h3>

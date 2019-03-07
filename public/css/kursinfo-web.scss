@@ -57,7 +57,7 @@ h2 {
     margin-top: 40px;
     padding: 10px 0;
     
-    #roundDropDownLabel{
+   /* #roundDropDownLabel{
         font-size: 1.7rem
     }
 
@@ -72,7 +72,7 @@ h2 {
     
     .dropdown-menu {
         margin:0;
-    }
+    }*/
 }
 
 #semesterButtonMenue, #roundDropdownMenu{
@@ -92,7 +92,8 @@ h2 {
         }
     }
     .alert-info{
-        margin: 10px 15px 0px 0px;
+        margin: 10px 15px 0 15px;
+        width: 100%;
    }
 }
 
@@ -129,8 +130,19 @@ h2 {
                 left: 9px;
             }
         }
-        
     }
+    .dropdown-menu {
+        min-width: 100%;
+
+        .dropdown-item{
+            border-top: 1px dotted #ddd;
+        }
+
+        .dropdown-item:first-child{
+            border:0;
+        }            
+    }
+    
 }
 
 #keyInformationContainer{
