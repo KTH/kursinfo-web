@@ -74,6 +74,8 @@ server.use(accessLog(config.logging.accessLog))
 const browserConfig = require('./configuration').browser
 const browserConfigHandler = require('kth-node-configuration').getHandler(browserConfig, getPaths())
 const express = require('express')
+var morgan = require('morgan')
+server.use(morgan('combined'))
 const compression = require('compression')
 server.use(compression({
   filter: function () { return true; }

@@ -69,6 +69,7 @@
     "kth-style-inferno-bootstrap": "^0.1.25",
     "locale": "^0.1.0",
     "mobx": "^5.5.2",
+    "morgan": "^1.9.1",
     "passport": "^0.3.2",
     "query-string": "^6.2.0",
     "safe-utils": "^0.1.1"

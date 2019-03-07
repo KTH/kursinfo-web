@@ -77,7 +77,7 @@ class RouterStore {
 /*                                                       COLLECTED COURSE INFORMATION                                                        */
 /******************************************************************************************************************************************* */
   //** Handeling the course information from kopps api.**//
-  @action getCourseInformation(courseCode, ldapUsername, lang = 'sv', roundIndex = 0){ console.log("hhhhhh")
+  @action getCourseInformation(courseCode, ldapUsername, lang = 'sv', roundIndex = 0){ console.log("courseCode:",courseCode)
     return axios.get(this.buildApiUrl(this.paths.api.koppsCourseData.uri,  {courseCode:courseCode,language:lang}), this._getOptions()).then((res) => { 
       const courseResult = safeGet(() => res.data, {})
       const language = lang === 'en' ? 0 : 1
