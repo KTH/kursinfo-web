@@ -18,12 +18,12 @@ const koppsCourseData = require('../apiCalls/koppsCourseData')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const paths = require('../server').getPaths()
-//var fs = require('fs')
+console.log("TEST CourseCtr 21")
 var glob = require("glob")
 
 let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
-
+console.log("TEST CourseCtr 215")
 module.exports = {
   getIndex: getIndex,
   getSellingText: co.wrap(_getSellingText),
@@ -146,7 +146,7 @@ async function  _setImage (req, res, next) {
 
 
 
-async function  getIndex (req, res, next) { //console.log("TEST getIndex")
+async function  getIndex (req, res, next) { console.log("TEST getIndex")
   if (process.env['NODE_ENV'] === 'development') {
     delete require.cache[require.resolve('../../dist/js/server/app.js')]
     const tmp = require('../../dist/js/server/app.js')

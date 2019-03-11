@@ -50,53 +50,6 @@ h2 {
     margin-bottom: 30px;
 }
 
-#semesterMenu{
-    margin-bottom: 10px;
-    border-top: 1px solid #0580ac;
-    border-bottom: 1px solid #0580ac;
-    margin-top: 40px;
-    padding: 10px 0;
-    
-   /* #roundDropDownLabel{
-        font-size: 1.7rem
-    }
-
-    .round-dropdowns{
-        @media (max-width: 376px){
-        & > .btn-group>.btn:first-child {
-                margin-left: -10px;
-                font-size: 0.8rem
-            }
-        }
-    }
-    
-    .dropdown-menu {
-        margin:0;
-    }*/
-}
-
-#semesterButtonMenue, #roundDropdownMenu{
-    & > .button-clean{
-        border: none;
-        margin: 2px;
-        padding: 2px;
-        font-size: 18px;
-        font-weight: 400;
-        border-radius: 0 !important;
-        background-color: #fff !important;
-        &:hover, &:focus, &:active, &.is-active{
-            background-color: #fff;
-            border-radius: 0;
-            border: none;
-            border-bottom: 5px solid #006cb7 !important;
-        }
-    }
-    .alert-info{
-        margin: 10px 15px 0 15px;
-        width: 100%;
-   }
-}
-
 .select-round{
     width: 100%;
     & > .btn{
@@ -144,6 +97,60 @@ h2 {
     }
     
 }
+
+#semesterMenu{
+    margin-bottom: 10px;
+    border-top: 1px solid #0580ac;
+    border-bottom: 1px solid #0580ac;
+    margin-top: 40px;
+    padding: 10px 0;
+
+     .select-round{
+        width: auto;
+        & > .btn{
+            margin-top: 20px;
+        }
+    }   
+
+    .round-dropdowns{
+        & > .btn-group>.btn:first-child {
+            margin-left: -15px;
+        }
+    }
+
+    @media (max-width: 376px){
+        & > .btn-group>.btn:first-child {
+                margin-left: -10px;
+                font-size: 0.8rem
+        }
+    }
+
+}
+
+   
+#semesterButtonMenue, #roundDropdownMenu{
+    & > .button-clean{
+        border: none;
+        margin: 2px;
+        padding: 2px;
+        font-size: 18px;
+        font-weight: 400;
+        border-radius: 0 !important;
+        background-color: #fff !important;
+        &:hover, &:focus, &:active, &.is-active{
+            background-color: #fff;
+            border-radius: 0;
+            border: none;
+            border-bottom: 5px solid #006cb7 !important;
+        }
+    }
+    .alert-info{
+        margin: 10px 15px 0 15px;
+        width: 100%;
+   }
+}
+
+
 
 #keyInformationContainer{
     margin-top: 40px;

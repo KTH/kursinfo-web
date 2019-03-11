@@ -5,6 +5,10 @@ process.env['LDAP_URI'] = 'ldaps://mockuser@mockdomain.com@mockldapdomain.com'
 process.env['LDAP_PASSWORD'] = 'mockldappassword'
 process.env['NODE_ENV'] = 'development'
 process.env['REDIS_URI'] = 'redis://localhost:6379'
+process.env['KOPPS_URI'] = 'https://api-r.referens.sys.kth.se/api/kopps/v2/?defaultTimeout=60000'
+process.env['KURSPLAN_API_URI'] = 'https://api-r.referens.sys.kth.se/api/kursplan?defaultTimeout=60000'
+process.env['API_URI'] = 'https://api-r.referens.sys.kth.se/api/kursinfo?defaultTimeout=60000'
+
 const expect = require('chai').expect
 const nock = require('nock')
 const mockery = require('mockery')
@@ -22,6 +26,9 @@ mockery.enable({
 })
 
 const paths = require('../mocks/apipaths.json')
+
+console.log(paths)
+
 
 const api = nock('https://api-r.referens.sys.kth.se/api/kursinfo')
   .get('/_paths')
