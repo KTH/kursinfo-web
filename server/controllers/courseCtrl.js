@@ -119,7 +119,7 @@ function * _getKoppsCourseData(req, res, next) {
     const apiResponse = yield koppsCourseData.getKoppsCourseData(courseCode, language)
     if (apiResponse.statusCode !== 200) {
       res.status(apiResponse.statusCode)
-      res.statusCode = apiResponse.statusCode;
+      res.statusCode = apiResponse.statusCode
       res.send(courseCode)
     }
    
