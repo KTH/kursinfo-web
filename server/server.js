@@ -75,8 +75,12 @@ const browserConfig = require('./configuration').browser
 const browserConfigHandler = require('kth-node-configuration').getHandler(browserConfig, getPaths())
 const express = require('express')
 
-var morgan = require('morgan')
-server.use(morgan(':method :url --****-- :response-time ms'))
+//var morgan = require('morgan')
+//server.use(morgan(':method :url --****-- :response-time ms'))
+
+var responseTime = require('response-time')
+server.use(responseTime())
+
 const compression = require('compression')
 server.use(compression({
   filter: function () { return true; }
