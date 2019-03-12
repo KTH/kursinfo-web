@@ -13,7 +13,7 @@ class CourseKeyInformationOneCol extends Component {
   }
 
   render () {
-    //console.log("this.props.courseRound", this.props)
+    //console.log("this.props", this.props)
     const translate = i18n.messages[this.props.language].courseRoundInformation
     const round = this.props.courseRound
     const course = this.props.courseData
@@ -91,7 +91,7 @@ class CourseKeyInformationOneCol extends Component {
                     courseHasRound ={this.props.courseHasRound }
                     syllabusValidFrom = ""
                     courseCode= {course.course_code}
-                    scheduleUrl = {round > 0 ? round.round_schedule : EMPTY[this.props.language]}
+                    scheduleUrl = {round  ? round.round_schedule : EMPTY[this.props.language]}
                   />
 
               </span>

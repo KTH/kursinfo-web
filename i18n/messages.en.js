@@ -88,6 +88,7 @@ module.exports = {
     course_eligibility:'Eligibility',
     course_requirments_for_final_grade:'Requirements for final grade',
     course_literature:'Literature',
+    course_literature_comment: 'Literature comment',
     course_examination_comments:'Examination comment',
     course_examination:'Examination',
     course_valid_from:'Valid from',

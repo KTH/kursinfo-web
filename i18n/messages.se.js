@@ -92,6 +92,7 @@ module.exports = {
     course_eligibility:'Behörighet',
     course_requirments_for_final_grade:'Krav för slutbetyg',
     course_literature:'Kurslitteratur',
+    course_literature_comment:'Kommentar till kurslitteratur',
     course_examination_comments:'Kommentar till examinationsmoment',
     course_examination:'Examination',
     course_valid_from:'Giltig från',

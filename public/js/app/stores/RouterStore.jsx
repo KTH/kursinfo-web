@@ -187,6 +187,7 @@ class RouterStore {
       course_eligibility:  courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.eligibility, language): EMPTY[language], 
       course_requirments_for_final_grade:  courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.reqsForFinalGrade, language): EMPTY[language],
       course_literature: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.literature, language): EMPTY[language], 
+      course_literature_comment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.literatureComment, language): EMPTY[language],
       course_valid_from: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].validFromTerm.term).toString().match(/.{1,4}/g) : [], 
       course_valid_to:[],
       course_required_equipment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.requiredEquipment, language): EMPTY[language],
@@ -349,15 +350,16 @@ class RouterStore {
       round_course_place: this.isValidData(roundObject.round.campus.label, language), 
       round_campus: this.isValidData(roundObject.round.campus.name, language),
       round_short_name: this.isValidData(roundObject.round.shortName, language),
-      round_application_code: this.isValidData(roundObject.round.applicationCodes[0].applicationCode),
-      round_schedule: this.isValidData(roundObject.schemaUrl),
-      round_course_term: this.isValidData(roundObject.round.startTerm.term).toString().length > 0 ? roundObject.round.startTerm.term.toString().match(/.{1,4}/g) : [],
+      round_application_code: this.isValidData(roundObject.round.applicationCodes[0].applicationCode, language),
+      round_schedule: this.isValidData(roundObject.schemaUrl, language),
+      round_course_term: this.isValidData(roundObject.round.startTerm.term, language).toString().length > 0 ? roundObject.round.startTerm.term.toString().match(/.{1,4}/g) : [],
       round_periods: this.getRoundPeriodes(roundObject.round.courseRoundTerms,language),
       round_max_seats: this.isValidData(roundObject.round.maxSeats, language),
-      round_type: roundObject.round.applicationCodes.length > 0 ? this.isValidData(roundObject.round.applicationCodes[0].courseRoundType.name) : EMPTY[language], //TODO: Map array
-      round_application_link:  this.isValidData(roundObject.admissionLinkUrl),
+      round_min_seats: this.isValidData(roundObject.round.minSeats, language),
+      round_type: roundObject.round.applicationCodes.length > 0 ? this.isValidData(roundObject.round.applicationCodes[0].courseRoundType.name, language) : EMPTY[language], //TODO: Map array
+      round_application_link:  this.isValidData(roundObject.admissionLinkUrl, language),
       round_part_of_programme: roundObject.usage.length > 0 ? this.getRoundProgramme(roundObject.usage, language) : EMPTY[language],
-      round_state: this.isValidData(roundObject.round.state)
+      round_state: this.isValidData(roundObject.round.state, language)
     }
     if(courseRoundModel.round_short_name === EMPTY[language])
       courseRoundModel.round_short_name = `${language === 0 ? 'Start date' : 'Startdatum'}  ${courseRoundModel.round_start_date}`

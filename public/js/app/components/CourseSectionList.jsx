@@ -39,8 +39,13 @@ class CourseSectionList extends Component {
       {header:translation.courseInformation.course_required_equipment, text:syllabus.course_required_equipment},
       {header:translation.courseInformation.course_literature, text:syllabus.course_literature}
     ]
+
+    if(syllabus.course_literature_comment !== EMPTY[this.state.store.language])
+      during.push({header:translation.courseInformation.course_literature_comment, text:syllabus.course_literature_comment})
+    
     if(this.props.showCourseLink)
       during.push({header:"Kurswebb länk", text:`<a target='_blank' href='${COURSE_WEB_URL}${this.props.courseInfo.course_code}'> ${translation.courseLabels.label_course_web_link}</a>`})
+    
     return during
   }
 
