@@ -77,7 +77,8 @@ module.exports = {
     no_schedule: "Schema saknas",
     no_memo: "Kurs-PM saknas ",
     header_no_round_selected: 'Inget kurstillfälle är valt',
-    no_round_selected: 'Välj kurstillfälle ovan för att se information om kurstillfälle'
+    no_round_selected: 'Välj kurstillfälle ovan för att se information om kurstillfälle',
+    round_seats_info:'Kurstillfället kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.'
   },
   courseInformation:{
     roundId:'Kursomgångs nr',

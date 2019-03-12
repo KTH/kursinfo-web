@@ -354,8 +354,7 @@ class RouterStore {
       round_schedule: this.isValidData(roundObject.schemaUrl, language),
       round_course_term: this.isValidData(roundObject.round.startTerm.term, language).toString().length > 0 ? roundObject.round.startTerm.term.toString().match(/.{1,4}/g) : [],
       round_periods: this.getRoundPeriodes(roundObject.round.courseRoundTerms,language),
-      round_max_seats: this.isValidData(roundObject.round.maxSeats, language),
-      round_min_seats: this.isValidData(roundObject.round.minSeats, language),
+      round_seats: this.getRoundSeats(this.isValidData(roundObject.round.maxSeats, language),this.isValidData(roundObject.round.minSeats, language), language),
       round_type: roundObject.round.applicationCodes.length > 0 ? this.isValidData(roundObject.round.applicationCodes[0].courseRoundType.name, language) : EMPTY[language], //TODO: Map array
       round_application_link:  this.isValidData(roundObject.admissionLinkUrl, language),
       round_part_of_programme: roundObject.usage.length > 0 ? this.getRoundProgramme(roundObject.usage, language) : EMPTY[language],
@@ -398,6 +397,20 @@ class RouterStore {
     }
     return EMPTY[language]
   }
+
+  getRoundSeats(max, min, language){
+    if(max === EMPTY[language] && min === EMPTY[language])
+     return EMPTY[language]
+
+    if(max !== EMPTY[language])
+      if(min !== EMPTY[language])
+        return min + " - "+ max
+      else
+        return "Max: "+max
+
+    return "Min: "+min
+  }
+  
 /******************************************************************************************************************************************* */
 /*                                                                ADMIN                                                                      */
 /******************************************************************************************************************************************* */

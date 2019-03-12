@@ -74,7 +74,8 @@ module.exports = {
     no_schedule: "No schedule ",
     no_memo: "No memo ",
     header_no_round_selected: 'No round selected',
-    no_round_selected: 'Please select a round abow to see round information'
+    no_round_selected: 'Please select a round abow to see round information',
+    round_seats_info:'The Course date may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made.'
   },
   courseInformation: {
     course_title:'Title english',

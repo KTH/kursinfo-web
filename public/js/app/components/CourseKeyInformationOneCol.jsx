@@ -2,10 +2,13 @@ import { Component } from 'inferno'
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
 import Alert from 'inferno-bootstrap/dist/Alert'
+
+
 import { EMPTY } from "../util/constants"
 import i18n from "../../../../i18n"
 
 import CourseFileLinks from "./CourseFileLinks.jsx"
+import InfoModal from "./InfoModal.jsx"
 
 class CourseKeyInformationOneCol extends Component {
  constructor (props) {
@@ -78,8 +81,13 @@ class CourseKeyInformationOneCol extends Component {
                   <h4>{translate.round_tutoring_language}</h4>
                   <p>{round ? round.round_tutoring_language : EMPTY[this.props.language]}</p>
                
-                  <h4>{translate.round_max_seats}</h4>
-                  <p>{round ? round.round_max_seats : EMPTY[this.props.language]}</p>
+                  <h4>
+                    {translate.round_max_seats} 
+                    {round && round.round_seats !== EMPTY[this.props.language] ?
+                     <InfoModal infoText={i18n.messages[this.props.language].courseLabels.round_seats_info}/> 
+                    : ""}
+                  </h4>
+                  <p>{round ? round.round_seats : EMPTY[this.props.language]}</p>
                
                   <h4>{translate.round_time_slots}</h4>
                   <p dangerouslySetInnerHTML = {{ __html:round.round_time_slots }}></p>

@@ -6,6 +6,11 @@ import Button from 'inferno-bootstrap/lib/Button'
 import Col from 'inferno-bootstrap/dist/Col'
 import Row from 'inferno-bootstrap/dist/Row'
 
+import Dropdown from 'inferno-bootstrap/dist/Dropdown'
+import DropdownMenu from 'inferno-bootstrap/dist/DropdownMenu'
+import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
+import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
+
 import i18n from "../../../../i18n"
 import { EMPTY, FORSKARUTB_URL, ADMIN_URL, SYLLABUS_URL } from "../util/constants"
 
@@ -15,10 +20,8 @@ import CourseTitle from "../components/CourseTitle.jsx"
 import CourseSectionList from "../components/CourseSectionList.jsx"
 import CourseFileLinks from "../components/CourseFileLinks.jsx"
 
-import Dropdown from 'inferno-bootstrap/dist/Dropdown'
-import DropdownMenu from 'inferno-bootstrap/dist/DropdownMenu'
-import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
-import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
+
+
 
 /*import Dropdown from 'kth-style-inferno-bootstrap/dist/Dropdown'
 import DropdownMenu from 'kth-style-inferno-bootstrap/dist/DropdownMenu'
