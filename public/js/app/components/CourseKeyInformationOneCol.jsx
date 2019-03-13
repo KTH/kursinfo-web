@@ -144,16 +144,16 @@ class CourseKeyInformationOneCol extends Component {
             {this.props.courseHasRound && this.props.showRoundData ?
               <span>
                 <h3 className="right-column-header">{i18n.messages[this.props.language].courseLabels.header_select_course}</h3>
-                <h4>{translate.round_application_code}: 
-                
+                <h4>{translate.round_application_code} </h4>
+                <i>
                   {`
                   ${i18n.messages[this.props.language].courseInformation.course_short_semester[round.round_course_term[1]]} 
                   ${round.round_course_term[0]}  
                     ${round.round_short_name !== EMPTY[this.props.language] ? round.round_short_name : ""}     
                     ${round.round_type}
-                  `}
-                </h4>
-                <p>{round ? round.round_application_code : EMPTY[this.props.language]}</p>
+                    :`}
+                </i>
+                <p><b>{round ? round.round_application_code : EMPTY[this.props.language]}</b></p>
               </span>
             :""}
           </Col>
