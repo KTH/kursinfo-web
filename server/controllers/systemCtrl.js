@@ -88,8 +88,8 @@ function _final (err, req, res, next) {
 function _getFriendlyErrorMessage (lang, statusCode, courseCode) {
   switch (statusCode) {
     case 404:
-    if(courseCode.length > 0)
-      return i18n.message('error_course_not_found', lang) + courseCode
+    //if(courseCode.length > 0)
+      //return i18n.message('error_course_not_found', lang) + courseCode
     return i18n.message('error_not_found', lang)
     default:
       return i18n.message('error_generic', lang)
@@ -176,7 +176,7 @@ async function _monitor (req, res) {
    const systemHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-system-check')
    const systemStatus = systemHealthUtil.status(localSystems, subSystems)
  
-   systemStatus.then((status) => { console.log(status)
+   systemStatus.then((status) => { //console.log(status)
    
     // Return the result either as JSON or text
     if (req.headers['accept'] === 'application/json') {
