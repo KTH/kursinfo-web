@@ -53,27 +53,6 @@ class CoursePage extends Component {
 
   }
 
-  handleSemesterButtonClick (event) {
-    event.preventDefault()
-    let prevState = this.state
-    const selectedSemester = event.target.id.split('_')
-    if (selectedSemester && selectedSemester[0].indexOf('semesterBtn') > -1) {
-      const newIndex = Number(selectedSemester[1])
-      prevState.syllabusInfoFade = prevState.activeSyllabusIndex !== this.props.routerStore.roundsSyllabusIndex[newIndex]
-      const showRoundData = this.props.routerStore.courseData.roundList[this.props.routerStore.courseSemesters[newIndex][2]].length > 1 ? false : true
-
-      this.setState({
-        activeSemesterIndex: newIndex,
-        activeSemester: this.props.routerStore.courseSemesters[newIndex][2] || 0,
-        activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex] || 0,
-        syllabusInfoFade: prevState.syllabusInfoFade,
-        activeRoundIndex: 0,
-        keyInfoFade:true,
-        showRoundData: showRoundData
-      })
-    }
-  }
-
   componentDidUpdate () {
     // Resets animation after they were triggered
     if (this.state.syllabusInfoFade) {
@@ -113,7 +92,6 @@ class CoursePage extends Component {
 
   toggle (event, keyInfoFade = false, syllabusInfoFade = false) {
     if (event) { console.log(event.target.id)
-
       const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
       let prevState = this.state
       prevState.dropdownsOpen[selectedInfo] = !prevState.dropdownsOpen[selectedInfo]
@@ -169,7 +147,7 @@ class CoursePage extends Component {
     const language = routerStore.courseData.language === 0 ? 'en' : 'sv'
     const translation = i18n.messages[courseData.language]
     const introText = routerStore.sellingText && routerStore.sellingText[language].length > 0 ? routerStore.sellingText[language] : courseData.courseInfo.course_recruitment_text
-
+    const round = courseData.roundList[this.state.activeSemester][0]
     console.log('routerStore in CoursePage', routerStore)
     console.log('state in CoursePage', this.state)
 
@@ -187,7 +165,6 @@ class CoursePage extends Component {
          <Row id='pageContainer' key='pageContainer'>
          {/* <Col sm="1" xs="1" id="left" key="left"> </Col>*/}
           <Col sm='12' xs='12' lg='12' id='middle' key='middle'>
-
           {
             routerStore.canEdit ?
               <Button className='editButton' color='primery' onClick={this.openEdit} id={courseData.courseInfo.course_code}>
@@ -236,14 +213,12 @@ class CoursePage extends Component {
           {/** *************************************************************************************************************/}
           <Col id='keyInformationContainer' sm='4' xs='12' className='float-md-right' >
 
-
             {/* ---COURSE  DROPDOWNS--- */}
             <div id='roundDropdownMenu' className=''>
                <h3 style='margin-top:0px'>{translation.courseLabels.header_round}</h3>
                   <div className='row' id='roundDropdowns' key='roundDropdown'>
 
                     {routerStore.courseSemesters.length > 0 ?
-
                        <DropdownCreater
                          semesterList={routerStore.courseSemesters}
                          courseRoundList={courseData.roundList[this.state.activeSemester]}
@@ -262,11 +237,11 @@ class CoursePage extends Component {
                     }
                     {routerStore.courseSemesters.length > 0 && courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state !== 'APPROVED' ?
                       <Alert color='info' aria-live='polite' >
-                          <h4>{i18n.messages[courseData.language].courseLabels.lable_round_state[courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state]} </h4>
+                          <h4>{translation.courseLabels.lable_round_state[courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state]} </h4>
                       </Alert>
                     : ''}
 
-{routerStore.courseSemesters.length === 0 ?
+                    {routerStore.courseSemesters.length === 0 ?
                       <Alert color='info'>
                         {translation.courseLabels.lable_no_rounds}
                       </Alert> :
@@ -282,7 +257,14 @@ class CoursePage extends Component {
                          parentIndex='0'
                          lable={translation.courseLabels.lable_round_dropdown}
                         />
-                      : ''
+                      : <p>
+                          {`
+                            ${translation.courseInformation.course_short_semester[courseData.roundList[this.state.activeSemester][0].round_course_term[1]]} 
+                            ${courseData.roundList[this.state.activeSemester][0].round_course_term[0]}  
+                            ${courseData.roundList[this.state.activeSemester][0].round_short_name !== EMPTY[language] ? courseData.roundList[this.state.activeSemester][0].round_short_name : ''}     
+                            ${courseData.roundList[this.state.activeSemester][0].round_type}
+                          `}
+                        </p>
                     }
                     {routerStore.courseSemesters.length > 0 && courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state !== 'APPROVED' ?
                       <Alert color='info' aria-live='polite' >
@@ -340,7 +322,7 @@ class CoursePage extends Component {
                         target='_blank'
                       >
                           {translation.courseLabels.label_course_syllabus}
-                      </a>
+
                       <span className='small-text' >
                       {` ( ${translation.courseLabels.label_course_syllabus_valid_from}
                           ${translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]]}  ${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0]} 
@@ -348,6 +330,7 @@ class CoursePage extends Component {
                               translation.courseLabels.label_course_syllabus_valid_to + translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[1]] + ' ' + courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[0] : ''} )
                       `}
                         </span>
+                        </a>
                     </span>
                   : ''}
                 </div>
@@ -377,28 +360,29 @@ class CoursePage extends Component {
 
         {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
         {courseData.courseInfo.course_level_code === 'RESEARCH' ?
-              <span>
-                <h3>{translation.courseLabels.header_postgraduate_course}</h3>
-                {translation.courseLabels.label_postgraduate_course}
-                <a target='_blank' href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}>
-                   {courseData.courseInfo.course_department}
-                </a>
-              </span>
-            : ''}
-            </Col>
-<Col id='historyContent' sm='8' xs='12' className='float-md-left'>
-<h2>NY rubrik</h2>
-             {/* ---STATISTICS LINK--- */}
-          <h3> {translation.courseLabels.header_statistics}</h3>
-            <p>
-              <i class='fas fa-chart-line'></i>
-              <a href='' target='_blank' >
-                {translation.courseLabels.label_statistics}
+          <span>
+            <h3>{translation.courseLabels.header_postgraduate_course}</h3>
+              {translation.courseLabels.label_postgraduate_course}
+              <a target='_blank' href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}>
+                {courseData.courseInfo.course_department}
               </a>
-            </p>
+          </span>
+          : ''}
+        </Col>
+        <Col id='historyContent' sm='8' xs='12' className='float-md-left'>
+          <h2>NY rubrik</h2>
 
-            {/* --- ALL SYLLABUS LINKS--- */}
-            <h3>{translation.courseLabels.header_syllabuses}</h3>
+          {/* ---STATISTICS LINK--- */}
+          <h3> {translation.courseLabels.header_statistics}</h3>
+          <p>
+            <i class='fas fa-chart-line'></i>
+            <a href='' target='_blank' >
+              {translation.courseLabels.label_statistics}
+            </a>
+          </p>
+
+          {/* --- ALL SYLLABUS LINKS--- */}
+          <h3>{translation.courseLabels.header_syllabuses}</h3>
               {courseData.syllabusSemesterList.length > 0 ?
                 courseData.syllabusSemesterList.map((semester, index) =>
                   <span key={index}>
@@ -410,18 +394,16 @@ class CoursePage extends Component {
                       target='_blank'
                     >
                       {translation.courseLabels.label_course_syllabus_valid_from}&nbsp;
-                      {translation.courseInformation.course_short_semester[semester.toString().substring(4, 5)]}                                                                                                                   {semester.toString().substring(0, 4)}
+                      {translation.courseInformation.course_short_semester[semester.toString().substring(4, 5)]}                                                                                                                          {semester.toString().substring(0, 4)}
                       &nbsp;
                     </a> <br />
                   </span>
                 )
               : EMPTY[courseData.language]}
+        </Col>
       </Col>
-
-     </Col>
-     <br />
-        {/* ---TEMP: test of dates ---
-
+      {/* ---TEMP: test of dates ---
+        <br/>
         <span style="padding:5px; border: 3px dotted pink;">
           <lable>Time machine for testing default information: </lable>
           <input type="date" onChange={this.handleDateInput} />

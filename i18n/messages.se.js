@@ -37,7 +37,7 @@ module.exports = {
     host_name: 'KTH',
     page_student:'STUDENT PÅ KTH',
     page_course_programme: 'KURS- OCH PROGRAMKATALOGEN'
-    
+
   },
   courseLabels: {
     label_course_syllabus: 'Kursplan',
@@ -50,7 +50,7 @@ module.exports = {
     label_last_exam: 'Sista planerade examination: ',
     label_course_web_link: 'Kurswebb',
     label_edit:'Redigera',
-    label_course_pm: "Kurs - PM",
+    label_course_pm: 'Kurs - PM',
     lable_no_rounds: 'Kursen har inga kurstillfällen',
     label_schedule: 'Schema',
     label_statistics: 'Kursutveckling',
@@ -73,9 +73,9 @@ module.exports = {
     header_round: 'Kurstillfälle och genomförande',
     header_select_course: 'Kursval',
     header_postgraduate_course: 'Forskarkurs ',
-    empty_text: "Ingen information inlagd"  ,
-    no_schedule: "Schema saknas",
-    no_memo: "Kurs-PM saknas ",
+    empty_text: 'Ingen information inlagd' ,
+    no_schedule: 'Schema saknas',
+    no_memo: 'Kurs-PM saknas ',
     header_no_round_selected: 'Inget kurstillfälle är valt',
     no_round_selected: 'Välj kurstillfälle ovan för att se information om kurstillfälle',
     round_seats_info:'Kurstillfället kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.'
@@ -122,6 +122,7 @@ module.exports = {
 
   },
   courseRoundInformation: {
+    round_header:'Kurstillfälle',
     round_application_code: 'Anmälningskod',
     round_max_seats: 'Antal platser',
     round_part_of_programme: 'Del av program',

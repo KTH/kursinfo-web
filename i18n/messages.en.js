@@ -49,7 +49,7 @@ module.exports = {
     label_course_web_link: 'Course web',
     label_edit:'Edit',
     lable_no_rounds: ' No rounds for this course',
-    label_course_pm: "Course memo",
+    label_course_pm: 'Course memo',
     label_schedule: 'Schedule',
     label_statistics: 'Course statistics',
     lable_canavas_example: 'Canvas example course',
@@ -70,9 +70,9 @@ module.exports = {
     header_round: 'Rounds and implementation',
     header_select_course: 'Application',
     header_postgraduate_course: 'Postgraduate course ',
-    empty_text: "No information added",
-    no_schedule: "No schedule ",
-    no_memo: "No memo ",
+    empty_text: 'No information added',
+    no_schedule: 'No schedule ',
+    no_memo: 'No memo ',
     header_no_round_selected: 'No round selected',
     no_round_selected: 'Please select a round abow to see round information',
     round_seats_info:'The Course date may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made.'
@@ -117,6 +117,7 @@ module.exports = {
     course_recruitment_text:'Abstract'
   },
   courseRoundInformation:{
+    round_header:'Round',
     round_application_code: 'Application code',
     round_max_seats: 'Number of places',
     round_part_of_programme: 'Part of programme',
