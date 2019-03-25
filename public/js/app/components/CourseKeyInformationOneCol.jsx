@@ -73,14 +73,12 @@ class CourseKeyInformationOneCol extends Component {
               }
 
               {/** *************************************************************************************************************/}
-              {/*                                     Round contact information                                               */}
+              {/*                                            Round  information                                               */}
               {/** *************************************************************************************************************/}
               {this.props.courseHasRound && this.props.showRoundData ?
                 <span>
-
-
                   <h4>{translate.round_tutoring_form}</h4>
-                  <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[this.props.language]}        {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
+                  <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[this.props.language]}           {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
 
                   <h4>{translate.round_tutoring_language}</h4>
                   <p>{round ? round.round_tutoring_language : EMPTY[this.props.language]}</p>
@@ -88,7 +86,7 @@ class CourseKeyInformationOneCol extends Component {
                   <h4>
                     {translate.round_max_seats}
                     {round && round.round_seats !== EMPTY[this.props.language] ?
-                     <InfoModal infoText={i18n.messages[this.props.language].courseLabels.round_seats_info} />
+                      <InfoModal infoText={i18n.messages[this.props.language].courseLabels.round_seats_info} />
                     : ''}
                   </h4>
                   <p>{round ? round.round_seats : EMPTY[this.props.language]}</p>
@@ -112,6 +110,24 @@ class CourseKeyInformationOneCol extends Component {
             </div>
           </Col>
         </Row>
+        <Row id='roundApply'>
+          <Col>
+            {/** *************************************************************************************************************/}
+            {/*                                     Round - application information                                         */}
+            {/** *************************************************************************************************************/}
+            {this.props.courseHasRound && this.props.showRoundData ?
+              <span>
+                <h3 className='right-column-header'>{i18n.messages[this.props.language].courseLabels.header_select_course}</h3>
+
+                <h4>{roundHeader} </h4>
+                <p>{selectedRoundHeader}</p>
+
+                <h4>{translate.round_application_code} </h4>
+                <p><b>{round ? round.round_application_code : EMPTY[this.props.language]}</b></p>
+              </span>
+            : ''}
+          </Col>
+       </Row>
         <Row id='roundContact'>
           <Col>
           {/** *************************************************************************************************************/}
@@ -144,24 +160,7 @@ class CourseKeyInformationOneCol extends Component {
               : ''}
           </Col>
        </Row>
-        <Row id='roundApply'>
-          <Col>
-            {/** *************************************************************************************************************/}
-            {/*                                     Round - application information                                         */}
-            {/** *************************************************************************************************************/}
-            {this.props.courseHasRound && this.props.showRoundData ?
-              <span>
-                <h3 className='right-column-header'>{i18n.messages[this.props.language].courseLabels.header_select_course}</h3>
 
-                <h4>{roundHeader} </h4>
-                <p>{selectedRoundHeader}</p>
-
-                <h4>{translate.round_application_code} </h4>
-                <p><b>{round ? round.round_application_code : EMPTY[this.props.language]}</b></p>
-              </span>
-            : ''}
-          </Col>
-       </Row>
       </div>
     )
   }

@@ -18,7 +18,7 @@ import { EMPTY, FORSKARUTB_URL, ADMIN_URL, SYLLABUS_URL } from '../util/constant
 import CourseKeyInformationOneCol from '../components/CourseKeyInformationOneCol.jsx'
 import CourseTitle from '../components/CourseTitle.jsx'
 import CourseSectionList from '../components/CourseSectionList.jsx'
-import CourseFileLinks from '../components/CourseFileLinks.jsx'
+import InfoModal from '../components/InfoModal.jsx'
 
 
 @inject(['routerStore']) @observer
@@ -141,13 +141,13 @@ class CoursePage extends Component {
     window.location = `${ADMIN_URL}${this.props.routerStore.courseData.courseInfo.course_code}?l=${language}`
   }
 
-  render ({ routerStore}) {
+  render ({ routerStore }) {
     const courseData = routerStore['courseData']
 
     const language = routerStore.courseData.language === 0 ? 'en' : 'sv'
     const translation = i18n.messages[courseData.language]
     const introText = routerStore.sellingText && routerStore.sellingText[language].length > 0 ? routerStore.sellingText[language] : courseData.courseInfo.course_recruitment_text
-    const round = courseData.roundList[this.state.activeSemester][0]
+
     console.log('routerStore in CoursePage', routerStore)
     console.log('state in CoursePage', this.state)
 
@@ -162,13 +162,13 @@ class CoursePage extends Component {
 
     return (
       <div key='kursinfo-container' className='col' id='kursinfo-main-page' >
-         <Row id='pageContainer' key='pageContainer'>
+        <Row id='pageContainer' key='pageContainer'>
          {/* <Col sm="1" xs="1" id="left" key="left"> </Col>*/}
           <Col sm='12' xs='12' lg='12' id='middle' key='middle'>
           {
             routerStore.canEdit ?
               <Button className='editButton' color='primery' onClick={this.openEdit} id={courseData.courseInfo.course_code}>
-              <i class='fas fa-edit'></i> {translation.courseLabels.label_edit}
+                <i class='fas fa-edit'></i> {translation.courseLabels.label_edit}
               </Button>
             : ''
           }
@@ -206,47 +206,45 @@ class CoursePage extends Component {
             </Row>
           </Col>
         </Row>
-      <Row id='columnContainer' key='columnContainer'>
-        <Col id='leftContainer' key='leftContainer' >
+        <Row id='columnContainer' key='columnContainer'>
+         <Col id='leftContainer' key='leftContainer' >
           {/** *************************************************************************************************************/}
           {/*                                      RIGHT COLUMN - KEY INFORMATION                                         */}
           {/** *************************************************************************************************************/}
-          <Col id='keyInformationContainer' sm='4' xs='12' className='float-md-right' >
+            <Col id='keyInformationContainer' sm='4' xs='12' className='float-md-right' >
 
             {/* ---COURSE  DROPDOWNS--- */}
-            <div id='roundDropdownMenu' className=''>
-               <h3 style='margin-top:0px'>{translation.courseLabels.header_round}</h3>
+            {routerStore.courseSemesters.length > 0 ?
+              <div id='roundDropdownMenu' className=''>
+                <h4 style='margin-top:0px'>{translation.courseLabels.header_round}</h4>
                   <div className='row' id='roundDropdowns' key='roundDropdown'>
 
                     {routerStore.courseSemesters.length > 0 ?
-                       <DropdownCreater
-                         semesterList={routerStore.courseSemesters}
-                         courseRoundList={courseData.roundList[this.state.activeSemester]}
-                         callerInstance={this}
-                         year={routerStore.courseSemesters[this.state.activeSemesterIndex][0]}
-                         semester={routerStore.courseSemesters[this.state.activeSemesterIndex][1]}
-                         yearSemester={routerStore.courseSemesters[this.state.activeSemesterIndex][2]}
-                         language={courseData.language}
-                         parentIndex='0'
-                         lable={translation.courseLabels.lable_round_dropdown}
-                        /> :
-                        <Alert color='info'>
+                      <DropdownSemesters
+                        semesterList={routerStore.courseSemesters}
+                        courseRoundList={courseData.roundList[this.state.activeSemester]}
+                        callerInstance={this}
+                        year={routerStore.courseSemesters[this.state.activeSemesterIndex][0]}
+                        semester={routerStore.courseSemesters[this.state.activeSemesterIndex][1]}
+                        yearSemester={routerStore.courseSemesters[this.state.activeSemesterIndex][2]}
+                        language={courseData.language}
+                        parentIndex='0'
+                        lable={translation.courseLabels.lable_round_dropdown}
+                      /> :
+                      <Alert color='info'>
                         {translation.courseLabels.lable_no_rounds}
                       </Alert>
-
                     }
+
                     {routerStore.courseSemesters.length > 0 && courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state !== 'APPROVED' ?
                       <Alert color='info' aria-live='polite' >
                           <h4>{translation.courseLabels.lable_round_state[courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state]} </h4>
                       </Alert>
                     : ''}
 
-                    {routerStore.courseSemesters.length === 0 ?
-                      <Alert color='info'>
-                        {translation.courseLabels.lable_no_rounds}
-                      </Alert> :
-                      courseData.roundList[this.state.activeSemester] && courseData.roundList[this.state.activeSemester].length > 1 ?
-                       <DropdownCreater2
+
+                     {courseData.roundList[this.state.activeSemester] && courseData.roundList[this.state.activeSemester].length > 1 ?
+                       <DropdownRounds
                          semesterList={routerStore.courseSemesters}
                          courseRoundList={courseData.roundList[this.state.activeSemester]}
                          callerInstance={this}
@@ -273,6 +271,12 @@ class CoursePage extends Component {
                     : ''}
                   </div>
              </div>
+             : <Alert color='info'>
+                        {translation.courseLabels.lable_no_rounds}
+                      </Alert>
+             }
+
+             <h3 style='margin-top:20px'>{translation.courseLabels.header_round}</h3>
 
             {/* ---COURSE ROUND KEY INFORMATION--- */}
             {routerStore.courseSemesters.length > 0 ?
@@ -283,7 +287,10 @@ class CoursePage extends Component {
               courseHasRound={routerStore.courseSemesters.length > 0}
               fade={this.state.keyInfoFade}
               showRoundData={this.state.showRoundData === false && courseData.roundList[this.state.activeSemester].length > 1 ? false : true}
-            /> : ''}
+            /> :
+            <div id='roundKeyInformation'>
+              <p>Some text here.... no rounds</p>
+            </div>}
         </Col>
 
         {/** *************************************************************************************************************/}
@@ -295,18 +302,17 @@ class CoursePage extends Component {
           <Row id='semesterContainer' key='semesterContainer'>
             <Col sm='12' >
             <div sm='12' id='courseInfoHeader'>
-              <h2>{translation.courseLabels.header_course_info} </h2>
+              <h2>{translation.courseLabels.header_course_info}
+              <div style='float:right;'>
+              <InfoModal infoText={i18n.messages[courseData.language].courseLabels.round_seats_info} />
+              </div></h2>
             </div>
 
               {/* ---COURSE SEMESTER BUTTONS--- */}
-              {routerStore.courseSemesters.length === 0 ?
-                courseData.syllabusSemesterList.length === 0 ?
+              {courseData.syllabusSemesterList.length === 0 ?
                   <Alert color='info' aria-live='polite'>
                     {translation.courseLabels.label_no_syllabus}
                   </Alert> :
-                <Alert color='info' aria-live='polite'>
-                  {translation.courseLabels.lable_no_rounds}
-                </Alert> :
                ''
               }
             <Row id='syllabusLink'>
@@ -370,7 +376,7 @@ class CoursePage extends Component {
           : ''}
         </Col>
         <Col id='historyContent' sm='8' xs='12' className='float-md-left'>
-          <h2>NY rubrik</h2>
+          <h2>{translation.courseLabels.header_history}</h2>
 
           {/* ---STATISTICS LINK--- */}
           <h3> {translation.courseLabels.header_statistics}</h3>
@@ -394,7 +400,7 @@ class CoursePage extends Component {
                       target='_blank'
                     >
                       {translation.courseLabels.label_course_syllabus_valid_from}&nbsp;
-                      {translation.courseInformation.course_short_semester[semester.toString().substring(4, 5)]}                                                                                                                          {semester.toString().substring(0, 4)}
+                      {translation.courseInformation.course_short_semester[semester.toString().substring(4, 5)]}                                                                                                                                                 {semester.toString().substring(0, 4)}
                       &nbsp;
                     </a> <br />
                   </span>
@@ -410,14 +416,7 @@ class CoursePage extends Component {
           <button onClick={this.timeMachine}>Travel in time!</button>
         </span>*/}
     </Row>
-
-
-  {/* ---EDIT BUTTON --- */}
-{/* <Col sm="1" xs="1" id="right" key="right">*/}
-
-      {/*   </Col>*/}
-
-      </div>
+    </div>
     )
   }
 }
@@ -425,7 +424,7 @@ class CoursePage extends Component {
 
 
 
-const DropdownCreater = ({ semesterList, courseRoundList, callerInstance, semester, year, yearSemester, language = 0, parentIndex = 0, lable = ''}) => {
+const DropdownSemesters = ({ semesterList, courseRoundList, callerInstance, semester, year, yearSemester, language = 0, parentIndex = 0, lable = ''}) => {
   let listIndex = []
   const dropdownID = 'semesterDropdown'
 
@@ -444,11 +443,11 @@ const DropdownCreater = ({ semesterList, courseRoundList, callerInstance, semest
          <DropdownToggle
            id={dropdownID} >
             {callerInstance.state.roundDisabled ?
-             <span>{i18n.messages[language].courseLabels.header_semester_menue}</span>
+             <span id={dropdownID + '_span'}>{i18n.messages[language].courseLabels.header_semester_menue}</span>
               :
-             <span>{i18n.messages[language].courseInformation.course_short_semester[semester]} {year}</span>
+             <span id={dropdownID + '_span'}>{i18n.messages[language].courseInformation.course_short_semester[semester]} {year}</span>
             }
-             <span caret className='caretholder'></span>
+             <span caret className='caretholder' id={dropdownID + '_spanCaret'}></span>
 
           </DropdownToggle>
           <DropdownMenu>
@@ -467,7 +466,7 @@ const DropdownCreater = ({ semesterList, courseRoundList, callerInstance, semest
   )
 }
 
-const DropdownCreater2 = ({courseRoundList, callerInstance, semester, year, yearSemester, language = 0, parentIndex = 0, lable = ''}) => {
+const DropdownRounds = ({courseRoundList, callerInstance, semester, year, yearSemester, language = 0, parentIndex = 0, lable = ''}) => {
   let listIndex = []
   const dropdownID = 'roundsDropdown'
 
@@ -482,24 +481,22 @@ const DropdownCreater2 = ({courseRoundList, callerInstance, semester, year, year
         key={'dropD' + dropdownID}
         id={dropdownID}
         className='select-round'
-
-          >
-         <DropdownToggle
-           id={dropdownID}
-           disabled={callerInstance.state.roundDisabled}
-           >
-           {callerInstance.state.roundSelected ?
-
-            <span>
+      >
+        <DropdownToggle
+          id={dropdownID}
+          disabled={callerInstance.state.roundDisabled}
+        >
+          {callerInstance.state.roundSelected ?
+            <span id={dropdownID + '_span'}>
               {
                 `${courseRoundList[callerInstance.state.activeRoundIndex].round_short_name !== EMPTY[language] ? courseRoundList[callerInstance.state.activeRoundIndex].round_short_name : ''},     
                 ${courseRoundList[callerInstance.state.activeRoundIndex].round_type}`
               }
               </span>
            :
-             <span>{lable} </span>
+             <span id={dropdownID + '_span'}>{lable} </span>
             }
-             <span caret className='caretholder'></span>
+             <span caret className='caretholder' id={dropdownID + '_spanCaret'}></span>
           </DropdownToggle>
           <DropdownMenu>
           {

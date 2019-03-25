@@ -67,6 +67,7 @@ module.exports = {
     header_statistics: 'Course statistics',
     header_syllabuses: 'Course Syllabuses',
     header_further: 'Further information',
+    header_history:'Kursens utveckling och historik',
     header_round: 'Rounds and implementation',
     header_select_course: 'Application',
     header_postgraduate_course: 'Postgraduate course ',
