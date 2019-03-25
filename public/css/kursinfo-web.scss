@@ -45,9 +45,14 @@
     }    
 }
 
-h2 {
-    margin-top: 70px;
-    margin-bottom: 30px;
+#semesterContainer{
+    #courseInfoHeader{
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+    }
+     h2{
+        padding-top:20px; 
+    }
 }
 
 .select-round{
@@ -96,6 +101,16 @@ h2 {
         }            
     }
     
+}
+
+#roundDropdownMenu{
+    border: 1px solid #0081af;
+    padding: 10px;
+    .btn{
+        margin-top:10px;
+        margin-bottom:20px;
+    }
+   
 }
 
 #semesterMenu{
@@ -153,7 +168,7 @@ h2 {
 
 
 #keyInformationContainer{
-    margin-top: 40px;
+    margin-top: 10px;
     .key-info{
         padding: 15px;
         background: #f6f6f6;
@@ -177,12 +192,17 @@ h2 {
   #coreContent{
     padding-left:0;
     padding-top:40px;
+    border-bottom: 1px solid #ddd;
     .first-header{
         margin-top: 40px;
     }
     @media (min-width: 768px){
         padding-top:0px;
     }
+}
+
+#historyContent{
+    padding-left:0;
 }
 
 #courseLinks{
