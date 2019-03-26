@@ -55,7 +55,7 @@ module.exports = {
     label_schedule: 'Schema',
     label_statistics: 'Kursutveckling',
     lable_canavas_example: 'Canvas exempelkurs',
-    lable_round_dropdown: 'Välj kurstillfälle för',
+    lable_round_dropdown: 'Välj kurstillfälle',
 
     lable_round_state:{
       CANCELLED: 'Kurstillfälle inställt',

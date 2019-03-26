@@ -398,7 +398,7 @@ class CoursePage extends Component {
                       target='_blank'
                     >
                       {translation.courseLabels.label_course_syllabus_valid_from}&nbsp;
-                      {translation.courseInformation.course_short_semester[semester.toString().substring(4, 5)]}                                                                                                                                                    {semester.toString().substring(0, 4)}
+                      {translation.courseInformation.course_short_semester[semester.toString().substring(4, 5)]}                                                                                                                                                     {semester.toString().substring(0, 4)}
                       &nbsp;
                     </a> <br />
                   </span>
@@ -491,7 +491,7 @@ const DropdownRounds = ({courseRoundList, callerInstance, semester, year, yearSe
               }
             </span>
            :
-             <span id={dropdownID + '_span'}>{lable} </span>
+             <span id={dropdownID + '_spanSelect'}>{lable} </span>
             }
              <span caret className='caretholder' id={dropdownID + '_spanCaret'}></span>
           </DropdownToggle>
