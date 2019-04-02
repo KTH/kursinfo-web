@@ -79,10 +79,10 @@ const morgan = require('morgan')
 server.use(morgan(':method :url :status :res[content-length] --kip_web-- :response-time ms'))
 const compression = require('compression')
 server.use(compression({
-  filter: function () { return true; }
+  filter: function () { return true }
 }))
-const minify = require('express-minify');
-server.use(minify());
+const minify = require('express-minify')
+server.use(minify())
 
 // helper
 function setCustomCacheControl (res, path) {
@@ -102,7 +102,7 @@ server.use(config.proxyPrefixPath.uri + '/static/bootstrap', express.static('./n
 // Map kth-style.
 server.use(config.proxyPrefixPath.uri + '/static/kth-style', express.static('./node_modules/kth-style/dist'))
 
-//server.use(config.proxyPrefixPath.uri + '/static/js/app.js', express.static('./dist/js/app.js'))
+// server.use(config.proxyPrefixPath.uri + '/static/js/app.js', express.static('./dist/js/app.js'))
 // Map static content like images, css and js.
 server.use(config.proxyPrefixPath.uri + '/static', express.static('./dist'))
 // Return 404 if static file isn't found so we don't go through the rest of the pipeline
@@ -195,7 +195,7 @@ server.use(excludeExpression, require('kth-node-web-common/lib/web/crawlerRedire
  * ******* APPLICATION ROUTES *******
  * **********************************
  */
-const { System, Course, Course2, Syllabus, noCourse} = require('./controllers')
+const { System, Course, Syllabus, noCourse} = require('./controllers')
 const { requireRole } = require('./authentication')
 
 // System routes
@@ -209,11 +209,10 @@ server.use('/', systemRoute.getRouter())
 // App routes
 const appRoute = AppRouter()
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/kursplan/:course_semester', Syllabus.getIndex)
-//appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', Course.getIndex)
+// appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', Course.getIndex)
 
-appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', /*getServerGatewayLogin('/:courseCode'),*/ Course.getIndex)
+appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', getServerGatewayLogin('/:courseCode'), Course.getIndex)
 
-appRoute.get('system.index', config.proxyPrefixPath.uri + '/2/:courseCode', getServerGatewayLogin('/:courseCode'), Course2.getIndex)
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/', noCourse.getIndex)
 appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isAdmin'), Course.getIndex)
 

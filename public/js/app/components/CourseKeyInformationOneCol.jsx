@@ -78,16 +78,16 @@ class CourseKeyInformationOneCol extends Component {
               {this.props.courseHasRound && this.props.showRoundData ?
                 <span>
                   <h4>{translate.round_tutoring_form}</h4>
-                  <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[this.props.language]}           {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
+                  <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[this.props.language]}            {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
 
                   <h4>{translate.round_tutoring_language}</h4>
                   <p>{round ? round.round_tutoring_language : EMPTY[this.props.language]}</p>
 
                   <h4>
                     {translate.round_max_seats}
-                    {round && round.round_seats !== EMPTY[this.props.language] ?
-                      <InfoModal infoText={i18n.messages[this.props.language].courseLabels.round_seats_info} />
-                    : ''}
+                    {round && round.round_seats !== EMPTY[this.props.language]
+                      ? <InfoModal infoText={i18n.messages[this.props.language].courseLabels.round_seats_info} />
+                      : ''}
                   </h4>
                   <p>{round ? round.round_seats : EMPTY[this.props.language]}</p>
 

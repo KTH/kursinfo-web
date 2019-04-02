@@ -220,7 +220,7 @@ class CoursePage extends Component {
                   {translation.courseLabels.lable_no_rounds}  
                 </Alert> :
                 <div id="semesterMenu" >
-                  <h3>{translation.courseLabels.header_semester_menue}</h3>
+                  <h3>{translation.courseLabels.header_dropdown_menue}</h3>
                     <div className="row" id="semesterButtonMenue" key="semesterButtonMenue">
                     {
                       routerStore.courseSemesters.map((semester, index)=>{

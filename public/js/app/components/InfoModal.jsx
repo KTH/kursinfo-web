@@ -9,32 +9,36 @@ import Button from 'inferno-bootstrap/dist/Button'
 class InfoModal extends Component {
   constructor (props) {
     super(props)
-      this.state = {
-        modal: false
-      }
-      this.toggle = this.toggle.bind(this);
+    this.state = {
+      modal: false
     }
-    toggle() {
-      this.setState({
+    this.toggle = this.toggle.bind(this)
+  }
+  toggle () {
+    this.setState({
         modal: !this.state.modal
       })
-    }
-    render() {
-      const fadeModal = (this.props.hasOwnProperty('fade') ? this.props.fade : true)
-      return (
-        <Button className = "btn-info-modal" onClick={this.toggle}>{this.props.buttonLabel}
+  }
+  render () {
+    const fadeModal = (this.props.hasOwnProperty('fade') ? this.props.fade : true)
+    return (
+        <Button className='btn-info-modal' onClick={this.toggle}>{this.props.buttonLabel}
           <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className} fade={fadeModal}>
             <ModalHeader toggle={this.toggle}>Info</ModalHeader>
             <ModalBody>
-              <p>{this.props.infoText}</p>
+              {this.props.type && this.props.type === 'html'
+                ? <p dangerouslySetInnerHTML={{ __html: this.props.infoText}}></p>
+                : <p>{this.props.infoText}</p>
+              }
+
             </ModalBody>
             <ModalFooter>
-              <Button color="secondary" onClick={this.toggle}>Close</Button>
+              <Button color='secondary' onClick={this.toggle}>Close</Button>
             </ModalFooter>
           </Modal>
         </Button>
       )
-    }
+  }
   }
 
-  export default InfoModal
+export default InfoModal
