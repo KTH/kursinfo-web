@@ -5,7 +5,6 @@ import ModalHeader from 'inferno-bootstrap/dist/Modal/ModalHeader'
 import ModalFooter from 'inferno-bootstrap/dist/Modal/ModalFooter'
 import Button from 'inferno-bootstrap/dist/Button'
 
-
 class InfoModal extends Component {
   constructor (props) {
     super(props)
@@ -14,31 +13,32 @@ class InfoModal extends Component {
     }
     this.toggle = this.toggle.bind(this)
   }
+
   toggle () {
     this.setState({
-        modal: !this.state.modal
-      })
+      modal: !this.state.modal
+    })
   }
+
   render () {
     const fadeModal = (this.props.hasOwnProperty('fade') ? this.props.fade : true)
     return (
-        <Button className='btn-info-modal' onClick={this.toggle}>{this.props.buttonLabel}
-          <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className} fade={fadeModal}>
-            <ModalHeader toggle={this.toggle}>Info</ModalHeader>
-            <ModalBody>
-              {this.props.type && this.props.type === 'html'
-                ? <p dangerouslySetInnerHTML={{ __html: this.props.infoText}}></p>
-                : <p>{this.props.infoText}</p>
-              }
-
-            </ModalBody>
-            <ModalFooter>
-              <Button color='secondary' onClick={this.toggle}>Close</Button>
-            </ModalFooter>
-          </Modal>
-        </Button>
-      )
+      <Button className='btn-info-modal' onClick={this.toggle}>{this.props.buttonLabel}
+        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className} fade={fadeModal}>
+          <ModalHeader toggle={this.toggle}>Info</ModalHeader>
+          <ModalBody>
+            {this.props.type && this.props.type === 'html'
+              ? <p dangerouslySetInnerHTML={{__html: this.props.infoText}}></p>
+              : <p>{this.props.infoText}</p>
+            }
+          </ModalBody>
+          <ModalFooter>
+            <Button color='secondary' onClick={this.toggle}>Close</Button>
+          </ModalFooter>
+        </Modal>
+      </Button>
+    )
   }
-  }
+}
 
 export default InfoModal

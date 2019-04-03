@@ -45,7 +45,7 @@ module.exports = {
     label_course_syllabus_valid_from: 'Gäller från och med',
     label_course_syllabus_valid_to: 'till slutet av ',
     header_no_syllabus: 'Kursplan och kursomgångar saknas',
-    label_no_syllabus: 'Kursplan saknas, kursinformationen som visas är övrig kursinformation. Även kursomgångarsaknasför tidigare och kommande terminer, samt innevarande termin.',
+    label_no_syllabus: 'Kursplan saknas, kursinformationen som visas är övrig kursinformation. Även kursomgångar saknas för tidigare och kommande terminer, samt innevarande termin.',
     label_programme_year: 'Åk  ',
     label_postgraduate_course: 'Forskarkurser på ',
     label_course_cancelled: 'Detta är en nedlagd kurs.',
@@ -61,9 +61,9 @@ module.exports = {
     lable_round_select: 'Välj kursomgång',
     lable_semester_select: 'Välj termin',
 
-    lable_round_state:{
-      CANCELLED: 'Kurstillfälle inställt',
-      FULL: 'Kurstillfälle fullsatt'
+    lable_round_state: {
+      CANCELLED: 'Kursomgång inställt',
+      FULL: 'Kursomgång fullsatt'
     },
     header_dropdown_menue: 'Visa kursinformation utifrån vald termin och kursomgång',
     header_course_info: 'Kursinformation',
@@ -74,42 +74,42 @@ module.exports = {
     header_examination: 'Examination och slutförande',
     header_contact: 'Kontakt',
     header_further: 'Ytterligare information',
-    header_round: 'Kurstillfälle och genomförande',
+    header_round: 'Kursomgång och genomförande',
     header_select_course: 'Kursval',
-    header_history:'Kursens utveckling och historik',
+    header_history: 'Kursens utveckling och historik',
     header_postgraduate_course: 'Forskarkurs ',
     empty_text: 'Ingen information inlagd',
     no_schedule: 'Schema saknas',
     no_memo: 'Kurs-PM saknas ',
-    header_no_round_selected: 'Inget kurstillfälle är valt',
-    no_round_selected: 'Välj kurstillfälle ovan för att se information om kurstillfälleVälj termin och kursomgångovan för att få information från rätt kursplan och kursomgång.',
-    round_seats_info:'Kurstillfället kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
+    header_no_round_selected: 'Ingen kursomgång är valt',
+    no_round_selected: 'Välj termin och kursomgång ovan för att få information från rätt kursplan och kursomgång.',
+    round_seats_info: 'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
     syllabus_info: '<h4>Kursinformation</h4> <p>• Kursinformation består av all information från kursplan samt övrig kursinformation som gäller kurs och kursomgång</p><p>• Har du inte valt termin och kursomgångså ser du kursinformation från nuvarande eller kommande kursplan (vilken period kursplanen gäller förfinns angivet under rubriken ”Kursinformation”)</p><p>• En kurs går olika kursomgångar. För att se information för en specifikkursomgångså väljer du termin och kursomgångi rutan uppe till höger. Om det är annan kursplan som gäller den terminen så uppdateras även den informationen (till vänster på sidan)</p><p>•Observera: bestämmelser i kursplaner är regler som är generellt tillämpbara och bindande för såväl anställda som studenter</p>'
   },
-  courseInformation:{
+  courseInformation: {
     roundId: 'Kursomgångs nr',
-    course_title:'Benämning svenska',
-    course_other_title:'Benämning engelska',
-    course_code:'Kurskod',
-    course_credits:'Högskolepoäng',
-    course_grade_scale:'Betygsskala *',
-    course_goals:'Lärandemål *',
-    course_content:'Kursens huvudsakliga innehåll *',
-    course_disposition:'Kursupplägg *',
-    course_eligibility:'Behörighet *',
-    course_requirments_for_final_grade:'Krav för slutbetyg *',
-    course_literature:'Kurslitteratur *',
-    course_literature_comment:'Kommentar till kurslitteratur',
-    course_examination_comments:'Kommentar till examinationsmoment *',
-    course_examination:'Examination *',
-    course_valid_from:'Giltig från',
-    course_main_subject:'Huvudområde *',
-    course_language:'Undervisningsspråk *',
-    course_required_equipment:'Utrustningskrav *',
-    course_level_code:'Utbildningsnivå *',
-    course_short_semester:{
-      1:'VT ',
-      2:'HT '
+    course_title: 'Benämning svenska',
+    course_other_title: 'Benämning engelska',
+    course_code: 'Kurskod',
+    course_credits: 'Högskolepoäng',
+    course_grade_scale: 'Betygsskala *',
+    course_goals: 'Lärandemål *',
+    course_content: 'Kursens huvudsakliga innehåll *',
+    course_disposition: 'Kursupplägg *',
+    course_eligibility: 'Behörighet *',
+    course_requirments_for_final_grade: 'Krav för slutbetyg *',
+    course_literature: 'Kurslitteratur *',
+    course_literature_comment: 'Kommentar till kurslitteratur',
+    course_examination_comments: 'Kommentar till examinationsmoment *',
+    course_examination: 'Examination *',
+    course_valid_from: 'Giltig från',
+    course_main_subject: 'Huvudområde *',
+    course_language: 'Undervisningsspråk *',
+    course_required_equipment: 'Utrustningskrav *',
+    course_level_code: 'Utbildningsnivå *',
+    course_short_semester: {
+      1: 'VT ',
+      2: 'HT '
     },
     course_level_code_label: {
       PREPARATORY: 'Förberedande nivå',
@@ -117,19 +117,18 @@ module.exports = {
       ADVANCED: 'Avancerad nivå',
       RESEARCH: 'Forskarnivå'
     },
-    course_department:'Ges av',
-    course_contact_name:'Kontaktperson',
-    course_prerequisites:'Rekommenderade förkunskaper',
+    course_department: 'Ges av',
+    course_contact_name: 'Kontaktperson',
+    course_prerequisites: 'Rekommenderade förkunskaper',
     course_suggested_addon_studies: 'Påbyggnad',
     course_supplemental_information_url: 'Övrig information - länk',
-    course_supplemental_information_url_text:'Övrig information - länk text',
+    course_supplemental_information_url_text: 'Övrig information - länk text',
     course_supplemental_information: 'Övrig information',
     course_examiners: 'Examinator',
     course_recruitment_text: 'Kort beskrivning svenska'
-
   },
   courseRoundInformation: {
-    round_header: 'Kurstillfälle',
+    round_header: 'Kursomgång',
     round_application_code: 'Anmälningskod',
     round_max_seats: 'Antal platser',
     round_part_of_programme: 'Del av program',
@@ -158,7 +157,6 @@ module.exports = {
       KVÄ: 'Kvällstid',
       VSL: 'Veckoslut'
     },
-    round_type: 'Typ av kurstillfälle',
     round_time_slots: 'Planerade moduler',
     round_application_link: 'Till anmälan'
   }

@@ -34,10 +34,9 @@ class CoursePage extends Component {
         roundsDropdown: false,
         semesterDropdown: false
       },
-      timeMachineValue: '', // Temp
       keyInfoFade: false,
       syllabusInfoFade: false,
-      showRoundData: false, // this.props.routerStore.courseSemesters.length > 0 && this.props.routerStore.courseData.roundList[this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][2]].length > 1 ? false : true,
+      showRoundData: false,
       roundDisabled: true,
       roundSelected: false
     }
@@ -46,41 +45,21 @@ class CoursePage extends Component {
     this.toggle = this.toggle.bind(this)
     this.openEdit = this.openEdit.bind(this)
     this.handleSemesterDropdownSelect = this.handleSemesterDropdownSelect.bind(this)
-
-    // Temp!!
-    this.handleDateInput = this.handleDateInput.bind(this)
-    this.timeMachine = this.timeMachine.bind(this)
   }
 
   componentDidUpdate () {
     // Resets animation after they were triggered
     if (this.state.syllabusInfoFade) {
       let that = this
-      setTimeout(() => { that.setState({ syllabusInfoFade: false, keyInfoFade:false}) }, 800)
+      setTimeout(() => { that.setState({syllabusInfoFade: false, keyInfoFade: false}) }, 800)
     }
     else
       if (this.state.keyInfoFade) {
         let that = this
-        setTimeout(() => { that.setState({keyInfoFade:false}) }, 500)
+        setTimeout(() => { that.setState({keyInfoFade: false}) }, 500)
       }
   }
 
-// Temp!!*******
-  handleDateInput (event) {
-    this.setState({
-      timeMachineValue: event.target.value
-    })
-  }
-
-  timeMachine (event) {
-    event.preventDefault()
-    const newIndex = this.props.routerStore.getCurrentSemesterToShow(this.state.timeMachineValue)
-    this.setState({
-      activeRoundIndex: this.props.routerStore.courseSemesters[newIndex][2] || 0,
-      activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex] || 0
-    })
-  }
-//! !!********
   static fetchData (routerStore, params) {
   }
 
@@ -103,7 +82,7 @@ class CoursePage extends Component {
     const selectInfo = event.target.id.split('_')
     var newIndex = Number(selectInfo[1])
     prevState.syllabusInfoFade = prevState.activeSyllabusIndex !== this.props.routerStore.roundsSyllabusIndex[newIndex]
-    const showRoundData = this.props.routerStore.courseData.roundList[this.props.routerStore.courseSemesters[newIndex][2]].length > 1 ? false : true
+    const showRoundData = this.props.routerStore.courseData.roundList[this.props.routerStore.courseSemesters[newIndex][2]].length > 1
 
     this.setState({
       activeSemesterIndex: newIndex,
@@ -142,6 +121,7 @@ class CoursePage extends Component {
     const language = routerStore.courseData.language === 0 ? 'en' : 'sv'
     const translation = i18n.messages[courseData.language]
     const introText = routerStore.sellingText && routerStore.sellingText[language].length > 0 ? routerStore.sellingText[language] : courseData.courseInfo.course_recruitment_text
+
     console.log('routerStore in CoursePage', routerStore)
     console.log('state in CoursePage', this.state)
 
@@ -157,14 +137,13 @@ class CoursePage extends Component {
     return (
       <div key='kursinfo-container' className='col' id='kursinfo-main-page' >
         <Row id='pageContainer' key='pageContainer'>
-         {/* <Col sm="1" xs="1" id="left" key="left"> </Col>*/}
           <Col sm='12' xs='12' lg='12' id='middle' key='middle'>
           {
-            routerStore.canEdit ?
-              <Button className='editButton' color='primery' onClick={this.openEdit} id={courseData.courseInfo.course_code}>
+            routerStore.canEdit
+              ? <Button className='editButton' color='primery' onClick={this.openEdit} id={courseData.courseInfo.course_code}>
                 <i class='fas fa-edit'></i> {translation.courseLabels.label_edit}
               </Button>
-            : ''
+              : ''
           }
           {/** *************************************************************************************************************/}
           {/*                                                   INTRO                                                     */}
@@ -177,24 +156,24 @@ class CoursePage extends Component {
             />
 
             {/* ---TEXT FOR CANCELLED COURSE --- */}
-            {routerStore.isCancelled ?
-              <div className='col-12 isCancelled'>
+            {routerStore.isCancelled
+              ? <div className='col-12 isCancelled'>
                 <Alert color='info' aria-live='polite'>
-                    <h3>{translation.courseLabels.label_course_cancelled} </h3>
-                    <p>{translation.courseLabels.label_last_exam}
-                        {translation.courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]}
-                        {courseData.courseInfo.course_last_exam[0]}
-                    </p>
-                  </Alert>
+                  <h3>{translation.courseLabels.label_course_cancelled} </h3>
+                  <p>{translation.courseLabels.label_last_exam}
+                      {translation.courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]}
+                      {courseData.courseInfo.course_last_exam[0]}
+                  </p>
+                </Alert>
               </div>
-            : ''}
+              : ''}
 
             {/* ---INTRO TEXT--- */}
             <Row id='courseIntroText' key='courseIntroText'>
               <Col sm='12' xs='12'>
                 <img src={routerStore.image} alt='' height='auto' width='300px' title='inspiration image' />
                 <div
-                  dangerouslySetInnerHTML={{ __html:introText}}>
+                  dangerouslySetInnerHTML={{__html: introText}}>
                 </div>
               </Col>
             </Row>
@@ -207,50 +186,39 @@ class CoursePage extends Component {
           {/** *************************************************************************************************************/}
             <Col id='keyInformationContainer' sm='4' xs='12' className='float-md-right' >
 
-            {/* ---COURSE  DROPDOWNS--- */}
-            {routerStore.courseSemesters.length > 0 ?
-              <div id='roundDropdownMenu' className=''>
+            {/* ---COURSE  DROPDOWN MENU--- */}
+            {routerStore.courseSemesters.length > 0
+              ? <div id='roundDropdownMenu' className=''>
                 <h4 style='margin-top:0px'>Visa kursinformation utifrån vald termin och kurstillfälle:</h4>
-
                 <div className='row' id='roundDropdowns' key='roundDropdown'>
-                    {routerStore.courseSemesters.length > 0
-                      ? <DropdownSemesters
-                        semesterList={routerStore.courseSemesters}
-                        courseRoundList={courseData.roundList[this.state.activeSemester]}
-                        callerInstance={this}
-                        year={routerStore.courseSemesters[this.state.activeSemesterIndex][0]}
-                        semester={routerStore.courseSemesters[this.state.activeSemesterIndex][1]}
-                        yearSemester={routerStore.courseSemesters[this.state.activeSemesterIndex][2]}
-                        language={courseData.language}
-                        parentIndex='0'
-                        lable={translation.courseLabels.lable_semester_select}
-                        />
-                      : <Alert color='info'>
-                          <h4>{translation.courseLabels.header_no_rounds}</h4>
-                          {translation.courseLabels.lable_no_rounds}
-                        </Alert>
-                    }
+                  {routerStore.courseSemesters.length > 0
+                    ? <DropdownSemesters
+                      semesterList={routerStore.courseSemesters}
+                      courseRoundList={courseData.roundList[this.state.activeSemester]}
+                      callerInstance={this}
+                      year={routerStore.courseSemesters[this.state.activeSemesterIndex][0]}
+                      semester={routerStore.courseSemesters[this.state.activeSemesterIndex][1]}
+                      yearSemester={routerStore.courseSemesters[this.state.activeSemesterIndex][2]}
+                      language={courseData.language}
+                      parentIndex='0'
+                      lable={translation.courseLabels.lable_semester_select}
+                    />
+                    : ''
+                  }
 
-                    {routerStore.courseSemesters.length > 0 && courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state !== 'APPROVED' ?
-                      <Alert color='info' aria-live='polite' >
-                          <h4>{translation.courseLabels.lable_round_state[courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state]} </h4>
-                      </Alert>
-                    : ''}
-
-
-                     {courseData.roundList[this.state.activeSemester] && courseData.roundList[this.state.activeSemester].length > 1 ?
-                       <DropdownRounds
-                         semesterList={routerStore.courseSemesters}
-                         courseRoundList={courseData.roundList[this.state.activeSemester]}
-                         callerInstance={this}
-                         year={routerStore.courseSemesters[this.state.activeSemesterIndex][0]}
-                         semester={routerStore.courseSemesters[this.state.activeSemesterIndex][1]}
-                         yearSemester={routerStore.courseSemesters[this.state.activeSemesterIndex][2]}
-                         language={courseData.language}
-                         parentIndex='0'
-                         lable={translation.courseLabels.lable_round_select}
-                        />
-                      : this.state.showRoundData
+                  {courseData.roundList[this.state.activeSemester] && courseData.roundList[this.state.activeSemester].length > 1
+                    ? <DropdownRounds
+                      semesterList={routerStore.courseSemesters}
+                      courseRoundList={courseData.roundList[this.state.activeSemester]}
+                      callerInstance={this}
+                      year={routerStore.courseSemesters[this.state.activeSemesterIndex][0]}
+                      semester={routerStore.courseSemesters[this.state.activeSemesterIndex][1]}
+                      yearSemester={routerStore.courseSemesters[this.state.activeSemesterIndex][2]}
+                      language={courseData.language}
+                      parentIndex='0'
+                      lable={translation.courseLabels.lable_round_select}
+                    />
+                    : this.state.showRoundData
                       ? <p>
                           {`
                             ${translation.courseInformation.course_short_semester[courseData.roundList[this.state.activeSemester][0].round_course_term[1]]} 
@@ -258,209 +226,210 @@ class CoursePage extends Component {
                             ${courseData.roundList[this.state.activeSemester][0].round_short_name !== EMPTY[language] ? courseData.roundList[this.state.activeSemester][0].round_short_name : ''}     
                             ${courseData.roundList[this.state.activeSemester][0].round_type}
                           `}
-                        </p>
+                      </p>
                       : ''
                     }
-                    {routerStore.courseSemesters.length > 0 && courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state !== 'APPROVED' ?
-                      <Alert color='info' aria-live='polite' >
-                          <h4>{translation.courseLabels.lable_round_state[courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state]} </h4>
+
+                    {/* ---ROUND CANCELLED OR FULL --- */}
+                    {routerStore.courseSemesters.length > 0 && courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state !== 'APPROVED'
+                      ? <Alert color='info' aria-live='polite' >
+                        <h4>{translation.courseLabels.lable_round_state[courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state]} </h4>
                       </Alert>
-                    : ''}
-                  </div>
-             </div>
-             : <Alert color='info'>
-                  <h4>{translation.courseLabels.header_no_rounds}</h4>
-                  {translation.courseLabels.lable_no_rounds}
-                </Alert>
-             }
-
-            <h3 style='margin-top:20px'>{translation.courseLabels.header_round}</h3>
-
-            {/* ---COURSE ROUND KEY INFORMATION--- */}
-            {routerStore.courseSemesters.length > 0
-              ? <CourseKeyInformationOneCol
-                courseRound={courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex]}
-                courseData={courseInformationToRounds}
-                language={courseData.language}
-                courseHasRound={routerStore.courseSemesters.length > 0}
-                fade={this.state.keyInfoFade}
-                showRoundData={this.state.showRoundData}
-                />
-              : <div id='roundKeyInformation'>
-                  <p>{translation.courseLabels.no_round_selected}</p>
-                </div>}
-        </Col>
-
-        {/** *************************************************************************************************************/}
-        {/*                           LEFT COLUMN - SYLLABUS + OTHER COURSE INFORMATION                                 */}
-        {/** *************************************************************************************************************/}
-        <Col id='coreContent' sm='8' xs='12' className='float-md-left'>
-          <div key='fade-2' className={` fade-container ${this.state.syllabusInfoFade === true ? ' fadeOutIn' : ''} `}>
-
-          <Row id='semesterContainer' key='semesterContainer'>
-            <Col sm='12' >
-            <div sm='12' id='courseInfoHeader'>
-              <h2>{translation.courseLabels.header_course_info}
-              <div style='float:right;'>
-              <InfoModal infoText={i18n.messages[courseData.language].courseLabels.syllabus_info} type='html' />
-              </div></h2>
-            </div>
-
-              {/* ---COURSE SEMESTER BUTTONS--- */}
-              {courseData.syllabusSemesterList.length === 0 ?
-                  <Alert color='info' aria-live='polite'>
-                  <h4>{translation.courseLabels.header_no_syllabus}</h4>
-                    {translation.courseLabels.label_no_syllabus}
-                  </Alert> :
-               ''
-              }
-            <Row id='syllabusLink'>
-              <Col sm='12'>
-                {/* --- ACTIVE SYLLABUS LINK---  */}
-                <div key='fade-2' className={` fade-container ${this.state.syllabusInfoFade === true ? ' fadeOutIn' : ''}`}>
-                  {courseData.syllabusSemesterList.length > 0 ?
-                    <span>
-                      <b>{translation.courseLabels.label_course_syllabus}</b>
-                      <a
-                        href={`${SYLLABUS_URL}${courseData.courseInfo.course_code}_${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('')}.pdf?lang=${language}`}
-                        id={courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('') + '_active'}
-                        target='_blank'
-                      >
-                        {translation.courseLabels.label_syllabus_link}
-                        <span className='small-text' >
-                          {` ( 
-                              ${translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]]}  ${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0]} -
-                              ${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to.length > 0
-                                ? translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[1]] + ' ' + courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[0]
-                                : ''} 
-                              )
-                          `}
-                          </span>
-                        </a>
-                        <i class='fas fa-file-pdf'></i>
-                    </span>
-                  : ''}
+                      : ''
+                    }
                 </div>
-              </Col>
-            </Row>
+              </div>
+              : routerStore.courseSemesters.length === 0 && courseData.syllabusSemesterList.length > 0
+                  ? <Alert color='info'>
+                    <h4>{translation.courseLabels.header_no_rounds}</h4>
+                    {translation.courseLabels.lable_no_rounds}
+                  </Alert>
+                  : ''
+              }
+
+              <h3 style='margin-top:20px'>{translation.courseLabels.header_round}</h3>
+
+              {/* ---COURSE ROUND KEY INFORMATION--- */}
+              {routerStore.courseSemesters.length > 0
+                ? <CourseKeyInformationOneCol
+                  courseRound={courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex]}
+                  courseData={courseInformationToRounds}
+                  language={courseData.language}
+                  courseHasRound={routerStore.courseSemesters.length > 0}
+                  fade={this.state.keyInfoFade}
+                  showRoundData={this.state.showRoundData}
+                  />
+                : <div className='key-info'>
+                    {routerStore.courseSemesters.length > 0
+                      ? <p>{translation.courseLabels.no_round_selected}</p>
+                      : <i>{translation.courseLabels.lable_no_rounds}</i>
+                    }
+                </div>
+              }
+            </Col>
+
+            {/** *************************************************************************************************************/}
+            {/*                           LEFT COLUMN - SYLLABUS + OTHER COURSE INFORMATION                                 */}
+            {/** *************************************************************************************************************/}
+            <Col id='coreContent' sm='8' xs='12' className='float-md-left'>
+              <div key='fade-2' className={` fade-container ${this.state.syllabusInfoFade === true ? ' fadeOutIn' : ''} `}>
+
+                <Row id='semesterContainer' key='semesterContainer'>
+                  <Col sm='12' >
+                    <div sm='12' id='courseInfoHeader'>
+                      <h2>{translation.courseLabels.header_course_info}
+                        <div style='float:right;'>
+                          <InfoModal infoText={i18n.messages[courseData.language].courseLabels.syllabus_info} type='html' />
+                        </div>
+                      </h2>
+                    </div>
+                    {courseData.syllabusSemesterList.length === 0
+                      ? <Alert color='info' aria-live='polite'>
+                        <h4>{translation.courseLabels.header_no_syllabus}</h4>
+                        {translation.courseLabels.label_no_syllabus}
+                      </Alert>
+                      : ''
+                    }
+
+                    <Row id='syllabusLink'>
+                      <Col sm='12'>
+                        {/* --- ACTIVE SYLLABUS LINK---  */}
+                        <div key='fade-2' className={` fade-container ${this.state.syllabusInfoFade === true ? ' fadeOutIn' : ''}`}>
+                          {courseData.syllabusSemesterList.length > 0
+                            ? <span>
+                              <b>{translation.courseLabels.label_course_syllabus}</b>
+                              <a
+                                href={`${SYLLABUS_URL}${courseData.courseInfo.course_code}_${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('')}.pdf?lang=${language}`}
+                                id={courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('') + '_active'}
+                                target='_blank'
+                              >
+                              {translation.courseLabels.label_syllabus_link}
+                                <span className='small-text' >
+                                  {` 
+                                    ( 
+                                    ${translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]]}  ${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0]} -
+                                    ${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to.length > 0
+                                    ? translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[1]] + ' ' + courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[0]
+                                    : ''} 
+                                    )
+                                  `}
+                                </span>
+                              </a>
+                              <i class='fas fa-file-pdf'></i>
+                            </span>
+                          : ''}
+                        </div>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+
+                {/* --- COURSE INFORMATION CONTAINER---  */}
+                <CourseSectionList
+                  courseInfo={courseData.courseInfo}
+                  syllabusList={courseData.syllabusList[this.state.activeSyllabusIndex]}
+                  showCourseLink={routerStore.showCourseWebbLink}
+                  partToShow='firstBlock'
+                />
+              </div>
+
+              {/* --- COURSE INFORMATION CONTAINER---  */}
+              <CourseSectionList
+                courseInfo={courseData.courseInfo}
+                syllabusList={courseData.syllabusList[this.state.activeSyllabusIndex]}
+                showCourseLink={routerStore.showCourseWebbLink}
+                partToShow='secondBlock'
+              />
+
+            {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
+            {courseData.courseInfo.course_level_code === 'RESEARCH'
+              ? <span>
+                <h3>{translation.courseLabels.header_postgraduate_course}</h3>
+                {translation.courseLabels.label_postgraduate_course}
+                <a target='_blank' href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}>
+                  {courseData.courseInfo.course_department}
+                </a>
+              </span>
+              : ''}
+            </Col>
+
+            <Col id='historyContent' sm='8' xs='12' className='float-md-left'>
+              <h2>{translation.courseLabels.header_history}</h2>
+
+              {/* ---STATISTICS LINK--- */}
+              <h3> {translation.courseLabels.header_statistics}</h3>
+              <p>
+                <i class='fas fa-chart-line'></i>
+                <a href='' target='_blank' >
+                  {translation.courseLabels.label_statistics}
+                </a>
+              </p>
+
+              {/* --- ALL SYLLABUS LINKS--- */}
+              <h3>{translation.courseLabels.header_syllabuses}</h3>
+                  {courseData.syllabusSemesterList.length > 0
+                    ? courseData.syllabusSemesterList.map((semester, index) => {
+                      return (
+                        <span key={index}>
+                          <i class='fas fa-file-pdf'></i>
+                          <a
+                            href={`${SYLLABUS_URL}${routerStore.courseData.courseInfo.course_code}_${semester}.pdf?lang=${language}`}
+                            key={index}
+                            id={semester}
+                            target='_blank'
+                          >
+                            {translation.courseLabels.label_syllabus_link}
+                            ( {translation.courseInformation.course_short_semester[semester[0].toString().substring(4, 5)]}
+                            {semester[0].toString().substring(0, 4)} -  &nbsp;
+                            {translation.courseInformation.course_short_semester[semester[1].toString().substring(4, 5)]}
+                            {semester[1].toString().substring(0, 4)})
+                          </a> <br />
+                        </span>
+                      )
+                    })
+                  : EMPTY[courseData.language]}
+            </Col>
           </Col>
         </Row>
-
-            {/* --- COURSE INFORMATION CONTAINER---  */}
-            <CourseSectionList
-              courseInfo={courseData.courseInfo}
-              syllabusList={courseData.syllabusList[this.state.activeSyllabusIndex]}
-              showCourseLink={routerStore.showCourseWebbLink}
-              partToShow='firstBlock'
-            />
-          </div>
-
-           {/* --- COURSE INFORMATION CONTAINER---  */}
-        <CourseSectionList
-          courseInfo={courseData.courseInfo}
-          syllabusList={courseData.syllabusList[this.state.activeSyllabusIndex]}
-          showCourseLink={routerStore.showCourseWebbLink}
-          partToShow='secondBlock'
-        />
-
-        {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
-        {courseData.courseInfo.course_level_code === 'RESEARCH'
-          ? <span>
-              <h3>{translation.courseLabels.header_postgraduate_course}</h3>
-                {translation.courseLabels.label_postgraduate_course}
-              <a target='_blank' href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}>
-                {courseData.courseInfo.course_department}
-              </a>
-            </span>
-          : ''}
-        </Col>
-        <Col id='historyContent' sm='8' xs='12' className='float-md-left'>
-          <h2>{translation.courseLabels.header_history}</h2>
-
-          {/* ---STATISTICS LINK--- */}
-          <h3> {translation.courseLabels.header_statistics}</h3>
-          <p>
-            <i class='fas fa-chart-line'></i>
-            <a href='' target='_blank' >
-              {translation.courseLabels.label_statistics}
-            </a>
-          </p>
-
-          {/* --- ALL SYLLABUS LINKS--- */}
-          <h3>{translation.courseLabels.header_syllabuses}</h3>
-              {courseData.syllabusSemesterList.length > 0
-                ? courseData.syllabusSemesterList.map((semester, index) => {
-                  if (index > 0) {
-                    return (<span key={index}>
-                      <i class='fas fa-file-pdf'></i>
-                      <a
-                        href={`${SYLLABUS_URL}${routerStore.courseData.courseInfo.course_code}_${semester}.pdf?lang=${language}`}
-                        key={index}
-                        id={semester}
-                        target='_blank'
-                      >
-                        {translation.courseLabels.label_syllabus_link}
-                        ( {translation.courseInformation.course_short_semester[semester[0].toString().substring(4, 5)]}
-                          {semester[0].toString().substring(0, 4)} -  &nbsp;
-                          {translation.courseInformation.course_short_semester[semester[1].toString().substring(4, 5)]}
-                          {semester[1].toString().substring(0, 4)}
-                        )
-                      </a> <br />
-                    </span>
-                    )
-                  }
-                })
-              : EMPTY[courseData.language]}
-        </Col>
-      </Col>
-      {/* ---TEMP: test of dates ---
-        <br/>
-        <span style="padding:5px; border: 3px dotted pink;">
-          <lable>Time machine for testing default information: </lable>
-          <input type="date" onChange={this.handleDateInput} />
-          <button onClick={this.timeMachine}>Travel in time!</button>
-        </span>*/}
-    </Row>
-    </div>
+      </div>
     )
   }
 }
 
-
-
-
-const DropdownSemesters = ({ semesterList, courseRoundList, callerInstance, semester, year, yearSemester, language = 0, parentIndex = 0, lable = ''}) => {
-  let listIndex = []
+const DropdownSemesters = ({semesterList, courseRoundList, callerInstance, semester, year, yearSemester, language = 0, parentIndex = 0, lable = ''}) => {
   const dropdownID = 'semesterDropdown'
-
-  if (semesterList && semesterList.length < 1)
+  if (semesterList && semesterList.length < 1) {
     return ''
-  else
+  }
+  else {
     return (
-    <div className='col-12 semester-dropdowns'>
-      <Dropdown group
-        isOpen={callerInstance.state.dropdownsOpen[dropdownID]}
-        toggle={callerInstance.toggle}
-        key={'dropD' + dropdownID}
-        id={dropdownID}
-        className='select-round'
-          >
-         <DropdownToggle
-           id={dropdownID} >
-            {callerInstance.state.roundDisabled ?
-             <span id={dropdownID + '_span'}>{lable}</span>
-              :
-             <span id={dropdownID + '_span'}>{i18n.messages[language].courseInformation.course_short_semester[semester]} {year}</span>
+      <div className='col-12 semester-dropdowns'>
+        <Dropdown group
+          isOpen={callerInstance.state.dropdownsOpen[dropdownID]}
+          toggle={callerInstance.toggle}
+          key={'dropD' + dropdownID}
+          id={dropdownID}
+          className='select-round'
+        >
+          <DropdownToggle
+            id={dropdownID} >
+            {callerInstance.state.roundDisabled
+              ? <span id={dropdownID + '_span'}>{lable}</span>
+              : <span id={dropdownID + '_span'}>{i18n.messages[language].courseInformation.course_short_semester[semester]} {year}</span>
             }
-             <span caret className='caretholder' id={dropdownID + '_spanCaret'}></span>
-
+            <span caret className='caretholder' id={dropdownID + '_spanCaret'}></span>
           </DropdownToggle>
+
           <DropdownMenu>
           {
             semesterList.map((semesterItem, index) => {
               return (
-                <DropdownItem key={index} id={dropdownID + '_' + index + '_' + parentIndex} onClick={callerInstance.handleSemesterDropdownSelect}>
-                    {i18n.messages[language].courseInformation.course_short_semester[semesterItem[1]]}{semesterItem[0]}
+                <DropdownItem
+                  key={index}
+                  id={dropdownID + '_' + index + '_' + parentIndex}
+                  onClick={callerInstance.handleSemesterDropdownSelect}
+                >
+                  {i18n.messages[language].courseInformation.course_short_semester[semesterItem[1]]}{semesterItem[0]}
                 </DropdownItem>
               )
             })
@@ -468,58 +437,61 @@ const DropdownSemesters = ({ semesterList, courseRoundList, callerInstance, seme
           </DropdownMenu>
         </Dropdown>
       </div>
-  )
+    )
+  }
 }
 
 const DropdownRounds = ({courseRoundList, callerInstance, semester, year, yearSemester, language = 0, parentIndex = 0, lable = ''}) => {
-  let listIndex = []
   const dropdownID = 'roundsDropdown'
 
-  if (courseRoundList && courseRoundList.length < 2)
+  if (courseRoundList && courseRoundList.length < 2) {
     return ''
-  else
-  return (
-    <div className='col-12 semester-dropdowns'>
-      <Dropdown group
-        isOpen={callerInstance.state.dropdownsOpen[dropdownID]}
-        toggle={callerInstance.toggle}
-        key={'dropD' + dropdownID}
-        id={dropdownID}
-        className='select-round'
-      >
-        <DropdownToggle
+  }
+  else {
+    return (
+      <div className='col-12 semester-dropdowns'>
+        <Dropdown group
+          isOpen={callerInstance.state.dropdownsOpen[dropdownID]}
+          toggle={callerInstance.toggle}
+          key={'dropD' + dropdownID}
           id={dropdownID}
-          disabled={callerInstance.state.roundDisabled}
+          className='select-round'
         >
-          {callerInstance.state.roundSelected ?
-            <span id={dropdownID + '_span'}>
-              {
-                `${courseRoundList[callerInstance.state.activeRoundIndex].round_short_name !== EMPTY[language] ? courseRoundList[callerInstance.state.activeRoundIndex].round_short_name : ''}, ${courseRoundList[callerInstance.state.activeRoundIndex].round_type}`
-              }
-            </span>
-           :
-             <span id={dropdownID + '_spanSelect'}>{lable} </span>
+          <DropdownToggle
+            id={dropdownID}
+            disabled={callerInstance.state.roundDisabled}
+          >
+            {callerInstance.state.roundSelected
+              ? <span id={dropdownID + '_span'}>
+                  {
+                    `${courseRoundList[callerInstance.state.activeRoundIndex].round_short_name !== EMPTY[language]
+                      ? courseRoundList[callerInstance.state.activeRoundIndex].round_short_name
+                      : ''}, 
+                    ${courseRoundList[callerInstance.state.activeRoundIndex].round_type}`
+                  }
+              </span>
+              : <span id={dropdownID + '_spanSelect'}>{lable} </span>
             }
-             <span caret className='caretholder' id={dropdownID + '_spanCaret'}></span>
+            <span caret className='caretholder' id={dropdownID + '_spanCaret'}></span>
           </DropdownToggle>
           <DropdownMenu>
-          {
-            courseRoundList.map((courseRound, index) => {
-              return (
-                <DropdownItem key={index} id={dropdownID + '_' + index + '_' + parentIndex} onClick={callerInstance.handleDropdownSelect}>
-                  {
-                    `${courseRound.round_short_name !== EMPTY[language] ? courseRound.round_short_name : ''},     
-                     ${courseRound.round_type}`
-                  }
-                </DropdownItem>
-              )
-            })
-          }
+            {
+              courseRoundList.map((courseRound, index) => {
+                return (
+                  <DropdownItem key={index} id={dropdownID + '_' + index + '_' + parentIndex} onClick={callerInstance.handleDropdownSelect}>
+                    {
+                      `${courseRound.round_short_name !== EMPTY[language] ? courseRound.round_short_name : ''},     
+                      ${courseRound.round_type}`
+                    }
+                  </DropdownItem>
+                )
+              })
+            }
           </DropdownMenu>
         </Dropdown>
       </div>
-  )
+    )
+  }
 }
-
 
 export default CoursePage
