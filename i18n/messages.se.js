@@ -35,14 +35,15 @@ module.exports = {
 
     site_name: 'Kursinformation',
     host_name: 'KTH',
-    page_student:'STUDENT PÅ KTH',
+    page_student: 'STUDENT PÅ KTH',
     page_course_programme: 'KURS- OCH PROGRAMKATALOGEN'
 
   },
   courseLabels: {
-    label_course_syllabus: 'Hämtad från Kursplan ...',
-    label_course_syllabus_valid_from:  'Gäller från och med',
-    label_course_syllabus_valid_to:  'till slutet av ',
+    label_syllabus_link: 'Kursplan',
+    label_course_syllabus: '* Hämtad från ',
+    label_course_syllabus_valid_from: 'Gäller från och med',
+    label_course_syllabus_valid_to: 'till slutet av ',
     header_no_syllabus: 'Kursplan och kursomgångar saknas',
     label_no_syllabus: 'Kursplan saknas, kursinformationen som visas är övrig kursinformation. Även kursomgångarsaknasför tidigare och kommande terminer, samt innevarande termin.',
     label_programme_year: 'Åk  ',
@@ -50,7 +51,7 @@ module.exports = {
     label_course_cancelled: 'Detta är en nedlagd kurs.',
     label_last_exam: 'Sista planerade examination: ',
     label_course_web_link: 'Kurswebb',
-    label_edit:'Redigera',
+    label_edit: 'Redigera',
     label_course_pm: 'Kurs - PM',
     header_no_rounds: 'Kursomgångar saknas',
     lable_no_rounds: 'Kursomgångar saknas för tidigare och kommande terminer, samt för innevarande termin.',
@@ -69,7 +70,7 @@ module.exports = {
     header_content: 'Innehåll och lärandemål',
     header_execution: 'Kurslitteratur och förberedelser',
     header_statistics: 'Kursutveckling',
-    header_syllabuses: 'Kursplaner',
+    header_syllabuses: 'Kursplaner historik',
     header_examination: 'Examination och slutförande',
     header_contact: 'Kontakt',
     header_further: 'Ytterligare information',
@@ -83,7 +84,7 @@ module.exports = {
     header_no_round_selected: 'Inget kurstillfälle är valt',
     no_round_selected: 'Välj kurstillfälle ovan för att se information om kurstillfälleVälj termin och kursomgångovan för att få information från rätt kursplan och kursomgång.',
     round_seats_info:'Kurstillfället kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
-    syllabus_info: '<h4>Kursinformation</h4> <p>• Kursinformation består av all information från kursplan samt övrig kursinformation som gäller kurs och kursomgång</p><p>• Har du inte valt termin och kursomgångså ser du kursinformation från nuvarande eller kommande kursplan (vilken period kursplanen gäller förfinns angivet under rubriken ”Kursinformation”)</p><p>• En kurs går olika kursomgångar. För att se information för en specifikkursomgångså väljer du termin och kursomgångi rutan uppe till höger. Om det är annan kursplan som gäller den terminen så uppdateras även den informationen(till vänster på sidan)</p><p>•Observera: bestämmelser i kursplaner är regler som är generellt tillämpbara och bindande för såväl anställda som studenter</p>'
+    syllabus_info: '<h4>Kursinformation</h4> <p>• Kursinformation består av all information från kursplan samt övrig kursinformation som gäller kurs och kursomgång</p><p>• Har du inte valt termin och kursomgångså ser du kursinformation från nuvarande eller kommande kursplan (vilken period kursplanen gäller förfinns angivet under rubriken ”Kursinformation”)</p><p>• En kurs går olika kursomgångar. För att se information för en specifikkursomgångså väljer du termin och kursomgångi rutan uppe till höger. Om det är annan kursplan som gäller den terminen så uppdateras även den informationen (till vänster på sidan)</p><p>•Observera: bestämmelser i kursplaner är regler som är generellt tillämpbara och bindande för såväl anställda som studenter</p>'
   },
   courseInformation:{
     roundId: 'Kursomgångs nr',
@@ -118,7 +119,7 @@ module.exports = {
     },
     course_department:'Ges av',
     course_contact_name:'Kontaktperson',
-    course_prerequisites:'Rekommenderade förkunskaper *',
+    course_prerequisites:'Rekommenderade förkunskaper',
     course_suggested_addon_studies: 'Påbyggnad',
     course_supplemental_information_url: 'Övrig information - länk',
     course_supplemental_information_url_text:'Övrig information - länk text',
@@ -157,9 +158,9 @@ module.exports = {
       KVÄ: 'Kvällstid',
       VSL: 'Veckoslut'
     },
-    round_application_link: 'Anmälningslänk',
     round_type: 'Typ av kurstillfälle',
-    round_time_slots: 'Planerade moduler'
+    round_time_slots: 'Planerade moduler',
+    round_application_link: 'Till anmälan'
   }
 
 }

@@ -38,7 +38,8 @@ module.exports = {
     page_course_programme: 'COURSE AND PROGRAMME DIRECTORY'
   },
   courseLabels: {
-    label_course_syllabus: 'Retrieved from Course syllabus...',
+    label_syllabus_link: 'Course syllabus ',
+    label_course_syllabus: '* Retrieved from ',
     label_course_syllabus_valid_from: 'Valid from',
     label_course_syllabus_valid_to: 'to end of ',
     header_no_syllabus: 'Course syllabus and course round missing',
@@ -68,7 +69,7 @@ module.exports = {
     header_examination: 'Examination and fulfillment',
     header_contact: 'Contact',
     header_statistics: 'Course statistics',
-    header_syllabuses: 'Course Syllabuses',
+    header_syllabuses: 'Course Syllabuses archives',
     header_further: 'Further information',
     header_history:'Course development and history',
     header_round: 'Rounds and implementation',
@@ -80,14 +81,14 @@ module.exports = {
     header_no_round_selected: 'No round selected',
     no_round_selected: 'Select the semester and course round above to get information from the correct course syllabus and course round.',
     round_seats_info:'The Course date may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made.',
-    syllabus_info: '<h4>Course information</h4> <p>• Course information consists of all information from the course syllabus(kursplan)as well as other course information concerning course and course round</p><p>• If you have not chosen the semester and course round, you will see course information from the current or future course syllabus (which period the course syllabus applies to is given under the heading "Course information")</p><p>• A course goes different course rounds. To see information for a specific course round, choose the semester and course round in the upper rightcorner. If it is another course plan that applies to that semester, the correspondinginformation is also updated(on the left side of the page).</p><p>• Please note: regulations in course syllabus are rules thatare generally applicable and binding for both employees and students</p>'
+    syllabus_info: '<h4>Course information</h4> <p>• Course information consists of all information from the course syllabus (kursplan) as well as other course information concerning course and course round</p><p>• If you have not chosen the semester and course round, you will see course information from the current or future course syllabus (which period the course syllabus applies to is given under the heading "Course information")</p><p>• A course goes different course rounds. To see information for a specific course round, choose the semester and course round in the upper right corner. If it is another course plan that applies to that semester, the corresponding information is also updated (on the left side of the page).</p><p>• Please note: regulations in course syllabus are rules that are generally applicable and binding for both employees and students</p>'
   },
   courseInformation: {
     course_title:'Title english',
     course_other_title:'Title swedish',
     course_code:'Course code',
     course_credits: 'Credits',
-    course_grade_scale:'Grading scale',
+    course_grade_scale:'Grading scale *',
     course_goals: 'Intended learning outcomes *',
     course_content: 'Course main content *',
     course_disposition: 'Disposition *',
@@ -96,11 +97,11 @@ module.exports = {
     course_literature:'Literature *',
     course_literature_comment: 'Literature comment',
     course_examination_comments:'Examination comment *',
-    course_examination:'Examination',
+    course_examination:'Examination *',
     course_valid_from:'Valid from',
     course_main_subject:'Main field of study *',
     course_language:'Language of instruction *',
-    course_required_equipment:'Required equipment',
+    course_required_equipment:'Required equipment *',
     course_level_code:'Education cycle *',
     course_short_semester:{
       1:'Spring ',
@@ -154,6 +155,6 @@ module.exports = {
     },
     round_type: 'Type of round',
     round_time_slots: 'Planned timeslots',
-    round_application_link: 'Application link'
+    round_application_link: 'Go to the registration'
   }
 }

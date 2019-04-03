@@ -320,22 +320,24 @@ class CoursePage extends Component {
                 <div key='fade-2' className={` fade-container ${this.state.syllabusInfoFade === true ? ' fadeOutIn' : ''}`}>
                   {courseData.syllabusSemesterList.length > 0 ?
                     <span>
-                      <i class='fas fa-file-pdf'></i>
+                      <b>{translation.courseLabels.label_course_syllabus}</b>
                       <a
                         href={`${SYLLABUS_URL}${courseData.courseInfo.course_code}_${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('')}.pdf?lang=${language}`}
                         id={courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('') + '_active'}
                         target='_blank'
                       >
-                          {translation.courseLabels.label_course_syllabus}
-
-                      <span className='small-text' >
-                      {` ( ${translation.courseLabels.label_course_syllabus_valid_from}
-                          ${translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]]}  ${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0]} 
-                          ${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to.length > 0 ?
-                              translation.courseLabels.label_course_syllabus_valid_to + translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[1]] + ' ' + courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[0] : ''} )
-                      `}
-                        </span>
+                        {translation.courseLabels.label_syllabus_link}
+                        <span className='small-text' >
+                          {` ( 
+                              ${translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]]}  ${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0]} -
+                              ${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to.length > 0
+                                ? translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[1]] + ' ' + courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[0]
+                                : ''} 
+                              )
+                          `}
+                          </span>
                         </a>
+                        <i class='fas fa-file-pdf'></i>
                     </span>
                   : ''}
                 </div>
@@ -362,14 +364,14 @@ class CoursePage extends Component {
         />
 
         {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
-        {courseData.courseInfo.course_level_code === 'RESEARCH' ?
-          <span>
-            <h3>{translation.courseLabels.header_postgraduate_course}</h3>
-              {translation.courseLabels.label_postgraduate_course}
+        {courseData.courseInfo.course_level_code === 'RESEARCH'
+          ? <span>
+              <h3>{translation.courseLabels.header_postgraduate_course}</h3>
+                {translation.courseLabels.label_postgraduate_course}
               <a target='_blank' href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}>
                 {courseData.courseInfo.course_department}
               </a>
-          </span>
+            </span>
           : ''}
         </Col>
         <Col id='historyContent' sm='8' xs='12' className='float-md-left'>
@@ -386,22 +388,28 @@ class CoursePage extends Component {
 
           {/* --- ALL SYLLABUS LINKS--- */}
           <h3>{translation.courseLabels.header_syllabuses}</h3>
-              {courseData.syllabusSemesterList.length > 0 ?
-                courseData.syllabusSemesterList.map((semester, index) =>
-                  <span key={index}>
-                    <i class='fas fa-file-pdf'></i>
-                    <a
-                      href={`${SYLLABUS_URL}${routerStore.courseData.courseInfo.course_code}_${semester}.pdf?lang=${language}`}
-                      key={index}
-                      id={semester}
-                      target='_blank'
-                    >
-                      {translation.courseLabels.label_course_syllabus_valid_from}&nbsp;
-                      {translation.courseInformation.course_short_semester[semester.toString().substring(4, 5)]}                                                                                                                                                                                         {semester.toString().substring(0, 4)}
-                      &nbsp;
-                    </a> <br />
-                  </span>
-                )
+              {courseData.syllabusSemesterList.length > 0
+                ? courseData.syllabusSemesterList.map((semester, index) => {
+                  if (index > 0) {
+                    return (<span key={index}>
+                      <i class='fas fa-file-pdf'></i>
+                      <a
+                        href={`${SYLLABUS_URL}${routerStore.courseData.courseInfo.course_code}_${semester}.pdf?lang=${language}`}
+                        key={index}
+                        id={semester}
+                        target='_blank'
+                      >
+                        {translation.courseLabels.label_syllabus_link}
+                        ( {translation.courseInformation.course_short_semester[semester[0].toString().substring(4, 5)]}
+                          {semester[0].toString().substring(0, 4)} -  &nbsp;
+                          {translation.courseInformation.course_short_semester[semester[1].toString().substring(4, 5)]}
+                          {semester[1].toString().substring(0, 4)}
+                        )
+                      </a> <br />
+                    </span>
+                    )
+                  }
+                })
               : EMPTY[courseData.language]}
         </Col>
       </Col>

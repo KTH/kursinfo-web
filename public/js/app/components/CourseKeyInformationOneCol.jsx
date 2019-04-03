@@ -2,6 +2,7 @@ import { Component } from 'inferno'
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
 import Alert from 'inferno-bootstrap/dist/Alert'
+import Button from 'inferno-bootstrap/dist/Button'
 
 
 import { EMPTY } from '../util/constants'
@@ -13,6 +14,13 @@ import InfoModal from './InfoModal.jsx'
 class CourseKeyInformationOneCol extends Component {
   constructor (props) {
     super(props)
+
+    this.openApplicationLink = this.openApplicationLink.bind(this)
+  }
+
+  openApplicationLink (event) {
+    event.preventDefault()
+    window.open(this.props.courseRound.round_application_link)
   }
 
   render () {
@@ -78,7 +86,7 @@ class CourseKeyInformationOneCol extends Component {
               {this.props.courseHasRound && this.props.showRoundData ?
                 <span>
                   <h4>{translate.round_tutoring_form}</h4>
-                  <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[this.props.language]}            {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
+                  <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[this.props.language]}                   {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
 
                   <h4>{translate.round_tutoring_language}</h4>
                   <p>{round ? round.round_tutoring_language : EMPTY[this.props.language]}</p>
@@ -124,6 +132,12 @@ class CourseKeyInformationOneCol extends Component {
 
                 <h4>{translate.round_application_code} </h4>
                 <p><b>{round ? round.round_application_code : EMPTY[this.props.language]}</b></p>
+                {round && round.round_application_link !== EMPTY[this.props.language]
+                  ? <Button name={translate.round_application_link} color='primary' onClick={this.openApplicationLink}>
+                  {translate.round_application_link}
+                  <div className='icon-back-arrow'></div>
+                  </Button>
+                  : ''}
               </span>
             : ''}
           </Col>
@@ -149,13 +163,13 @@ class CourseKeyInformationOneCol extends Component {
               : ''}
 
                 <h4>{i18n.messages[this.props.language].courseInformation.course_examiners}</h4>
-                <span dangerouslySetInnerHTML={{ __html:course.course_examiners }}></span>
+                <span dangerouslySetInnerHTML={{ __html: course.course_examiners }}></span>
 
                 <h4>{translate.round_responsibles}</h4>
-                <span dangerouslySetInnerHTML={{ __html:round.round_responsibles }}></span>
+                <span dangerouslySetInnerHTML={{ __html: round.round_responsibles }}></span>
 
                 <h4>{translate.round_teacher}</h4>
-                <span dangerouslySetInnerHTML={{ __html:round.round_teacher }}></span>
+                <span dangerouslySetInnerHTML={{ __html: round.round_teacher }}></span>
               </span>
               : ''}
           </Col>

@@ -101,10 +101,12 @@
        const syllabuses = courseResult.publicSyllabusVersions
        if (syllabuses.length > 0) {
          for (let index = 0; index < syllabuses.length; index++) {
-           syllabusSemesterList.push(syllabuses[index].validFromTerm.term)
+           syllabusSemesterList.push([syllabuses[index].validFromTerm.term, ''])
            tempSyllabus = this.getSyllabusData(courseResult, index, language)
-           if (index > 0)
+           if (index > 0) {
              tempSyllabus.course_valid_to = this.getSyllabusEndSemester(syllabusSemesterList[index - 1].toString().match(/.{1,4}/g))
+             syllabusSemesterList[index][1] = tempSyllabus.course_valid_to.join('')
+           }
            syllabusList.push(tempSyllabus)
          }
        }
@@ -163,7 +165,7 @@
        course_department: this.isValidData(courseResult.course.department.name, language),
        course_department_link: this.isValidData(courseResult.course.department.name, language) !== EMPTY[language] ? '<a href="/' + courseResult.course.department.name.split('/')[0].toLowerCase() + '/" target="blank">' + courseResult.course.department.name + '</a>' : EMPTY[language],
        course_department_code: this.isValidData(courseResult.course.department.code, language),
-       course_contact_name: this.isValidData(courseResult.course.infoContactName, language),
+       course_contact_name: this.isValidData(courseResult.course.infoContactName, language).replace('<', '').replace('>', ''),
        course_prerequisites: this.isValidData(courseResult.course.prerequisites, language),
        course_suggested_addon_studies: this.isValidData(courseResult.course.addOn, language),
        course_supplemental_information_url: this.isValidData(courseResult.course.supplementaryInfoUrl, language),
@@ -342,9 +344,9 @@
      const courseRoundModel = {
        roundId: this.isValidData(roundObject.round.ladokRoundId, language),
        round_time_slots: this.isValidData(roundObject.timeslots, language),
-       round_start_date: this.isValidData(roundObject.round.firstTuitionDate, language),
-       round_end_date: this.isValidData(roundObject.round.lastTuitionDate, language),
-       round_target_group:  this.isValidData(roundObject.round.targetGroup, language),
+       round_start_date: this.getDateFormat(this.isValidData(roundObject.round.firstTuitionDate, language), language),
+       round_end_date: this.getDateFormat(this.isValidData(roundObject.round.lastTuitionDate, language), language),
+       round_target_group: this.isValidData(roundObject.round.targetGroup, language),
        round_tutoring_form: this.isValidData(roundObject.round.tutoringForm.name, language),
        round_tutoring_time: this.isValidData(roundObject.round.tutoringTimeOfDay.name, language),
        round_tutoring_language: this.isValidData(roundObject.round.language, language),
@@ -357,7 +359,7 @@
        round_periods: this.getRoundPeriodes(roundObject.round.courseRoundTerms, language),
        round_seats: this.getRoundSeats(this.isValidData(roundObject.round.maxSeats, language), this.isValidData(roundObject.round.minSeats, language), language),
        round_type: roundObject.round.applicationCodes.length > 0 ? this.isValidData(roundObject.round.applicationCodes[0].courseRoundType.name, language) : EMPTY[language], // TODO: Map array
-       round_application_link:  this.isValidData(roundObject.admissionLinkUrl, language),
+       round_application_link: this.isValidData(roundObject.admissionLinkUrl, language),
        round_part_of_programme: roundObject.usage.length > 0 ? this.getRoundProgramme(roundObject.usage, language) : EMPTY[language],
        round_state: this.isValidData(roundObject.round.state, language)
      }
@@ -400,7 +402,6 @@
    }
 
    getRoundSeats (max, min, language) {
-
      if (max === EMPTY[language] && min === EMPTY[language])
        return EMPTY[language]
 
@@ -411,6 +412,14 @@
         return 'Max: ' + max
 
      return 'Min: ' + min
+   }
+
+   getDateFormat (date, language) {
+     if (date === EMPTY[language] || language === 1)
+       return date
+
+     const splitDate = date.split('-')
+     return `${splitDate[2]}/${splitDate[1]}/${splitDate[0]}`
    }
 
 /** ***************************************************************************************************************************************** */

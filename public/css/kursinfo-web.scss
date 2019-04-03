@@ -177,6 +177,7 @@ font-size: 0.8rem;
 
 #keyInformationContainer{
     margin-top: 10px;
+    padding-left:0px;
     .key-info{
         padding: 15px;
         background: #f6f6f6;
@@ -206,6 +207,7 @@ font-size: 0.8rem;
     }
     @media (min-width: 768px){
         padding-top:0px;
+        
     }
 }
 
@@ -249,6 +251,21 @@ font-size: 0.8rem;
     font-weight: 900;
     padding-right: 8px;
 }
+
+.icon-back-arrow{
+    position: relative;
+    top: 1px;
+    transform: rotate(180deg);
+    display: inline-block;
+    height: 20px;
+    width: 30px;
+    background: top left / 1.0em auto no-repeat url('https://app.kth.se/style/kth-style/img/kth-style/icons/back-link.svg');
+}
+
+
+
+
+
 /************************************************/
 
 
