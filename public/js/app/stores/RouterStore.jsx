@@ -28,7 +28,7 @@
    showCourseWebbLink = false
    activeLanguage = 0
    roundsSyllabusIndex = []
-   courseSemesters=[]
+   activeSemesters=[]
    keyList ={
      teachers:[],
      responsibles:[]
@@ -116,8 +116,8 @@
        console.log('!! syllabusSemesterList and syllabusList: OK !!')
 
       //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis *****//
-       const courseRoundList = this.getRounds(courseResult.roundInfos, courseCode, language)
-       const roundList = this.getRounds2(courseResult.roundInfos, courseCode, language)
+
+       const roundList = this.getRounds(courseResult.roundInfos, courseCode, language)
 
       //* **** Sets roundsSyllabusIndex, an array used for connecting rounds with correct syllabus *****//
        this.getRoundsAndSyllabusConnection(syllabusSemesterList)
@@ -128,7 +128,6 @@
        this.courseData = {
          syllabusList,
          courseInfo,
-         courseRoundList,
          roundList,
          courseTitleData,
          syllabusSemesterList,
@@ -210,7 +209,7 @@
    }
 
    @action getCurrentSemesterToShow (date = '') {
-     if (this.courseSemesters.length === 0)
+     if (this.activeSemesters.length === 0)
        return 0
 
      let thisDate = date === '' ? new Date() : new Date(date)
@@ -232,21 +231,21 @@
      }
 
       //* ***** Check if course has a round for current semester otherwise it shows the previous semester *****/
-     for (let index = 0; index < this.courseSemesters.length; index++) {
-       if (this.courseSemesters[index][2] === showSemester) {
+     for (let index = 0; index < this.activeSemesters.length; index++) {
+       if (this.activeSemesters[index][2] === showSemester) {
          returnIndex = index
        }
-       if (thisDate.getMonth() + 1 > MAX_2_MONTH && Number(this.courseSemesters[index][0]) === thisDate.getFullYear()) {
+       if (thisDate.getMonth() + 1 > MAX_2_MONTH && Number(this.activeSemesters[index][0]) === thisDate.getFullYear()) {
          yearMatch = index
        }
-       if (thisDate.getMonth() + 1 < MAX_1_MONTH && Number(this.courseSemesters[index][0]) === thisDate.getFullYear() - 1) {
+       if (thisDate.getMonth() + 1 < MAX_1_MONTH && Number(this.activeSemesters[index][0]) === thisDate.getFullYear() - 1) {
          yearMatch = index
        }
      }
 
     //* **** In case there should be no match at all, take the last senester in the list ******/
      if (returnIndex === -1 && yearMatch === -1)
-       return this.courseSemesters.length - 1
+       return this.activeSemesters.length - 1
 
      return returnIndex > -1 ? returnIndex : yearMatch
    }
@@ -284,48 +283,30 @@
    getRounds (roundInfos, courseCode, language) {
      let tempList = []
      let courseRound
-     let courseRoundList = []
-     for (let roundInfo of roundInfos) {
-       courseRound = this.getRound(roundInfo, language)
-       courseRoundList.push(courseRound)
-       if (courseRound.round_course_term && tempList.indexOf(courseRound.round_course_term.join('')) < 0) {
-         this.courseSemesters.push([...courseRound.round_course_term, courseRound.round_course_term.join(''), courseRoundList.length - 1])
-         tempList.push(courseRound.round_course_term.join(''))
-       }
-      // this.keyList.teachers.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.teachers`)
-      // this.keyList.responsibles.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`)
-     }
-    // this.courseSemesters.sort()
-     console.log('!!courseRound: OK !!')
-     return courseRoundList
-   }
-
-   getRounds2 (roundInfos, courseCode, language) {
-     let tempList = []
-     let courseRound
      let courseRoundList = {}
      for (let roundInfo of roundInfos) {
        courseRound = this.getRound(roundInfo, language)
 
        if (courseRound.round_course_term && tempList.indexOf(courseRound.round_course_term.join('')) < 0) {
          tempList.push(courseRound.round_course_term.join(''))
+         this.activeSemesters.push([...courseRound.round_course_term, courseRound.round_course_term.join(''), 0])
          courseRoundList[courseRound.round_course_term.join('')] = []
        }
        courseRoundList[courseRound.round_course_term.join('')].push(courseRound)
        this.keyList.teachers.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.teachers`)
        this.keyList.responsibles.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`)
      }
-     this.courseSemesters.sort()
+     this.activeSemesters.sort()
 
      console.log('!!courseRound2: OK !!')
      return courseRoundList
    }
 
    getRoundsAndSyllabusConnection (syllabusSemesterList) {
-     for (let index = 0; index < this.courseSemesters.length; index++) {
-       if (Number(syllabusSemesterList[0]) > Number(this.courseSemesters[index][2]) /* && this.courseSemesters.length > 1*/) {
+     for (let index = 0; index < this.activeSemesters.length; index++) {
+       if (Number(syllabusSemesterList[0][0]) > Number(this.activeSemesters[index][2])) {
          for (let whileIndex = 1; whileIndex < syllabusSemesterList.length; whileIndex++) {
-           if (Number(syllabusSemesterList[whileIndex]) > Number(this.courseSemesters[index][2]))
+           if (Number(syllabusSemesterList[whileIndex][0]) > Number(this.activeSemesters[index][2]))
              console.log('find other syllabus2')
            else {
              this.roundsSyllabusIndex[index] = whileIndex
@@ -337,7 +318,6 @@
          this.roundsSyllabusIndex[index] = 0
        }
      }
-    // console.log("getRoundsAndSyllabusConnection");
    }
 
    getRound (roundObject, language = 0) {
@@ -439,7 +419,6 @@
      return `${this.browserConfig.proxyPrefixPath.uri}${COURSE_IMG_URL}${image}`
    }
 
-
    @action getCourseAdminInfo (courseCode, imageList, lang = 'sv') {
      return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri, {courseCode:courseCode}), this._getOptions()).then(res => {
       // console.log("getCourseAdminInfo",res.data)
@@ -459,9 +438,9 @@
 /** ***************************************************************************************************************************************** */
    @action getCourseEmployeesPost (key, type = 'multi', lang = 'sv') {
 
-     if (this.courseData.courseRoundList.length === 0) return ''
+     if (Object.getOwnPropertyNames(this.courseData.roundList).length === 0) return ''
 
-     return axios.post(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type }), this._getOptions(JSON.stringify(this.keyList))).then(result => {
+     return axios.post(this.buildApiUrl(this.paths.redis.ugCache.uri, { key: key, type: type }), this._getOptions(JSON.stringify(this.keyList))).then(result => {
        const returnValue = result.data
        const emptyString = EMPTY[this.activeLanguage]
        let roundList = this.courseData.roundList
@@ -476,14 +455,6 @@
          }
          thisStore.courseData.roundList[key] = rounds
        })
-      // TODO: DELETE
-       let rounds2 = this.courseData.courseRoundList
-       for (let index = 0; index < returnValue[0].length; index++) {
-         rounds2[index].round_teacher = returnValue[0][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[0][index]), 'teacher') : emptyString
-         rounds2[index].round_responsibles = returnValue[1][index] !== null ? this.createPersonHtml(JSON.parse(returnValue[1][index]), 'responsible') : emptyString
-       }
-
-       this.courseData.courseRoundList = rounds2
      }).catch(err => {
        if (err.response) {
          throw new Error(err.message, err.response.data)
@@ -493,7 +464,7 @@
    }
 
    @action getCourseEmployees (key, type = 'examinator', lang = 0) {
-     return axios.get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key:key, type:type })).then(result => {
+     return axios.get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key: key, type: type })).then(result => {
        this.courseData.courseInfo.course_examiners = result.data && result.data.length > 0 ? this.createPersonHtml(result.data, 'examiner') : EMPTY[this.activeLanguage]
      }).catch(err => {
        if (err.response) {
@@ -516,9 +487,7 @@
               ${person.givenName} ${person.lastName} 
             </a> 
           </p>  `
-          // <i class="far fa-envelope"></i>&nbsp;${person.email}
-      //* * Check if the logged in user is examinator or responsible and can edit course page **/
-       if (this.user === person.username && (type === 'responsible' || type === 'examiner')) // TODO:
+       if (this.user === person.username && (type === 'responsible' || type === 'examiner'))
          this.canEdit = true
      })
      return personString
@@ -538,8 +507,8 @@
 
    @action getBreadcrumbs () {
      return {
-       url:`/student/kurser/org/${this.courseData.courseInfo.course_department_code}`,
-       label:this.courseData.courseInfo.course_department
+       url: `/student/kurser/org/${this.courseData.courseInfo.course_department_code}`,
+       label: this.courseData.courseInfo.course_department
      }
    }
 

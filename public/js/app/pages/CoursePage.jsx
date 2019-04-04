@@ -28,8 +28,8 @@ class CoursePage extends Component {
     this.state = {
       activeRoundIndex: 0,
       activeSemesterIndex: this.props.routerStore.defaultIndex,
-      activeSemester: this.props.routerStore.courseSemesters.length > 0 ? this.props.routerStore.courseSemesters[this.props.routerStore.defaultIndex][2] : 0,
-      activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[this.props.routerStore.defaultIndex] || 0,
+      activeSemester: this.props.routerStore.activeSemesters.length > 0 ? this.props.routerStore.activeSemesters[this.props.routerStore.defaultIndex][2] : 0,
+      activeSyllabusIndex: 0,
       dropdownsOpen: {
         roundsDropdown: false,
         semesterDropdown: false
@@ -78,15 +78,14 @@ class CoursePage extends Component {
   handleSemesterDropdownSelect (event) {
     event.preventDefault()
     let prevState = this.state
-    console.log(event.target.id, prevState)
     const selectInfo = event.target.id.split('_')
     var newIndex = Number(selectInfo[1])
     prevState.syllabusInfoFade = prevState.activeSyllabusIndex !== this.props.routerStore.roundsSyllabusIndex[newIndex]
-    const showRoundData = this.props.routerStore.courseData.roundList[this.props.routerStore.courseSemesters[newIndex][2]].length > 1
+    const showRoundData = this.props.routerStore.courseData.roundList[this.props.routerStore.activeSemesters[newIndex][2]].length === 1
 
     this.setState({
       activeSemesterIndex: newIndex,
-      activeSemester: this.props.routerStore.courseSemesters[newIndex][2] || 0,
+      activeSemester: this.props.routerStore.activeSemesters[newIndex][2] || 0,
       activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex],
       syllabusInfoFade: prevState.syllabusInfoFade,
       activeRoundIndex: 0,
@@ -187,18 +186,18 @@ class CoursePage extends Component {
             <Col id='keyInformationContainer' sm='4' xs='12' className='float-md-right' >
 
             {/* ---COURSE  DROPDOWN MENU--- */}
-            {routerStore.courseSemesters.length > 0
+            {routerStore.activeSemesters.length > 0
               ? <div id='roundDropdownMenu' className=''>
                 <h4 style='margin-top:0px'>Visa kursinformation utifrån vald termin och kurstillfälle:</h4>
                 <div className='row' id='roundDropdowns' key='roundDropdown'>
-                  {routerStore.courseSemesters.length > 0
+                  {routerStore.activeSemesters.length > 0
                     ? <DropdownSemesters
-                      semesterList={routerStore.courseSemesters}
+                      semesterList={routerStore.activeSemesters}
                       courseRoundList={courseData.roundList[this.state.activeSemester]}
                       callerInstance={this}
-                      year={routerStore.courseSemesters[this.state.activeSemesterIndex][0]}
-                      semester={routerStore.courseSemesters[this.state.activeSemesterIndex][1]}
-                      yearSemester={routerStore.courseSemesters[this.state.activeSemesterIndex][2]}
+                      year={routerStore.activeSemesters[this.state.activeSemesterIndex][0]}
+                      semester={routerStore.activeSemesters[this.state.activeSemesterIndex][1]}
+                      yearSemester={routerStore.activeSemesters[this.state.activeSemesterIndex][2]}
                       language={courseData.language}
                       parentIndex='0'
                       lable={translation.courseLabels.lable_semester_select}
@@ -208,12 +207,12 @@ class CoursePage extends Component {
 
                   {courseData.roundList[this.state.activeSemester] && courseData.roundList[this.state.activeSemester].length > 1
                     ? <DropdownRounds
-                      semesterList={routerStore.courseSemesters}
+                      semesterList={routerStore.activeSemesters}
                       courseRoundList={courseData.roundList[this.state.activeSemester]}
                       callerInstance={this}
-                      year={routerStore.courseSemesters[this.state.activeSemesterIndex][0]}
-                      semester={routerStore.courseSemesters[this.state.activeSemesterIndex][1]}
-                      yearSemester={routerStore.courseSemesters[this.state.activeSemesterIndex][2]}
+                      year={routerStore.activeSemesters[this.state.activeSemesterIndex][0]}
+                      semester={routerStore.activeSemesters[this.state.activeSemesterIndex][1]}
+                      yearSemester={routerStore.activeSemesters[this.state.activeSemesterIndex][2]}
                       language={courseData.language}
                       parentIndex='0'
                       lable={translation.courseLabels.lable_round_select}
@@ -231,7 +230,7 @@ class CoursePage extends Component {
                     }
 
                     {/* ---ROUND CANCELLED OR FULL --- */}
-                    {routerStore.courseSemesters.length > 0 && courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state !== 'APPROVED'
+                    {routerStore.activeSemesters.length > 0 && courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state !== 'APPROVED'
                       ? <Alert color='info' aria-live='polite' >
                         <h4>{translation.courseLabels.lable_round_state[courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state]} </h4>
                       </Alert>
@@ -239,7 +238,7 @@ class CoursePage extends Component {
                     }
                 </div>
               </div>
-              : routerStore.courseSemesters.length === 0 && courseData.syllabusSemesterList.length > 0
+              : routerStore.activeSemesters.length === 0 && courseData.syllabusSemesterList.length > 0
                   ? <Alert color='info'>
                     <h4>{translation.courseLabels.header_no_rounds}</h4>
                     {translation.courseLabels.lable_no_rounds}
@@ -250,17 +249,17 @@ class CoursePage extends Component {
               <h3 style='margin-top:20px'>{translation.courseLabels.header_round}</h3>
 
               {/* ---COURSE ROUND KEY INFORMATION--- */}
-              {routerStore.courseSemesters.length > 0
+              {routerStore.activeSemesters.length > 0
                 ? <CourseKeyInformationOneCol
                   courseRound={courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex]}
                   courseData={courseInformationToRounds}
                   language={courseData.language}
-                  courseHasRound={routerStore.courseSemesters.length > 0}
+                  courseHasRound={routerStore.activeSemesters.length > 0}
                   fade={this.state.keyInfoFade}
                   showRoundData={this.state.showRoundData}
                   />
                 : <div className='key-info'>
-                    {routerStore.courseSemesters.length > 0
+                    {routerStore.activeSemesters.length > 0
                       ? <p>{translation.courseLabels.no_round_selected}</p>
                       : <i>{translation.courseLabels.lable_no_rounds}</i>
                     }
@@ -274,7 +273,7 @@ class CoursePage extends Component {
             <Col id='coreContent' sm='8' xs='12' className='float-md-left'>
               <div key='fade-2' className={` fade-container ${this.state.syllabusInfoFade === true ? ' fadeOutIn' : ''} `}>
 
-                <Row id='semesterContainer' key='semesterContainer'>
+                <Row id='activeSyllabusContainer' key='activeSyllabusContainer'>
                   <Col sm='12' >
                     <div sm='12' id='courseInfoHeader'>
                       <h2>{translation.courseLabels.header_course_info}
@@ -329,28 +328,20 @@ class CoursePage extends Component {
                   courseInfo={courseData.courseInfo}
                   syllabusList={courseData.syllabusList[this.state.activeSyllabusIndex]}
                   showCourseLink={routerStore.showCourseWebbLink}
-                  partToShow='firstBlock'
+                  partToShow='courseContentBlock'
                 />
+
+                {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
+                {courseData.courseInfo.course_level_code === 'RESEARCH'
+                  ? <span>
+                    <h3>{translation.courseLabels.header_postgraduate_course}</h3>
+                    {translation.courseLabels.label_postgraduate_course}
+                    <a target='_blank' href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}>
+                      {courseData.courseInfo.course_department}
+                    </a>
+                  </span>
+                  : ''}
               </div>
-
-              {/* --- COURSE INFORMATION CONTAINER---  */}
-              <CourseSectionList
-                courseInfo={courseData.courseInfo}
-                syllabusList={courseData.syllabusList[this.state.activeSyllabusIndex]}
-                showCourseLink={routerStore.showCourseWebbLink}
-                partToShow='secondBlock'
-              />
-
-            {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
-            {courseData.courseInfo.course_level_code === 'RESEARCH'
-              ? <span>
-                <h3>{translation.courseLabels.header_postgraduate_course}</h3>
-                {translation.courseLabels.label_postgraduate_course}
-                <a target='_blank' href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}>
-                  {courseData.courseInfo.course_department}
-                </a>
-              </span>
-              : ''}
             </Col>
 
             <Col id='historyContent' sm='8' xs='12' className='float-md-left'>

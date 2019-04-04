@@ -18,7 +18,6 @@ if (config.appInsights && config.appInsights.instrumentationKey) {
     .start()
 }
 
-
 // Expose the server and paths
 server.locals.secret = new Map()
 module.exports = server
@@ -195,7 +194,7 @@ server.use(excludeExpression, require('kth-node-web-common/lib/web/crawlerRedire
  * ******* APPLICATION ROUTES *******
  * **********************************
  */
-const { System, Course, Syllabus, noCourse} = require('./controllers')
+const { System, Course, Syllabus, noCourse } = require('./controllers')
 const { requireRole } = require('./authentication')
 
 // System routes
@@ -212,7 +211,6 @@ appRoute.get('system.index', config.proxyPrefixPath.uri + '/kursplan/:course_sem
 // appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', Course.getIndex)
 
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', getServerGatewayLogin('/:courseCode'), Course.getIndex)
-
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/', noCourse.getIndex)
 appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isAdmin'), Course.getIndex)
 

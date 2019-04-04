@@ -9562,7 +9562,7 @@ catch (e) {
     var _this = _possibleConstructorReturn(this, (CoursePage.__proto__ || Object.getPrototypeOf(CoursePage)).call(this, props))
 
     _this.state = {
-      activeRoundIndex: _this.props.routerStore.courseSemesters.length > 0 ? _this.props.routerStore.courseSemesters[_this.props.routerStore.defaultIndex][3] : 0,
+      activeRoundIndex: _this.props.routerStore.activeSemesters.length > 0 ? _this.props.routerStore.activeSemesters[_this.props.routerStore.defaultIndex][3] : 0,
       activeSyllabusIndex: _this.props.routerStore.roundsSyllabusIndex[_this.props.routerStore.defaultIndex] || 0,
       dropdownsIsOpen: {},
       activeDropdown: 'roundDropdown' + _this.props.routerStore.defaultIndex,
@@ -9595,7 +9595,7 @@ catch (e) {
       event.preventDefault()
       var newIndex = this.props.routerStore.getCurrentSemesterToShow(this.state.timeMachineValue)
       this.setState({
-        activeRoundIndex: this.props.routerStore.courseSemesters[newIndex][3],
+        activeRoundIndex: this.props.routerStore.activeSemesters[newIndex][3],
         activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex] || 0
       })
     }
@@ -9702,10 +9702,10 @@ catch (e) {
               'sm': '12',
               children: (0, _inferno.createVNode)(1, 'h2', null, [_i18n2.default.messages[courseData.language].courseLabels.header_course_info, (0, _inferno.createTextVNode)(' ')], 0)
             })
-          }), (0, _inferno.createVNode)(1, 'div', '', [(0, _inferno.createVNode)(1, 'h3', null, (0, _inferno.createTextVNode)('V\xE4lj ett kurstillf\xE4lle:'), 2), (0, _inferno.createVNode)(1, 'div', 'row', routerStore.courseSemesters.length === 0 ? (0, _inferno.createComponentVNode)(2, _Alert2.default, {
+          }), (0, _inferno.createVNode)(1, 'div', '', [(0, _inferno.createVNode)(1, 'h3', null, (0, _inferno.createTextVNode)('V\xE4lj ett kurstillf\xE4lle:'), 2), (0, _inferno.createVNode)(1, 'div', 'row', routerStore.activeSemesters.length === 0 ? (0, _inferno.createComponentVNode)(2, _Alert2.default, {
             'color': 'info',
             children: _i18n2.default.messages[courseData.language].courseLabels.lable_no_rounds
-          }) : routerStore.courseSemesters.map(function (semester, index) {
+          }) : routerStore.activeSemesters.map(function (semester, index) {
             return (0, _inferno.createComponentVNode)(2, _DropdownCreater2.default, {
               'courseRoundList': courseData.courseRoundList,
               'callerInstance': _this2,
@@ -9717,7 +9717,7 @@ catch (e) {
             })
           }), 0, {
             'id': 'semesterButtonMenue'
-          }, 'semesterButtonMenue'), routerStore.courseSemesters.length === 0 ? '' : (0, _inferno.createComponentVNode)(2, _Row2.default, {
+          }, 'semesterButtonMenue'), routerStore.activeSemesters.length === 0 ? '' : (0, _inferno.createComponentVNode)(2, _Row2.default, {
             'id': 'courseRoundHeader',
             'className': 'col',
             children: (0, _inferno.createVNode)(1, 'h4', null, ' \n                    ' + _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]] + ' \n                    ' + courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0] + '  \n                    ' + courseData.courseRoundList[this.state.activeRoundIndex].round_short_name + ',     \n                    ' + courseData.courseRoundList[this.state.activeRoundIndex].round_type + '\n                  ', 0)
@@ -9729,7 +9729,7 @@ catch (e) {
             'courseData': courseInformationToRounds,
             'language': courseData.language,
             'imageUrl': routerStore.image,
-            'courseHasRound': routerStore.courseSemesters.length > 0
+            'courseHasRound': routerStore.activeSemesters.length > 0
           }), courseData.courseInfo.course_level_code === 'RESEARCH' ? (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'h3', null, (0, _inferno.createTextVNode)('Forskarkurs'), 2), (0, _inferno.createVNode)(1, 'a', null, [_i18n2.default.messages[courseData.language].courseLabels.label_postgraduate_course, (0, _inferno.createTextVNode)(' '), courseData.courseInfo.course_department], 0, {
             'target': '_blank',
             'href': _constants.FORSKARUTB_URL + '/' + courseData.courseInfo.course_department_code
@@ -9745,10 +9745,10 @@ catch (e) {
           }), (0, _inferno.createComponentVNode)(2, _CourseFileLinks2.default, {
             'index': this.state.activeRoundIndex,
             'language': courseData.language,
-            'courseHasRound': routerStore.courseSemesters.length > 0,
+            'courseHasRound': routerStore.activeSemesters.length > 0,
             'syllabusValidFrom': courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from,
             'courseCode': courseData.courseInfo.course_code,
-            'scheduleUrl': routerStore.courseSemesters.length > 0 ? courseData.courseRoundList[this.state.activeRoundIndex].round_schedule : 'https://thoughtcatalog.com/january-nelson/2018/06/funny-stories/'
+            'scheduleUrl': routerStore.activeSemesters.length > 0 ? courseData.courseRoundList[this.state.activeRoundIndex].round_schedule : 'https://thoughtcatalog.com/january-nelson/2018/06/funny-stories/'
           })], 0), (0, _inferno.createComponentVNode)(2, _CourseSectionList2.default, {
             'roundIndex': this.state.activeRoundIndex,
             'courseInfo': courseData.courseInfo,
@@ -9885,7 +9885,7 @@ catch (e) {
     var _this = _possibleConstructorReturn(this, (CoursePage2.__proto__ || Object.getPrototypeOf(CoursePage2)).call(this, props))
 
     _this.state = {
-      activeRoundIndex: _this.props.routerStore.courseSemesters.length > 0 ? _this.props.routerStore.courseSemesters[_this.props.routerStore.defaultIndex][3] : 0,
+      activeRoundIndex: _this.props.routerStore.activeSemesters.length > 0 ? _this.props.routerStore.activeSemesters[_this.props.routerStore.defaultIndex][3] : 0,
       activeSyllabusIndex: _this.props.routerStore.roundsSyllabusIndex[_this.props.routerStore.defaultIndex] || 0,
       dropdownsIsOpen: {},
       activeDropdown: 'roundDropdown' + _this.props.routerStore.defaultIndex,
@@ -9918,7 +9918,7 @@ catch (e) {
       event.preventDefault()
       var newIndex = this.props.routerStore.getCurrentSemesterToShow(this.state.timeMachineValue)
       this.setState({
-        activeRoundIndex: this.props.routerStore.courseSemesters[newIndex][3],
+        activeRoundIndex: this.props.routerStore.activeSemesters[newIndex][3],
         activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex] || 0
       })
     }
@@ -10026,10 +10026,10 @@ catch (e) {
               children: [(0, _inferno.createVNode)(1, 'h2', null, [_i18n2.default.messages[courseData.language].courseLabels.header_course_info, (0, _inferno.createTextVNode)(' ')], 0), courseData.courseRoundList.length === 0 ? '' : (0, _inferno.createComponentVNode)(2, _Alert2.default, {
                 'color': 'grey',
                 children: ['Det finns totalt ', courseData.courseRoundList.length, ' st kurstillf\xE4llen f\xF6r den h\xE4r kursen.', (0, _inferno.createVNode)(1, 'br'), (0, _inferno.createVNode)(1, 'br'), 'Just nu visas information f\xF6r kurstillf\xE4lle ', (0, _inferno.createVNode)(1, 'b', null, [' \n                      ' + _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]] + ' \n                      ' + courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0] + '  \n                      ' + (courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== _constants.EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : '') + ',     \n                      ' + courseData.courseRoundList[this.state.activeRoundIndex].round_type + '\n                    ', (0, _inferno.createTextVNode)('  ')], 0), 'med kursplan som  ', _i18n2.default.messages[courseData.language].courseLabels.label_course_syllabus_valid_from.toLowerCase(), (0, _inferno.createVNode)(1, 'b', null, [(0, _inferno.createTextVNode)('\xA0'), _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]], (0, _inferno.createTextVNode)(' \xA0'), courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0]], 0), ' ', (0, _inferno.createVNode)(1, 'br')]
-              }), (0, _inferno.createVNode)(1, 'div', '', [(0, _inferno.createVNode)(1, 'h3', null, (0, _inferno.createTextVNode)('V\xE4lj ett kurstillf\xE4lle:'), 2), (0, _inferno.createVNode)(1, 'div', 'row', routerStore.courseSemesters.length === 0 ? (0, _inferno.createComponentVNode)(2, _Alert2.default, {
+              }), (0, _inferno.createVNode)(1, 'div', '', [(0, _inferno.createVNode)(1, 'h3', null, (0, _inferno.createTextVNode)('V\xE4lj ett kurstillf\xE4lle:'), 2), (0, _inferno.createVNode)(1, 'div', 'row', routerStore.activeSemesters.length === 0 ? (0, _inferno.createComponentVNode)(2, _Alert2.default, {
                 'color': 'info',
                 children: _i18n2.default.messages[courseData.language].courseLabels.lable_no_rounds
-              }) : routerStore.courseSemesters.map(function (semester, index) {
+              }) : routerStore.activeSemesters.map(function (semester, index) {
                 return (0, _inferno.createComponentVNode)(2, _DropdownCreater2.default, {
                   'courseRoundList': courseData.courseRoundList,
                   'callerInstance': _this2,
@@ -10041,7 +10041,7 @@ catch (e) {
                 })
               }), 0, {
                 'id': 'semesterButtonMenue'
-              }, 'semesterButtonMenue'), routerStore.courseSemesters.length === 0 ? '' : (0, _inferno.createComponentVNode)(2, _Row2.default, {
+              }, 'semesterButtonMenue'), routerStore.activeSemesters.length === 0 ? '' : (0, _inferno.createComponentVNode)(2, _Row2.default, {
                 'id': 'courseRoundHeader',
                 'className': 'col',
                 children: (0, _inferno.createVNode)(1, 'h4', null, ' \n                      ' + _i18n2.default.messages[courseData.language].courseInformation.course_short_semester[courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[1]] + ' \n                      ' + courseData.courseRoundList[this.state.activeRoundIndex].round_course_term[0] + '  \n                      ' + (courseData.courseRoundList[this.state.activeRoundIndex].round_short_name !== _constants.EMPTY ? courseData.courseRoundList[this.state.activeRoundIndex].round_short_name : '') + '     \n                      ' + courseData.courseRoundList[this.state.activeRoundIndex].round_type + '\n                    ', 0)
@@ -10062,7 +10062,7 @@ catch (e) {
                   'courseData': courseInformationToRounds,
                   'language': courseData.language,
                   'imageUrl': routerStore.image,
-                  'courseHasRound': routerStore.courseSemesters.length > 0
+                  'courseHasRound': routerStore.activeSemesters.length > 0
                 }), courseData.courseInfo.course_level_code === 'RESEARCH' ? (0, _inferno.createVNode)(1, 'span', null, [(0, _inferno.createVNode)(1, 'h3', null, (0, _inferno.createTextVNode)('Forskarkurs'), 2), (0, _inferno.createVNode)(1, 'a', null, [_i18n2.default.messages[courseData.language].courseLabels.label_postgraduate_course, (0, _inferno.createTextVNode)(' '), courseData.courseInfo.course_department], 0, {
                   'target': '_blank',
                   'href': _constants.FORSKARUTB_URL + '/' + courseData.courseInfo.course_department_code
@@ -10246,7 +10246,7 @@ catch (e) {
     _initDefineProp(this, 'showCourseWebbLink', _descriptor5, this)
 
     this.roundsSyllabusIndex = []
-    this.courseSemesters = []
+    this.activeSemesters = []
     this.keyList = {
       teachers: [],
       responsibles: []
@@ -10385,7 +10385,7 @@ catch (e) {
       var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ''
 
 
-      if (this.courseSemesters.length === 0) return 0
+      if (this.activeSemesters.length === 0) return 0
 
       var thisDate = date === '' ? new Date() : new Date(date)
       var showSemester = 0
@@ -10404,21 +10404,21 @@ catch (e) {
       }
 
       //* ******Check if course has a round for current semester otherwise it shows the previous semester********/
-      for (var index = 0; index < this.courseSemesters.length; index++) {
-        if (this.courseSemesters[index][2] === showSemester) {
+      for (var index = 0; index < this.activeSemesters.length; index++) {
+        if (this.activeSemesters[index][2] === showSemester) {
           returnIndex = index
         }
-        if (thisDate.getMonth() + 1 > _constants.MAX_2_MONTH && Number(this.courseSemesters[index][0]) === thisDate.getFullYear()) {
+        if (thisDate.getMonth() + 1 > _constants.MAX_2_MONTH && Number(this.activeSemesters[index][0]) === thisDate.getFullYear()) {
           yearMatch = index
         }
-        if (thisDate.getMonth() + 1 < _constants.MAX_1_MONTH && Number(this.courseSemesters[index][0]) === thisDate.getFullYear() - 1) {
+        if (thisDate.getMonth() + 1 < _constants.MAX_1_MONTH && Number(this.activeSemesters[index][0]) === thisDate.getFullYear() - 1) {
           yearMatch = index
         }
       }
       // console.log("what???",returnIndex, yearMatch ) //TODO: delete
       // console.log(thisDate, showSemester)
       //* ******In case there should be no match at all, take the last senester in the list ********/
-      if (returnIndex === -1 && yearMatch === -1) return this.courseSemesters.length - 1
+      if (returnIndex === -1 && yearMatch === -1) return this.activeSemesters.length - 1
 
       return returnIndex > -1 ? returnIndex : yearMatch
     }
@@ -10585,7 +10585,7 @@ catch (e) {
           courseRound = this.getRound(roundInfo, language)
           courseRoundList.push(courseRound)
           if (courseRound.round_course_term && tempList.indexOf(courseRound.round_course_term.join('')) < 0) {
-            this.courseSemesters.push([].concat(_toConsumableArray(courseRound.round_course_term), [courseRound.round_course_term.join(''), courseRoundList.length - 1]))
+            this.activeSemesters.push([].concat(_toConsumableArray(courseRound.round_course_term), [courseRound.round_course_term.join(''), courseRoundList.length - 1]))
             tempList.push(courseRound.round_course_term.join(''))
           }
           this.keyList.teachers.push(courseCode + '.' + courseRound.round_course_term[0] + courseRound.round_course_term[1] + '.' + courseRound.roundId + '.teachers')
@@ -10606,7 +10606,7 @@ catch (e) {
         }
       }
 
-      this.courseSemesters.sort()
+      this.activeSemesters.sort()
       console.log('!!courseRound: OK !!')
 
       return courseRoundList
@@ -10614,9 +10614,9 @@ catch (e) {
   }, {
     key: 'getRoundsAndSyllabusConnection',
     value: function getRoundsAndSyllabusConnection (syllabusSemesterList) {
-      for (var index = 0; index < this.courseSemesters.length; index++) {
-        if (Number(syllabusSemesterList[0]) > Number(this.courseSemesters[index][2])) for (var whileIndex = 1; whileIndex < this.courseSemesters.length; whileIndex++) {
-          if (Number(syllabusSemesterList[whileIndex]) > Number(this.courseSemesters[index][2])) console.log('find other syllabus2'); else {
+      for (var index = 0; index < this.activeSemesters.length; index++) {
+        if (Number(syllabusSemesterList[0]) > Number(this.activeSemesters[index][2])) for (var whileIndex = 1; whileIndex < this.activeSemesters.length; whileIndex++) {
+          if (Number(syllabusSemesterList[whileIndex]) > Number(this.activeSemesters[index][2])) console.log('find other syllabus2'); else {
             // console.log("correct syllabus2")
             this.roundsSyllabusIndex[index] = whileIndex
             break
