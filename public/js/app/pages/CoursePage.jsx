@@ -79,13 +79,15 @@ class CoursePage extends Component {
     event.preventDefault()
     let prevState = this.state
     const selectInfo = event.target.id.split('_')
-    var newIndex = Number(selectInfo[1])
+    let newIndex = Number(selectInfo[1])
+    const activeSemester = this.props.routerStore.activeSemesters[newIndex][2].toString()
     prevState.syllabusInfoFade = prevState.activeSyllabusIndex !== this.props.routerStore.roundsSyllabusIndex[newIndex]
-    const showRoundData = this.props.routerStore.courseData.roundList[this.props.routerStore.activeSemesters[newIndex][2]].length === 1
+    const showRoundData = this.props.routerStore.courseData.roundList[activeSemester].length === 1
+    console.log('!!!activeSemester!!!', activeSemester, showRoundData)
 
     this.setState({
       activeSemesterIndex: newIndex,
-      activeSemester: this.props.routerStore.activeSemesters[newIndex][2] || 0,
+      activeSemester: activeSemester || 0,
       activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex],
       syllabusInfoFade: prevState.syllabusInfoFade,
       activeRoundIndex: 0,
