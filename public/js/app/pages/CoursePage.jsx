@@ -34,7 +34,7 @@ class CoursePage extends Component {
         roundsDropdown: false,
         semesterDropdown: false
       },
-      keyInfoFade: false,
+      roundInfoFade: false,
       syllabusInfoFade: false,
       showRoundData: false,
       roundDisabled: true,
@@ -51,26 +51,26 @@ class CoursePage extends Component {
     // Resets animation after they were triggered
     if (this.state.syllabusInfoFade) {
       let that = this
-      setTimeout(() => { that.setState({syllabusInfoFade: false, keyInfoFade: false}) }, 800)
+      setTimeout(() => { that.setState({syllabusInfoFade: false, roundInfoFade: false}) }, 800)
     }
     else
-      if (this.state.keyInfoFade) {
+      if (this.state.roundInfoFade) {
         let that = this
-        setTimeout(() => { that.setState({keyInfoFade: false}) }, 500)
+        setTimeout(() => { that.setState({roundInfoFade: false}) }, 500)
       }
   }
 
   static fetchData (routerStore, params) {
   }
 
-  toggle (event, keyInfoFade = false, syllabusInfoFade = false) {
+  toggle (event, roundInfoFade = false, syllabusInfoFade = false) {
     if (event) {
       const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
       let prevState = this.state
       prevState.dropdownsOpen[selectedInfo] = !prevState.dropdownsOpen[selectedInfo]
       this.setState({
         dropdownsOpen: prevState.dropdownsOpen,
-        keyInfoFade
+        roundInfoFade
       })
     }
   }
@@ -91,7 +91,7 @@ class CoursePage extends Component {
       activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex],
       syllabusInfoFade: prevState.syllabusInfoFade,
       activeRoundIndex: 0,
-      keyInfoFade: true,
+      roundInfoFade: true,
       showRoundData: showRoundData,
       roundDisabled: false,
       roundSelected: false
@@ -199,9 +199,7 @@ class CoursePage extends Component {
                       callerInstance={this}
                       year={routerStore.activeSemesters[this.state.activeSemesterIndex][0]}
                       semester={routerStore.activeSemesters[this.state.activeSemesterIndex][1]}
-                      yearSemester={routerStore.activeSemesters[this.state.activeSemesterIndex][2]}
                       language={courseData.language}
-                      parentIndex='0'
                       lable={translation.courseLabels.lable_semester_select}
                     />
                     : ''
@@ -214,9 +212,7 @@ class CoursePage extends Component {
                       callerInstance={this}
                       year={routerStore.activeSemesters[this.state.activeSemesterIndex][0]}
                       semester={routerStore.activeSemesters[this.state.activeSemesterIndex][1]}
-                      yearSemester={routerStore.activeSemesters[this.state.activeSemesterIndex][2]}
                       language={courseData.language}
-                      parentIndex='0'
                       lable={translation.courseLabels.lable_round_select}
                     />
                     : this.state.showRoundData
@@ -257,7 +253,7 @@ class CoursePage extends Component {
                   courseData={courseInformationToRounds}
                   language={courseData.language}
                   courseHasRound={routerStore.activeSemesters.length > 0}
-                  fade={this.state.keyInfoFade}
+                  fade={this.state.roundInfoFade}
                   showRoundData={this.state.showRoundData}
                   />
                 : <div className='key-info'>
@@ -389,7 +385,7 @@ class CoursePage extends Component {
   }
 }
 
-const DropdownSemesters = ({semesterList, courseRoundList, callerInstance, semester, year, yearSemester, language = 0, parentIndex = 0, lable = ''}) => {
+const DropdownSemesters = ({semesterList, courseRoundList, callerInstance, semester, year, language = 0, lable = ''}) => {
   const dropdownID = 'semesterDropdown'
   if (semesterList && semesterList.length < 1) {
     return ''
@@ -419,7 +415,7 @@ const DropdownSemesters = ({semesterList, courseRoundList, callerInstance, semes
               return (
                 <DropdownItem
                   key={index}
-                  id={dropdownID + '_' + index + '_' + parentIndex}
+                  id={dropdownID + '_' + index + '_' + '0'}
                   onClick={callerInstance.handleSemesterDropdownSelect}
                 >
                   {i18n.messages[language].courseInformation.course_short_semester[semesterItem[1]]}{semesterItem[0]}
@@ -434,7 +430,7 @@ const DropdownSemesters = ({semesterList, courseRoundList, callerInstance, semes
   }
 }
 
-const DropdownRounds = ({courseRoundList, callerInstance, semester, year, yearSemester, language = 0, parentIndex = 0, lable = ''}) => {
+const DropdownRounds = ({courseRoundList, callerInstance, semester, year, language = 0, lable = ''}) => {
   const dropdownID = 'roundsDropdown'
 
   if (courseRoundList && courseRoundList.length < 2) {
@@ -471,7 +467,7 @@ const DropdownRounds = ({courseRoundList, callerInstance, semester, year, yearSe
             {
               courseRoundList.map((courseRound, index) => {
                 return (
-                  <DropdownItem key={index} id={dropdownID + '_' + index + '_' + parentIndex} onClick={callerInstance.handleDropdownSelect}>
+                  <DropdownItem key={index} id={dropdownID + '_' + index + '_' + '0'} onClick={callerInstance.handleDropdownSelect}>
                     {
                       `${courseRound.round_short_name !== EMPTY[language] ? courseRound.round_short_name : ''},     
                       ${courseRound.round_type}`
