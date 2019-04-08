@@ -362,7 +362,7 @@ class CoursePage extends Component {
                         <span key={index}>
                           <i class='fas fa-file-pdf'></i>
                           <a
-                            href={`${SYLLABUS_URL}${routerStore.courseData.courseInfo.course_code}_${semester}.pdf?lang=${language}`}
+                            href={`${SYLLABUS_URL}${routerStore.courseData.courseInfo.course_code}_${semester[0]}.pdf?lang=${language}`}
                             key={index}
                             id={semester}
                             target='_blank'
