@@ -173,7 +173,7 @@ async function getIndex (req, res, next) { console.log('TEST getIndex')
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
 
     await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
-    // await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, imageList, lang)
+    await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, imageList, lang)
     await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi')
     await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
     const breadcrumDepartment = await renderProps.props.children.props.routerStore.getBreadcrumbs()
