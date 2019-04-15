@@ -18,12 +18,12 @@ const koppsCourseData = require('../apiCalls/koppsCourseData')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const paths = require('../server').getPaths()
-console.log("TEST CourseCtr 21")
-var glob = require("glob")
+// console.log('TEST CourseCtr 21')
+// var glob = require('glob')
 
 let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
-console.log("TEST CourseCtr 215")
+console.log('TEST CourseCtr 215')
 module.exports = {
   getIndex: getIndex,
   getSellingText: co.wrap(_getSellingText),
@@ -32,66 +32,66 @@ module.exports = {
   setImage: co.wrap(_setImage)
 }
 
-//** TODO Function for SF1624.20182.9.teachers, SF1624.20182.9.courseresponsible, SF1624.examiner */
+//* * TODO Function for SF1624.20182.9.teachers, SF1624.20182.9.courseresponsible, SF1624.examiner */
 
 
-function * _getCourseEmployees(req, res) { //console.log("TEST")
+function * _getCourseEmployees (req, res) { // console.log("TEST")
   let key = req.params.key
   const type = req.params.type
-   key = key.replace(/_/g,'.')
-   switch(type){
-     //**************************************************************************************************************/
-     //**** Retuns two lists with teachers and reponsibles for each course round. 
-     //**** The keys are built up with: course code.year+semester.roundId (example: SF1624.20182.1)
-     //**************************************************************************************************************/
-     case "multi":
+  key = key.replace(/_/g, '.')
+  switch (type) {
+     //* *************************************************************************************************************/
+     //* *** Retuns two lists with teachers and reponsibles for each course round.
+     //* *** The keys are built up with: course code.year+semester.roundId (example: SF1624.20182.1)
+     //* *************************************************************************************************************/
+    case 'multi':
       try {
         const roundsKeys = JSON.parse(req.body.params)
-        yield redis( "ugRedis", serverConfig.cache.ugRedis.redis)
-          .then(function(ugClient) { 
+        yield redis('ugRedis', serverConfig.cache.ugRedis.redis)
+          .then(function (ugClient) {
             return ugClient.multi()
             .mget(roundsKeys.teachers)
             .mget(roundsKeys.responsibles)
             .execAsync()
           })
-          .then(function(returnValue) {
-           // console.log("ugRedis - multi -VALUE",returnValue)
+          .then(function (returnValue) {
+            console.log('ugRedis - multi -VALUE', returnValue)
             return httpResponse.json(res, returnValue)
           })
-          .catch(function(err) {
-            console.log("ugRedis - error:: ", err)
+          .catch(function (err) {
+            console.log('ugRedis - error:: ', err)
           })
       } catch (err) {
         log.error('Exception calling from ugRedis - multi', { error: err })
-          return err
-      }
-    break;
-    //*********************************************************/
-    //**** Retuns a list with examiners. Key is course code ***/
-    //*********************************************************/
-    case "examiners":
-    try {
-      yield redis( "ugRedis", serverConfig.cache.ugRedis.redis)
-        .then(function(ugClient) { 
-          return ugClient.getAsync(key+".examiner")
-        })
-        .then(function(returnValue) {
-          return httpResponse.json(res, returnValue)
-        })
-        .catch(function(err) {
-          console.log("ugRedis - examiners error: ", err)
-        })
-    } catch (err) {
-      log.error('Exception calling from ugRedis - examiners ', { error: err })
         return err
       }
-    }    
+      break
+    //* ********************************************************/
+    //* *** Retuns a list with examiners. Key is course code ***/
+    //* ********************************************************/
+    case 'examiners':
+      try {
+        yield redis('ugRedis', serverConfig.cache.ugRedis.redis)
+        .then(function (ugClient) {
+          return ugClient.getAsync(key + '.examiner')
+        })
+        .then(function (returnValue) {
+          return httpResponse.json(res, returnValue)
+        })
+        .catch(function (err) {
+          console.log('ugRedis - examiners error: ', err)
+        })
+      } catch (err) {
+        log.error('Exception calling from ugRedis - examiners ', { error: err })
+        return err
+      }
   }
-  
+}
 
-function * _getSellingText(req, res) {
+
+function * _getSellingText (req, res) {
   const courseCode = req.params.courseCode
- 
+
   try {
     const apiResponse = yield courseApi.getSellingText(courseCode)
 
@@ -102,7 +102,7 @@ function * _getSellingText(req, res) {
     if (apiResponse.statusCode !== 200) {
       return httpResponse.jsonError(res, apiResponse.statusCode)
     }
-    //console.log(apiResponse.body)
+    // console.log(apiResponse.body)
     return httpResponse.json(res, apiResponse.body)
   } catch (err) {
     log.error('Exception calling from course API _getSellingText', { error: err })
@@ -110,31 +110,31 @@ function * _getSellingText(req, res) {
   }
 }
 
-function * _getKoppsCourseData(req, res, next) {
+function * _getKoppsCourseData (req, res, next) {
 
   const courseCode = req.params.courseCode
   const language = req.params.language || 'sv'
 
- try {
+  try {
     const apiResponse = yield koppsCourseData.getKoppsCourseData(courseCode, language)
     if (apiResponse.statusCode !== 200) {
       res.status(apiResponse.statusCode)
       res.statusCode = apiResponse.statusCode
       res.send(courseCode)
     }
-   
+
     return httpResponse.json(res, apiResponse.body)
-    
+
   } catch (err) {
     log.error('Exception calling from koppsAPI ', { error: err })
     next(err)
   }
 }
 
-async function  _setImage (req, res, next) {
+async function _setImage (req, res, next) {
   const courseCode = req.params.courseCode
   const imageName = req.params.imageName
-  try{
+  try {
     const sendBody = {courseCode: courseCode, imageInfo: imageName}
     const response = await courseApi.setImage(sendBody, courseCode)
     return httpResponse.json(res, response)
@@ -146,7 +146,7 @@ async function  _setImage (req, res, next) {
 
 
 
-async function  getIndex (req, res, next) { console.log("TEST getIndex")
+async function getIndex (req, res, next) { console.log('TEST getIndex')
   if (process.env['NODE_ENV'] === 'development') {
     delete require.cache[require.resolve('../../dist/js/server/app.js')]
     const tmp = require('../../dist/js/server/app.js')
@@ -154,12 +154,12 @@ async function  getIndex (req, res, next) { console.log("TEST getIndex")
     doAllAsyncBefore = tmp.doAllAsyncBefore
   }
 
-  let imageList = "" //await glob.sync("**/dist/img/courses/*.jpg") 
-  
+  let imageList = '' // await glob.sync("**/dist/img/courses/*.jpg")
+
   const courseCode = req.params.courseCode.toUpperCase()
   let lang = language.getLanguage(res) || 'sv'
   const ldapUser = req.session.authUser ? req.session.authUser.username : 'null'
-  
+
   try {
     // Render inferno app
     const context = {}
@@ -168,13 +168,13 @@ async function  getIndex (req, res, next) { console.log("TEST getIndex")
       context
     }, appFactory())
 
-  
+
     renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
-  
+
     await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
-    await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, imageList, lang)
-    await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi') 
+    // await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, imageList, lang)
+    await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi')
     await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
     const breadcrumDepartment = await renderProps.props.children.props.routerStore.getBreadcrumbs()
     let breadcrumbs = [
@@ -188,7 +188,7 @@ async function  getIndex (req, res, next) { console.log("TEST getIndex")
       routerStore: renderProps.props.children.props.routerStore,
       routes: renderProps.props.children.props.children.props.children.props.children
     })
-    
+
     const html = renderToString(renderProps)
 
     res.render('course/index', {
@@ -198,8 +198,8 @@ async function  getIndex (req, res, next) { console.log("TEST getIndex")
       title: courseCode.toUpperCase(),
       initialState: JSON.stringify(hydrateStores(renderProps)),
       lang: lang,
-      description: lang === 'sv' ? "KTH kursinformation för "+courseCode.toUpperCase() : "KTH course information "+courseCode.toUpperCase()
-      })
+      description: lang === 'sv' ? 'KTH kursinformation för ' + courseCode.toUpperCase() : 'KTH course information ' + courseCode.toUpperCase()
+    })
   } catch (err) {
     log.error('Error in getIndex', { error: err })
     next(err)
@@ -208,7 +208,7 @@ async function  getIndex (req, res, next) { console.log("TEST getIndex")
 
 function hydrateStores (renderProps) {
   // This assumes that all stores are specified in a root element called Provider
-  
+
   const props = renderProps.props.children.props
   const outp = {}
   for (let key in props) {

@@ -76,6 +76,7 @@ class CoursePage extends Component {
   }
 
   handleSemesterDropdownSelect (event) {
+    console.log('!!!activeSemester!!!', event)
     event.preventDefault()
     let prevState = this.state
     const selectInfo = event.target.id.split('_')
@@ -83,7 +84,6 @@ class CoursePage extends Component {
     const activeSemester = this.props.routerStore.activeSemesters[newIndex][2].toString()
     prevState.syllabusInfoFade = prevState.activeSyllabusIndex !== this.props.routerStore.roundsSyllabusIndex[newIndex]
     const showRoundData = this.props.routerStore.courseData.roundList[activeSemester].length === 1
-    console.log('!!!activeSemester!!!', activeSemester, showRoundData)
 
     this.setState({
       activeSemesterIndex: newIndex,
@@ -190,7 +190,7 @@ class CoursePage extends Component {
             {/* ---COURSE  DROPDOWN MENU--- */}
             {routerStore.activeSemesters.length > 0
               ? <div id='roundDropdownMenu' className=''>
-                <h4 style='margin-top:0px'>Visa kursinformation utifrån vald termin och kurstillfälle:</h4>
+                <h4 style='margin-top:0px'>{translation.courseLabels.header_dropdown_menue}:</h4>
                 <div className='row' id='roundDropdowns' key='roundDropdown'>
                   {routerStore.activeSemesters.length > 0
                     ? <DropdownSemesters

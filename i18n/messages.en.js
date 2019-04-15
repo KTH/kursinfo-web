@@ -51,7 +51,7 @@ module.exports = {
     label_course_web_link: 'Course web',
     label_edit: 'Edit',
     header_no_rounds: 'Course round missing',
-    lable_no_rounds: ' Course rounds missingfor current semester as well as for previous and coming semesters',
+    lable_no_rounds: ' Course rounds missing for current semester as well as for previous and coming semesters',
     label_course_pm: 'Course memo',
     label_schedule: 'Schedule',
     label_statistics: 'Course statistics',
@@ -81,7 +81,7 @@ module.exports = {
     header_no_round_selected: 'No round selected',
     no_round_selected: 'Select the semester and course round above to get information from the correct course syllabus and course round.',
     round_seats_info: 'The Course date may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made.',
-    syllabus_info: '<h4>Course information</h4> <p>• Course information consists of all information from the course syllabus (kursplan) as well as other course information concerning course and course round</p><p>• If you have not chosen the semester and course round, you will see course information from the current or future course syllabus (which period the course syllabus applies to is given under the heading "Course information")</p><p>• A course goes different course rounds. To see information for a specific course round, choose the semester and course round in the upper right corner. If it is another course plan that applies to that semester, the corresponding information is also updated (on the left side of the page).</p><p>• Please note: regulations in course syllabus are rules that are generally applicable and binding for both employees and students</p>'
+    syllabus_info: '<h4>Course information</h4> <p>• Course information consists of all information from the course syllabus (kursplan) as well as other course information concerning course and course round</p><p>• If you have not chosen the semester and course round, you will see course information from the current or future course syllabus (which period the course syllabus applies to is given under the heading "Course information")</p><p>• A course goes different course rounds. To see information for a specific course round, choose the semester and course round in the upper right corner. If it is another course syllabus that applies to that semester, the corresponding information is also updated (on the left side of the page).</p><p>• Please note: regulations in course syllabus are rules that are generally applicable and binding for both employees and students</p>'
   },
   courseInformation: {
     course_title: 'Title english',

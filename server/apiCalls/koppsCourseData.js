@@ -9,7 +9,7 @@ const koppsApi = new BasicAPI({
   https: config.koppsApi.https,
   json: true,
   // Kopps is a public API and needs no API-key
-  defaultTimeout: config.koppsApi.defaultTimeout
+  defaultTimeout: 10000 // config.koppsApi.defaultTimeout // TODO
 })
 
 
@@ -19,9 +19,10 @@ module.exports = {
 
 function * getKoppsCourseData (courseCode, lang = 'sv') {
 
-  try{
+  try {
     return yield koppsApi.getAsync(`course/${encodeURIComponent(courseCode)}/detailedinformation?l=${lang}`)
   } catch (err) {
-    next(err)
+    console.log('Error in getKoppsCourseData:', err)
+    return (err)
   }
 }

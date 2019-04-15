@@ -9,9 +9,13 @@
 @import "node_modules/kth-style/public/sass/bootstrap/variables";
 @import "node_modules/bootstrap/scss/mixins";*/
 
+#kth-kursinfo{
+    width:100%;
+}
 .course-page{
     margin: 10px 0px 0px 10px !important;
 }
+
 #kursinfo-main-page{ 
     margin-bottom: 20px;
     padding-left: 30px;

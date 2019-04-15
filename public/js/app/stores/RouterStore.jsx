@@ -104,7 +104,7 @@
            syllabusSemesterList.push([syllabuses[index].validFromTerm.term, ''])
            tempSyllabus = this.getSyllabusData(courseResult, index, language)
            if (index > 0) {
-             tempSyllabus.course_valid_to = this.getSyllabusEndSemester(syllabusSemesterList[index - 1].toString().match(/.{1,4}/g))
+             tempSyllabus.course_valid_to = this.getSyllabusEndSemester(syllabusSemesterList[index - 1][0].toString().match(/.{1,4}/g))
              syllabusSemesterList[index][1] = tempSyllabus.course_valid_to.join('')
            }
            syllabusList.push(tempSyllabus)
@@ -148,8 +148,8 @@
      return {
        course_code: this.isValidData(courseResult.course.courseCode),
        course_title: this.isValidData(courseResult.course.title),
-       course_other_title:this.isValidData(courseResult.course.titleOther),
-       course_credits:this.isValidData(courseResult.course.credits)
+       course_other_title: this.isValidData(courseResult.course.titleOther),
+       course_credits: this.isValidData(courseResult.course.credits)
      }
    }
 
@@ -208,6 +208,7 @@
      }
    }
 
+
    @action getCurrentSemesterToShow (date = '') {
      if (this.activeSemesters.length === 0)
        return 0
@@ -229,7 +230,6 @@
          showSemester = `${thisDate.getFullYear() + 1}1`
        }
      }
-
       //* ***** Check if course has a round for current semester otherwise it shows the previous semester *****/
      for (let index = 0; index < this.activeSemesters.length; index++) {
        if (this.activeSemesters[index][2] === showSemester) {
@@ -242,7 +242,6 @@
          yearMatch = index
        }
      }
-
     //* **** In case there should be no match at all, take the last senester in the list ******/
      if (returnIndex === -1 && yearMatch === -1)
        return this.activeSemesters.length - 1
@@ -272,7 +271,7 @@
        }
      }
      examString += '</ul>'
-     console.log('!!getExamObject is ok!!')
+     // console.log('!!getExamObject is ok!!')
      return examString
    }
 
@@ -383,115 +382,118 @@
 
    getRoundSeats (max, min, language) {
      if (max === EMPTY[language] && min === EMPTY[language])
-       return EMPTY[language]
+      return EMPTY[language]
 
      if (max !== EMPTY[language])
-       if (min !== EMPTY[language])
-         return min + ' - ' + max
-       else
+      if (min !== EMPTY[language])
+        return min + ' - ' + max
+      else
         return 'Max: ' + max
 
      return 'Min: ' + min
    }
 
    getDateFormat (date, language) {
-     if (date === EMPTY[language] || language === 1)
-       return date
+    if (date === EMPTY[language] || language === 1)
+      return date
 
-     const splitDate = date.split('-')
-     return `${splitDate[2]}/${splitDate[1]}/${splitDate[0]}`
-   }
+    const splitDate = date.split('-')
+    return `${splitDate[2]}/${splitDate[1]}/${splitDate[0]}`
+  }
 
 /** ***************************************************************************************************************************************** */
 /*                                                                ADMIN                                                                      */
 /** ***************************************************************************************************************************************** */
    getImage (courseCode, type = 'normal') {
-     const image = `${Math.floor((Math.random() * 7) + 1)}_${type}.jpg`
-     const response = axios.get(this.buildApiUrl(this.paths.api.setImage.uri, { courseCode: courseCode, imageName:image })).then(response => {
+    const image = `${Math.floor((Math.random() * 7) + 1)}_${type}.jpg`
+    const response = axios.get(this.buildApiUrl(this.paths.api.setImage.uri, { courseCode: courseCode, imageName:image })).then(response => {
       // console.log("IMAGE SET->",response, image)
-     })
+    })
     .catch(err => {
       if (err.response) {
         throw new Error(err.message, err.response.data)
       }
       throw err
     })
-     return `${this.browserConfig.proxyPrefixPath.uri}${COURSE_IMG_URL}${image}`
-   }
+    return `${this.browserConfig.proxyPrefixPath.uri}${COURSE_IMG_URL}${image}`
+  }
 
    @action getCourseAdminInfo (courseCode, imageList, lang = 'sv') {
-     return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri, {courseCode:courseCode}), this._getOptions()).then(res => {
-      // console.log("getCourseAdminInfo",res.data)
-       this.showCourseWebbLink = res.data.isCourseWebLink
-       this.sellingText = res.data.sellingText
-       this.image = res.data.imageInfo /* && res.data.imageInfo.length > 0 */? this.browserConfig.proxyPrefixPath.uri + COURSE_IMG_URL + res.data.imageInfo : this.getImage(courseCode, 'normal') // TODO:
-     }).catch(err => {
-       if (err.response) {
-         throw new Error(err.message, err.response.data)
-       }
-       throw err
-     })
-   }
+    return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri, {courseCode:courseCode}), this._getOptions()).then(res => {
+      this.showCourseWebbLink = res.data.isCourseWebLink
+      this.sellingText = res.data.sellingText
+      this.image = res.data.imageInfo /* && res.data.imageInfo.length > 0 */? this.browserConfig.proxyPrefixPath.uri + COURSE_IMG_URL + res.data.imageInfo : this.getImage(courseCode, 'normal') // TODO:
+    }).catch(err => {
+      if (err.response) {
+        throw new Error(err.message, err.response.data)
+      }
+      throw err
+    })
+  }
 
 /** ***************************************************************************************************************************************** */
 /*                                            UG REDIS - examiners, teachers and responsibles                                                */
 /** ***************************************************************************************************************************************** */
    @action getCourseEmployeesPost (key, type = 'multi', lang = 'sv') {
 
-     if (Object.getOwnPropertyNames(this.courseData.roundList).length === 0) return ''
+    if (Object.getOwnPropertyNames(this.courseData.roundList).length === 0) return ''
 
-     return axios.post(this.buildApiUrl(this.paths.redis.ugCache.uri, { key: key, type: type }), this._getOptions(JSON.stringify(this.keyList))).then(result => {
-       const returnValue = result.data
-       const emptyString = EMPTY[this.activeLanguage]
-       let roundList = this.courseData.roundList
-       let roundId = 0
-       const thisStore = this
-       Object.keys(roundList).forEach(function (key) {
-         let rounds = roundList[key]
-         for (let index = 0; index < rounds.length; index++) {
-           rounds[index].round_teacher = returnValue[0][roundId] !== null ? thisStore.createPersonHtml(JSON.parse(returnValue[0][roundId]), 'teacher') : emptyString
-           rounds[index].round_responsibles = returnValue[1][roundId] !== null ? thisStore.createPersonHtml(JSON.parse(returnValue[1][roundId]), 'responsible') : emptyString
-           roundId++
-         }
-         thisStore.courseData.roundList[key] = rounds
-       })
-     }).catch(err => {
-       if (err.response) {
-         throw new Error(err.message, err.response.data)
-       }
-       throw err
-     })
-   }
+    return axios.post(this.buildApiUrl(this.paths.redis.ugCache.uri, { key: key, type: type }), this._getOptions(JSON.stringify(this.keyList))).then(result => {
+      const returnValue = result.data
+      const emptyString = EMPTY[this.activeLanguage]
+      let roundList = this.courseData.roundList
+      let roundId = 0
+      const thisStore = this
+      Object.keys(roundList).forEach(function (key) {
+        let rounds = roundList[key]
+        for (let index = 0; index < rounds.length; index++) {
+          rounds[index].round_teacher = returnValue[0][roundId] !== null && returnValue[0][roundId].length > 0 ? thisStore.createPersonHtml(JSON.parse(returnValue[0][roundId]), 'teacher') : emptyString
+          rounds[index].round_responsibles = returnValue[1][roundId] !== null && returnValue[0][roundId].length > 0 ? thisStore.createPersonHtml(JSON.parse(returnValue[1][roundId]), 'responsible') : emptyString
+          roundId++
+        }
+        thisStore.courseData.roundList[key] = rounds
+      })
+    }).catch(err => {
+      if (err.response) {
+        throw new Error(err.message, err.response.data)
+      }
+      throw err
+    })
+  }
 
    @action getCourseEmployees (key, type = 'examinator', lang = 0) {
-     return axios.get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key: key, type: type })).then(result => {
-       this.courseData.courseInfo.course_examiners = result.data && result.data.length > 0 ? this.createPersonHtml(result.data, 'examiner') : EMPTY[this.activeLanguage]
-     }).catch(err => {
-       if (err.response) {
-         throw new Error(err.message, err.response.data)
-       }
-       throw err
-     })
-   }
+    return axios.get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key: key, type: type })).then(result => {
+      this.courseData.courseInfo.course_examiners = result.data && result.data.length > 0 ? this.createPersonHtml(result.data, 'examiner') : EMPTY[this.activeLanguage]
+    }).catch(err => {
+      if (err.response) {
+        throw new Error(err.message, err.response.data)
+      }
+      throw err
+    })
+  }
 
    isValidData (dataObject, language = 0) {
      return !dataObject ? EMPTY[language] : dataObject
    }
 
    createPersonHtml (personList, type) {
-     let personString = ''
-     personList.forEach(person => {
-       personString += `<p class = "person">
+    let personString = ''
+    personList.forEach(person => {
+
+      if (person.length > 0) {
+      personString +=
+        `<p class = "person">
           <i class="fas fa-user-alt"></i>
             <a href="/profile/${person.username}/" target="_blank" property="teach:teacher">
               ${person.givenName} ${person.lastName} 
             </a> 
           </p>  `
-       if (this.user === person.username && (type === 'responsible' || type === 'examiner'))
-         this.canEdit = true
-     })
-     return personString
-   }
+      if (this.user === person.username && (type === 'responsible' || type === 'examiner'))
+          this.canEdit = true
+    }
+    })
+    return personString
+  }
 /** ***********************************************************************************************************************/
 
    @action getLdapUserByUsername (params) {
