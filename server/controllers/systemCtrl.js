@@ -46,11 +46,11 @@ function _notFound (req, res, next) {
 // this function must keep this signature for it to work properly
 function _final (err, req, res, next) {
   log.error({ err: err }, 'Unhandled error')
-  let statusCode 
-  let courseCode = ""
-  if(err.response){
-    statusCode = err.response.status 
-    courseCode = err.response.data ? err.response.data : ""
+  let statusCode
+  let courseCode = ''
+  if (err.response) {
+    statusCode = err.response.status
+    courseCode = err.response.data ? err.response.data : ''
   }
   else
    statusCode = err.status || err.statusCode || 500
@@ -88,9 +88,9 @@ function _final (err, req, res, next) {
 function _getFriendlyErrorMessage (lang, statusCode, courseCode) {
   switch (statusCode) {
     case 404:
-    //if(courseCode.length > 0)
-      //return i18n.message('error_course_not_found', lang) + courseCode
-    return i18n.message('error_not_found', lang)
+    // if(courseCode.length > 0)
+      // return i18n.message('error_course_not_found', lang) + courseCode
+      return i18n.message('error_not_found', lang)
     default:
       return i18n.message('error_generic', lang)
   }
@@ -145,39 +145,38 @@ async function _monitor (req, res) {
 
   // Determine system health based on the results of the checks above. Expects
   // arrays of promises as input. This returns a promise
-   try{ 
-   await redis( "ugRedis", ugRedis.redis)
-           .then(function(ugClient) { console.log("ugClient", ugClient)
-           const  status ={
-              key:"ugRedis",
-              message:"- ugRedis connection: OK ",
-              required:undefined,
-              responseTime:undefined,
-              statusCode:200
-           }
-           subSystems.push(status)
-           return status
+  try {
+    await redis('ugRedis', ugRedis.redis)
+           .then(function (ugClient) { console.log('ugClient', ugClient)
+             const status = {
+               key:'ugRedis',
+               message:'- ugRedis connection: OK ',
+               required:undefined,
+               responseTime:undefined,
+               statusCode:200
+             }
+             subSystems.push(status)
+             return status
            })
 
-          }    
-    catch(err) {
-             console.log("ugRedis - error:: ", err)
-             const  status ={
-              key:"ugRedis",
-              message:"- ugRedis connection: " + err.message,
-              required:undefined,
-              responseTime:undefined,
-              statusCode:500
-            }
-            subSystems.push(status)
-            return status
-           }
+  } catch (err) {
+    console.log('ugRedis - error:: ', err)
+    const status = {
+      key:'ugRedis',
+      message:'- ugRedis connection: ' + err.message,
+      required:undefined,
+      responseTime:undefined,
+      statusCode:500
+    }
+    subSystems.push(status)
+    return status
+  }
 
-   const systemHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-system-check')
-   const systemStatus = systemHealthUtil.status(localSystems, subSystems)
- 
-   systemStatus.then((status) => { //console.log(status)
-   
+  const systemHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-system-check')
+  const systemStatus = systemHealthUtil.status(localSystems, subSystems)
+
+  systemStatus.then((status) => { // console.log(status)
+
     // Return the result either as JSON or text
     if (req.headers['accept'] === 'application/json') {
       let outp = systemHealthUtil.renderJSON(status)
@@ -192,7 +191,7 @@ async function _monitor (req, res) {
 }
 
 
-    
+
 /* GET /robots.txt
  * Robots.txt page
  */

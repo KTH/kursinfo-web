@@ -71,7 +71,7 @@
     "mobx": "^5.5.2",
     "morgan": "^1.9.1",
     "passport": "^0.3.2",
-    "query-string": "^6.2.0",
+    "query-string": "^5.1.1",
     "response-time": "^2.3.2",
     "safe-utils": "^0.1.1"
   },

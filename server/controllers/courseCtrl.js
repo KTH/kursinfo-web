@@ -4,7 +4,7 @@ const co = require('co')
 const log = require('kth-node-log')
 const redis = require('kth-node-redis')
 const language = require('kth-node-web-common/lib/language')
-const { safeGet } = require('safe-utils')
+// const { safeGet } = require('safe-utils')
 const { createElement } = require('inferno-create-element')
 const { renderToString } = require('inferno-server')
 const { StaticRouter } = require('inferno-router')
@@ -23,7 +23,6 @@ const paths = require('../server').getPaths()
 
 let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
-console.log('TEST CourseCtr 215')
 module.exports = {
   getIndex: getIndex,
   getSellingText: co.wrap(_getSellingText),
@@ -33,7 +32,6 @@ module.exports = {
 }
 
 //* * TODO Function for SF1624.20182.9.teachers, SF1624.20182.9.courseresponsible, SF1624.examiner */
-
 
 function * _getCourseEmployees (req, res) { // console.log("TEST")
   let key = req.params.key
@@ -88,7 +86,6 @@ function * _getCourseEmployees (req, res) { // console.log("TEST")
   }
 }
 
-
 function * _getSellingText (req, res) {
   const courseCode = req.params.courseCode
 
@@ -111,7 +108,6 @@ function * _getSellingText (req, res) {
 }
 
 function * _getKoppsCourseData (req, res, next) {
-
   const courseCode = req.params.courseCode
   const language = req.params.language || 'sv'
 
@@ -124,7 +120,6 @@ function * _getKoppsCourseData (req, res, next) {
     }
 
     return httpResponse.json(res, apiResponse.body)
-
   } catch (err) {
     log.error('Exception calling from koppsAPI ', { error: err })
     next(err)
@@ -144,9 +139,7 @@ async function _setImage (req, res, next) {
   }
 }
 
-
-
-async function getIndex (req, res, next) { console.log('TEST getIndex')
+async function getIndex (req, res, next) {
   if (process.env['NODE_ENV'] === 'development') {
     delete require.cache[require.resolve('../../dist/js/server/app.js')]
     const tmp = require('../../dist/js/server/app.js')
@@ -167,7 +160,6 @@ async function getIndex (req, res, next) { console.log('TEST getIndex')
       location: req.url,
       context
     }, appFactory())
-
 
     renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
@@ -194,7 +186,7 @@ async function getIndex (req, res, next) { console.log('TEST getIndex')
     res.render('course/index', {
       breadcrumbsPath: breadcrumbs,
       debug: 'debug' in req.query,
-      html:html,
+      html: html,
       title: courseCode.toUpperCase(),
       initialState: JSON.stringify(hydrateStores(renderProps)),
       lang: lang,
