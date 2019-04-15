@@ -53,7 +53,6 @@ function * _getCourseEmployees (req, res) { // console.log("TEST")
             .execAsync()
           })
           .then(function (returnValue) {
-            console.log('ugRedis - multi -VALUE', returnValue)
             return httpResponse.json(res, returnValue)
           })
           .catch(function (err) {
@@ -74,6 +73,7 @@ function * _getCourseEmployees (req, res) { // console.log("TEST")
           return ugClient.getAsync(key + '.examiner')
         })
         .then(function (returnValue) {
+          console.log('ugRedis - examiners -VALUE', returnValue)
           return httpResponse.json(res, returnValue)
         })
         .catch(function (err) {
