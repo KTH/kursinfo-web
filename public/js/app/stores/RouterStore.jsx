@@ -20,7 +20,7 @@
  }
 
  class RouterStore {
-   @observable courseData = undefined
+   courseData = undefined
    @observable sellingText = undefined
 
    canEdit = false
@@ -425,8 +425,8 @@
        this.image = res.data.imageInfo /* && res.data.imageInfo.length > 0 */? this.browserConfig.proxyPrefixPath.uri + COURSE_IMG_URL + res.data.imageInfo : this.getImage(courseCode, 'normal') // TODO:
      }).catch(err => {
        if (err.response) {
-        throw new Error(err.message, err.response.data)
-      }
+         throw new Error(err.message, err.response.data)
+       }
        throw err
      })
    }
@@ -447,16 +447,16 @@
        Object.keys(roundList).forEach(function (key) {
          let rounds = roundList[key]
          for (let index = 0; index < rounds.length; index++) {
-          rounds[index].round_teacher = returnValue[0][roundId] !== null && returnValue[0][roundId].length > 0 ? thisStore.createPersonHtml(JSON.parse(returnValue[0][roundId]), 'teacher') : emptyString
-          rounds[index].round_responsibles = returnValue[1][roundId] !== null && returnValue[0][roundId].length > 0 ? thisStore.createPersonHtml(JSON.parse(returnValue[1][roundId]), 'responsible') : emptyString
-          roundId++
-        }
+           rounds[index].round_teacher = returnValue[0][roundId] !== null && returnValue[0][roundId].length > 0 ? thisStore.createPersonHtml(JSON.parse(returnValue[0][roundId]), 'teacher') : emptyString
+           rounds[index].round_responsibles = returnValue[1][roundId] !== null && returnValue[0][roundId].length > 0 ? thisStore.createPersonHtml(JSON.parse(returnValue[1][roundId]), 'responsible') : emptyString
+           roundId++
+         }
          thisStore.courseData.roundList[key] = rounds
        })
      }).catch(err => {
        if (err.response) {
-        throw new Error(err.message, err.response.data)
-      }
+         throw new Error(err.message, err.response.data)
+       }
        throw err
      })
    }
@@ -466,8 +466,8 @@
        this.courseData.courseInfo.course_examiners = result.data && result.data.length > 0 ? this.createPersonHtml(result.data, 'examiner') : EMPTY[this.activeLanguage]
      }).catch(err => {
        if (err.response) {
-        throw new Error(err.message, err.response.data)
-      }
+         throw new Error(err.message, err.response.data)
+       }
        throw err
      })
    }
@@ -489,7 +489,7 @@
             </a> 
           </p>  `
          if (this.user === person.username && (type === 'responsible' || type === 'examiner'))
-          this.canEdit = true
+           this.canEdit = true
        }
      })
      return personString
