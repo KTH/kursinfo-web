@@ -21,7 +21,7 @@
 
  class RouterStore {
    courseData = undefined
-   @observable sellingText = undefined
+   sellingText = undefined
 
    canEdit = false
    isCancelled = false
