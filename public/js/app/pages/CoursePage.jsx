@@ -52,12 +52,12 @@ class CoursePage extends Component {
     if (this.state.syllabusInfoFade) {
       let that = this
       setTimeout(() => { that.setState({syllabusInfoFade: false, roundInfoFade: false}) }, 800)
-    }
-    else
+    } else {
       if (this.state.roundInfoFade) {
         let that = this
         setTimeout(() => { that.setState({roundInfoFade: false}) }, 500)
       }
+    }
   }
 
   static fetchData (routerStore, params) {
