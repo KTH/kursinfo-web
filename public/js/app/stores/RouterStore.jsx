@@ -434,12 +434,19 @@ class RouterStore {
       const emptyString = EMPTY[this.courseData.language]
       let roundList = this.courseData.roundList
       let roundId = 0
+      let toTeacherObject
+      let toResponsiblepObject
       const thisStore = this
+      console.log('returnValue', returnValue)
       Object.keys(roundList).forEach(function (key) {
+
         let rounds = roundList[key]
         for (let index = 0; index < rounds.length; index++) {
-          rounds[index].round_teacher = returnValue[0][roundId] !== null && returnValue[0][roundId].length > 0 ? thisStore.createPersonHtml(JSON.parse(returnValue[0][roundId]), 'teacher') : emptyString
-          rounds[index].round_responsibles = returnValue[1][roundId] !== null && returnValue[0][roundId].length > 0 ? thisStore.createPersonHtml(JSON.parse(returnValue[1][roundId]), 'responsible') : emptyString
+          toTeacherObject = JSON.parse(returnValue[0][roundId])
+          toResponsiblepObject = JSON.parse(returnValue[1][roundId])
+          console.log('key:', toTeacherObject, 'returnValue[0][roundId]', returnValue[0][roundId])
+          rounds[index].round_teacher = toTeacherObject !== null && toTeacherObject.length > 0 ? thisStore.createPersonHtml(toTeacherObject, 'teacher') : emptyString
+          rounds[index].round_responsibles = toResponsiblepObject !== null && toResponsiblepObject.length > 0 ? thisStore.createPersonHtml(toResponsiblepObject, 'responsible') : emptyString
           roundId++
         }
         thisStore.courseData.roundList[key] = rounds
@@ -468,21 +475,21 @@ class RouterStore {
   }
 
   createPersonHtml (personList, type) {
+
     let personString = ''
-    personList.forEach(person => {
-      if (person.length > 0) {
-        personString +=
+    personList.forEach(person => { console.log('personList', person)
+      personString +=
           `<p class = "person">
           <i class="fas fa-user-alt"></i>
             <a href="/profile/${person.username}/" target="_blank" property="teach:teacher">
               ${person.givenName} ${person.lastName} 
             </a> 
           </p>  `
-        if (this.user === person.username && (type === 'responsible' || type === 'examiner')) {
-          this.canEdit = true
-        }
+      if (this.user === person.username && (type === 'responsible' || type === 'examiner')) {
+        this.canEdit = true
       }
     })
+
     return personString
   }
   /** ***********************************************************************************************************************/
