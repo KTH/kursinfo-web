@@ -437,14 +437,14 @@ class RouterStore {
       let toTeacherObject
       let toResponsiblepObject
       const thisStore = this
-      console.log('returnValue', returnValue)
-      Object.keys(roundList).forEach(function (key) {
 
+      Object.keys(roundList).forEach(function (key) {
         let rounds = roundList[key]
+
         for (let index = 0; index < rounds.length; index++) {
           toTeacherObject = JSON.parse(returnValue[0][roundId])
           toResponsiblepObject = JSON.parse(returnValue[1][roundId])
-          console.log('key:', toTeacherObject, 'returnValue[0][roundId]', returnValue[0][roundId])
+
           rounds[index].round_teacher = toTeacherObject !== null && toTeacherObject.length > 0 ? thisStore.createPersonHtml(toTeacherObject, 'teacher') : emptyString
           rounds[index].round_responsibles = toResponsiblepObject !== null && toResponsiblepObject.length > 0 ? thisStore.createPersonHtml(toResponsiblepObject, 'responsible') : emptyString
           roundId++
@@ -475,9 +475,8 @@ class RouterStore {
   }
 
   createPersonHtml (personList, type) {
-
     let personString = ''
-    personList.forEach(person => { console.log('personList', person)
+    personList.forEach(person => {
       personString +=
           `<p class = "person">
           <i class="fas fa-user-alt"></i>
