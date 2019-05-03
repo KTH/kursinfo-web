@@ -154,7 +154,7 @@ class RouterStore {
       course_grade_scale: this.isValidData(courseResult.formattedGradeScales[courseResult.course.gradeScaleCode], language), // TODO: can this be an array?
       course_level_code: this.isValidData(courseResult.course.educationalLevelCode),
       course_main_subject: courseResult.mainSubjects && courseResult.mainSubjects.length > 0 ? courseResult.mainSubjects.join(', ') : EMPTY[language],
-      course_recruitment_text: this.isValidData(courseResult.course.recruitmentText, language),
+      course_recruitment_text: this.isValidData(courseResult.course.recruitmentText, language, true),
       course_department: this.isValidData(courseResult.course.department.name, language),
       course_department_link: this.isValidData(courseResult.course.department.name, language) !== EMPTY[language] ? '<a href="/' + courseResult.course.department.name.split('/')[0].toLowerCase() + '/" target="blank">' + courseResult.course.department.name + '</a>' : EMPTY[language],
       course_department_code: this.isValidData(courseResult.course.department.code, language),
@@ -470,8 +470,9 @@ class RouterStore {
     })
   }
 
-  isValidData (dataObject, language = 0) {
-    return !dataObject ? EMPTY[language] : dataObject
+  isValidData (dataObject, language = 0, setEmpty = false) {
+    const emptyText = setEmpty ? '' : EMPTY[language]
+    return !dataObject ? emptyText : dataObject
   }
 
   createPersonHtml (personList, type) {

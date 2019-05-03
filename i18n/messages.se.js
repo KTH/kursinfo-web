@@ -81,7 +81,7 @@ module.exports = {
     empty_text: 'Ingen information inlagd',
     no_schedule: 'Schema saknas',
     no_memo: 'Kurs-PM saknas ',
-    header_no_round_selected: 'Ingen kursomgång är valt',
+    header_no_round_selected: 'Ingen kursomgång är vald',
     no_round_selected: 'Välj termin och kursomgång ovan för att få information från rätt kursplan och kursomgång.',
     round_seats_info: 'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
     syllabus_info: '<h4>Kursinformation</h4> <p>• Kursinformation består av all information från kursplan samt övrig kursinformation som gäller kurs och kursomgång</p><p>• Har du inte valt termin och kursomgång så ser du kursinformation från nuvarande eller kommande kursplan (vilken period kursplanen gäller för finns angivet under rubriken ”Kursinformation”)</p><p>• En kurs går olika kursomgångar. För att se information för en specifik kursomgång så väljer du termin och kursomgång i rutan uppe till höger. Om det är annan kursplan som gäller den terminen så uppdateras även den informationen (till vänster på sidan)</p><p>•Observera: bestämmelser i kursplaner är regler som är generellt tillämpbara och bindande för såväl anställda som studenter</p>'
@@ -159,6 +159,34 @@ module.exports = {
     },
     round_time_slots: 'Planerade moduler',
     round_application_link: 'Till anmälan'
+  },
+  courseImage: {
+    Arkitektur: '',
+    Bioteknik: '',
+    'Datalogi och datateknik': '',
+    Elektroteknik: '',
+    Fysik: '',
+    'Industriell ekonomi': 'HH1800',
+    Informationsteknik: '',
+    'Informations- och kommunikationsteknik': '',
+    Kemiteknik: '',
+    'Kemi och kemiteknik	': '',
+    Matematik: 'test Matte',
+    Miljöteknik: '',
+    'Molekylära livsvetenskaper': '',
+    Maskinteknik: '',
+    Materialvetenskap: '',
+    'Medicinsk teknik': '',
+    Materialteknik: '',
+    Samhällsbyggnad: '',
+    'Teknisk fysik': '',
+    'Teknik och ekonomi': '',
+    'Teknik och hälsa': '',
+    'Teknik och management': '',
+    Teknik: '',
+    'Teknik och management': '',
+    'Teknik och lärande': '',
+    default: 'default'
   }
 
 }

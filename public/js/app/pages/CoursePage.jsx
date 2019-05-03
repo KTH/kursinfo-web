@@ -76,7 +76,6 @@ class CoursePage extends Component {
   }
 
   handleSemesterDropdownSelect (event) {
-    console.log('!!!activeSemester!!!', event)
     event.preventDefault()
     let prevState = this.state
     const selectInfo = event.target.id.split('_')
@@ -122,9 +121,12 @@ class CoursePage extends Component {
     const language = routerStore.courseData.language === 0 ? 'en' : 'sv'
     const translation = i18n.messages[courseData.language]
     const introText = routerStore.sellingText && routerStore.sellingText[language].length > 0 ? routerStore.sellingText[language] : courseData.courseInfo.course_recruitment_text
-
+    let courseImage = translation.courseImage[courseData.courseInfo.course_main_subject.split(',')[0]]
+    if (courseImage === undefined)
+      courseImage = translation.courseImage.default
     console.log('routerStore in CoursePage', routerStore)
     console.log('state in CoursePage', this.state)
+    console.log('bildtest', courseImage)
 
     const courseInformationToRounds = {
       course_code: courseData.courseInfo.course_code,

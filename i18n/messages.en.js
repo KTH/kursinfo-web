@@ -156,5 +156,33 @@ module.exports = {
     round_type: 'Type of round',
     round_time_slots: 'Planned timeslots',
     round_application_link: 'Go to the registration'
+  },
+  courseImage: {
+    Architecture: '',
+    Biotechnology: '',
+    'Computer Science and Engineering': '',
+    'Electrical Engineering': '',
+    Physics: '',
+    ' Industrial Management': '',
+    'Information Technology': '',
+    'Information and Communication Technology': '',
+    'Chemical Science and Engineering':  '',
+    'Chemistry and Chemical Engineering': '',
+    Mathematics: '',
+    'Environmental Engineering': '',
+    'Molecular Life Science': '',
+    ' Mechanical Engineering': '',
+    'Materials Science': '',
+    'Medical Engineering': '',
+    'Materials Science and Engineering': '',
+    'Built Environment': '',
+    'Engineering Physics': '',
+    'Technology and Economics': '',
+    'Technology and Health': '',
+    'Technology and Management': '',
+    Technology: '',
+    'Engineering and Management': '',
+    'Technology and Learning': '',
+    default: ''
   }
 }
