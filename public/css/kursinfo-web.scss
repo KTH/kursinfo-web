@@ -66,7 +66,7 @@
         justify-content: space-between;
         padding: 0;
         width: 100%;
-        &>span:first-child {
+        & > span:first-child {
             margin: 6px;
             max-height: 28px;
             overflow-y: hidden;
@@ -79,7 +79,7 @@
             height: 36px;
             margin: 0;
             position: absolute;
-            right: -1px;
+            right: 0px;
 
             &:after{
                 display: inline-block;
@@ -90,7 +90,7 @@
                 height: 100%;
                 position: absolute;
                 top: 0;
-                left: 9px;
+                left: 11px;
             }
         }
     }
@@ -124,7 +124,6 @@
     p{
         margin-left: 15px;
     }
-   
 }
 
 #semesterMenu{
@@ -155,7 +154,6 @@
     }
 
 }
-
    
 #semesterButtonMenue, #roundDropdownMenu{
     & > .button-clean{
@@ -178,8 +176,6 @@
         width: 100%;
    }
 }
-
-
 
 #keyInformationContainer{
     margin-top: 10px;
@@ -226,7 +222,6 @@
 
 #courseLinks{
     padding-top:30px;
-    /*padding-bottom:30px;*/
 }
 
 .person{
