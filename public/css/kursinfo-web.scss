@@ -71,6 +71,7 @@
             max-height: 28px;
             //overflow-y: hidden;
             min-width: 85%;
+            text-align: left;
         }
         .caretholder {
             background-color: #007fae;
@@ -370,4 +371,8 @@
   }
   .ModalBackdropFade-enter-end {
     opacity: 0.5;
+  }
+
+  .btn-info-modal {
+    background: url(../img/kth-style/icons/modal-info.svg);
   }
