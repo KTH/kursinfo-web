@@ -69,7 +69,7 @@
         &>span:first-child {
             margin: 6px;
             max-height: 28px;
-            //overflow-y: hidden;
+            overflow-y: hidden;
             min-width: 85%;
             text-align: left;
         }
@@ -83,7 +83,7 @@
 
             &:after{
                 display: inline-block;
-                background: url(https://intra-r.referens.sys.kth.se/img/kth-style/icons/arrow-white-down-d7377bdc4e7188ca890eab41c5f6e373.svg) no-repeat 0;
+                background: url("../kth-style/img/kth-style/icons/arrow-white-down.svg") no-repeat 0;
                 background-size: 14px auto;
                 content: "";
                 width: 100%;
@@ -319,7 +319,7 @@
         top: 10%;
         left: .2em;
         width: 2em;
-        content: url(//www.kth.se/img/kth-style/icons/alert-info.svg);
+        content: url("//www.kth.se/img/kth-style/icons/alert-info.svg");
     }
     
 }
@@ -374,5 +374,5 @@
   }
 
   .btn-info-modal {
-    background: url(../img/kth-style/icons/modal-info.svg);
+    background: url("../img/kth-style/icons/modal-info.svg");
   }
