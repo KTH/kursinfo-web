@@ -15,7 +15,7 @@ import i18n from '../../../../i18n'
 import { EMPTY, FORSKARUTB_URL, ADMIN_URL, SYLLABUS_URL } from '../util/constants'
 
 // Components
-import CourseKeyInformationOneCol from '../components/CourseKeyInformationOneCol.jsx'
+import RoundInformationOneCol from '../components/RoundInformationOneCol.jsx'
 import CourseTitle from '../components/CourseTitle.jsx'
 import CourseSectionList from '../components/CourseSectionList.jsx'
 import InfoModal from '../components/InfoModal.jsx'
@@ -186,7 +186,7 @@ class CoursePage extends Component {
           {/** *************************************************************************************************************/}
           {/*                                      RIGHT COLUMN - ROUND INFORMATION                                         */}
           {/** *************************************************************************************************************/}
-            <Col id='keyInformationContainer' md='4' xs='12' className='float-md-right' >
+            <Col id='roundInformationContainer' md='4' xs='12' className='float-md-right' >
 
             {/* ---COURSE  DROPDOWN MENU--- */}
             {routerStore.activeSemesters.length > 0
@@ -249,7 +249,7 @@ class CoursePage extends Component {
 
               {/* ---COURSE ROUND KEY INFORMATION--- */}
               {routerStore.activeSemesters.length > 0
-                ? <CourseKeyInformationOneCol
+                ? <RoundInformationOneCol
                   courseRound={courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex]}
                   courseData={courseInformationToRounds}
                   language={courseData.language}

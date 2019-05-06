@@ -10,7 +10,7 @@ import i18n from '../../../../i18n'
 import CourseFileLinks from './CourseFileLinks.jsx'
 import InfoModal from './InfoModal.jsx'
 
-class CourseKeyInformationOneCol extends Component {
+class RoundInformationOneCol extends Component {
   constructor (props) {
     super(props)
     this.openApplicationLink = this.openApplicationLink.bind(this)
@@ -35,7 +35,7 @@ class CourseKeyInformationOneCol extends Component {
     `
 
     return (
-      <div id='CourseKeyInformationOneCol' className='key-info'>
+      <div id='roundInformationOneCol' className='key-info'>
         <Row id='roundFirstPart'>
           {/** *************************************************************************************************************/}
           {/*                                  Round information  - first part                                         */}
@@ -85,7 +85,7 @@ class CourseKeyInformationOneCol extends Component {
               {this.props.courseHasRound && this.props.showRoundData
                 ? <span>
                   <h4>{translate.round_tutoring_form}</h4>
-                  <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[this.props.language]}                       {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
+                  <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[this.props.language]}                              {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
 
                   <h4>{translate.round_tutoring_language}</h4>
                   <p>{round ? round.round_tutoring_language : EMPTY[this.props.language]}</p>
@@ -173,4 +173,4 @@ class CourseKeyInformationOneCol extends Component {
   }
 }
 
-export default CourseKeyInformationOneCol
+export default RoundInformationOneCol

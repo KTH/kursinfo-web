@@ -177,7 +177,7 @@
    }
 }
 
-#keyInformationContainer{
+#roundInformationContainer{
     margin-top: 10px;
     padding-left:0px;
     .key-info{
@@ -273,7 +273,7 @@
 
 
 /* Animation */
-#CourseKeyInformationOneCol, #roundKeyInformation, #coreContent,#syllabusLink{
+#roundInformationOneCol, #roundKeyInformation, #coreContent,#syllabusLink{
     @keyframes fadeOutIn {
         0% {opacity: 1;}
         50% {opacity: 0;}
