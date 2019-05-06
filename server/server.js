@@ -76,13 +76,13 @@ const express = require('express')
 
 const morgan = require('morgan')
 server.use(morgan(':method :url :status :res[content-length] --kip_web-- :response-time ms'))
-const compression = require('compression')
+/* const compression = require('compression')
 server.use(compression({
   filter: function () { return true }
 }))
 const minify = require('express-minify')
 server.use(minify())
-
+*/
 // helper
 function setCustomCacheControl (res, path) {
   if (express.static.mime.lookup(path) === 'text/html') {

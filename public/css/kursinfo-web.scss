@@ -69,14 +69,16 @@
         &>span:first-child {
             margin: 6px;
             max-height: 28px;
-            overflow-y: hidden;
+            //overflow-y: hidden;
+            min-width: 85%;
         }
         .caretholder {
             background-color: #007fae;
             width: 36px;
             height: 36px;
             margin: 0;
-            position: relative;
+            position: absolute;
+            left: -1px;
 
             &:after{
                 display: inline-block;

@@ -187,7 +187,7 @@ class CoursePage extends Component {
           {/** *************************************************************************************************************/}
           {/*                                      RIGHT COLUMN - ROUND INFORMATION                                         */}
           {/** *************************************************************************************************************/}
-            <Col id='keyInformationContainer' sm='4' xs='12' className='float-md-right' >
+            <Col id='keyInformationContainer' md='4' xs='12' className='float-md-right' >
 
             {/* ---COURSE  DROPDOWN MENU--- */}
             {routerStore.activeSemesters.length > 0
