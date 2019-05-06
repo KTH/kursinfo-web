@@ -12,9 +12,6 @@
 #kth-kursinfo{
     width:100%;
 }
-/*.course-page{
-    margin: 10px 0px 0px 10px !important;
-}*/
 
 #kursinfo-main-page{ 
     margin-bottom: 20px;
@@ -26,10 +23,6 @@
     padding: 15px 15px 0 !important;
    
 }
-
-#roundsDropdown_span{
-font-size: 0.8rem;
-}    
 
 .preArticleParagraphs, h2.secondTitle {
     margin-top: -1px;
@@ -110,6 +103,12 @@ font-size: 0.8rem;
         }            
     }
     
+}
+
+.word-break{
+    p{
+        word-break: break-word;
+    }
 }
 
 #roundDropdownMenu{
@@ -236,6 +235,7 @@ font-size: 0.8rem;
         float:right;
     }
 }
+
 .ul-no-padding{
   padding-left: 20px;
 }
