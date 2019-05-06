@@ -124,9 +124,8 @@ class CoursePage extends Component {
     let courseImage = translation.courseImage[courseData.courseInfo.course_main_subject.split(',')[0]]
     if (courseImage === undefined)
       courseImage = translation.courseImage.default
-    console.log('routerStore in CoursePage', routerStore)
-    console.log('state in CoursePage', this.state)
-    console.log('bildtest', courseImage)
+   // console.log('routerStore in CoursePage', routerStore)
+    // console.log('state in CoursePage', this.state)
 
     const courseInformationToRounds = {
       course_code: courseData.courseInfo.course_code,
