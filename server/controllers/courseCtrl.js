@@ -18,8 +18,6 @@ const koppsCourseData = require('../apiCalls/koppsCourseData')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const paths = require('../server').getPaths()
-// console.log('TEST CourseCtr 21')
-// var glob = require('glob')
 
 let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
@@ -31,9 +29,7 @@ module.exports = {
   setImage: co.wrap(_setImage)
 }
 
-//* * TODO Function for SF1624.20182.9.teachers, SF1624.20182.9.courseresponsible, SF1624.examiner */
-
-function * _getCourseEmployees (req, res) { // console.log("TEST")
+function * _getCourseEmployees (req, res) {
   let key = req.params.key
   const type = req.params.type
   key = key.replace(/_/g, '.')
@@ -147,7 +143,7 @@ async function getIndex (req, res, next) {
     doAllAsyncBefore = tmp.doAllAsyncBefore
   }
 
-  let imageList = '' // await glob.sync("**/dist/img/courses/*.jpg")
+  let imageList = '' //
 
   const courseCode = req.params.courseCode.toUpperCase()
   let lang = language.getLanguage(res) || 'sv'

@@ -261,7 +261,7 @@ class RouterStore {
       }
     }
     examString += '</ul>'
-    // console.log('!!getExamObject is ok!!')
+
     return examString
   }
 

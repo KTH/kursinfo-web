@@ -49,7 +49,7 @@
 
 #activeSyllabusContainer{
     #courseInfoHeader{
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid #dee2e6;
         padding-bottom: 10px;
     }
      h2{
@@ -98,7 +98,8 @@
         min-width: 100%;
 
         .dropdown-item{
-            border-top: 1px dotted #ddd;
+            border-top: 1px dotted #dee2e6;
+            padding: 10px;
         }
 
         .dropdown-item:first-child{
@@ -203,7 +204,7 @@
   #coreContent{
     padding-left:0;
     padding-top:40px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #dee2e6;
     .first-header{
         margin-top: 40px;
     }
@@ -264,13 +265,7 @@
     background: top left / 1.0em auto no-repeat url('https://app.kth.se/style/kth-style/img/kth-style/icons/back-link.svg');
 }
 
-
-
-
-
 /************************************************/
-
-
 
 /* Animation */
 #roundInformationOneCol, #roundKeyInformation, #coreContent,#syllabusLink{
