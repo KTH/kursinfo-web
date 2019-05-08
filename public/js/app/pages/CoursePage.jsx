@@ -276,7 +276,7 @@ class CoursePage extends Component {
                   <Col sm='12' >
                     <div sm='12' id='courseInfoHeader'>
                       <h2>{translation.courseLabels.header_course_info}
-                        <div style='float:right;'>
+                        <div style='display: inline-block; padding-left: 15px;'>
                           <InfoModal infoText={i18n.messages[courseData.language].courseLabels.syllabus_info} type='html' />
                         </div>
                       </h2>

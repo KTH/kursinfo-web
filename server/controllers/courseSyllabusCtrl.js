@@ -1,16 +1,11 @@
 'use strict'
 
 const api = require('../api')
-const co = require('co')
 const log = require('kth-node-log')
 const { safeGet } = require('safe-utils')
 const phantom = require('phantomjs-prebuilt')
 
 let syllabusPDF = require('html-pdf')
-var fs = require('fs')
-
-const browserConfig = require('../configuration').browser
-const serverConfig = require('../configuration').server
 
 module.exports = {
   getIndex: getIndex
@@ -26,7 +21,9 @@ async function getIndex (req, res, next) {
     const client = api.kursplanApi.client
     const paths = api.kursplanApi.paths
 
-    const resp = await client.getAsync(client.resolve(paths.getSyllabusByCourseCode.uri, { courseCode: courseCode, semester: semester, language:lang }), { useCache: true })
+    const resp = await client.getAsync(client.resolve(paths.getSyllabusByCourseCode.uri,
+                                                      { courseCode: courseCode, semester: semester, language: lang }),
+                                                      { useCache: true })
 
     if (resp.body.syllabusHTML) {
       resp.body.pdfConfig['phantomPath'] = phantom.path
@@ -56,7 +53,7 @@ async function getIndex (req, res, next) {
     else {
       res.render('courseSyllabus/index', {
         debug: 'debug' in req.query,
-        html:'<br/>Denna kursplan hittades inte. / No syllabus found.',
+        html: '<br/>Denna kursplan hittades inte. / No syllabus found.',
         title: courseCode.toUpperCase(),
         data: resp.statusCode === 200 ? safeGet(() => { return resp.body.name }) : '',
         error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
