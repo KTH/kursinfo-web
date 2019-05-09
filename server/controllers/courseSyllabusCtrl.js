@@ -13,8 +13,8 @@ module.exports = {
 
 async function getIndex (req, res, next) {
   const courseSemester = req.params.course_semester.split('.')
-  const courseCode = courseSemester.length > 0 ? courseSemester[0].split('_')[0] : ''
-  const semester = courseSemester.length > 0 ? courseSemester[0].split('_')[1] : ''
+  const courseCode = courseSemester.length > 0 ? courseSemester[0].split('-')[0] : ''
+  const semester = courseSemester.length > 0 ? courseSemester[0].split('-')[1] : ''
   const lang = req.query.lang || 'sv'
 
   try {

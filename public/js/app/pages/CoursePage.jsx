@@ -124,7 +124,7 @@ class CoursePage extends Component {
     let courseImage = translation.courseImage[courseData.courseInfo.course_main_subject.split(',')[0]]
     if (courseImage === undefined)
       courseImage = translation.courseImage.default
-   // console.log('routerStore in CoursePage', routerStore)
+    console.log('routerStore in CoursePage', routerStore)
     // console.log('state in CoursePage', this.state)
 
     const courseInformationToRounds = {
@@ -297,7 +297,7 @@ class CoursePage extends Component {
                             ? <span>
                               <b>{translation.courseLabels.label_course_syllabus}</b>
                               <a
-                                href={`${SYLLABUS_URL}${courseData.courseInfo.course_code}_${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('')}.pdf?lang=${language}`}
+                                href={`${SYLLABUS_URL}${courseData.courseInfo.course_code}-${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('')}.pdf?lang=${language}`}
                                 id={courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('') + '_active'}
                                 target='_blank'
                               >
@@ -329,7 +329,12 @@ class CoursePage extends Component {
                   showCourseLink={routerStore.showCourseWebbLink}
                   partToShow='courseContentBlock'
                 />
-
+                {courseData.courseInfo.course_application_info.length > 0
+                  ? <span><h3>{translation.courseInformation.course_application_info}</h3>
+                    <p dangerouslySetInnerHTML={{ __html: courseData.courseInfo.course_application_info }}></p>
+                  </span>
+                  : ''
+                }
                 {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
                 {courseData.courseInfo.course_level_code === 'RESEARCH'
                   ? <span>
@@ -363,7 +368,7 @@ class CoursePage extends Component {
                         <span key={index}>
                           <i class='fas fa-file-pdf'></i>
                           <a
-                            href={`${SYLLABUS_URL}${routerStore.courseData.courseInfo.course_code}_${semester[0]}.pdf?lang=${language}`}
+                            href={`${SYLLABUS_URL}${routerStore.courseData.courseInfo.course_code}-${semester[0]}.pdf?lang=${language}`}
                             key={index}
                             id={semester}
                             target='_blank'

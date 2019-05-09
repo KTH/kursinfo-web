@@ -62,7 +62,7 @@ module.exports = {
     lable_semester_select: 'Välj termin',
 
     lable_round_state: {
-      CANCELLED: 'Kursomgång inställt',
+      CANCELLED: 'Kursomgång inställd',
       FULL: 'Kursomgång fullsatt'
     },
     header_dropdown_menue: 'Visa kursinformation utifrån vald termin och kursomgång',
@@ -92,7 +92,7 @@ module.exports = {
     course_other_title: 'Benämning engelska',
     course_code: 'Kurskod',
     course_credits: 'Högskolepoäng',
-    course_grade_scale: 'Betygsskala *',
+    course_grade_scale: 'betygsskala *',
     course_goals: 'Lärandemål *',
     course_content: 'Kursens huvudsakliga innehåll *',
     course_disposition: 'Kursupplägg *',
@@ -125,7 +125,8 @@ module.exports = {
     course_supplemental_information_url_text: 'Övrig information - länk text',
     course_supplemental_information: 'Övrig information',
     course_examiners: 'Examinator',
-    course_recruitment_text: 'Kort beskrivning svenska'
+    course_recruitment_text: 'Kort beskrivning svenska',
+    course_application_info: 'Information för forskarstuderande om när kursen ges'
   },
   courseRoundInformation: {
     round_header: 'Kursomgång',

@@ -151,6 +151,7 @@ class RouterStore {
   getCourseDefaultInformation (courseResult, language) {
     return {
       course_code: this.isValidData(courseResult.course.courseCode),
+      course_application_info: this.isValidData(courseResult.course.applicationInfo, language, true),
       course_grade_scale: this.isValidData(courseResult.formattedGradeScales[courseResult.course.gradeScaleCode], language), // TODO: can this be an array?
       course_level_code: this.isValidData(courseResult.course.educationalLevelCode),
       course_main_subject: courseResult.mainSubjects && courseResult.mainSubjects.length > 0 ? courseResult.mainSubjects.join(', ') : EMPTY[language],
@@ -251,12 +252,12 @@ class RouterStore {
     if (dataObject[matchingExamSemester] && dataObject[matchingExamSemester].examinationRounds.length > 0) {
       for (let exam of dataObject[matchingExamSemester].examinationRounds) {
         //* * Adding a decimal if it's missing in credits **/
-        exam.credits = exam.credits !== EMPTY[language] && exam.credits.toString().length === 1 ? exam.credits + '.0' : exam.credits
+        exam.credits = exam.credits !== EMPTY[language] && exam.credits.toString().indexOf('.') < 0 ? exam.credits + '.0' : exam.credits
 
         examString += `<li>${exam.examCode} - 
                           ${exam.title},
                           ${language === 0 ? exam.credits : exam.credits.toString().replace('.', ',')} ${language === 0 ? ' credits' : ' hp'},  
-                          ${language === 0 ? 'Grading scale' : 'Betygskala'}: ${grades[exam.gradeScaleCode]}              
+                          ${language === 0 ? 'Grading scale' : 'betygsskala'}: ${grades[exam.gradeScaleCode]}              
                           </li>`
       }
     }
@@ -329,11 +330,14 @@ class RouterStore {
       round_type: roundObject.round.applicationCodes.length > 0 ? this.isValidData(roundObject.round.applicationCodes[0].courseRoundType.name, language) : EMPTY[language], // TODO: Map array
       round_application_link: this.isValidData(roundObject.admissionLinkUrl, language),
       round_part_of_programme: roundObject.usage.length > 0 ? this.getRoundProgramme(roundObject.usage, language) : EMPTY[language],
-      round_state: this.isValidData(roundObject.round.state, language)
+      round_state: this.isValidData(roundObject.round.state, language),
+      round_comment: this.isValidData(roundObject.commentsToStudents, language, true)
     }
     if (courseRoundModel.round_short_name === EMPTY[language]) {
       courseRoundModel.round_short_name = `${language === 0 ? 'Start date' : 'Startdatum'}  ${courseRoundModel.round_start_date}`
     }
+    console.log('roundObject.commentsToStudents', roundObject.commentsToStudents)
+
     return courseRoundModel
   }
 
@@ -371,6 +375,7 @@ class RouterStore {
   }
 
   getRoundSeats (max, min, language) {
+    console.log('!!!!!max, min', max, min)
     if (max === EMPTY[language] && min === EMPTY[language]) {
       return EMPTY[language]
     }
@@ -378,8 +383,9 @@ class RouterStore {
       if (min !== EMPTY[language]) {
         return min + ' - ' + max
       }
-    } else {
-      return 'Max: ' + max
+      else {
+        return 'Max: ' + max
+      }
     }
     return 'Min: ' + min
   }

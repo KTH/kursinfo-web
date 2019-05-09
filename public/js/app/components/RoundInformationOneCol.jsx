@@ -85,7 +85,7 @@ class RoundInformationOneCol extends Component {
               {this.props.courseHasRound && this.props.showRoundData
                 ? <span>
                   <h4>{translate.round_tutoring_form}</h4>
-                  <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[this.props.language]}                              {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
+                  <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[this.props.language]}                               {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
 
                   <h4>{translate.round_tutoring_language}</h4>
                   <p>{round ? round.round_tutoring_language : EMPTY[this.props.language]}</p>
@@ -100,6 +100,7 @@ class RoundInformationOneCol extends Component {
 
                   <h4>{translate.round_time_slots}</h4>
                   <p dangerouslySetInnerHTML={{ __html: round.round_time_slots }}></p>
+                  <p dangerouslySetInnerHTML={{ __html: round.round_comment }}></p>
                   <CourseFileLinks
                     language={this.props.language}
                     courseHasRound={this.props.courseHasRound}
