@@ -12,7 +12,7 @@ import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
 import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
 
 import i18n from '../../../../i18n'
-import { EMPTY, FORSKARUTB_URL, ADMIN_URL, SYLLABUS_URL } from '../util/constants'
+import { EMPTY, FORSKARUTB_URL, ADMIN_URL, SYLLABUS_URL, COURSE_IMG_URL } from '../util/constants'
 
 // Components
 import RoundInformationOneCol from '../components/RoundInformationOneCol.jsx'
@@ -124,7 +124,8 @@ class CoursePage extends Component {
     let courseImage = translation.courseImage[courseData.courseInfo.course_main_subject.split(',')[0]]
     if (courseImage === undefined)
       courseImage = translation.courseImage.default
-    console.log('routerStore in CoursePage', routerStore)
+    courseImage = `${routerStore.browserConfig.storageUri}${courseImage}`
+    console.log('routerStore in CoursePage', courseImage, routerStore)
     // console.log('state in CoursePage', this.state)
 
     const courseInformationToRounds = {
@@ -173,7 +174,7 @@ class CoursePage extends Component {
             {/* ---INTRO TEXT--- */}
             <Row id='courseIntroText' key='courseIntroText'>
               <Col sm='12' xs='12'>
-                <img src={routerStore.image} alt='' height='auto' width='300px' title='inspiration image' />
+                <img src={courseImage} alt='' height='auto' width='300px' title='inspiration image' />
                 <div
                   dangerouslySetInnerHTML={{__html: introText}}>
                 </div>
@@ -351,14 +352,14 @@ class CoursePage extends Component {
             <Col id='historyContent' sm='8' xs='12' className='float-md-left'>
               <h2>{translation.courseLabels.header_history}</h2>
 
-              {/* ---STATISTICS LINK--- */}
+              {/* ---STATISTICS LINK---
               <h3> {translation.courseLabels.header_statistics}</h3>
               <p>
                 <i class='fas fa-chart-line'></i>
                 <a href='' target='_blank' >
                   {translation.courseLabels.label_statistics}
                 </a>
-              </p>
+              </p>*/}
 
               {/* --- ALL SYLLABUS LINKS--- */}
               <h3>{translation.courseLabels.header_syllabuses}</h3>
@@ -377,7 +378,7 @@ class CoursePage extends Component {
                             ( {translation.courseInformation.course_short_semester[semester[0].toString().substring(4, 5)]}
                             {semester[0].toString().substring(0, 4)} -  &nbsp;
                             {translation.courseInformation.course_short_semester[semester[1].toString().substring(4, 5)]}
-                            {semester[1].toString().substring(0, 4)})
+                            {semester[1].toString().substring(0, 4)} )
                           </a> <br />
                         </span>
                       )
