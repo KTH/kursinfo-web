@@ -122,7 +122,7 @@ module.exports = {
     course_supplemental_information: 'Supplementary information ',
     course_examiners: 'Examiner',
     course_recruitment_text: 'Abstract',
-    course_application_info: 'Information för forskarstuderande om när kursen ges'
+    course_application_info: 'Information for research students about course offerings'
   },
   courseRoundInformation: {
     round_header: 'Round',
