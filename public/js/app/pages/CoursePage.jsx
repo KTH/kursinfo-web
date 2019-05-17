@@ -143,9 +143,9 @@ class CoursePage extends Component {
           <Col sm='12' xs='12' lg='12' id='middle' key='middle'>
           {
             routerStore.canEdit
-              ? <Button className='editButton' color='primery' onClick={this.openEdit} id={courseData.courseInfo.course_code}>
-                <i class='fas fa-edit'></i> {translation.courseLabels.label_edit}
-              </Button>
+              ? <a className='editButton' href={`${ADMIN_URL}${this.props.routerStore.courseData.courseInfo.course_code}?l=${language}`} id={courseData.courseInfo.course_code}>
+               {translation.courseLabels.label_edit}
+              </a>
               : ''
           }
           {/** *************************************************************************************************************/}
@@ -245,6 +245,13 @@ class CoursePage extends Component {
                   </Alert>
                   : ''
               }
+               {courseData.courseInfo.course_application_info.length > 0
+                  ? <Alert color='info'>
+                  <h4>{translation.courseInformation.course_application_info}</h4>
+                    <p dangerouslySetInnerHTML={{ __html: courseData.courseInfo.course_application_info }}></p>
+                  </Alert>
+                  : ''
+                }
 
               <h3 style='margin-top:20px'>{translation.courseLabels.header_round}</h3>
 
@@ -301,6 +308,7 @@ class CoursePage extends Component {
                                 href={`${SYLLABUS_URL}${courseData.courseInfo.course_code}-${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('')}.pdf?lang=${language}`}
                                 id={courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('') + '_active'}
                                 target='_blank'
+                                className='pdf-link'
                               >
                               {translation.courseLabels.label_syllabus_link}
                                 <span className='small-text' >
@@ -314,7 +322,6 @@ class CoursePage extends Component {
                                   `}
                                 </span>
                               </a>
-                              <i class='fas fa-file-pdf'></i>
                             </span>
                           : ''}
                         </div>
@@ -330,12 +337,7 @@ class CoursePage extends Component {
                   showCourseLink={routerStore.showCourseWebbLink}
                   partToShow='courseContentBlock'
                 />
-                {courseData.courseInfo.course_application_info.length > 0
-                  ? <span><h3>{translation.courseInformation.course_application_info}</h3>
-                    <p dangerouslySetInnerHTML={{ __html: courseData.courseInfo.course_application_info }}></p>
-                  </span>
-                  : ''
-                }
+
                 {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
                 {courseData.courseInfo.course_level_code === 'RESEARCH'
                   ? <span>
@@ -367,12 +369,12 @@ class CoursePage extends Component {
                     ? courseData.syllabusSemesterList.map((semester, index) => {
                       return (
                         <span key={index}>
-                          <i class='fas fa-file-pdf'></i>
                           <a
                             href={`${SYLLABUS_URL}${routerStore.courseData.courseInfo.course_code}-${semester[0]}.pdf?lang=${language}`}
                             key={index}
                             id={semester}
                             target='_blank'
+                            className='pdf-link'
                           >
                             {translation.courseLabels.label_syllabus_link}
                             ( {translation.courseInformation.course_short_semester[semester[0].toString().substring(4, 5)]}
