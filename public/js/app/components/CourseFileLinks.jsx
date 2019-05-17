@@ -12,12 +12,9 @@ class CourseFileLinks extends Component {
       <Row id='courseLinks'>
         {/* ---LINK TO ROUND PM/MEMO IF ROUND HAS ONE-- */}
         <Col sm='12' xs='12'>
-          <i class='fas fa-file-pdf'></i>
+          <a id='memoLink' className='pdf-link'>
           {i18n.messages[this.props.language].courseLabels.no_memo}
-          {/*
-            <a href="pm-url" id={"pm_"}>
-            {i18n.messages[this.props.language].courseLabels.label_course_pm}
-            </a> ( 20xx-xx-xx )*/}
+          </a>
         </Col>
         {/* ---LINK TO ROUND SCHEDULE-- */}
         <Col sm='12' xs='12'>

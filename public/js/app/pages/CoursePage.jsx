@@ -43,7 +43,6 @@ class CoursePage extends Component {
 
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.toggle = this.toggle.bind(this)
-    this.openEdit = this.openEdit.bind(this)
     this.handleSemesterDropdownSelect = this.handleSemesterDropdownSelect.bind(this)
   }
 
@@ -107,12 +106,6 @@ class CoursePage extends Component {
       roundSelected: true
     })
     this.toggle(event, true)
-  }
-
-  openEdit (event) {
-    event.preventDefault()
-    const language = this.props.routerStore.courseData.language === 0 ? 'en' : 'sv'
-    window.location = `${ADMIN_URL}${this.props.routerStore.courseData.courseInfo.course_code}?l=${language}`
   }
 
   render ({ routerStore }) {
