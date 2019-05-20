@@ -27,13 +27,12 @@ async function getIndex (req, res, next) {
 
     if (resp.body.syllabusHTML) {
       resp.body.pdfConfig['phantomPath'] = phantom.path
-      // console.log("phantom", phantom)
+      // console.log('phantom', phantom, resp.body.syllabusHTML.pageContentHtml)
       // console.log("*******************************************")
 
       syllabusPDF.create(resp.body.syllabusHTML.pageContentHtml, resp.body.pdfConfig).toBuffer(function (err, buffer) {
         if (err) {
-          console.log('ERROR IN syllabusPDF.create', err)
-          console.log('*******************************************')
+          log.error('ERROR IN syllabusPDF.create', err)
           //* *****TEMP********
           const backuphtml = resp.body.syllabusHTML.pageContentHtml
           res.render('courseSyllabus/index', {
@@ -43,14 +42,12 @@ async function getIndex (req, res, next) {
             data: resp.statusCode === 200 ? safeGet(() => { return resp.body.name }) : '',
             error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
           })
-        }
-        else {
+        } else {
           res.contentType('application/pdf')
           res.send(buffer)
         }
       })
-    }
-    else {
+    } else {
       res.render('courseSyllabus/index', {
         debug: 'debug' in req.query,
         html: '<br/>Denna kursplan hittades inte. / No syllabus found.',

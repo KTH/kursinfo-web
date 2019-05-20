@@ -21,13 +21,13 @@ function _webUsesSSL (url) {
 
 class RouterStore {
   courseData = undefined
-  sellingText = undefined
+  sellingText = undefined // is set from kursinfo-admin
 
-  canEdit = false
-  isCancelled = false
-  showCourseWebbLink = false
-  roundsSyllabusIndex = []
-  activeSemesters = []
+  canEdit = false // is set in createPersonHtml()
+  isCancelled = false // is set in getCourseInformation(), used to show an Alert on the course page
+  showCourseWebbLink = false // is set rom kursinfo-admin ( not in use )
+  roundsSyllabusIndex = [] // handles connection to syllabuses for active rounds
+  activeSemesters = [] // set in getCurrentSemesterToShow(), computes syllabus to show
   keyList = {
     teachers: [],
     responsibles: []
@@ -85,11 +85,11 @@ class RouterStore {
 
       //* **** Coruse information that is static on the course side *****//
       const courseInfo = this.getCourseDefaultInformation(courseResult, language)
-      console.log('!! courseInfo: OK !!')
+      // log.info('courseInfo: OK')
 
       //* **** Course title data  *****//
       const courseTitleData = this.getTitleData(courseResult)
-      console.log('!!titleData: OK !!')
+      // log.info('titleData: OK')
 
       //* **** Get list of syllabuses and valid syllabus semesters *****//
       let syllabusList = []
@@ -109,7 +109,7 @@ class RouterStore {
       } else {
         syllabusList[0] = this.getSyllabusData(courseResult, 0, language)
       }
-      console.log('!! syllabusSemesterList and syllabusList: OK !!')
+      // log.info('syllabusSemesterList and syllabusList: OK')
 
       //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis *****//
       const roundList = this.getRounds(courseResult.roundInfos, courseCode, language)
@@ -287,6 +287,8 @@ class RouterStore {
       this.keyList.responsibles.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`)
     }
     this.activeSemesters.sort()
+    this.keyList.teachers.sort()
+    this.keyList.responsibles.sort()
 
     console.log('!!courseRound2: OK !!')
     return courseRoundList
@@ -443,7 +445,7 @@ class RouterStore {
       let toTeacherObject
       let toResponsiblepObject
       const thisStore = this
-
+      console.log('returnValue', returnValue, roundList)
       Object.keys(roundList).forEach(function (key) {
         let rounds = roundList[key]
 
