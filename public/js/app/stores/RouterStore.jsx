@@ -403,7 +403,7 @@ class RouterStore {
   /** ***************************************************************************************************************************************** */
   /*                                                                ADMIN                                                                      */
   /** ***************************************************************************************************************************************** */
-  getImage (courseCode, type = 'normal') {
+  /* getImage (courseCode, type = 'normal') {
     const image = `${Math.floor((Math.random() * 7) + 1)}_${type}.jpg`
     const response = axios.get(this.buildApiUrl(this.paths.api.setImage.uri, { courseCode: courseCode, imageName: image })).then(response => {
       // console.log("IMAGE SET->",response, image)
@@ -415,13 +415,13 @@ class RouterStore {
         throw err
       })
     return `${this.browserConfig.proxyPrefixPath.uri}${COURSE_IMG_URL}${image}`
-  }
+  }*/
 
   @action getCourseAdminInfo (courseCode, imageList, lang = 'sv') {
     return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri, { courseCode: courseCode }), this._getOptions()).then(res => {
       this.showCourseWebbLink = res.data.isCourseWebLink
       this.sellingText = res.data.sellingText
-      this.image = res.data.imageInfo /* && res.data.imageInfo.length > 0 */ ? this.browserConfig.proxyPrefixPath.uri + COURSE_IMG_URL + res.data.imageInfo : this.getImage(courseCode, 'normal') // TODO:
+      this.image = '' // TODO res.data.imageInfo /* && res.data.imageInfo.length > 0 */ ? this.browserConfig.proxyPrefixPath.uri + COURSE_IMG_URL + res.data.imageInfo : this.getImage(courseCode, 'normal') // TODO:
     }).catch(err => {
       if (err.response) {
         throw new Error(err.message, err.response.data)
@@ -445,7 +445,7 @@ class RouterStore {
       let toTeacherObject
       let toResponsiblepObject
       const thisStore = this
-      console.log('returnValue', returnValue, roundList)
+
       Object.keys(roundList).forEach(function (key) {
         let rounds = roundList[key]
 

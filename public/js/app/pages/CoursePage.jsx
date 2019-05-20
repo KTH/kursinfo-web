@@ -134,13 +134,7 @@ class CoursePage extends Component {
       <div key='kursinfo-container' className='col' id='kursinfo-main-page' >
         <Row id='pageContainer' key='pageContainer'>
           <Col sm='12' xs='12' lg='12' id='middle' key='middle'>
-          {
-            routerStore.canEdit
-              ? <a className='editButton' href={`${ADMIN_URL}${this.props.routerStore.courseData.courseInfo.course_code}?l=${language}`} id={courseData.courseInfo.course_code}>
-               {translation.courseLabels.label_edit}
-              </a>
-              : ''
-          }
+
           {/** *************************************************************************************************************/}
           {/*                                                   INTRO                                                     */}
           {/** *************************************************************************************************************/}
@@ -150,7 +144,13 @@ class CoursePage extends Component {
               language={courseData.language}
               canEdit={routerStore.canEdit}
             />
-
+            {
+              routerStore.canEdit
+                ? <a className='editButton' href={`${ADMIN_URL}${this.props.routerStore.courseData.courseInfo.course_code}?l=${language}`} id={courseData.courseInfo.course_code}>
+                 {translation.courseLabels.label_edit}
+                </a>
+                : ''
+            }
             {/* ---TEXT FOR CANCELLED COURSE --- */}
             {routerStore.isCancelled
               ? <div className='col-12 isCancelled'>
