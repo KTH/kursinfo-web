@@ -49,7 +49,7 @@ module.exports = {
     label_course_cancelled: 'This course has been cancelled.',
     label_last_exam: 'Last planned examination: ',
     label_course_web_link: 'Course web',
-    label_edit: 'Administer',
+    label_edit: 'Administrate',
     header_no_rounds: 'Course round missing',
     lable_no_rounds: ' Course rounds missing for current semester as well as for previous and coming semesters',
     label_course_pm: 'Course memo',
