@@ -145,32 +145,32 @@ async function _monitor (req, res) {
 
   // Determine system health based on the results of the checks above. Expects
   // arrays of promises as input. This returns a promise
-  try {
-    await redis('ugRedis', ugRedis.redis)
-           .then(function (ugClient) { console.log('ugClient', ugClient)
-             const status = {
-               key:'ugRedis',
-               message:'- ugRedis connection: OK ',
-               required:undefined,
-               responseTime:undefined,
-               statusCode:200
-             }
-             subSystems.push(status)
-             return status
-           })
+  // try {
+  //   await redis('ugRedis', ugRedis.redis)
+  //          .then(function (ugClient) { console.log('ugClient', ugClient)
+  //            const status = {
+  //              key:'ugRedis',
+  //              message:'- ugRedis connection: OK ',
+  //              required:undefined,
+  //              responseTime:undefined,
+  //              statusCode:200
+  //            }
+  //            subSystems.push(status)
+  //            return status
+  //          })
 
-  } catch (err) {
-    console.log('ugRedis - error:: ', err)
-    const status = {
-      key:'ugRedis',
-      message:'- ugRedis connection: ' + err.message,
-      required:undefined,
-      responseTime:undefined,
-      statusCode:500
-    }
-    subSystems.push(status)
-    return status
-  }
+  // } catch (err) {
+  //   console.log('ugRedis - error:: ', err)
+  //   const status = {
+  //     key:'ugRedis',
+  //     message:'- ugRedis connection: ' + err.message,
+  //     required:undefined,
+  //     responseTime:undefined,
+  //     statusCode:500
+  //   }
+  //   subSystems.push(status)
+  //   return status
+  // }
 
   const systemHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-system-check')
   const systemStatus = systemHealthUtil.status(localSystems, subSystems)
@@ -189,8 +189,6 @@ async function _monitor (req, res) {
     res.type('text').status(500).send(err)
   })
 }
-
-
 
 /* GET /robots.txt
  * Robots.txt page
