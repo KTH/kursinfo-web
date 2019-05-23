@@ -172,7 +172,6 @@ async function getIndex (req, res, next) {
 
     await doAllAsyncBefore({
       pathname: req.originalUrl,
-      instrumentationKey: serverConfig.appInsights.instrumentationKey,
       query: (req.originalUrl === undefined || req.originalUrl.indexOf('?') === -1) ? undefined : req.originalUrl.substring(req.originalUrl.indexOf('?'), req.originalUrl.length),
       routerStore: renderProps.props.children.props.routerStore,
       routes: renderProps.props.children.props.children.props.children.props.children
@@ -183,6 +182,7 @@ async function getIndex (req, res, next) {
     res.render('course/index', {
       breadcrumbsPath: breadcrumbs,
       debug: 'debug' in req.query,
+      instrumentationKey: serverConfig.appInsights.instrumentationKey,
       html: html,
       title: courseCode.toUpperCase(),
       initialState: JSON.stringify(hydrateStores(renderProps)),

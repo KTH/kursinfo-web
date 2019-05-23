@@ -4,6 +4,7 @@ const api = require('../api')
 const log = require('kth-node-log')
 const { safeGet } = require('safe-utils')
 const phantom = require('phantomjs-prebuilt')
+const serverConfig = require('../configuration').server
 
 let syllabusPDF = require('html-pdf')
 
@@ -39,7 +40,6 @@ async function getIndex (req, res, next) {
             debug: 'debug' in req.query,
             html: backuphtml,
             instrumentationKey: serverConfig.appInsights.instrumentationKey,
-
             title: courseCode.toUpperCase(),
             data: resp.statusCode === 200 ? safeGet(() => { return resp.body.name }) : '',
             error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
