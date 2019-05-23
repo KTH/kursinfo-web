@@ -38,6 +38,8 @@ async function getIndex (req, res, next) {
           res.render('courseSyllabus/index', {
             debug: 'debug' in req.query,
             html: backuphtml,
+            instrumentationKey: serverConfig.appInsights.instrumentationKey,
+
             title: courseCode.toUpperCase(),
             data: resp.statusCode === 200 ? safeGet(() => { return resp.body.name }) : '',
             error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
