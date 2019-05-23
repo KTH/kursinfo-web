@@ -13,8 +13,7 @@
         }({
             instrumentationKey: '{{instrumentationKey}}'
         });       
-      window.appInsights=appInsights;
-      appInsights.trackPageView();
+      window.appInsights=appInsights,appInsights.queue&&0===appInsights.queue.length&&appInsights.trackPageView();
     </script>
 
     {{#if canonicalUrl}}

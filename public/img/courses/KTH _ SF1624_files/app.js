@@ -9647,7 +9647,7 @@ catch (e) {
       event.preventDefault()
       var language = this.props.routerStore.courseData.language === 0 ? 'en' : 'sv'
       // window.open(`/student/kurser/kurs/admin/${this.props.courseTitleData.course_code}?lang=${language}`)
-      window.location = '/admin/kurser/kurs/' + this.props.routerStore.courseData.courseInfo.course_code + '?l=' + language
+      window.location = '/kursinfoadmin/kurser/kurs/' + this.props.routerStore.courseData.courseInfo.course_code + '?l=' + language
     }
   }, {
     key: 'render',
@@ -9970,7 +9970,7 @@ catch (e) {
       event.preventDefault()
       var language = this.props.routerStore.courseData.language === 0 ? 'en' : 'sv'
       // window.open(`/student/kurser/kurs/admin/${this.props.courseTitleData.course_code}?lang=${language}`)
-      window.location = '/admin/kurser/kurs/' + this.props.routerStore.courseData.courseInfo.course_code + '?l=' + language
+      window.location = '/kursinfoadmin/kurser/kurs/' + this.props.routerStore.courseData.courseInfo.course_code + '?l=' + language
     }
   }, {
     key: 'render',
