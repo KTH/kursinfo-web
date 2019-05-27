@@ -16,9 +16,9 @@ class CourseTitle extends Component {
           <span property='teach:courseTitle'> {title.course_title}</span>
           <span content={title.course_credits} datatype='xsd:decimal' property='teach:ects'> {this.props.language === 0 ? title.course_credits : title.course_credits.toString().replace('.', ',')}&nbsp;{this.props.language === 0 ? 'credits' : 'hp'} </span>
         </h1>
-        <h2 className='secondTitle'>
+        <h4 className='secondTitle'>
           <span property='teach:courseTitle'>{title.course_other_title}</span>
-        </h2>
+        </h4>
       </div>
     )
   }

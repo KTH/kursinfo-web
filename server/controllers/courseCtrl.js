@@ -182,6 +182,7 @@ async function getIndex (req, res, next) {
     res.render('course/index', {
       breadcrumbsPath: breadcrumbs,
       debug: 'debug' in req.query,
+      instrumentationKey: serverConfig.appInsights.instrumentationKey,
       html: html,
       title: courseCode.toUpperCase(),
       initialState: JSON.stringify(hydrateStores(renderProps)),
