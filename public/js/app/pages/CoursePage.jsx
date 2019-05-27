@@ -118,7 +118,8 @@ class CoursePage extends Component {
     if (courseImage === undefined)
       courseImage = translation.courseImage.default
     courseImage = `${routerStore.browserConfig.storageUri}${courseImage}`
-    // console.log('routerStore in CoursePage', courseImage, routerStore) //TODO: Remove it before production
+    if (routerStore.browserConfig.env === 'dev')
+      console.log('routerStore in CoursePage', routerStore)
 
     const courseInformationToRounds = {
       course_code: courseData.courseInfo.course_code,
