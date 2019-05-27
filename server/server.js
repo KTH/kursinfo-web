@@ -147,7 +147,7 @@ server.use(config.proxyPrefixPath.uri, languageHandler)
  */
 const passport = require('passport')
 // const ldapClient = require('./adldapClient')
-const { authLoginHandler, authCheckHandler, logoutHandler, pgtCallbackHandler, serverLogin, getServerGatewayLogin } = require('kth-node-passport-cas').routeHandlers({
+const { authLoginHandler, authCheckHandler, logoutHandler, pgtCallbackHandler, serverLogin, getServerGatewayLogin, g } = require('kth-node-passport-cas').routeHandlers({
   casLoginUri: config.proxyPrefixPath.uri + '/login',
   casGatewayUri: config.proxyPrefixPath.uri + '/loginGateway',
   proxyPrefixPath: config.proxyPrefixPath.uri,
@@ -210,9 +210,8 @@ const appRoute = AppRouter()
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/kursplan/:course_semester', Syllabus.getIndex)
 // appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', Course.getIndex)
 
-appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', getServerGatewayLogin('/:courseCode'), Course.getIndex)
+appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', getServerGatewayLogin(), Course.getIndex)
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/', noCourse.getIndex)
-appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isAdmin'), Course.getIndex)
 
 appRoute.get('api.sellingText', '/api/kursinfo/getSellingTextByCourse/:courseCode', Course.getSellingText)
 appRoute.get('api.setImage', '/api/kursinfo/setImageByCourse/:courseCode/:imageName', Course.setImage)
