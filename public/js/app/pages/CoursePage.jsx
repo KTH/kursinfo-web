@@ -222,7 +222,7 @@ class CoursePage extends Component {
                     }
 
                     {/* ---ROUND CANCELLED OR FULL --- */}
-                    {routerStore.activeSemesters.length > 0 && courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state !== 'APPROVED'
+                    {routerStore.activeSemesters.length > 0 && this.state.showRoundData && courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state !== 'APPROVED'
                       ? <Alert color='info' aria-live='polite' >
                         <h4>{translation.courseLabels.lable_round_state[courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state]} </h4>
                       </Alert>
