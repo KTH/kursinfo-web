@@ -80,7 +80,7 @@ module.exports = {
     header_postgraduate_course: 'Forskarkurs ',
     empty_text: 'Ingen information inlagd',
     no_schedule: 'Schema saknas',
-    no_memo: 'Kurs-PM saknas ',
+    no_memo: 'Inget kurs-PM inlagt ',
     header_no_round_selected: 'Ingen kursomgång är vald',
     no_round_selected: 'Välj termin och kursomgång ovan för att få information från rätt kursplan och kursomgång.',
     round_seats_info: 'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
@@ -158,7 +158,7 @@ module.exports = {
       KVÄ: 'Kvällstid',
       VSL: 'Veckoslut'
     },
-    round_time_slots: 'Planerade moduler',
+    round_time_slots: 'Planerade schemamoduler',
     round_application_link: 'Till anmälan',
     round_category: {
       PU: 'programstuderande',
