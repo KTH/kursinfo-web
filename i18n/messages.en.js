@@ -154,9 +154,13 @@ module.exports = {
       KVÄ: 'Evenings',
       VSL: 'Weekends'
     },
-    round_type: 'Type of round',
     round_time_slots: 'Planned timeslots',
-    round_application_link: 'Go to the registration'
+    round_application_link: 'Go to the registration',
+    round_category: {
+      PU: 'programme students',
+      VU: 'single courses students',
+      pu_and_vu: 'programme and single courses students'
+    }
   },
   courseImage: {
     Architecture: 'Picture_by_MainFieldOfStudy_01_Architecture.jpg',

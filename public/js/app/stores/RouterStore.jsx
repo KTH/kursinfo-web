@@ -333,7 +333,8 @@ class RouterStore {
       round_application_link: this.isValidData(roundObject.admissionLinkUrl, language),
       round_part_of_programme: roundObject.usage.length > 0 ? this.getRoundProgramme(roundObject.usage, language) : EMPTY[language],
       round_state: this.isValidData(roundObject.round.state, language),
-      round_comment: this.isValidData(roundObject.commentsToStudents, language, true)
+      round_comment: this.isValidData(roundObject.commentsToStudents, language, true),
+      round_category: roundObject.round.applicationCodes.length > 0 ? this.isValidData(roundObject.round.applicationCodes[0].courseRoundType.category, language) : EMPTY[language]
     }
     if (courseRoundModel.round_short_name === EMPTY[language]) {
       courseRoundModel.round_short_name = `${language === 0 ? 'Start date' : 'Startdatum'}  ${courseRoundModel.round_start_date}`

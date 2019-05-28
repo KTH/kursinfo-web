@@ -31,7 +31,7 @@ class RoundInformationOneCol extends Component {
       ${i18n.messages[this.props.language].courseInformation.course_short_semester[round.round_course_term[1]]} 
       ${round.round_course_term[0]}  
       ${round.round_short_name !== EMPTY[this.props.language] ? round.round_short_name : ''}     
-      ${round.round_type}
+      ${translate.round_category[round.round_category]}
     `
 
     return (
@@ -85,7 +85,7 @@ class RoundInformationOneCol extends Component {
               {this.props.courseHasRound && this.props.showRoundData
                 ? <span>
                   <h4>{translate.round_tutoring_form}</h4>
-                  <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[this.props.language]}                               {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
+                  <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[this.props.language]}                                {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
 
                   <h4>{translate.round_tutoring_language}</h4>
                   <p>{round ? round.round_tutoring_language : EMPTY[this.props.language]}</p>

@@ -159,7 +159,12 @@ module.exports = {
       VSL: 'Veckoslut'
     },
     round_time_slots: 'Planerade moduler',
-    round_application_link: 'Till anmälan'
+    round_application_link: 'Till anmälan',
+    round_category: {
+      PU: 'programstuderande',
+      VU: 'fristående studerande',
+      pu_and_vu: 'programstuderande och fristående studerande'
+    }
   },
   courseImage: {
     Arkitektur: 'Picture_by_MainFieldOfStudy_01_Architecture.jpg',

@@ -216,7 +216,7 @@ class CoursePage extends Component {
                             ${translation.courseInformation.course_short_semester[courseData.roundList[this.state.activeSemester][0].round_course_term[1]]} 
                             ${courseData.roundList[this.state.activeSemester][0].round_course_term[0]}  
                             ${courseData.roundList[this.state.activeSemester][0].round_short_name !== EMPTY[language] ? courseData.roundList[this.state.activeSemester][0].round_short_name : ''}     
-                            ${courseData.roundList[this.state.activeSemester][0].round_type}
+                            ${translation.courseRoundInformation.round_category[courseData.roundList[this.state.activeSemester][0].round_category]}
                           `}
                       </p>
                       : ''
@@ -458,7 +458,8 @@ const DropdownRounds = ({courseRoundList, callerInstance, semester, year, langua
                     `${courseRoundList[callerInstance.state.activeRoundIndex].round_short_name !== EMPTY[language]
                       ? courseRoundList[callerInstance.state.activeRoundIndex].round_short_name
                       : ''}, 
-                    ${courseRoundList[callerInstance.state.activeRoundIndex].round_type}`
+                      ${i18n.messages[language].courseRoundInformation.round_category[courseRoundList[callerInstance.state.activeRoundIndex].round_category]}
+                    `
                   }
               </span>
               : <span id={dropdownID + '_spanSelect'}>{lable} </span>
@@ -472,7 +473,7 @@ const DropdownRounds = ({courseRoundList, callerInstance, semester, year, langua
                   <DropdownItem key={index} id={dropdownID + '_' + index + '_' + '0'} onClick={callerInstance.handleDropdownSelect}>
                     {
                       `${courseRound.round_short_name !== EMPTY[language] ? courseRound.round_short_name : ''},     
-                      ${courseRound.round_type}`
+                      ${i18n.messages[language].courseRoundInformation.round_category[courseRound.round_category]}`
                     }
                   </DropdownItem>
                 )
