@@ -114,7 +114,11 @@ class CoursePage extends Component {
     const language = routerStore.courseData.language === 0 ? 'en' : 'sv'
     const translation = i18n.messages[courseData.language]
     const introText = routerStore.sellingText && routerStore.sellingText[language].length > 0 ? routerStore.sellingText[language] : courseData.courseInfo.course_recruitment_text
-    let courseImage = translation.courseImage[courseData.courseInfo.course_main_subject.split(',')[0]]
+    let mainSubjects = courseData.courseInfo.course_main_subject.split(',').map(s => s.trim())
+    if (mainSubjects && mainSubjects.length > 0 && language === 'en') {
+      mainSubjects = mainSubjects.map(subject => i18n.messages[0].courseMainSubjects[subject]) // get sv translations of en mainSubjects
+    }
+    let courseImage = i18n.messages[1].courseImage[mainSubjects.sort()[0]] // extract picture according swidsh translation of mainSubject 
     if (courseImage === undefined)
       courseImage = translation.courseImage.default
     courseImage = `${routerStore.browserConfig.storageUri}${courseImage}`
