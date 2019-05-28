@@ -21,15 +21,6 @@ module.exports = {
      */
     service_name: 'kurs ',
 
-    example_message_key: 'Här är en svensk översättning på en label',
-
-    button_label_example: 'Klicka här för att skicka data till servern!',
-
-    field_text_example: 'Data att skicka till API',
-
-    field_label_get_example: 'Min datamodell(Svar från api anrop GET): ',
-    field_label_post_example: 'Min datamodell(Svar från api anrop POST): ',
-
     lang_block_id: '1.272446',
     locale_text: 'Kursinformation på svenska',
 

@@ -21,15 +21,6 @@ module.exports = {
      */
     service_name: 'course',
 
-    example_message_key: 'This is an english translation of a label',
-
-    button_label_example: 'Click me to send data to server!',
-
-    field_text_example: 'Data to be sent to API',
-
-    field_label_get_example: 'My modelData(Response from api call GET): ',
-    field_label_post_example: 'My modelData(Response from api call POST): ',
-
     lang_block_id: '1.77273',
     locale_text: 'Course information in English',
     site_name: 'Course information',
@@ -72,7 +63,7 @@ module.exports = {
     header_syllabuses: 'Course syllabuses archive',
     header_further: 'Further information',
     header_history: 'Course development and history',
-    header_round: 'Offerings and execution',
+    header_round: 'Offering and execution',
     header_select_course: 'Application',
     header_postgraduate_course: 'Postgraduate course ',
     empty_text: 'No information inserted',
