@@ -21,12 +21,13 @@ class CourseSectionList extends Component {
   getContent (translation) {
     const syllabus = this.props.syllabusList
 
-    const prepare = [
+    const content = [
       {header: translation.courseInformation.course_content, text: syllabus.course_content},
-      {header: translation.courseInformation.course_goals, text: syllabus.course_goals},
-      {header: translation.courseInformation.course_disposition, text: syllabus.course_disposition}
+      {header: translation.courseInformation.course_goals, text: syllabus.course_goals}
     ]
-    return prepare
+    if (syllabus.course_disposition.length > 0)
+      content.push({header: translation.courseInformation.course_disposition, text: syllabus.course_disposition})
+    return content
   }
 
   getExecution (translation) {
@@ -42,13 +43,11 @@ class CourseSectionList extends Component {
 
     const during = [
       {header: translation.courseInformation.course_eligibility, text: syllabus.course_eligibility},
-      {header: translation.courseInformation.course_prerequisites, text: course.course_prerequisites},
-      {header: translation.courseInformation.course_required_equipment, text: syllabus.course_required_equipment},
-      {header: translation.courseInformation.course_literature, text: literatureText}
+      {header: translation.courseInformation.course_prerequisites, text: course.course_prerequisites}
     ]
-
-    if (this.props.showCourseLink)
-      during.push({header: 'Kurswebb länk', text:`<a target='_blank' href='${COURSE_WEB_URL}${this.props.courseInfo.course_code}'> ${translation.courseLabels.label_course_web_link}</a>`})
+    if (syllabus.course_required_equipment.length > 0)
+      during.push({header: translation.courseInformation.course_required_equipment, text: syllabus.course_required_equipment})
+    during.push({header: translation.courseInformation.course_literature, text: literatureText})
 
     return during
   }
@@ -56,18 +55,21 @@ class CourseSectionList extends Component {
   getExamination (translation) {
     const course = this.props.courseInfo
     const syllabus = this.props.syllabusList
-    const prepare = [
+    const examination = [
       {header: translation.courseInformation.course_grade_scale, text: course.course_grade_scale},
       {header: translation.courseInformation.course_examination, text: syllabus.course_examination},
-      {header: translation.courseInformation.course_examination_comments, text: syllabus.course_examination_comments},
-      {header: translation.courseInformation.course_requirments_for_final_grade, text: syllabus.course_requirments_for_final_grade},
-      {header: translation.courseInformation.course_examiners, text: course.course_examiners}
+      {header: '', text: syllabus.course_examination_comments}
     ]
-    return prepare
+
+    if (syllabus.course_requirments_for_final_grade.length > 0)
+      examination.push({header: translation.courseInformation.course_requirments_for_final_grade, text: syllabus.course_requirments_for_final_grade})
+    examination.push({header: translation.courseInformation.course_examiners, text: course.course_examiners})
+    return examination
   }
 
   getOther (translation) {
     const course = this.props.courseInfo
+
     let prepare = [
       { header: translation.courseInformation.course_department, text: course.course_department_link },
       { header: translation.courseInformation.course_main_subject, text: course.course_main_subject },
@@ -78,6 +80,8 @@ class CourseSectionList extends Component {
     if (course.course_supplemental_information !== EMPTY[this.state.store.language]) prepare.push({header: translation.courseInformation.course_supplemental_information, text:course.course_supplemental_information})
     if (course.course_supplemental_information_url !== EMPTY[this.state.store.language]) prepare.push({header: translation.courseInformation.course_supplemental_information_url, text:course.course_supplemental_information_url})
     if (course.course_supplemental_information_url_text !== EMPTY[this.state.store.language]) prepare.push({header: translation.courseInformation.course_supplemental_information_url_text, text:course.course_supplemental_information_url_text})
+    if (this.props.showCourseLink)
+      prepare.unshift({header: translation.courseInformation.course_link, text: `${translation.courseInformation.course_link_text} <a target='_blank' href='${COURSE_WEB_URL}${this.props.courseInfo.course_code}'> ${translation.courseInformation.course_link} ${this.props.courseInfo.course_code}</a>`})
 
     return prepare
   }

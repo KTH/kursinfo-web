@@ -39,7 +39,6 @@ module.exports = {
     label_postgraduate_course: 'Postgraduate courses at ',
     label_course_cancelled: 'This course has been cancelled.',
     label_last_exam: 'Last planned examination: ',
-    label_course_web_link: 'Course web',
     label_edit: 'Administrate',
     header_no_rounds: 'Course offering missing',
     lable_no_rounds: ' Course offering missing for current semester as well as for previous and coming semesters',
@@ -113,7 +112,8 @@ module.exports = {
     course_supplemental_information: 'Supplementary information ',
     course_examiners: 'Examiner',
     course_recruitment_text: 'Abstract',
-    course_application_info: 'Information for research students about course offerings'
+    course_application_info: 'Information for research students about course offerings',
+    course_link_text: '<p>Further information about the course can be found on the Course web at the link below. Information on the Course web will later be moved to this site. </p>'
   },
   courseRoundInformation: {
     round_header: 'Offering',

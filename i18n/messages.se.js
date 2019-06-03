@@ -41,7 +41,6 @@ module.exports = {
     label_postgraduate_course: 'Forskarkurser på ',
     label_course_cancelled: 'Detta är en nedlagd kurs.',
     label_last_exam: 'Sista planerade examination: ',
-    label_course_web_link: 'Kurswebb',
     label_edit: 'Administrera',
     label_course_pm: 'Kurs - PM',
     header_no_rounds: 'Kursomgångar saknas',
@@ -117,7 +116,9 @@ module.exports = {
     course_supplemental_information: 'Övrig information',
     course_examiners: 'Examinator',
     course_recruitment_text: 'Kort beskrivning svenska',
-    course_application_info: 'Information för forskarstuderande om när kursen ges'
+    course_application_info: 'Information för forskarstuderande om när kursen ges',
+    course_link: 'Kurswebb',
+    course_link_text: '<p>Ytterligare information om kursen kan hittas på kurswebben via länken nedan. Information på kurswebben kommer framöver flyttas till denna sida </p>'
   },
   courseRoundInformation: {
     round_header: 'Kursomgång',

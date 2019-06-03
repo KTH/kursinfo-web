@@ -180,16 +180,16 @@ class RouterStore {
     return {
       course_goals: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.goals, language) : EMPTY[language],
       course_content: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.content, language) : EMPTY[language],
-      course_disposition: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.disposition, language) : EMPTY[language],
+      course_disposition: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.disposition, language, true) : '',
       course_eligibility: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.eligibility, language) : EMPTY[language],
-      course_requirments_for_final_grade: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.reqsForFinalGrade, language) : EMPTY[language],
+      course_requirments_for_final_grade: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.reqsForFinalGrade, language, true) : '',
       course_literature: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.literature, language) : EMPTY[language],
       course_literature_comment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.literatureComment, language) : EMPTY[language],
       course_valid_from: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].validFromTerm.term).toString().match(/.{1,4}/g) : [],
       course_valid_to: [],
-      course_required_equipment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.requiredEquipment, language) : EMPTY[language],
+      course_required_equipment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.requiredEquipment, language, true) : '',
       course_examination: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 && courseResult.examinationSets && Object.keys(courseResult.examinationSets).length > 0 ? this.getExamObject(courseResult.examinationSets, courseResult.formattedGradeScales, language, courseResult.publicSyllabusVersions[semester].validFromTerm.term) : EMPTY[language],
-      course_examination_comments: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.examComments, language) : EMPTY[language]
+      course_examination_comments: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.examComments, language, true) : ''
     }
   }
 
@@ -420,7 +420,7 @@ class RouterStore {
 
   @action getCourseAdminInfo (courseCode, imageList, lang = 'sv') {
     return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri, { courseCode: courseCode }), this._getOptions()).then(res => {
-      this.showCourseWebbLink = res.data.isCourseWebLink
+      this.showCourseWebbLink = true // res.data.isCourseWebLink
       this.sellingText = res.data.sellingText
       this.image = '' // TODO res.data.imageInfo /* && res.data.imageInfo.length > 0 */ ? this.browserConfig.proxyPrefixPath.uri + COURSE_IMG_URL + res.data.imageInfo : this.getImage(courseCode, 'normal') // TODO:
     }).catch(err => {
