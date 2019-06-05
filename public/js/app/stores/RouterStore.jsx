@@ -21,19 +21,18 @@ function _webUsesSSL (url) {
 
 class RouterStore {
   courseData = undefined
-  sellingText = undefined // is set from kursinfo-admin
+  sellingText = undefined // is set from kursinfo-admin-api
 
   canEdit = false // is set in createPersonHtml()
   isCancelled = false // is set in getCourseInformation(), used to show an Alert on the course page
-  showCourseWebbLink = false // is set rom kursinfo-admin ( not in use )
+  showCourseWebbLink = false // is set from kursinfo-admin ( not in use )
   roundsSyllabusIndex = [] // handles connection to syllabuses for active rounds
-  activeSemesters = [] // set in getCurrentSemesterToShow(), computes syllabus to show
-  keyList = {
+  activeSemesters = [] // sets in getCurrentSemesterToShow(), computes syllabus to show based on todays date
+  keyList = { // key list to get information from ugRedis
     teachers: [],
     responsibles: []
   }
   user = ''
-  image = ''
   defaultIndex = 0
 
   buildApiUrl (path, params) {
@@ -404,25 +403,11 @@ class RouterStore {
   /** ***************************************************************************************************************************************** */
   /*                                                                ADMIN                                                                      */
   /** ***************************************************************************************************************************************** */
-  /* getImage (courseCode, type = 'normal') {
-    const image = `${Math.floor((Math.random() * 7) + 1)}_${type}.jpg`
-    const response = axios.get(this.buildApiUrl(this.paths.api.setImage.uri, { courseCode: courseCode, imageName: image })).then(response => {
-      // console.log("IMAGE SET->",response, image)
-    })
-      .catch(err => {
-        if (err.response) {
-          throw new Error(err.message, err.response.data)
-        }
-        throw err
-      })
-    return `${this.browserConfig.proxyPrefixPath.uri}${COURSE_IMG_URL}${image}`
-  }*/
 
-  @action getCourseAdminInfo (courseCode, imageList, lang = 'sv') {
+  @action getCourseAdminInfo (courseCode, lang = 'sv') {
     return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri, { courseCode: courseCode }), this._getOptions()).then(res => {
       this.showCourseWebbLink = true // res.data.isCourseWebLink
       this.sellingText = res.data.sellingText
-      this.image = '' // TODO res.data.imageInfo /* && res.data.imageInfo.length > 0 */ ? this.browserConfig.proxyPrefixPath.uri + COURSE_IMG_URL + res.data.imageInfo : this.getImage(courseCode, 'normal') // TODO:
     }).catch(err => {
       if (err.response) {
         throw new Error(err.message, err.response.data)
