@@ -165,7 +165,9 @@ class RouterStore {
       course_supplemental_information_url_text: this.isValidData(courseResult.course.supplementaryInfoUrlName, language),
       course_supplemental_information: this.isValidData(courseResult.course.supplementaryInfo, language),
       course_examiners: EMPTY[language],
-      course_last_exam: courseResult.course.lastExamTerm ? courseResult.course.lastExamTerm.term.toString().match(/.{1,4}/g) : []
+      course_last_exam: courseResult.course.lastExamTerm ? courseResult.course.lastExamTerm.term.toString().match(/.{1,4}/g) : [],
+      course_web_link: this.isValidData(courseResult.socialCoursePageUrl, language)
+
     }
   }
 
