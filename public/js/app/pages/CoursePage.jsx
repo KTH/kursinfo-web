@@ -118,7 +118,7 @@ class CoursePage extends Component {
     if (mainSubjects && mainSubjects.length > 0 && language === 'en') {
       mainSubjects = mainSubjects.map(subject => i18n.messages[0].courseMainSubjects[subject]) // get sv translations of en mainSubjects
     }
-    let courseImage = i18n.messages[1].courseImage[mainSubjects.sort()[0]] // extract picture according swidsh translation of mainSubject 
+    let courseImage = i18n.messages[1].courseImage[mainSubjects.sort()[0]] // extract picture according swidsh translation of mainSubject
     if (courseImage === undefined)
       courseImage = translation.courseImage.default
     courseImage = `${routerStore.browserConfig.storageUri}${courseImage}`
@@ -156,13 +156,18 @@ class CoursePage extends Component {
                 : ''
             }
             {/* ---TEXT FOR CANCELLED COURSE --- */}
-            {routerStore.isCancelled
+            {routerStore.isCancelled || routerStore.isDeactivated
               ? <div className='col-12 isCancelled'>
                 <Alert color='info' aria-live='polite'>
-                  <h3>{translation.courseLabels.label_course_cancelled} </h3>
-                  <p>{translation.courseLabels.label_last_exam}
-                      {translation.courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]}
-                      {courseData.courseInfo.course_last_exam[0]}
+                  <h3>{translation.course_state_alert[courseData.courseInfo.course_state].header} </h3>
+                  <p>
+                    {translation.course_state_alert[courseData.courseInfo.course_state].examination}
+                    {translation.courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]}
+                    {courseData.courseInfo.course_last_exam[0]}
+                  </p>
+                  <p>
+                    {translation.course_state_alert[routerStore.courseData.courseInfo.course_state].decision}
+                    {courseData.syllabusList[this.state.activeSyllabusIndex].course_decision_to_discontinue}
                   </p>
                 </Alert>
               </div>

@@ -80,19 +80,26 @@ module.exports = {
     course_credits: 'Credits',
     course_grade_scale: 'Grading scale *',
     course_goals: 'Intended learning outcomes *',
-    course_content: 'Course main content *',
-    course_disposition: 'Disposition *',
-    course_eligibility: 'Eligibility *',
-    course_requirments_for_final_grade: 'Requirements for final grade *',
-    course_literature: 'Literature *',
+    course_content: 'Course contents *',
+    course_disposition: 'Course Disposition',
+    course_eligibility: 'Specific prerequisites',
+    course_requirments_for_final_grade: 'Other requirements for final grade *',
+    course_literature: 'Literature',
     course_literature_comment: 'Literature comment',
     course_examination_comments: 'Examination comment *',
     course_examination: 'Examination *',
     course_valid_from: 'Valid from',
     course_main_subject: 'Main field of study *',
     course_language: 'Language of instruction *',
-    course_required_equipment: 'Required equipment *',
+    course_required_equipment: 'Equipment',
     course_level_code: 'Education cycle *',
+    course_establishment: 'Fastställande *',
+    course_decision_to_discontinue: 'Avvecklingsbeslut *',
+    course_transitional_reg: 'Transitional regulations *',
+    course_additional_regulations: 'Additional regulations *',
+    course_ethical: 'Ethical approach',
+    course_spossibility_to_completions: 'Opportunity to complete the requirements via supplementary examination',
+    course_possibility_to_addition: 'Opportunity to raise an approved grade via renewed examination',
     course_short_semester: {
       1: 'Spring ',
       2: 'Autumn '
@@ -209,5 +216,18 @@ module.exports = {
     'Engineering and Management': 'Picture_by_MainFieldOfStudy_24_Engineering_Management.jpg',
     'Technology and Learning': 'Picture_by_MainFieldOfStudy_25_Technology_Learning.jpg',
     default: 'Picture_by_MainFieldOfStudy_26_Default_picture.jpg'
+  },
+  course_state_alert: {
+    DEACTIVATED: {
+      header: 'This course will bediscontinued.',
+      examination: 'Last planned examination: ',
+      decision: 'Decision to discontinue this course: '
+    },
+    CANCELLED: {
+      header: 'This course has been discontinued.',
+      examination: 'Last planned examination: ',
+      decision: 'Decision to discontinue this course: '
+    }
+
   }
 }

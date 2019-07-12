@@ -84,19 +84,26 @@ module.exports = {
     course_credits: 'Högskolepoäng',
     course_grade_scale: 'Betygsskala *',
     course_goals: 'Lärandemål *',
-    course_content: 'Kursens huvudsakliga innehåll *',
-    course_disposition: 'Kursupplägg *',
-    course_eligibility: 'Behörighet *',
-    course_requirments_for_final_grade: 'Krav för slutbetyg *',
-    course_literature: 'Kurslitteratur *',
+    course_content: 'Kursinnehåll *',
+    course_disposition: 'Kursupplägg',
+    course_eligibility: 'Särskild behörighet',
+    course_requirments_for_final_grade: 'Övriga krav för slutbetyg *',
+    course_literature: 'Kurslitteratur',
     course_literature_comment: 'Kommentar till kurslitteratur',
     course_examination_comments: 'Kommentar till examinationsmoment *',
     course_examination: 'Examination *',
     course_valid_from: 'Giltig från',
     course_main_subject: 'Huvudområde *',
     course_language: 'Undervisningsspråk *',
-    course_required_equipment: 'Utrustningskrav *',
+    course_required_equipment: 'Utrustning',
     course_level_code: 'Utbildningsnivå *',
+    course_establishment: 'Fastställande *',
+    course_decision_to_discontinue: 'Avvecklingsbeslut *',
+    course_transitional_reg: 'Övergångsbestämmelser *',
+    course_additional_regulations: 'Övriga föreskrifter *',
+    course_ethical: 'Etiskt förhållningssätt',
+    course_spossibility_to_completions: 'Möjlighet till komplettering',
+    course_possibility_to_addition: 'Möjlighet till plussning',
     course_short_semester: {
       1: 'VT ',
       2: 'HT '
@@ -185,6 +192,17 @@ module.exports = {
     'Teknik och management': 'Picture_by_MainFieldOfStudy_22_Technology_Management.jpg',
     'Teknik och lärande': 'Picture_by_MainFieldOfStudy_25_Technology_Learning.jpg',
     default: 'Picture_by_MainFieldOfStudy_26_Default_picture.jpg'
+  },
+  course_state_alert: {
+    DEACTIVATED: {
+      header: 'Denna kurs är under avveckling.',
+      examination: 'Sista planerade examination: ',
+      decision: 'Avvecklingsbeslut: '
+    },
+    CANCELLED: {
+      header: 'Denna kurs är avvecklad.',
+      examination: 'Sista planerade examination: ',
+      decision: 'Avvecklingsbeslut: '
+    }
   }
-
 }

@@ -80,6 +80,7 @@ class RouterStore {
       const language = lang === 'en' ? 0 : 1
 
       this.isCancelled = courseResult.course.cancelled
+      this.isDeactivated = courseResult.course.deactivated
       this.user = ldapUsername
 
       //* **** Coruse information that is static on the course side *****//
@@ -143,7 +144,8 @@ class RouterStore {
       course_code: this.isValidData(courseResult.course.courseCode),
       course_title: this.isValidData(courseResult.course.title),
       course_other_title: this.isValidData(courseResult.course.titleOther),
-      course_credits: this.isValidData(courseResult.course.credits)
+      course_credits: this.isValidData(courseResult.course.credits),
+      course_credits_text: this.isValidData(courseResult.course.creditUnitAbbr)
     }
   }
 
@@ -166,8 +168,15 @@ class RouterStore {
       course_supplemental_information: this.isValidData(courseResult.course.supplementaryInfo, language),
       course_examiners: EMPTY[language],
       course_last_exam: courseResult.course.lastExamTerm ? courseResult.course.lastExamTerm.term.toString().match(/.{1,4}/g) : [],
-      course_web_link: this.isValidData(courseResult.socialCoursePageUrl, language)
-
+      course_web_link: this.isValidData(courseResult.socialCoursePageUrl, language),
+      // New fields in kopps
+      course_spossibility_to_completions: this.isValidData(courseResult.course.possibilityToCompletion, language),
+      course_disposition: this.isValidData(courseResult.course.courseDeposition, language),
+      course_possibility_to_addition: this.isValidData(courseResult.course.possibilityToAddition, language),
+      course_literature: this.isValidData(courseResult.course.courseLiterature, language),
+      course_required_equipment: this.isValidData(courseResult.course.requiredEquipment, language),
+      course_state: this.isValidData(courseResult.course.state, language, true)
+      // course_decision_to_discontinue: this.isValidData(courseResult.course.decisionToDiscontinue, language)
     }
   }
 
@@ -190,7 +199,13 @@ class RouterStore {
       course_valid_to: [],
       course_required_equipment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.requiredEquipment, language, true) : '',
       course_examination: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 && courseResult.examinationSets && Object.keys(courseResult.examinationSets).length > 0 ? this.getExamObject(courseResult.examinationSets, courseResult.formattedGradeScales, language, courseResult.publicSyllabusVersions[semester].validFromTerm.term) : EMPTY[language],
-      course_examination_comments: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.examComments, language, true) : ''
+      course_examination_comments: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.examComments, language, true) : '',
+        // New fields in kopps
+      course_ethical: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.ethicalApproach, language, true) : '',
+      course_establishment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.establishment, language, true) : '',
+      course_additional_regulations: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.additionalRegulations, language, true) : '',
+      course_transitional_reg: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.transitionalRegulations, language, true) : '',
+      course_decision_to_discontinue: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.decisionToDiscontinue, language) : ''
     }
   }
 
