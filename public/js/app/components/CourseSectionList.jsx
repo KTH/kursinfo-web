@@ -34,20 +34,20 @@ class CourseSectionList extends Component {
     const course = this.props.courseInfo
     const syllabus = this.props.syllabusList
 
-    let literatureText = syllabus.course_literature
+    let literatureText = syllabus.course_literature !== EMPTY[this.state.store.language] ? syllabus.course_literature : course.course_literature
     if (syllabus.course_literature_comment !== EMPTY[this.state.store.language]) {
       literatureText = literatureText !== EMPTY[this.state.store.language]
                       ? literatureText + '<br/>' + syllabus.course_literature_comment
                       : syllabus.course_literature_comment
     }
-
+    // Fix for course_required_equipment change in Kopps, moved from syllabus to course in newer course versions
+    const course_required_equipment = syllabus.course_required_equipment !== EMPTY[this.state.store.language] ? syllabus.course_required_equipment : course.course_required_equipment
     const during = [
       {header: translation.courseInformation.course_eligibility, text: syllabus.course_eligibility},
-      {header: translation.courseInformation.course_prerequisites, text: course.course_prerequisites}
+      {header: translation.courseInformation.course_prerequisites, text: course.course_prerequisites},
+      {header: translation.courseInformation.course_required_equipment, text: course_required_equipment},
+      {header: translation.courseInformation.course_literature, text: literatureText}
     ]
-    if (syllabus.course_required_equipment.length > 0)
-      during.push({header: translation.courseInformation.course_required_equipment, text: syllabus.course_required_equipment})
-    during.push({header: translation.courseInformation.course_literature, text: literatureText})
 
     return during
   }
