@@ -74,8 +74,6 @@ const browserConfig = require('./configuration').browser
 const browserConfigHandler = require('kth-node-configuration').getHandler(browserConfig, getPaths())
 const express = require('express')
 
-const morgan = require('morgan')
-server.use(morgan(':method :url :status :res[content-length] --kip_web-- :response-time ms'))
 // const compression = require('compression')
 // server.use(compression({
   // filter: function () { return true }
@@ -147,7 +145,7 @@ server.use(config.proxyPrefixPath.uri, languageHandler)
  */
 const passport = require('passport')
 // const ldapClient = require('./adldapClient')
-const { authLoginHandler, authCheckHandler, logoutHandler, pgtCallbackHandler, serverLogin, getServerGatewayLogin, g } = require('kth-node-passport-cas').routeHandlers({
+const { authLoginHandler, authCheckHandler, logoutHandler, pgtCallbackHandler, serverLogin, getServerGatewayLogin } = require('kth-node-passport-cas').routeHandlers({
   casLoginUri: config.proxyPrefixPath.uri + '/login',
   casGatewayUri: config.proxyPrefixPath.uri + '/loginGateway',
   proxyPrefixPath: config.proxyPrefixPath.uri,
@@ -195,7 +193,6 @@ server.use(excludeExpression, require('kth-node-web-common/lib/web/crawlerRedire
  * **********************************
  */
 const { System, Course, Syllabus, noCourse } = require('./controllers')
-const { requireRole } = require('./authentication')
 
 // System routes
 const systemRoute = AppRouter()

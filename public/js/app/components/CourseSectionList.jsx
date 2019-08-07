@@ -1,11 +1,10 @@
 import { Component } from 'inferno'
 import { inject, observer } from 'inferno-mobx'
-import { globalRegistry } from 'component-registry'
 
 import i18n from '../../../../i18n'
 import CourseSection from './CourseSections.jsx'
 
-import { EMPTY, COURSE_WEB_URL} from '../util/constants'
+import { EMPTY } from '../util/constants'
 
 @inject(['routerStore']) @observer
 class CourseSectionList extends Component {
@@ -13,7 +12,7 @@ class CourseSectionList extends Component {
     super(props)
 
     this.state = {
-      store:this.props.routerStore['courseData'],
+      store: this.props.routerStore['courseData'],
       syllabusList: this.props.syllabusList[0]
     }
   }
@@ -26,10 +25,12 @@ class CourseSectionList extends Component {
       {header: translation.courseInformation.course_content, text: syllabus.course_content},
       {header: translation.courseInformation.course_goals, text: syllabus.course_goals}
     ]
-    if (syllabus.course_disposition.length > 0)
+    if (syllabus.course_disposition.length > 0) {
       content.push({header: translation.courseInformation.course_disposition, text: syllabus.course_disposition})
-    if (course.course_disposition.length > 0)
+    }
+    if (course.course_disposition.length > 0) {
       content.push({header: translation.courseInformation.course_disposition, text: course.course_disposition})
+    }
     return content
   }
 
@@ -64,8 +65,9 @@ class CourseSectionList extends Component {
       {header: '', text: syllabus.course_examination_comments}
     ]
 
-    if (syllabus.course_requirments_for_final_grade.length > 0)
+    if (syllabus.course_requirments_for_final_grade.length > 0) {
       examination.push({header: translation.courseInformation.course_requirments_for_final_grade, text: syllabus.course_requirments_for_final_grade})
+    }
     examination.push({ header: translation.courseInformation.course_spossibility_to_completions, text: course.course_spossibility_to_completions })
     examination.push({ header: translation.courseInformation.course_possibility_to_addition, text: course.course_possibility_to_addition })
     examination.push({header: translation.courseInformation.course_examiners, text: course.course_examiners})
@@ -88,10 +90,11 @@ class CourseSectionList extends Component {
     if (course.course_supplemental_information !== EMPTY[this.state.store.language]) prepare.push({header: translation.courseInformation.course_supplemental_information, text: course.course_supplemental_information})
     if (course.course_supplemental_information_url !== EMPTY[this.state.store.language]) prepare.push({header: translation.courseInformation.course_supplemental_information_url, text: course.course_supplemental_information_url})
     if (course.course_supplemental_information_url_text !== EMPTY[this.state.store.language]) prepare.push({header: translation.courseInformation.course_supplemental_information_url_text, text: course.course_supplemental_information_url_text})
-    if (course.course_web_link !== EMPTY[this.state.store.language])
+    if (course.course_web_link !== EMPTY[this.state.store.language]) {
       prepare.unshift({header: translation.courseInformation.course_link, text: `${translation.courseInformation.course_link_text} <a target='_blank' href='${course.course_web_link}'> ${translation.courseInformation.course_link} ${this.props.courseInfo.course_code}</a>`})
-    else
+    } else {
       prepare.unshift({header: translation.courseInformation.course_link, text: course.course_web_link})
+    }
       // New from kopps
     // if (syllabus.course_decision_to_discontinue !== '') prepare.push({header: translation.courseInformation.course_decision_to_discontinue, text: syllabus.course_decision_to_discontinue})
     if (syllabus.course_additional_regulations !== '') prepare.push({header: translation.courseInformation.course_additional_regulations, text: syllabus.course_additional_regulations})
@@ -99,7 +102,6 @@ class CourseSectionList extends Component {
     // if (syllabus.course_transitional_reg !== EMPTY[this.state.store.language]) prepare.push({header: translation.courseInformation.course_transitional_reg, text: syllabus.course_transitional_reg})
     return prepare
   }
-
 
   render ({ routerStore }) {
     // console.log(this.routerStore)
@@ -110,7 +112,7 @@ class CourseSectionList extends Component {
         <CourseSection sectionHeader={translation.courseLabels.header_execution} headerType='3' courseData={this.getExecution(translation)} sectionId='Execution' />
         <CourseSection sectionHeader={translation.courseLabels.header_examination} headerType='3' courseData={this.getExamination(translation)} sectionId='Examination' />
         <CourseSection sectionHeader={translation.courseLabels.header_further} headerType='3' courseData={this.getOther(translation)} sectionId='Other' />
-    </div>
+      </div>
     )
   }
 }

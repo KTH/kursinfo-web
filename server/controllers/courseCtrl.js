@@ -124,8 +124,6 @@ function * _getKoppsCourseData (req, res, next) {
   }
 }
 
-
-
 async function getIndex (req, res, next) {
   if (process.env['NODE_ENV'] === 'development') {
     delete require.cache[require.resolve('../../dist/js/server/app.js')]
@@ -133,8 +131,6 @@ async function getIndex (req, res, next) {
     appFactory = tmp.appFactory
     doAllAsyncBefore = tmp.doAllAsyncBefore
   }
-
-
 
   const courseCode = req.params.courseCode.toUpperCase()
   let lang = language.getLanguage(res) || 'sv'
