@@ -198,7 +198,7 @@ class RouterStore {
       course_valid_from: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].validFromTerm.term).toString().match(/.{1,4}/g) : [],
       course_valid_to: [],
       course_required_equipment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.requiredEquipment, language) : '',
-      course_examination: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 && courseResult.examinationSets && Object.keys(courseResult.examinationSets).length > 0 ? this.getExamObject(courseResult.examinationSets, courseResult.formattedGradeScales, language, courseResult.publicSyllabusVersions[semester].validFromTerm.term) : EMPTY[language],
+      course_examination: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 && courseResult.examinationSets && Object.keys(courseResult.examinationSets).length > 0 ? this.getExamObject(courseResult.examinationSets, courseResult.formattedGradeScales, language, courseResult.publicSyllabusVersions[semester].validFromTerm.term, courseResult.course.creditUnitAbbr) : EMPTY[language],
       course_examination_comments: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.examComments, language, true) : '',
         // New fields in kopps
       course_ethical: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.ethicalApproach, language, true) : '',
@@ -258,7 +258,7 @@ class RouterStore {
     return returnIndex > -1 ? returnIndex : yearMatch
   }
 
-  getExamObject (dataObject, grades, language = 0, semester = '') {
+  getExamObject (dataObject, grades, language = 0, semester = '', courseCredit) {
     var matchingExamSemester = ''
     Object.keys(dataObject).forEach(function (key) {
       if (Number(semester) >= Number(key)) {
@@ -273,7 +273,7 @@ class RouterStore {
 
         examString += `<li>${exam.examCode} - 
                           ${exam.title},
-                          ${language === 0 ? exam.credits : exam.credits.toString().replace('.', ',')} ${language === 0 ? ' credits' : ' hp'},  
+                          ${language === 0 ? exam.credits : exam.credits.toString().replace('.', ',')} ${language === 0 ? ' credits' : courseCredit},  
                           ${language === 0 ? 'Grading scale' : 'betygsskala'}: ${grades[exam.gradeScaleCode]}              
                           </li>`
       }

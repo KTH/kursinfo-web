@@ -119,11 +119,13 @@ class CoursePage extends Component {
       mainSubjects = mainSubjects.map(subject => i18n.messages[0].courseMainSubjects[subject]) // get sv translations of en mainSubjects
     }
     let courseImage = i18n.messages[1].courseImage[mainSubjects.sort()[0]] // extract picture according swidsh translation of mainSubject
-    if (courseImage === undefined)
+    if (courseImage === undefined) {
       courseImage = translation.courseImage.default
+    }
     courseImage = `${routerStore.browserConfig.storageUri}${courseImage}`
-    if (routerStore.browserConfig.env === 'dev')
+    if (routerStore.browserConfig.env === 'dev') {
       console.log('routerStore in CoursePage', routerStore)
+    }
 
     const courseInformationToRounds = {
       course_code: courseData.courseInfo.course_code,
@@ -167,7 +169,7 @@ class CoursePage extends Component {
                   </p>
                   <p>
                     {translation.course_state_alert[routerStore.courseData.courseInfo.course_state].decision}
-                    {courseData.syllabusList[this.state.activeSyllabusIndex].course_decision_to_discontinue}
+                    <span dangerouslySetInnerHTML={{ __html: courseData.syllabusList[this.state.activeSyllabusIndex].course_decision_to_discontinue}} />
                   </p>
                 </Alert>
               </div>

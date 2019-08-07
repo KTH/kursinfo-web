@@ -101,7 +101,7 @@ module.exports = {
     course_decision_to_discontinue: 'Avvecklingsbeslut *',
     course_transitional_reg: 'Övergångsbestämmelser *',
     course_additional_regulations: 'Övriga föreskrifter *',
-    course_ethical: 'Etiskt förhållningssätt',
+    course_ethical: 'Etiskt förhållningssätt *',
     course_spossibility_to_completions: 'Möjlighet till komplettering',
     course_possibility_to_addition: 'Möjlighet till plussning',
     course_short_semester: {

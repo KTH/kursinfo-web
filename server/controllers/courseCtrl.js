@@ -25,8 +25,7 @@ module.exports = {
   getIndex: getIndex,
   getSellingText: co.wrap(_getSellingText),
   getCourseEmployees: co.wrap(_getCourseEmployees),
-  getKoppsCourseData: co.wrap(_getKoppsCourseData),
-  setImage: co.wrap(_setImage)
+  getKoppsCourseData: co.wrap(_getKoppsCourseData)
 }
 
 function * _getCourseEmployees (req, res) {
@@ -41,6 +40,8 @@ function * _getCourseEmployees (req, res) {
     case 'multi':
       try {
         const roundsKeys = JSON.parse(req.body.params)
+        log.info('_getCourseEmployees with key: ' + roundsKeys)
+
         yield redis('ugRedis', serverConfig.cache.ugRedis.redis)
           .then(function (ugClient) {
             return ugClient.multi()
@@ -84,6 +85,7 @@ function * _getCourseEmployees (req, res) {
 
 function * _getSellingText (req, res) {
   const courseCode = req.params.courseCode
+  log.info('_getSellingText for: ' + courseCode)
 
   try {
     const apiResponse = yield courseApi.getSellingText(courseCode)
@@ -98,7 +100,7 @@ function * _getSellingText (req, res) {
     // console.log(apiResponse.body)
     return httpResponse.json(res, apiResponse.body)
   } catch (err) {
-    log.error('Exception calling from course API _getSellingText', { error: err })
+    log.error('Exception from kursinfo API _getSellingText', { error: err })
     return err
   }
 }
@@ -106,7 +108,7 @@ function * _getSellingText (req, res) {
 function * _getKoppsCourseData (req, res, next) {
   const courseCode = req.params.courseCode
   const language = req.params.language || 'sv'
-
+  log.info('_getKoppsCourseData for: ' + courseCode)
   try {
     const apiResponse = yield koppsCourseData.getKoppsCourseData(courseCode, language)
     if (apiResponse.statusCode !== 200) {
@@ -122,18 +124,7 @@ function * _getKoppsCourseData (req, res, next) {
   }
 }
 
-async function _setImage (req, res, next) {
-  const courseCode = req.params.courseCode
-  const imageName = req.params.imageName
-  try {
-    const sendBody = {courseCode: courseCode, imageInfo: imageName}
-    const response = await courseApi.setImage(sendBody, courseCode)
-    return httpResponse.json(res, response)
-  } catch (err) {
-    log.error('Exception calling from _setImage ', { error: err })
-    return err
-  }
-}
+
 
 async function getIndex (req, res, next) {
   if (process.env['NODE_ENV'] === 'development') {
@@ -143,12 +134,12 @@ async function getIndex (req, res, next) {
     doAllAsyncBefore = tmp.doAllAsyncBefore
   }
 
-  let imageList = '' //
+
 
   const courseCode = req.params.courseCode.toUpperCase()
   let lang = language.getLanguage(res) || 'sv'
   const ldapUser = req.session.authUser ? req.session.authUser.username : 'null'
-
+  log.info('getIndex with coure code: ' + courseCode)
   try {
     // Render inferno app
     const context = {}
@@ -161,7 +152,7 @@ async function getIndex (req, res, next) {
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
 
     await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
-    await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, imageList, lang)
+    await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, lang)
     await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi')
     await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
     const breadcrumDepartment = await renderProps.props.children.props.routerStore.getBreadcrumbs()

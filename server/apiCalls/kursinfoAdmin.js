@@ -3,8 +3,7 @@
 const api = require('../api')
 
 module.exports = {
-  getSellingText: getSellingText,
-  setImage: setImage
+  getSellingText: getSellingText
 }
 
 function getSellingText (courseCode) {

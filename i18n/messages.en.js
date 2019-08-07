@@ -97,7 +97,7 @@ module.exports = {
     course_decision_to_discontinue: 'Avvecklingsbeslut *',
     course_transitional_reg: 'Transitional regulations *',
     course_additional_regulations: 'Additional regulations *',
-    course_ethical: 'Ethical approach',
+    course_ethical: 'Ethical approach *',
     course_spossibility_to_completions: 'Opportunity to complete the requirements via supplementary examination',
     course_possibility_to_addition: 'Opportunity to raise an approved grade via renewed examination',
     course_short_semester: {
@@ -219,7 +219,7 @@ module.exports = {
   },
   course_state_alert: {
     DEACTIVATED: {
-      header: 'This course will bediscontinued.',
+      header: 'This course will be discontinued.',
       examination: 'Last planned examination: ',
       decision: 'Decision to discontinue this course: '
     },
