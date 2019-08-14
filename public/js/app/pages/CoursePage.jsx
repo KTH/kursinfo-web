@@ -158,7 +158,7 @@ class CoursePage extends Component {
             />
             {/* ---TEXT FOR CANCELLED COURSE --- */}
             {routerStore.isCancelled || routerStore.isDeactivated
-              ? <div className='col-12 isCancelled'>
+              ? <div className='isCancelled'>
                 <Alert color='info' aria-live='polite'>
                   <h3>{translation.course_state_alert[courseData.courseInfo.course_state].header} </h3>
                   <p>
