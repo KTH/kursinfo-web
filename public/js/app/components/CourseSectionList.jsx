@@ -23,14 +23,9 @@ class CourseSectionList extends Component {
 
     const content = [
       {header: translation.courseInformation.course_content, text: syllabus.course_content},
-      {header: translation.courseInformation.course_goals, text: syllabus.course_goals}
+      {header: translation.courseInformation.course_goals, text: syllabus.course_goals},
+      {header: translation.courseInformation.course_disposition, text: course.course_disposition}
     ]
-    if (syllabus.course_disposition.length > 0) {
-      content.push({header: translation.courseInformation.course_disposition, text: syllabus.course_disposition})
-    }
-    if (course.course_disposition.length > 0) {
-      content.push({header: translation.courseInformation.course_disposition, text: course.course_disposition})
-    }
     return content
   }
 
@@ -38,19 +33,11 @@ class CourseSectionList extends Component {
     const course = this.props.courseInfo
     const syllabus = this.props.syllabusList
 
-    let literatureText = syllabus.course_literature !== EMPTY[this.state.store.language] ? syllabus.course_literature : course.course_literature
-    if (syllabus.course_literature_comment !== EMPTY[this.state.store.language]) {
-      literatureText = literatureText !== EMPTY[this.state.store.language]
-                      ? literatureText + '<br/>' + syllabus.course_literature_comment
-                      : syllabus.course_literature_comment
-    }
-    // Fix for course_required_equipment change in Kopps, moved from syllabus to course in newer course versions
-    const course_required_equipment = syllabus.course_required_equipment !== EMPTY[this.state.store.language] ? syllabus.course_required_equipment : course.course_required_equipment
     const during = [
       {header: translation.courseInformation.course_eligibility, text: syllabus.course_eligibility},
       {header: translation.courseInformation.course_prerequisites, text: course.course_prerequisites},
-      {header: translation.courseInformation.course_required_equipment, text: course_required_equipment},
-      {header: translation.courseInformation.course_literature, text: literatureText}
+      {header: translation.courseInformation.course_required_equipment, text: course.course_required_equipment},
+      {header: translation.courseInformation.course_literature, text: course.course_literature}
     ]
 
     return during

@@ -19,6 +19,7 @@ import RoundInformationOneCol from '../components/RoundInformationOneCol.jsx'
 import CourseTitle from '../components/CourseTitle.jsx'
 import CourseSectionList from '../components/CourseSectionList.jsx'
 import InfoModal from '../components/InfoModal.jsx'
+import LeftNavigation from '../components/LeftNavigation.jsx'
 
 
 @inject(['routerStore']) @observer
@@ -150,13 +151,11 @@ class CoursePage extends Component {
               language={courseData.language}
               canEdit={routerStore.canEdit}
             />
-            {
-              routerStore.canEdit
-                ? <a className='editButton' href={`${ADMIN_URL}${this.props.routerStore.courseData.courseInfo.course_code}?l=${language}`} id={courseData.courseInfo.course_code}>
-                 {translation.courseLabels.label_edit}
-                </a>
-                : ''
-            }
+            <LeftNavigation
+              courseCode={courseData.courseInfo.course_code}
+              translate={translation.courseLabels}
+              lang={language}
+            />
             {/* ---TEXT FOR CANCELLED COURSE --- */}
             {routerStore.isCancelled || routerStore.isDeactivated
               ? <div className='col-12 isCancelled'>
@@ -353,43 +352,6 @@ class CoursePage extends Component {
                   </span>
                   : ''}
               </div>
-            </Col>
-
-            <Col id='historyContent' sm='8' xs='12' className='float-md-left'>
-              <h2>{translation.courseLabels.header_history}</h2>
-
-              {/* ---STATISTICS LINK---
-              <h3> {translation.courseLabels.header_statistics}</h3>
-              <p>
-                <i class='fas fa-chart-line'></i>
-                <a href='' target='_blank' >
-                  {translation.courseLabels.label_statistics}
-                </a>
-              </p>*/}
-
-              {/* --- ALL SYLLABUS LINKS--- */}
-              <h3>{translation.courseLabels.header_syllabuses}</h3>
-                  {courseData.syllabusSemesterList.length > 0
-                    ? courseData.syllabusSemesterList.map((semester, index) => {
-                      return (
-                        <span key={index}>
-                          <a
-                            href={`${SYLLABUS_URL}${routerStore.courseData.courseInfo.course_code}-${semester[0]}.pdf?lang=${language}`}
-                            key={index}
-                            id={semester}
-                            target='_blank'
-                            className='pdf-link'
-                          >
-                            {translation.courseLabels.label_syllabus_link}
-                            ( {translation.courseInformation.course_short_semester[semester[0].toString().substring(4, 5)]}
-                            {semester[0].toString().substring(0, 4)} -  &nbsp;
-                            {translation.courseInformation.course_short_semester[semester[1].toString().substring(4, 5)]}
-                            {semester[1].toString().substring(0, 4)} )
-                          </a> <br />
-                        </span>
-                      )
-                    })
-                  : EMPTY[courseData.language]}
             </Col>
           </Col>
         </Row>

@@ -1,14 +1,5 @@
 // Less code goes here...!
 
-//@import "kth-style/public/sass/variables/sizes";
-//@import "kth-style/public/sass/variables/colors";
-
-// Bootstrap source
-/*@import "node_modules/bootstrap/scss/functions";
-@import "node_modules/bootstrap/scss/variables";
-@import "node_modules/kth-style/public/sass/bootstrap/variables";
-@import "node_modules/bootstrap/scss/mixins";*/
-
 #kth-kursinfo{
     width:100%;
 }
@@ -24,6 +15,60 @@
    
 }
 
+#leftNavigation{
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-top: 5px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    .navigation{
+        background-color: #f6f6f6;
+        padding-left: 0px;
+        padding-right: 0px; 
+        max-width: 30em;
+    }
+    h4 {
+        margin-top: 0;
+        margin-bottom: .3em;
+    }
+
+    .link-to:after {
+        content: "";
+        height: 1.5em;
+        width: 1.5em;
+        display: inline-block;
+        margin: -.6em 0 .3em .3em;
+        vertical-align: middle;
+        background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
+        transform: rotate(180deg);
+    }
+    .kip-menu{
+        padding: .75rem;
+       
+        @media (min-width: 768px) {
+            max-width: 30em;
+        }
+        
+    }
+    .admin-link {
+        text-align: right;
+        @media (max-width: 768px) {
+            border-top: 2px solid #fff;
+            text-align: left;
+        }
+        p {
+            margin-top: .2em;
+        }
+    }
+    .admin-block{
+    
+        padding-right: 0px;
+        
+    }
+    p{
+        margin-bottom:0px;
+    }
+}
 
 #course-title{
     border-bottom: 0px;

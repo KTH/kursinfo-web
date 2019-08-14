@@ -28,7 +28,7 @@ async function getIndex (req, res, next) {
 
     if (resp.body.syllabusHTML) {
       resp.body.pdfConfig['phantomPath'] = phantom.path
-      // console.log('phantom', phantom, resp.body.syllabusHTML.pageContentHtml)
+      // console.log(resp.body.syllabusHTML.pageContentHtml)
       // console.log("*******************************************")
 
       syllabusPDF.create(resp.body.syllabusHTML.pageContentHtml, resp.body.pdfConfig).toBuffer(function (err, buffer) {

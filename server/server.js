@@ -207,7 +207,7 @@ const appRoute = AppRouter()
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/kursplan/:course_semester', Syllabus.getIndex)
 // appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', Course.getIndex)
 
-appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', getServerGatewayLogin(), Course.getIndex)
+appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', /* getServerGatewayLogin(),*/ Course.getIndex)
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/', noCourse.getIndex)
 
 appRoute.get('api.sellingText', '/api/kursinfo/getSellingTextByCourse/:courseCode', Course.getSellingText)
