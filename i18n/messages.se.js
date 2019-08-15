@@ -89,7 +89,7 @@ module.exports = {
     course_goals: 'Lärandemål *',
     course_content: 'Kursinnehåll *',
     course_disposition: 'Kursupplägg',
-    course_eligibility: 'Särskild behörighet',
+    course_eligibility: 'Särskild behörighet *',
     course_requirments_for_final_grade: 'Övriga krav för slutbetyg *',
     course_literature: 'Kurslitteratur',
     course_literature_comment: 'Kommentar till kurslitteratur',

@@ -85,7 +85,7 @@ module.exports = {
     course_goals: 'Intended learning outcomes *',
     course_content: 'Course contents *',
     course_disposition: 'Course Disposition',
-    course_eligibility: 'Specific prerequisites',
+    course_eligibility: 'Specific prerequisites *',
     course_requirments_for_final_grade: 'Other requirements for final grade *',
     course_literature: 'Literature',
     course_literature_comment: 'Literature comment',
