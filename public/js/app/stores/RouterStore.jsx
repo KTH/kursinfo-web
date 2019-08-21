@@ -190,14 +190,14 @@ class RouterStore {
     return {
       course_goals: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.goals, language) : EMPTY[language],
       course_content: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.content, language) : EMPTY[language],
-      // - new rules - course_disposition: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.disposition, language, true) : '',
+      course_disposition: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.disposition, language, true) : '',
       course_eligibility: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.eligibility, language) : EMPTY[language],
       course_requirments_for_final_grade: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.reqsForFinalGrade, language, true) : '',
       course_literature: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.literature, language) : EMPTY[language],
       course_literature_comment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.literatureComment, language) : EMPTY[language],
       course_valid_from: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].validFromTerm.term).toString().match(/.{1,4}/g) : [],
       course_valid_to: [],
-      // - new rules - course_required_equipment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.requiredEquipment, language) : '',
+      course_required_equipment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.requiredEquipment, language) : '',
       course_examination: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 && courseResult.examinationSets && Object.keys(courseResult.examinationSets).length > 0 ? this.getExamObject(courseResult.examinationSets, courseResult.formattedGradeScales, language, courseResult.publicSyllabusVersions[semester].validFromTerm.term, courseResult.course.creditUnitAbbr) : EMPTY[language],
       course_examination_comments: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.examComments, language, true) : '',
         // New fields in kopps
@@ -307,7 +307,6 @@ class RouterStore {
     this.keyList.teachers.sort()
     this.keyList.responsibles.sort()
 
-    console.log('!!courseRound2: OK !!')
     return courseRoundList
   }
 
@@ -356,7 +355,6 @@ class RouterStore {
     if (courseRoundModel.round_short_name === EMPTY[language]) {
       courseRoundModel.round_short_name = `${language === 0 ? 'Start date' : 'Startdatum'}  ${courseRoundModel.round_start_date}`
     }
-    console.log('roundObject.commentsToStudents', roundObject.commentsToStudents)
 
     return courseRoundModel
   }
@@ -395,7 +393,6 @@ class RouterStore {
   }
 
   getRoundSeats (max, min, language) {
-    console.log('!!!!!max, min', max, min)
     if (max === EMPTY[language] && min === EMPTY[language]) {
       return EMPTY[language]
     }

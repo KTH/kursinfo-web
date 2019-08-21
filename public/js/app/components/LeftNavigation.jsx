@@ -5,7 +5,6 @@ import { ADMIN_URL, COURSE_HISTORY_URL } from '../util/constants'
 const LeftNavigation = ({courseCode, translate, lang}) => { // courseCode, lang, startCards
   const courseHistoryLink = `${COURSE_HISTORY_URL}${courseCode}?l=${lang}`
   const kursAdmin = `${ADMIN_URL}${courseCode}?l=${lang}`
-  console.log(translate)
   return (
     <div className='col-md-12' id='leftNavigation'>
         <div className='navigation col-md-6 col-sm-12'>
