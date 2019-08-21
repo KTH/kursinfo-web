@@ -25,7 +25,7 @@ class CourseSectionList extends Component {
       {header: translation.courseInformation.course_content, text: syllabus.course_content},
       {header: translation.courseInformation.course_goals, text: syllabus.course_goals}
     ]
-    if (course.course_disposition.length > 0) {
+    if (course.course_disposition !== EMPTY[this.state.store.language]) {
       content.push({header: translation.courseInformation.course_disposition, text: course.course_disposition})
     } else {
       content.push({header: translation.courseInformation.course_disposition, text: syllabus.course_disposition})
