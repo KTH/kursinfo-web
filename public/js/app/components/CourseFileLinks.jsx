@@ -3,24 +3,31 @@ import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
 import i18n from '../../../../i18n'
 import { EMPTY } from '../util/constants'
+const memoFileStorageURI = 'https://kursinfostoragestage.blob.core.windows.net/memo-blob-container/' // TODO
 
 class CourseFileLinks extends Component {
   render () {
     const translate = i18n.messages[this.props.language]
-    const round = this.props.courseRound
+    const {courseRound, scheduleUrl, language} = this.props
     return (
       <Row id='courseLinks'>
+
         {/* ---LINK TO ROUND PM/MEMO IF ROUND HAS ONE-- */}
         <Col sm='12' xs='12'>
-          <a id='memoLink' className='pdf-link'>
-          {translate.courseLabels.no_memo}
-          </a>
+          {courseRound.hasOwnProperty('round_memoFile')
+            ? <a id='memoLink' className='pdf-link' href={`${memoFileStorageURI}${courseRound.round_memoFile.fileName}`} >
+              {translate.courseLabels.label_course_memo} ({courseRound.round_memoFile.fileDate})
+            </a>
+            : <a id='memoLink' className='pdf-link'>
+                {translate.courseLabels.no_memo}
+            </a>
+          }
         </Col>
         {/* ---LINK TO ROUND SCHEDULE-- */}
         <Col sm='12' xs='12'>
           <i className='icon-schedule'></i>
-          {this.props.scheduleUrl !== EMPTY[this.props.language]
-            ? <a target='_blank' href={this.props.scheduleUrl} >
+          {scheduleUrl !== EMPTY[language]
+            ? <a target='_blank' href={scheduleUrl} >
               {translate.courseLabels.label_schedule}
             </a>
             : <span>{translate.courseLabels.no_schedule}</span>

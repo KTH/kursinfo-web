@@ -42,7 +42,7 @@ module.exports = {
     label_course_cancelled: 'Detta är en nedlagd kurs.',
     label_last_exam: 'Sista planerade examination: ',
     label_edit: 'Administrera',
-    label_course_pm: 'Kurs - PM',
+    label_course_memo: 'Kurs - PM',
     header_no_rounds: 'Kursomgångar saknas',
     lable_no_rounds: 'Kursomgångar saknas för tidigare och kommande terminer, samt för innevarande termin.',
     label_schedule: 'Schema',

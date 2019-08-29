@@ -34,6 +34,7 @@ class RouterStore {
   }
   user = ''
   defaultIndex = 0
+  memoList={}
 
   buildApiUrl (path, params) {
     let host
@@ -85,11 +86,9 @@ class RouterStore {
 
       //* **** Coruse information that is static on the course side *****//
       const courseInfo = this.getCourseDefaultInformation(courseResult, language)
-      // log.info('courseInfo: OK')
 
       //* **** Course title data  *****//
       const courseTitleData = this.getTitleData(courseResult)
-      // log.info('titleData: OK')
 
       //* **** Get list of syllabuses and valid syllabus semesters *****//
       let syllabusList = []
@@ -109,7 +108,6 @@ class RouterStore {
       } else {
         syllabusList[0] = this.getSyllabusData(courseResult, 0, language)
       }
-      // log.info('syllabusSemesterList and syllabusList: OK')
 
       //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis *****//
       const roundList = this.getRounds(courseResult.roundInfos, courseCode, language)
@@ -291,17 +289,29 @@ class RouterStore {
     let tempList = []
     let courseRound
     let courseRoundList = {}
+    let memoId = ''
     for (let roundInfo of roundInfos) {
       courseRound = this.getRound(roundInfo, language)
-
+      memoId = courseCode + '_' + courseRound.round_course_term.join('') + '_' + courseRound.roundId
+      // courseRound.memoFile =
       if (courseRound.round_course_term && tempList.indexOf(courseRound.round_course_term.join('')) < 0) {
         tempList.push(courseRound.round_course_term.join(''))
         this.activeSemesters.push([...courseRound.round_course_term, courseRound.round_course_term.join(''), 0])
         courseRoundList[courseRound.round_course_term.join('')] = []
       }
+
+      if (this.memoList[memoId]) {
+        courseRound['round_memoFile'] = {
+          fileName: this.memoList[memoId].courseMemoFileName,
+          fileDate: this.getDateFormat(this.memoList[memoId].pdfMemoUploadDate, language)
+        }
+        console.log(courseCode + '_' + courseRound.round_course_term.join('') + '_' + courseRound.roundId)
+        console.log(this.memoList[courseCode + '_' + courseRound.round_course_term.join('') + '_' + courseRound.roundId])
+      }
       courseRoundList[courseRound.round_course_term.join('')].push(courseRound)
       this.keyList.teachers.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.teachers`)
       this.keyList.responsibles.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`)
+
     }
     this.activeSemesters.sort()
     this.keyList.teachers.sort()
@@ -351,6 +361,7 @@ class RouterStore {
       round_state: this.isValidData(roundObject.round.state, language),
       round_comment: this.isValidData(roundObject.commentsToStudents, language, true),
       round_category: roundObject.round.applicationCodes.length > 0 ? this.isValidData(roundObject.round.applicationCodes[0].courseRoundType.category, language) : EMPTY[language]
+
     }
     if (courseRoundModel.round_short_name === EMPTY[language]) {
       courseRoundModel.round_short_name = `${language === 0 ? 'Start date' : 'Startdatum'}  ${courseRoundModel.round_start_date}`
@@ -423,6 +434,23 @@ class RouterStore {
     return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri, { courseCode: courseCode }), this._getOptions()).then(res => {
       this.showCourseWebbLink = true // res.data.isCourseWebLink
       this.sellingText = res.data.sellingText
+    }).catch(err => {
+      if (err.response) {
+        throw new Error(err.message, err.response.data)
+      }
+      throw err
+    })
+  }
+
+
+ /** ***************************************************************************************************************************************** */
+  /*                                                    COURSE MEMO FILES  - kurs-pm-api                                                                    */
+  /** ***************************************************************************************************************************************** */
+
+  @action getCourseMemoFiles (courseCode, lang = 'sv') {
+    return axios.get(this.buildApiUrl(this.paths.api.memoData.uri, { courseCode: courseCode }), this._getOptions()).then(res => {
+      this.showCourseWebbLink = true // res.data.isCourseWebLink
+      this.memoList = res.data
     }).catch(err => {
       if (err.response) {
         throw new Error(err.message, err.response.data)

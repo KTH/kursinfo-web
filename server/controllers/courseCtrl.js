@@ -13,6 +13,7 @@ const httpResponse = require('kth-node-response')
 const i18n = require('../../i18n')
 
 const courseApi = require('../apiCalls/kursinfoAdmin')
+const memoApi = require('../apiCalls/memoApi')
 const koppsCourseData = require('../apiCalls/koppsCourseData')
 
 const browserConfig = require('../configuration').browser
@@ -25,7 +26,31 @@ module.exports = {
   getIndex: getIndex,
   getSellingText: co.wrap(_getSellingText),
   getCourseEmployees: co.wrap(_getCourseEmployees),
-  getKoppsCourseData: co.wrap(_getKoppsCourseData)
+  getKoppsCourseData: co.wrap(_getKoppsCourseData),
+  getMemoFileList: co.wrap(_getMemoFileList)
+}
+
+
+function * _getMemoFileList (req, res, next) {
+  const courseCode = req.params.courseCode
+  log.info('_getMemoFileList for: ' + courseCode)
+
+  try {
+    const apiResponse = yield memoApi.getFileList(courseCode)
+
+    if (apiResponse.statusCode === 404) {
+      return httpResponse.json(res, apiResponse.body)
+    }
+
+    if (apiResponse.statusCode !== 200) {
+      return httpResponse.jsonError(res, apiResponse.statusCode)
+    }
+    console.log('MEEEEMOOOO!!!!!', apiResponse.body)
+    return httpResponse.json(res, apiResponse.body)
+  } catch (err) {
+    log.error('Exception from kursinfo API _getSellingText', { error: err })
+    return err
+  }
 }
 
 function * _getCourseEmployees (req, res) {
@@ -133,6 +158,7 @@ async function getIndex (req, res, next) {
   }
 
   const courseCode = req.params.courseCode.toUpperCase()
+
   let lang = language.getLanguage(res) || 'sv'
   const ldapUser = req.session.authUser ? req.session.authUser.username : 'null'
   log.info('getIndex with coure code: ' + courseCode)
@@ -146,7 +172,7 @@ async function getIndex (req, res, next) {
 
     renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
-
+    await renderProps.props.children.props.routerStore.getCourseMemoFiles(courseCode)
     await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
     await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, lang)
     await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi')

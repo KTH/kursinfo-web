@@ -42,7 +42,7 @@ module.exports = {
     label_edit: 'Administrate',
     header_no_rounds: 'Course offering missing',
     lable_no_rounds: ' Course offering missing for current semester as well as for previous and coming semesters',
-    label_course_pm: 'Course memo',
+    label_course_memo: 'Course memo',
     label_schedule: 'Schedule',
     label_statistics: 'Course statistics',
     lable_canavas_example: 'Canvas example course',
