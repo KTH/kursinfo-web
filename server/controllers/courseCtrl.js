@@ -19,7 +19,7 @@ const koppsCourseData = require('../apiCalls/koppsCourseData')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const paths = require('../server').getPaths()
-
+const api = require('../api')
 let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
 module.exports = {
@@ -48,8 +48,8 @@ function * _getMemoFileList (req, res, next) {
     console.log('MEEEEMOOOO!!!!!', apiResponse.body)
     return httpResponse.json(res, apiResponse.body)
   } catch (err) {
-    log.error('Exception from kursinfo API _getSellingText', { error: err })
-    return err
+    log.error('Exception from kursinfo API _getMemoFileList', { error: err })
+    return httpResponse.json(res, err)
   }
 }
 
@@ -149,12 +149,20 @@ function * _getKoppsCourseData (req, res, next) {
   }
 }
 
+//* ****************************************************************************** */
+//                    COURSE PAGE SETTINGS AND RENDERING                          */
+//* ****************************************************************************** */
 async function getIndex (req, res, next) {
   if (process.env['NODE_ENV'] === 'development') {
     delete require.cache[require.resolve('../../dist/js/server/app.js')]
     const tmp = require('../../dist/js/server/app.js')
     appFactory = tmp.appFactory
     doAllAsyncBefore = tmp.doAllAsyncBefore
+  }
+  /** ------- CHECK OF CONNECTION TO KURS-PM-API ------- */
+  let memoApiUp = true
+  if (api.kursPMApi.connected === false) {
+    memoApiUp = false
   }
 
   const courseCode = req.params.courseCode.toUpperCase()
@@ -172,7 +180,11 @@ async function getIndex (req, res, next) {
 
     renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
-    await renderProps.props.children.props.routerStore.getCourseMemoFiles(courseCode)
+    if (memoApiUp) {
+      await renderProps.props.children.props.routerStore.getCourseMemoFiles(courseCode)
+    } else {
+      renderProps.props.children.props.routerStore.memoApiHasConnection = false
+    }
     await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
     await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, lang)
     await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi')

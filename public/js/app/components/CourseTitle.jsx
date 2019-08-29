@@ -1,7 +1,6 @@
 import { Component } from 'inferno'
 // import Button from 'inferno-bootstrap/dist/Button'
 
-import i18n from '../../../../i18n'
 import { EMPTY } from '../util/constants'
 
 class CourseTitle extends Component {

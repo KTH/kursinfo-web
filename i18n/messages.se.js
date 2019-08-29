@@ -71,6 +71,7 @@ module.exports = {
     empty_text: 'Ingen information inlagd',
     no_schedule: 'Schema saknas',
     no_memo: 'Inget kurs-PM inlagt ',
+    no_memo_connection: '',
     header_no_round_selected: 'Ingen kursomgång är vald',
     no_round_selected: 'Välj termin och kursomgång ovan för att få information från rätt kursplan och kursomgång.',
     round_seats_info: 'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',

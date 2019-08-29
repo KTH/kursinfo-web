@@ -8,19 +8,20 @@ const memoFileStorageURI = 'https://kursinfostoragestage.blob.core.windows.net/m
 class CourseFileLinks extends Component {
   render () {
     const translate = i18n.messages[this.props.language]
-    const {courseRound, scheduleUrl, language} = this.props
+    const {courseRound, scheduleUrl, canGetMemoFiles, language} = this.props
     return (
       <Row id='courseLinks'>
 
         {/* ---LINK TO ROUND PM/MEMO IF ROUND HAS ONE-- */}
         <Col sm='12' xs='12'>
-          {courseRound.hasOwnProperty('round_memoFile')
-            ? <a id='memoLink' className='pdf-link' href={`${memoFileStorageURI}${courseRound.round_memoFile.fileName}`} >
-              {translate.courseLabels.label_course_memo} ({courseRound.round_memoFile.fileDate})
-            </a>
-            : <a id='memoLink' className='pdf-link'>
-                {translate.courseLabels.no_memo}
-            </a>
+          {
+            courseRound.hasOwnProperty('round_memoFile')
+              ? <a id='memoLink' className='pdf-link' href={`${memoFileStorageURI}${courseRound.round_memoFile.fileName}`} >
+                {translate.courseLabels.label_course_memo} ({courseRound.round_memoFile.fileDate})
+              </a>
+              : <a id='memoLink' className='pdf-link'>
+                {canGetMemoFiles ? translate.courseLabels.no_memo : '{translate.courseLabels.no_memo_connection}'}
+              </a>
           }
         </Col>
         {/* ---LINK TO ROUND SCHEDULE-- */}

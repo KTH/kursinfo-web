@@ -149,7 +149,6 @@ class CoursePage extends Component {
             <CourseTitle key='title'
               courseTitleData={courseData.courseTitleData}
               language={courseData.language}
-              canEdit={routerStore.canEdit}
             />
             <LeftNavigation
               courseCode={courseData.courseInfo.course_code}
@@ -267,6 +266,7 @@ class CoursePage extends Component {
                   courseHasRound={routerStore.activeSemesters.length > 0}
                   fade={this.state.roundInfoFade}
                   showRoundData={this.state.showRoundData}
+                  canGetMemoFiles={routerStore.memoApiHasConnection}
                   />
                 : <div className='key-info'>
                     {routerStore.activeSemesters.length > 0

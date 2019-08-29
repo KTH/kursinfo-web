@@ -22,8 +22,6 @@ function _webUsesSSL (url) {
 class RouterStore {
   courseData = undefined
   sellingText = undefined // is set from kursinfo-admin-api
-
-  canEdit = false // is set in createPersonHtml()
   isCancelled = false // is set in getCourseInformation(), used to show an Alert on the course page
   showCourseWebbLink = false // is set from kursinfo-admin ( not in use )
   roundsSyllabusIndex = [] // handles connection to syllabuses for active rounds
@@ -34,6 +32,7 @@ class RouterStore {
   }
   user = ''
   defaultIndex = 0
+  memoApiHasConnection = true
   memoList={}
 
   buildApiUrl (path, params) {
@@ -522,9 +521,6 @@ class RouterStore {
               ${person.givenName} ${person.lastName} 
             </a> 
           </p>  `
-      if (this.user === person.username && (type === 'responsible' || type === 'examiner')) {
-        this.canEdit = true
-      }
     })
 
     return personString

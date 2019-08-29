@@ -68,6 +68,7 @@ module.exports = {
     empty_text: 'No information inserted',
     no_schedule: 'No schedule ',
     no_memo: 'No course memo added ',
+    no_memo_connection: '',
     header_no_round_selected: 'No offering selected',
     no_round_selected: 'Select the semester and course offering above to get information from the correct course syllabus and course offering.',
     round_seats_info: 'Course offering may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made.',
