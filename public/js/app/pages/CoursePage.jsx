@@ -123,7 +123,7 @@ class CoursePage extends Component {
     if (courseImage === undefined) {
       courseImage = translation.courseImage.default
     }
-    courseImage = `${routerStore.browserConfig.storageUri}${courseImage}`
+    courseImage = `${routerStore.browserConfig.imageStorageUri}${courseImage}`
     if (routerStore.browserConfig.env === 'dev') {
       console.log('routerStore in CoursePage', routerStore)
     }
@@ -257,7 +257,7 @@ class CoursePage extends Component {
 
               <h3 style='margin-top:20px'>{translation.courseLabels.header_round}</h3>
 
-              {/* ---COURSE ROUND KEY INFORMATION--- */}
+              {/* ---COURSE ROUND INFORMATION--- */}
               {routerStore.activeSemesters.length > 0
                 ? <RoundInformationOneCol
                   courseRound={courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex]}
@@ -267,6 +267,7 @@ class CoursePage extends Component {
                   fade={this.state.roundInfoFade}
                   showRoundData={this.state.showRoundData}
                   canGetMemoFiles={routerStore.memoApiHasConnection}
+                  memoStorageURI={routerStore.browserConfig.memoStorageUri}
                   />
                 : <div className='key-info'>
                     {routerStore.activeSemesters.length > 0

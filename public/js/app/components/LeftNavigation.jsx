@@ -1,5 +1,3 @@
-
-import Table from 'inferno-bootstrap/dist/Table'
 import { ADMIN_URL, COURSE_HISTORY_URL } from '../util/constants'
 
 const LeftNavigation = ({courseCode, translate, lang}) => { // courseCode, lang, startCards
@@ -18,15 +16,14 @@ const LeftNavigation = ({courseCode, translate, lang}) => { // courseCode, lang,
                         <a href={courseHistoryLink} alt={translate.course_history}>{translate.course_history}</a>
                     </p>
 
-                    </div>
-                    <div className='col-md-5 admin-link admin-block'>
-
+                </div>
+                <div className='col-md-5 admin-link admin-block'>
                     <p>
                         <a href={kursAdmin} className='link-to' alt={translate.label_edit}>{translate.label_edit}</a>
                     </p>
-                    </div>
+                </div>
             </div>
-      </div>
+        </div>
     </div>
     )
 }

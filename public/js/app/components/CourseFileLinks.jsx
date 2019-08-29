@@ -3,12 +3,11 @@ import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
 import i18n from '../../../../i18n'
 import { EMPTY } from '../util/constants'
-const memoFileStorageURI = 'https://kursinfostoragestage.blob.core.windows.net/memo-blob-container/' // TODO
 
 class CourseFileLinks extends Component {
   render () {
     const translate = i18n.messages[this.props.language]
-    const {courseRound, scheduleUrl, canGetMemoFiles, language} = this.props
+    const {courseRound, scheduleUrl, canGetMemoFiles, memoStorageURI, language} = this.props
     return (
       <Row id='courseLinks'>
 
@@ -16,7 +15,7 @@ class CourseFileLinks extends Component {
         <Col sm='12' xs='12'>
           {
             courseRound.hasOwnProperty('round_memoFile')
-              ? <a id='memoLink' className='pdf-link' href={`${memoFileStorageURI}${courseRound.round_memoFile.fileName}`} >
+              ? <a id='memoLink' className='pdf-link' href={`${memoStorageURI}${courseRound.round_memoFile.fileName}`} >
                 {translate.courseLabels.label_course_memo} ({courseRound.round_memoFile.fileDate})
               </a>
               : <a id='memoLink' className='pdf-link'>

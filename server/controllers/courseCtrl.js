@@ -30,7 +30,6 @@ module.exports = {
   getMemoFileList: co.wrap(_getMemoFileList)
 }
 
-
 function * _getMemoFileList (req, res, next) {
   const courseCode = req.params.courseCode
   log.info('_getMemoFileList for: ' + courseCode)
@@ -45,11 +44,10 @@ function * _getMemoFileList (req, res, next) {
     if (apiResponse.statusCode !== 200) {
       return httpResponse.jsonError(res, apiResponse.statusCode)
     }
-    console.log('MEEEEMOOOO!!!!!', apiResponse.body)
     return httpResponse.json(res, apiResponse.body)
   } catch (err) {
     log.error('Exception from kursinfo API _getMemoFileList', { error: err })
-    return httpResponse.json(res, err)
+    return err
   }
 }
 

@@ -1,7 +1,7 @@
 'use strict'
 
 const api = require('../api')
-console.log(api)
+
 module.exports = {
   getSellingText: getSellingText
 }
