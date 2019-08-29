@@ -25,6 +25,6 @@ module.exports = {
   proxyPrefixPath: {
     uri: getEnv('SERVICE_PUBLISH', devPrefixPath)
   },
-  imageStorageUri: getEnv('STORAGE_URI', devImageStorageUri),
+  imageStorageUri: getEnv('IMAGE_STORAGE_URI', devImageStorageUri),
   memoStorageUri: getEnv('MEMO_STORAGE_URI', devMemoStorageUri)
 }
