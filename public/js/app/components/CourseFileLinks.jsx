@@ -15,11 +15,11 @@ class CourseFileLinks extends Component {
         <Col sm='12' xs='12'>
           {
             courseRound.hasOwnProperty('round_memoFile')
-              ? <a id='memoLink' className='pdf-link' href={`${memoStorageURI}${courseRound.round_memoFile.fileName}`} >
+              ? <a id='memoLink' className='pdf-link' href={`${memoStorageURI}${courseRound.round_memoFile.fileName}`} target='_blank'>
                 {translate.courseLabels.label_course_memo} ({courseRound.round_memoFile.fileDate})
               </a>
               : <a id='memoLink' className='pdf-link'>
-                {canGetMemoFiles ? translate.courseLabels.no_memo : '{translate.courseLabels.no_memo_connection}'}
+                {canGetMemoFiles ? translate.courseLabels.no_memo : translate.courseLabels.no_memo_connection}
               </a>
           }
         </Col>
