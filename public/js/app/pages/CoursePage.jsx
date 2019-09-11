@@ -124,12 +124,13 @@ class CoursePage extends Component {
       if (mainSubjects && mainSubjects.length > 0 && language === 'en') {
         mainSubjects = mainSubjects.map(subject => i18n.messages[0].courseMainSubjects[subject]) // get sv translations of en mainSubjects
       }
-      let courseImage = i18n.messages[1].courseImage[mainSubjects.sort()[0]] // extract picture according swidsh translation of mainSubject
+      courseImage = i18n.messages[1].courseImage[mainSubjects.sort()[0]] // extract picture according swidsh translation of mainSubject
       if (courseImage === undefined) {
         courseImage = translation.courseImage.default
       }
     }
     courseImage = `${routerStore.browserConfig.imageStorageUri}${courseImage}`
+
     if (routerStore.browserConfig.env === 'dev') {
       console.log('routerStore in CoursePage', routerStore)
     }
