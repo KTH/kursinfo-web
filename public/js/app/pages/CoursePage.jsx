@@ -117,7 +117,7 @@ class CoursePage extends Component {
     const introText = routerStore.sellingText && routerStore.sellingText[language].length > 0 ? routerStore.sellingText[language] : courseData.courseInfo.course_recruitment_text
 
     let courseImage = ''
-    if (routerStore.imageFromAdmin.length > 4) {
+    if (routerStore.imageFromAdmin && routerStore.imageFromAdmin.length > 4) {
       courseImage = routerStore.imageFromAdmin
     } else {
       let mainSubjects = courseData.courseInfo.course_main_subject.split(',').map(s => s.trim())
