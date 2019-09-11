@@ -34,6 +34,7 @@ class RouterStore {
   defaultIndex = 0
   memoApiHasConnection = true
   memoList={}
+  imageFromAdmin = ''
 
   buildApiUrl (path, params) {
     let host
@@ -433,6 +434,7 @@ class RouterStore {
     return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri, { courseCode: courseCode }), this._getOptions()).then(res => {
       this.showCourseWebbLink = true // res.data.isCourseWebLink
       this.sellingText = res.data.sellingText
+      this.imageFromAdmin = res.data.imageInfo
     }).catch(err => {
       if (err.response) {
         throw new Error(err.message, err.response.data)
