@@ -16,7 +16,6 @@ const co = require('co')
 const Promise = require('bluebird')
 const registry = require('component-registry').globalRegistry
 const { IHealthCheck } = require('kth-node-monitor').interfaces
-const redis = require('kth-node-redis')
 
 /*
  * ----------------------------------------------------------------
@@ -51,13 +50,12 @@ function _final (err, req, res, next) {
   if (err.response) {
     statusCode = err.response.status
     courseCode = err.response.data ? err.response.data : ''
+  } else {
+    statusCode = err.status || err.statusCode || 500
   }
-  else
-   statusCode = err.status || err.statusCode || 500
 
   const isProd = (/prod/gi).test(process.env.NODE_ENV)
   const lang = language.getLanguage(res)
-
 
   res.format({
     'text/html': () => {
@@ -124,7 +122,6 @@ function _about (req, res) {
  */
 async function _monitor (req, res) {
   const apiConfig = config.nodeApi
-  const ugRedis = config.cache.ugRedis.redis
 
   // Check APIs
   const subSystems = Object.keys(api).map((apiKey) => {
@@ -176,7 +173,6 @@ async function _monitor (req, res) {
   const systemStatus = systemHealthUtil.status(localSystems, subSystems)
 
   systemStatus.then((status) => { // console.log(status)
-
     // Return the result either as JSON or text
     if (req.headers['accept'] === 'application/json') {
       let outp = systemHealthUtil.renderJSON(status)
