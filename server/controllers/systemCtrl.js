@@ -44,7 +44,8 @@ function _notFound (req, res, next) {
 
 // this function must keep this signature for it to work properly
 function _final (err, req, res, next) {
-  log.error({ err: err }, 'Unhandled error')
+  const debugStatusCodes = [403, 404]
+
   let statusCode
   let courseCode = ''
   if (err.response) {
@@ -52,6 +53,12 @@ function _final (err, req, res, next) {
     courseCode = err.response.data ? err.response.data : ''
   } else {
     statusCode = err.status || err.statusCode || 500
+  }
+
+  if (debugStatusCodes.includes(statusCode)) {
+    log.debug({ err: err })
+  } else {
+    log.error({ err: err }, 'Unhandled error')
   }
 
   const isProd = (/prod/gi).test(process.env.NODE_ENV)
