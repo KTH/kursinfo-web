@@ -213,7 +213,18 @@ async function getIndex (req, res, next) {
       description: lang === 'sv' ? 'KTH kursinformation för ' + courseCode.toUpperCase() : 'KTH course information ' + courseCode.toUpperCase()
     })
   } catch (err) {
-    log.error('Error in getIndex', { error: err })
+    const excludedStatusCodes = [403, 404]
+    let statusCode
+    if (err.response) {
+      statusCode = err.response.status
+    } else {
+      statusCode = err.status || err.statusCode || 500
+    }
+
+    if (!excludedStatusCodes.includes(statusCode)) {
+      log.error({ err: err }, 'Error in getIndex')
+    }
+
     next(err)
   }
 }
