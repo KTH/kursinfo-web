@@ -138,9 +138,9 @@ function * _getKoppsCourseData (req, res, next) {
       res.status(apiResponse.statusCode)
       res.statusCode = apiResponse.statusCode
       res.send(courseCode)
+    } else {
+      return httpResponse.json(res, apiResponse.body)
     }
-
-    return httpResponse.json(res, apiResponse.body)
   } catch (err) {
     log.error('Exception calling from koppsAPI ', { error: err })
     next(err)
