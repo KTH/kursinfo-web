@@ -167,7 +167,7 @@ async function getIndex (req, res, next) {
 
   let lang = language.getLanguage(res) || 'sv'
   const ldapUser = req.session.authUser ? req.session.authUser.username : 'null'
-  log.info('getIndex with coure code: ' + courseCode)
+  log.info('getIndex with course code: ' + courseCode)
   try {
     // Render inferno app
     const context = {}
@@ -222,6 +222,9 @@ async function getIndex (req, res, next) {
     }
 
     if (!excludedStatusCodes.includes(statusCode)) {
+      if (err.code === 'ECONNABORTED' && err.config) {
+        log.error(err.config.url, 'Timeout error')
+      }
       log.error({ err: err }, 'Error in getIndex')
     }
 
