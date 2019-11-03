@@ -127,8 +127,14 @@ class RouterStore {
         language
       }
     }).catch(err => {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
       if (err.response) {
         throw err
+      // The request was made but no response was received
+      // `error.request` is an instance of http.ClientRequest
+      } else if (err.request) {
+        throw new Error(err.message, err.request)
       }
       throw err
     })
