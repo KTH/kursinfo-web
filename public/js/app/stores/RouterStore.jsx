@@ -37,7 +37,12 @@ class RouterStore {
   imageFromAdmin = ''
 
   buildApiUrl (path, params) {
-    let host = this.apiHost
+    let host
+    if (typeof window !== 'undefined') {
+      host = this.apiHost
+    } else {
+      host = 'http://localhost:' + this.browserConfig.port
+    }
     if (host[host.length - 1] === '/') {
       host = host.slice(0, host.length - 1)
     }
