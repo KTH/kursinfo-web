@@ -47,7 +47,7 @@ function * _getMemoFileList (req, res, next) {
     return httpResponse.json(res, apiResponse.body)
   } catch (err) {
     log.error('Exception from kursinfo API _getMemoFileList', { error: err })
-    return err
+    next(err)
   }
 }
 
@@ -106,7 +106,7 @@ function * _getCourseEmployees (req, res) {
   }
 }
 
-function * _getSellingText (req, res) {
+function * _getSellingText (req, res, next) {
   const courseCode = req.params.courseCode
   log.info('_getSellingText for: ' + courseCode)
 
@@ -124,7 +124,7 @@ function * _getSellingText (req, res) {
     return httpResponse.json(res, apiResponse.body)
   } catch (err) {
     log.error('Exception from kursinfo API _getSellingText', { error: err })
-    return err
+    next(err)
   }
 }
 
