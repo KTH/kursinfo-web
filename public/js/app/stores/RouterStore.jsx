@@ -41,7 +41,7 @@ class RouterStore {
     if (typeof window !== 'undefined') {
       host = this.apiHost
     } else {
-      host = 'http://localhost:' + this.browserConfig.port
+      host = 'http://127.0.0.1:' + this.browserConfig.port
     }
     if (host[host.length - 1] === '/') {
       host = host.slice(0, host.length - 1)

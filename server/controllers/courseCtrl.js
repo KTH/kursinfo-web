@@ -177,6 +177,8 @@ async function getIndex (req, res, next) {
     }, appFactory())
 
     renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
+    log.info('0 serverConfig.hostUrl', serverConfig.hostUrl, ' course ', courseCode)
+    log.info('0.1 browserConfig.env ', browserConfig.env)
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
     log.info('1 before getCourseMemoFiles start in getIndex')
     if (memoApiUp) {
@@ -187,9 +189,13 @@ async function getIndex (req, res, next) {
       renderProps.props.children.props.routerStore.memoApiHasConnection = false
     }
     await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
+    log.info('8 getCourseInformation in getIndex DONE FINAL for course code ', courseCode)
     await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, lang)
+    log.info('9 getCourseAdminInfo in getIndex DONE FINAL for course code ', courseCode)
     await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi')
+    log.info('10 getCourseEmployeesPost in getIndex DONE FINAL for course code ', courseCode)
     await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
+    log.info('11 getCourseEmployees in getIndex DONE FINAL for course code ', courseCode)
     const breadcrumDepartment = await renderProps.props.children.props.routerStore.getBreadcrumbs()
     let breadcrumbs = [
       { url: '/student/kurser/kurser-inom-program', label: i18n.message('page_course_programme', lang) }
