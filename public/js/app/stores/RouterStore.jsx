@@ -455,15 +455,15 @@ class RouterStore {
   /** ***************************************************************************************************************************************** */
 
   @action getCourseMemoFiles (courseCode, lang = 'sv') {
-    console.log('getCourseMemoFiles started 1', courseCode)
+    console.log('3 getCourseMemoFiles started 1', courseCode)
     return axios.get(this.buildApiUrl(this.paths.api.memoData.uri, { courseCode: courseCode }), this._getOptions()).then(res => {
       this.showCourseWebbLink = true // res.data.isCourseWebLink
-      console.log('getCourseMemoFiles continues 2', courseCode)
-      console.log('getCourseMemoFiles response 2', ' for course code ', courseCode)
+      console.log('4 getCourseMemoFiles continues 2', courseCode)
+      console.log('5 getCourseMemoFiles response 2', ' for course code ', courseCode)
       this.memoList = res.data
-      console.log('getCourseMemoFiles finished 3', res.data, ' for course code ', courseCode)
+      console.log('6 getCourseMemoFiles finished 3', res.data, ' for course code ', courseCode)
     }).catch(err => {
-      console.log('err.response in getCourseMemoFiles', err)
+      console.log('3.1 err.response in getCourseMemoFiles', err)
       if (err.response) {
         throw new Error(err.message, err.response.data)
       }

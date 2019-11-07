@@ -178,8 +178,11 @@ async function getIndex (req, res, next) {
 
     renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
+    log.info('1 before getCourseMemoFiles start in getIndex')
     if (memoApiUp) {
+      log.info('2 getCourseMemoFiles started in getIndex')
       await renderProps.props.children.props.routerStore.getCourseMemoFiles(courseCode)
+      log.info('7 getCourseMemoFiles in getIndex DONE FINAL for course code ', courseCode)
     } else {
       renderProps.props.children.props.routerStore.memoApiHasConnection = false
     }
