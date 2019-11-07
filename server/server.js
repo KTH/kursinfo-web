@@ -210,12 +210,12 @@ appRoute.get('system.index', config.proxyPrefixPath.uri + '/kursplan/:course_sem
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', /* getServerGatewayLogin(),*/ Course.getIndex)
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/', noCourse.getIndex)
 
-appRoute.get('api.sellingText', '/api/kursinfo/getSellingTextByCourse/:courseCode', Course.getSellingText)
+appRoute.get('api.sellingText', config.proxyPrefixPath.uri + '/api/kursinfo/getSellingTextByCourse/:courseCode', Course.getSellingText)
 // appRoute.get('api.setImage', '/api/kursinfo/setImageByCourse/:courseCode/:imageName', Course.setImage)
-appRoute.get('api.koppsCourseData', '/api/kursinfo/getKoppsCourseDataByCourse/:courseCode/:language', Course.getKoppsCourseData)
-appRoute.get('api.memoData', '/api/kursinfo/getMemoFilesByCourse/:courseCode', Course.getMemoFileList)
-appRoute.get('redis.ugCache', '/reids/kursinfo/ugChache/:key/:type', Course.getCourseEmployees)
-appRoute.post('redis.ugCache', '/reids/kursinfo/ugChache/:key/:type', Course.getCourseEmployees)
+appRoute.get('api.koppsCourseData', config.proxyPrefixPath.uri + '/api/kursinfo/getKoppsCourseDataByCourse/:courseCode/:language', Course.getKoppsCourseData)
+appRoute.get('api.memoData', config.proxyPrefixPath.uri + '/api/kursinfo/getMemoFilesByCourse/:courseCode', Course.getMemoFileList)
+appRoute.get('redis.ugCache', config.proxyPrefixPath.uri + '/reids/kursinfo/ugChache/:key/:type', Course.getCourseEmployees)
+appRoute.post('redis.ugCache', config.proxyPrefixPath.uri + '/reids/kursinfo/ugChache/:key/:type', Course.getCourseEmployees)
 
 server.use('/', appRoute.getRouter())
 

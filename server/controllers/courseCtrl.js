@@ -178,7 +178,7 @@ async function getIndex (req, res, next) {
       context
     }, appFactory())
 
-    renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, 'https://api-r.referens.sys.kth.se')// serverConfig.hostUrl)
+    renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     log.info('0 serverConfig.hostUrl', serverConfig.hostUrl, ' course ', courseCode)
     log.info('0.1 browserConfig.env ', browserConfig.env)
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
