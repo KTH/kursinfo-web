@@ -39,9 +39,12 @@ class RouterStore {
   buildApiUrl (path, params) {
     let host
     if (typeof window !== 'undefined') {
+      console.log(' if this.apiHost ', this.apiHost)
       host = this.apiHost
     } else {
-      host = 'http://localhost:' + this.browserConfig.port
+      console.log(' else this.apiHost ', this.apiHost)
+      // host = 'https://api-r.referens.sys.kth.se'
+      host = 'http://127.0.0.1:' + this.browserConfig.port
     }
     if (host[host.length - 1] === '/') {
       host = host.slice(0, host.length - 1)
@@ -76,6 +79,7 @@ class RouterStore {
   /** ***************************************************************************************************************************************** */
   //* * Handeling the course information from kopps api.**//
   @action getCourseInformation (courseCode, ldapUsername, lang = 'sv', roundIndex = 0) {
+    console.log('this.buildApiUrl(this.paths.api.koppsCourseData.uri', this.buildApiUrl(this.paths.api.koppsCourseData.uri, { courseCode: courseCode, language: lang }))
     return axios.get(this.buildApiUrl(this.paths.api.koppsCourseData.uri, { courseCode: courseCode, language: lang }), this._getOptions()).then((res) => {
       const courseResult = safeGet(() => res.data, {})
       const language = lang === 'en' ? 0 : 1
@@ -437,6 +441,7 @@ class RouterStore {
   /** ***************************************************************************************************************************************** */
 
   @action getCourseAdminInfo (courseCode, lang = 'sv') {
+    console.log(' this.buildApiUrl(this.paths.api.sellingText.uri', this.buildApiUrl(this.paths.api.sellingText.uri, { courseCode: courseCode }))
     return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri, { courseCode: courseCode }), this._getOptions()).then(res => {
       this.showCourseWebbLink = true // res.data.isCourseWebLink
       this.sellingText = res.data.sellingText
@@ -455,10 +460,15 @@ class RouterStore {
   /** ***************************************************************************************************************************************** */
 
   @action getCourseMemoFiles (courseCode, lang = 'sv') {
+    console.log('3 getCourseMemoFiles started 1', courseCode)
     return axios.get(this.buildApiUrl(this.paths.api.memoData.uri, { courseCode: courseCode }), this._getOptions()).then(res => {
       this.showCourseWebbLink = true // res.data.isCourseWebLink
+      console.log('4 getCourseMemoFiles continues 2', courseCode)
+      console.log('5 getCourseMemoFiles response 2', ' for course code ', courseCode)
       this.memoList = res.data
+      console.log('6 getCourseMemoFiles finished 3', ' for course code ', courseCode)
     }).catch(err => {
+      console.log('3.1 err.response in getCourseMemoFiles', err)
       if (err.response) {
         throw new Error(err.message, err.response.data)
       }
