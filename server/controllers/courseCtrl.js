@@ -32,21 +32,25 @@ module.exports = {
 
 function * _getMemoFileList (req, res, next) {
   const courseCode = req.params.courseCode
-  log.info('_getMemoFileList for: ' + courseCode)
+  log.info('Get memo file list for: ', courseCode)
 
   try {
     const apiResponse = yield memoApi.getFileList(courseCode)
+    log.info('Got response from kurs-pm-api for: ', courseCode)
 
     if (apiResponse.statusCode === 404) {
+      log.info('404 response from kurs-pm-api for: ', courseCode)
       return httpResponse.json(res, apiResponse.body)
     }
 
     if (apiResponse.statusCode !== 200) {
+      log.info('NOK response from kurs-pm-api for: ', courseCode)
       return httpResponse.jsonError(res, apiResponse.statusCode)
     }
+    log.info('OK response from kurs-pm-api for: ', courseCode)
     return httpResponse.json(res, apiResponse.body)
   } catch (err) {
-    log.error('Exception from kursinfo API _getMemoFileList', { error: err })
+    log.error('Exception from kurs-pm-api', { error: err })
     next(err)
   }
 }
@@ -108,22 +112,25 @@ function * _getCourseEmployees (req, res) {
 
 function * _getSellingText (req, res, next) {
   const courseCode = req.params.courseCode
-  log.info('_getSellingText for: ' + courseCode)
+  log.info('Get selling text for', courseCode)
 
   try {
     const apiResponse = yield courseApi.getSellingText(courseCode)
+    log.info('Got response from kursinfo-api for', courseCode)
 
     if (apiResponse.statusCode === 404) {
+      log.info('404 response from kursinfo-api for: ', courseCode)
       return httpResponse.json(res, apiResponse.body)
     }
 
     if (apiResponse.statusCode !== 200) {
+      log.info('NOK response from kursinfo-api for: ', courseCode)
       return httpResponse.jsonError(res, apiResponse.statusCode)
     }
-    // console.log(apiResponse.body)
+    log.info('OK response from kursinfo-api for: ', courseCode)
     return httpResponse.json(res, apiResponse.body)
   } catch (err) {
-    log.error('Exception from kursinfo API _getSellingText', { error: err })
+    log.error('Exception from kursinfo-api', { error: err })
     next(err)
   }
 }
@@ -131,18 +138,21 @@ function * _getSellingText (req, res, next) {
 function * _getKoppsCourseData (req, res, next) {
   const courseCode = req.params.courseCode
   const language = req.params.language || 'sv'
-  log.info('_getKoppsCourseData for: ' + courseCode)
+  log.info('Get Kopps course data for: ', courseCode, language)
   try {
     const apiResponse = yield koppsCourseData.getKoppsCourseData(courseCode, language)
+    log.info('Got response from Kopps API for: ', courseCode, language)
     if (apiResponse.statusCode !== 200) {
+      log.info('NOK response from Kopps API for: ', courseCode, language)
       res.status(apiResponse.statusCode)
       res.statusCode = apiResponse.statusCode
       res.send(courseCode)
     } else {
+      log.info('OK response from Kopps API for: ', courseCode, language)
       return httpResponse.json(res, apiResponse.body)
     }
   } catch (err) {
-    log.error('Exception calling from koppsAPI ', { error: err })
+    log.error('Exception from Kopps API', { error: err })
     next(err)
   }
 }
