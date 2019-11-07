@@ -43,7 +43,8 @@ class RouterStore {
       host = this.apiHost
     } else {
       console.log(' else this.apiHost ', this.apiHost)
-      host = 'http://127.0.0.1:' + this.browserConfig.port
+      host = 'https://api-r.referens.sys.kth.se'
+      // host = 'http://127.0.0.1:' + this.browserConfig.port
     }
     if (host[host.length - 1] === '/') {
       host = host.slice(0, host.length - 1)
