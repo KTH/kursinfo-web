@@ -135,12 +135,12 @@ function * _getSellingText (req, res, next) {
   }
 }
 
-function * _getKoppsCourseData (req, res, next) {
+async function _getKoppsCourseData (req, res, next) {
   const courseCode = req.params.courseCode
   const language = req.params.language || 'sv'
   log.info('Get Kopps course data for: ', courseCode, language)
   try {
-    const apiResponse = yield koppsCourseData.getKoppsCourseData(courseCode, language)
+    const apiResponse = await koppsCourseData.getKoppsCourseData(courseCode, language)
     log.info('Got response from Kopps API for: ', courseCode, language)
     if (apiResponse.statusCode !== 200) {
       log.info('NOK response from Kopps API for: ', courseCode, language)
@@ -153,7 +153,7 @@ function * _getKoppsCourseData (req, res, next) {
     }
   } catch (err) {
     log.error('Exception from Kopps API', { error: err })
-    next(err)
+    return (err)
   }
 }
 
