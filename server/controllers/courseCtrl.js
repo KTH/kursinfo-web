@@ -32,22 +32,22 @@ module.exports = {
 
 async function _getMemoFileList (req, res, next) {
   const courseCode = req.params.courseCode
-  log.info('Get memo file list for: ', courseCode)
+  log.debug('Get memo file list for: ', courseCode)
 
   try {
     const apiResponse = await memoApi.getFileList(courseCode)
-    log.info('Got response from kurs-pm-api for: ', courseCode)
+    log.debug('Got response from kurs-pm-api for: ', courseCode)
 
     if (apiResponse.statusCode === 404) {
-      log.info('404 response from kurs-pm-api for: ', courseCode)
+      log.debug('404 response from kurs-pm-api for: ', courseCode)
       return httpResponse.json(res, apiResponse.body)
     }
 
     if (apiResponse.statusCode !== 200) {
-      log.info('NOK response from kurs-pm-api for: ', courseCode)
+      log.debug('NOK response from kurs-pm-api for: ', courseCode)
       return httpResponse.jsonError(res, apiResponse.statusCode)
     }
-    log.info('OK response from kurs-pm-api for: ', courseCode)
+    log.debug('OK response from kurs-pm-api for: ', courseCode)
     return httpResponse.json(res, apiResponse.body)
   } catch (err) {
     log.error('Exception from kurs-pm-api', { error: err })
@@ -67,7 +67,7 @@ async function _getCourseEmployees (req, res, next) {
     case 'multi':
       try {
         const roundsKeys = JSON.parse(req.body.params)
-        log.info('_getCourseEmployees with key: ' + roundsKeys)
+        log.debug('_getCourseEmployees with key: ' + roundsKeys)
 
         await redis('ugRedis', serverConfig.cache.ugRedis.redis)
           .then(function (ugClient) {
@@ -111,22 +111,22 @@ async function _getCourseEmployees (req, res, next) {
 
 async function _getSellingText (req, res, next) {
   const courseCode = req.params.courseCode
-  log.info('Get selling text for', courseCode)
+  log.debug('Get selling text for', courseCode)
 
   try {
     const apiResponse = await courseApi.getSellingText(courseCode)
-    log.info('Got response from kursinfo-api for', courseCode)
+    log.debug('Got response from kursinfo-api for', courseCode)
 
     if (apiResponse.statusCode === 404) {
-      log.info('404 response from kursinfo-api for: ', courseCode)
+      log.debug('404 response from kursinfo-api for: ', courseCode)
       return httpResponse.json(res, apiResponse.body)
     }
 
     if (apiResponse.statusCode !== 200) {
-      log.info('NOK response from kursinfo-api for: ', courseCode)
+      log.debug('NOK response from kursinfo-api for: ', courseCode)
       return httpResponse.jsonError(res, apiResponse.statusCode)
     }
-    log.info('OK response from kursinfo-api for: ', courseCode)
+    log.debug('OK response from kursinfo-api for: ', courseCode)
     return httpResponse.json(res, apiResponse.body)
   } catch (err) {
     log.error('Exception from kursinfo-api', { error: err })
@@ -137,17 +137,17 @@ async function _getSellingText (req, res, next) {
 async function _getKoppsCourseData (req, res, next) {
   const courseCode = req.params.courseCode
   const language = req.params.language || 'sv'
-  log.info('Get Kopps course data for: ', courseCode, language)
+  log.debug('Get Kopps course data for: ', courseCode, language)
   try {
     const apiResponse = await koppsCourseData.getKoppsCourseData(courseCode, language)
-    log.info('Got response from Kopps API for: ', courseCode, language)
+    log.debug('Got response from Kopps API for: ', courseCode, language)
     if (apiResponse.statusCode !== 200) {
-      log.info('NOK response from Kopps API for: ', courseCode, language)
+      log.debug('NOK response from Kopps API for: ', courseCode, language)
       res.status(apiResponse.statusCode)
       res.statusCode = apiResponse.statusCode
       res.send(courseCode)
     } else {
-      log.info('OK response from Kopps API for: ', courseCode, language)
+      log.debug('OK response from Kopps API for: ', courseCode, language)
       return httpResponse.json(res, apiResponse.body)
     }
   } catch (err) {
@@ -170,7 +170,7 @@ async function getIndex (req, res, next) {
   let memoApiUp = true
   log.debug(' api.kursPMApi ', api.kursPMApi)
   if (api.kursPMApi.connected && api.kursPMApi.connected === false) {
-    log.info(' memoApiUp ', memoApiUp)
+    log.debug(' memoApiUp ', memoApiUp)
     memoApiUp = false
   }
 
@@ -178,7 +178,7 @@ async function getIndex (req, res, next) {
 
   let lang = language.getLanguage(res) || 'sv'
   const ldapUser = req.session.authUser ? req.session.authUser.username : 'null'
-  log.info('getIndex with course code: ' + courseCode)
+  log.debug('getIndex with course code: ' + courseCode)
   try {
     // Render inferno app
     const context = {}
@@ -188,15 +188,15 @@ async function getIndex (req, res, next) {
     }, appFactory())
 
     renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
-    log.info('0 serverConfig.hostUrl', serverConfig.hostUrl, ' course ', courseCode)
-    log.info('0.1 browserConfig.env ', browserConfig.env)
+    log.debug('0 serverConfig.hostUrl', serverConfig.hostUrl, ' course ', courseCode)
+    log.debug('0.1 browserConfig.env ', browserConfig.env)
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
-    log.info('1 before getCourseMemoFiles start in getIndex')
+    log.debug('1 before getCourseMemoFiles start in getIndex')
     try {
       if (memoApiUp) {
-        log.info('2 getCourseMemoFiles started in getIndex')
+        log.debug('2 getCourseMemoFiles started in getIndex')
         await renderProps.props.children.props.routerStore.getCourseMemoFiles(courseCode)
-        log.info('7 getCourseMemoFiles in getIndex DONE FINAL for course code ', courseCode)
+        log.debug('7 getCourseMemoFiles in getIndex DONE FINAL for course code ', courseCode)
       } else {
         renderProps.props.children.props.routerStore.memoApiHasConnection = false
       }
@@ -206,13 +206,13 @@ async function getIndex (req, res, next) {
       }
     }
     await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
-    log.info('8 getCourseInformation in getIndex DONE FINAL for course code ', courseCode)
+    log.debug('8 getCourseInformation in getIndex DONE FINAL for course code ', courseCode)
     await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, lang)
-    log.info('9 getCourseAdminInfo in getIndex DONE FINAL for course code ', courseCode)
+    log.debug('9 getCourseAdminInfo in getIndex DONE FINAL for course code ', courseCode)
     await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi')
-    log.info('10 getCourseEmployeesPost in getIndex DONE FINAL for course code ', courseCode)
+    log.debug('10 getCourseEmployeesPost in getIndex DONE FINAL for course code ', courseCode)
     await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
-    log.info('11 getCourseEmployees in getIndex DONE FINAL for course code ', courseCode)
+    log.debug('11 getCourseEmployees in getIndex DONE FINAL for course code ', courseCode)
     const breadcrumDepartment = await renderProps.props.children.props.routerStore.getBreadcrumbs()
     let breadcrumbs = [
       { url: '/student/kurser/kurser-inom-program', label: i18n.message('page_course_programme', lang) }
