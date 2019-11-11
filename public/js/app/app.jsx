@@ -129,7 +129,6 @@ class ProgressLayer extends Component {
   }
 
   render ({ routerStore }) {
-   // console.log("this.props",this.props)
     return (
       <div>
         {this.props.children}
@@ -139,8 +138,6 @@ class ProgressLayer extends Component {
 }
 
 if (typeof window !== 'undefined') {
-  // console.log("appFactory",appFactory());
-
   render(<BrowserRouter>{appFactory()}</BrowserRouter>, document.getElementById('kth-kursinfo'))
 }
 

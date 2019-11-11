@@ -22,8 +22,6 @@ class RoundInformationOneCol extends Component {
   }
 
   render () {
-    // console.log("this.props", this.props)
-
     const { fade, courseHasRound, memoStorageURI, canGetMemoFiles, showRoundData, language } = this.props
     const round = this.props.courseRound
     const course = this.props.courseData
@@ -87,7 +85,7 @@ class RoundInformationOneCol extends Component {
               {courseHasRound && showRoundData
                 ? <span>
                   <h4>{translate.round_tutoring_form}</h4>
-                  <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[language]}                                                              {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
+                  <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[language]}                                                               {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
 
                   <h4>{translate.round_tutoring_language}</h4>
                   <p>{round ? round.round_tutoring_language : EMPTY[language]}</p>

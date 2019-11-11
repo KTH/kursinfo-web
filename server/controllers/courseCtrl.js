@@ -97,7 +97,6 @@ async function _getCourseEmployees (req, res) {
           return ugClient.getAsync(key + '.examiner')
         })
         .then(function (returnValue) {
-          // console.log('ugRedis - examiners -VALUE', returnValue)
           return httpResponse.json(res, returnValue)
         })
         .catch(function (err) {

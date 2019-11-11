@@ -106,7 +106,6 @@ class CourseSectionList extends Component {
   }
 
   render ({ routerStore }) {
-    // console.log(this.routerStore)
     const translation = i18n.messages[this.state.store.language]
     return (
       <div className='row' id={this.props.partToShow}>
