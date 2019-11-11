@@ -169,7 +169,7 @@ async function getIndex (req, res, next) {
   }
   /** ------- CHECK OF CONNECTION TO KURS-PM-API ------- */
   let memoApiUp = true
-  log.info(' api.kursPMApi ', api.kursPMApi)
+  log.debug(' api.kursPMApi ', api.kursPMApi)
   if (api.kursPMApi.connected && api.kursPMApi.connected === false) {
     log.info(' memoApiUp ', memoApiUp)
     memoApiUp = false
