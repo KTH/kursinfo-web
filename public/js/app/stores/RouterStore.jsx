@@ -206,7 +206,15 @@ class RouterStore {
       course_valid_from: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].validFromTerm.term).toString().match(/.{1,4}/g) : [],
       course_valid_to: [],
       course_required_equipment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.requiredEquipment, language) : '',
-      course_examination: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 && courseResult.examinationSets && Object.keys(courseResult.examinationSets).length > 0 ? this.getExamObject(courseResult.examinationSets, courseResult.formattedGradeScales, language, courseResult.publicSyllabusVersions[semester].validFromTerm.term, courseResult.course.creditUnitAbbr) : EMPTY[language],
+      course_examination: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 &&
+        courseResult.examinationSets &&
+        Object.keys(courseResult.examinationSets).length > 0
+          ? this.getExamObject(courseResult.examinationSets,
+            courseResult.formattedGradeScales,
+            language,
+            courseResult.publicSyllabusVersions[semester].validFromTerm.term,
+            courseResult.course.creditUnitAbbr)
+          : EMPTY[language],
       course_examination_comments: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.examComments, language, true) : '',
         // New fields in kopps
       course_ethical: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.ethicalApproach, language, true) : '',
@@ -276,8 +284,16 @@ class RouterStore {
     let examString = "<ul class='ul-no-padding' >"
     if (dataObject[matchingExamSemester] && dataObject[matchingExamSemester].examinationRounds.length > 0) {
       for (let exam of dataObject[matchingExamSemester].examinationRounds) {
-        //* * Adding a decimal if it's missing in credits **/
-        exam.credits = exam.credits !== EMPTY[language] && exam.credits.toString().indexOf('.') < 0 ? exam.credits + '.0' : exam.credits
+        if (exam.credits) {
+          //* * Adding a decimal if it's missing in credits **/
+          exam.credits =
+            exam.credits !== EMPTY[language] &&
+            exam.credits.toString().indexOf('.') < 0
+              ? exam.credits + '.0'
+              : exam.credits
+        } else {
+          exam.credits = EMPTY[language]
+        }
 
         examString += `<li>${exam.examCode} - 
                           ${exam.title},
