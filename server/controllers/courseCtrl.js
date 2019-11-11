@@ -30,12 +30,12 @@ module.exports = {
   getMemoFileList: co.wrap(_getMemoFileList)
 }
 
-function * _getMemoFileList (req, res, next) {
+async function _getMemoFileList (req, res, next) {
   const courseCode = req.params.courseCode
   log.info('Get memo file list for: ', courseCode)
 
   try {
-    const apiResponse = yield memoApi.getFileList(courseCode)
+    const apiResponse = await memoApi.getFileList(courseCode)
     log.info('Got response from kurs-pm-api for: ', courseCode)
 
     if (apiResponse.statusCode === 404) {
@@ -55,7 +55,7 @@ function * _getMemoFileList (req, res, next) {
   }
 }
 
-function * _getCourseEmployees (req, res) {
+async function _getCourseEmployees (req, res) {
   let key = req.params.key
   const type = req.params.type
   key = key.replace(/_/g, '.')
@@ -69,7 +69,7 @@ function * _getCourseEmployees (req, res) {
         const roundsKeys = JSON.parse(req.body.params)
         log.info('_getCourseEmployees with key: ' + roundsKeys)
 
-        yield redis('ugRedis', serverConfig.cache.ugRedis.redis)
+        await redis('ugRedis', serverConfig.cache.ugRedis.redis)
           .then(function (ugClient) {
             return ugClient.multi()
             .mget(roundsKeys.teachers)
@@ -92,7 +92,7 @@ function * _getCourseEmployees (req, res) {
     //* ********************************************************/
     case 'examiners':
       try {
-        yield redis('ugRedis', serverConfig.cache.ugRedis.redis)
+        await redis('ugRedis', serverConfig.cache.ugRedis.redis)
         .then(function (ugClient) {
           return ugClient.getAsync(key + '.examiner')
         })
@@ -110,12 +110,12 @@ function * _getCourseEmployees (req, res) {
   }
 }
 
-function * _getSellingText (req, res, next) {
+async function _getSellingText (req, res, next) {
   const courseCode = req.params.courseCode
   log.info('Get selling text for', courseCode)
 
   try {
-    const apiResponse = yield courseApi.getSellingText(courseCode)
+    const apiResponse = await courseApi.getSellingText(courseCode)
     log.info('Got response from kursinfo-api for', courseCode)
 
     if (apiResponse.statusCode === 404) {
