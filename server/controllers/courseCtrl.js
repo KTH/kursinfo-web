@@ -55,7 +55,7 @@ async function _getMemoFileList (req, res, next) {
   }
 }
 
-async function _getCourseEmployees (req, res) {
+async function _getCourseEmployees (req, res, next) {
   let key = req.params.key
   const type = req.params.type
   key = key.replace(/_/g, '.')
@@ -80,11 +80,11 @@ async function _getCourseEmployees (req, res) {
             return httpResponse.json(res, returnValue)
           })
           .catch(function (err) {
-            console.log('ugRedis - error:: ', err)
+            throw err
           })
       } catch (err) {
         log.error('Exception calling from ugRedis - multi', { error: err })
-        return err
+        next(err)
       }
       break
     //* ********************************************************/
@@ -100,11 +100,11 @@ async function _getCourseEmployees (req, res) {
           return httpResponse.json(res, returnValue)
         })
         .catch(function (err) {
-          console.log('ugRedis - examiners error: ', err)
+          throw err
         })
       } catch (err) {
         log.error('Exception calling from ugRedis - examiners ', { error: err })
-        return err
+        next(err)
       }
   }
 }
