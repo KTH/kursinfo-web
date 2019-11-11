@@ -287,12 +287,12 @@ class RouterStore {
         if (exam.credits) {
           //* * Adding a decimal if it's missing in credits **/
           exam.credits =
-            exam.credits !== EMPTY[language] &&
+            exam.credits !== '' &&
             exam.credits.toString().indexOf('.') < 0
               ? exam.credits + '.0'
               : exam.credits
         } else {
-          exam.credits = EMPTY[language]
+          exam.credits = '-'
         }
 
         examString += `<li>${exam.examCode} - 
