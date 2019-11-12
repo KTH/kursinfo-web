@@ -7,9 +7,8 @@ module.exports = {
 }
 
 function _getFileList (courseCode) {
-  const paths = api.kursPMApi.paths
-  const client = api.kursPMApi.client
-  const uri = client.resolve(paths.getCourseMemoListByCourseCode.uri, { courseCode: courseCode })
-  return client.getAsync({uri: uri})
+  const { client, paths } = api.kursPMApi
+  const uri = client.resolve(paths.getCourseMemoListByCourseCode.uri, { courseCode })
+  return client.getAsync({uri: uri, useCache: true})
 }
 
