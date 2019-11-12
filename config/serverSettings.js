@@ -19,7 +19,7 @@ const devInnovationApi = devDefaults('http://localhost:3001/api/kursinfo?default
 const devKursplanApi = devDefaults('http://localhost:3001/api/kursplan?defaultTimeout=10000')
 const devKoppsApi = devDefaults('https://api-r.referens.sys.kth.se/api/kopps/v2/')
 const devKursPMApi = devDefaults('http://localhost:3001/api/kurs-pm?defaultTimeout=10000')
-const devSessionKey = devDefaults('node-web.sid')
+const devSessionKey = devDefaults('kursinfo-web.sid')
 const devSessionUseRedis = devDefaults(true)
 const devRedis = devDefaults('redis://localhost:6379/')
 const devRedisUG = devDefaults('team-studam-ref-redis-193.redis.cache.windows.net:6380,password=password,ssl=True,abortConnect=False')
@@ -61,7 +61,8 @@ module.exports = {
 
   // API keys
   apiKey: {
-    kursinfoApi: getEnv('API_KEY', devDefaults('1234')),
+    kursinfoApi: getEnv('API_KEY', devDefaults('123489')),
+    kursinfoApiCached: getEnv('API_KEY', devDefaults('123489')),
     kursplanApi: getEnv('KURSPLAN_API_KEY', devDefaults('5678')),
     kursPMApi: getEnv('KURS_PM_API_KEY', devDefaults('9876'))
   },
@@ -78,9 +79,11 @@ module.exports = {
   // Service API's
   nodeApi: {
     kursinfoApi: unpackNodeApiConfig('API_URI', devInnovationApi),
+    kursinfoApiCached: unpackNodeApiConfig('API_URI', devInnovationApi),
     kursplanApi: unpackNodeApiConfig('KURSPLAN_API_URI', devKursplanApi),
     kursPMApi: unpackNodeApiConfig('KURS_PM_API_URI', devKursPMApi)
   },
+  koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
 
   // Cortina
   blockApi: {
@@ -100,6 +103,9 @@ module.exports = {
     level: 'debug'
   },
   cache: {
+    kursinfoApiCached: {
+      redis: unpackRedisConfig('REDIS_URI', devRedis)
+    },
     cortinaBlock: {
       redis: unpackRedisConfig('REDIS_URI', devRedis)
     },
@@ -107,6 +113,7 @@ module.exports = {
       redis: unpackRedisConfig('UG_REDIS_URI', devRedisUG)
     }
   },
+  redisServer: unpackRedisConfig('REDIS_URI', devRedis),
 
   // Session
   sessionSecret: getEnv('SESSION_SECRET', devDefaults('1234567890')),
@@ -120,8 +127,6 @@ module.exports = {
     },
     redisOptions: unpackRedisConfig('REDIS_URI', devRedis)
   },
-
-  koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
 
   appInsights: {
     instrumentationKey: getEnv('APPINSIGHTS_INSTRUMENTATIONKEY')
