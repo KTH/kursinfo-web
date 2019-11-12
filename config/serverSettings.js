@@ -62,7 +62,6 @@ module.exports = {
   // API keys
   apiKey: {
     kursinfoApi: getEnv('API_KEY', devDefaults('123489')),
-    kursinfoApiCached: getEnv('API_KEY', devDefaults('123489')),
     kursplanApi: getEnv('KURSPLAN_API_KEY', devDefaults('5678')),
     kursPMApi: getEnv('KURS_PM_API_KEY', devDefaults('9876'))
   },
@@ -79,7 +78,6 @@ module.exports = {
   // Service API's
   nodeApi: {
     kursinfoApi: unpackNodeApiConfig('API_URI', devInnovationApi),
-    kursinfoApiCached: unpackNodeApiConfig('API_URI', devInnovationApi),
     kursplanApi: unpackNodeApiConfig('KURSPLAN_API_URI', devKursplanApi),
     kursPMApi: unpackNodeApiConfig('KURS_PM_API_URI', devKursPMApi)
   },
@@ -103,8 +101,21 @@ module.exports = {
     level: 'debug'
   },
   cache: {
-    kursinfoApiCached: {
-      redis: unpackRedisConfig('REDIS_URI', devRedis)
+    koppsApi: {
+      redis: unpackRedisConfig('REDIS_URI', devRedis),
+      expireTime: getEnv('KOPPS_API_CACHE_EXPIRE_TIME', 15 * 60) // 15 minuteS
+    },
+    kursinfoApi: {
+      redis: unpackRedisConfig('REDIS_URI', devRedis),
+      expireTime: getEnv('KURSINFO_API_CACHE_EXPIRE_TIME', 3 * 60) // 3 * 60 s = 3 MINUTES
+    },
+    kursPMApi: {
+      redis: unpackRedisConfig('REDIS_URI', devRedis),
+      expireTime: getEnv('KURSPM_API_CACHE_EXPIRE_TIME', 3 * 60) // 3 * 60 s = 3 MINUTES
+    },
+    kursplanApi: {
+      redis: unpackRedisConfig('REDIS_URI', devRedis),
+      expireTime: getEnv('KURSPLAN_API_CACHE_EXPIRE_TIME', 15 * 60) // 15 minutes
     },
     cortinaBlock: {
       redis: unpackRedisConfig('REDIS_URI', devRedis)

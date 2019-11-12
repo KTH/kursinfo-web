@@ -141,14 +141,15 @@ async function _getKoppsCourseData (req, res, next) {
   try {
     const apiResponse = await koppsCourseData.getKoppsCourseData(courseCode, language)
     log.debug('Got response from Kopps API for: ', courseCode, language)
-    if (apiResponse.statusCode !== 200) {
-      log.debug('NOK response from Kopps API for: ', courseCode, language)
-      res.status(apiResponse.statusCode)
-      res.statusCode = apiResponse.statusCode
-      res.send(courseCode)
-    } else {
+    if (apiResponse.statusCode && apiResponse.statusCode === 200) {
       log.debug('OK response from Kopps API for: ', courseCode, language)
       return httpResponse.json(res, apiResponse.body)
+    } else {
+      log.debug('NOK response from Kopps API for: ', courseCode, language)
+      const statusCode = apiResponse.statusCode ? apiResponse.statusCode : 500
+      res.status(statusCode)
+      res.statusCode = statusCode
+      res.send(courseCode)
     }
   } catch (err) {
     log.error('Exception from Kopps API', { error: err })
@@ -186,15 +187,10 @@ async function getIndex (req, res, next) {
     }, appFactory())
 
     renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
-    log.debug('0 serverConfig.hostUrl', serverConfig.hostUrl, ' course ', courseCode)
-    log.debug('0.1 browserConfig.env ', browserConfig.env)
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
-    log.debug('1 before getCourseMemoFiles start in getIndex')
     try {
       if (memoApiUp) {
-        log.debug('2 getCourseMemoFiles started in getIndex')
         await renderProps.props.children.props.routerStore.getCourseMemoFiles(courseCode)
-        log.debug('7 getCourseMemoFiles in getIndex DONE FINAL for course code ', courseCode)
       } else {
         renderProps.props.children.props.routerStore.memoApiHasConnection = false
       }
@@ -205,11 +201,8 @@ async function getIndex (req, res, next) {
     }
     await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
     await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, lang)
-    log.debug('9 getCourseAdminInfo in getIndex DONE FINAL for course code ', courseCode)
     await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi')
-    log.debug('10 getCourseEmployeesPost in getIndex DONE FINAL for course code ', courseCode)
     await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
-    log.debug('11 getCourseEmployees in getIndex DONE FINAL for course code ', courseCode)
     const breadcrumDepartment = await renderProps.props.children.props.routerStore.getBreadcrumbs()
     let breadcrumbs = [
       { url: '/student/kurser/kurser-inom-program', label: i18n.message('page_course_programme', lang) }

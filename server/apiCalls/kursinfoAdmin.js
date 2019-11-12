@@ -7,14 +7,7 @@ module.exports = {
 }
 
 async function getSellingText (courseCode) {
-  const { client, paths } = api.kursinfoApiCached
+  const { client, paths } = api.kursinfoApi
   const uri = client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode })
   return await client.getAsync({uri: uri, useCache: true})
 }
-
-/* async function setImage (sendObject, courseCode) {
-  const paths = api.kursinfoApi.paths
-  const client = api.kursinfoApi.client
-  const uri = client.resolve(paths.postImageInfo.uri, {courseCode: courseCode})
-  return await client.postAsync({uri: uri, body: sendObject})
-} */
