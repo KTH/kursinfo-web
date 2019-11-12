@@ -168,9 +168,7 @@ async function getIndex (req, res, next) {
   }
   /** ------- CHECK OF CONNECTION TO KURS-PM-API ------- */
   let memoApiUp = true
-  log.debug(' api.kursPMApi ', api.kursPMApi)
   if (api.kursPMApi.connected && api.kursPMApi.connected === false) {
-    log.debug(' memoApiUp ', memoApiUp)
     memoApiUp = false
   }
 
@@ -206,7 +204,6 @@ async function getIndex (req, res, next) {
       }
     }
     await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
-    log.debug('8 getCourseInformation in getIndex DONE FINAL for course code ', courseCode)
     await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, lang)
     log.debug('9 getCourseAdminInfo in getIndex DONE FINAL for course code ', courseCode)
     await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi')
@@ -225,7 +222,6 @@ async function getIndex (req, res, next) {
       routerStore: renderProps.props.children.props.routerStore,
       routes: renderProps.props.children.props.children.props.children.props.children
     })
-
     const html = renderToString(renderProps)
 
     res.render('course/index', {

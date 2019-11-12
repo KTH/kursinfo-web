@@ -12,7 +12,6 @@ const koppsApi = new BasicAPI({
   defaultTimeout: config.koppsApi.defaultTimeout
 })
 
-
 module.exports = {
   getKoppsCourseData: getKoppsCourseData
 }
