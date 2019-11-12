@@ -6,11 +6,10 @@ module.exports = {
   getSellingText: getSellingText
 }
 
-function getSellingText (courseCode) {
-  const paths = api.kursinfoApi.paths
-  const client = api.kursinfoApi.client
-  const uri = client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode: courseCode })
-  return client.getAsync({uri: uri})
+async function getSellingText (courseCode) {
+  const { client, paths } = api.kursinfoApiCached
+  const uri = client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode })
+  return await client.getAsync({uri: uri})
 }
 
 /* async function setImage (sendObject, courseCode) {
