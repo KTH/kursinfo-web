@@ -130,10 +130,6 @@ class CoursePage extends Component {
     }
     courseImage = `${routerStore.browserConfig.imageStorageUri}${courseImage}`
 
-    // if (routerStore.browserConfig.env === 'dev') {
-    //   console.log('routerStore in CoursePage', routerStore)
-    // }
-
     const courseInformationToRounds = {
       course_code: courseData.courseInfo.course_code,
       course_examiners: courseData.courseInfo.course_examiners,
