@@ -37,5 +37,6 @@ async function getKoppsCourseData (courseCode, lang = 'sv') {
 }
 
 module.exports = {
+  koppsApi: api,
   getKoppsCourseData
 }
