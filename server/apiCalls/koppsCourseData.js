@@ -1,40 +1,41 @@
 'use strict'
 const log = require('kth-node-log')
 const config = require('../configuration').server
-const BasicAPI = require('kth-node-api-call').BasicAPI
 const redis = require('kth-node-redis')
+const connections = require('kth-node-api-call').Connections
 
-const cacheConfig = {
-  koppsApi: config.cache.koppsApi
-}
-const koppsApi = new BasicAPI({
+const koppsOpts = {
   log,
-  hostname: config.koppsApi.host,
-  basePath: config.koppsApi.basePath,
   https: true,
-  json: true,
-  // Kopps is a public API and needs no API-key
-  defaultTimeout: config.koppsApi.defaultTimeout,
-  // retryOnESOCKETTIMEDOUT: true,
-  timeout: 5000,
   redis,
-  // {
-  //   client: config.cache.koppsApi.redis,
-  //   prefix: 'koppsApi',
-  //   expire: config.cache.koppsApi.expireTime
-  // },
-  cache: cacheConfig
-})
-
-module.exports = {
-  getKoppsCourseData: getKoppsCourseData
+  cache: config.cache,
+  timeout: 5000,
+  defaultTimeout: config.koppsApi.defaultTimeout,
+  retryOnESOCKETTIMEDOUT: true,
+  useApiKey: false // skip key
 }
+
+config.koppsApi.doNotCallPathsEndpoint = true // skip checking _paths, because kopps doesnt have it
+config.koppsApi.connected = true
+// config.koppsApi.json = true
+
+const koppsConfig = {
+  koppsApi: config.koppsApi
+}
+
+const api = connections.setup(koppsConfig, koppsConfig, koppsOpts)
 
 async function getKoppsCourseData (courseCode, lang = 'sv') {
+  const { client } = api.koppsApi
+  const uri = `${config.koppsApi.basePath}course/${encodeURIComponent(courseCode)}/detailedinformation?l=${lang}`
   try {
-    return await koppsApi.getAsync({uri: `course/${encodeURIComponent(courseCode)}/detailedinformation?l=${lang}`, useCache: true})
+    return await client.getAsync({uri, useCache: true})
   } catch (err) {
     log.debug('Kopps is not available', err)
-    return (err)
+    return err
   }
+}
+
+module.exports = {
+  getKoppsCourseData
 }
