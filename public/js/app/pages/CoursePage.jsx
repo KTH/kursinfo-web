@@ -2,7 +2,6 @@ import { Component } from 'inferno'
 import { inject, observer } from 'inferno-mobx'
 
 import Alert from 'inferno-bootstrap/dist/Alert'
-import Button from 'inferno-bootstrap/lib/Button'
 import Col from 'inferno-bootstrap/dist/Col'
 import Row from 'inferno-bootstrap/dist/Row'
 
@@ -12,7 +11,7 @@ import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
 import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
 
 import i18n from '../../../../i18n'
-import { EMPTY, FORSKARUTB_URL, ADMIN_URL, SYLLABUS_URL, COURSE_IMG_URL } from '../util/constants'
+import { EMPTY, FORSKARUTB_URL, SYLLABUS_URL } from '../util/constants'
 
 // Components
 import RoundInformationOneCol from '../components/RoundInformationOneCol.jsx'

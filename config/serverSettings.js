@@ -19,7 +19,7 @@ const devInnovationApi = devDefaults('http://localhost:3001/api/kursinfo?default
 const devKursplanApi = devDefaults('http://localhost:3001/api/kursplan?defaultTimeout=10000')
 const devKoppsApi = devDefaults('https://api-r.referens.sys.kth.se/api/kopps/v2/')
 const devKursPMApi = devDefaults('http://localhost:3001/api/kurs-pm?defaultTimeout=10000')
-const devSessionKey = devDefaults('node-web.sid')
+const devSessionKey = devDefaults('kursinfo-web.sid')
 const devSessionUseRedis = devDefaults(true)
 const devRedis = devDefaults('redis://localhost:6379/')
 const devRedisUG = devDefaults('team-studam-ref-redis-193.redis.cache.windows.net:6380,password=password,ssl=True,abortConnect=False')
@@ -61,10 +61,19 @@ module.exports = {
 
   // API keys
   apiKey: {
-    kursinfoApi: getEnv('API_KEY', devDefaults('1234')),
+    kursinfoApi: getEnv('API_KEY', devDefaults('123489')),
     kursplanApi: getEnv('KURSPLAN_API_KEY', devDefaults('5678')),
     kursPMApi: getEnv('KURS_PM_API_KEY', devDefaults('9876'))
+    // koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi)
   },
+
+  nodeApi: {
+    kursinfoApi: unpackNodeApiConfig('API_URI', devInnovationApi),
+    kursplanApi: unpackNodeApiConfig('KURSPLAN_API_URI', devKursplanApi),
+    kursPMApi: unpackNodeApiConfig('KURS_PM_API_URI', devKursPMApi)
+  },
+
+  koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
 
   // Authentication
   auth: {
@@ -74,13 +83,6 @@ module.exports = {
     ssoBaseURL: getEnv('CAS_SSO_URI', devSsoBaseURL)
   },
   ldap: unpackLDAPConfig('LDAP_URI', getEnv('LDAP_PASSWORD'), devLdap, ldapOptions),
-
-  // Service API's
-  nodeApi: {
-    kursinfoApi: unpackNodeApiConfig('API_URI', devInnovationApi),
-    kursplanApi: unpackNodeApiConfig('KURSPLAN_API_URI', devKursplanApi),
-    kursPMApi: unpackNodeApiConfig('KURS_PM_API_URI', devKursPMApi)
-  },
 
   // Cortina
   blockApi: {
@@ -100,6 +102,22 @@ module.exports = {
     level: 'debug'
   },
   cache: {
+    koppsApi: {
+      redis: unpackRedisConfig('REDIS_URI', devRedis),
+      expireTime: getEnv('KOPPS_API_CACHE_EXPIRE_TIME', 60 * 60) // 60 minuteS
+    },
+    kursinfoApi: {
+      redis: unpackRedisConfig('REDIS_URI', devRedis),
+      expireTime: getEnv('KURSINFO_API_CACHE_EXPIRE_TIME', 3 * 60) // 3 * 60 s = 3 MINUTES
+    },
+    kursPMApi: {
+      redis: unpackRedisConfig('REDIS_URI', devRedis),
+      expireTime: getEnv('KURSPM_API_CACHE_EXPIRE_TIME', 3 * 60) // 3 * 60 s = 3 MINUTES
+    },
+    kursplanApi: {
+      redis: unpackRedisConfig('REDIS_URI', devRedis),
+      expireTime: getEnv('KURSPLAN_API_CACHE_EXPIRE_TIME', 60 * 60) // 60 minutes
+    },
     cortinaBlock: {
       redis: unpackRedisConfig('REDIS_URI', devRedis)
     },
@@ -107,6 +125,7 @@ module.exports = {
       redis: unpackRedisConfig('UG_REDIS_URI', devRedisUG)
     }
   },
+  redisServer: unpackRedisConfig('REDIS_URI', devRedis),
 
   // Session
   sessionSecret: getEnv('SESSION_SECRET', devDefaults('1234567890')),
@@ -120,8 +139,6 @@ module.exports = {
     },
     redisOptions: unpackRedisConfig('REDIS_URI', devRedis)
   },
-
-  koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
 
   appInsights: {
     instrumentationKey: getEnv('APPINSIGHTS_INSTRUMENTATIONKEY')
