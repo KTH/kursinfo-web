@@ -108,11 +108,11 @@ module.exports = {
     },
     kursinfoApi: {
       redis: unpackRedisConfig('REDIS_URI', devRedis),
-      expireTime: getEnv('KURSINFO_API_CACHE_EXPIRE_TIME', 3 * 60) // 3 * 60 s = 3 MINUTES
+      expireTime: getEnv('KURSINFO_API_CACHE_EXPIRE_TIME', 2 * 60) // 2 * 60 s = 2 MINUTES
     },
     kursPMApi: {
       redis: unpackRedisConfig('REDIS_URI', devRedis),
-      expireTime: getEnv('KURSPM_API_CACHE_EXPIRE_TIME', 3 * 60) // 3 * 60 s = 3 MINUTES
+      expireTime: getEnv('KURSPM_API_CACHE_EXPIRE_TIME', 2 * 60) // 2 * 60 s = 2 MINUTES
     },
     kursplanApi: {
       redis: unpackRedisConfig('REDIS_URI', devRedis),
