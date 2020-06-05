@@ -62,6 +62,7 @@ class CourseSectionList extends Component {
     const course = this.props.courseInfo
     const syllabus = this.props.syllabusList
     const examination = [
+      {header: '', text: translation.courseInformation.course_examination_disclaimer},
       {header: translation.courseInformation.course_grade_scale, text: course.course_grade_scale},
       {header: translation.courseInformation.course_examination, text: syllabus.course_examination},
       {header: '', text: syllabus.course_examination_comments}
