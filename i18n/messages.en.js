@@ -93,6 +93,7 @@ module.exports = {
     course_literature_comment: 'Literature comment',
     course_examination_comments: 'Examination comment *',
     course_examination: 'Examination *',
+    course_examination_disclaimer: '<p>If the course is discontinued, students may request to be examined during the following two academic years.</p>',
     course_valid_from: 'Valid from',
     course_main_subject: 'Main field of study *',
     course_language: 'Language of instruction *',

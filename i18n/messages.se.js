@@ -97,6 +97,7 @@ module.exports = {
     course_literature_comment: 'Kommentar till kurslitteratur',
     course_examination_comments: 'Kommentar till examinationsmoment *',
     course_examination: 'Examination *',
+    course_examination_disclaimer: '<p>När kurs inte längre ges har student möjlighet att examineras under ytterligare två läsår.</p>',
     course_valid_from: 'Giltig från',
     course_main_subject: 'Huvudområde *',
     course_language: 'Undervisningsspråk *',
