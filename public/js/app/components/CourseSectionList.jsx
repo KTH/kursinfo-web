@@ -73,6 +73,7 @@ class CourseSectionList extends Component {
     examination.push({ header: translation.courseInformation.course_spossibility_to_completions, text: course.course_spossibility_to_completions })
     examination.push({ header: translation.courseInformation.course_possibility_to_addition, text: course.course_possibility_to_addition })
     examination.push({header: translation.courseInformation.course_examiners, text: course.course_examiners})
+    examination.push({ header: translation.courseInformation.course_ethical, text: syllabus.course_ethical })
     return examination
   }
 
@@ -88,7 +89,6 @@ class CourseSectionList extends Component {
     ]
     if (course.course_contact_name !== EMPTY[this.state.store.language]) prepare.push({header: translation.courseInformation.course_contact_name, text: course.course_contact_name})
     if (syllabus.course_transitional_reg !== '') prepare.push({header: translation.courseInformation.course_transitional_reg, text: syllabus.course_transitional_reg})
-    prepare.push({ header: translation.courseInformation.course_ethical, text: syllabus.course_ethical })
     if (course.course_supplemental_information !== EMPTY[this.state.store.language]) prepare.push({header: translation.courseInformation.course_supplemental_information, text: course.course_supplemental_information})
     if (course.course_supplemental_information_url !== EMPTY[this.state.store.language]) prepare.push({header: translation.courseInformation.course_supplemental_information_url, text: course.course_supplemental_information_url})
     if (course.course_supplemental_information_url_text !== EMPTY[this.state.store.language]) prepare.push({header: translation.courseInformation.course_supplemental_information_url_text, text: course.course_supplemental_information_url_text})
