@@ -9,7 +9,6 @@ import Dropdown from 'inferno-bootstrap/dist/Dropdown'
 import DropdownMenu from 'inferno-bootstrap/dist/DropdownMenu'
 import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
 import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
-
 import i18n from '../../../../i18n'
 import { EMPTY, FORSKARUTB_URL, SYLLABUS_URL } from '../util/constants'
 
@@ -18,7 +17,8 @@ import RoundInformationOneCol from '../components/RoundInformationOneCol.jsx'
 import CourseTitle from '../components/CourseTitle.jsx'
 import CourseSectionList from '../components/CourseSectionList.jsx'
 import InfoModal from '../components/InfoModal.jsx'
-import LeftNavigation from '../components/LeftNavigation.jsx'
+// import LeftNavigation from '../components/LeftNavigation.jsx'
+import SideMenu from '../components/SideMenu.jsx'
 
 
 @inject(['routerStore']) @observer
@@ -142,7 +142,14 @@ class CoursePage extends Component {
     return (
       <div key='kursinfo-container' className='col' id='kursinfo-main-page' >
         <Row id='pageContainer' key='pageContainer'>
-          <Col sm='12' xs='12' lg='12' id='middle' key='middle'>
+          <Col lg="3" className="side-menu">
+            <SideMenu
+              courseCode={courseData.courseInfo.course_code}
+              labels={translation.courseLabels}
+              language={language}
+            />
+          </Col>
+          <Col sm='9' xs='9' lg='9' id='middle' key='middle'>
 
           {/** *************************************************************************************************************/}
           {/*                                                   INTRO                                                     */}
@@ -152,11 +159,11 @@ class CoursePage extends Component {
               courseTitleData={courseData.courseTitleData}
               language={courseData.language}
             />
-            <LeftNavigation
+            {/* <LeftNavigation
               courseCode={courseData.courseInfo.course_code}
               translate={translation.courseLabels}
               lang={language}
-            />
+            /> */}
             {/* ---TEXT FOR CANCELLED COURSE --- */}
             {routerStore.isCancelled || routerStore.isDeactivated
               ? <div className='isCancelled'>
@@ -194,7 +201,9 @@ class CoursePage extends Component {
           </Col>
         </Row>
         <Row id='columnContainer' key='columnContainer'>
-          <Col id='leftContainer' key='leftContainer' >
+          <Col lg="3" className="side-menu">
+          </Col>
+          <Col  lg="9" id='leftContainer' key='leftContainer' >
           {/** *************************************************************************************************************/}
           {/*                                      RIGHT COLUMN - ROUND INFORMATION                                         */}
           {/** *************************************************************************************************************/}
@@ -203,7 +212,7 @@ class CoursePage extends Component {
             {/* ---COURSE  DROPDOWN MENU--- */}
             {routerStore.activeSemesters.length > 0
               ? <div id='roundDropdownMenu' className=''>
-                <h4 style='margin-top:0px'>{translation.courseLabels.header_dropdown_menue}:</h4>
+                <h2 style='margin-top:0px'>{translation.courseLabels.header_dropdown_menue}</h2>
                 <div className='row' id='roundDropdowns' key='roundDropdown'>
                   {routerStore.activeSemesters.length > 0
                     ? <DropdownSemesters
