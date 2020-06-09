@@ -46,8 +46,14 @@ module.exports = {
     label_schedule: 'Schedule',
     label_statistics: 'Course statistics',
     lable_canavas_example: 'Canvas example course',
-    lable_round_select: 'Choose course offering',
-    lable_semester_select: 'Choose semester',
+    label_round_select: {
+      placeholder: 'Choose course offering',
+      label_dropdown: 'Course offering'
+    },
+    label_semester_select: {
+      placeholder: 'Choose semester',
+      label_dropdown: 'Semester'
+    },
     lable_round_state: {
       CANCELLED: 'This offering is cancelled',
       FULL: 'This offering is full'
