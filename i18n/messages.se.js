@@ -41,7 +41,7 @@ module.exports = {
     label_postgraduate_course: 'Forskarkurser på ',
     label_course_cancelled: 'Detta är en nedlagd kurs.',
     label_last_exam: 'Sista planerade examination: ',
-    label_edit: 'Administrera',
+    label_edit: 'Administrera Om kursen',
     label_course_memo: 'Kurs-pm',
     header_no_rounds: 'Kursomgångar saknas',
     lable_no_rounds: 'Kursomgångar saknas för tidigare och kommande terminer, samt för innevarande termin.',
@@ -55,7 +55,7 @@ module.exports = {
       CANCELLED: 'Kursomgång inställd',
       FULL: 'Kursomgång fullsatt'
     },
-    header_dropdown_menue: 'Visa kursinformation utifrån vald termin och kursomgång',
+    header_dropdown_menue: 'Information gäller',
     header_course_info: 'Kursinformation',
     header_content: 'Innehåll och lärandemål',
     header_execution: 'Kurslitteratur och förberedelser',

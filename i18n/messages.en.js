@@ -39,7 +39,7 @@ module.exports = {
     label_postgraduate_course: 'Postgraduate courses at ',
     label_course_cancelled: 'This course has been cancelled.',
     label_last_exam: 'Last planned examination: ',
-    label_edit: 'Administrate',
+    label_edit: 'Administrate About course',
     header_no_rounds: 'Course offering missing',
     lable_no_rounds: ' Course offering missing for current semester as well as for previous and coming semesters',
     label_course_memo: 'Course memo',
@@ -52,7 +52,7 @@ module.exports = {
       CANCELLED: 'This offering is cancelled',
       FULL: 'This offering is full'
     },
-    header_dropdown_menue: 'Show course information based on the chosen semester and course offering',
+    header_dropdown_menue: 'Information based on',
     header_course_info: 'Course information',
     header_content: 'Content and learning outcomes',
     header_execution: 'Literature and preparations',
