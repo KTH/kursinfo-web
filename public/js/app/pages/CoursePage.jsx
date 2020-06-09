@@ -9,6 +9,8 @@ import Dropdown from 'inferno-bootstrap/dist/Dropdown'
 import DropdownMenu from 'inferno-bootstrap/dist/DropdownMenu'
 import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
 import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
+
+import Label from 'inferno-bootstrap/dist/Form/Label'
 import i18n from '../../../../i18n'
 import { EMPTY, FORSKARUTB_URL, SYLLABUS_URL } from '../util/constants'
 
@@ -214,17 +216,17 @@ class CoursePage extends Component {
               ? <div id='roundDropdownMenu' className=''>
                 <h2 style='margin-top:0px'>{translation.courseLabels.header_dropdown_menue}</h2>
                 <div className='row' id='roundDropdowns' key='roundDropdown'>
-                  {routerStore.activeSemesters.length > 0
-                    ? <DropdownSemesters
+                  {routerStore.activeSemesters.length > 0 && (
+                    <DropdownSemesters
                       semesterList={routerStore.activeSemesters}
                       courseRoundList={courseData.roundList[this.state.activeSemester]}
                       callerInstance={this}
                       year={routerStore.activeSemesters[this.state.activeSemesterIndex][0]}
                       semester={routerStore.activeSemesters[this.state.activeSemesterIndex][1]}
                       language={courseData.language}
-                      lable={translation.courseLabels.lable_semester_select}
-                    />
-                    : ''
+                      label={translation.courseLabels.label_semester_select}
+                      />
+                    )
                   }
 
                   {courseData.roundList[this.state.activeSemester] && courseData.roundList[this.state.activeSemester].length > 1
@@ -235,7 +237,7 @@ class CoursePage extends Component {
                       year={routerStore.activeSemesters[this.state.activeSemesterIndex][0]}
                       semester={routerStore.activeSemesters[this.state.activeSemesterIndex][1]}
                       language={courseData.language}
-                      lable={translation.courseLabels.lable_round_select}
+                      label={translation.courseLabels.label_round_select}
                     />
                     : this.state.showRoundData
                       ? <p>
@@ -379,7 +381,7 @@ class CoursePage extends Component {
   }
 }
 
-const DropdownSemesters = ({semesterList, courseRoundList, callerInstance, semester, year, language = 0, lable = ''}) => {
+const DropdownSemesters = ({semesterList, courseRoundList, callerInstance, semester, year, language = 0, label = ''}) => {
   const dropdownID = 'semesterDropdown'
   if (semesterList && semesterList.length < 1) {
     return ''
@@ -387,6 +389,7 @@ const DropdownSemesters = ({semesterList, courseRoundList, callerInstance, semes
   else {
     return (
       <div className='col-12 semester-dropdowns'>
+        <Label htmlFor={dropdownID}>{label.label_dropdown}</Label>
         <Dropdown group
           isOpen={callerInstance.state.dropdownsOpen[dropdownID]}
           toggle={callerInstance.toggle}
@@ -397,7 +400,7 @@ const DropdownSemesters = ({semesterList, courseRoundList, callerInstance, semes
           <DropdownToggle
             id={dropdownID} >
             {callerInstance.state.roundDisabled
-              ? <span id={dropdownID + '_span'}>{lable}</span>
+              ? <span id={dropdownID + '_span'}>{label.placeholder}</span>
               : <span id={dropdownID + '_span'}>{i18n.messages[language].courseInformation.course_short_semester[semester]} {year}</span>
             }
             <span caret className='caretholder' id={dropdownID + '_spanCaret'}></span>
@@ -424,7 +427,7 @@ const DropdownSemesters = ({semesterList, courseRoundList, callerInstance, semes
   }
 }
 
-const DropdownRounds = ({courseRoundList, callerInstance, semester, year, language = 0, lable = ''}) => {
+const DropdownRounds = ({courseRoundList, callerInstance, semester, year, language = 0, label = ''}) => {
   const dropdownID = 'roundsDropdown'
 
   if (courseRoundList && courseRoundList.length < 2) {
@@ -433,6 +436,7 @@ const DropdownRounds = ({courseRoundList, callerInstance, semester, year, langua
   else {
     return (
       <div className='col-12 semester-dropdowns'>
+        <Label htmlFor={dropdownID}>{label.label_dropdown}</Label>
         <Dropdown group
           isOpen={callerInstance.state.dropdownsOpen[dropdownID]}
           toggle={callerInstance.toggle}
@@ -454,7 +458,7 @@ const DropdownRounds = ({courseRoundList, callerInstance, semester, year, langua
                     `
                   }
               </span>
-              : <span id={dropdownID + '_spanSelect'}>{lable} </span>
+              : <span id={dropdownID + '_spanSelect'}>{label.placeholder} </span>
             }
             <span caret className='caretholder' id={dropdownID + '_spanCaret'}></span>
           </DropdownToggle>

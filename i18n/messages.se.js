@@ -48,8 +48,14 @@ module.exports = {
     label_schedule: 'Schema',
     label_statistics: 'Kursutveckling',
     lable_canavas_example: 'Canvas exempelkurs',
-    lable_round_select: 'Välj kursomgång',
-    lable_semester_select: 'Välj termin',
+    label_round_select: {
+      placeholder: 'Välj kursomgång',
+      label_dropdown: 'Kursomgång'
+    },
+    label_semester_select: {
+      placeholder: 'Välj termin',
+      label_dropdown: 'Termin'
+    },
 
     lable_round_state: {
       CANCELLED: 'Kursomgång inställd',
