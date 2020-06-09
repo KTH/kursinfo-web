@@ -15,6 +15,23 @@
    
 }
 
+.left-side-menu{
+    margin-top: 20px;
+    width: 100%;
+
+    a.sideMenuLink {
+      color: #000000;
+      width: 100%;
+    //   &:after {
+    //       content: '>'
+    //   }       
+    }
+
+    .active {
+        font-weight: 700;
+    }
+}
+
 #leftNavigation{
     padding-left: 0px;
     padding-right: 0px;
@@ -80,11 +97,12 @@
 }
 
 #courseIntroText{
-    padding-top:10px;
-    padding-bottom:10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-right: 2px;
     img {
         float: left;
-        margin: 8px 20px 10px 0;
+        margin: 8px 30px 10px 0;
         width:100%;
         max-width: 400px;
     }    
@@ -160,8 +178,6 @@
 }
 
 #roundDropdownMenu{
-    border: 1px solid #dee2e6;
-    padding: 10px;
     .btn{
         margin-top:10px;
         margin-bottom:20px;
