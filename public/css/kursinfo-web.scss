@@ -82,18 +82,28 @@
         padding-right: 0px;
         
     }
-    p{
+    p {
         margin-bottom:0px;
     }
 }
 
-#course-title{
+#course-title {
     border-bottom: 0px;
     margin: 0;
     margin-top: 20px;
     h1 {
         margin-bottom: 0;
     }
+}
+
+.course-header-admin-link {
+    display: block;
+    margin-top: 4px;
+    margin-bottom: 14px;
+  }
+  
+h4.secondTitle {
+    margin-top: 4px;
 }
 
 #courseIntroText{
@@ -210,9 +220,9 @@
 
 #roundInformationContainer{
     margin-top: 10px;
-    padding-left:0px;
+    padding-left: 0px;
     .key-info{
-        padding: 15px;
+        padding: 20px;
         background: #f6f6f6;
         margin-top: 10px;
     }
@@ -225,10 +235,23 @@
     p, a {
         font-size: 1rem;
     }
-
-    h4 {
-        margin: 1rem 0 .5rem 0;
+    div {
+        div > h4, div > span.text-center2>h4 {
+            margin: 0 0 .5rem 0;
         }
+    }
+    span {
+        h4 {
+            margin: 1rem 0 .5rem 0;
+        }
+    }
+
+
+    span:last-of-type {
+        :last-child {
+            margin-bottom:0;
+        }
+    }
   }
 
   #coreContent{
@@ -328,8 +351,8 @@ a.editButton{
 
        .right-column-header{
         background: #fff;
-        margin: 20px -15px;
-        padding: 20px 15px 10px;
+        margin: 20px -20px;
+        padding: 20px 15px 10px 0;
        }
 
        .clear-margin-bottom{
