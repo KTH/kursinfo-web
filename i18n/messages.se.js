@@ -61,7 +61,7 @@ module.exports = {
       CANCELLED: 'Kursomgång inställd',
       FULL: 'Kursomgång fullsatt'
     },
-    header_dropdown_menue: 'Information gäller',
+    header_dropdown_menue: 'Gäller för',
     header_course_info: 'Kursinformation',
     header_content: 'Innehåll och lärandemål',
     header_execution: 'Kurslitteratur och förberedelser',
@@ -70,9 +70,8 @@ module.exports = {
     header_examination: 'Examination och slutförande',
     header_contact: 'Kontakt',
     header_further: 'Ytterligare information',
-    header_round: 'Kursomgång och genomförande',
+    header_round: 'Om kursomgång',
     header_select_course: 'Kursval',
-    header_history: 'Kursens utveckling och historik',
     header_postgraduate_course: 'Forskarkurs ',
     empty_text: 'Ingen information inlagd',
     no_schedule: 'Schema saknas',
@@ -83,9 +82,13 @@ module.exports = {
     no_round_selected: 'Välj termin och kursomgång ovan för att få information från rätt kursplan och kursomgång.',
     round_seats_info: 'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
     syllabus_info: '<h4>Kursinformation</h4> <p>• Kursinformation består av all information från kursplan samt övrig kursinformation som gäller kurs och kursomgång</p><p>• Har du inte valt termin och kursomgång så ser du kursinformation från nuvarande eller kommande kursplan (vilken period kursplanen gäller för finns angivet under rubriken ”Kursinformation”)</p><p>• En kurs går olika kursomgångar. För att se information för en specifik kursomgång så väljer du termin och kursomgång i rutan uppe till höger. Om det är annan kursplan som gäller den terminen så uppdateras även den informationen (till vänster på sidan)</p><p>•Observera: bestämmelser i kursplaner är regler som är generellt tillämpbara och bindande för såväl anställda som studenter</p>',
-    about_course: 'Om kursen',
-    course_history: 'Kursens utveckling och historik',
-    course_page: 'Kursinformation'
+    sideMenu: {
+      page_about_course: 'Om kursen ',
+      page_before_course: 'Inför kursval',
+      page_catalog: 'Kurs- och programkatalogen',
+      page_history: 'Kursens utveckling och historik',
+      page_memo: 'Förbereda och gå kurs'
+    }
   },
   courseInformation: {
     roundId: 'Kursomgångs nr',

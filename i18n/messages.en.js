@@ -58,7 +58,7 @@ module.exports = {
       CANCELLED: 'This offering is cancelled',
       FULL: 'This offering is full'
     },
-    header_dropdown_menue: 'Information based on',
+    header_dropdown_menue: 'Valid for',
     header_course_info: 'Course information',
     header_content: 'Content and learning outcomes',
     header_execution: 'Literature and preparations',
@@ -67,8 +67,7 @@ module.exports = {
     header_statistics: 'Course statistics',
     header_syllabuses: 'Course syllabuses archive',
     header_further: 'Further information',
-    header_history: 'Course development and history',
-    header_round: 'Offering and execution',
+    header_round: 'About course offering',
     header_select_course: 'Application',
     header_postgraduate_course: 'Postgraduate course ',
     empty_text: 'No information inserted',
@@ -80,9 +79,13 @@ module.exports = {
     no_round_selected: 'Select the semester and course offering above to get information from the correct course syllabus and course offering.',
     round_seats_info: 'Course offering may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made.',
     syllabus_info: '<h4>Course information</h4> <p>• Course information consists of all information from the course syllabus (kursplan) as well as other course information concerning course and course offering</p><p>• If you have not chosen the semester and course offering, you will see course information from the current or future course syllabus (which period the course syllabus applies to is given under the heading "Course information")</p><p>• A course goes different course offerings. To see information for a specific course offering, choose the semester and course offering in the upper right corner. If it is another course syllabus that applies to that semester, the corresponding information is also updated (on the left side of the page).</p><p>• Please note: regulations in course syllabus are rules that are generally applicable and binding for both employees and students</p>',
-    about_course: 'About course',
-    course_history: 'Course development and history',
-    course_page: 'Course information'
+    sideMenu: {
+      page_about_course: 'About course',
+      page_before_course: 'Before choosing course',
+      page_catalog: 'Course and programme directory',
+      page_history: 'Course development and history',
+      page_memo: 'Förbereda och gå kurs'
+    }
   },
   courseInformation: {
     course_title: 'Title english',
