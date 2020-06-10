@@ -123,7 +123,7 @@ class RoundInformationOneCol extends Component {
             {/** *************************************************************************************************************/}
             {courseHasRound && showRoundData
               ? <span>
-                <h3 className='right-column-header'>{i18n.messages[language].courseLabels.header_select_course}</h3>
+                <h2 className='right-column-header'>{i18n.messages[language].courseLabels.header_select_course}</h2>
 
                 <h4>{roundHeader} </h4>
                 <p>{selectedRoundHeader}</p>
@@ -148,7 +148,7 @@ class RoundInformationOneCol extends Component {
           {/** *************************************************************************************************************/}
           {courseHasRound && showRoundData
             ? <span>
-              <h3 className='right-column-header'>{i18n.messages[language].courseLabels.header_contact}</h3>
+              <h2 className='right-column-header'>{i18n.messages[language].courseLabels.header_contact}</h2>
 
               <h4>{roundHeader} </h4>
               <p>{selectedRoundHeader}</p>
