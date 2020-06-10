@@ -198,9 +198,9 @@ class CoursePage extends Component {
           </Col>
         </Row>
         <Row id='columnContainer' key='columnContainer'>
-          <Col lg="3" className="side-menu"> 
-          </Col>
-          <Col  lg="9" id='leftContainer' key='leftContainer' >
+          {/* <Col lg="3" className="empty side-menu"> 
+          </Col> */}
+          <Col md={{ span: 9, offset: 3 }} lg="9" id='leftContainer' key='leftContainer' >
           {/** *************************************************************************************************************/}
           {/*                                      RIGHT COLUMN - ROUND INFORMATION                                         */}
           {/** *************************************************************************************************************/}
