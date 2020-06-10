@@ -19,7 +19,6 @@ import RoundInformationOneCol from '../components/RoundInformationOneCol.jsx'
 import CourseTitle from '../components/CourseTitle.jsx'
 import CourseSectionList from '../components/CourseSectionList.jsx'
 import InfoModal from '../components/InfoModal.jsx'
-// import LeftNavigation from '../components/LeftNavigation.jsx'
 import SideMenu from '../components/SideMenu.jsx'
 
 
@@ -147,7 +146,7 @@ class CoursePage extends Component {
           <Col lg="3" className="side-menu">
             <SideMenu
               courseCode={courseData.courseInfo.course_code}
-              labels={translation.courseLabels}
+              labels={translation.courseLabels.sideMenu}
               language={language}
             />
           </Col>
@@ -160,12 +159,8 @@ class CoursePage extends Component {
             <CourseTitle key='title'
               courseTitleData={courseData.courseTitleData}
               language={courseData.language}
+              pageTitle={translation.courseLabels.sideMenu.page_before_course}
             />
-            {/* <LeftNavigation
-              courseCode={courseData.courseInfo.course_code}
-              translate={translation.courseLabels}
-              lang={language}
-            /> */}
             {/* ---TEXT FOR CANCELLED COURSE --- */}
             {routerStore.isCancelled || routerStore.isDeactivated
               ? <div className='isCancelled'>
@@ -203,7 +198,7 @@ class CoursePage extends Component {
           </Col>
         </Row>
         <Row id='columnContainer' key='columnContainer'>
-          <Col lg="3" className="side-menu">
+          <Col lg="3" className="side-menu"> 
           </Col>
           <Col  lg="9" id='leftContainer' key='leftContainer' >
           {/** *************************************************************************************************************/}
@@ -275,7 +270,7 @@ class CoursePage extends Component {
                   : ''
                 }
 
-              <h3 style='margin-top:20px'>{translation.courseLabels.header_round}</h3>
+              <h2 style='margin-top:20px'>{translation.courseLabels.header_round}</h2>
 
               {/* ---COURSE ROUND INFORMATION--- */}
               {routerStore.activeSemesters.length > 0
