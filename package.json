@@ -69,7 +69,7 @@
     "kth-style": "^3.2.1",
     "kth-style-inferno-bootstrap": "^0.1.25",
     "locale": "^0.1.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mobx": "^4.9.4",
     "passport": "^0.3.2",
     "query-string": "^5.1.1",
