@@ -20,13 +20,13 @@ const LISTS_OF_PILOT_COURSES = [
 const checkIfPilotCourse = (courseCode) =>
   LISTS_OF_PILOT_COURSES.includes(courseCode);
 
-const PilotNewMemoLink = ({ href }) => (
+const PilotNewMemoLink = ({ href, translate }) => (
   <a id="memoLink" href={`/kurs-pm/${courseCode}/${semester}/${round}`}>
     {translate.courseLabels.label_course_memo}
   </a>
 );
 
-const PdfNoMemoLink = ({ canGetMemoFiles }) => (
+const PdfNoMemoLink = ({ canGetMemoFiles, translate }) => (
   <a id="memoLink" className="pdf-link">
     {canGetMemoFiles
       ? translate.courseLabels.no_memo
@@ -63,15 +63,16 @@ class CourseFileLinks extends Component {
             </a>
           ) : (
             (isPilot && (
-              <PdfNoMemoLink
+              <PilotNewMemoLink
                 href={`/kurs-pm/${courseCode}/${courseRound.round_course_term[0]}/${courseRound.round_course_term[1]}`}
+                translate={translate}
               />
-            )) || <PdfNoMemoLink canGetMemoFiles={canGetMemoFiles} />
-            // <a id="memoLink" className="pdf-link">
-            //   {canGetMemoFiles
-            //     ? translate.courseLabels.no_memo
-            //     : translate.courseLabels.no_memo_connection}
-            // </a>
+            )) || (
+              <PdfNoMemoLink
+                canGetMemoFiles={canGetMemoFiles}
+                translate={translate}
+              />
+            )
           )}
         </Col>
         {/* ---LINK TO ROUND SCHEDULE-- */}
