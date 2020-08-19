@@ -64,7 +64,7 @@ class CourseFileLinks extends Component {
           ) : (
             (isPilot && (
               <PilotNewMemoLink
-                href={`/kurs-pm/${courseCode}/${courseRound.round_course_term[0]}/${courseRound.round_course_term[1]}`}
+                href={`/kurs-pm/${courseCode}/${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}/${courseRound.roundId}`}
                 translate={translate}
               />
             )) || (
