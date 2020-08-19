@@ -4,7 +4,7 @@ import Col from "inferno-bootstrap/dist/Col";
 import i18n from "../../../../i18n";
 import { EMPTY } from "../util/constants";
 
-const PILOT_COURSES = [
+const LISTS_OF_PILOT_COURSES = [
   "AF1301",
   "HS1001",
   "ME2016",
