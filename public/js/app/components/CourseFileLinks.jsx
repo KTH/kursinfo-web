@@ -21,7 +21,7 @@ const checkIfPilotCourse = (courseCode) =>
   LISTS_OF_PILOT_COURSES.includes(courseCode);
 
 const PilotNewMemoLink = ({ href, translate }) => (
-  <a id="memoLink" href={`/kurs-pm/${courseCode}/${semester}/${round}`}>
+  <a id="memoLink" href={href}>
     {translate.courseLabels.label_course_memo}
   </a>
 );
