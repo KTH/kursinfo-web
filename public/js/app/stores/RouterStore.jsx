@@ -60,7 +60,7 @@ class RouterStore {
           Accept: 'application/json',
           'X-Forwarded-Proto': (_webUsesSSL(this.apiHost) ? 'https' : 'http')
         },
-        timeout: 10000,
+        timeout: 5000,
         params: params
       }
     } else {
