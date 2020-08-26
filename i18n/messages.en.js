@@ -39,7 +39,7 @@ module.exports = {
     label_postgraduate_course: 'Postgraduate courses at ',
     label_course_cancelled: 'This course has been cancelled.',
     label_last_exam: 'Last planned examination: ',
-    label_edit: 'Administrate',
+    label_edit: 'Administrate About course',
     header_no_rounds: 'Course offering missing',
     lable_no_rounds: ' Course offering missing for current semester as well as for previous and coming semesters',
     label_course_memo: 'Course memo',
