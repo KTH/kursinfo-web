@@ -94,7 +94,7 @@ class CourseSectionList extends Component {
     if (course.course_supplemental_information_url !== EMPTY[this.state.store.language]) prepare.push({header: translation.courseInformation.course_supplemental_information_url, text: course.course_supplemental_information_url})
     if (course.course_supplemental_information_url_text !== EMPTY[this.state.store.language]) prepare.push({header: translation.courseInformation.course_supplemental_information_url_text, text: course.course_supplemental_information_url_text})
     if (course.course_web_link !== EMPTY[this.state.store.language]) {
-      prepare.unshift({header: translation.courseInformation.course_link, text: `${translation.courseInformation.course_link_text} <a target='_blank' href='${course.course_web_link}'> ${translation.courseInformation.course_link} ${this.props.courseInfo.course_code}</a>`})
+      prepare.unshift({header: translation.courseInformation.course_link, text: `${translation.courseInformation.course_link_text} <a href='${course.course_web_link}'> ${translation.courseInformation.course_link} ${this.props.courseInfo.course_code}</a>`})
     } else {
       prepare.unshift({header: translation.courseInformation.course_link, text: course.course_web_link})
     }

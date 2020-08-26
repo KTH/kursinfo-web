@@ -356,7 +356,7 @@ class CoursePage extends Component {
                   ? <span>
                     <h3>{translation.courseLabels.header_postgraduate_course}</h3>
                     {translation.courseLabels.label_postgraduate_course}
-                    <a target='_blank' href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}>
+                    <a href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}>
                       {courseData.courseInfo.course_department}
                     </a>
                   </span>

@@ -392,9 +392,8 @@ class RouterStore {
     programmes.forEach(programme => {
       programmeString +=
         `<p>
-          <a target="_blank" 
-                  href="${PROGRAMME_URL}/${programme.programmeCode}/${programme.progAdmissionTerm.term}/arskurs${programme.studyYear}${programme.specCode ? '#inr' + programme.specCode : ''}">
-                  ${programme.title}, ${language === 0 ? 'year' : 'åk'} ${programme.studyYear}, ${programme.specCode ? programme.specCode + ', ' : ''}${programme.electiveCondition.abbrLabel}
+          <a href="${PROGRAMME_URL}/${programme.programmeCode}/${programme.progAdmissionTerm.term}/arskurs${programme.studyYear}${programme.specCode ? '#inr' + programme.specCode : ''}">
+            ${programme.title}, ${language === 0 ? 'year' : 'åk'} ${programme.studyYear}, ${programme.specCode ? programme.specCode + ', ' : ''}${programme.electiveCondition.abbrLabel}
         </a>
       </p>`
     })
@@ -536,7 +535,7 @@ class RouterStore {
       personString +=
           `<p class = "person">
           <i class="fas fa-user-alt"></i>
-            <a href="/profile/${person.username}/" target="_blank" property="teach:teacher">
+            <a href="/profile/${person.username}/" property="teach:teacher">
               ${person.givenName} ${person.lastName} 
             </a> 
           </p>  `
