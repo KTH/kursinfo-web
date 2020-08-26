@@ -13,8 +13,8 @@ module.exports = {
      */
 
     error_not_found: 'Sorry, we can\'t find your requested page',
-    error_course_not_found: 'Sorry, there is no course with course code ',
-    error_generic: 'Something went wrong on the server, please try again later.',
+    error_course_not_found: 'There is no course with this course code ',
+    error_generic: 'Something went wrong when loading this page. Please try again later. Contact IT support if the problem remains.',
 
     /**
      * Message keys
@@ -68,7 +68,7 @@ module.exports = {
     empty_text: 'No information inserted',
     no_schedule: 'No schedule ',
     no_memo: 'No course memo added ',
-    alert_no_memo_connection: 'No course memos can currently be displayed for the course offerings. Try again later.',
+    alert_no_memo_connection: 'No course memos can currently be displayed for the course offerings. Please try again later. Contact IT support if the problem remains.',
     no_memo_connection: 'Course memo cannot be displayed',
     header_no_round_selected: 'No offering selected',
     no_round_selected: 'Select the semester and course offering above to get information from the correct course syllabus and course offering.',
