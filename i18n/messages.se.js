@@ -13,8 +13,8 @@ module.exports = {
      */
 
     error_not_found: 'Tyvärr kunde vi inte hitta sidan du efterfrågade',
-    error_course_not_found: 'Tyvärr så finns det ingen kurs med kurskod ',
-    error_generic: 'Något gick fel på servern, var god försök igen senare',
+    error_course_not_found: 'Det finns ingen kurs med angiven kurskod ',
+    error_generic: 'Något gick fel vid hämtning av sidan. Försök igen senare. Kontakta IT-support om problemet kvarstår.',
 
     /**
      * Message keys
@@ -72,7 +72,7 @@ module.exports = {
     no_schedule: 'Schema saknas',
     no_memo: 'Inget kurs-PM inlagt ',
     no_memo_connection: 'Kurs-pm kan inte visas',
-    alert_no_memo_connection: 'För närvarande kan inte kurs-pm visas vid kursens kursomgångar. Försök igen senare.',
+    alert_no_memo_connection: 'För närvarande kan inte kurs-PM som PDF visas för kursens aktuella kursomgångar. Försök igen senare. Kontakta IT-support om problemet kvarstår.',
     header_no_round_selected: 'Ingen kursomgång är vald',
     no_round_selected: 'Välj termin och kursomgång ovan för att få information från rätt kursplan och kursomgång.',
     round_seats_info: 'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',

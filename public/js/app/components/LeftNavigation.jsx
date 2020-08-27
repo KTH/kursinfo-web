@@ -13,13 +13,13 @@ const LeftNavigation = ({courseCode, translate, lang}) => { // courseCode, lang,
                         <b>{translate.course_page}</b>
                     </p>
                     <p>
-                        <a href={courseHistoryLink} alt={translate.course_history}>{translate.course_history}</a>
+                        <a href={courseHistoryLink}>{translate.course_history}</a>
                     </p>
 
                 </div>
                 <div className='col-md-5 admin-link admin-block'>
                     <p>
-                        <a href={kursAdmin} className='link-to' alt={translate.label_edit}>{translate.label_edit}</a>
+                        <a href={kursAdmin} className='link-to'>{translate.label_edit}</a>
                     </p>
                 </div>
             </div>

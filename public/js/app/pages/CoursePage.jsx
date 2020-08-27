@@ -185,7 +185,7 @@ class CoursePage extends Component {
             {/* ---INTRO TEXT--- */}
             <Row id='courseIntroText' key='courseIntroText'>
               <Col sm='12' xs='12'>
-                <img src={courseImage} alt='' height='auto' width='300px' title='inspiration image' />
+                <img src={courseImage} alt='' height='auto' width='300px' />
                 <div
                   dangerouslySetInnerHTML={{__html: introText}}>
                 </div>
@@ -356,7 +356,7 @@ class CoursePage extends Component {
                   ? <span>
                     <h3>{translation.courseLabels.header_postgraduate_course}</h3>
                     {translation.courseLabels.label_postgraduate_course}
-                    <a target='_blank' href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}>
+                    <a href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}>
                       {courseData.courseInfo.course_department}
                     </a>
                   </span>
