@@ -192,7 +192,8 @@ server.use(excludeExpression, require('kth-node-web-common/lib/web/crawlerRedire
  * ******* APPLICATION ROUTES *******
  * **********************************
  */
-const { System, Course, Syllabus, noCourse } = require('./controllers')
+const { System, Course, /* Syllabus, */ noCourse } = require('./controllers')
+const { SyllabusPdf } = require('./middleware')
 
 // System routes
 const systemRoute = AppRouter()
@@ -204,7 +205,13 @@ server.use('/', systemRoute.getRouter())
 
 // App routes
 const appRoute = AppRouter()
-appRoute.get('system.index', config.proxyPrefixPath.uri + '/kursplan/:course_semester', Syllabus.getIndex)
+// appRoute.get('system.index', config.proxyPrefixPath.uri + '/kursplan/:course_semester', Syllabus.getIndex)
+appRoute.get(
+  'SyllabusPdf.getPdfProxy',
+  config.proxyPrefixPath.uri + '/kursplan/:course_semester',
+  SyllabusPdf.getPdfProxy(config.nodeApi.kursplanApi, config.apiKey.kursplanApi)
+)
+
 // appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', Course.getIndex)
 
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', /* getServerGatewayLogin(),*/ Course.getIndex)
