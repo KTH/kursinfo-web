@@ -5,7 +5,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware')
 function pathRewrite (path) {
   const pathRegEx = /(\/student\/kurser\/kurs\/kursplan\/)(.*)-(.*).pdf\?lang=(.*)/g
   const pathArgs = pathRegEx.exec(path)
-  return `/api/kursplan/v1/syllabus/${pathArgs[2]}/${pathArgs[3]}/${pathArgs[4]}`
+  return `/api/kursplan/v1/syllabus/${pathArgs[2]}/${pathArgs[3]}/${pathArgs[4] || 'sv'}`
 }
 
 function setApiKey (key) {
