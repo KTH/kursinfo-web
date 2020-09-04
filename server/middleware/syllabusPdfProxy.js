@@ -8,7 +8,7 @@ function pathRewrite (path) {
   const pathArgs = pathRegEx.exec(path)
   const langArg = langRegEx.exec(pathArgs[4])
   const lang = langArg ? langArg[2] : 'sv'
-  return `/api/kursplan/v1/syllabus/${pathArgs[2]}/${pathArgs[3]}/${lang}`
+  return `/api/kursplan/v1/syllabus/${pathArgs[2]}/${pathArgs[3]}/${lang || 'sv'}`
 }
 
 function setApiKey (key) {
