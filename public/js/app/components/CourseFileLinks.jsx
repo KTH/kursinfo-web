@@ -7,7 +7,6 @@ import { EMPTY } from '../util/constants'
 const LISTS_OF_PILOT_COURSES = [
   'AF1301',
   'HS1001',
-  'ME2016',
   'MG1028',
   'MJ2462',
   'ED1110',
