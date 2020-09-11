@@ -8,6 +8,7 @@ function pathRewrite (path) {
   const pathArgs = pathRegEx.exec(path)
   const langArg = langRegEx.exec(pathArgs[4])
   const lang = langArg ? langArg[2] : 'sv'
+  console.log('path', `/api/kursplan/v1/syllabus/${pathArgs[2]}/${pathArgs[3]}/${lang || 'sv'}`)
   return `/api/kursplan/v1/syllabus/${pathArgs[2]}/${pathArgs[3]}/${lang || 'sv'}`
 }
 
@@ -26,6 +27,7 @@ function getPdfProxy (config, key) {
   console.log('key', key)
   const { https, host, port } = config
   const target = `${https ? 'https' : 'http'}://${host}${port ? ':' + port : ''}`
+  console.log('target', target)
   const options = {
     target,
     changeOrigin: true,
