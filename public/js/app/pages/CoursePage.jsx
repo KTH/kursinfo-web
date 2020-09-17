@@ -143,7 +143,7 @@ class CoursePage extends Component {
     return (
       <div key='kursinfo-container' className='col' id='kursinfo-main-page' >
         <Row id='pageContainer' key='pageContainer'>
-          <Col lg="3" className="side-menu">
+          <Col lg='3' className='side-menu'>
             <SideMenu
               courseCode={courseData.courseInfo.course_code}
               labels={translation.courseLabels.sideMenu}
@@ -195,180 +195,180 @@ class CoursePage extends Component {
                 </div>
               </Col>
             </Row>
-          </Col>
-        </Row>
-        <Row id='columnContainer' key='columnContainer'>
-          {/* <Col lg="3" className="empty side-menu"> 
-          </Col> */}
-          <Col md={{ span: 9, offset: 3 }} lg="9" id='leftContainer' key='leftContainer' >
-          {/** *************************************************************************************************************/}
-          {/*                                      RIGHT COLUMN - ROUND INFORMATION                                         */}
-          {/** *************************************************************************************************************/}
-            <Col id='roundInformationContainer' md='4' xs='12' className='float-md-right' >
+            <Row id='columnContainer' key='columnContainer'>
+              {/* <Col lg="3" className="empty side-menu">
+              </Col> */}
+              <Col id='leftContainer' key='leftContainer' >
+              {/** *************************************************************************************************************/}
+              {/*                                      RIGHT COLUMN - ROUND INFORMATION                                         */}
+              {/** *************************************************************************************************************/}
+                <Col id='roundInformationContainer' md='4' xs='12' className='float-md-right' >
 
-            {/* ---COURSE  DROPDOWN MENU--- */}
-            {routerStore.activeSemesters.length > 0
-              ? <div id='roundDropdownMenu' className=''>
-                <h2 style='margin-top:0px'>{translation.courseLabels.header_dropdown_menue}</h2>
-                <div className='row' id='roundDropdowns' key='roundDropdown'>
-                  {routerStore.activeSemesters.length > 0 && (
-                    <DropdownSemesters
-                      semesterList={routerStore.activeSemesters}
-                      courseRoundList={courseData.roundList[this.state.activeSemester]}
-                      callerInstance={this}
-                      year={routerStore.activeSemesters[this.state.activeSemesterIndex][0]}
-                      semester={routerStore.activeSemesters[this.state.activeSemesterIndex][1]}
-                      language={courseData.language}
-                      label={translation.courseLabels.label_semester_select}
-                      />
-                    )
-                  }
+                {/* ---COURSE  DROPDOWN MENU--- */}
+                {routerStore.activeSemesters.length > 0
+                  ? <div id='roundDropdownMenu' className=''>
+                    <h2 style='margin-top:0px'>{translation.courseLabels.header_dropdown_menue}</h2>
+                    <div className='row' id='roundDropdowns' key='roundDropdown'>
+                      {routerStore.activeSemesters.length > 0 && (
+                        <DropdownSemesters
+                          semesterList={routerStore.activeSemesters}
+                          courseRoundList={courseData.roundList[this.state.activeSemester]}
+                          callerInstance={this}
+                          year={routerStore.activeSemesters[this.state.activeSemesterIndex][0]}
+                          semester={routerStore.activeSemesters[this.state.activeSemesterIndex][1]}
+                          language={courseData.language}
+                          label={translation.courseLabels.label_semester_select}
+                          />
+                        )
+                      }
 
-                  {courseData.roundList[this.state.activeSemester] && courseData.roundList[this.state.activeSemester].length > 1
-                    ? <DropdownRounds
-                      semesterList={routerStore.activeSemesters}
-                      courseRoundList={courseData.roundList[this.state.activeSemester]}
-                      callerInstance={this}
-                      year={routerStore.activeSemesters[this.state.activeSemesterIndex][0]}
-                      semester={routerStore.activeSemesters[this.state.activeSemesterIndex][1]}
-                      language={courseData.language}
-                      label={translation.courseLabels.label_round_select}
-                    />
-                    : this.state.showRoundData
-                      ? <p>
-                          {`
-                            ${translation.courseInformation.course_short_semester[courseData.roundList[this.state.activeSemester][0].round_course_term[1]]} 
-                            ${courseData.roundList[this.state.activeSemester][0].round_course_term[0]}  
-                            ${courseData.roundList[this.state.activeSemester][0].round_short_name !== EMPTY[language] ? courseData.roundList[this.state.activeSemester][0].round_short_name : ''}     
-                            ${translation.courseRoundInformation.round_category[courseData.roundList[this.state.activeSemester][0].round_category]}
-                          `}
-                      </p>
-                      : ''
-                    }
+                      {courseData.roundList[this.state.activeSemester] && courseData.roundList[this.state.activeSemester].length > 1
+                        ? <DropdownRounds
+                          semesterList={routerStore.activeSemesters}
+                          courseRoundList={courseData.roundList[this.state.activeSemester]}
+                          callerInstance={this}
+                          year={routerStore.activeSemesters[this.state.activeSemesterIndex][0]}
+                          semester={routerStore.activeSemesters[this.state.activeSemesterIndex][1]}
+                          language={courseData.language}
+                          label={translation.courseLabels.label_round_select}
+                        />
+                        : this.state.showRoundData
+                          ? <p>
+                              {`
+                                ${translation.courseInformation.course_short_semester[courseData.roundList[this.state.activeSemester][0].round_course_term[1]]} 
+                                ${courseData.roundList[this.state.activeSemester][0].round_course_term[0]}  
+                                ${courseData.roundList[this.state.activeSemester][0].round_short_name !== EMPTY[language] ? courseData.roundList[this.state.activeSemester][0].round_short_name : ''}     
+                                ${translation.courseRoundInformation.round_category[courseData.roundList[this.state.activeSemester][0].round_category]}
+                              `}
+                          </p>
+                          : ''
+                        }
 
-                    {/* ---ROUND CANCELLED OR FULL --- */}
-                    {routerStore.activeSemesters.length > 0 && this.state.showRoundData && courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state !== 'APPROVED'
-                      ? <Alert color='info' aria-live='polite' >
-                        <h4>{translation.courseLabels.lable_round_state[courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state]} </h4>
-                      </Alert>
-                      : ''
-                    }
-                </div>
-              </div>
-              : routerStore.activeSemesters.length === 0 && courseData.syllabusSemesterList.length > 0
-                  ? <Alert color='info'>
-                    <h4>{translation.courseLabels.header_no_rounds}</h4>
-                    {translation.courseLabels.lable_no_rounds}
-                  </Alert>
-                  : ''
-              }
-               {courseData.courseInfo.course_application_info.length > 0
-                  ? <Alert color='info'>
-                  <h4>{translation.courseInformation.course_application_info}</h4>
-                    <p dangerouslySetInnerHTML={{ __html: courseData.courseInfo.course_application_info }}></p>
-                  </Alert>
-                  : ''
-                }
-
-              <h2 style='margin-top:20px'>{translation.courseLabels.header_round}</h2>
-
-              {/* ---COURSE ROUND INFORMATION--- */}
-              {routerStore.activeSemesters.length > 0
-                ? <RoundInformationOneCol
-                  courseRound={courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex]}
-                  courseData={courseInformationToRounds}
-                  language={courseData.language}
-                  courseHasRound={routerStore.activeSemesters.length > 0}
-                  fade={this.state.roundInfoFade}
-                  showRoundData={this.state.showRoundData}
-                  canGetMemoFiles={routerStore.memoApiHasConnection}
-                  memoStorageURI={routerStore.browserConfig.memoStorageUri}
-                  />
-                : <div className='key-info'>
-                    {routerStore.activeSemesters.length > 0
-                      ? <p>{translation.courseLabels.no_round_selected}</p>
-                      : <i>{translation.courseLabels.lable_no_rounds}</i>
-                    }
-                </div>
-              }
-            </Col>
-
-            {/** *************************************************************************************************************/}
-            {/*                           LEFT COLUMN - SYLLABUS + OTHER COURSE INFORMATION                                 */}
-            {/** *************************************************************************************************************/}
-            <Col id='coreContent' sm='8' xs='12' className='float-md-left'>
-              <div key='fade-2' className={` fade-container ${this.state.syllabusInfoFade === true ? ' fadeOutIn' : ''} `}>
-
-                <Row id='activeSyllabusContainer' key='activeSyllabusContainer'>
-                  <Col sm='12' >
-                    <div sm='12' id='courseInfoHeader'>
-                      <h2>{translation.courseLabels.header_course_info}
-                        <div style='display: inline-block; padding-left: 15px;'>
-                          <InfoModal infoText={i18n.messages[courseData.language].courseLabels.syllabus_info} type='html' />
-                        </div>
-                      </h2>
+                        {/* ---ROUND CANCELLED OR FULL --- */}
+                        {routerStore.activeSemesters.length > 0 && this.state.showRoundData && courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state !== 'APPROVED'
+                          ? <Alert color='info' aria-live='polite' >
+                            <h4>{translation.courseLabels.lable_round_state[courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex].round_state]} </h4>
+                          </Alert>
+                          : ''
+                        }
                     </div>
-                    {courseData.syllabusSemesterList.length === 0
-                      ? <Alert color='info' aria-live='polite'>
-                        <h4>{translation.courseLabels.header_no_syllabus}</h4>
-                        {translation.courseLabels.label_no_syllabus}
+                  </div>
+                  : routerStore.activeSemesters.length === 0 && courseData.syllabusSemesterList.length > 0
+                      ? <Alert color='info'>
+                        <h4>{translation.courseLabels.header_no_rounds}</h4>
+                        {translation.courseLabels.lable_no_rounds}
+                      </Alert>
+                      : ''
+                  }
+                  {courseData.courseInfo.course_application_info.length > 0
+                      ? <Alert color='info'>
+                      <h4>{translation.courseInformation.course_application_info}</h4>
+                        <p dangerouslySetInnerHTML={{ __html: courseData.courseInfo.course_application_info }}></p>
                       </Alert>
                       : ''
                     }
 
-                    <Row id='syllabusLink'>
-                      <Col sm='12'>
-                        {/* --- ACTIVE SYLLABUS LINK---  */}
-                        <div key='fade-2' className={` fade-container ${this.state.syllabusInfoFade === true ? ' fadeOutIn' : ''}`}>
-                          {courseData.syllabusSemesterList.length > 0
-                            ? <span>
-                              <b>{translation.courseLabels.label_course_syllabus}</b>
-                              <a
-                                href={`${SYLLABUS_URL}${courseData.courseInfo.course_code}-${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('')}.pdf?lang=${language}`}
-                                id={courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('') + '_active'}
-                                target='_blank'
-                                className='pdf-link'
-                              >
-                              {translation.courseLabels.label_syllabus_link}
-                                <span className='small-text' >
-                                  {` 
-                                    ( 
-                                    ${translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]]}  ${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0]} -
-                                    ${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to.length > 0
-                                    ? translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[1]] + ' ' + courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[0]
-                                    : ''} 
-                                    )
-                                  `}
-                                </span>
-                              </a>
-                            </span>
-                          : ''}
+                  <h2 style='margin-top:20px'>{translation.courseLabels.header_round}</h2>
+
+                  {/* ---COURSE ROUND INFORMATION--- */}
+                  {routerStore.activeSemesters.length > 0
+                    ? <RoundInformationOneCol
+                      courseRound={courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex]}
+                      courseData={courseInformationToRounds}
+                      language={courseData.language}
+                      courseHasRound={routerStore.activeSemesters.length > 0}
+                      fade={this.state.roundInfoFade}
+                      showRoundData={this.state.showRoundData}
+                      canGetMemoFiles={routerStore.memoApiHasConnection}
+                      memoStorageURI={routerStore.browserConfig.memoStorageUri}
+                      />
+                    : <div className='key-info'>
+                        {routerStore.activeSemesters.length > 0
+                          ? <p>{translation.courseLabels.no_round_selected}</p>
+                          : <i>{translation.courseLabels.lable_no_rounds}</i>
+                        }
+                    </div>
+                  }
+                </Col>
+
+                {/** *************************************************************************************************************/}
+                {/*                           LEFT COLUMN - SYLLABUS + OTHER COURSE INFORMATION                                 */}
+                {/** *************************************************************************************************************/}
+                <Col id='coreContent' md='8' xs='12' className='float-md-left'>
+                  <div key='fade-2' className={` fade-container ${this.state.syllabusInfoFade === true ? ' fadeOutIn' : ''} `}>
+
+                    <Row id='activeSyllabusContainer' key='activeSyllabusContainer'>
+                      <Col sm='12' >
+                        <div sm='12' id='courseInfoHeader'>
+                          <h2>{translation.courseLabels.header_course_info}
+                            <div style='display: inline-block; padding-left: 15px;'>
+                              <InfoModal infoText={i18n.messages[courseData.language].courseLabels.syllabus_info} type='html' />
+                            </div>
+                          </h2>
                         </div>
+                        {courseData.syllabusSemesterList.length === 0
+                          ? <Alert color='info' aria-live='polite'>
+                            <h4>{translation.courseLabels.header_no_syllabus}</h4>
+                            {translation.courseLabels.label_no_syllabus}
+                          </Alert>
+                          : ''
+                        }
+
+                        <Row id='syllabusLink'>
+                          <Col sm='12'>
+                            {/* --- ACTIVE SYLLABUS LINK---  */}
+                            <div key='fade-2' className={` fade-container ${this.state.syllabusInfoFade === true ? ' fadeOutIn' : ''}`}>
+                              {courseData.syllabusSemesterList.length > 0
+                                ? <span>
+                                  <b>{translation.courseLabels.label_course_syllabus}</b>
+                                  <a
+                                    href={`${SYLLABUS_URL}${courseData.courseInfo.course_code}-${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('')}.pdf?lang=${language}`}
+                                    id={courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join('') + '_active'}
+                                    target='_blank'
+                                    className='pdf-link'
+                                  >
+                                  {translation.courseLabels.label_syllabus_link}
+                                    <span className='small-text' >
+                                      {` 
+                                        ( 
+                                        ${translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[1]]}  ${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from[0]} -
+                                        ${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to.length > 0
+                                        ? translation.courseInformation.course_short_semester[courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[1]] + ' ' + courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_to[0]
+                                        : ''} 
+                                        )
+                                      `}
+                                    </span>
+                                  </a>
+                                </span>
+                              : ''}
+                            </div>
+                          </Col>
+                        </Row>
                       </Col>
                     </Row>
-                  </Col>
-                </Row>
 
-                {/* --- COURSE INFORMATION CONTAINER---  */}
-                <CourseSectionList
-                  courseInfo={courseData.courseInfo}
-                  syllabusList={courseData.syllabusList[this.state.activeSyllabusIndex]}
-                  showCourseLink={routerStore.showCourseWebbLink}
-                  partToShow='courseContentBlock'
-                />
+                    {/* --- COURSE INFORMATION CONTAINER---  */}
+                    <CourseSectionList
+                      courseInfo={courseData.courseInfo}
+                      syllabusList={courseData.syllabusList[this.state.activeSyllabusIndex]}
+                      showCourseLink={routerStore.showCourseWebbLink}
+                      partToShow='courseContentBlock'
+                    />
 
-                {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
-                {courseData.courseInfo.course_level_code === 'RESEARCH'
-                  ? <span>
-                    <h3>{translation.courseLabels.header_postgraduate_course}</h3>
-                    {translation.courseLabels.label_postgraduate_course}
-                    <a href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}>
-                      {courseData.courseInfo.course_department}
-                    </a>
-                  </span>
-                  : ''}
-              </div>
-            </Col>
+                    {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
+                    {courseData.courseInfo.course_level_code === 'RESEARCH'
+                      ? <span>
+                        <h3>{translation.courseLabels.header_postgraduate_course}</h3>
+                        {translation.courseLabels.label_postgraduate_course}
+                        <a href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}>
+                          {courseData.courseInfo.course_department}
+                        </a>
+                      </span>
+                      : ''}
+                  </div>
+                </Col>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </div>
