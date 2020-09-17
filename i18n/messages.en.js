@@ -28,6 +28,13 @@ module.exports = {
     page_student: 'STUDENT AT KTH',
     page_course_programme: 'COURSE AND PROGRAMME DIRECTORY'
   },
+  breadCrumbLabels: {
+    university: 'KTH',
+    student: 'Student at KTH',
+    directory: 'Course and programme directory',
+    aboutCourse: 'About course',
+    aboutCourseMemos: 'About course memo'
+  },
   courseLabels: {
     label_syllabus_link: 'Course syllabus ',
     label_course_syllabus: '* Retrieved from ',

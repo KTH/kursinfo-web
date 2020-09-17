@@ -10,9 +10,13 @@ import DropdownMenu from 'inferno-bootstrap/dist/DropdownMenu'
 import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
 import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
 
+import Breadcrumb from 'inferno-bootstrap/dist/Breadcrumb'
+import BreadcrumbItem from 'inferno-bootstrap/dist/BreadcrumbItem'
+
 import Label from 'inferno-bootstrap/dist/Form/Label'
 import i18n from '../../../../i18n'
 import { EMPTY, FORSKARUTB_URL, SYLLABUS_URL } from '../util/constants'
+import { breadcrumbLinks, aboutCourseLink } from '../util/links'
 
 // Components
 import RoundInformationOneCol from '../components/RoundInformationOneCol.jsx'
@@ -109,6 +113,33 @@ class CoursePage extends Component {
     this.toggle(event, true)
   }
 
+  breadcrumbs (translation, language, courseCode) {
+    return (
+      <Breadcrumb lang={language}>
+        <BreadcrumbItem>
+          <a href={breadcrumbLinks.university[language]}>
+            {translation.breadCrumbLabels.university}
+          </a>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <a href={breadcrumbLinks.student[language]}>
+            {translation.breadCrumbLabels.student}
+          </a>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <a href={breadcrumbLinks.directory[language]}>
+            {translation.breadCrumbLabels.directory}
+          </a>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <a href={aboutCourseLink(courseCode, language)}>
+            {`${translation.breadCrumbLabels.aboutCourse} ${courseCode}`}
+          </a>
+        </BreadcrumbItem>
+      </Breadcrumb>
+    )
+  }
+
   render ({ routerStore }) {
     const courseData = routerStore['courseData']
 
@@ -142,6 +173,7 @@ class CoursePage extends Component {
 
     return (
       <div key='kursinfo-container' className='col' id='kursinfo-main-page' >
+        <Row>{this.breadcrumbs(translation, language, courseData.courseInfo.course_code)}</Row>
         <Row id='pageContainer' key='pageContainer'>
           <Col lg='3' className='side-menu'>
             <SideMenu

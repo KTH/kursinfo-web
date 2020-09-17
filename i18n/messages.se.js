@@ -30,6 +30,13 @@ module.exports = {
     page_course_programme: 'KURS- OCH PROGRAMKATALOGEN'
 
   },
+  breadCrumbLabels: {
+    university: 'KTH',
+    student: 'Student på KTH',
+    directory: 'Kurs- och programkatalogen',
+    aboutCourse: 'Om kursen',
+    aboutCourseMemos: 'Om kurs-PM'
+  },
   courseLabels: {
     label_syllabus_link: 'Kursplan ',
     label_course_syllabus: '* Hämtad från ',
