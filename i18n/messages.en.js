@@ -84,7 +84,7 @@ module.exports = {
       page_before_course: 'Before choosing course',
       page_catalog: 'Course and programme directory',
       page_history: 'Course development and history',
-      page_memo: 'Förbereda och gå kurs'
+      page_memo: 'Prepare and take course'
     }
   },
   courseInformation: {
