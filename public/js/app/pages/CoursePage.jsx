@@ -299,13 +299,6 @@ class CoursePage extends Component {
 
                     <Row id='activeSyllabusContainer' key='activeSyllabusContainer'>
                       <Col sm='12' >
-                        <div sm='12' id='courseInfoHeader'>
-                          <h2>{translation.courseLabels.header_course_info}
-                            <div style='display: inline-block; padding-left: 15px;'>
-                              <InfoModal infoText={i18n.messages[courseData.language].courseLabels.syllabus_info} type='html' />
-                            </div>
-                          </h2>
-                        </div>
                         {courseData.syllabusSemesterList.length === 0
                           ? <Alert color='info' aria-live='polite'>
                             <h4>{translation.courseLabels.header_no_syllabus}</h4>
