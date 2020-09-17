@@ -25,39 +25,42 @@ class CourseTitle extends Component {
     return (
       <div id='course-title'>
         <Row>
-          <Col>
-            <h1 className="course-header-title mb-0">{this.props.pageTitle}</h1>
-          </Col>
-        </Row>
-        <Row className="pb-3">
-          <Col className="text-left" xs="12" lg="6">
-            <h4 className="secondTitle">
-              {title.course_code} {title.course_title} {formatCredits(title.course_credits, title.course_credits_text, languageIndex)}
-            </h4>
-          </Col>
-          <Col className="text-lg-right" xs="12" lg="6">
-            <a
-              id="admin-link"
-              className="course-header-admin-link"
-              title={adminLinkLabel}
-              href={adminLink(title.course_code, languageIndex)}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+          <header className='pageTitle col'>
+            <span id='page-course-title' role='heading' aria-level='1'>
+              <span className='t1'>{this.props.pageTitle}</span>
+              <span className='t4'>{title.course_code} {title.course_title} {formatCredits(title.course_credits, title.course_credits_text, languageIndex)}</span>
+            </span>
+            <a className='right-link' href={adminLink(title.course_code, languageIndex)} style={{fontSize: '16px', align: 'baseline'}}>
               {adminLinkLabel}
             </a>
-          </Col>
+          </header>
         </Row>
       </div>
-      // <div >
-      //   <h1>
-      //     {this.props.pageTitle}
-      //   </h1>
-      //   <h4 className='secondTitle'>
-      //     <span property='aiiso:code'>{title.course_code}</span>
-      //     <span property='teach:courseTitle'> {title.course_title}</span>
-      //     <span content={title.course_credits} datatype='xsd:decimal' property='teach:ects'> {this.props.language === 0 ? title.course_credits : title.course_credits.toString().replace('.', ',')}&nbsp;{this.props.language === 0 ? 'credits' : title.course_credits_text} </span>
-      //   </h4>
+      // <div id='course-title'>
+      //   <Row>
+      //     <Col>
+      //       <h1 className="course-header-title mb-0">{this.props.pageTitle}</h1>
+      //     </Col>
+      //   </Row>
+      //   <Row className="pb-3">
+      //     <Col className="text-left" xs="12" lg="6">
+      //       <h4 className="secondTitle">
+      //         {title.course_code} {title.course_title} {formatCredits(title.course_credits, title.course_credits_text, languageIndex)}
+      //       </h4>
+      //     </Col>
+      //     <Col className="text-lg-right" xs="12" lg="6">
+      //       <a
+      //         id="admin-link"
+      //         className="course-header-admin-link"
+      //         title={adminLinkLabel}
+      //         href={adminLink(title.course_code, languageIndex)}
+      //         target="_blank"
+      //         rel="noopener noreferrer"
+      //       >
+      //         {adminLinkLabel}
+      //       </a>
+      //     </Col>
+      //   </Row>
       // </div>
     )
   }

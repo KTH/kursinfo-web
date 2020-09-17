@@ -107,6 +107,37 @@ h4.secondTitle {
     margin-top: 4px;
 }
 
+.pageTitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 30px; //change later to 14px, after syllabus details moved
+
+    [role=heading] {
+        display: flex;
+        flex-direction: column;
+        .t1 {
+        margin-bottom: 0;
+        margin-left: -0.095em;
+        }
+        .t4 {
+        margin-top: 4px;
+        margin-bottom: 0;
+        }
+    }
+    .alert {
+        margin-left: 0;
+    }
+}
+
+  //Links
+a.right-link {
+    float: right;
+    font-weight: normal;
+    text-align: right;
+}
+
 #courseIntroText{
     padding-top: 10px;
     padding-bottom: 10px;
