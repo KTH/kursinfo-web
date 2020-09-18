@@ -216,7 +216,7 @@ class CoursePage extends Component {
               {/* ---ALERT FOR NO CONNECTION TO kurs-pm-api --- */}
               {!routerStore.memoApiHasConnection
                 ? <Alert color='info' aria-live='polite'>
-                  <h3>{translation.courseLabels.alert_no_memo_connection} </h3>
+                  <span className='t3'>{translation.courseLabels.alert_no_memo_connection}</span>
                 </Alert>
                 : ''}
 
