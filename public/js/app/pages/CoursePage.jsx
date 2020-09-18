@@ -115,28 +115,30 @@ class CoursePage extends Component {
 
   breadcrumbs (translation, language, courseCode) {
     return (
-      <Breadcrumb lang={language}>
-        <BreadcrumbItem>
-          <a href={breadcrumbLinks.university[language]}>
-            {translation.breadCrumbLabels.university}
-          </a>
-        </BreadcrumbItem>
-        <BreadcrumbItem>
-          <a href={breadcrumbLinks.student[language]}>
-            {translation.breadCrumbLabels.student}
-          </a>
-        </BreadcrumbItem>
-        <BreadcrumbItem>
-          <a href={breadcrumbLinks.directory[language]}>
-            {translation.breadCrumbLabels.directory}
-          </a>
-        </BreadcrumbItem>
-        <BreadcrumbItem>
-          <a href={aboutCourseLink(courseCode, language)}>
-            {`${translation.breadCrumbLabels.aboutCourse} ${courseCode}`}
-          </a>
-        </BreadcrumbItem>
-      </Breadcrumb>
+      <nav lang={language} aria-label={translation.breadCrumbLabels.breadcrumbs}>
+        <Breadcrumb>
+          <BreadcrumbItem>
+            <a href={breadcrumbLinks.university[language]}>
+              {translation.breadCrumbLabels.university}
+            </a>
+          </BreadcrumbItem>
+          <BreadcrumbItem>
+            <a href={breadcrumbLinks.student[language]}>
+              {translation.breadCrumbLabels.student}
+            </a>
+          </BreadcrumbItem>
+          <BreadcrumbItem>
+            <a href={breadcrumbLinks.directory[language]}>
+              {translation.breadCrumbLabels.directory}
+            </a>
+          </BreadcrumbItem>
+          <BreadcrumbItem>
+            <a href={aboutCourseLink(courseCode, language)}>
+              {`${translation.breadCrumbLabels.aboutCourse} ${courseCode}`}
+            </a>
+          </BreadcrumbItem>
+        </Breadcrumb>
+      </nav>
     )
   }
 
@@ -182,7 +184,7 @@ class CoursePage extends Component {
               language={language}
             />
           </Col>
-          <Col sm='9' xs='9' lg='9' id='middle' key='middle'>
+          <main className='col-9 col-sm-9 col-lg-9' id='middle' key='middle' aria-labelledby='page-course-title'>
 
           {/** *************************************************************************************************************/}
           {/*                                                   INTRO                                                     */}
@@ -219,17 +221,15 @@ class CoursePage extends Component {
                 : ''}
 
             {/* ---INTRO TEXT--- */}
-            <Row id='courseIntroText' key='courseIntroText'>
+            <section className='row' id='courseIntroText' key='courseIntroText' aria-label={translation.courseLabels.label_course_description}>
               <Col sm='12' xs='12'>
                 <img src={courseImage} alt='' height='auto' width='300px' />
                 <div
                   dangerouslySetInnerHTML={{__html: introText}}>
                 </div>
               </Col>
-            </Row>
+            </section>
             <Row id='columnContainer' key='columnContainer'>
-              {/* <Col lg="3" className="empty side-menu">
-              </Col> */}
               <Col id='leftContainer' key='leftContainer' >
               {/** *************************************************************************************************************/}
               {/*                                      RIGHT COLUMN - ROUND INFORMATION                                         */}
@@ -238,8 +238,8 @@ class CoursePage extends Component {
 
                 {/* ---COURSE  DROPDOWN MENU--- */}
                 {routerStore.activeSemesters.length > 0
-                  ? <div id='roundDropdownMenu' className=''>
-                    <h2 style='margin-top:0px'>{translation.courseLabels.header_dropdown_menue}</h2>
+                  ? <nav id='roundDropdownMenu' aria-label={translation.courseLabels.header_dropdown_menu_navigation}>
+                    <h2 id='roundDropdownMenuHeader' style='margin-top:0px'>{translation.courseLabels.header_dropdown_menue}</h2>
                     <div className='row' id='roundDropdowns' key='roundDropdown'>
                       {routerStore.activeSemesters.length > 0 && (
                         <DropdownSemesters
@@ -284,7 +284,7 @@ class CoursePage extends Component {
                           : ''
                         }
                     </div>
-                  </div>
+                  </nav>
                   : routerStore.activeSemesters.length === 0 && courseData.syllabusSemesterList.length > 0
                       ? <Alert color='info'>
                         <h4>{translation.courseLabels.header_no_rounds}</h4>
@@ -300,7 +300,7 @@ class CoursePage extends Component {
                       : ''
                     }
 
-                  <h2 style='margin-top:20px'>{translation.courseLabels.header_round}</h2>
+                  <h2 id='courseRoundInformationHeader' style='margin-top:20px'>{translation.courseLabels.header_round}</h2>
 
                   {/* ---COURSE ROUND INFORMATION--- */}
                   {routerStore.activeSemesters.length > 0
@@ -394,7 +394,7 @@ class CoursePage extends Component {
                 </Col>
               </Col>
             </Row>
-          </Col>
+          </main>
         </Row>
       </div>
     )

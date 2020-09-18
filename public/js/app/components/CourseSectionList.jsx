@@ -109,12 +109,12 @@ class CourseSectionList extends Component {
   render ({ routerStore }) {
     const translation = i18n.messages[this.state.store.language]
     return (
-      <div className='row' id={this.props.partToShow}>
+      <section className='row' id={this.props.partToShow} aria-label={translation.courseLabels.label_course_information}>
         <CourseSection sectionHeader={translation.courseLabels.header_content} headerType='3' class='first-header' courseData={this.getContent(translation)} sectionId='Content' />
         <CourseSection sectionHeader={translation.courseLabels.header_execution} headerType='3' courseData={this.getExecution(translation)} sectionId='Execution' />
         <CourseSection sectionHeader={translation.courseLabels.header_examination} headerType='3' courseData={this.getExamination(translation)} sectionId='Examination' />
         <CourseSection sectionHeader={translation.courseLabels.header_further} headerType='3' courseData={this.getOther(translation)} sectionId='Other' />
-      </div>
+      </section>
     )
   }
 }

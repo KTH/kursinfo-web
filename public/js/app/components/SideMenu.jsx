@@ -24,7 +24,7 @@ const SideMenu = ({ courseCode, labels, language }) => {
   const courseHistoryLink = `${COURSE_HISTORY_URL}${courseCode}?l=${language}`
 
   return (
-    <div className='left-side-menu mt-20'>
+    <nav className='left-side-menu mt-20' lang={language} aria-label={labels.aria_label}>
       <p>
         &lsaquo;&nbsp;
         <a href={SIDE_MENU_LINK_URL[language]} title={labels.page_catalog}>{labels.page_catalog}</a>
@@ -49,7 +49,7 @@ const SideMenu = ({ courseCode, labels, language }) => {
           {labels.page_history}
         </a>
       </p>
-    </div>
+    </nav>
   )
 }
 

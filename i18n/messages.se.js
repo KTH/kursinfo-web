@@ -31,6 +31,7 @@ module.exports = {
 
   },
   breadCrumbLabels: {
+    breadcrumbs: 'Brödsmulor',
     university: 'KTH',
     student: 'Student på KTH',
     directory: 'Kurs- och programkatalogen',
@@ -38,6 +39,8 @@ module.exports = {
     aboutCourseMemos: 'Om kurs-PM'
   },
   courseLabels: {
+    label_course_description: 'Kursbeskrivning',
+    label_course_information: 'Kursinformation',
     label_syllabus_link: 'Kursplan ',
     label_course_syllabus: '* Hämtad från ',
     label_course_syllabus_valid_from: 'Gäller från och med',
@@ -68,6 +71,7 @@ module.exports = {
       CANCELLED: 'Kursomgång inställd',
       FULL: 'Kursomgång fullsatt'
     },
+    header_dropdown_menu_navigation: 'Välj kursomgång',
     header_dropdown_menue: 'Gäller för',
     header_course_info: 'Kursinformation',
     header_content: 'Innehåll och lärandemål',
@@ -90,6 +94,7 @@ module.exports = {
     round_seats_info: 'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
     syllabus_info: '<h4>Kursinformation</h4> <p>• Kursinformation består av all information från kursplan samt övrig kursinformation som gäller kurs och kursomgång</p><p>• Har du inte valt termin och kursomgång så ser du kursinformation från nuvarande eller kommande kursplan (vilken period kursplanen gäller för finns angivet under rubriken ”Kursinformation”)</p><p>• En kurs går olika kursomgångar. För att se information för en specifik kursomgång så väljer du termin och kursomgång i rutan uppe till höger. Om det är annan kursplan som gäller den terminen så uppdateras även den informationen (till vänster på sidan)</p><p>•Observera: bestämmelser i kursplaner är regler som är generellt tillämpbara och bindande för såväl anställda som studenter</p>',
     sideMenu: {
+      aria_label: 'Undermeny',
       page_about_course: 'Om kursen ',
       page_before_course: 'Inför kursval',
       page_catalog: 'Kurs- och programkatalogen',

@@ -29,6 +29,7 @@ module.exports = {
     page_course_programme: 'COURSE AND PROGRAMME DIRECTORY'
   },
   breadCrumbLabels: {
+    breadcrumbs: 'Breadcrumbs',
     university: 'KTH',
     student: 'Student at KTH',
     directory: 'Course and programme directory',
@@ -36,6 +37,8 @@ module.exports = {
     aboutCourseMemos: 'About course memo'
   },
   courseLabels: {
+    label_course_description: 'Course description',
+    label_course_information: 'Course information',
     label_syllabus_link: 'Course syllabus ',
     label_course_syllabus: '* Retrieved from ',
     label_course_syllabus_valid_from: 'Valid from',
@@ -65,6 +68,7 @@ module.exports = {
       CANCELLED: 'This offering is cancelled',
       FULL: 'This offering is full'
     },
+    header_dropdown_menu_navigation: 'Choose course offering',
     header_dropdown_menue: 'Valid for',
     header_course_info: 'Course information',
     header_content: 'Content and learning outcomes',
@@ -87,6 +91,7 @@ module.exports = {
     round_seats_info: 'Course offering may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made.',
     syllabus_info: '<h4>Course information</h4> <p>• Course information consists of all information from the course syllabus (kursplan) as well as other course information concerning course and course offering</p><p>• If you have not chosen the semester and course offering, you will see course information from the current or future course syllabus (which period the course syllabus applies to is given under the heading "Course information")</p><p>• A course goes different course offerings. To see information for a specific course offering, choose the semester and course offering in the upper right corner. If it is another course syllabus that applies to that semester, the corresponding information is also updated (on the left side of the page).</p><p>• Please note: regulations in course syllabus are rules that are generally applicable and binding for both employees and students</p>',
     sideMenu: {
+      aria_label: 'Sub menu',
       page_about_course: 'About course',
       page_before_course: 'Before choosing course',
       page_catalog: 'Course and programme directory',

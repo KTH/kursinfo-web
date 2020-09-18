@@ -35,8 +35,8 @@ class RoundInformationOneCol extends Component {
     `
 
     return (
-      <div id='roundInformationOneCol' className='key-info'>
-        <Row id='roundFirstPart'>
+      <section id='roundInformationOneCol' className='key-info' aria-labelledby='roundHeader selectedRoundHeader'>
+        <section className='row' id='roundFirstPart' aria-labelledby={courseHasRound && showRoundData ? 'courseRoundInformationHeader' : null}>
           {/** *************************************************************************************************************/}
           {/*                                  Round information  - first part                                         */}
           {/** *************************************************************************************************************/}
@@ -46,8 +46,8 @@ class RoundInformationOneCol extends Component {
               {/* ---COURSE ROUND HEADER--- */}
               {courseHasRound && showRoundData
                 ? <div style='border-bottom:1px solid #fff;'>
-                  <h4>{roundHeader} </h4>
-                  <p>{selectedRoundHeader}</p>
+                  <h4 id='roundHeader'>{roundHeader} </h4>
+                  <p id='selectedRoundHeader'>{selectedRoundHeader}</p>
                 </div>
                 : ''
               }
@@ -74,7 +74,7 @@ class RoundInformationOneCol extends Component {
                 :
               //* ---SELECT A ROUND BOX --- *//
                 <span className='text-center2'>
-                  <h4>{i18n.messages[language].courseLabels.header_no_round_selected}</h4>
+                  <h4 id='roundHeader'>{i18n.messages[language].courseLabels.header_no_round_selected}</h4>
                   <p>{i18n.messages[language].courseLabels.no_round_selected}</p>
                 </span>
               }
@@ -85,7 +85,7 @@ class RoundInformationOneCol extends Component {
               {courseHasRound && showRoundData
                 ? <span>
                   <h4>{translate.round_tutoring_form}</h4>
-                  <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[language]}                                                               {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
+                  <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[language]}                                                                                                 {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
 
                   <h4>{translate.round_tutoring_language}</h4>
                   <p>{round ? round.round_tutoring_language : EMPTY[language]}</p>
@@ -115,15 +115,15 @@ class RoundInformationOneCol extends Component {
 
             </div>
           </Col>
-        </Row>
-        <Row id='roundApply'>
+        </section>
+        <section className='row' id='roundApply' aria-labelledby={courseHasRound && showRoundData ? 'applicationInformationHeader' : null}>
           <Col>
             {/** *************************************************************************************************************/}
             {/*                                     Round - application information                                         */}
             {/** *************************************************************************************************************/}
             {courseHasRound && showRoundData
               ? <span>
-                <h2 className='right-column-header'>{i18n.messages[language].courseLabels.header_select_course}</h2>
+                <h2 id='applicationInformationHeader' className='right-column-header'>{i18n.messages[language].courseLabels.header_select_course}</h2>
 
                 <h4>{roundHeader} </h4>
                 <p>{selectedRoundHeader}</p>
@@ -140,15 +140,15 @@ class RoundInformationOneCol extends Component {
               </span>
             : ''}
           </Col>
-        </Row>
-        <Row id='roundContact'>
+        </section>
+        <section className='row' id='roundContact' aria-labelledby={courseHasRound && showRoundData ? 'contactInformationHeader' : null}>
           <Col>
           {/** *************************************************************************************************************/}
           {/*                                     Round - contact information                                             */}
           {/** *************************************************************************************************************/}
           {courseHasRound && showRoundData
             ? <span>
-              <h2 className='right-column-header'>{i18n.messages[language].courseLabels.header_contact}</h2>
+              <h2 id='contactInformationHeader' className='right-column-header'>{i18n.messages[language].courseLabels.header_contact}</h2>
 
               <h4>{roundHeader} </h4>
               <p>{selectedRoundHeader}</p>
@@ -171,8 +171,8 @@ class RoundInformationOneCol extends Component {
             </span>
             : ''}
           </Col>
-        </Row>
-      </div>
+        </section>
+      </section>
     )
   }
 }
