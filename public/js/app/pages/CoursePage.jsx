@@ -5,15 +5,15 @@ import Alert from 'inferno-bootstrap/dist/Alert'
 import Col from 'inferno-bootstrap/dist/Col'
 import Row from 'inferno-bootstrap/dist/Row'
 
-import Dropdown from 'inferno-bootstrap/dist/Dropdown'
-import DropdownMenu from 'inferno-bootstrap/dist/DropdownMenu'
-import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
-import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
+// import Dropdown from 'inferno-bootstrap/dist/Dropdown'
+// import DropdownMenu from 'inferno-bootstrap/dist/DropdownMenu'
+// import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
+// import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
 
 import Breadcrumb from 'inferno-bootstrap/dist/Breadcrumb'
 import BreadcrumbItem from 'inferno-bootstrap/dist/BreadcrumbItem'
 
-import Label from 'inferno-bootstrap/dist/Form/Label'
+// import Label from 'inferno-bootstrap/dist/Form/Label'
 import i18n from '../../../../i18n'
 import { EMPTY, FORSKARUTB_URL, SYLLABUS_URL } from '../util/constants'
 import { breadcrumbLinks, aboutCourseLink } from '../util/links'
@@ -23,7 +23,6 @@ import RoundInformationOneCol from '../components/RoundInformationOneCol.jsx'
 import CourseTitle from '../components/CourseTitle.jsx'
 import CourseSectionList from '../components/CourseSectionList.jsx'
 import SideMenu from '../components/SideMenu.jsx'
-
 
 @inject(['routerStore']) @observer
 class CoursePage extends Component {
@@ -43,7 +42,8 @@ class CoursePage extends Component {
       showRoundData: false,
       roundDisabled: true,
       roundSelected: false,
-      semesterSelectedIndex: 0
+      semesterSelectedIndex: 0,
+      roundSelectedIndex: 0
     }
 
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
@@ -95,28 +95,34 @@ class CoursePage extends Component {
 
     this.setState({
       activeSemesterIndex: newIndex >= 0 ? newIndex : this.props.routerStore.defaultIndex,
-      activeSemester: activeSemester || this.props.routerStore.activeSemesters.length > 0 ? this.props.routerStore.activeSemesters[this.props.routerStore.defaultIndex][2] : 0,
+      activeSemester: activeSemester || (this.props.routerStore.activeSemesters.length > 0 ? this.props.routerStore.activeSemesters[this.props.routerStore.defaultIndex][2] : 0),
       activeSyllabusIndex: this.props.routerStore.roundsSyllabusIndex[newIndex] || 0,
       syllabusInfoFade: prevState.syllabusInfoFade,
       activeRoundIndex: 0,
       roundInfoFade: true,
       showRoundData: showRoundData,
-      roundDisabled: false,
-      roundSelected: false,
-      semesterSelectedIndex: eventTarget.selectedIndex
+      roundDisabled: newIndex === -1,
+      roundSelected: newIndex === -1,
+      semesterSelectedIndex: eventTarget.selectedIndex,
+      roundSelectedIndex: 0
     })
     // this.toggle(event, true)
   }
 
   handleDropdownSelect (event) {
     event.preventDefault()
-    const selectInfo = event.target.id.split('_')
+
+    const eventTarget = event.target
+    const selectedOption = eventTarget[eventTarget.selectedIndex]
+
+    const selectInfo = selectedOption.id.split('_')
     this.setState({
-      activeRoundIndex: selectInfo[1],
-      showRoundData: true,
-      roundSelected: true
+      activeRoundIndex: eventTarget.selectedIndex === 0 ? 0 : selectInfo[1],
+      showRoundData: eventTarget.selectedIndex !== 0,
+      roundSelected: eventTarget.selectedIndex !== 0,
+      roundSelectedIndex: eventTarget.selectedIndex
     })
-    this.toggle(event, true)
+    // this.toggle(event, true)
   }
 
   breadcrumbs (translation, language, courseCode) {
@@ -259,7 +265,6 @@ class CoursePage extends Component {
                           />
                         )
                       }
-
                       {courseData.roundList[this.state.activeSemester] && courseData.roundList[this.state.activeSemester].length > 1
                         ? <DropdownRounds
                           semesterList={routerStore.activeSemesters}
@@ -425,7 +430,7 @@ const DropdownSemesters = ({semesterList, courseRoundList, callerInstance, semes
                     <option
                       key={index}
                       id={dropdownID + '_' + index + '_' + '0'}
-                      // selected={callerInstance.state.semesterSelectedIndex === (index - 1)}
+                      selected={(callerInstance.state.semesterSelectedIndex - 1) === index}
                       value={`${i18n.messages[language].courseInformation.course_short_semester[semesterItem[1]]}${semesterItem[0]}`}
                     >
                       {i18n.messages[language].courseInformation.course_short_semester[semesterItem[1]]}{semesterItem[0]}
@@ -484,48 +489,73 @@ const DropdownRounds = ({courseRoundList, callerInstance, semester, year, langua
   } else {
     return (
       <div className='col-12 semester-dropdowns'>
-        <Label htmlFor={dropdownID}>{label.label_dropdown}</Label>
-        <Dropdown group
-          isOpen={callerInstance.state.dropdownsOpen[dropdownID]}
-          toggle={callerInstance.toggle}
-          key={'dropD' + dropdownID}
-          id={dropdownID}
-          className='select-round'
-        >
-          <DropdownToggle
-            id={dropdownID}
-            disabled={callerInstance.state.roundDisabled}
-          >
-            {callerInstance.state.roundSelected
-              ? <span id={dropdownID + '_span'}>
-                  {
-                    `${courseRoundList[callerInstance.state.activeRoundIndex].round_short_name !== EMPTY[language]
-                      ? courseRoundList[callerInstance.state.activeRoundIndex].round_short_name
-                      : ''}, 
-                      ${i18n.messages[language].courseRoundInformation.round_category[courseRoundList[callerInstance.state.activeRoundIndex].round_category]}
-                    `
-                  }
-              </span>
-              : <span id={dropdownID + '_spanSelect'}>{label.placeholder} </span>
-            }
-            <span caret className='caretholder' id={dropdownID + '_spanCaret'}></span>
-          </DropdownToggle>
-          <DropdownMenu>
-            {
-              courseRoundList.map((courseRound, index) => {
-                return (
-                  <DropdownItem key={index} id={dropdownID + '_' + index + '_' + '0'} onClick={callerInstance.handleDropdownSelect}>
-                    {
-                      `${courseRound.round_short_name !== EMPTY[language] ? courseRound.round_short_name : ''},     
-                      ${i18n.messages[language].courseRoundInformation.round_category[courseRound.round_category]}`
-                    }
-                  </DropdownItem>
-                )
-              })
-            }
-          </DropdownMenu>
-        </Dropdown>
+        <form>
+          <label className='form-control-label' htmlfor={dropdownID}>{label.label_dropdown}</label>
+          <div className='form-select form-group'>
+            <div className='select-wrapper'>
+              <select className='form-control' id={dropdownID} aria-label={''} onChange={callerInstance.handleDropdownSelect} disabled={callerInstance.state.roundDisabled} >
+                <option id={dropdownID + '_' + '-1' + '_' + '0'} selected={callerInstance.state.roundSelectedIndex === 0} value={label.placeholder}>{label.placeholder}</option>
+                {courseRoundList.map((courseRound, index) => {
+                  const value = `${courseRound.round_short_name !== EMPTY[language] ? courseRound.round_short_name : ''}, ${i18n.messages[language].courseRoundInformation.round_category[courseRound.round_category]}`
+                  return (
+                    <option
+                      key={index}
+                      id={dropdownID + '_' + index + '_' + '0'}
+                      selected={(callerInstance.state.roundSelectedIndex - 1) === index}
+                      value={value}
+                    >
+                      {value}
+                    </option>
+                  )
+                })}
+              </select>
+            </div>
+          </div>
+        </form>
       </div>
+      // <div className='col-12 semester-dropdowns'>
+      //   <Label htmlFor={dropdownID}>{label.label_dropdown}</Label>
+      //   <Dropdown group
+      //     isOpen={callerInstance.state.dropdownsOpen[dropdownID]}
+      //     toggle={callerInstance.toggle}
+      //     key={'dropD' + dropdownID}
+      //     id={dropdownID}
+      //     className='select-round'
+      //   >
+      //     <DropdownToggle
+      //       id={dropdownID}
+      //       disabled={callerInstance.state.roundDisabled}
+      //     >
+      //       {callerInstance.state.roundSelected
+      //         ? <span id={dropdownID + '_span'}>
+      //             {
+      //               `${courseRoundList[callerInstance.state.activeRoundIndex].round_short_name !== EMPTY[language]
+      //                 ? courseRoundList[callerInstance.state.activeRoundIndex].round_short_name
+      //                 : ''},
+      //                 ${i18n.messages[language].courseRoundInformation.round_category[courseRoundList[callerInstance.state.activeRoundIndex].round_category]}
+      //               `
+      //             }
+      //         </span>
+      //         : <span id={dropdownID + '_spanSelect'}>{label.placeholder} </span>
+      //       }
+      //       <span caret className='caretholder' id={dropdownID + '_spanCaret'}></span>
+      //     </DropdownToggle>
+      //     <DropdownMenu>
+      //       {
+      //         courseRoundList.map((courseRound, index) => {
+      //           return (
+      //             <DropdownItem key={index} id={dropdownID + '_' + index + '_' + '0'} onClick={callerInstance.handleDropdownSelect}>
+      //               {
+      //                 `${courseRound.round_short_name !== EMPTY[language] ? courseRound.round_short_name : ''},
+      //                 ${i18n.messages[language].courseRoundInformation.round_category[courseRound.round_category]}`
+      //               }
+      //             </DropdownItem>
+      //           )
+      //         })
+      //       }
+      //     </DropdownMenu>
+      //   </Dropdown>
+      // </div>
     )
   }
 }
