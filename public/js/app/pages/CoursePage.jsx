@@ -22,6 +22,7 @@ import { breadcrumbLinks, aboutCourseLink } from '../util/links'
 import RoundInformationOneCol from '../components/RoundInformationOneCol.jsx'
 import CourseTitle from '../components/CourseTitle.jsx'
 import CourseSectionList from '../components/CourseSectionList.jsx'
+import InfoModal from '../components/InfoModal.jsx'
 import SideMenu from '../components/SideMenu.jsx'
 
 @inject(['routerStore']) @observer
@@ -251,7 +252,7 @@ class CoursePage extends Component {
                 {/* ---COURSE  DROPDOWN MENU--- */}
                 {routerStore.activeSemesters.length > 0
                   ? <nav id='roundDropdownMenu' aria-label={translation.courseLabels.header_dropdown_menu_navigation}>
-                    <h2 id='roundDropdownMenuHeader' style='margin-top:0px'>{translation.courseLabels.header_dropdown_menue}</h2>
+                    <h2 id='roundDropdownMenuHeader' style='margin-top:0px'>{translation.courseLabels.header_dropdown_menue}<InfoModal infoText={i18n.messages[courseData.language].courseLabels.syllabus_info} type='html' /></h2>
                     <div className='row' id='roundDropdowns' key='roundDropdown'>
                       {routerStore.activeSemesters.length > 0 && (
                         <DropdownSemesters
