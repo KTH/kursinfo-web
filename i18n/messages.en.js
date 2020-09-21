@@ -78,7 +78,6 @@ module.exports = {
     header_statistics: 'Course statistics',
     header_syllabuses: 'Course syllabuses archive',
     header_further: 'Further information',
-    header_round: 'About course offering',
     header_select_course: 'Application',
     header_postgraduate_course: 'Postgraduate course ',
     empty_text: 'No information inserted',
@@ -151,6 +150,7 @@ module.exports = {
     course_link_text: '<p>Further information about the course can be found on the Course web at the link below. Information on the Course web will later be moved to this site. </p>'
   },
   courseRoundInformation: {
+    header_round: 'About course offering',
     round_header: 'Offering',
     round_application_code: 'Application code',
     round_max_seats: 'Number of places',

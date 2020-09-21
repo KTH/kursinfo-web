@@ -311,8 +311,6 @@ class CoursePage extends Component {
                       : ''
                     }
 
-                  <h2 id='courseRoundInformationHeader' style='margin-top:20px'>{translation.courseLabels.header_round}</h2>
-
                   {/* ---COURSE ROUND INFORMATION--- */}
                   {routerStore.activeSemesters.length > 0
                     ? <RoundInformationOneCol

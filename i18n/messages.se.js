@@ -81,7 +81,6 @@ module.exports = {
     header_examination: 'Examination och slutförande',
     header_contact: 'Kontakt',
     header_further: 'Ytterligare information',
-    header_round: 'Om kursomgång',
     header_select_course: 'Kursval',
     header_postgraduate_course: 'Forskarkurs ',
     empty_text: 'Ingen information inlagd',
@@ -155,6 +154,7 @@ module.exports = {
     course_link_text: '<p>Ytterligare information om kursen kan hittas på kurswebben via länken nedan. Information på kurswebben kommer framöver flyttas till denna sida. </p>'
   },
   courseRoundInformation: {
+    header_round: 'Om kursomgång',
     round_header: 'Kursomgång',
     round_application_code: 'Anmälningskod',
     round_max_seats: 'Antal platser',
