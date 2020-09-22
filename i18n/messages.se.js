@@ -88,10 +88,10 @@ module.exports = {
     no_memo: 'Inget kurs-PM inlagt ',
     no_memo_connection: 'Kurs-pm kan inte visas',
     alert_no_memo_connection: 'För närvarande kan inte kurs-PM som PDF visas för kursens aktuella kursomgångar. Försök igen senare. Kontakta IT-support om problemet kvarstår.',
-    header_no_round_selected: 'Ingen kursomgång är vald',
-    no_round_selected: 'Välj termin och kursomgång ovan för att få information från rätt kursplan och kursomgång.',
+    header_no_round_selected: 'Välj termin och kursomgång',
+    no_round_selected: 'Välj termin och kursomgång för att se information från rätt kursplan och kursomgång.',
     round_seats_info: 'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
-    syllabus_info: '<h4>Kursinformation</h4> <p>• Kursinformation består av all information från kursplan samt övrig kursinformation som gäller kurs och kursomgång</p><p>• Har du inte valt termin och kursomgång så ser du kursinformation från nuvarande eller kommande kursplan (vilken period kursplanen gäller för finns angivet under rubriken ”Kursinformation”)</p><p>• En kurs går olika kursomgångar. För att se information för en specifik kursomgång så väljer du termin och kursomgång i rutan uppe till höger. Om det är annan kursplan som gäller den terminen så uppdateras även den informationen (till vänster på sidan)</p><p>•Observera: bestämmelser i kursplaner är regler som är generellt tillämpbara och bindande för såväl anställda som studenter</p>',
+    syllabus_info: '<h4>Kursinformation</h4><p>• En kurs undervisas i olika kursomgångar. För att se information om en specifik kursomgång behöver du välja termin och kursomgång. Information från kursplan kommer att uppdateras beroende på vald termin. Information från kursplan är markerad med *.</p><p>• Observera: bestämmelser i kursplaner är regler som är generellt tillämpbara och bindande för såväl anställda som studenter.</p><p>• Har du inte valt termin och kursomgång ser du kursinformation från nuvarande eller kommande kursplan. På sidan anges den period som information från kursplan gäller för.</p>',
     sideMenu: {
       aria_label: 'Undermeny',
       page_about_course: 'Om kursen ',
@@ -155,7 +155,7 @@ module.exports = {
   },
   courseRoundInformation: {
     header_round: 'Om kursomgång',
-    round_header: 'Kursomgång',
+    round_header: 'Gäller för kursomgång',
     round_application_code: 'Anmälningskod',
     round_max_seats: 'Antal platser',
     round_part_of_programme: 'Del av program',

@@ -85,10 +85,10 @@ module.exports = {
     no_memo: 'No course memo added ',
     alert_no_memo_connection: 'No course memos can currently be displayed for the course offerings. Please try again later. Contact IT support if the problem remains.',
     no_memo_connection: 'Course memo cannot be displayed',
-    header_no_round_selected: 'No offering selected',
-    no_round_selected: 'Select the semester and course offering above to get information from the correct course syllabus and course offering.',
+    header_no_round_selected: 'Choose semester and course offering',
+    no_round_selected: 'Choose semester and course offering to see information from the correct course syllabus and course offering.',
     round_seats_info: 'Course offering may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made.',
-    syllabus_info: '<h4>Course information</h4> <p>• Course information consists of all information from the course syllabus (kursplan) as well as other course information concerning course and course offering</p><p>• If you have not chosen the semester and course offering, you will see course information from the current or future course syllabus (which period the course syllabus applies to is given under the heading "Course information")</p><p>• A course goes different course offerings. To see information for a specific course offering, choose the semester and course offering in the upper right corner. If it is another course syllabus that applies to that semester, the corresponding information is also updated (on the left side of the page).</p><p>• Please note: regulations in course syllabus are rules that are generally applicable and binding for both employees and students</p>',
+    syllabus_info: '<h4>Course information</h4><p>• A course goes different course offerings. To see information about a specific course offering, choose semester and course offering. The course syllabus information will be updated depending on the chosen semester. Information from the course syllabus is marked with *.</p><p>• Please note: regulations in course syllabus are rules that are generally applicable and binding for both employees and students.</p><p>• If you have not chosen semester and course offering, you will see course information from the current or future course syllabus. The valid period of the course syllabus is stated on the page.</p>',
     sideMenu: {
       aria_label: 'Sub menu',
       page_about_course: 'About course',
@@ -151,7 +151,7 @@ module.exports = {
   },
   courseRoundInformation: {
     header_round: 'About course offering',
-    round_header: 'Offering',
+    round_header: 'For course offering',
     round_application_code: 'Application code',
     round_max_seats: 'Number of places',
     round_part_of_programme: 'Part of programme',
