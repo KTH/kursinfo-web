@@ -2,19 +2,7 @@ import { Component } from 'inferno'
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
 import i18n from '../../../../i18n'
-import { EMPTY } from '../util/constants'
-
-const LISTS_OF_PILOT_COURSES = [
-  'AF1301',
-  'HS1001',
-  'MG1028',
-  'MJ2462',
-  'ED1110',
-  'EH2720',
-  'EH2070',
-  'SD2900',
-  'SD2925'
-]
+import { EMPTY, LISTS_OF_PILOT_COURSES } from '../util/constants'
 
 const checkIfPilotCourse = (courseCode) =>
   LISTS_OF_PILOT_COURSES.includes(courseCode)

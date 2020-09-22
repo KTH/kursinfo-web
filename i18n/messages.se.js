@@ -30,7 +30,17 @@ module.exports = {
     page_course_programme: 'KURS- OCH PROGRAMKATALOGEN'
 
   },
+  breadCrumbLabels: {
+    breadcrumbs: 'Brödsmulor',
+    university: 'KTH',
+    student: 'Student på KTH',
+    directory: 'Kurs- och programkatalogen',
+    aboutCourse: 'Om kursen',
+    aboutCourseMemos: 'Om kurs-PM'
+  },
   courseLabels: {
+    label_course_description: 'Kursbeskrivning',
+    label_course_information: 'Kursinformation',
     label_syllabus_link: 'Kursplan ',
     label_course_syllabus: '* Hämtad från ',
     label_course_syllabus_valid_from: 'Gäller från och med',
@@ -41,21 +51,28 @@ module.exports = {
     label_postgraduate_course: 'Forskarkurser på ',
     label_course_cancelled: 'Detta är en nedlagd kurs.',
     label_last_exam: 'Sista planerade examination: ',
-    label_edit: 'Administrera',
+    label_edit: 'Administrera Om kursen',
     label_course_memo: 'Kurs-pm',
     header_no_rounds: 'Kursomgångar saknas',
     lable_no_rounds: 'Kursomgångar saknas för tidigare och kommande terminer, samt för innevarande termin.',
     label_schedule: 'Schema',
     label_statistics: 'Kursutveckling',
     lable_canavas_example: 'Canvas exempelkurs',
-    lable_round_select: 'Välj kursomgång',
-    lable_semester_select: 'Välj termin',
+    label_round_select: {
+      placeholder: 'Välj kursomgång',
+      label_dropdown: 'Kursomgång'
+    },
+    label_semester_select: {
+      placeholder: 'Välj termin',
+      label_dropdown: 'Termin'
+    },
 
     lable_round_state: {
       CANCELLED: 'Kursomgång inställd',
       FULL: 'Kursomgång fullsatt'
     },
-    header_dropdown_menue: 'Visa kursinformation utifrån vald termin och kursomgång',
+    header_dropdown_menu_navigation: 'Välj kursomgång',
+    header_dropdown_menue: 'Gäller för',
     header_course_info: 'Kursinformation',
     header_content: 'Innehåll och lärandemål',
     header_execution: 'Kurslitteratur och förberedelser',
@@ -64,22 +81,26 @@ module.exports = {
     header_examination: 'Examination och slutförande',
     header_contact: 'Kontakt',
     header_further: 'Ytterligare information',
-    header_round: 'Kursomgång och genomförande',
     header_select_course: 'Kursval',
-    header_history: 'Kursens utveckling och historik',
     header_postgraduate_course: 'Forskarkurs ',
     empty_text: 'Ingen information inlagd',
     no_schedule: 'Schema saknas',
     no_memo: 'Inget kurs-PM inlagt ',
     no_memo_connection: 'Kurs-pm kan inte visas',
     alert_no_memo_connection: 'För närvarande kan inte kurs-PM som PDF visas för kursens aktuella kursomgångar. Försök igen senare. Kontakta IT-support om problemet kvarstår.',
-    header_no_round_selected: 'Ingen kursomgång är vald',
-    no_round_selected: 'Välj termin och kursomgång ovan för att få information från rätt kursplan och kursomgång.',
+    header_no_round_selected: 'Välj termin och kursomgång',
+    no_round_selected: 'Välj termin och kursomgång för att se information från rätt kursplan och kursomgång.',
     round_seats_info: 'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
-    syllabus_info: '<h4>Kursinformation</h4> <p>• Kursinformation består av all information från kursplan samt övrig kursinformation som gäller kurs och kursomgång</p><p>• Har du inte valt termin och kursomgång så ser du kursinformation från nuvarande eller kommande kursplan (vilken period kursplanen gäller för finns angivet under rubriken ”Kursinformation”)</p><p>• En kurs går olika kursomgångar. För att se information för en specifik kursomgång så väljer du termin och kursomgång i rutan uppe till höger. Om det är annan kursplan som gäller den terminen så uppdateras även den informationen (till vänster på sidan)</p><p>•Observera: bestämmelser i kursplaner är regler som är generellt tillämpbara och bindande för såväl anställda som studenter</p>',
-    about_course: 'Om kursen',
-    course_history: 'Kursens utveckling och historik',
-    course_page: 'Kursinformation'
+    syllabus_info: '<p>• En kurs undervisas i olika kursomgångar. För att se information om en specifik kursomgång behöver du välja termin och kursomgång. Information från kursplan kommer att uppdateras beroende på vald termin. Information från kursplan är markerad med *.</p><p>• Observera: bestämmelser i kursplaner är regler som är generellt tillämpbara och bindande för såväl anställda som studenter.</p><p>• Har du inte valt termin och kursomgång ser du kursinformation från nuvarande eller kommande kursplan. På sidan anges den period som information från kursplan gäller för.</p>',
+    sideMenu: {
+      aria_label: 'Undermeny',
+      page_about_course: 'Om kursen ',
+      page_before_course: 'Inför kursval',
+      page_catalog: 'Kurs- och programkatalogen',
+      page_history: 'Kursens utveckling och historik',
+      page_memo: 'Förbereda och gå kurs'
+    },
+    label_close: 'Stäng'
   },
   courseInformation: {
     roundId: 'Kursomgångs nr',
@@ -134,7 +155,8 @@ module.exports = {
     course_link_text: '<p>Ytterligare information om kursen kan hittas på kurswebben via länken nedan. Information på kurswebben kommer framöver flyttas till denna sida. </p>'
   },
   courseRoundInformation: {
-    round_header: 'Kursomgång',
+    header_round: 'Om kursomgång',
+    round_header: 'Gäller för kursomgång',
     round_application_code: 'Anmälningskod',
     round_max_seats: 'Antal platser',
     round_part_of_programme: 'Del av program',
