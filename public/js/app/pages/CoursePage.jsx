@@ -197,7 +197,7 @@ class CoursePage extends Component {
               language={language}
             />
           </Col>
-          <main className='col-9 col-sm-9 col-lg-9' id='middle' key='middle' aria-labelledby='page-course-title'>
+          <main className='col-lg-9' id='middle' key='middle' aria-labelledby='page-course-title'>
 
           {/** *************************************************************************************************************/}
           {/*                                                   INTRO                                                     */}
@@ -235,8 +235,8 @@ class CoursePage extends Component {
 
             {/* ---INTRO TEXT--- */}
             <section className='row' id='courseIntroText' key='courseIntroText' aria-label={translation.courseLabels.label_course_description}>
-              <Col sm='12' xs='12'>
-                <img src={courseImage} alt='' height='auto' width='300px' />
+              <Col>
+                <img className='float-md-left' src={courseImage} alt='' height='auto' width='300px' />
                 <div
                   dangerouslySetInnerHTML={{__html: introText}}>
                 </div>
