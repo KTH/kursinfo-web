@@ -91,7 +91,7 @@ module.exports = {
     header_no_round_selected: 'Välj termin och kursomgång',
     no_round_selected: 'Välj termin och kursomgång för att se information från rätt kursplan och kursomgång.',
     round_seats_info: 'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
-    syllabus_info: '<h4>Kursinformation</h4><p>• En kurs undervisas i olika kursomgångar. För att se information om en specifik kursomgång behöver du välja termin och kursomgång. Information från kursplan kommer att uppdateras beroende på vald termin. Information från kursplan är markerad med *.</p><p>• Observera: bestämmelser i kursplaner är regler som är generellt tillämpbara och bindande för såväl anställda som studenter.</p><p>• Har du inte valt termin och kursomgång ser du kursinformation från nuvarande eller kommande kursplan. På sidan anges den period som information från kursplan gäller för.</p>',
+    syllabus_info: '<p>• En kurs undervisas i olika kursomgångar. För att se information om en specifik kursomgång behöver du välja termin och kursomgång. Information från kursplan kommer att uppdateras beroende på vald termin. Information från kursplan är markerad med *.</p><p>• Observera: bestämmelser i kursplaner är regler som är generellt tillämpbara och bindande för såväl anställda som studenter.</p><p>• Har du inte valt termin och kursomgång ser du kursinformation från nuvarande eller kommande kursplan. På sidan anges den period som information från kursplan gäller för.</p>',
     sideMenu: {
       aria_label: 'Undermeny',
       page_about_course: 'Om kursen ',
@@ -99,7 +99,8 @@ module.exports = {
       page_catalog: 'Kurs- och programkatalogen',
       page_history: 'Kursens utveckling och historik',
       page_memo: 'Förbereda och gå kurs'
-    }
+    },
+    label_close: 'Stäng'
   },
   courseInformation: {
     roundId: 'Kursomgångs nr',

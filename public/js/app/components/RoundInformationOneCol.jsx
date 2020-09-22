@@ -87,7 +87,7 @@ class RoundInformationOneCol extends Component {
                 {courseHasRound && showRoundData
                   ? <span>
                     <h3 className='t4'>{translate.round_tutoring_form}</h3>
-                    <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[language]}                                                                                                                     {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
+                    <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY[language]}                                                                                                                          {round ? translate.round_tutoring_time_label[round.round_tutoring_time] : EMPTY[this.props.language]}</p>
 
                     <h3 className='t4'>{translate.round_tutoring_language}</h3>
                     <p>{round ? round.round_tutoring_language : EMPTY[language]}</p>
@@ -95,7 +95,7 @@ class RoundInformationOneCol extends Component {
                     <h3 className='t4'>
                       {translate.round_max_seats}
                       {round /* && round.round_seats !== EMPTY[language] */
-                        ? <InfoModal infoText={i18n.messages[language].courseLabels.round_seats_info} />
+                        ? <InfoModal title={translate.round_max_seats} infoText={i18n.messages[language].courseLabels.round_seats_info} closeLabel={i18n.messages[language].courseLabels.label_close} />
                         : ''}
                     </h3>
                     <p>{round ? round.round_seats : EMPTY[language]}</p>

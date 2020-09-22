@@ -53,7 +53,7 @@ class InfoModal extends Component {
     return (
       <Button className='btn-info-modal' onClick={this.toggle}>{this.props.buttonLabel}
         <Modal isOpen={this.state.modal} toggle={this.toggle} onOpened={this.keepFocus} className={this.props.className} fade={fadeModal}>
-          <ModalHeader toggle={this.toggle}>Info</ModalHeader>
+          <ModalHeader toggle={this.toggle}>{this.props.title || ''}</ModalHeader>
           <ModalBody>
             {this.props.type && this.props.type === 'html'
               ? <p dangerouslySetInnerHTML={{__html: this.props.infoText}}></p>
@@ -61,7 +61,7 @@ class InfoModal extends Component {
             }
           </ModalBody>
           <ModalFooter>
-            <Button color='secondary' onClick={this.toggle}>Close</Button>
+            <Button color='secondary' onClick={this.toggle}>{this.props.closeLabel || 'Close'}</Button>
           </ModalFooter>
         </Modal>
       </Button>
