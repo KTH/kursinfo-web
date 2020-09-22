@@ -29,7 +29,7 @@ class CourseTitle extends Component {
             <span className='t1'>{this.props.pageTitle}</span>
             <span className='t4'>{title.course_code} {title.course_title} {formatCredits(title.course_credits, title.course_credits_text, languageIndex)}</span>
           </span>
-          <a className='right-link' href={adminLink(title.course_code, languageIndex)} style={{fontSize: '16px', align: 'baseline'}}>
+          <a className='right-link' href={adminLink(title.course_code, languageIndex)} style={{fontSize: '1rem'}}>
             {adminLinkLabel}
           </a>
         </header>
