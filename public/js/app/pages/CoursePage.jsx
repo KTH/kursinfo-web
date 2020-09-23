@@ -237,7 +237,7 @@ class CoursePage extends Component {
             <section className='row' id='courseIntroText' key='courseIntroText' aria-label={translation.courseLabels.label_course_description}>
               <Col>
                 <img className='float-md-left' src={courseImage} alt='' height='auto' width='300px' />
-                <div
+                <div className='paragraphs'
                   dangerouslySetInnerHTML={{__html: introText}}>
                 </div>
               </Col>
@@ -336,7 +336,7 @@ class CoursePage extends Component {
                 {/** *************************************************************************************************************/}
                 {/*                           LEFT COLUMN - SYLLABUS + OTHER COURSE INFORMATION                                 */}
                 {/** *************************************************************************************************************/}
-                <Col id='coreContent' md='8' xs='12' className='float-md-left'>
+                <Col id='coreContent' md='8' xs='12' className='float-md-left paragraphs'>
                   <div key='fade-2' className={` fade-container ${this.state.syllabusInfoFade === true ? ' fadeOutIn' : ''} `}>
 
                     <Row id='activeSyllabusContainer' key='activeSyllabusContainer'>

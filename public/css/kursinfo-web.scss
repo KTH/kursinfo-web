@@ -134,7 +134,36 @@ h4.secondTitle {
     }
 }
 
-  //Links
+.paragraphs li {
+    p { // Le sigh!
+        margin: 0 0 1rem 0;
+    }
+}
+
+main {
+    p, ul, ol {
+        font-family: Georgia,"garamond pro",garamond,"times new roman",times,serif;
+    }
+    @media (min-width: 768px) {
+        .paragraphs ul, ol {
+            font-size: 1.125rem;
+        }
+    }
+}
+
+#roundInformationContainer {
+    p, ul, ol {
+        font-family: "Open Sans",Arial,"Helvetica Neue",helvetica,sans-serif;
+    }
+    @media (min-width: 768px) {
+        .paragraphs ul, ol {
+            font-size: 1.125rem;
+        }
+    }
+}
+
+
+
 a.right-link {
     float: right;
     font-weight: normal;
