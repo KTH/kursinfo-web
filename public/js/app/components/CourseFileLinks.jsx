@@ -1,62 +1,49 @@
-import { Component } from "inferno";
-import Row from "inferno-bootstrap/dist/Row";
-import Col from "inferno-bootstrap/dist/Col";
-import i18n from "../../../../i18n";
-import { EMPTY } from "../util/constants";
-
-const LISTS_OF_PILOT_COURSES = [
-  "AF1301",
-  "HS1001",
-  "ME2016",
-  "MG1028",
-  "MJ2462",
-  "ED1110",
-  "EH2720",
-  "EH2070",
-  "SD2900",
-  "SD2925",
-];
+import { Component } from 'inferno'
+import Row from 'inferno-bootstrap/dist/Row'
+import Col from 'inferno-bootstrap/dist/Col'
+import i18n from '../../../../i18n'
+import { EMPTY, LISTS_OF_PILOT_COURSES } from '../util/constants'
 
 const checkIfPilotCourse = (courseCode) =>
-  LISTS_OF_PILOT_COURSES.includes(courseCode);
+  LISTS_OF_PILOT_COURSES.includes(courseCode)
 
 const PilotNewMemoLink = ({ href, translate }) => (
-  <a id="memoLink" href={href}>
+  <a id='memoLink' href={href}>
     {translate.courseLabels.label_course_memo}
   </a>
-);
+)
 
 const PdfNoMemoLink = ({ canGetMemoFiles, translate }) => (
-  <a id="memoLink" className="pdf-link">
+  <a id='memoLink' className='pdf-link'>
     {canGetMemoFiles
       ? translate.courseLabels.no_memo
       : translate.courseLabels.no_memo_connection}
   </a>
-);
+)
 
 class CourseFileLinks extends Component {
-  render() {
-    const translate = i18n.messages[this.props.language];
+  render () {
+    const translate = i18n.messages[this.props.language]
     const {
       courseCode,
       courseRound,
       scheduleUrl,
       canGetMemoFiles,
       memoStorageURI,
-      language,
-    } = this.props;
-    const isPilot = checkIfPilotCourse(courseCode);
+      language
+    } = this.props
+    const isPilot = checkIfPilotCourse(courseCode)
 
     return (
-      <Row id="courseLinks">
+      <Row id='courseLinks'>
         {/* ---LINK TO ROUND PM/MEMO IF ROUND HAS ONE-- */}
-        <Col sm="12" xs="12">
-          {courseRound.hasOwnProperty("round_memoFile") ? (
+        <Col sm='12' xs='12'>
+          {courseRound.hasOwnProperty('round_memoFile') ? (
             <a
-              id="memoLink"
-              className="pdf-link"
+              id='memoLink'
+              className='pdf-link'
               href={`${memoStorageURI}${courseRound.round_memoFile.fileName}`}
-              target="_blank"
+              target='_blank'
             >
               {translate.courseLabels.label_course_memo} (
               {courseRound.round_memoFile.fileDate})
@@ -76,10 +63,10 @@ class CourseFileLinks extends Component {
           )}
         </Col>
         {/* ---LINK TO ROUND SCHEDULE-- */}
-        <Col sm="12" xs="12">
-          <i className="icon-schedule"></i>
+        <Col sm='12' xs='12'>
+          <i className='icon-schedule'></i>
           {scheduleUrl !== EMPTY[language] ? (
-            <a target="_blank" href={scheduleUrl}>
+            <a href={scheduleUrl}>
               {translate.courseLabels.label_schedule}
             </a>
           ) : (
@@ -87,8 +74,8 @@ class CourseFileLinks extends Component {
           )}
         </Col>
       </Row>
-    );
+    )
   }
 }
 
-export default CourseFileLinks;
+export default CourseFileLinks

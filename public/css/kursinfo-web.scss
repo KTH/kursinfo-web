@@ -15,6 +15,27 @@
    
 }
 
+.breadcrumb {
+    background-color: transparent;
+  }
+  
+.left-side-menu{
+    margin-top: 20px;
+    width: 100%;
+
+    a.sideMenuLink {
+      color: #000000;
+      width: 100%;
+    //   &:after {
+    //       content: '>'
+    //   }       
+    }
+
+    .active {
+        font-weight: 700;
+    }
+}
+
 #leftNavigation{
     padding-left: 0px;
     padding-right: 0px;
@@ -65,26 +86,96 @@
         padding-right: 0px;
         
     }
-    p{
+    p {
         margin-bottom:0px;
     }
 }
 
-#course-title{
-    border-bottom: 0px;
-    margin: 0;
+.course-header-admin-link {
+    display: block;
+    margin-top: 4px;
+    margin-bottom: 14px;
+    margin-right: 17px;
+  }
+  
+h4.secondTitle {
+    margin-top: 4px;
+}
+
+.pageTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     margin-top: 20px;
-    h1 {
-        margin-bottom: 0;
+    margin-bottom: 30px; //change later to 14px, after syllabus details moved
+    @media (min-width: 768px) {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+        [role="heading"] > .t4 {
+            margin-top: 4px;
+            margin-bottom: 0 !important;
+        }
+    }
+    [role="heading"] {
+        display: flex;
+        flex-direction: column;
+        .t1 {
+            margin-bottom: 0;
+            margin-left: -0.095em;
+        }
+        .t4 {
+            margin-top: 4px;
+            margin-bottom: 20px;
+        }
+    }
+    .alert {
+        margin-left: 0;
     }
 }
 
+.paragraphs li {
+    p { // Le sigh!
+        margin: 0 0 1rem 0;
+    }
+}
+
+main {
+    p, ul, ol {
+        font-family: Georgia,"garamond pro",garamond,"times new roman",times,serif;
+    }
+    @media (min-width: 768px) {
+        .paragraphs ul, ol {
+            font-size: 1.125rem;
+        }
+    }
+}
+
+#roundInformationContainer {
+    p, ul, ol {
+        font-family: "Open Sans",Arial,"Helvetica Neue",helvetica,sans-serif;
+    }
+    @media (min-width: 768px) {
+        .paragraphs ul, ol {
+            font-size: 1.125rem;
+        }
+    }
+}
+
+
+
+a.right-link {
+    float: right;
+    font-weight: normal;
+    text-align: right;
+}
+
 #courseIntroText{
-    padding-top:10px;
-    padding-bottom:10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-right: 2px;
     img {
-        float: left;
-        margin: 8px 20px 10px 0;
+        margin: 8px 30px 10px 0;
         width:100%;
         max-width: 400px;
     }    
@@ -160,13 +251,10 @@
 }
 
 #roundDropdownMenu{
-    border: 1px solid #dee2e6;
-    padding: 10px;
-    .btn{
-        margin-top:10px;
-        margin-bottom:20px;
+    .btn {
+        margin-bottom: 20px;
     }
-    p{
+    p {
         margin-left: 15px;
     }
 }
@@ -195,9 +283,9 @@
 
 #roundInformationContainer{
     margin-top: 10px;
-    padding-left:0px;
+    padding-left: 0px;
     .key-info{
-        padding: 15px;
+        padding: 20px;
         background: #f6f6f6;
         margin-top: 10px;
     }
@@ -210,16 +298,29 @@
     p, a {
         font-size: 1rem;
     }
-
-    h4 {
-        margin: 1rem 0 .5rem 0;
+    div {
+        div > h4, div > span.text-center2>h4 {
+            margin: 0 0 .5rem 0;
         }
+    }
+    span {
+        h4 {
+            margin: 1rem 0 .5rem 0;
+        }
+    }
+
+
+    span:last-of-type {
+        :last-child {
+            margin-bottom:0;
+        }
+    }
   }
 
   #coreContent{
     padding-left:0;
     padding-top:40px;
-    border-bottom: 1px solid #dee2e6;
+    // border-bottom: 1px solid #dee2e6;
     .first-header{
         margin-top: 40px;
     }
@@ -244,15 +345,13 @@
     padding-top:30px;
 }
 
-a.pdf-link:before {
-    content: "";
-    height: 1.3em;
-    width: 1.3em;
-    display: inline-block;
-    vertical-align: middle;
-    background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/file-pdf-fa-regular.svg) no-repeat;
+a.pdf-link {
+    margin: 0;
+    &::before {
+        margin-right: 0;
+        margin-left: 0;
+    }
 }
-
 a.editButton{
     &::after{
         content: "";
@@ -313,8 +412,8 @@ a.editButton{
 
        .right-column-header{
         background: #fff;
-        margin: 20px -15px;
-        padding: 20px 15px 10px;
+        margin: 20px -20px;
+        padding: 20px 15px 10px 0;
        }
 
        .clear-margin-bottom{

@@ -13,8 +13,8 @@ module.exports = {
      */
 
     error_not_found: 'Sorry, we can\'t find your requested page',
-    error_course_not_found: 'Sorry, there is no course with course code ',
-    error_generic: 'Something went wrong on the server, please try again later.',
+    error_course_not_found: 'There is no course with this course code ',
+    error_generic: 'Something went wrong when loading this page. Please try again later. Contact IT support if the problem remains.',
 
     /**
      * Message keys
@@ -28,7 +28,17 @@ module.exports = {
     page_student: 'STUDENT AT KTH',
     page_course_programme: 'COURSE AND PROGRAMME DIRECTORY'
   },
+  breadCrumbLabels: {
+    breadcrumbs: 'Breadcrumbs',
+    university: 'KTH',
+    student: 'Student at KTH',
+    directory: 'Course and programme directory',
+    aboutCourse: 'About course',
+    aboutCourseMemos: 'About course memo'
+  },
   courseLabels: {
+    label_course_description: 'Course description',
+    label_course_information: 'Course information',
     label_syllabus_link: 'Course syllabus ',
     label_course_syllabus: '* Retrieved from ',
     label_course_syllabus_valid_from: 'Valid from',
@@ -39,20 +49,27 @@ module.exports = {
     label_postgraduate_course: 'Postgraduate courses at ',
     label_course_cancelled: 'This course has been cancelled.',
     label_last_exam: 'Last planned examination: ',
-    label_edit: 'Administrate',
+    label_edit: 'Administrate About course',
     header_no_rounds: 'Course offering missing',
     lable_no_rounds: ' Course offering missing for current semester as well as for previous and coming semesters',
     label_course_memo: 'Course memo',
     label_schedule: 'Schedule',
     label_statistics: 'Course statistics',
     lable_canavas_example: 'Canvas example course',
-    lable_round_select: 'Choose course offering',
-    lable_semester_select: 'Choose semester',
+    label_round_select: {
+      placeholder: 'Choose course offering',
+      label_dropdown: 'Course offering'
+    },
+    label_semester_select: {
+      placeholder: 'Choose semester',
+      label_dropdown: 'Semester'
+    },
     lable_round_state: {
       CANCELLED: 'This offering is cancelled',
       FULL: 'This offering is full'
     },
-    header_dropdown_menue: 'Show course information based on the chosen semester and course offering',
+    header_dropdown_menu_navigation: 'Choose course offering',
+    header_dropdown_menue: 'Valid for',
     header_course_info: 'Course information',
     header_content: 'Content and learning outcomes',
     header_execution: 'Literature and preparations',
@@ -61,22 +78,26 @@ module.exports = {
     header_statistics: 'Course statistics',
     header_syllabuses: 'Course syllabuses archive',
     header_further: 'Further information',
-    header_history: 'Course development and history',
-    header_round: 'Offering and execution',
     header_select_course: 'Application',
     header_postgraduate_course: 'Postgraduate course ',
     empty_text: 'No information inserted',
     no_schedule: 'No schedule ',
     no_memo: 'No course memo added ',
-    alert_no_memo_connection: 'No course memos can currently be displayed for the course offerings. Try again later.',
+    alert_no_memo_connection: 'No course memos can currently be displayed for the course offerings. Please try again later. Contact IT support if the problem remains.',
     no_memo_connection: 'Course memo cannot be displayed',
-    header_no_round_selected: 'No offering selected',
-    no_round_selected: 'Select the semester and course offering above to get information from the correct course syllabus and course offering.',
+    header_no_round_selected: 'Choose semester and course offering',
+    no_round_selected: 'Choose semester and course offering to see information from the correct course syllabus and course offering.',
     round_seats_info: 'Course offering may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made.',
-    syllabus_info: '<h4>Course information</h4> <p>• Course information consists of all information from the course syllabus (kursplan) as well as other course information concerning course and course offering</p><p>• If you have not chosen the semester and course offering, you will see course information from the current or future course syllabus (which period the course syllabus applies to is given under the heading "Course information")</p><p>• A course goes different course offerings. To see information for a specific course offering, choose the semester and course offering in the upper right corner. If it is another course syllabus that applies to that semester, the corresponding information is also updated (on the left side of the page).</p><p>• Please note: regulations in course syllabus are rules that are generally applicable and binding for both employees and students</p>',
-    about_course: 'About course',
-    course_history: 'Course development and history',
-    course_page: 'Course information'
+    syllabus_info: '<p>• A course goes different course offerings. To see information about a specific course offering, choose semester and course offering. The course syllabus information will be updated depending on the chosen semester. Information from the course syllabus is marked with *.</p><p>• Please note: regulations in course syllabus are rules that are generally applicable and binding for both employees and students.</p><p>• If you have not chosen semester and course offering, you will see course information from the current or future course syllabus. The valid period of the course syllabus is stated on the page.</p>',
+    sideMenu: {
+      aria_label: 'Sub menu',
+      page_about_course: 'About course',
+      page_before_course: 'Before choosing course',
+      page_catalog: 'Course and programme directory',
+      page_history: 'Course development and history',
+      page_memo: 'Prepare and take course'
+    },
+    label_close: 'Close'
   },
   courseInformation: {
     course_title: 'Title english',
@@ -130,7 +151,8 @@ module.exports = {
     course_link_text: '<p>Further information about the course can be found on the Course web at the link below. Information on the Course web will later be moved to this site. </p>'
   },
   courseRoundInformation: {
-    round_header: 'Offering',
+    header_round: 'About course offering',
+    round_header: 'For course offering',
     round_application_code: 'Application code',
     round_max_seats: 'Number of places',
     round_part_of_programme: 'Part of programme',

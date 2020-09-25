@@ -203,11 +203,11 @@ async function getIndex (req, res, next) {
     await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, lang)
     await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi')
     await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
-    const breadcrumDepartment = await renderProps.props.children.props.routerStore.getBreadcrumbs()
-    let breadcrumbs = [
-      { url: '/student/kurser/kurser-inom-program', label: i18n.message('page_course_programme', lang) }
-    ]
-    breadcrumbs.push(breadcrumDepartment)
+    // const breadcrumDepartment = await renderProps.props.children.props.routerStore.getBreadcrumbs()
+    // let breadcrumbs = [
+    //   { url: '/student/kurser/kurser-inom-program', label: i18n.message('page_course_programme', lang) }
+    // ]
+    // breadcrumbs.push(breadcrumDepartment)
 
     await doAllAsyncBefore({
       pathname: req.originalUrl,
@@ -218,7 +218,7 @@ async function getIndex (req, res, next) {
     const html = renderToString(renderProps)
 
     res.render('course/index', {
-      breadcrumbsPath: breadcrumbs,
+      // breadcrumbsPath: breadcrumbs,
       debug: 'debug' in req.query,
       instrumentationKey: serverConfig.appInsights.instrumentationKey,
       html: html,

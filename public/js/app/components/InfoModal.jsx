@@ -11,7 +11,35 @@ class InfoModal extends Component {
     this.state = {
       modal: false
     }
+    this.keepFocus = this.keepFocus.bind(this)
     this.toggle = this.toggle.bind(this)
+
+  }
+
+  keepFocus () {
+    const modal = document.querySelector('.modal.fade.show')
+    if (modal) {
+      modal.addEventListener('keydown', (event) => {
+        if (event.code === 'Tab') {
+          const topCloseButton = modal.querySelector('.close')
+          const bottomCloseButton = modal.querySelector('.btn.btn-secondary')
+          if (event.shiftKey) {
+            event.preventDefault()
+            topCloseButton.focus()
+          }
+          if (event.target === modal) {
+            topCloseButton.tabIndex = 1
+            bottomCloseButton.tabIndex = 2
+          } else if (event.target === topCloseButton) {
+            topCloseButton.tabIndex = 1
+            bottomCloseButton.tabIndex = 2
+          } else if (event.target === bottomCloseButton) {
+            topCloseButton.tabIndex = 2
+            bottomCloseButton.tabIndex = 1
+          }
+        }
+      }, true)
+    }
   }
 
   toggle () {
@@ -24,8 +52,8 @@ class InfoModal extends Component {
     const fadeModal = (this.props.hasOwnProperty('fade') ? this.props.fade : true)
     return (
       <Button className='btn-info-modal' onClick={this.toggle}>{this.props.buttonLabel}
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className} fade={fadeModal}>
-          <ModalHeader toggle={this.toggle}>Info</ModalHeader>
+        <Modal isOpen={this.state.modal} toggle={this.toggle} onOpened={this.keepFocus} className={this.props.className} fade={fadeModal}>
+          <ModalHeader toggle={this.toggle}>{this.props.title || ''}</ModalHeader>
           <ModalBody>
             {this.props.type && this.props.type === 'html'
               ? <p dangerouslySetInnerHTML={{__html: this.props.infoText}}></p>
@@ -33,7 +61,7 @@ class InfoModal extends Component {
             }
           </ModalBody>
           <ModalFooter>
-            <Button color='secondary' onClick={this.toggle}>Close</Button>
+            <Button color='secondary' onClick={this.toggle}>{this.props.closeLabel || 'Close'}</Button>
           </ModalFooter>
         </Modal>
       </Button>
