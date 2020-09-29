@@ -18,6 +18,7 @@ export const SIDE_MENU_LINK_URL = {
 export const LISTS_OF_PILOT_COURSES = [
   'AF1301',
   'HS1001',
+  'LH238V',
   'MG1028',
   'MJ2462',
   'ED1110',
