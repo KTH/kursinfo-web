@@ -167,9 +167,9 @@ async function getIndex (req, res, next) {
     appFactory = tmp.appFactory
     doAllAsyncBefore = tmp.doAllAsyncBefore
   }
-  /** ------- CHECK OF CONNECTION TO KURS-PM-API ------- */
+  /** //TODO-INTEGRATION: REMOVE ------- CHECK OF CONNECTION TO KURS-PM-API ------- */
   let memoApiUp = true
-  if (api.kursPMApi.connected && api.kursPMApi.connected === false) {
+  if (api.kursPmDataApi.connected && api.kursPmDataApi.connected === false) {
     memoApiUp = false
   }
 
@@ -188,7 +188,7 @@ async function getIndex (req, res, next) {
 
     renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
-    try {
+    try { //TODO-INTEGRATION: REMOVE
       if (memoApiUp) {
         await renderProps.props.children.props.routerStore.getCourseMemoFiles(courseCode)
       } else {

@@ -226,13 +226,6 @@ class CoursePage extends Component {
               </div>
               : ''}
 
-              {/* ---ALERT FOR NO CONNECTION TO kurs-pm-api --- */}
-              {!routerStore.memoApiHasConnection
-                ? <Alert color='info' aria-live='polite'>
-                  <span className='t3'>{translation.courseLabels.alert_no_memo_connection}</span>
-                </Alert>
-                : ''}
-
             {/* ---INTRO TEXT--- */}
             <section className='row' id='courseIntroText' key='courseIntroText' aria-label={translation.courseLabels.label_course_description}>
               <Col>

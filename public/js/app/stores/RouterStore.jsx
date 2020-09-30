@@ -464,8 +464,8 @@ class RouterStore {
   /*                                                    COURSE MEMO FILES  - kurs-pm-api                                                                    */
   /** ***************************************************************************************************************************************** */
 
-  @action getCourseMemoFiles (courseCode, lang = 'sv') {
-    return axios.get(this.buildApiUrl(this.paths.api.memoData.uri, { courseCode: courseCode }), this._getOptions()).then(res => {
+  @action getCourseMemoFiles (courseCode, lang = 'sv') { //TODO-INTEGRATION: REMOVE
+    return axios.get(this.buildApiUrl(this.paths.api.memoData.uri, { courseCode }), this._getOptions()).then(res => {
       this.showCourseWebbLink = true // res.data.isCourseWebLink
       this.memoList = res.data
     }).catch(err => {

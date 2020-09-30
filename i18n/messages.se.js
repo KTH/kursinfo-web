@@ -87,7 +87,6 @@ module.exports = {
     no_schedule: 'Schema saknas',
     no_memo: 'Inget kurs-PM inlagt ',
     no_memo_connection: 'Kurs-pm kan inte visas',
-    alert_no_memo_connection: 'För närvarande kan inte kurs-PM som PDF visas för kursens aktuella kursomgångar. Försök igen senare. Kontakta IT-support om problemet kvarstår.',
     header_no_round_selected: 'Välj termin och kursomgång',
     no_round_selected: 'Välj termin och kursomgång för att se information från rätt kursplan och kursomgång.',
     round_seats_info: 'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
