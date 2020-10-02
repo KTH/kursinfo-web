@@ -29,7 +29,6 @@
     "bootstrap": "^3.4.1",
     "co": "^4.6.0",
     "component-registry": "^0.2.0",
-    "compression": "^1.7.3",
     "cookie-parser": "^1.4.5",
     "dotenv": "^4.0.0",
     "express": "^4.13.4",

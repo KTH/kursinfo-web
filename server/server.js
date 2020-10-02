@@ -80,13 +80,6 @@ const browserConfig = require('./configuration').browser
 const browserConfigHandler = require('kth-node-configuration').getHandler(browserConfig, getPaths())
 const express = require('express')
 
-// const compression = require('compression')
-// server.use(compression({
-// filter: function () { return true }
-// }))
-// const minify = require('express-minify')
-// server.use(minify())
-
 // helper
 function setCustomCacheControl(res, path) {
   if (express.static.mime.lookup(path) === 'text/html') {
