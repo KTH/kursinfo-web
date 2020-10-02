@@ -13,7 +13,6 @@ typings/*
 typings.json
 
 # Eclipse specific
-.jshintrc
 .project
 .settings/
 
@@ -31,21 +30,14 @@ node_modules
 bundles
 public/js/app/config*.js
 dist
+.cache
 
 # Docker
 *.env
 
 # KTH Node Web Common imported files
 server/views/system/error.handlebars
-server/views/system/errorLayout.handlebars
-
-
-# slask file
-slask_delete.txt
-pdfname.pdf
-pdfTemp.pdf
-pdfTempFile.pdf
-secrets.decrypted.env2
-.npmrc
-slask.txt
 server/views/layouts/errorLayout.handlebars
+
+# Local Docker compose
+docker-compose.yml

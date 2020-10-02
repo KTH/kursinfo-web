@@ -1,19 +1,8 @@
-import { Component } from 'inferno'
-import { inject, observer } from 'inferno-mobx' // eslint-disable-line
+import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 
-import Alert from 'inferno-bootstrap/dist/Alert'
-import Col from 'inferno-bootstrap/dist/Col'
-import Row from 'inferno-bootstrap/dist/Row'
+import { Row, Col, Alert, Dropdown, DropdownMenu, DropdownItem, DropdownToggle, Label, Breadcrumb, BreadcrumbItem } from 'reactstrap'
 
-// import Dropdown from 'inferno-bootstrap/dist/Dropdown'
-// import DropdownMenu from 'inferno-bootstrap/dist/DropdownMenu'
-// import DropdownItem from 'inferno-bootstrap/dist/DropdownItem'
-// import DropdownToggle from 'inferno-bootstrap/dist/DropdownToggle'
-
-import Breadcrumb from 'inferno-bootstrap/dist/Breadcrumb'
-import BreadcrumbItem from 'inferno-bootstrap/dist/BreadcrumbItem'
-
-// import Label from 'inferno-bootstrap/dist/Form/Label'
 import i18n from '../../../../i18n'
 import { EMPTY, FORSKARUTB_URL, SYLLABUS_URL } from '../util/constants'
 import { breadcrumbLinks, aboutCourseLink } from '../util/links'
@@ -24,15 +13,19 @@ import CourseTitle from '../components/CourseTitle.jsx'
 import CourseSectionList from '../components/CourseSectionList.jsx'
 import InfoModal from '../components/InfoModal.jsx'
 import SideMenu from '../components/SideMenu.jsx'
+import { courseMainSubjects } from '../../../../i18n/messages.en'
 
 @inject(['routerStore']) @observer
 class CoursePage extends Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props) 
     this.state = {
       activeRoundIndex: 0,
       activeSemesterIndex: this.props.routerStore.defaultIndex,
-      activeSemester: this.props.routerStore.activeSemesters.length > 0 ? this.props.routerStore.activeSemesters[this.props.routerStore.defaultIndex][2] : 0,
+      activeSemester:
+        this.props.routerStore.activeSemesters && this.props.routerStore.activeSemesters.length > 0
+          ? this.props.routerStore.activeSemesters[this.props.routerStore.defaultIndex][2]
+          : 0,
       activeSyllabusIndex: 0,
       dropdownsOpen: {
         roundsDropdown: false,
@@ -81,7 +74,7 @@ class CoursePage extends Component {
   //   }
   // }
 
-  handleSemesterDropdownSelect (event) {
+  handleSemesterDropdownSelect(event) {
     event.preventDefault()
     let prevState = this.state
 
@@ -110,7 +103,7 @@ class CoursePage extends Component {
     // this.toggle(event, true)
   }
 
-  handleDropdownSelect (event) {
+  handleDropdownSelect(event) {
     event.preventDefault()
 
     const eventTarget = event.target
@@ -155,20 +148,26 @@ class CoursePage extends Component {
     )
   }
 
-  render ({ routerStore }) {
+  render() {
+    const { routerStore } = this.props
     const courseData = routerStore['courseData']
+    if (!courseData.language) courseData.language = 0
 
     const language = routerStore.courseData.language === 0 ? 'en' : 'sv'
     const translation = i18n.messages[courseData.language]
-    const introText = routerStore.sellingText && routerStore.sellingText[language].length > 0 ? routerStore.sellingText[language] : courseData.courseInfo.course_recruitment_text
+    const introText =
+      routerStore.sellingText && routerStore.sellingText[language].length > 0
+        ? routerStore.sellingText[language]
+        : courseData.courseInfo.course_recruitment_text
 
     let courseImage = ''
     if (routerStore.imageFromAdmin && routerStore.imageFromAdmin.length > 4) {
       courseImage = routerStore.imageFromAdmin
     } else {
-      let mainSubjects = courseData.courseInfo.course_main_subject.split(',').map(s => s.trim())
+      const cms = courseData.courseInfo.course_main_subject || ''
+      let mainSubjects = cms.split(',').map((s) => s.trim())
       if (mainSubjects && mainSubjects.length > 0 && language === 'en') {
-        mainSubjects = mainSubjects.map(subject => i18n.messages[0].courseMainSubjects[subject]) // get sv translations of en mainSubjects
+        mainSubjects = mainSubjects.map((subject) => i18n.messages[0].courseMainSubjects[subject]) // get sv translations of en mainSubjects
       }
       courseImage = i18n.messages[1].courseImage[mainSubjects.sort()[0]] // extract picture according swidsh translation of mainSubject
       if (courseImage === undefined) {
@@ -177,6 +176,7 @@ class CoursePage extends Component {
     }
     courseImage = `${routerStore.browserConfig.imageStorageUri}${courseImage}`
 
+    if (!courseData.syllabusList) courseData.syllabusList = [{}]
     const courseInformationToRounds = {
       course_code: courseData.courseInfo.course_code,
       course_examiners: courseData.courseInfo.course_examiners,
@@ -203,15 +203,16 @@ class CoursePage extends Component {
           {/*                                                   INTRO                                                     */}
           {/** *************************************************************************************************************/}
             {/* ---COURSE TITEL--- */}
-            <CourseTitle key='title'
+            <CourseTitle
+              key="title"
               courseTitleData={courseData.courseTitleData}
               language={courseData.language}
               pageTitle={translation.courseLabels.sideMenu.page_before_course}
             />
             {/* ---TEXT FOR CANCELLED COURSE --- */}
-            {routerStore.isCancelled || routerStore.isDeactivated
-              ? <div className='isCancelled'>
-                <Alert color='info' aria-live='polite'>
+            {routerStore.isCancelled || routerStore.isDeactivated ? (
+              <div className="isCancelled">
+                <Alert color="info" aria-live="polite">
                   <h3>{translation.course_state_alert[courseData.courseInfo.course_state].header} </h3>
                   <p>
                     {translation.course_state_alert[courseData.courseInfo.course_state].examination}
@@ -224,7 +225,7 @@ class CoursePage extends Component {
                   </p>
                 </Alert>
               </div>
-              : ''}
+            ) : ''}
 
             {/* ---INTRO TEXT--- */}
             <section className='row' id='courseIntroText' key='courseIntroText' aria-label={translation.courseLabels.label_course_description}>
@@ -298,12 +299,13 @@ class CoursePage extends Component {
                       : ''
                   }
                   {courseData.courseInfo.course_application_info.length > 0
-                      ? <Alert color='info'>
+                      ?(<Alert color='info'>
                         <h4>{translation.courseInformation.course_application_info}</h4>
                         <p dangerouslySetInnerHTML={{ __html: courseData.courseInfo.course_application_info }}></p>
                       </Alert>
-                      : ''
-                    }
+                    ) : (
+                      ''
+                    )}
 
                   {/* ---COURSE ROUND INFORMATION--- */}
                   {routerStore.activeSemesters.length > 0
@@ -404,7 +406,15 @@ class CoursePage extends Component {
   }
 }
 
-const DropdownSemesters = ({semesterList, courseRoundList, callerInstance, semester, year, language = 0, label = ''}) => {
+const DropdownSemesters = ({
+  semesterList,
+  courseRoundList,
+  callerInstance,
+  semester,
+  year,
+  language = 0,
+  label = ''
+}) => {
   const dropdownID = 'semesterDropdown'
   if (semesterList && semesterList.length < 1) {
     return ''
@@ -473,7 +483,7 @@ const DropdownSemesters = ({semesterList, courseRoundList, callerInstance, semes
   }
 }
 
-const DropdownRounds = ({courseRoundList, callerInstance, semester, year, language = 0, label = ''}) => {
+const DropdownRounds = ({ courseRoundList, callerInstance, semester, year, language = 0, label = '' }) => {
   const dropdownID = 'roundsDropdown'
 
   if (courseRoundList && courseRoundList.length < 2) {

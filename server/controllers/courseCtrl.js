@@ -4,10 +4,7 @@ const co = require('co')
 const log = require('kth-node-log')
 const redis = require('kth-node-redis')
 const language = require('kth-node-web-common/lib/language')
-// const { safeGet } = require('safe-utils')
-const { createElement } = require('inferno-create-element')
-const { renderToString } = require('inferno-server')
-const { StaticRouter } = require('inferno-router')
+const ReactDOMServer = require('react-dom/server')
 const { toJS } = require('mobx')
 const httpResponse = require('kth-node-response')
 const i18n = require('../../i18n')
@@ -20,17 +17,37 @@ const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const paths = require('../server').getPaths()
 const api = require('../api')
-let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
 module.exports = {
   getIndex: getIndex,
   getSellingText: co.wrap(_getSellingText),
-  getCourseEmployees: co.wrap(_getCourseEmployees),
+  // getCourseEmployees: co.wrap(_getCourseEmployees),
   getKoppsCourseData: co.wrap(_getKoppsCourseData),
   getMemoFileList: co.wrap(_getMemoFileList)
 }
 
-async function _getMemoFileList (req, res, next) {
+function hydrateStores(renderProps) {
+  // This assumes that all stores are specified in a root element called Provider
+
+  const props = renderProps.props.children.props
+  const outp = {}
+  for (let key in props) {
+    if (typeof props[key].initializeStore === 'function') {
+      outp[key] = encodeURIComponent(JSON.stringify(toJS(props[key], true)))
+    }
+  }
+  return outp
+}
+
+function _staticRender(context, location) {
+  if (process.env.NODE_ENV === 'development') {
+    delete require.cache[require.resolve('../../dist/app.js')]
+  }
+  const { staticRender } = require('../../dist/app.js')
+  return staticRender(context, location)
+}
+
+async function _getMemoFileList(req, res, next) {
   const courseCode = req.params.courseCode
   log.debug('Get memo file list for: ', courseCode)
 
@@ -50,41 +67,41 @@ async function _getMemoFileList (req, res, next) {
     log.debug('OK response from kurs-pm-api for: ', courseCode)
     return httpResponse.json(res, apiResponse.body)
   } catch (err) {
-    log.error('Exception from kurs-pm-api', { error: err })
+    // log.error('Exception from kurs-pm-api', { error: err })
     next(err)
   }
 }
 
-async function _getCourseEmployees (req, res, next) {
-  let key = req.params.key
-  const type = req.params.type
+// async function _getCourseEmployees(req, res, next) {
+async function _getCourseEmployees(key, type, roundsKeys) {
+  // let key = req.params.key
+  // const type = req.params.type
   key = key.replace(/_/g, '.')
   switch (type) {
-     //* *************************************************************************************************************/
-     //* *** Retuns two lists with teachers and reponsibles for each course round.
-     //* *** The keys are built up with: course code.year+semester.roundId (example: SF1624.20182.1)
-     //* *************************************************************************************************************/
+    //* *************************************************************************************************************/
+    //* *** Retuns two lists with teachers and reponsibles for each course round.
+    //* *** The keys are built up with: course code.year+semester.roundId (example: SF1624.20182.1)
+    //* *************************************************************************************************************/
     case 'multi':
       try {
-        const roundsKeys = JSON.parse(req.body.params)
+        // const roundsKeys = JSON.parse(req.body.params)
         log.debug('_getCourseEmployees with key: ' + roundsKeys)
 
         await redis('ugRedis', serverConfig.cache.ugRedis.redis)
           .then(function (ugClient) {
-            return ugClient.multi()
-            .mget(roundsKeys.teachers)
-            .mget(roundsKeys.responsibles)
-            .execAsync()
+            return ugClient.multi().mget(roundsKeys.teachers).mget(roundsKeys.responsibles).execAsync()
           })
           .then(function (returnValue) {
-            return httpResponse.json(res, returnValue)
+            // return httpResponse.json(res, returnValue)
+            return returnValue
           })
           .catch(function (err) {
             throw err
           })
       } catch (err) {
-        log.error('Exception calling from ugRedis - multi', { error: err })
-        next(err)
+        // log.error('Exception calling from ugRedis - multi', { error: err })
+        throw err
+        // next(err)
       }
       break
     //* ********************************************************/
@@ -93,23 +110,34 @@ async function _getCourseEmployees (req, res, next) {
     case 'examiners':
       try {
         await redis('ugRedis', serverConfig.cache.ugRedis.redis)
-        .then(function (ugClient) {
-          return ugClient.getAsync(key + '.examiner')
-        })
-        .then(function (returnValue) {
-          return httpResponse.json(res, returnValue)
-        })
-        .catch(function (err) {
-          throw err
-        })
+          .then(function (ugClient) {
+            return ugClient.getAsync(key + '.examiner')
+          })
+          .then(function (returnValue) {
+            return httpResponse.json(res, returnValue)
+          })
+          .catch(function (err) {
+            throw err
+          })
       } catch (err) {
-        log.error('Exception calling from ugRedis - examiners ', { error: err })
-        next(err)
+        // log.error('Exception calling from ugRedis - examiners ', { error: err })
+        throw err
+        // next(err)
       }
   }
 }
 
-async function _getSellingText (req, res, next) {
+async function _getCourseEmployeesPost(roundsKeys, key, type = 'multi', lang = 'sv') {
+  return _getCourseEmployees(key, type, roundsKeys)
+  // return axios
+  //   .post(
+  //     this.buildApiUrl(this.paths.redis.ugCache.uri, { key: key, type: type }),
+  //     this._getOptions(JSON.stringify(this.keyList))
+  //   )
+  //   .then((result) => {
+}
+
+async function _getSellingText(req, res, next) {
   const courseCode = req.params.courseCode
   log.debug('Get selling text for', courseCode)
 
@@ -129,12 +157,12 @@ async function _getSellingText (req, res, next) {
     log.debug('OK response from kursinfo-api for: ', courseCode)
     return httpResponse.json(res, apiResponse.body)
   } catch (err) {
-    log.error('Exception from kursinfo-api', { error: err })
+    // log.error('Exception from kursinfo-api', { error: err })
     next(err)
   }
 }
 
-async function _getKoppsCourseData (req, res, next) {
+async function _getKoppsCourseData(req, res, next) {
   const courseCode = req.params.courseCode
   const language = req.params.language || 'sv'
   log.debug('Get Kopps course data for: ', courseCode, language)
@@ -152,8 +180,19 @@ async function _getKoppsCourseData (req, res, next) {
       res.send(courseCode)
     }
   } catch (err) {
-    log.error('Exception from Kopps API', { error: err })
-    return (err)
+    // log.error('Exception from Kopps API', { error: err })
+    return err
+  }
+}
+
+function _getBreadcrumbs(courseData) {
+  if (!courseData) {
+    courseData = {}
+    courseData.courseInfo = {}
+  }
+  return {
+    url: `/student/kurser/org/${courseData.courseInfo.course_department_code}`,
+    label: courseData.courseInfo.course_department
   }
 }
 
@@ -161,12 +200,6 @@ async function _getKoppsCourseData (req, res, next) {
 //                    COURSE PAGE SETTINGS AND RENDERING                          */
 //* ****************************************************************************** */
 async function getIndex (req, res, next) {
-  if (process.env['NODE_ENV'] === 'development') {
-    delete require.cache[require.resolve('../../dist/js/server/app.js')]
-    const tmp = require('../../dist/js/server/app.js')
-    appFactory = tmp.appFactory
-    doAllAsyncBefore = tmp.doAllAsyncBefore
-  }
   /** //TODO-INTEGRATION: REMOVE ------- CHECK OF CONNECTION TO KURS-PM-API ------- */
   let memoApiUp = true
   if (api.kursPmDataApi.connected && api.kursPmDataApi.connected === false) {
@@ -179,12 +212,8 @@ async function getIndex (req, res, next) {
   const ldapUser = req.session.authUser ? req.session.authUser.username : 'null'
   log.debug('getIndex with course code: ' + courseCode)
   try {
-    // Render inferno app
     const context = {}
-    const renderProps = createElement(StaticRouter, {
-      location: req.url,
-      context
-    }, appFactory())
+    const renderProps = _staticRender(context, req.url)
 
     renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
@@ -199,23 +228,17 @@ async function getIndex (req, res, next) {
         renderProps.props.children.props.routerStore.memoApiHasConnection = false
       }
     }
-    await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
-    await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, lang)
-    await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi')
-    await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
+    // await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
+    // await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, lang)
+    // await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi')
+    // await renderProps.props.children.props.routerStore.getCourseEmployees(courseCode, 'examiners')
     // const breadcrumDepartment = await renderProps.props.children.props.routerStore.getBreadcrumbs()
     // let breadcrumbs = [
     //   { url: '/student/kurser/kurser-inom-program', label: i18n.message('page_course_programme', lang) }
     // ]
     // breadcrumbs.push(breadcrumDepartment)
 
-    await doAllAsyncBefore({
-      pathname: req.originalUrl,
-      query: (req.originalUrl === undefined || req.originalUrl.indexOf('?') === -1) ? undefined : req.originalUrl.substring(req.originalUrl.indexOf('?'), req.originalUrl.length),
-      routerStore: renderProps.props.children.props.routerStore,
-      routes: renderProps.props.children.props.children.props.children.props.children
-    })
-    const html = renderToString(renderProps)
+    const html = ReactDOMServer.renderToString(renderProps)
 
     res.render('course/index', {
       // breadcrumbsPath: breadcrumbs,
@@ -225,7 +248,10 @@ async function getIndex (req, res, next) {
       title: courseCode.toUpperCase(),
       initialState: JSON.stringify(hydrateStores(renderProps)),
       lang: lang,
-      description: lang === 'sv' ? 'KTH kursinformation för ' + courseCode.toUpperCase() : 'KTH course information ' + courseCode.toUpperCase()
+      description:
+        lang === 'sv'
+          ? 'KTH kursinformation för ' + courseCode.toUpperCase()
+          : 'KTH course information ' + courseCode.toUpperCase()
     })
   } catch (err) {
     const excludedStatusCodes = [403, 404]
@@ -238,16 +264,16 @@ async function getIndex (req, res, next) {
 
     if (!excludedStatusCodes.includes(statusCode)) {
       if (err.code === 'ECONNABORTED' && err.config) {
-        log.error(err.config.url, 'Timeout error')
+        // log.error(err.config.url, 'Timeout error')
       }
-      log.error({ err: err }, 'Error in getIndex')
+      // log.error({ err: err }, 'Error in getIndex')
     }
 
     next(err)
   }
 }
 
-function hydrateStores (renderProps) {
+function hydrateStores(renderProps) {
   // This assumes that all stores are specified in a root element called Provider
 
   const props = renderProps.props.children.props

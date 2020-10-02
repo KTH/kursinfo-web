@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { COURSE_MEMO_URL, SIDE_MENU_LINK_URL, COURSE_HISTORY_URL, LISTS_OF_PILOT_COURSES } from '../util/constants'
 
 const checkIfPilotCourse = (courseCode) =>
@@ -27,7 +29,9 @@ const SideMenu = ({ courseCode, labels, language }) => {
     <nav className='left-side-menu mt-20' lang={language} aria-label={labels.aria_label}>
       <p>
         &lsaquo;&nbsp;
-        <a href={SIDE_MENU_LINK_URL[language]} title={labels.page_catalog}>{labels.page_catalog}</a>
+        <a href={SIDE_MENU_LINK_URL[language]} title={labels.page_catalog}>
+          {labels.page_catalog}
+        </a>
       </p>
       {labelBeforeChoosingCourse(courseCode, labels.page_about_course)}
       <hr />

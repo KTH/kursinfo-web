@@ -6,37 +6,44 @@ import { EMPTY, PROGRAMME_URL, MAX_1_MONTH, MAX_2_MONTH, COURSE_IMG_URL } from '
 import i18n from '../../../../i18n'
 const paramRegex = /\/(:[^\/\s]*)/g
 
-function _paramReplace (path, params) {
+function _paramReplace(path, params) {
   let tmpPath = path
   const tmpArray = tmpPath.match(paramRegex)
-  tmpArray && tmpArray.forEach(element => {
-    tmpPath = tmpPath.replace(element, '/' + params[element.slice(2)])
-  })
+  tmpArray &&
+    tmpArray.forEach((element) => {
+      tmpPath = tmpPath.replace(element, '/' + params[element.slice(2)])
+    })
   return tmpPath
 }
 
-function _webUsesSSL (url) {
+function _webUsesSSL(url) {
   return url.startsWith('https:')
 }
 
 class RouterStore {
-  courseData = undefined
+  courseData = {
+    courseInfo: {
+      course_application_info: []
+    },
+    syllabusSemesterList: []
+  }
   sellingText = undefined // is set from kursinfo-admin-api
   isCancelled = false // is set in getCourseInformation(), used to show an Alert on the course page
   showCourseWebbLink = false // is set from kursinfo-admin ( not in use )
   roundsSyllabusIndex = [] // handles connection to syllabuses for active rounds
   activeSemesters = [] // sets in getCurrentSemesterToShow(), computes syllabus to show based on todays date
-  keyList = { // key list to get information from ugRedis
+  keyList = {
+    // key list to get information from ugRedis
     teachers: [],
     responsibles: []
   }
   user = ''
   defaultIndex = 0
   memoApiHasConnection = true
-  memoList={}
+  memoList = {}
   imageFromAdmin = ''
 
-  buildApiUrl (path, params) {
+  buildApiUrl(path, params) {
     let host
     if (typeof window !== 'undefined') {
       host = this.apiHost
@@ -50,7 +57,7 @@ class RouterStore {
     return [host, newPath].join('')
   }
 
-  _getOptions (params) {
+  _getOptions(params) {
     // Pass Cookie header on SSR-calls
     let options
     if (typeof window === 'undefined') {
@@ -58,7 +65,7 @@ class RouterStore {
         headers: {
           Cookie: this.cookieHeader,
           Accept: 'application/json',
-          'X-Forwarded-Proto': (_webUsesSSL(this.apiHost) ? 'https' : 'http')
+          'X-Forwarded-Proto': _webUsesSSL(this.apiHost) ? 'https' : 'http'
         },
         timeout: 5000,
         params: params
@@ -75,75 +82,79 @@ class RouterStore {
   /*                                                       COLLECTED COURSE INFORMATION                                                        */
   /** ***************************************************************************************************************************************** */
   //* * Handeling the course information from kopps api.**//
-  @action getCourseInformation (courseCode, ldapUsername, lang = 'sv', roundIndex = 0) {
-    return axios.get(this.buildApiUrl(this.paths.api.koppsCourseData.uri, { courseCode: courseCode, language: lang }), this._getOptions()).then((res) => {
-      const courseResult = safeGet(() => res.data, {})
-      const language = lang === 'en' ? 0 : 1
+  // @action getCourseInformation(courseCode, ldapUsername, lang = 'sv', roundIndex = 0) {
+  //   return axios.get(this.buildApiUrl(this.paths.api.koppsCourseData.uri, { courseCode: courseCode, language: lang }), this._getOptions()).then((res) => {
+  @action getCourseInformation(res, courseCode, ldapUsername, lang = 'sv', roundIndex = 0) {
+    // const courseResult = safeGet(() => res.data, {})
+    const courseResult = res.body
+    const language = lang === 'en' ? 0 : 1
 
-      this.isCancelled = courseResult.course.cancelled
-      this.isDeactivated = courseResult.course.deactivated
-      this.user = ldapUsername
+    this.isCancelled = courseResult.course.cancelled
+    this.isDeactivated = courseResult.course.deactivated
+    this.user = ldapUsername
 
-      //* **** Coruse information that is static on the course side *****//
-      const courseInfo = this.getCourseDefaultInformation(courseResult, language)
+    //* **** Coruse information that is static on the course side *****//
+    const courseInfo = this.getCourseDefaultInformation(courseResult, language)
 
-      //* **** Course title data  *****//
-      const courseTitleData = this.getTitleData(courseResult)
+    //* **** Course title data  *****//
+    const courseTitleData = this.getTitleData(courseResult)
 
-      //* **** Get list of syllabuses and valid syllabus semesters *****//
-      let syllabusList = []
-      let syllabusSemesterList = []
-      let tempSyllabus = {}
-      const syllabuses = courseResult.publicSyllabusVersions
-      if (syllabuses.length > 0) {
-        for (let index = 0; index < syllabuses.length; index++) {
-          syllabusSemesterList.push([syllabuses[index].validFromTerm.term, ''])
-          tempSyllabus = this.getSyllabusData(courseResult, index, language)
-          if (index > 0) {
-            tempSyllabus.course_valid_to = this.getSyllabusEndSemester(syllabusSemesterList[index - 1][0].toString().match(/.{1,4}/g))
-            syllabusSemesterList[index][1] = Number(tempSyllabus.course_valid_to.join(''))
-          }
-          syllabusList.push(tempSyllabus)
+    //* **** Get list of syllabuses and valid syllabus semesters *****//
+    let syllabusList = []
+    let syllabusSemesterList = []
+    let tempSyllabus = {}
+    const syllabuses = courseResult.publicSyllabusVersions
+    if (syllabuses.length > 0) {
+      for (let index = 0; index < syllabuses.length; index++) {
+        syllabusSemesterList.push([syllabuses[index].validFromTerm.term, ''])
+        tempSyllabus = this.getSyllabusData(courseResult, index, language)
+        if (index > 0) {
+          tempSyllabus.course_valid_to = this.getSyllabusEndSemester(
+            syllabusSemesterList[index - 1][0].toString().match(/.{1,4}/g)
+          )
+          syllabusSemesterList[index][1] = Number(tempSyllabus.course_valid_to.join(''))
         }
-      } else {
-        syllabusList[0] = this.getSyllabusData(courseResult, 0, language)
+        syllabusList.push(tempSyllabus)
       }
+    } else {
+      syllabusList[0] = this.getSyllabusData(courseResult, 0, language)
+    }
 
-      //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis *****//
-      const roundList = this.getRounds(courseResult.roundInfos, courseCode, language)
+    //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis *****//
+    const roundList = this.getRounds(courseResult.roundInfos, courseCode, language)
 
-      //* **** Sets roundsSyllabusIndex, an array used for connecting rounds with correct syllabus *****//
-      this.getRoundsAndSyllabusConnection(syllabusSemesterList)
+    //* **** Sets roundsSyllabusIndex, an array used for connecting rounds with correct syllabus *****//
+    this.getRoundsAndSyllabusConnection(syllabusSemesterList)
 
-      //* **** Get the index for start informatin based on time of year *****/
-      this.defaultIndex = this.getCurrentSemesterToShow()
-      syllabusSemesterList = toJS(syllabusSemesterList)
-      this.courseData = {
-        syllabusList,
-        courseInfo,
-        roundList,
-        courseTitleData,
-        syllabusSemesterList,
-        language
-      }
-    }).catch(err => {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      if (err.response) {
-        throw err
-      // The request was made but no response was received
-      // `error.request` is an instance of http.ClientRequest
-      } else if (err.request) {
-        throw new Error(err.message, err.request)
-      }
-      throw err
-    })
+    //* **** Get the index for start informatin based on time of year *****/
+    this.defaultIndex = this.getCurrentSemesterToShow()
+    syllabusSemesterList = toJS(syllabusSemesterList)
+    this.courseData = {
+      syllabusList,
+      courseInfo,
+      roundList,
+      courseTitleData,
+      syllabusSemesterList,
+      language
+    }
+    // }).catch(err => {
+    //   // The request was made and the server responded with a status code
+    //   // that falls out of the range of 2xx
+    //   if (err.response) {
+    //     throw err
+    //   // The request was made but no response was received
+    //   // `error.request` is an instance of http.ClientRequest
+    //   } else if (err.request) {
+    //     throw new Error(err.message, err.request)
+    //   }
+    //   throw err
+    // })
   }
   /** ***************************************************************************************************************************************** */
   /*                                                          BASIC COURSE DATA                                                                */
   /** ***************************************************************************************************************************************** */
 
-  getTitleData (courseResult) {
+  getTitleData(courseResult) {
     return {
       course_code: this.isValidData(courseResult.course.courseCode),
       course_title: this.isValidData(courseResult.course.title),
@@ -153,25 +164,45 @@ class RouterStore {
     }
   }
 
-  getCourseDefaultInformation (courseResult, language) {
+  getCourseDefaultInformation(courseResult, language) {
     return {
       course_code: this.isValidData(courseResult.course.courseCode),
       course_application_info: this.isValidData(courseResult.course.applicationInfo, language, true),
-      course_grade_scale: this.isValidData(courseResult.formattedGradeScales[courseResult.course.gradeScaleCode], language), // TODO: can this be an array?
+      course_grade_scale: this.isValidData(
+        courseResult.formattedGradeScales[courseResult.course.gradeScaleCode],
+        language
+      ), // TODO: can this be an array?
       course_level_code: this.isValidData(courseResult.course.educationalLevelCode),
-      course_main_subject: courseResult.mainSubjects && courseResult.mainSubjects.length > 0 ? courseResult.mainSubjects.join(', ') : EMPTY[language],
+      course_main_subject:
+        courseResult.mainSubjects && courseResult.mainSubjects.length > 0
+          ? courseResult.mainSubjects.join(', ')
+          : EMPTY[language],
       course_recruitment_text: this.isValidData(courseResult.course.recruitmentText, language, true),
       course_department: this.isValidData(courseResult.course.department.name, language),
-      course_department_link: this.isValidData(courseResult.course.department.name, language) !== EMPTY[language] ? '<a href="/' + courseResult.course.department.name.split('/')[0].toLowerCase() + '/" target="blank">' + courseResult.course.department.name + '</a>' : EMPTY[language],
+      course_department_link:
+        this.isValidData(courseResult.course.department.name, language) !== EMPTY[language]
+          ? '<a href="/' +
+            courseResult.course.department.name.split('/')[0].toLowerCase() +
+            '/" target="blank">' +
+            courseResult.course.department.name +
+            '</a>'
+          : EMPTY[language],
       course_department_code: this.isValidData(courseResult.course.department.code, language),
-      course_contact_name: this.isValidData(courseResult.course.infoContactName, language).replace('<', '').replace('>', ''),
+      course_contact_name: this.isValidData(courseResult.course.infoContactName, language)
+        .replace('<', '')
+        .replace('>', ''),
       course_prerequisites: this.isValidData(courseResult.course.prerequisites, language),
       course_suggested_addon_studies: this.isValidData(courseResult.course.addOn, language),
       course_supplemental_information_url: this.isValidData(courseResult.course.supplementaryInfoUrl, language),
-      course_supplemental_information_url_text: this.isValidData(courseResult.course.supplementaryInfoUrlName, language),
+      course_supplemental_information_url_text: this.isValidData(
+        courseResult.course.supplementaryInfoUrlName,
+        language
+      ),
       course_supplemental_information: this.isValidData(courseResult.course.supplementaryInfo, language),
       course_examiners: EMPTY[language],
-      course_last_exam: courseResult.course.lastExamTerm ? courseResult.course.lastExamTerm.term.toString().match(/.{1,4}/g) : [],
+      course_last_exam: courseResult.course.lastExamTerm
+        ? courseResult.course.lastExamTerm.term.toString().match(/.{1,4}/g)
+        : [],
       course_web_link: this.isValidData(courseResult.socialCoursePageUrl, language),
       // New fields in kopps
       course_spossibility_to_completions: this.isValidData(courseResult.course.possibilityToCompletion, language),
@@ -188,40 +219,110 @@ class RouterStore {
   /*                                                                SYLLABUS                                                                   */
   /** ***************************************************************************************************************************************** */
 
-  getSyllabusData (courseResult, semester = 0, language) {
+  getSyllabusData(courseResult, semester = 0, language) {
     return {
-      course_goals: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.goals, language) : EMPTY[language],
-      course_content: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.content, language) : EMPTY[language],
-      course_disposition: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.disposition, language) : EMPTY[language],
-      course_eligibility: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.eligibility, language) : EMPTY[language],
-      course_requirments_for_final_grade: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.reqsForFinalGrade, language, true) : '',
-      course_literature: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.literature, language) : EMPTY[language],
-      course_literature_comment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.literatureComment, language) : EMPTY[language],
-      course_valid_from: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].validFromTerm.term).toString().match(/.{1,4}/g) : [],
+      course_goals:
+        courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
+          ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.goals, language)
+          : EMPTY[language],
+      course_content:
+        courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
+          ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.content, language)
+          : EMPTY[language],
+      course_disposition:
+        courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
+          ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.disposition, language)
+          : EMPTY[language],
+      course_eligibility:
+        courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
+          ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.eligibility, language)
+          : EMPTY[language],
+      course_requirments_for_final_grade:
+        courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
+          ? this.isValidData(
+              courseResult.publicSyllabusVersions[semester].courseSyllabus.reqsForFinalGrade,
+              language,
+              true
+            )
+          : '',
+      course_literature:
+        courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
+          ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.literature, language)
+          : EMPTY[language],
+      course_literature_comment:
+        courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
+          ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.literatureComment, language)
+          : EMPTY[language],
+      course_valid_from:
+        courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
+          ? this.isValidData(courseResult.publicSyllabusVersions[semester].validFromTerm.term)
+              .toString()
+              .match(/.{1,4}/g)
+          : [],
       course_valid_to: [],
-      course_required_equipment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.requiredEquipment, language) : '',
-      course_examination: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 &&
+      course_required_equipment:
+        courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
+          ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.requiredEquipment, language)
+          : '',
+      course_examination:
+        courseResult.publicSyllabusVersions &&
+        courseResult.publicSyllabusVersions.length > 0 &&
         courseResult.examinationSets &&
         Object.keys(courseResult.examinationSets).length > 0
-          ? this.getExamObject(courseResult.examinationSets,
-            courseResult.formattedGradeScales,
-            language,
-            courseResult.publicSyllabusVersions[semester].validFromTerm.term,
-            courseResult.course.creditUnitAbbr)
+          ? this.getExamObject(
+              courseResult.examinationSets,
+              courseResult.formattedGradeScales,
+              language,
+              courseResult.publicSyllabusVersions[semester].validFromTerm.term,
+              courseResult.course.creditUnitAbbr
+            )
           : EMPTY[language],
-      course_examination_comments: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.examComments, language, true) : '',
-        // New fields in kopps
-      course_ethical: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.ethicalApproach, language, true) : '',
-      course_establishment: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.establishment, language, true) : '',
-      course_additional_regulations: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.additionalRegulations, language, true) : '',
-      course_transitional_reg: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.transitionalRegulations, language, true) : '',
-      course_decision_to_discontinue: courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0 ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.decisionToDiscontinue, language) : ''
+      course_examination_comments:
+        courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
+          ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.examComments, language, true)
+          : '',
+      // New fields in kopps
+      course_ethical:
+        courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
+          ? this.isValidData(
+              courseResult.publicSyllabusVersions[semester].courseSyllabus.ethicalApproach,
+              language,
+              true
+            )
+          : '',
+      course_establishment:
+        courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
+          ? this.isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.establishment, language, true)
+          : '',
+      course_additional_regulations:
+        courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
+          ? this.isValidData(
+              courseResult.publicSyllabusVersions[semester].courseSyllabus.additionalRegulations,
+              language,
+              true
+            )
+          : '',
+      course_transitional_reg:
+        courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
+          ? this.isValidData(
+              courseResult.publicSyllabusVersions[semester].courseSyllabus.transitionalRegulations,
+              language,
+              true
+            )
+          : '',
+      course_decision_to_discontinue:
+        courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
+          ? this.isValidData(
+              courseResult.publicSyllabusVersions[semester].courseSyllabus.decisionToDiscontinue,
+              language
+            )
+          : ''
     }
     //
   }
 
   //* *** Sets the end semester for older syllabuses *****/
-  getSyllabusEndSemester (newerSyllabus) {
+  getSyllabusEndSemester(newerSyllabus) {
     if (newerSyllabus[1] === '1') {
       return [Number(newerSyllabus[0]) - 1, '2']
     } else {
@@ -230,7 +331,7 @@ class RouterStore {
   }
 
   //* *** Default syllabus might change when the dates set in MAX_(semester)_DAY and MAX_(semester)_MONTH is passed ****/
-  @action getCurrentSemesterToShow (date = '') {
+  @action getCurrentSemesterToShow(date = '') {
     if (this.activeSemesters.length === 0) {
       return 0
     }
@@ -257,7 +358,10 @@ class RouterStore {
       if (thisDate.getMonth() + 1 > MAX_2_MONTH && Number(this.activeSemesters[index][0]) === thisDate.getFullYear()) {
         yearMatch = index
       }
-      if (thisDate.getMonth() + 1 < MAX_1_MONTH && Number(this.activeSemesters[index][0]) === thisDate.getFullYear() - 1) {
+      if (
+        thisDate.getMonth() + 1 < MAX_1_MONTH &&
+        Number(this.activeSemesters[index][0]) === thisDate.getFullYear() - 1
+      ) {
         yearMatch = index
       }
     }
@@ -268,7 +372,7 @@ class RouterStore {
     return returnIndex > -1 ? returnIndex : yearMatch
   }
 
-  getExamObject (dataObject, grades, language = 0, semester = '', courseCredit) {
+  getExamObject(dataObject, grades, language = 0, semester = '', courseCredit) {
     var matchingExamSemester = ''
     Object.keys(dataObject).forEach(function (key) {
       if (Number(semester) >= Number(key)) {
@@ -281,18 +385,19 @@ class RouterStore {
         if (exam.credits) {
           //* * Adding a decimal if it's missing in credits **/
           exam.credits =
-            exam.credits !== '' &&
-            exam.credits.toString().indexOf('.') < 0
-              ? exam.credits + '.0'
-              : exam.credits
+            exam.credits !== '' && exam.credits.toString().indexOf('.') < 0 ? exam.credits + '.0' : exam.credits
         } else {
           exam.credits = '-'
         }
 
         examString += `<li>${exam.examCode} - 
                           ${exam.title},
-                          ${language === 0 ? exam.credits : exam.credits.toString().replace('.', ',')} ${language === 0 ? ' credits' : courseCredit},  
-                          ${language === 0 ? 'Grading scale' : 'betygsskala'}: ${grades[exam.gradeScaleCode]}              
+                          ${language === 0 ? exam.credits : exam.credits.toString().replace('.', ',')} ${
+          language === 0 ? ' credits' : courseCredit
+        },  
+                          ${language === 0 ? 'Grading scale' : 'betygsskala'}: ${
+          grades[exam.gradeScaleCode]
+        }              
                           </li>`
       }
     }
@@ -305,7 +410,7 @@ class RouterStore {
   /*                                                                ROUNDS                                                                     */
   /** ***************************************************************************************************************************************** */
 
-  getRounds (roundInfos, courseCode, language) {
+  getRounds(roundInfos, courseCode, language) {
     let tempList = []
     let courseRound
     let courseRoundList = {}
@@ -327,9 +432,12 @@ class RouterStore {
         }
       }
       courseRoundList[courseRound.round_course_term.join('')].push(courseRound)
-      this.keyList.teachers.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.teachers`)
-      this.keyList.responsibles.push(`${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`)
-
+      this.keyList.teachers.push(
+        `${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.teachers`
+      )
+      this.keyList.responsibles.push(
+        `${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`
+      )
     }
     this.activeSemesters.sort()
     this.keyList.teachers.sort()
@@ -338,7 +446,7 @@ class RouterStore {
     return courseRoundList
   }
 
-  getRoundsAndSyllabusConnection (syllabusSemesterList) {
+  getRoundsAndSyllabusConnection(syllabusSemesterList) {
     for (let index = 0; index < this.activeSemesters.length; index++) {
       if (Number(syllabusSemesterList[0][0]) > Number(this.activeSemesters[index][2])) {
         for (let whileIndex = 1; whileIndex < syllabusSemesterList.length; whileIndex++) {
@@ -354,7 +462,7 @@ class RouterStore {
     }
   }
 
-  getRound (roundObject, language = 0) {
+  getRound(roundObject, language = 0) {
     const courseRoundModel = {
       roundId: this.isValidData(roundObject.round.ladokRoundId, language),
       round_time_slots: this.isValidData(roundObject.timeslots, language),
@@ -369,47 +477,69 @@ class RouterStore {
       round_short_name: this.isValidData(roundObject.round.shortName, language),
       round_application_code: this.isValidData(roundObject.round.applicationCodes[0].applicationCode, language),
       round_schedule: this.isValidData(roundObject.schemaUrl, language),
-      round_course_term: this.isValidData(roundObject.round.startTerm.term, language).toString().length > 0 ? roundObject.round.startTerm.term.toString().match(/.{1,4}/g) : [],
+      round_course_term:
+        this.isValidData(roundObject.round.startTerm.term, language).toString().length > 0
+          ? roundObject.round.startTerm.term.toString().match(/.{1,4}/g)
+          : [],
       round_periods: this.getRoundPeriodes(roundObject.round.courseRoundTerms, language),
-      round_seats: this.getRoundSeats(this.isValidData(roundObject.round.maxSeats, language), this.isValidData(roundObject.round.minSeats, language), language),
-      round_type: roundObject.round.applicationCodes.length > 0 ? this.isValidData(roundObject.round.applicationCodes[0].courseRoundType.name, language) : EMPTY[language], // TODO: Map array
+      round_seats: this.getRoundSeats(
+        this.isValidData(roundObject.round.maxSeats, language),
+        this.isValidData(roundObject.round.minSeats, language),
+        language
+      ),
+      round_type:
+        roundObject.round.applicationCodes.length > 0
+          ? this.isValidData(roundObject.round.applicationCodes[0].courseRoundType.name, language)
+          : EMPTY[language], // TODO: Map array
       round_application_link: this.isValidData(roundObject.admissionLinkUrl, language),
-      round_part_of_programme: roundObject.usage.length > 0 ? this.getRoundProgramme(roundObject.usage, language) : EMPTY[language],
+      round_part_of_programme:
+        roundObject.usage.length > 0 ? this.getRoundProgramme(roundObject.usage, language) : EMPTY[language],
       round_state: this.isValidData(roundObject.round.state, language),
       round_comment: this.isValidData(roundObject.commentsToStudents, language, true),
-      round_category: roundObject.round.applicationCodes.length > 0 ? this.isValidData(roundObject.round.applicationCodes[0].courseRoundType.category, language) : EMPTY[language]
-
+      round_category:
+        roundObject.round.applicationCodes.length > 0
+          ? this.isValidData(roundObject.round.applicationCodes[0].courseRoundType.category, language)
+          : EMPTY[language]
     }
     if (courseRoundModel.round_short_name === EMPTY[language]) {
-      courseRoundModel.round_short_name = `${language === 0 ? 'Start date' : 'Startdatum'}  ${courseRoundModel.round_start_date}`
+      courseRoundModel.round_short_name = `${language === 0 ? 'Start date' : 'Startdatum'}  ${
+        courseRoundModel.round_start_date
+      }`
     }
 
     return courseRoundModel
   }
 
-  getRoundProgramme (programmes, language = 0) {
+  getRoundProgramme(programmes, language = 0) {
     let programmeString = ''
-    programmes.forEach(programme => {
-      programmeString +=
-        `<p>
-          <a href="${PROGRAMME_URL}/${programme.programmeCode}/${programme.progAdmissionTerm.term}/arskurs${programme.studyYear}${programme.specCode ? '#inr' + programme.specCode : ''}">
-            ${programme.title}, ${language === 0 ? 'year' : 'åk'} ${programme.studyYear}, ${programme.specCode ? programme.specCode + ', ' : ''}${programme.electiveCondition.abbrLabel}
+    programmes.forEach((programme) => {
+      programmeString += `<p>
+          <a href="${PROGRAMME_URL}/${programme.programmeCode}/${programme.progAdmissionTerm.term}/arskurs${
+        programme.studyYear
+      }${programme.specCode ? '#inr' + programme.specCode : ''}">
+            ${programme.title}, ${language === 0 ? 'year' : 'åk'} ${programme.studyYear}, ${
+        programme.specCode ? programme.specCode + ', ' : ''
+      }${programme.electiveCondition.abbrLabel}
         </a>
       </p>`
     })
     return programmeString
   }
 
-  getRoundPeriodes (periodeList, language = 0) {
+  getRoundPeriodes(periodeList, language = 0) {
     var periodeString = ''
     if (periodeList) {
       if (periodeList.length > 1) {
-        periodeList.map(periode => {
-          return periodeString += `<p class="periode-list">
-                                ${i18n.messages[language].courseInformation.course_short_semester[periode.term.term.toString().match(/.{1,4}/g)[1]]} 
+        periodeList.map((periode) => {
+          return (periodeString += `<p class="periode-list">
+                                ${
+                                  i18n.messages[language].courseInformation.course_short_semester[
+                                    periode.term.term.toString().match(/.{1,4}/g)[1]
+                                  ]
+                                } 
                                 ${periode.term.term.toString().match(/.{1,4}/g)[0]}: 
                                 ${periode.formattedPeriodsAndCredits}
-                                </p>`
+                                </p>`)
         })
         return periodeString
       } else {
@@ -419,22 +549,21 @@ class RouterStore {
     return EMPTY[language]
   }
 
-  getRoundSeats (max, min, language) {
+  getRoundSeats(max, min, language) {
     if (max === EMPTY[language] && min === EMPTY[language]) {
       return EMPTY[language]
     }
     if (max !== EMPTY[language]) {
       if (min !== EMPTY[language]) {
         return min + ' - ' + max
-      }
-      else {
+      } else {
         return 'Max: ' + max
       }
     }
     return 'Min: ' + min
   }
 
-  getDateFormat (date, language) {
+  getDateFormat(date, language) {
     if (date === EMPTY[language] || language === 1) {
       return date
     }
@@ -446,21 +575,23 @@ class RouterStore {
   /*                                                                ADMIN                                                                      */
   /** ***************************************************************************************************************************************** */
 
-  @action getCourseAdminInfo (courseCode, lang = 'sv') {
-    return axios.get(this.buildApiUrl(this.paths.api.sellingText.uri, { courseCode: courseCode }), this._getOptions()).then(res => {
-      this.showCourseWebbLink = true // res.data.isCourseWebLink
-      this.sellingText = res.data.sellingText
-      this.imageFromAdmin = res.data.imageInfo
-    }).catch(err => {
-      if (err.response) {
-        throw new Error(err.message, err.response.data)
-      }
-      throw err
-    })
+  @action getCourseAdminInfo(res, courseCode, lang = 'sv') {
+    // return axios
+    //   .get(this.buildApiUrl(this.paths.api.sellingText.uri, { courseCode: courseCode }), this._getOptions())
+    //   .then((res) => {
+    this.showCourseWebbLink = true // res.data.isCourseWebLink
+    this.sellingText = res.sellingText
+    this.imageFromAdmin = res.imageInfo
+    // })
+    // .catch((err) => {
+    //   if (err.response) {
+    //     throw new Error(err.message, err.response.data)
+    //   }
+    //   throw err
+    // })
   }
 
-
- /** ***************************************************************************************************************************************** */
+  /** ***************************************************************************************************************************************** */
   /*                                                    COURSE MEMO FILES  - kurs-pm-api                                                                    */
   /** ***************************************************************************************************************************************** */
 
@@ -479,61 +610,78 @@ class RouterStore {
   /** ***************************************************************************************************************************************** */
   /*                                            UG REDIS - examiners, teachers and responsibles                                                */
   /** ***************************************************************************************************************************************** */
-  @action getCourseEmployeesPost (key, type = 'multi', lang = 'sv') {
+  @action getCourseEmployeesPost(result, key, type = 'multi', lang = 'sv') {
+    // if (Object.getOwnPropertyNames(this.courseData.roundList).length === 0) return ''
 
-    if (Object.getOwnPropertyNames(this.courseData.roundList).length === 0) return ''
+    // return axios
+    //   .post(
+    //     this.buildApiUrl(this.paths.redis.ugCache.uri, { key: key, type: type }),
+    //     this._getOptions(JSON.stringify(this.keyList))
+    //   )
+    //   .then((result) => {
+    const returnValue = result.data
+    const emptyString = EMPTY[this.courseData.language]
+    let roundList = this.courseData.roundList
+    let roundId = 0
+    let toTeacherObject
+    let toResponsiblepObject
+    const thisStore = this
 
-    return axios.post(this.buildApiUrl(this.paths.redis.ugCache.uri, { key: key, type: type }), this._getOptions(JSON.stringify(this.keyList))).then(result => {
-      const returnValue = result.data
-      const emptyString = EMPTY[this.courseData.language]
-      let roundList = this.courseData.roundList
-      let roundId = 0
-      let toTeacherObject
-      let toResponsiblepObject
-      const thisStore = this
+    Object.keys(roundList).forEach(function (key) {
+      let rounds = roundList[key]
 
-      Object.keys(roundList).forEach(function (key) {
-        let rounds = roundList[key]
+      for (let index = 0; index < rounds.length; index++) {
+        toTeacherObject = JSON.parse(returnValue[0][roundId])
+        toResponsiblepObject = JSON.parse(returnValue[1][roundId])
 
-        for (let index = 0; index < rounds.length; index++) {
-          toTeacherObject = JSON.parse(returnValue[0][roundId])
-          toResponsiblepObject = JSON.parse(returnValue[1][roundId])
-
-          rounds[index].round_teacher = toTeacherObject !== null && toTeacherObject.length > 0 ? thisStore.createPersonHtml(toTeacherObject, 'teacher') : emptyString
-          rounds[index].round_responsibles = toResponsiblepObject !== null && toResponsiblepObject.length > 0 ? thisStore.createPersonHtml(toResponsiblepObject, 'responsible') : emptyString
-          roundId++
-        }
-        thisStore.courseData.roundList[key] = rounds
-      })
-    }).catch(err => {
-      if (err.response) {
-        throw new Error(err.message, err.response.data)
+        rounds[index].round_teacher =
+          toTeacherObject !== null && toTeacherObject.length > 0
+            ? thisStore.createPersonHtml(toTeacherObject, 'teacher')
+            : emptyString
+        rounds[index].round_responsibles =
+          toResponsiblepObject !== null && toResponsiblepObject.length > 0
+            ? thisStore.createPersonHtml(toResponsiblepObject, 'responsible')
+            : emptyString
+        roundId++
       }
-      throw err
+      thisStore.courseData.roundList[key] = rounds
     })
+    // })
+    // .catch((err) => {
+    //   if (err.response) {
+    //     throw new Error(err.message, err.response.data)
+    //   }
+    //   throw err
+    // })
   }
 
-  @action getCourseEmployees (key, type = 'examinator', lang = 0) {
-    return axios.get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key: key, type: type })).then(result => {
-      this.courseData.courseInfo.course_examiners = result.data && result.data.length > 0 ? this.createPersonHtml(result.data, 'examiner') : EMPTY[this.courseData.language]
-    }).catch(err => {
-      if (err.response) {
-        throw new Error(err.message, err.response.data)
-      }
-      throw err
-    })
+  @action getCourseEmployees(key, type = 'examinator', lang = 0) {
+    return {}
+    // return axios
+    //   .get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key: key, type: type }))
+    //   .then((result) => {
+    //     this.courseData.courseInfo.course_examiners =
+    //       result.data && result.data.length > 0
+    //         ? this.createPersonHtml(result.data, 'examiner')
+    //         : EMPTY[this.courseData.language]
+    //   })
+    //   .catch((err) => {
+    //     if (err.response) {
+    //       throw new Error(err.message, err.response.data)
+    //     }
+    //     throw err
+    //   })
   }
 
-  isValidData (dataObject, language = 0, setEmpty = false) {
+  isValidData(dataObject, language = 0, setEmpty = false) {
     const emptyText = setEmpty ? '' : EMPTY[language]
     return !dataObject ? emptyText : dataObject
   }
 
-  createPersonHtml (personList, type) {
+  createPersonHtml(personList, type) {
     let personString = ''
-    personList.forEach(person => {
-      personString +=
-          `<p class = "person">
+    personList.forEach((person) => {
+      personString += `<p class = "person">
           <i class="fas fa-user-alt"></i>
             <a href="/profile/${person.username}/" property="teach:teacher">
               ${person.givenName} ${person.lastName} 
@@ -545,41 +693,60 @@ class RouterStore {
   }
   /** ***********************************************************************************************************************/
 
-  @action getLdapUserByUsername (params) {
-    return axios.get(this.buildApiUrl(this.paths.api.searchLdapUser.uri, params), this._getOptions()).then((res) => {
-      return res.data
-    }).catch(err => {
-      if (err.response) {
-        throw new Error(err.message, err.response.data)
-      }
-      throw err
-    })
+  @action getLdapUserByUsername(params) {
+    return axios
+      .get(this.buildApiUrl(this.paths.api.searchLdapUser.uri, params), this._getOptions())
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        if (err.response) {
+          throw new Error(err.message, err.response.data)
+        }
+        throw err
+      })
   }
 
-  @action getBreadcrumbs () {
+  @action getBreadcrumbs() {
+    if (!this.courseData) {
+      this.courseData = {}
+      this.courseData.courseInfo = {}
+    }
     return {
       url: `/student/kurser/org/${this.courseData.courseInfo.course_department_code}`,
       label: this.courseData.courseInfo.course_department
     }
   }
 
-  @action setBrowserConfig (config, paths, apiHost, profileBaseUrl) {
+  @action setBrowserConfig(config, paths, apiHost, profileBaseUrl) {
     this.browserConfig = config
     this.paths = paths
     this.apiHost = apiHost
     this.profileBaseUrl = profileBaseUrl
   }
 
-  @action __SSR__setCookieHeader (cookieHeader) {
+  @action __SSR__setCookieHeader(cookieHeader) {
     if (typeof window === 'undefined') {
       this.cookieHeader = cookieHeader || ''
     }
   }
 
-  @action getBrowserInfo () {
-    var navAttrs = ['appCodeName', 'appName', 'appMinorVersion', 'cpuClass',
-      'platform', 'opsProfile', 'userProfile', 'systemLanguage',
-      'userLanguage', 'appVersion', 'userAgent', 'onLine', 'cookieEnabled']
+  @action getBrowserInfo() {
+    var navAttrs = [
+      'appCodeName',
+      'appName',
+      'appMinorVersion',
+      'cpuClass',
+      'platform',
+      'opsProfile',
+      'userProfile',
+      'systemLanguage',
+      'userLanguage',
+      'appVersion',
+      'userAgent',
+      'onLine',
+      'cookieEnabled'
+    ]
     var docAttrs = ['referrer', 'title', 'URL']
     var value = { document: {}, navigator: {} }
 
@@ -597,7 +764,7 @@ class RouterStore {
     return value
   }
 
-  initializeStore (storeName) {
+  initializeStore(storeName) {
     const store = this
 
     if (typeof window !== 'undefined' && window.__initialState__ && window.__initialState__[storeName]) {

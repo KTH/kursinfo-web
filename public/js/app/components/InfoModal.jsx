@@ -1,12 +1,8 @@
-import { Component } from 'inferno'
-import Modal from 'inferno-bootstrap/dist/Modal/Modal'
-import ModalBody from 'inferno-bootstrap/dist/Modal/ModalBody'
-import ModalHeader from 'inferno-bootstrap/dist/Modal/ModalHeader'
-import ModalFooter from 'inferno-bootstrap/dist/Modal/ModalFooter'
-import Button from 'inferno-bootstrap/dist/Button'
+import React, { Component } from 'react'
+import { Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap'
 
 class InfoModal extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       modal: false
@@ -42,23 +38,24 @@ class InfoModal extends Component {
     }
   }
 
-  toggle () {
+  toggle() {
     this.setState({
       modal: !this.state.modal
     })
   }
 
-  render () {
-    const fadeModal = (this.props.hasOwnProperty('fade') ? this.props.fade : true)
+  render() {
+    const fadeModal = this.props.hasOwnProperty('fade') ? this.props.fade : true
     return (
       <Button className='btn-info-modal' onClick={this.toggle}>{this.props.buttonLabel}
         <Modal isOpen={this.state.modal} toggle={this.toggle} onOpened={this.keepFocus} className={this.props.className} fade={fadeModal}>
           <ModalHeader toggle={this.toggle}>{this.props.title || ''}</ModalHeader>
           <ModalBody>
-            {this.props.type && this.props.type === 'html'
-              ? <p dangerouslySetInnerHTML={{__html: this.props.infoText}}></p>
-              : <p>{this.props.infoText}</p>
-            }
+            {this.props.type && this.props.type === 'html' ? (
+              <p dangerouslySetInnerHTML={{ __html: this.props.infoText }}></p>
+            ) : (
+              <p>{this.props.infoText}</p>
+            )}
           </ModalBody>
           <ModalFooter>
             <Button color='secondary' onClick={this.toggle}>{this.props.closeLabel || 'Close'}</Button>

@@ -12,7 +12,7 @@ The course information project (KIP) is an initiative at KTH that was launched i
 
 ## Overview
 
-Kursinfo-web is a microservice with the public view of course information. It uses [Inferno](https://https://infernojs.org//), [MobX](https://mobx.js.org/), and is based on [node-web](https://github.com/KTH/node-web).
+Kursinfo-web is a microservice with the public view of course information. It uses [React](https://reactjs.org//), [MobX](https://mobx.js.org/), and is based on [node-web](https://github.com/KTH/node-web).
 
 ### API:s
 

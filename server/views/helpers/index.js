@@ -10,7 +10,7 @@ try {
   const buildVersion = require('../../../config/version')
   version = version + '-' + buildVersion.jenkinsBuild
 } catch (err) {
-  log.error(err.message)
+  // log.error(err.message)
 }
 
 /*

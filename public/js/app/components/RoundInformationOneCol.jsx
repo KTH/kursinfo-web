@@ -1,8 +1,5 @@
-import { Component } from 'inferno'
-import Row from 'inferno-bootstrap/dist/Row'
-import Col from 'inferno-bootstrap/dist/Col'
-import Button from 'inferno-bootstrap/dist/Button'
-
+import React, { Component } from 'react'
+import { Row, Col, Button } from 'reactstrap'
 
 import { EMPTY } from '../util/constants'
 import i18n from '../../../../i18n'
@@ -11,17 +8,17 @@ import CourseFileLinks from './CourseFileLinks.jsx'
 import InfoModal from './InfoModal.jsx'
 
 class RoundInformationOneCol extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.openApplicationLink = this.openApplicationLink.bind(this)
   }
 
-  openApplicationLink (event) {
+  openApplicationLink(event) {
     event.preventDefault()
     window.open(this.props.courseRound.round_application_link)
   }
 
-  render () {
+  render() {
     const { fade, courseHasRound, memoStorageURI, canGetMemoFiles, showRoundData, language } = this.props
     const round = this.props.courseRound
     const course = this.props.courseData

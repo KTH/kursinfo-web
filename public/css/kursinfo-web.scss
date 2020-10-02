@@ -1,105 +1,110 @@
 // Less code goes here...!
 
-#kth-kursinfo{
-    width:100%;
+#kth-kursinfo {
+  width: 100%;
 }
 
-#kursinfo-main-page{ 
-    margin-bottom: 20px;
-    padding-left: 30px;
-    width: 100%;
+#kursinfo-main-page {
+  margin-bottom: 20px;
+  padding-left: 30px;
+  width: 100%;
 }
 
-.container.articleNavigation{
-    padding: 15px 15px 0 !important;
-   
+.container.articleNavigation {
+  padding: 15px 15px 0 !important;
 }
 
 .breadcrumb {
     background-color: transparent;
   }
   
-.left-side-menu{
-    margin-top: 20px;
-    width: 100%;
+.left-side-menu {
+  margin-top: 20px;
+  width: 100%;
 
-    a.sideMenuLink {
-      color: #000000;
-      width: 100%;
+  a.sideMenuLink {
+    color: #000000;
+    width: 100%;
     //   &:after {
     //       content: '>'
-    //   }       
-    }
+    //   }
+  }
 
-    .active {
-        font-weight: 700;
-    }
+  .active {
+    font-weight: 700;
+  }
 }
 
-#leftNavigation{
+#leftNavigation {
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-top: 5px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  .navigation {
+    background-color: #f6f6f6;
     padding-left: 0px;
     padding-right: 0px;
-    margin-top: 5px;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    .navigation{
-        background-color: #f6f6f6;
-        padding-left: 0px;
-        padding-right: 0px; 
-        max-width: 30em;
-    }
-    h4 {
-        margin-top: 0;
-        margin-bottom: .3em;
-    }
+    max-width: 30em;
+  }
+  h4 {
+    margin-top: 0;
+    margin-bottom: 0.3em;
+  }
 
-    .link-to:after {
-        content: "";
-        height: 1.5em;
-        width: 1.5em;
-        display: inline-block;
-        margin: -.6em 0 .3em .3em;
-        vertical-align: middle;
-        background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
-        transform: rotate(180deg);
+  .link-to:after {
+    content: '';
+    height: 1.5em;
+    width: 1.5em;
+    display: inline-block;
+    margin: -0.6em 0 0.3em 0.3em;
+    vertical-align: middle;
+    background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
+    transform: rotate(180deg);
+  }
+  .kip-menu {
+    padding: 0.75rem;
+
+    @media (min-width: 768px) {
+      max-width: 30em;
     }
-    .kip-menu{
-        padding: .75rem;
-       
-        @media (min-width: 768px) {
-            max-width: 30em;
-        }
-        
-    }
-    .admin-link {
-        text-align: right;
-        @media (max-width: 768px) {
-            border-top: 2px solid #fff;
-            text-align: left;
-        }
-        p {
-            margin-top: .2em;
-        }
-    }
-    .admin-block{
-    
-        padding-right: 0px;
-        
+  }
+  .admin-link {
+    text-align: right;
+    @media (max-width: 768px) {
+      border-top: 2px solid #fff;
+      text-align: left;
     }
     p {
-        margin-bottom:0px;
+      margin-top: 0.2em;
     }
+  }
+  .admin-block {
+    padding-right: 0px;
+  }
+  p {
+    margin-bottom: 0px;
+  }
+}
+
+#course-title {
+  border-bottom: 0px;
+  margin: 0;
+  margin-top: 20px;
+  h1 {
+    margin-bottom: 0;
+  }
 }
 
 .course-header-admin-link {
-    display: block;
-    margin-top: 4px;
-    margin-bottom: 14px;
-    margin-right: 17px;
-  }
-  
+  display: block;
+  margin-top: 4px;
+  margin-bottom: 14px;
+  margin-right: 17px;
+}
+
 h4.secondTitle {
-    margin-top: 4px;
+  margin-top: 4px;
 }
 
 .pageTitle {
@@ -182,167 +187,191 @@ a.right-link {
 }
 
 #activeSyllabusContainer{
-    #courseInfoHeader{
-        border-bottom: 1px solid #dee2e6;
-        padding-bottom: 10px;
-    }
-     h2{
-        padding-top:20px; 
-    }
+  #courseInfoHeader{
+      border-bottom: 1px solid #dee2e6;
+      padding-bottom: 10px;
+  }
+  h2{
+    padding-top:20px; 
+  }
 }
-
-.select-round{
+#courseIntroText {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-right: 2px;
+  img {
+    float: left;
+    margin: 8px 30px 10px 0;
     width: 100%;
-    & > .btn{
-        background-color: #f6f6f6;
-        border: 1px solid #d4d4d4;
-        display: flex;
-        justify-content: space-between;
-        padding: 0;
+    max-width: 400px;
+  }
+}
+
+#activeSyllabusContainer {
+  #courseInfoHeader {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 10px;
+  }
+  h2 {
+    padding-top: 20px;
+  }
+}
+
+.select-round {
+  width: 100%;
+  & > .btn {
+    background-color: #f6f6f6;
+    border: 1px solid #d4d4d4;
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    width: 100%;
+    & > span:first-child {
+      margin: 6px;
+      max-height: 28px;
+      overflow-y: hidden;
+      min-width: 85%;
+      text-align: left;
+      font-weight: 500;
+    }
+    .caretholder {
+      background-color: #007fae;
+      width: 36px;
+      height: 36px;
+      margin: 0;
+      position: absolute;
+      right: 0px;
+
+      &:after {
+        display: inline-block;
+        // background: url("../kth-style/img/kth-style/icons/arrow-white-down.svg") no-repeat 0;
+        background-size: 14px auto;
+        content: '';
         width: 100%;
-        & > span:first-child {
-            margin: 6px;
-            max-height: 28px;
-            overflow-y: hidden;
-            min-width: 85%;
-            text-align: left;
-            font-weight: 500;
-        }
-        .caretholder {
-            background-color: #007fae;
-            width: 36px;
-            height: 36px;
-            margin: 0;
-            position: absolute;
-            right: 0px;
-
-            &:after{
-                display: inline-block;
-                background: url("../kth-style/img/kth-style/icons/arrow-white-down.svg") no-repeat 0;
-                background-size: 14px auto;
-                content: "";
-                width: 100%;
-                height: 100%;
-                position: absolute;
-                top: 0;
-                left: 11px;
-            }
-        }
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 11px;
+      }
     }
-    .dropdown-menu {
-        min-width: 100%;
+  }
+  .dropdown-menu {
+    min-width: 100%;
 
-        .dropdown-item{
-            border-top: 1px dotted #dee2e6;
-            padding: 10px;
-        }
-
-        .dropdown-item:first-child{
-            border:0;
-        }            
+    .dropdown-item {
+      border-top: 1px dotted #dee2e6;
+      padding: 10px;
     }
-    
+
+    .dropdown-item:first-child {
+      border: 0;
+    }
+  }
 }
 
-.word-break{
-    p{
-        word-break: break-word;
-    }
+.word-break {
+  p {
+    word-break: break-word;
+  }
 }
 
-#roundDropdownMenu{
-    .btn {
-        margin-bottom: 20px;
-    }
-    p {
-        margin-left: 15px;
-    }
-}
-   
-#semesterButtonMenue, #roundDropdownMenu{
-    & > .button-clean{
-        border: none;
-        margin: 2px;
-        padding: 2px;
-        font-size: 18px;
-        font-weight: 400;
-        border-radius: 0 !important;
-        background-color: #fff !important;
-        &:hover, &:focus, &:active, &.is-active{
-            background-color: #fff;
-            border-radius: 0;
-            border: none;
-            border-bottom: 5px solid #006cb7 !important;
-        }
-    }
-    .alert-info{
-        margin: 10px 15px 0 15px;
-        width: 100%;
-   }
+#roundDropdownMenu {
+  .btn {
+    margin-bottom: 20px;
+  }
+  p {
+    margin-left: 15px;
+  }
 }
 
-#roundInformationContainer{
+#semesterButtonMenue,
+#roundDropdownMenu {
+  & > .button-clean {
+    border: none;
+    margin: 2px;
+    padding: 2px;
+    font-size: 18px;
+    font-weight: 400;
+    border-radius: 0 !important;
+    background-color: #fff !important;
+    &:hover,
+    &:focus,
+    &:active,
+    &.is-active {
+      background-color: #fff;
+      border-radius: 0;
+      border: none;
+      border-bottom: 5px solid #006cb7 !important;
+    }
+  }
+  .alert-info {
+    margin: 10px 15px 0 15px;
+    width: 100%;
+  }
+}
+
+#roundInformationContainer {
+  margin-top: 10px;
+  padding-left: 0px;
+  .key-info {
+    padding: 20px;
+    background: #f6f6f6;
     margin-top: 10px;
-    padding-left: 0px;
-    .key-info{
-        padding: 20px;
-        background: #f6f6f6;
-        margin-top: 10px;
-    }
-    .btn-info-modal{
-        margin-left: 5px;
-    }
+  }
+  .btn-info-modal {
+    margin-left: 5px;
+  }
 }
 
-.key-info{
-    p, a {
-        font-size: 1rem;
+.key-info {
+  p,
+  a {
+    font-size: 1rem;
+  }
+  div {
+    div > h4,
+    div > span.text-center2 > h4 {
+      margin: 0 0 0.5rem 0;
     }
-    div {
-        div > h4, div > span.text-center2>h4 {
-            margin: 0 0 .5rem 0;
-        }
-    }
-    span {
-        h4 {
-            margin: 1rem 0 .5rem 0;
-        }
-    }
-
-
-    span:last-of-type {
-        :last-child {
-            margin-bottom:0;
-        }
+  }
+  span {
+    h4 {
+      margin: 1rem 0 0.5rem 0;
     }
   }
 
-  #coreContent{
-    padding-left:0;
-    padding-top:40px;
-    // border-bottom: 1px solid #dee2e6;
-    .first-header{
-        margin-top: 40px;
+  span:last-of-type {
+    :last-child {
+      margin-bottom: 0;
     }
-    @media (min-width: 768px){
-        padding-top:0px;
-        
-    }
+  }
 }
 
-#historyContent{
-    padding-left:0;
-    h2{
-        padding-top:20px;
-    }
+#coreContent {
+  padding-left: 0;
+  padding-top: 40px;
+  border-bottom: 1px solid #dee2e6;
+  .first-header {
+    margin-top: 40px;
+  }
+  @media (min-width: 768px) {
+    padding-top: 0px;
+  }
 }
 
-.person{
-    margin-bottom: 0.3rem;
+#historyContent {
+  padding-left: 0;
+  h2 {
+    padding-top: 20px;
+  }
 }
 
-#courseLinks{
-    padding-top:30px;
+.person {
+  margin-bottom: 0.3rem;
+}
+
+#courseLinks {
+  padding-top: 30px;
 }
 
 a.pdf-link {
@@ -353,143 +382,171 @@ a.pdf-link {
     }
 }
 a.editButton{
-    &::after{
-        content: "";
-        height: 1.5em;
-        width: 1.5em;
-        display: inline-block;
-        margin: -.6em 0 .3em .3em;
-        vertical-align: middle;
-        background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
-        transform: rotate(180deg);
-    }
+  &::after{
+      content: "";
+      height: 1.5em;
+      width: 1.5em;
+      display: inline-block;
+      margin: -.6em 0 .3em .3em;
+      vertical-align: middle;
+      background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
+      transform: rotate(180deg);
+  }
+}
+a.pdf-link:before {
+  content: '';
+  height: 1.3em;
+  width: 1.3em;
+  display: inline-block;
+  vertical-align: middle;
+  background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/file-pdf-fa-regular.svg) no-repeat;
 }
 
-.ul-no-padding{
+a.editButton {
+  &::after {
+    content: '';
+    height: 1.5em;
+    width: 1.5em;
+    display: inline-block;
+    margin: -0.6em 0 0.3em 0.3em;
+    vertical-align: middle;
+    background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
+    transform: rotate(180deg);
+  }
+}
+
+.ul-no-padding {
   padding-left: 20px;
 }
 
-
 /****ICONS*****/
-.icon-schedule{
-    position: relative;
-    top: 4px;
-    height: 20px;
-    width: 20px;
-    display: inline-block;
-    background: top left / 1.0em auto no-repeat url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23262626' version='1' viewBox='0 -100 900 900'%3e%3cpath d='M800 0q42 0 71 29t29 71v600q0 40-29 70t-71 30H100q-40 0-70-30T0 700V100q0-42 30-71t70-29h46v100h160V0h290v100h160V0zm0 700V300H100v400zM260-100V70h-70v-170zm450 0V70h-70v-170z'/%3e%3c/svg%3e");
+.icon-schedule {
+  position: relative;
+  top: 4px;
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  background: top left / 1em auto no-repeat
+    url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23262626' version='1' viewBox='0 -100 900 900'%3e%3cpath d='M800 0q42 0 71 29t29 71v600q0 40-29 70t-71 30H100q-40 0-70-30T0 700V100q0-42 30-71t70-29h46v100h160V0h290v100h160V0zm0 700V300H100v400zM260-100V70h-70v-170zm450 0V70h-70v-170z'/%3e%3c/svg%3e");
 }
 
-.fa, .fas {
-    font-weight: 900;
-    padding-right: 8px;
+.fa,
+.fas {
+  font-weight: 900;
+  padding-right: 8px;
 }
 
-.icon-back-arrow{
-    position: relative;
-    top: 1px;
-    transform: rotate(180deg);
-    display: inline-block;
-    height: 20px;
-    width: 30px;
-    background: top left / 1.0em auto no-repeat url('https://app.kth.se/style/kth-style/img/kth-style/icons/back-link.svg');
+.icon-back-arrow {
+  position: relative;
+  top: 1px;
+  transform: rotate(180deg);
+  display: inline-block;
+  height: 20px;
+  width: 30px;
+  background: top left / 1em auto no-repeat url('https://app.kth.se/style/kth-style/img/kth-style/icons/back-link.svg');
 }
 
 /************************************************/
 
 /* Animation */
-#roundInformationOneCol, #roundKeyInformation, #coreContent,#syllabusLink{
-    @keyframes fadeOutIn {
-        0% {opacity: 1;}
-        50% {opacity: 0;}
-        100% {opacity: 1;}
-      }
-      
-      .fadeOutIn {
-        animation-name: fadeOutIn;
-        animation-duration: 800ms;
-       }
+#roundInformationOneCol,
+#roundKeyInformation,
+#coreContent,
+#syllabusLink {
+  @keyframes fadeOutIn {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 
-       .right-column-header{
-        background: #fff;
-        margin: 20px -20px;
-        padding: 20px 15px 10px 0;
-       }
+  .fadeOutIn {
+    animation-name: fadeOutIn;
+    animation-duration: 800ms;
+  }
 
-       .clear-margin-bottom{
-           margin-bottom: 0;
-       }
+  .right-column-header {
+    background: #fff;
+    margin: 20px -20px;
+    padding: 20px 15px 10px 0;
+  }
+
+  .clear-margin-bottom {
+    margin-bottom: 0;
+  }
 }
-
 
 ///*************************************///
 .alert-info {
-    color: #000;
-    font-size: 1em;
-    min-height: 3.4rem;
-    border-radius: .15rem;
-    position: relative;
-    padding: 1rem 1rem 1rem 4.4rem;
-    background-color: #fcf8e3;
-    border: 1px solid #faebcc;
+  color: #000;
+  font-size: 1em;
+  min-height: 3.4rem;
+  border-radius: 0.15rem;
+  position: relative;
+  padding: 1rem 1rem 1rem 4.4rem;
+  background-color: #fcf8e3;
+  border: 1px solid #faebcc;
 
-    &::before{
-        font-size: 1.4rem;
-        position: absolute;
-        top: 10%;
-        left: .2em;
-        width: 2em;
-        content: url("//www.kth.se/img/kth-style/icons/alert-info.svg");
-    }
-    
+  &::before {
+    font-size: 1.4rem;
+    position: absolute;
+    top: 10%;
+    left: 0.2em;
+    width: 2em;
+    content: url('//www.kth.se/img/kth-style/icons/alert-info.svg');
+  }
 }
 
 ///******************** MODAL ****************************///
 .modal {
-    display: block;
-  }
-  /* The actual modal */
-  .ModalFade-leave {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  .ModalFade-leave-active {
-    overflow: hidden;
-    transition: transform 0.5s ease-in, opacity 0.4s ease-in;
-  }
-  .ModalFade-leave-end {
-    transform: translateY(-150%);
-    opacity: 0;
-  }
-  .ModalFade-enter {
-    transform: translateY(-150%);
-    opacity: 0;
-  }
-  .ModalFade-enter-active {
-    transition: transform 0.5s ease-out, opacity 0.4s ease-in;
-  }
-  .ModalFade-enter-end {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  /* The modal background */
-  .ModalBackdropFade-leave {
-    opacity: 0.5;
-  }
-  .ModalBackdropFade-leave-active {
-    overflow: hidden;
-    transition: opacity 0.3s ease-in;
-  }
-  .ModalBackdropFade-leave-end {
-    opacity: 0!important;
-  }
-  .ModalBackdropFade-enter {
-    opacity: 0!important;
-  }
-  .ModalBackdropFade-enter-active {
-    transition: opacity 0.3s ease-in;
-  }
-  .ModalBackdropFade-enter-end {
-    opacity: 0.5;
-  }
-
+  display: block;
+}
+/* The actual modal */
+.ModalFade-leave {
+  transform: translateY(0);
+  opacity: 1;
+}
+.ModalFade-leave-active {
+  overflow: hidden;
+  transition: transform 0.5s ease-in, opacity 0.4s ease-in;
+}
+.ModalFade-leave-end {
+  transform: translateY(-150%);
+  opacity: 0;
+}
+.ModalFade-enter {
+  transform: translateY(-150%);
+  opacity: 0;
+}
+.ModalFade-enter-active {
+  transition: transform 0.5s ease-out, opacity 0.4s ease-in;
+}
+.ModalFade-enter-end {
+  transform: translateY(0);
+  opacity: 1;
+}
+/* The modal background */
+.ModalBackdropFade-leave {
+  opacity: 0.5;
+}
+.ModalBackdropFade-leave-active {
+  overflow: hidden;
+  transition: opacity 0.3s ease-in;
+}
+.ModalBackdropFade-leave-end {
+  opacity: 0 !important;
+}
+.ModalBackdropFade-enter {
+  opacity: 0 !important;
+}
+.ModalBackdropFade-enter-active {
+  transition: opacity 0.3s ease-in;
+}
+.ModalBackdropFade-enter-end {
+  opacity: 0.5;
+}

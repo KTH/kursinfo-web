@@ -58,7 +58,7 @@ function _final (err, req, res, next) {
   if (debugStatusCodes.includes(statusCode)) {
     log.debug({ err: err })
   } else {
-    log.error({ err: err, req: req }, 'Unhandled error in systemCtrl.js')
+    // log.error({ err: err, req: req }, 'Unhandled error in systemCtrl.js')
   }
 
   const isProd = /prod/gi.test(process.env.NODE_ENV)

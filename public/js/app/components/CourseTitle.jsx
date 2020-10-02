@@ -1,11 +1,11 @@
-import { Component } from 'inferno'
-import Col from 'inferno-bootstrap/dist/Col'
-import Row from 'inferno-bootstrap/dist/Row'
+import React, { Component } from 'react'
+import { Row, Col } from 'reactstrap'
+
 import i18n from '../../../../i18n'
 
 import { EMPTY } from '../util/constants'
 
-const formatCredits = (credits, creditUnitAbbr, languageIndex) => {
+const formatCredits = (credits = '', creditUnitAbbr, languageIndex) => {
   credits = credits !== EMPTY[languageIndex] && credits.toString().indexOf('.') < 0 ? credits + '.0' : credits
   const localeCredits = languageIndex === 0 ? credits : credits.toString().replace('.', ',')
   const creditUnit = languageIndex === 0 ? 'credits' : creditUnitAbbr
@@ -17,10 +17,9 @@ const adminLink = (courseCode, languageIndex) => {
 }
 
 class CourseTitle extends Component {
-
-  render () {
-    const title = this.props.courseTitleData
-    const languageIndex = this.props.language
+  render() {
+    const title = this.props.courseTitleData || ''
+    const languageIndex = this.props.language || 0
     const adminLinkLabel = i18n.messages[languageIndex].courseLabels.label_edit
     return (
       <Row>
