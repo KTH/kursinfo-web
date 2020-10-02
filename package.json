@@ -52,7 +52,6 @@
     "kth-node-web-common": "^5.1.4",
     "kth-style": "^5.0.18",
     "locale": "^0.1.0",
-    "lodash": "^4.17.20",
     "mobx": "^4.15.7",
     "mobx-react": "^5.4.3",
     "query-string": "^5.1.1",
