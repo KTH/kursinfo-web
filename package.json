@@ -10,7 +10,7 @@
     "uri": "git+https://github.com/KTH/kursinfo-web.git"
   },
   "scripts": {
-    "vendor": "parcel build  ./public/js/vendor.js",
+    "vendor": "parcel build ./public/js/vendor.js",
     "test": "mocha test/unit/*.js",
     "codecheck": "standard",
     "docker": "npm install --development && npm run build && npm prune --production",
