@@ -54,7 +54,6 @@
     "locale": "^0.1.0",
     "mobx": "^4.15.7",
     "mobx-react": "^5.4.3",
-    "query-string": "^5.1.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-router": "^5.0.0",
