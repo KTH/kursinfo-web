@@ -1,5 +1,4 @@
 {
-  "//": "JSHint configuration - http://jshint.com/docs/options/",
   "name": "kursinfo-web",
   "version": "2.0.0",
   "description": "Course information page",
@@ -114,10 +113,7 @@
     "zombie": "5.0.5"
   },
   "engines": {
-    "node": "6.9.1"
-  },
-  "jshintConfig": {
-    "maxerr": 5
+    "node": "10.14.0"
   },
   "standard": {
     "parser": "babel-eslint",

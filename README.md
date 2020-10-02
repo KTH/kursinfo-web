@@ -1,119 +1,106 @@
-node-web
-========
+# Welcome to kursinfo-web 👋
 
-In an attempt to simplify the process of starting up new node.js based projects, there exists two template projects to use as a foundation.  
+![Version](https://img.shields.io/badge/version-2.0.0-blue.svg?cacheSeconds=2592000)
+![Prerequisite](https://img.shields.io/badge/node-10.14.0-blue.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
 
-The two projects are [node-web](https://github.com/KTH/node-web), a web server with express, and [node-api](https://github.com/KTH/node-api), a RESTful api. Both of them use OpenID Connect and/or CAS as a mechanism for authorisation and authentication.  
+## Introduction
 
-**The projects can be found here:**
-[https://github.com/KTH/node-web](https://github.com/KTH/node-web)
-[https://github.com/KTH/node-api](https://github.com/KTH/node-api)
+The course information project (KIP) is an initiative at KTH that was launched in 2018 to improve the quality and availability of information about KTH:s courses. The background to the project is, among other things, that it was difficult for the student to find information about the courses and even more difficult to compare information about several courses. The reason for the problems is scattered course information in several places and that there is no uniformity or assigned places for the course information. The project takes measures to consolidate course information into two locations and to present the information in a manner that is uniform for KTH. The student should find the right information about the course, depending on their needs. The result of the project is a public course site where the correct course information is collected and presented uniformly. Also, a tool is developed for teachers to enter and publish course information. Eventually, this will lead to the student making better decisions based on their needs, and it will also reduce the burden on teachers and administration regarding questions and support for the student.
 
-It's important that we try to make changes that affect the template projects in the template projects themselves.
+### 🏠 [Homepage](https://github.com/KTH/kursinfo-web)
 
-###Where do you keep you secrets?
-Secrets during local development are ALWAYS stored in a `.env`-file in the root of your project. This file should be in .gitignore. It needs to contain at least ldap connection URI and password in order for authentication to work properly:
+## Overview
 
-```
-LDAP_URI=ldaps://[usertname]@ldap.ref.ug.kth.se
+Kursinfo-web is a microservice with the public view of course information. It uses [Inferno](https://https://infernojs.org//), [MobX](https://mobx.js.org/), and is based on [node-web](https://github.com/KTH/node-web).
+
+### API:s
+
+Kursinfo-web fetches data from:
+
+- Course information API
+  - Dev (Stage): [api-r.referens.sys.kth.se/api/kursinfo](https://api-r.referens.sys.kth.se/api/kursinfo)
+  - Prod (Active): [api.kth.se/api/kursinfo](https://api.kth.se/api/kursinfo)
+- API to generate course syllabuses’ PDF:s
+  - Dev (Stage): [api-r.referens.sys.kth.se/api/kursplan](https://api-r.referens.sys.kth.se/api/kursplan)
+  - Prod (Active): [api.kth.se/api/kursplan](https://api.kth.se/api/kursplan)
+- Course memo API
+  - Dev (Stage): [api-r.referens.sys.kth.se/api/kurs-pm-data](https://api-r.referens.sys.kth.se/api/kurs-pm-data)
+  - Prod (Active): [api.kth.se/api/kurs-pm-data](https://api.kth.se/api/kurs-pm-data)
+- API för kurs- och programinformation
+  - Dev (Stage): [api-r.referens.sys.kth.se/api/kopps/v2/](https://api-r.referens.sys.kth.se/api/kopps/v2/)
+  - Prod (Active): [api.kth.se/api/kopps/v2/](https://api.kth.se/api/kopps/v2/)
+
+### Related projects
+
+- [kursinfo-admin-web](https://github.com/KTH/kursinfo-admin-web)
+- [kursinfo-api](https://github.com/KTH/kurs-pm-data-api)
+- [kursplan-api](https://github.com/KTH/kursplan-api)
+- [kurs-pm-data-api](https://github.com/KTH/kurs-pm-data-api)
+- [node-web](https://github.com/KTH/node-web)
+
+## Prerequisites
+
+- Node.js 10.14.0
+- Ansible Vault
+
+### Secrets for Development
+
+Secrets during local development are stored in a `.env` file in the root of your project. This file should be in `.gitignore`. It needs to contain at least LDAP connection URI and password in order for authentication to work properly.
+
+Secrets (names, passwords, keys, and uri:s) for dev and prod are stored in the the course information project’s Azure key vault.
+
+```sh
+LDAP_BASE=OU=UG,DC=ref,DC=ug,DC=kth,DC=se
+LDAP_URI=ldaps://[name]@ref.ug.kth.se@ldap.ref.ug.kth.se
 LDAP_PASSWORD=[password]
+
+# If API_URI is omitted, "http://localhost:3001/api/kursinfo?defaultTimeout=10000" will be used
+API_URI=https://api-r.referens.sys.kth.se/api/kursinfo?defaultTimeout=10000
+# If API_KEY is omitted, default key 123489 will be used
+API_KEY=[key]
+
+# If KURSPLAN_API_URI is omitted, http://localhost:3001/api/kursplan?defaultTimeout=10000 will be used
+KURSPLAN_API_URI=https://app-r.referens.sys.kth.se/api/kursinfo?defaultTimeout=10000
+# If KURSPLAN_API_KEY is omitted, default key 5678 will be used
+KURSPLAN_API_KEY=[key]
+
+# If KURS_PM_DATA_API_URI is omitted, http://localhost:3001/api/kurs-pm-data?defaultTimeout=10000 will be used
+KURS_PM_DATA_API_URI=https://api-r.referens.sys.kth.se/api/kurs-pm-data?defaultTimeout=10000
+# If KURS_PM_DATA_API_KEY is omitted, default key 1234 will be used
+KURS_PM_DATA_API_KEY=[key]
+
+# If KOPPS_URI is omitted, https://api-r.referens.sys.kth.se/api/kopps/v2/?defaultTimeout=10000 will be used
+
+UG_REDIS_URI=team-studam-ref-redis-193.redis.cache.windows.net:[port],password=[password],ssl=True,abortConnect=False
+APPINSIGHTS_INSTRUMENTATIONKEY=[Azure, Application insights, Instrumentation Key, can be found in Overview]
 ```
 
-During local development the defaults in serverSettings.js should work fine. If you need to make specific changes for your machine, add these to the `.env`-file. If you want changes that should be used by anyone developing your project, change the default variables in the settings-files.
+These settings are also available in the `env.in` file.
 
-###How do I use node-web template project for a project of my own?
-1. Create a new git repository on github.com/KTH (or other somewhere else).
+## For Development
 
-2. Clone the newly created repository locally by using:
+### Install
 
- ```bash
- git clone https://github.com/USER/REPOSITORY.git
- ```
-
-3. Navigate to the cloned project directory
-
-4. Add node-web or node-api as the upstream repository to use:
-
- ```bash
- git remote add upstream https://github.com/KTH/node-web.git
- ```
-
-5. Fetch the latest changes/branches for the upstream repository (use your KTH login if prompted):
-
- ```bash
- git fetch upstream
- ```
-
-6. Checkout the branch you want to use:
-
- ```bash
- git checkout master
- ```
-
-7. Merge the changes from node-api into your cloned repository:
-
- ```bash
- git merge upstream/master
- ```
-
-8. Solve merge conflicts and commit/push to your cloned repository.
-
-To keep your cloned repository up to date with the upstream repository, just repeat steps 5-7 from above. Make sure to commit and push your existing changes before you merge!
-
-###If your application is going to be proxied
-If your application is going to be proxied on www.kth.se/api/your-api-path make sure you set the following paths and properties.
-
-1. Make sure you add the proxy prefix path in your paths in /server/init/routing/paths.js e.g
-
- ```json
- monitor : {
-   uri : '/api/node/_monitor',
-   method : 'GET'
- }
- ```
-
-2. Set you basePath property in /swagger.json e.g.
-
- ```javascript
- "basePath": "/api/node/v1"
- ```
-
-## Starting the server
-Always start by installing dependencies:
-
-```bash
-$ npm install
+```sh
+npm install
 ```
 
-Then you need to start the server:
-```bash
-$ npm start
+### Usage
+
+Start the service on [localhost:3000/student/kurser/kurs/:courseCode](http://localhost:3000/student/kurser/kurs/:courseCode).
+
+```sh
+npm run start-dev
 ```
 
-This will 
+## Deploy
 
-1. run `gulp build:dev` once to build SASS-files, and prepare browser JavaScript files
-2. start `nodemon` which triggers restart when server-side files have been updated
-3. run `gulp watch` which triggers a rebuild of browser assets when files have been updated
+The deployment process is described in [Build, release, deploy](https://confluence.sys.kth.se/confluence/x/aY3_Ag). Technical details, such as configuration, is described in [How to deploy your 🐳 application using Cellus-Registy](https://gita.sys.kth.se/Infosys/cellus-registry/blob/master/HOW-TO-DEPLOY.md) and [🔧 How To Configure Your Application For The Pipeline](https://gita.sys.kth.se/Infosys/cellus-registry/blob/master/HOW-TO-CONFIGURE.md).
 
-To learn more about the gulp build process, checkout [kth-node-build-commons](https://github.com/KTH/kth-node-build-commons)
+## Author
 
-## Debugging
+👤 **KTH**
 
-### Debugging in VS Code
-
-If you start Mode.js from VS Code you can set breakpoints in your editor. The launch config will look like this:
-
-```json
-{
-    "type": "node",
-    "request": "launch",
-    "name": "Launch Program",
-    "program": "${workspaceRoot}/app.js",
-    "cwd": "${workspaceRoot}",
-    "env": {
-        "NODE_ENV": "development"
-    }
-}
-```
-Setting NODE_ENV is currently required.
+- Website: [kth.github.io/](https://kth.github.io/)
+- Github: [@KTH](https://github.com/KTH)
