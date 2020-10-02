@@ -33,7 +33,6 @@
     "dotenv": "^4.0.0",
     "express": "^4.13.4",
     "express-handlebars": "^3.0.0",
-    "express-minify": "^1.0.0",
     "http-proxy-middleware": "^1.0.5",
     "jquery": "^3.5.1",
     "jquery-hoverintent": "1.9.0",
