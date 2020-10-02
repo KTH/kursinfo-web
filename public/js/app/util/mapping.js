@@ -1,6 +1,6 @@
 const ko = require('knockout')
 require('knockout.viewmodel')
-const log = require('./logging')
+const log = require('kth-node-log')
 const i18n = require('kth-node-i18n')
 
 /**
