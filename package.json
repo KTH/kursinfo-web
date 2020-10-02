@@ -60,7 +60,6 @@
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "reactstrap": "^7.1.0",
-    "response-time": "^2.3.2",
     "safe-utils": "^0.1.1"
   },
   "devDependencies": {
