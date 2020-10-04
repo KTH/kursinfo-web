@@ -15,9 +15,9 @@
 }
 
 .breadcrumb {
-    background-color: transparent;
-  }
-  
+  background-color: transparent;
+}
+
 .left-side-menu {
   margin-top: 20px;
   width: 100%;
@@ -32,58 +32,6 @@
 
   .active {
     font-weight: 700;
-  }
-}
-
-#leftNavigation {
-  padding-left: 0px;
-  padding-right: 0px;
-  margin-top: 5px;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  .navigation {
-    background-color: #f6f6f6;
-    padding-left: 0px;
-    padding-right: 0px;
-    max-width: 30em;
-  }
-  h4 {
-    margin-top: 0;
-    margin-bottom: 0.3em;
-  }
-
-  .link-to:after {
-    content: '';
-    height: 1.5em;
-    width: 1.5em;
-    display: inline-block;
-    margin: -0.6em 0 0.3em 0.3em;
-    vertical-align: middle;
-    background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
-    transform: rotate(180deg);
-  }
-  .kip-menu {
-    padding: 0.75rem;
-
-    @media (min-width: 768px) {
-      max-width: 30em;
-    }
-  }
-  .admin-link {
-    text-align: right;
-    @media (max-width: 768px) {
-      border-top: 2px solid #fff;
-      text-align: left;
-    }
-    p {
-      margin-top: 0.2em;
-    }
-  }
-  .admin-block {
-    padding-right: 0px;
-  }
-  p {
-    margin-bottom: 0px;
   }
 }
 
@@ -108,91 +56,96 @@ h4.secondTitle {
 }
 
 .pageTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 20px;
+  margin-bottom: 30px; //change later to 14px, after syllabus details moved
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    [role='heading'] > .t4 {
+      margin-top: 4px;
+      margin-bottom: 0 !important;
+    }
+  }
+  [role='heading'] {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    margin-top: 20px;
-    margin-bottom: 30px; //change later to 14px, after syllabus details moved
-    @media (min-width: 768px) {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-end;
-        [role="heading"] > .t4 {
-            margin-top: 4px;
-            margin-bottom: 0 !important;
-        }
+    .t1 {
+      margin-bottom: 0;
+      margin-left: -0.095em;
     }
-    [role="heading"] {
-        display: flex;
-        flex-direction: column;
-        .t1 {
-            margin-bottom: 0;
-            margin-left: -0.095em;
-        }
-        .t4 {
-            margin-top: 4px;
-            margin-bottom: 20px;
-        }
+    .t4 {
+      margin-top: 4px;
+      margin-bottom: 20px;
     }
-    .alert {
-        margin-left: 0;
-    }
+  }
+  .alert {
+    margin-left: 0;
+  }
 }
 
 .paragraphs li {
-    p { // Le sigh!
-        margin: 0 0 1rem 0;
-    }
+  p {
+    // Le sigh!
+    margin: 0 0 1rem 0;
+  }
 }
 
 main {
-    p, ul, ol {
-        font-family: Georgia,"garamond pro",garamond,"times new roman",times,serif;
+  p,
+  ul,
+  ol {
+    font-family: Georgia, 'garamond pro', garamond, 'times new roman', times, serif;
+  }
+  @media (min-width: 768px) {
+    .paragraphs ul,
+    ol {
+      font-size: 1.125rem;
     }
-    @media (min-width: 768px) {
-        .paragraphs ul, ol {
-            font-size: 1.125rem;
-        }
-    }
+  }
 }
 
 #roundInformationContainer {
-    p, ul, ol {
-        font-family: "Open Sans",Arial,"Helvetica Neue",helvetica,sans-serif;
+  p,
+  ul,
+  ol {
+    font-family: 'Open Sans', Arial, 'Helvetica Neue', helvetica, sans-serif;
+  }
+  @media (min-width: 768px) {
+    .paragraphs ul,
+    ol {
+      font-size: 1.125rem;
     }
-    @media (min-width: 768px) {
-        .paragraphs ul, ol {
-            font-size: 1.125rem;
-        }
-    }
+  }
 }
-
-
 
 a.right-link {
-    float: right;
-    font-weight: normal;
-    text-align: right;
+  float: right;
+  font-weight: normal;
+  text-align: right;
 }
 
-#courseIntroText{
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-right: 2px;
-    img {
-        margin: 8px 30px 10px 0;
-        width:100%;
-        max-width: 400px;
-    }    
-}
-
-#activeSyllabusContainer{
-  #courseInfoHeader{
-      border-bottom: 1px solid #dee2e6;
-      padding-bottom: 10px;
+#courseIntroText {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-right: 2px;
+  img {
+    margin: 8px 30px 10px 0;
+    width: 100%;
+    max-width: 400px;
   }
-  h2{
-    padding-top:20px; 
+}
+
+#activeSyllabusContainer {
+  #courseInfoHeader {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 10px;
+  }
+  h2 {
+    padding-top: 20px;
   }
 }
 #courseIntroText {
@@ -375,22 +328,22 @@ a.right-link {
 }
 
 a.pdf-link {
-    margin: 0;
-    &::before {
-        margin-right: 0;
-        margin-left: 0;
-    }
+  margin: 0;
+  &::before {
+    margin-right: 0;
+    margin-left: 0;
+  }
 }
-a.editButton{
-  &::after{
-      content: "";
-      height: 1.5em;
-      width: 1.5em;
-      display: inline-block;
-      margin: -.6em 0 .3em .3em;
-      vertical-align: middle;
-      background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
-      transform: rotate(180deg);
+a.editButton {
+  &::after {
+    content: '';
+    height: 1.5em;
+    width: 1.5em;
+    display: inline-block;
+    margin: -0.6em 0 0.3em 0.3em;
+    vertical-align: middle;
+    background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
+    transform: rotate(180deg);
   }
 }
 a.pdf-link:before {
