@@ -56,7 +56,7 @@
     "react-dom": "^16.8.4",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
-    "reactstrap": "^7.1.0",
+    "reactstrap": "^8.6.0",
     "safe-utils": "^0.2.1"
   },
   "devDependencies": {
