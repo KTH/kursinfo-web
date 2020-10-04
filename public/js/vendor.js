@@ -1,3 +1,3 @@
-window.jQuery = window.$ = require('jquery')
-require('jquery-hoverintent')
+// window.jQuery = window.$ = require('jquery')
+// require('jquery-hoverintent')
 // require('bootstrap')
