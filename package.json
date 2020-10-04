@@ -11,7 +11,7 @@
   },
   "scripts": {
     "vendor": "parcel build ./public/js/vendor.js",
-    "codecheck": "standard",
+    "test": "jest --passWithNoTests",
     "docker": "npm install --development && npm run build && npm prune --production",
     "build": "NODE_ENV=production rm -rf dist && parcel build ./public/js/app/app.jsx && npm run vendor --preserve-comments",
     "build-dev": "cross-env NODE_ENV=development rm -rf dist && parcel build ./public/js/vendor.js --public-url /student/kurser/kurs/static && parcel watch ./public/js/app/app.jsx --public-url /student/kurser/kurs/static",
@@ -32,6 +32,7 @@
     "express": "^4.13.4",
     "express-handlebars": "^3.0.0",
     "http-proxy-middleware": "^1.0.5",
+    "jest": "^26.4.2",
     "jquery": "^3.5.1",
     "jquery-hoverintent": "1.9.0",
     "knockout": "^3.5.1",
