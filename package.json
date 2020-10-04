@@ -44,7 +44,7 @@
     "kth-node-i18n": "^1.0.2",
     "kth-node-log": "^3.1.0",
     "kth-node-monitor": "^1.1.6",
-    "kth-node-redis": "^2.0.1",
+    "kth-node-redis": "^3.1.7",
     "kth-node-response": "https://github.com/KTH/kth-node-response#v1.0.0",
     "kth-node-server": "^3.1.2",
     "kth-node-session": "^1.0.4",
