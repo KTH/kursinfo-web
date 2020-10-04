@@ -19,8 +19,8 @@ const PdfNoMemoLink = ({ canGetMemoFiles, translate }) => (
 
 class CourseFileLinks extends Component {
   render() {
-    const translate = i18n.messages[this.props.language]
-    const { courseCode, courseRound, scheduleUrl, canGetMemoFiles, memoStorageURI, language } = this.props
+    const translate = i18n.messages[this.props.language || 1]
+    const { courseCode, courseRound = {}, scheduleUrl, canGetMemoFiles, memoStorageURI, language } = this.props
     const isPilot = checkIfPilotCourse(courseCode)
 
     return (

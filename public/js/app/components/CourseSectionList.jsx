@@ -13,20 +13,21 @@ class CourseSectionList extends Component {
     super(props)
 
     this.state = {
-      store: this.props.routerStore['courseData'],
-      syllabusList: this.props.syllabusList[0]
+      store: this.props.routerStore['courseData'] || {},
+      syllabusList: (this.props.syllabusList && this.props.syllabusList[0]) || []
     }
   }
 
   getContent(translation) {
-    const syllabus = this.props.syllabusList
-    const course = this.props.courseInfo
+    const syllabus = this.props.syllabusList || {}
+    const course = this.props.courseInfo || {}
+    const language = this.state.store.language || 1
 
     const content = [
       { header: translation.courseInformation.course_content, text: syllabus.course_content },
       { header: translation.courseInformation.course_goals, text: syllabus.course_goals }
     ]
-    if (course.course_disposition !== EMPTY[this.state.store.language]) {
+    if (course.course_disposition !== EMPTY[language]) {
       content.push({ header: translation.courseInformation.course_disposition, text: course.course_disposition })
     } else {
       content.push({ header: translation.courseInformation.course_disposition, text: syllabus.course_disposition })
@@ -36,22 +37,21 @@ class CourseSectionList extends Component {
   }
 
   getExecution(translation) {
-    const course = this.props.courseInfo
-    const syllabus = this.props.syllabusList
+    const course = this.props.courseInfo || {}
+    const syllabus = this.props.syllabusList || {}
+    const language = this.state.store.language || 1
 
     let literatureText =
-      course.course_literature !== EMPTY[this.state.store.language]
-        ? course.course_literature
-        : syllabus.course_literature
-    if (syllabus.course_literature_comment !== EMPTY[this.state.store.language]) {
+      course.course_literature !== EMPTY[language] ? course.course_literature : syllabus.course_literature
+    if (syllabus.course_literature_comment !== EMPTY[language]) {
       literatureText =
-        literatureText !== EMPTY[this.state.store.language]
+        literatureText !== EMPTY[language]
           ? literatureText + '<br/>' + syllabus.course_literature_comment
           : syllabus.course_literature_comment
     }
     // Fix for course_required_equipment change in Kopps, moved from syllabus to course in newer course versions
     const course_required_equipment =
-      course.course_required_equipment !== EMPTY[this.state.store.language]
+      course.course_required_equipment !== EMPTY[language]
         ? course.course_required_equipment
         : syllabus.course_required_equipment
 
@@ -66,8 +66,9 @@ class CourseSectionList extends Component {
   }
 
   getExamination(translation) {
-    const course = this.props.courseInfo
-    const syllabus = this.props.syllabusList
+    const course = this.props.courseInfo || {}
+    const syllabus = this.props.syllabusList || {}
+    const language = this.state.store.language || 1
     const examination = [
       { header: '', text: translation.courseInformation.course_examination_disclaimer },
       { header: translation.courseInformation.course_grade_scale, text: course.course_grade_scale },
@@ -95,8 +96,9 @@ class CourseSectionList extends Component {
   }
 
   getOther(translation) {
-    const course = this.props.courseInfo
-    const syllabus = this.props.syllabusList
+    const course = this.props.courseInfo || {}
+    const syllabus = this.props.syllabusList || {}
+    const language = this.state.store.language || 1
     let prepare = [
       { header: translation.courseInformation.course_department, text: course.course_department_link },
       { header: translation.courseInformation.course_main_subject, text: course.course_main_subject },
@@ -109,32 +111,32 @@ class CourseSectionList extends Component {
         text: course.course_suggested_addon_studies
       }
     ]
-    if (course.course_contact_name !== EMPTY[this.state.store.language])
+    if (course.course_contact_name !== EMPTY[language])
       prepare.push({ header: translation.courseInformation.course_contact_name, text: course.course_contact_name })
     if (syllabus.course_transitional_reg !== '')
       prepare.push({
         header: translation.courseInformation.course_transitional_reg,
         text: syllabus.course_transitional_reg
       })
-    if (course.course_supplemental_information !== EMPTY[this.state.store.language])
+    if (course.course_supplemental_information !== EMPTY[language])
       prepare.push({
         header: translation.courseInformation.course_supplemental_information,
         text: course.course_supplemental_information
       })
-    if (course.course_supplemental_information_url !== EMPTY[this.state.store.language])
+    if (course.course_supplemental_information_url !== EMPTY[language])
       prepare.push({
         header: translation.courseInformation.course_supplemental_information_url,
         text: course.course_supplemental_information_url
       })
-    if (course.course_supplemental_information_url_text !== EMPTY[this.state.store.language])
+    if (course.course_supplemental_information_url_text !== EMPTY[language])
       prepare.push({
         header: translation.courseInformation.course_supplemental_information_url_text,
         text: course.course_supplemental_information_url_text
       })
-    if (course.course_web_link !== EMPTY[this.state.store.language]) {
+    if (course.course_web_link !== EMPTY[language]) {
       prepare.unshift({
         header: translation.courseInformation.course_link,
-        text: `${translation.courseInformation.course_link_text} <a href='${course.course_web_link}'> ${translation.courseInformation.course_link} ${this.props.courseInfo.course_code}</a>`
+        text: `${translation.courseInformation.course_link_text} <a href='${course.course_web_link}'> ${translation.courseInformation.course_link} ${course.course_code}</a>`
       })
     } else {
       prepare.unshift({ header: translation.courseInformation.course_link, text: course.course_web_link })
@@ -147,19 +149,45 @@ class CourseSectionList extends Component {
         text: syllabus.course_additional_regulations
       })
 
-    // if (syllabus.course_transitional_reg !== EMPTY[this.state.store.language]) prepare.push({header: translation.courseInformation.course_transitional_reg, text: syllabus.course_transitional_reg})
+    // if (syllabus.course_transitional_reg !== EMPTY[language]) prepare.push({header: translation.courseInformation.course_transitional_reg, text: syllabus.course_transitional_reg})
     return prepare
   }
 
   render() {
     const { routerStore } = this.props
-    const translation = i18n.messages[this.state.store.language]
+    const language = this.state.store.language || '1'
+    const translation = i18n.messages[language]
     return (
-      <section className='row' id={this.props.partToShow} aria-label={translation.courseLabels.label_course_information}>
-        <CourseSection sectionHeader={translation.courseLabels.header_content} headerType='3' class='first-header' courseData={this.getContent(translation)} sectionId='Content' />
-        <CourseSection sectionHeader={translation.courseLabels.header_execution} headerType='3' courseData={this.getExecution(translation)} sectionId='Execution' />
-        <CourseSection sectionHeader={translation.courseLabels.header_examination} headerType='3' courseData={this.getExamination(translation)} sectionId='Examination' />
-        <CourseSection sectionHeader={translation.courseLabels.header_further} headerType='3' courseData={this.getOther(translation)} sectionId='Other' />
+      <section
+        className="row"
+        id={this.props.partToShow}
+        aria-label={translation.courseLabels.label_course_information}
+      >
+        <CourseSection
+          sectionHeader={translation.courseLabels.header_content}
+          headerType="3"
+          class="first-header"
+          courseData={this.getContent(translation)}
+          sectionId="Content"
+        />
+        <CourseSection
+          sectionHeader={translation.courseLabels.header_execution}
+          headerType="3"
+          courseData={this.getExecution(translation)}
+          sectionId="Execution"
+        />
+        <CourseSection
+          sectionHeader={translation.courseLabels.header_examination}
+          headerType="3"
+          courseData={this.getExamination(translation)}
+          sectionId="Examination"
+        />
+        <CourseSection
+          sectionHeader={translation.courseLabels.header_further}
+          headerType="3"
+          courseData={this.getOther(translation)}
+          sectionId="Other"
+        />
       </section>
     )
   }
