@@ -11,7 +11,6 @@
   },
   "scripts": {
     "vendor": "parcel build ./public/js/vendor.js",
-    "test": "mocha test/unit/*.js",
     "codecheck": "standard",
     "docker": "npm install --development && npm run build && npm prune --production",
     "build": "NODE_ENV=production rm -rf dist && parcel build ./public/js/app/app.jsx && npm run vendor --preserve-comments",
@@ -77,9 +76,7 @@
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.0.0",
     "kth-node-build-commons": "^4.1.5",
-    "mocha": "^6.2.3",
     "mockery": "^2.0.0",
-    "nock": "^9.0.13",
     "node-mocks-http": "^1.9.0",
     "nodemon": "^2.0.4",
     "parcel-bundler": "^1.12.3",
