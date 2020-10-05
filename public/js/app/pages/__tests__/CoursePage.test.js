@@ -6,7 +6,7 @@ import CoursePage from '../CoursePage'
 
 describe('Component <CoursePage>', () => {
   test('renders a course page', () => {
-    const routerStore = { browserConfig: {} }
+    const routerStore = { browserConfig: {}, sellingText: { en: '', sv: '' }, imageFromAdmin: '' }
     render(
       <Provider routerStore={routerStore}>
         <CoursePage />
