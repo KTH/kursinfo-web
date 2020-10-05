@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom' // matchPath
 import { configure } from 'mobx'
 
 import { StaticRouter } from 'react-router'
-import RouterStore from './stores/RouterStore.jsx'
+import RouterStore from './stores/RouterStore.js'
 import CoursePage from './pages/CoursePage.jsx'
 
 // Sass

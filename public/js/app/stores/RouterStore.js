@@ -21,13 +21,15 @@ function _webUsesSSL(url) {
 }
 
 class RouterStore {
+  @observable courseCode = '' // Set from request parameters
+  @observable sellingText = { en: '', sv: '' } // Set from kursinfo-admin-api
+
   courseData = {
     courseInfo: {
       course_application_info: []
     },
     syllabusSemesterList: []
   }
-  sellingText = undefined // is set from kursinfo-admin-api
   isCancelled = false // is set in getCourseInformation(), used to show an Alert on the course page
   showCourseWebbLink = false // is set from kursinfo-admin ( not in use )
   roundsSyllabusIndex = [] // handles connection to syllabuses for active rounds
@@ -595,16 +597,20 @@ class RouterStore {
   /*                                                    COURSE MEMO FILES  - kurs-pm-api                                                                    */
   /** ***************************************************************************************************************************************** */
 
-  @action getCourseMemoFiles (courseCode, lang = 'sv') { //TODO-INTEGRATION: REMOVE
-    return axios.get(this.buildApiUrl(this.paths.api.memoData.uri, { courseCode }), this._getOptions()).then(res => {
-      this.showCourseWebbLink = true // res.data.isCourseWebLink
-      this.memoList = res.data
-    }).catch(err => {
-      if (err.response) {
-        throw new Error(err.message, err.response.data)
-      }
-      throw err
-    })
+  @action getCourseMemoFiles(courseCode, lang = 'sv') {
+    //TODO-INTEGRATION: REMOVE
+    return axios
+      .get(this.buildApiUrl(this.paths.api.memoData.uri, { courseCode }), this._getOptions())
+      .then((res) => {
+        this.showCourseWebbLink = true // res.data.isCourseWebLink
+        this.memoList = res.data
+      })
+      .catch((err) => {
+        if (err.response) {
+          throw new Error(err.message, err.response.data)
+        }
+        throw err
+      })
   }
 
   /** ***************************************************************************************************************************************** */

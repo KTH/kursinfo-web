@@ -199,7 +199,7 @@ function _getBreadcrumbs(courseData) {
 //* ****************************************************************************** */
 //                    COURSE PAGE SETTINGS AND RENDERING                          */
 //* ****************************************************************************** */
-async function getIndex (req, res, next) {
+async function getIndex(req, res, next) {
   /** //TODO-INTEGRATION: REMOVE ------- CHECK OF CONNECTION TO KURS-PM-API ------- */
   let memoApiUp = true
   if (api.kursPmDataApi.connected && api.kursPmDataApi.connected === false) {
@@ -214,10 +214,15 @@ async function getIndex (req, res, next) {
   try {
     const context = {}
     const renderProps = _staticRender(context, req.url)
+    const { routerStore } = renderProps.props.children.props
 
-    renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
-    renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
-    try { //TODO-INTEGRATION: REMOVE
+    routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
+    routerStore.__SSR__setCookieHeader(req.headers.cookie)
+
+    routerStore.courseCode = courseCode
+
+    try {
+      //TODO-INTEGRATION: REMOVE
       if (memoApiUp) {
         await renderProps.props.children.props.routerStore.getCourseMemoFiles(courseCode)
       } else {

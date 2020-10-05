@@ -11,7 +11,7 @@
   },
   "scripts": {
     "vendor": "parcel build ./public/js/vendor.js",
-    "test": "jest --passWithNoTests",
+    "test": "NODE_ENV=test jest",
     "docker": "npm install --development && npm run build && npm prune --production",
     "build": "NODE_ENV=production rm -rf dist && parcel build ./public/js/app/app.jsx && npm run vendor --preserve-comments",
     "build-dev": "cross-env NODE_ENV=development rm -rf dist && parcel build ./public/js/vendor.js --public-url /student/kurser/kurs/static && parcel watch ./public/js/app/app.jsx --public-url /student/kurser/kurs/static",
@@ -60,6 +60,7 @@
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
     "@testing-library/react": "^11.0.4",
+    "babel-jest": "^26.3.0",
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.2",
     "eslint": "^7.2.0",

@@ -198,7 +198,7 @@ class CoursePage extends Component {
 
     if (!courseData.syllabusList) courseData.syllabusList = [{}]
     const courseInformationToRounds = {
-      course_code: courseData.courseInfo.course_code,
+      course_code: routerStore.courseCode,
       course_examiners: courseData.courseInfo.course_examiners,
       course_contact_name: courseData.courseInfo.course_contact_name,
       course_main_subject: courseData.courseInfo.course_main_subject,
@@ -208,11 +208,11 @@ class CoursePage extends Component {
 
     return (
       <div key="kursinfo-container" className="col" id="kursinfo-main-page">
-        <Row>{this.breadcrumbs(translation, language, courseData.courseInfo.course_code)}</Row>
+        <Row>{this.breadcrumbs(translation, language, routerStore.courseCode)}</Row>
         <Row id="pageContainer" key="pageContainer">
           <Col lg="3" className="side-menu">
             <SideMenu
-              courseCode={courseData.courseInfo.course_code}
+              courseCode={routerStore.courseCode}
               labels={translation.courseLabels.sideMenu}
               language={language}
             />
@@ -424,11 +424,9 @@ class CoursePage extends Component {
                                 <span>
                                   <b>{translation.courseLabels.label_course_syllabus}</b>
                                   <a
-                                    href={`${SYLLABUS_URL}${
-                                      courseData.courseInfo.course_code
-                                    }-${courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join(
-                                      ''
-                                    )}.pdf?lang=${language}`}
+                                    href={`${SYLLABUS_URL}${routerStore.courseCode}-${courseData.syllabusList[
+                                      this.state.activeSyllabusIndex
+                                    ].course_valid_from.join('')}.pdf?lang=${language}`}
                                     id={
                                       courseData.syllabusList[this.state.activeSyllabusIndex].course_valid_from.join(
                                         ''
