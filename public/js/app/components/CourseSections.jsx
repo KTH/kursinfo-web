@@ -16,12 +16,15 @@ class CourseSection extends Component {
           ) : (
             ''
           )}
-          {courseData.map((data, index) => (
-            <span key={data.header + '-' + index} className="word-break">
-              <h3>{data.header}</h3>
-              <p dangerouslySetInnerHTML={{ __html: data.text }} />
-            </span>
-          ))}
+          {courseData.map((data, index) => {
+            if (!data.text) return null
+            return (
+              <span key={data.header + '-' + index} className="word-break">
+                <h3>{data.header}</h3>
+                <p dangerouslySetInnerHTML={{ __html: data.text }} />
+              </span>
+            )
+          })}
         </div>
       </section>
     )
