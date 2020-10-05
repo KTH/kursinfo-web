@@ -196,11 +196,11 @@ appRoute.get(
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', /* getServerGatewayLogin(),*/ Course.getIndex)
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/', noCourse.getIndex)
 
-appRoute.get(
-  'api.sellingText',
-  config.proxyPrefixPath.uri + '/api/kursinfo/getSellingTextByCourse/:courseCode',
-  Course.getSellingText
-)
+// appRoute.get(
+//   'api.sellingText',
+//   config.proxyPrefixPath.uri + '/api/kursinfo/getSellingTextByCourse/:courseCode',
+//   Course.getSellingText
+// )
 // appRoute.get('api.setImage', '/api/kursinfo/setImageByCourse/:courseCode/:imageName', Course.setImage)
 appRoute.get(
   'api.koppsCourseData',

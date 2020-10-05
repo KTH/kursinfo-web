@@ -20,7 +20,7 @@ const api = require('../api')
 
 module.exports = {
   getIndex: getIndex,
-  getSellingText: co.wrap(_getSellingText),
+  // getSellingText: co.wrap(_getSellingText),
   // getCourseEmployees: co.wrap(_getCourseEmployees),
   getKoppsCourseData: co.wrap(_getKoppsCourseData),
   getMemoFileList: co.wrap(_getMemoFileList)
@@ -137,30 +137,30 @@ async function _getCourseEmployeesPost(roundsKeys, key, type = 'multi', lang = '
   //   .then((result) => {
 }
 
-async function _getSellingText(req, res, next) {
-  const courseCode = req.params.courseCode
-  log.debug('Get selling text for', courseCode)
+// async function _getSellingText(req, res, next) {
+//   const courseCode = req.params.courseCode
+//   log.debug('Get selling text for', courseCode)
 
-  try {
-    const apiResponse = await courseApi.getSellingText(courseCode)
-    log.debug('Got response from kursinfo-api for', courseCode)
+//   try {
+//     const apiResponse = await courseApi.getSellingText(courseCode)
+//     log.debug('Got response from kursinfo-api for', courseCode)
 
-    if (apiResponse.statusCode === 404) {
-      log.debug('404 response from kursinfo-api for: ', courseCode)
-      return httpResponse.json(res, apiResponse.body)
-    }
+//     if (apiResponse.statusCode === 404) {
+//       log.debug('404 response from kursinfo-api for: ', courseCode)
+//       return httpResponse.json(res, apiResponse.body)
+//     }
 
-    if (apiResponse.statusCode !== 200) {
-      log.debug('NOK response from kursinfo-api for: ', courseCode)
-      return httpResponse.jsonError(res, apiResponse.statusCode)
-    }
-    log.debug('OK response from kursinfo-api for: ', courseCode)
-    return httpResponse.json(res, apiResponse.body)
-  } catch (err) {
-    // log.error('Exception from kursinfo-api', { error: err })
-    next(err)
-  }
-}
+//     if (apiResponse.statusCode !== 200) {
+//       log.debug('NOK response from kursinfo-api for: ', courseCode)
+//       return httpResponse.jsonError(res, apiResponse.statusCode)
+//     }
+//     log.debug('OK response from kursinfo-api for: ', courseCode)
+//     return httpResponse.json(res, apiResponse.body)
+//   } catch (err) {
+//     // log.error('Exception from kursinfo-api', { error: err })
+//     next(err)
+//   }
+// }
 
 async function _getKoppsCourseData(req, res, next) {
   const courseCode = req.params.courseCode
@@ -220,6 +220,12 @@ async function getIndex(req, res, next) {
     routerStore.__SSR__setCookieHeader(req.headers.cookie)
 
     routerStore.courseCode = courseCode
+
+    const courseApiResponse = await courseApi.getSellingText(courseCode)
+    const { sellingText, imageFromAdmin /*, isCourseWebLink */ } = courseApiResponse.body
+    routerStore.sellingText = sellingText
+    routerStore.imageFromAdmin = imageFromAdmin
+    /* routerStore.showCourseWebbLink = isCourseWebLink */
 
     try {
       //TODO-INTEGRATION: REMOVE

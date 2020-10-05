@@ -23,6 +23,8 @@ function _webUsesSSL(url) {
 class RouterStore {
   @observable courseCode = '' // Set from request parameters
   @observable sellingText = { en: '', sv: '' } // Set from kursinfo-admin-api
+  @observable imageFromAdmin = ''
+  @observable showCourseWebbLink = true
 
   courseData = {
     courseInfo: {
@@ -43,7 +45,6 @@ class RouterStore {
   defaultIndex = 0
   memoApiHasConnection = true
   memoList = {}
-  imageFromAdmin = ''
 
   buildApiUrl(path, params) {
     let host
@@ -577,21 +578,21 @@ class RouterStore {
   /*                                                                ADMIN                                                                      */
   /** ***************************************************************************************************************************************** */
 
-  @action getCourseAdminInfo(res, courseCode, lang = 'sv') {
-    // return axios
-    //   .get(this.buildApiUrl(this.paths.api.sellingText.uri, { courseCode: courseCode }), this._getOptions())
-    //   .then((res) => {
-    this.showCourseWebbLink = true // res.data.isCourseWebLink
-    this.sellingText = res.sellingText
-    this.imageFromAdmin = res.imageInfo
-    // })
-    // .catch((err) => {
-    //   if (err.response) {
-    //     throw new Error(err.message, err.response.data)
-    //   }
-    //   throw err
-    // })
-  }
+  // @action getCourseAdminInfo(res, courseCode, lang = 'sv') {
+  //   // return axios
+  //   //   .get(this.buildApiUrl(this.paths.api.sellingText.uri, { courseCode: courseCode }), this._getOptions())
+  //   //   .then((res) => {
+  //   this.showCourseWebbLink = true // res.data.isCourseWebLink
+  //   this.sellingText = res.sellingText
+  //   this.imageFromAdmin = res.imageInfo
+  //   // })
+  //   // .catch((err) => {
+  //   //   if (err.response) {
+  //   //     throw new Error(err.message, err.response.data)
+  //   //   }
+  //   //   throw err
+  //   // })
+  // }
 
   /** ***************************************************************************************************************************************** */
   /*                                                    COURSE MEMO FILES  - kurs-pm-api                                                                    */
