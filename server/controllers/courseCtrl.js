@@ -222,10 +222,12 @@ async function getIndex(req, res, next) {
     routerStore.courseCode = courseCode
 
     const courseApiResponse = await courseApi.getSellingText(courseCode)
-    const { sellingText, imageFromAdmin /*, isCourseWebLink */ } = courseApiResponse.body
-    routerStore.sellingText = sellingText
-    routerStore.imageFromAdmin = imageFromAdmin
-    /* routerStore.showCourseWebbLink = isCourseWebLink */
+    if (courseApiResponse.body) {
+      const { sellingText, imageInfo /*, isCourseWebLink */ } = courseApiResponse.body
+      routerStore.sellingText = sellingText
+      routerStore.imageFromAdmin = imageInfo || ''
+      /* routerStore.showCourseWebbLink = isCourseWebLink */
+    }
 
     try {
       //TODO-INTEGRATION: REMOVE
