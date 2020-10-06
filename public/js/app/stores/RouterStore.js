@@ -22,9 +22,14 @@ function _webUsesSSL(url) {
 
 class RouterStore {
   @observable courseCode = '' // Set from request parameters
+
   @observable sellingText = { en: '', sv: '' } // Set from kursinfo-admin-api
-  @observable imageFromAdmin = ''
+
+  @observable imageFromAdmin = '' // Set from kursinfo-admin-api
+
   @observable showCourseWebbLink = true
+
+  @observable memoList = {} // Retrieved from kurs-pm-data-api
 
   courseData = {
     courseInfo: {
@@ -44,7 +49,6 @@ class RouterStore {
   user = ''
   defaultIndex = 0
   memoApiHasConnection = true
-  memoList = {}
 
   buildApiUrl(path, params) {
     let host
@@ -598,21 +602,21 @@ class RouterStore {
   /*                                                    COURSE MEMO FILES  - kurs-pm-api                                                                    */
   /** ***************************************************************************************************************************************** */
 
-  @action getCourseMemoFiles(courseCode, lang = 'sv') {
-    //TODO-INTEGRATION: REMOVE
-    return axios
-      .get(this.buildApiUrl(this.paths.api.memoData.uri, { courseCode }), this._getOptions())
-      .then((res) => {
-        this.showCourseWebbLink = true // res.data.isCourseWebLink
-        this.memoList = res.data
-      })
-      .catch((err) => {
-        if (err.response) {
-          throw new Error(err.message, err.response.data)
-        }
-        throw err
-      })
-  }
+  // @action getCourseMemoFiles(courseCode, lang = 'sv') {
+  //   //TODO-INTEGRATION: REMOVE
+  //   return axios
+  //     .get(this.buildApiUrl(this.paths.api.memoData.uri, { courseCode }), this._getOptions())
+  //     .then((res) => {
+  //       this.showCourseWebbLink = true // res.data.isCourseWebLink
+  //       this.memoList = res.data
+  //     })
+  //     .catch((err) => {
+  //       if (err.response) {
+  //         throw new Error(err.message, err.response.data)
+  //       }
+  //       throw err
+  //     })
+  // }
 
   /** ***************************************************************************************************************************************** */
   /*                                            UG REDIS - examiners, teachers and responsibles                                                */

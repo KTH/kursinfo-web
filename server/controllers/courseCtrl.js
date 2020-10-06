@@ -7,7 +7,6 @@ const language = require('kth-node-web-common/lib/language')
 const ReactDOMServer = require('react-dom/server')
 const { toJS } = require('mobx')
 const httpResponse = require('kth-node-response')
-const i18n = require('../../i18n')
 
 const courseApi = require('../apiCalls/kursinfoAdmin')
 const memoApi = require('../apiCalls/memoApi')
@@ -18,27 +17,6 @@ const serverConfig = require('../configuration').server
 const paths = require('../server').getPaths()
 const api = require('../api')
 
-module.exports = {
-  getIndex: getIndex,
-  // getSellingText: co.wrap(_getSellingText),
-  // getCourseEmployees: co.wrap(_getCourseEmployees),
-  getKoppsCourseData: co.wrap(_getKoppsCourseData),
-  getMemoFileList: co.wrap(_getMemoFileList)
-}
-
-function hydrateStores(renderProps) {
-  // This assumes that all stores are specified in a root element called Provider
-
-  const props = renderProps.props.children.props
-  const outp = {}
-  for (let key in props) {
-    if (typeof props[key].initializeStore === 'function') {
-      outp[key] = encodeURIComponent(JSON.stringify(toJS(props[key], true)))
-    }
-  }
-  return outp
-}
-
 function _staticRender(context, location) {
   if (process.env.NODE_ENV === 'development') {
     delete require.cache[require.resolve('../../dist/app.js')]
@@ -47,30 +25,29 @@ function _staticRender(context, location) {
   return staticRender(context, location)
 }
 
-async function _getMemoFileList(req, res, next) {
-  const courseCode = req.params.courseCode
-  log.debug('Get memo file list for: ', courseCode)
+// async function _getMemoFileList(req, res, next) {
+//   const { courseCode } = req.params
+//   log.debug('Get memo file list for: ', courseCode)
 
-  try {
-    const apiResponse = await memoApi.getFileList(courseCode)
-    log.debug('Got response from kurs-pm-api for: ', courseCode)
+//   try {
+//     const apiResponse = await memoApi.getFileList(courseCode)
+//     log.debug('Got response from kurs-pm-api for: ', courseCode)
 
-    if (apiResponse.statusCode === 404) {
-      log.debug('404 response from kurs-pm-api for: ', courseCode)
-      return httpResponse.json(res, apiResponse.body)
-    }
+//     if (apiResponse.statusCode === 404) {
+//       log.debug('404 response from kurs-pm-api for: ', courseCode)
+//       return httpResponse.json(res, apiResponse.body)
+//     }
 
-    if (apiResponse.statusCode !== 200) {
-      log.debug('NOK response from kurs-pm-api for: ', courseCode)
-      return httpResponse.jsonError(res, apiResponse.statusCode)
-    }
-    log.debug('OK response from kurs-pm-api for: ', courseCode)
-    return httpResponse.json(res, apiResponse.body)
-  } catch (err) {
-    // log.error('Exception from kurs-pm-api', { error: err })
-    next(err)
-  }
-}
+//     if (apiResponse.statusCode !== 200) {
+//       log.debug('NOK response from kurs-pm-api for: ', courseCode)
+//       return httpResponse.jsonError(res, apiResponse.statusCode)
+//     }
+//     log.debug('OK response from kurs-pm-api for: ', courseCode)
+//     return httpResponse.json(res, apiResponse.body)
+//   } catch (err) {
+//     next(err)
+//   }
+// }
 
 // async function _getCourseEmployees(req, res, next) {
 async function _getCourseEmployees(key, type, roundsKeys) {
@@ -208,8 +185,7 @@ async function getIndex(req, res, next) {
 
   const courseCode = req.params.courseCode.toUpperCase()
 
-  let lang = language.getLanguage(res) || 'sv'
-  const ldapUser = req.session.authUser ? req.session.authUser.username : 'null'
+  const lang = language.getLanguage(res) || 'sv'
   log.debug('getIndex with course code: ' + courseCode)
   try {
     const context = {}
@@ -229,18 +205,19 @@ async function getIndex(req, res, next) {
       /* routerStore.showCourseWebbLink = isCourseWebLink */
     }
 
-    try {
-      //TODO-INTEGRATION: REMOVE
-      if (memoApiUp) {
-        await renderProps.props.children.props.routerStore.getCourseMemoFiles(courseCode)
+    //TODO-INTEGRATION: REMOVE
+    if (memoApiUp) {
+      const memoApiResponse = await memoApi.getFileList(courseCode)
+      if (memoApiResponse.body) {
+        routerStore.memoList = memoApiResponse.body
+        /* routerStore.showCourseWebbLink = memoApiResponse.body.isCourseWebLink */
       } else {
-        renderProps.props.children.props.routerStore.memoApiHasConnection = false
+        routerStore.memoApiHasConnection = false
       }
-    } catch (error) {
-      if (error) {
-        renderProps.props.children.props.routerStore.memoApiHasConnection = false
-      }
+    } else {
+      routerStore.memoApiHasConnection = false
     }
+
     // await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
     // await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, lang)
     // await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi')
@@ -297,4 +274,12 @@ function hydrateStores(renderProps) {
     }
   }
   return outp
+}
+
+module.exports = {
+  getIndex,
+  // getSellingText: co.wrap(_getSellingText),
+  // getCourseEmployees: co.wrap(_getCourseEmployees),
+  getKoppsCourseData: co.wrap(_getKoppsCourseData)
+  // getMemoFileList: co.wrap(_getMemoFileList)
 }
