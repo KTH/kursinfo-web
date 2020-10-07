@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 
 import i18n from '../../../../i18n'
-import CourseSection from './CourseSections.jsx'
+import CourseSection from './CourseSections'
 
 import { EMPTY } from '../util/constants'
 
@@ -13,8 +13,8 @@ class CourseSectionList extends Component {
     super(props)
 
     this.state = {
-      store: this.props.routerStore['courseData'] || {},
-      syllabusList: (this.props.syllabusList && this.props.syllabusList[0]) || []
+      store: this.props.routerStore.courseData || {}
+      // syllabusList: (this.props.syllabusList && this.props.syllabusList[0]) || []
     }
   }
 
@@ -155,8 +155,8 @@ class CourseSectionList extends Component {
 
   render() {
     const { routerStore } = this.props
-    const language = this.state.store.language || '1'
-    const translation = i18n.messages[language]
+    const language = this.state.store.language || 'sv'
+    const translation = i18n.messages[language === 'en' ? 0 : 1]
     return (
       <section
         className="row"
@@ -166,7 +166,7 @@ class CourseSectionList extends Component {
         <CourseSection
           sectionHeader={translation.courseLabels.header_content}
           headerType="3"
-          class="first-header"
+          className="first-header"
           courseData={this.getContent(translation)}
           sectionId="Content"
         />
