@@ -167,14 +167,14 @@ class CoursePage extends Component {
 
   render() {
     const { routerStore } = this.props
-    const courseData = routerStore['courseData'] || {
+    const courseData = routerStore.courseData || {
       courseInfo: { course_application_info: [] },
       syllabusSemesterList: []
     }
-    if (!courseData.language) courseData.language = 0
+    if (!courseData.language) courseData.language = 'sv'
 
-    const language = courseData.language === 0 ? 'en' : 'sv'
-    const translation = i18n.messages[courseData.language]
+    const { language } = courseData
+    const translation = i18n.messages[language === 'en' ? 0 : 1]
     const introText =
       routerStore.sellingText[language].length > 0
         ? routerStore.sellingText[language]
@@ -225,7 +225,7 @@ class CoursePage extends Component {
             <CourseTitle
               key="title"
               courseTitleData={courseData.courseTitleData}
-              language={courseData.language}
+              language={language}
               pageTitle={translation.courseLabels.sideMenu.page_before_course}
             />
             {/* ---TEXT FOR CANCELLED COURSE --- */}
@@ -273,13 +273,13 @@ class CoursePage extends Component {
                   {/* ---COURSE  DROPDOWN MENU--- */}
                   {routerStore.activeSemesters && routerStore.activeSemesters.length > 0 ? (
                     <nav id="roundDropdownMenu" aria-label={translation.courseLabels.header_dropdown_menu_navigation}>
-                      <h2 id="roundDropdownMenuHeader" style="margin-top:0px">
+                      <h2 id="roundDropdownMenuHeader" style={{ marginTop: 0 }}>
                         {translation.courseLabels.header_dropdown_menue}
                         <InfoModal
                           title={translation.courseLabels.header_dropdown_menue}
-                          infoText={i18n.messages[courseData.language].courseLabels.syllabus_info}
+                          infoText={translation.courseLabels.syllabus_info}
                           type="html"
-                          closeLabel={i18n.messages[courseData.language].courseLabels.label_close}
+                          closeLabel={translation.courseLabels.label_close}
                         />
                       </h2>
                       <div className="row" id="roundDropdowns" key="roundDropdown">
@@ -290,8 +290,9 @@ class CoursePage extends Component {
                             callerInstance={this}
                             year={routerStore.activeSemesters[this.state.activeSemesterIndex][0]}
                             semester={routerStore.activeSemesters[this.state.activeSemesterIndex][1]}
-                            language={courseData.language}
+                            language={language}
                             label={translation.courseLabels.label_semester_select}
+                            translation={translation}
                           />
                         )}
                         {courseData.roundList[this.state.activeSemester] &&
@@ -302,8 +303,9 @@ class CoursePage extends Component {
                             callerInstance={this}
                             year={routerStore.activeSemesters[this.state.activeSemesterIndex][0]}
                             semester={routerStore.activeSemesters[this.state.activeSemesterIndex][1]}
-                            language={courseData.language}
+                            language={language}
                             label={translation.courseLabels.label_round_select}
+                            translation={translation}
                           />
                         ) : this.state.showRoundData ? (
                           <p>
@@ -376,7 +378,7 @@ class CoursePage extends Component {
                     <RoundInformationOneCol
                       courseRound={courseData.roundList[this.state.activeSemester][this.state.activeRoundIndex]}
                       courseData={courseInformationToRounds}
-                      language={courseData.language}
+                      language={language}
                       courseHasRound={routerStore.activeSemesters.length > 0}
                       fade={this.state.roundInfoFade}
                       showRoundData={this.state.showRoundData}
@@ -509,16 +511,17 @@ const DropdownSemesters = ({
   semester,
   year,
   language = 0,
-  label = ''
+  label = '',
+  translation
 }) => {
   const dropdownID = 'semesterDropdown'
   if (semesterList && semesterList.length < 1) {
     return ''
   } else {
     return (
-      <div class="col-12 semester-dropdowns">
+      <div className="col-12 semester-dropdowns">
         <form>
-          <label className="form-control-label" htmlfor={dropdownID}>
+          <label className="form-control-label" htmlFor={dropdownID}>
             {label.label_dropdown}
           </label>
           <div className="form-select form-group">
@@ -531,7 +534,7 @@ const DropdownSemesters = ({
               >
                 <option
                   id={dropdownID + '_' + '-1' + '_' + '0'}
-                  selected={callerInstance.state.semesterSelectedIndex === 0}
+                  defaultValue={callerInstance.state.semesterSelectedIndex === 0}
                   value={label.placeholder}
                 >
                   {label.placeholder}
@@ -541,12 +544,12 @@ const DropdownSemesters = ({
                     <option
                       key={index}
                       id={dropdownID + '_' + index + '_' + '0'}
-                      selected={callerInstance.state.semesterSelectedIndex - 1 === index}
-                      value={`${i18n.messages[language].courseInformation.course_short_semester[semesterItem[1]]}${
+                      defaultValue={callerInstance.state.semesterSelectedIndex - 1 === index}
+                      value={`${translation.courseInformation.course_short_semester[semesterItem[1]]}${
                         semesterItem[0]
                       }`}
                     >
-                      {i18n.messages[language].courseInformation.course_short_semester[semesterItem[1]]}
+                      {translation.courseInformation.course_short_semester[semesterItem[1]]}
                       {semesterItem[0]}
                     </option>
                   )
@@ -595,7 +598,7 @@ const DropdownSemesters = ({
   }
 }
 
-const DropdownRounds = ({ courseRoundList, callerInstance, semester, year, language = 0, label = '' }) => {
+const DropdownRounds = ({ courseRoundList, callerInstance, semester, year, language = 0, label = '', translation }) => {
   const dropdownID = 'roundsDropdown'
 
   if (courseRoundList && courseRoundList.length < 2) {
@@ -604,7 +607,7 @@ const DropdownRounds = ({ courseRoundList, callerInstance, semester, year, langu
     return (
       <div className="col-12 semester-dropdowns">
         <form>
-          <label className="form-control-label" htmlfor={dropdownID}>
+          <label className="form-control-label" htmlFor={dropdownID}>
             {label.label_dropdown}
           </label>
           <div className="form-select form-group">
@@ -618,7 +621,7 @@ const DropdownRounds = ({ courseRoundList, callerInstance, semester, year, langu
               >
                 <option
                   id={dropdownID + '_' + '-1' + '_' + '0'}
-                  selected={callerInstance.state.roundSelectedIndex === 0}
+                  defaultValue={callerInstance.state.roundSelectedIndex === 0}
                   value={label.placeholder}
                 >
                   {label.placeholder}
@@ -626,12 +629,12 @@ const DropdownRounds = ({ courseRoundList, callerInstance, semester, year, langu
                 {courseRoundList.map((courseRound, index) => {
                   const value = `${
                     courseRound.round_short_name !== EMPTY[language] ? courseRound.round_short_name : ''
-                  }, ${i18n.messages[language].courseRoundInformation.round_category[courseRound.round_category]}`
+                  }, ${translation.courseRoundInformation.round_category[courseRound.round_category]}`
                   return (
                     <option
                       key={index}
                       id={dropdownID + '_' + index + '_' + '0'}
-                      selected={callerInstance.state.roundSelectedIndex - 1 === index}
+                      defaultValue={callerInstance.state.roundSelectedIndex - 1 === index}
                       value={value}
                     >
                       {value}

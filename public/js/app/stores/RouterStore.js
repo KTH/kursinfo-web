@@ -27,9 +27,25 @@ class RouterStore {
 
   @observable imageFromAdmin = '' // Set from kursinfo-admin-api
 
-  @observable showCourseWebbLink = true
+  @observable showCourseWebbLink = true // is set from kursinfo-admin ( not in use )
 
   @observable memoList = {} // Retrieved from kurs-pm-data-api
+
+  @observable isCancelled = false // Retrieved from koppsCourseData, used to show an Alert on the course page
+
+  @observable isDeactivated = false // Retrieved from koppsCourseData, used to show an Alert on the course page
+
+  @observable keyList = {
+    // key list to get information from ugRedis
+    teachers: [],
+    responsibles: []
+  }
+
+  @observable activeSemesters = [] // Computes syllabus to show based on todays date
+
+  @observable roundsSyllabusIndex = [] // handles connection to syllabuses for active rounds
+
+  @observable defaultIndex = 0
 
   courseData = {
     courseInfo: {
@@ -37,17 +53,8 @@ class RouterStore {
     },
     syllabusSemesterList: []
   }
-  isCancelled = false // is set in getCourseInformation(), used to show an Alert on the course page
-  showCourseWebbLink = false // is set from kursinfo-admin ( not in use )
-  roundsSyllabusIndex = [] // handles connection to syllabuses for active rounds
-  activeSemesters = [] // sets in getCurrentSemesterToShow(), computes syllabus to show based on todays date
-  keyList = {
-    // key list to get information from ugRedis
-    teachers: [],
-    responsibles: []
-  }
+
   user = ''
-  defaultIndex = 0
   memoApiHasConnection = true
 
   buildApiUrl(path, params) {
@@ -96,8 +103,8 @@ class RouterStore {
     const courseResult = res.body
     const language = lang === 'en' ? 0 : 1
 
-    this.isCancelled = courseResult.course.cancelled
-    this.isDeactivated = courseResult.course.deactivated
+    // this.isCancelled = courseResult.course.cancelled
+    // this.isDeactivated = courseResult.course.deactivated
     this.user = ldapUsername
 
     //* **** Coruse information that is static on the course side *****//
@@ -386,7 +393,7 @@ class RouterStore {
         matchingExamSemester = key
       }
     })
-    let examString = "<ul class='ul-no-padding' >"
+    let examString = "<ul className='ul-no-padding' >"
     if (dataObject[matchingExamSemester] && dataObject[matchingExamSemester].examinationRounds.length > 0) {
       for (let exam of dataObject[matchingExamSemester].examinationRounds) {
         if (exam.credits) {
