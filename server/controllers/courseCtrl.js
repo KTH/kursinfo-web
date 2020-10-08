@@ -11,6 +11,7 @@ const httpResponse = require('kth-node-response')
 const courseApi = require('../apiCalls/kursinfoAdmin')
 const memoApi = require('../apiCalls/memoApi')
 const koppsCourseData = require('../apiCalls/koppsCourseData')
+const { getCourseEmployees } = require('../apiCalls/ugRedisApi')
 
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
@@ -731,6 +732,7 @@ module.exports = {
   getIndex,
   // getSellingText: co.wrap(_getSellingText),
   // getCourseEmployees: co.wrap(_getCourseEmployees),
+  getCourseEmployees,
   getKoppsCourseData: co.wrap(_getKoppsCourseData)
   // getMemoFileList: co.wrap(_getMemoFileList)
 }

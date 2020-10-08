@@ -212,11 +212,7 @@ appRoute.get(
 //   config.proxyPrefixPath.uri + '/api/kursinfo/getMemoFilesByCourse/:courseCode',
 //   Course.getMemoFileList
 // )
-// appRoute.get(
-//   'redis.ugCache',
-//   config.proxyPrefixPath.uri + '/reids/kursinfo/ugChache/:key/:type',
-//   Course.getCourseEmployees
-// )
+appRoute.post('redis.ugCache', config.proxyPrefixPath.uri + '/reids/kursinfo/ugChache', Course.getCourseEmployees)
 // appRoute.post(
 //   'redis.ugCache',
 //   config.proxyPrefixPath.uri + '/reids/kursinfo/ugChache/:key/:type',
