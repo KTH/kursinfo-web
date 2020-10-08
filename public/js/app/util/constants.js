@@ -19,6 +19,7 @@ export const LISTS_OF_PILOT_COURSES = [
   'AF1301',
   'HS1001',
   'LH238V',
+  'LS1532',
   'MG1028',
   'MJ2462',
   'ED1110',
