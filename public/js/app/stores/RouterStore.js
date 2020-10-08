@@ -47,11 +47,52 @@ class RouterStore {
 
   @observable defaultIndex = 0
 
+  @observable activeRoundIndex = 0
+
+  @observable activeSemesterIndex = 0
+
+  @observable activeSemester = 0
+
+  @observable activeSyllabusIndex = 0
+
+  @observable dropdownsOpen = {
+    roundsDropdown: false,
+    semesterDropdown: false
+  }
+
+  @observable roundInfoFade = false
+
+  @observable syllabusInfoFade = false
+
+  @observable showRoundData = false
+
+  @observable roundDisabled = true
+
+  @observable roundSelected = false
+
+  @observable semesterSelectedIndex = 0
+
+  @observable roundSelectedIndex = 0
+
   courseData = {
     courseInfo: {
       course_application_info: []
     },
     syllabusSemesterList: []
+  }
+
+  @action getCourseEmployees = () => {
+    // console.log(this.paths.redis.ugCache.uri)
+    // console.log(this.courseCode)
+    // console.log(this.semester)
+    // console.log(this.ladokRoundIds)
+    console.log(this)
+    // return axios
+    //   .post(
+    //     this.buildApiUrl(this.paths.redis.ugCache.uri, { key: key, type: type }),
+    //     this._getOptions(JSON.stringify(this.keyList))
+    //   )
+    //   .then((result) => {
   }
 
   user = ''
