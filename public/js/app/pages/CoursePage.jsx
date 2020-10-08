@@ -2,30 +2,41 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 
-import {
-  Row,
-  Col,
-  Alert,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle,
-  Label,
-  Breadcrumb,
-  BreadcrumbItem
-} from 'reactstrap'
+import { Row, Col, Alert, Breadcrumb, BreadcrumbItem } from 'reactstrap'
 
 import i18n from '../../../../i18n'
 import { EMPTY, FORSKARUTB_URL, SYLLABUS_URL } from '../util/constants'
 import { breadcrumbLinks, aboutCourseLink } from '../util/links'
 
 // Components
-import RoundInformationOneCol from '../components/RoundInformationOneCol.jsx'
-import CourseTitle from '../components/CourseTitle.jsx'
-import CourseSectionList from '../components/CourseSectionList.jsx'
-import InfoModal from '../components/InfoModal.jsx'
-import SideMenu from '../components/SideMenu.jsx'
-import { courseMainSubjects } from '../../../../i18n/messages.en'
+import RoundInformationOneCol from '../components/RoundInformationOneCol'
+import CourseTitle from '../components/CourseTitle'
+import CourseSectionList from '../components/CourseSectionList'
+import InfoModal from '../components/InfoModal'
+import SideMenu from '../components/SideMenu'
+
+const breadcrumbs = (translation, language, courseCode) => {
+  return (
+    <nav lang={language} aria-label={translation.breadCrumbLabels.breadcrumbs}>
+      <Breadcrumb>
+        <BreadcrumbItem>
+          <a href={breadcrumbLinks.university[language]}>{translation.breadCrumbLabels.university}</a>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <a href={breadcrumbLinks.student[language]}>{translation.breadCrumbLabels.student}</a>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <a href={breadcrumbLinks.directory[language]}>{translation.breadCrumbLabels.directory}</a>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <a href={aboutCourseLink(courseCode, language)}>
+            {`${translation.breadCrumbLabels.aboutCourse} ${courseCode}`}
+          </a>
+        </BreadcrumbItem>
+      </Breadcrumb>
+    </nav>
+  )
+}
 
 @inject(['routerStore'])
 @observer
@@ -127,29 +138,6 @@ class CoursePage extends Component {
     // this.toggle(event, true)
   }
 
-  breadcrumbs(translation, language, courseCode) {
-    return (
-      <nav lang={language} aria-label={translation.breadCrumbLabels.breadcrumbs}>
-        <Breadcrumb>
-          <BreadcrumbItem>
-            <a href={breadcrumbLinks.university[language]}>{translation.breadCrumbLabels.university}</a>
-          </BreadcrumbItem>
-          <BreadcrumbItem>
-            <a href={breadcrumbLinks.student[language]}>{translation.breadCrumbLabels.student}</a>
-          </BreadcrumbItem>
-          <BreadcrumbItem>
-            <a href={breadcrumbLinks.directory[language]}>{translation.breadCrumbLabels.directory}</a>
-          </BreadcrumbItem>
-          <BreadcrumbItem>
-            <a href={aboutCourseLink(courseCode, language)}>
-              {`${translation.breadCrumbLabels.aboutCourse} ${courseCode}`}
-            </a>
-          </BreadcrumbItem>
-        </Breadcrumb>
-      </nav>
-    )
-  }
-
   render() {
     const { routerStore } = this.props
     const courseData = routerStore.courseData || {
@@ -193,7 +181,7 @@ class CoursePage extends Component {
 
     return (
       <div key="kursinfo-container" className="col" id="kursinfo-main-page">
-        <Row>{this.breadcrumbs(translation, language, routerStore.courseCode)}</Row>
+        <Row>{breadcrumbs(translation, language, routerStore.courseCode)}</Row>
         <Row id="pageContainer" key="pageContainer">
           <Col lg="3" className="side-menu">
             <SideMenu
@@ -203,9 +191,9 @@ class CoursePage extends Component {
             />
           </Col>
           <main className="col-lg-9" id="middle" key="middle" aria-labelledby="page-course-title">
-            {/** *************************************************************************************************************/}
+            {/** ************************************************************************************************************ */}
             {/*                                                   INTRO                                                     */}
-            {/** *************************************************************************************************************/}
+            {/** ************************************************************************************************************ */}
             {/* ---COURSE TITEL--- */}
             <CourseTitle
               key="title"
@@ -217,7 +205,7 @@ class CoursePage extends Component {
             {routerStore.isCancelled || routerStore.isDeactivated ? (
               <div className="isCancelled">
                 <Alert color="info" aria-live="polite">
-                  <h3>{translation.course_state_alert[courseData.courseInfo.course_state].header} </h3>
+                  <h3>{`${translation.course_state_alert[courseData.courseInfo.course_state].header}`}</h3>
                   <p>
                     {translation.course_state_alert[courseData.courseInfo.course_state].examination}
                     {translation.courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]}
@@ -246,14 +234,14 @@ class CoursePage extends Component {
             >
               <Col>
                 <img className="float-md-left" src={courseImage} alt="" height="auto" width="300px" />
-                <div className="paragraphs" dangerouslySetInnerHTML={{ __html: introText }}></div>
+                <div className="paragraphs" dangerouslySetInnerHTML={{ __html: introText }} />
               </Col>
             </section>
             <Row id="columnContainer" key="columnContainer">
               <Col id="leftContainer" key="leftContainer">
-                {/** *************************************************************************************************************/}
+                {/** ************************************************************************************************************ */}
                 {/*                                      RIGHT COLUMN - ROUND INFORMATION                                         */}
-                {/** *************************************************************************************************************/}
+                {/** ************************************************************************************************************ */}
                 <Col id="roundInformationContainer" md="4" xs="12" className="float-md-right">
                   {/* ---COURSE  DROPDOWN MENU--- */}
                   {routerStore.activeSemesters && routerStore.activeSemesters.length > 0 ? (
@@ -324,14 +312,13 @@ class CoursePage extends Component {
                         courseData.roundList[routerStore.activeSemester][routerStore.activeRoundIndex].round_state !==
                           'APPROVED' ? (
                           <Alert color="info" aria-live="polite">
-                            <h4>
-                              {
-                                translation.courseLabels.lable_round_state[
-                                  courseData.roundList[routerStore.activeSemester][routerStore.activeRoundIndex]
-                                    .round_state
-                                ]
-                              }{' '}
-                            </h4>
+                            <h4>{`${
+                              translation.courseLabels.lable_round_state[
+                                courseData.roundList[routerStore.activeSemester][routerStore.activeRoundIndex]
+                                  .round_state
+                              ]
+                            }
+                            `}</h4>
                           </Alert>
                         ) : (
                           ''
@@ -352,7 +339,7 @@ class CoursePage extends Component {
                   {courseData.courseInfo.course_application_info.length > 0 ? (
                     <Alert color="info">
                       <h4>{translation.courseInformation.course_application_info}</h4>
-                      <p dangerouslySetInnerHTML={{ __html: courseData.courseInfo.course_application_info }}></p>
+                      <p dangerouslySetInnerHTML={{ __html: courseData.courseInfo.course_application_info }} />
                     </Alert>
                   ) : (
                     ''
@@ -381,9 +368,9 @@ class CoursePage extends Component {
                   )}
                 </Col>
 
-                {/** *************************************************************************************************************/}
+                {/** ************************************************************************************************************ */}
                 {/*                           LEFT COLUMN - SYLLABUS + OTHER COURSE INFORMATION                                 */}
-                {/** *************************************************************************************************************/}
+                {/** ************************************************************************************************************ */}
                 <Col id="coreContent" md="8" xs="12" className="float-md-left paragraphs">
                   <div
                     key="fade-2"
@@ -420,6 +407,7 @@ class CoursePage extends Component {
                                       ) + '_active'
                                     }
                                     target="_blank"
+                                    rel="noreferrer"
                                     className="pdf-link"
                                   >
                                     {translation.courseLabels.label_syllabus_link}
@@ -491,16 +479,7 @@ class CoursePage extends Component {
   }
 }
 
-const DropdownSemesters = ({
-  semesterList,
-  courseRoundList,
-  callerInstance,
-  semester,
-  year,
-  language = 0,
-  label = '',
-  translation
-}) => {
+const DropdownSemesters = ({ semesterList, callerInstance, label = '', translation }) => {
   const dropdownID = 'semesterDropdown'
   if (semesterList && semesterList.length < 1) {
     return ''
@@ -520,7 +499,7 @@ const DropdownSemesters = ({
               onChange={callerInstance.handleSemesterDropdownSelect}
             >
               <option
-                id={dropdownID + '_' + '-1' + '_' + '0'}
+                id={dropdownID + '_-1_0'}
                 defaultValue={callerInstance.props.routerStore.semesterSelectedIndex === 0}
                 value={label.placeholder}
               >
@@ -529,8 +508,8 @@ const DropdownSemesters = ({
               {semesterList.map((semesterItem, index) => {
                 return (
                   <option
-                    key={index}
-                    id={dropdownID + '_' + index + '_' + '0'}
+                    key={`${translation.courseInformation.course_short_semester[semesterItem[1]]}${semesterItem[0]}`}
+                    id={dropdownID + '_' + index + '_0'}
                     defaultValue={callerInstance.props.routerStore.semesterSelectedIndex - 1 === index}
                     value={`${translation.courseInformation.course_short_semester[semesterItem[1]]}${semesterItem[0]}`}
                   >
@@ -582,7 +561,7 @@ const DropdownSemesters = ({
   )
 }
 
-const DropdownRounds = ({ courseRoundList, callerInstance, semester, year, language = 0, label = '', translation }) => {
+const DropdownRounds = ({ courseRoundList, callerInstance, language = 0, label = '', translation }) => {
   const dropdownID = 'roundsDropdown'
 
   if (courseRoundList && courseRoundList.length < 2) {
@@ -599,12 +578,12 @@ const DropdownRounds = ({ courseRoundList, callerInstance, semester, year, langu
             <select
               className="form-control"
               id={dropdownID}
-              aria-label={''}
+              aria-label=""
               onChange={callerInstance.handleDropdownSelect}
               disabled={callerInstance.props.routerStore.roundDisabled}
             >
               <option
-                id={dropdownID + '_' + '-1' + '_' + '0'}
+                id={dropdownID + '_-1_0'}
                 defaultValue={callerInstance.props.routerStore.roundSelectedIndex === 0}
                 value={label.placeholder}
               >
@@ -616,8 +595,8 @@ const DropdownRounds = ({ courseRoundList, callerInstance, semester, year, langu
                 }, ${translation.courseRoundInformation.round_category[courseRound.round_category]}`
                 return (
                   <option
-                    key={index}
-                    id={dropdownID + '_' + index + '_' + '0'}
+                    key={value}
+                    id={dropdownID + '_' + index + '_0'}
                     defaultValue={callerInstance.props.routerStore.roundSelectedIndex - 1 === index}
                     value={value}
                   >
