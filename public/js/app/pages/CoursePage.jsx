@@ -118,7 +118,9 @@ class CoursePage extends Component {
     routerStore.semesterSelectedIndex = eventTarget.selectedIndex
     routerStore.roundSelectedIndex = 0
 
-    // this.toggle(event, true)
+    if (routerStore.showRoundData) {
+      routerStore.getCourseEmployees()
+    }
   }
 
   handleDropdownSelect(event) {
@@ -134,8 +136,9 @@ class CoursePage extends Component {
     routerStore.roundSelected = eventTarget.selectedIndex !== 0
     routerStore.roundSelectedIndex = eventTarget.selectedIndex
 
-    routerStore.getCourseEmployees()
-    // this.toggle(event, true)
+    if (routerStore.showRoundData) {
+      routerStore.getCourseEmployees()
+    }
   }
 
   render() {

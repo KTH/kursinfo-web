@@ -397,24 +397,31 @@ class RouterStore {
 
   @observable roundSelectedIndex = 0
 
-  courseData = {
+  @observable courseData = {
     courseInfo: {
       course_application_info: []
     },
     syllabusSemesterList: []
   }
 
+  @observable roundData = {}
+
   @action getCourseEmployees = () => {
-    // console.log(this.paths.redis.ugCache.uri)
-    // console.log(this.courseCode)
-    // console.log(this.semester)
-    // console.log(this.ladokRoundIds)
-    // return axios
-    //   .post(
-    //     this.buildApiUrl(this.paths.redis.ugCache.uri, { key: key, type: type }),
-    //     this._getOptions(JSON.stringify(this.keyList))
-    //   )
-    //   .then((result) => {
+    const ladokRound = this.courseData.roundList[this.activeSemester][this.activeRoundIndex]
+    const ladokRoundId = ladokRound.roundId
+    const data = {
+      courseCode: this.courseCode,
+      semester: this.activeSemester,
+      ladokRoundIds: [ladokRoundId]
+    }
+    axios.post(this.paths.redis.ugCache.uri, data).then((response) => {
+      const { examiners, responsibles, teachers } = response.data
+      this.roundData = {
+        examiners,
+        responsibles,
+        teachers
+      }
+    })
   }
 
   user = ''
@@ -712,24 +719,22 @@ class RouterStore {
     // })
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  @action getCourseEmployees(/* key, type = 'examinator', lang = 0 */) {
-    return {}
-    // return axios
-    //   .get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key: key, type: type }))
-    //   .then((result) => {
-    //     this.courseData.courseInfo.course_examiners =
-    //       result.data && result.data.length > 0
-    //         ? this.createPersonHtml(result.data, 'examiner')
-    //         : EMPTY[this.courseData.language]
-    //   })
-    //   .catch((err) => {
-    //     if (err.response) {
-    //       throw new Error(err.message, err.response.data)
-    //     }
-    //     throw err
-    //   })
-  }
+  // @action getCourseEmployees(key, type = 'examinator', lang = 0) {
+  //   return axios
+  //     .get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key: key, type: type }))
+  //     .then((result) => {
+  //       this.courseData.courseInfo.course_examiners =
+  //         result.data && result.data.length > 0
+  //           ? this.createPersonHtml(result.data, 'examiner')
+  //           : EMPTY[this.courseData.language]
+  //     })
+  //     .catch((err) => {
+  //       if (err.response) {
+  //         throw new Error(err.message, err.response.data)
+  //       }
+  //       throw err
+  //     })
+  // }
 
   /** ********************************************************************************************************************** */
 

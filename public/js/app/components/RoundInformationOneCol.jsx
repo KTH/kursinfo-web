@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 import { Col, Button } from 'reactstrap'
 
 import { EMPTY } from '../util/constants'
@@ -8,6 +9,8 @@ import i18n from '../../../../i18n'
 import CourseFileLinks from './CourseFileLinks'
 import InfoModal from './InfoModal'
 
+@inject(['routerStore'])
+@observer
 class RoundInformationOneCol extends Component {
   constructor(props) {
     super(props)
@@ -29,8 +32,10 @@ class RoundInformationOneCol extends Component {
       showRoundData,
       language = 1,
       courseRound,
-      courseData
+      courseData,
+      routerStore
     } = this.props
+    const { roundData } = routerStore
     const round = courseRound || { round_course_term: [] }
     const course = courseData
     const translate = i18n.messages[language === 'en' ? 0 : 1].courseRoundInformation
@@ -226,13 +231,13 @@ class RoundInformationOneCol extends Component {
                   )}
 
                   <h3 className="t4">{i18n.messages[language === 'en' ? 0 : 1].courseInformation.course_examiners}</h3>
-                  <span dangerouslySetInnerHTML={{ __html: course.course_examiners }} />
+                  <span dangerouslySetInnerHTML={{ __html: roundData.examiners }} />
 
                   <h3 className="t4">{translate.round_responsibles}</h3>
-                  <span dangerouslySetInnerHTML={{ __html: round.round_responsibles }} />
+                  <span dangerouslySetInnerHTML={{ __html: roundData.responsibles }} />
 
                   <h3 className="t4">{translate.round_teacher}</h3>
-                  <span dangerouslySetInnerHTML={{ __html: round.round_teacher }} />
+                  <span dangerouslySetInnerHTML={{ __html: roundData.teachers }} />
                 </span>
               ) : (
                 ''

@@ -11,7 +11,7 @@ const httpResponse = require('kth-node-response')
 const courseApi = require('../apiCalls/kursinfoAdmin')
 const memoApi = require('../apiCalls/memoApi')
 const koppsCourseData = require('../apiCalls/koppsCourseData')
-const { getCourseEmployees } = require('../apiCalls/ugRedisApi')
+const ugRedisApi = require('../apiCalls/ugRedisApi')
 
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
@@ -58,59 +58,59 @@ function isValidData(dataObject, language, setEmpty = false) {
 // }
 
 // async function _getCourseEmployees(req, res, next) {
-async function _getCourseEmployees(key, type, roundsKeys) {
-  // let key = req.params.key
-  // const type = req.params.type
-  key = key.replace(/_/g, '.')
-  switch (type) {
-    //* *************************************************************************************************************/
-    //* *** Retuns two lists with teachers and reponsibles for each course round.
-    //* *** The keys are built up with: course code.year+semester.roundId (example: SF1624.20182.1)
-    //* *************************************************************************************************************/
-    case 'multi':
-      try {
-        // const roundsKeys = JSON.parse(req.body.params)
-        log.debug('_getCourseEmployees with key: ' + roundsKeys)
+// async function _getCourseEmployees(key, type, roundsKeys) {
+//   // let key = req.params.key
+//   // const type = req.params.type
+//   key = key.replace(/_/g, '.')
+//   switch (type) {
+//     //* *************************************************************************************************************/
+//     //* *** Retuns two lists with teachers and reponsibles for each course round.
+//     //* *** The keys are built up with: course code.year+semester.roundId (example: SF1624.20182.1)
+//     //* *************************************************************************************************************/
+//     case 'multi':
+//       try {
+//         // const roundsKeys = JSON.parse(req.body.params)
+//         log.debug('_getCourseEmployees with key: ' + roundsKeys)
 
-        await redis('ugRedis', serverConfig.cache.ugRedis.redis)
-          .then(function (ugClient) {
-            return ugClient.multi().mget(roundsKeys.teachers).mget(roundsKeys.responsibles).execAsync()
-          })
-          .then(function (returnValue) {
-            // return httpResponse.json(res, returnValue)
-            return returnValue
-          })
-          .catch(function (err) {
-            throw err
-          })
-      } catch (err) {
-        // log.error('Exception calling from ugRedis - multi', { error: err })
-        throw err
-        // next(err)
-      }
-      break
-    //* ********************************************************/
-    //* *** Retuns a list with examiners. Key is course code ***/
-    //* ********************************************************/
-    case 'examiners':
-      try {
-        await redis('ugRedis', serverConfig.cache.ugRedis.redis)
-          .then(function (ugClient) {
-            return ugClient.getAsync(key + '.examiner')
-          })
-          .then(function (returnValue) {
-            return httpResponse.json(res, returnValue)
-          })
-          .catch(function (err) {
-            throw err
-          })
-      } catch (err) {
-        // log.error('Exception calling from ugRedis - examiners ', { error: err })
-        throw err
-        // next(err)
-      }
-  }
-}
+//         await redis('ugRedis', serverConfig.cache.ugRedis.redis)
+//           .then(function (ugClient) {
+//             return ugClient.multi().mget(roundsKeys.teachers).mget(roundsKeys.responsibles).execAsync()
+//           })
+//           .then(function (returnValue) {
+//             // return httpResponse.json(res, returnValue)
+//             return returnValue
+//           })
+//           .catch(function (err) {
+//             throw err
+//           })
+//       } catch (err) {
+//         // log.error('Exception calling from ugRedis - multi', { error: err })
+//         throw err
+//         // next(err)
+//       }
+//       break
+//     //* ********************************************************/
+//     //* *** Retuns a list with examiners. Key is course code ***/
+//     //* ********************************************************/
+//     case 'examiners':
+//       try {
+//         await redis('ugRedis', serverConfig.cache.ugRedis.redis)
+//           .then(function (ugClient) {
+//             return ugClient.getAsync(key + '.examiner')
+//           })
+//           .then(function (returnValue) {
+//             return httpResponse.json(res, returnValue)
+//           })
+//           .catch(function (err) {
+//             throw err
+//           })
+//       } catch (err) {
+//         // log.error('Exception calling from ugRedis - examiners ', { error: err })
+//         throw err
+//         // next(err)
+//       }
+//   }
+// }
 
 async function _getCourseEmployeesPost(roundsKeys, key, type = 'multi', lang = 'sv') {
   return _getCourseEmployees(key, type, roundsKeys)
@@ -146,6 +146,12 @@ async function _getCourseEmployeesPost(roundsKeys, key, type = 'multi', lang = '
 //     next(err)
 //   }
 // }
+
+async function _getCourseEmployees(req, res, next) {
+  const apiMemoData = req.body
+  const courseEmployees = await ugRedisApi.getCourseEmployees(apiMemoData)
+  res.send(courseEmployees)
+}
 
 async function _getKoppsCourseData(req, res, next) {
   const courseCode = req.params.courseCode
@@ -670,6 +676,14 @@ async function getIndex(req, res, next) {
       }
     }
 
+    const apiMemoData = {
+      courseCode,
+      semester: '',
+      ladokRoundIds: []
+    }
+    const ugRedisApiResponse = await ugRedisApi.getCourseEmployees(apiMemoData)
+    routerStore.courseData.courseInfo.course_examiners = ugRedisApiResponse.examiners
+
     // await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, ldapUser, lang)
     // await renderProps.props.children.props.routerStore.getCourseAdminInfo(courseCode, lang)
     // await renderProps.props.children.props.routerStore.getCourseEmployeesPost(courseCode, 'multi')
@@ -732,7 +746,7 @@ module.exports = {
   getIndex,
   // getSellingText: co.wrap(_getSellingText),
   // getCourseEmployees: co.wrap(_getCourseEmployees),
-  getCourseEmployees,
+  getCourseEmployees: _getCourseEmployees,
   getKoppsCourseData: co.wrap(_getKoppsCourseData)
   // getMemoFileList: co.wrap(_getMemoFileList)
 }
