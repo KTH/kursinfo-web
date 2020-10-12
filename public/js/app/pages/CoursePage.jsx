@@ -17,7 +17,7 @@ import SideMenu from '../components/SideMenu'
 
 const breadcrumbs = (translation, language, courseCode) => {
   return (
-    <nav lang={language} aria-label={translation.breadCrumbLabels.breadcrumbs}>
+    <nav lang={language} aria-label={translation.breadCrumbLabels.breadcrumbs} className="secondaryMenu">
       <Breadcrumb>
         <BreadcrumbItem>
           <a href={breadcrumbLinks.university[language]}>{translation.breadCrumbLabels.university}</a>
@@ -186,14 +186,12 @@ class CoursePage extends Component {
       <div key="kursinfo-container" className="col" id="kursinfo-main-page">
         <Row>{breadcrumbs(translation, language, routerStore.courseCode)}</Row>
         <Row id="pageContainer" key="pageContainer">
-          <Col lg="3" className="side-menu">
-            <SideMenu
-              courseCode={routerStore.courseCode}
-              labels={translation.courseLabels.sideMenu}
-              language={language}
-            />
-          </Col>
-          <main className="col-lg-9" id="middle" key="middle" aria-labelledby="page-course-title">
+          <SideMenu
+            courseCode={routerStore.courseCode}
+            labels={translation.courseLabels.sideMenu}
+            language={language}
+          />
+          <main className="col" id="mainContent" aria-labelledby="page-course-title">
             {/** ************************************************************************************************************ */}
             {/*                                                   INTRO                                                     */}
             {/** ************************************************************************************************************ */}

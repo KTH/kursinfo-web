@@ -826,6 +826,9 @@ class RouterStore {
       if (Object.keys(window.__initialState__).length === 0) {
         window.__initialState__ = 'Mobx store state initialized'
       }
+
+      require('../../../../node_modules/kth-style/dist/js/menus')
+      require('../../../../node_modules/kth-style/dist/js/backtotop')
     }
   }
 }

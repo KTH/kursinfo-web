@@ -1,5 +1,5 @@
 module.exports = {
-  shortNames: [ 'en' ],
+  shortNames: ['en'],
   longNameSe: 'Engelska',
   longNameEn: 'English',
   messages: {
@@ -12,9 +12,10 @@ module.exports = {
      * Error messages
      */
 
-    error_not_found: 'Sorry, we can\'t find your requested page',
+    error_not_found: "Sorry, we can't find your requested page",
     error_course_not_found: 'There is no course with this course code ',
-    error_generic: 'Something went wrong when loading this page. Please try again later. Contact IT support if the problem remains.',
+    error_generic:
+      'Something went wrong when loading this page. Please try again later. Contact IT support if the problem remains.',
 
     /**
      * Message keys
@@ -25,8 +26,12 @@ module.exports = {
     locale_text: 'Course information in English',
     site_name: 'Course information',
     host_name: 'KTH',
-    page_student: 'STUDENT AT KTH',
-    page_course_programme: 'COURSE AND PROGRAMME DIRECTORY'
+    page_student: 'Student at KTH',
+
+    button_mobile_menu_label: 'Open/close the mobile menu',
+    mobile_menu_aria_label: 'Mobile menu',
+
+    skip_to_main_content: 'Skip to main content'
   },
   breadCrumbLabels: {
     breadcrumbs: 'Breadcrumbs',
@@ -44,7 +49,8 @@ module.exports = {
     label_course_syllabus_valid_from: 'Valid from',
     label_course_syllabus_valid_to: 'to end of ',
     header_no_syllabus: 'Course syllabus and course offering missing',
-    label_no_syllabus: 'Course syllabus missing, showing available course information. Course offering also missing for current semester as well as for previous and coming semesters',
+    label_no_syllabus:
+      'Course syllabus missing, showing available course information. Course offering also missing for current semester as well as for previous and coming semesters',
     label_programme_year: 'year ',
     label_postgraduate_course: 'Postgraduate courses at ',
     label_course_cancelled: 'This course has been cancelled.',
@@ -85,9 +91,12 @@ module.exports = {
     no_memo: 'No course memo added ',
     no_memo_connection: 'Course memo cannot be displayed',
     header_no_round_selected: 'Choose semester and course offering',
-    no_round_selected: 'Choose semester and course offering to see information from the correct course syllabus and course offering.',
-    round_seats_info: 'Course offering may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made.',
-    syllabus_info: '<p>• A course goes different course offerings. To see information about a specific course offering, choose semester and course offering. The course syllabus information will be updated depending on the chosen semester. Information from the course syllabus is marked with *.</p><p>• Please note: regulations in course syllabus are rules that are generally applicable and binding for both employees and students.</p><p>• If you have not chosen semester and course offering, you will see course information from the current or future course syllabus. The valid period of the course syllabus is stated on the page.</p>',
+    no_round_selected:
+      'Choose semester and course offering to see information from the correct course syllabus and course offering.',
+    round_seats_info:
+      'Course offering may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made.',
+    syllabus_info:
+      '<p>• A course goes different course offerings. To see information about a specific course offering, choose semester and course offering. The course syllabus information will be updated depending on the chosen semester. Information from the course syllabus is marked with *.</p><p>• Please note: regulations in course syllabus are rules that are generally applicable and binding for both employees and students.</p><p>• If you have not chosen semester and course offering, you will see course information from the current or future course syllabus. The valid period of the course syllabus is stated on the page.</p>',
     sideMenu: {
       aria_label: 'Sub menu',
       page_about_course: 'About course',
@@ -113,7 +122,8 @@ module.exports = {
     course_literature_comment: 'Literature comment',
     course_examination_comments: 'Examination comment *',
     course_examination: 'Examination *',
-    course_examination_disclaimer: '<p>If the course is discontinued, students may request to be examined during the following two academic years.</p>',
+    course_examination_disclaimer:
+      '<p>If the course is discontinued, students may request to be examined during the following two academic years.</p>',
     course_valid_from: 'Valid from',
     course_main_subject: 'Main field of study *',
     course_language: 'Language of instruction *',
@@ -147,7 +157,8 @@ module.exports = {
     course_recruitment_text: 'Abstract',
     course_application_info: 'Information for research students about course offerings',
     course_link: 'Course web',
-    course_link_text: '<p>Further information about the course can be found on the Course web at the link below. Information on the Course web will later be moved to this site. </p>'
+    course_link_text:
+      '<p>Further information about the course can be found on the Course web at the link below. Information on the Course web will later be moved to this site. </p>'
   },
   courseRoundInformation: {
     header_round: 'About course offering',
@@ -255,6 +266,5 @@ module.exports = {
       examination: 'Last planned examination: ',
       decision: 'Decision to discontinue this course: '
     }
-
   }
 }

@@ -1,5 +1,5 @@
 module.exports = {
-  shortNames: [ 'sv', 'se' ],
+  shortNames: ['sv', 'se'],
   longNameSe: 'Svenska',
   longNameEn: 'Swedish',
   messages: {
@@ -14,7 +14,8 @@ module.exports = {
 
     error_not_found: 'Tyvärr kunde vi inte hitta sidan du efterfrågade',
     error_course_not_found: 'Det finns ingen kurs med angiven kurskod ',
-    error_generic: 'Något gick fel vid hämtning av sidan. Försök igen senare. Kontakta IT-support om problemet kvarstår.',
+    error_generic:
+      'Något gick fel vid hämtning av sidan. Försök igen senare. Kontakta IT-support om problemet kvarstår.',
 
     /**
      * Message keys
@@ -26,9 +27,12 @@ module.exports = {
 
     site_name: 'Kursinformation',
     host_name: 'KTH',
-    page_student: 'STUDENT PÅ KTH',
-    page_course_programme: 'KURS- OCH PROGRAMKATALOGEN'
+    page_student: 'Student på KTH',
 
+    button_mobile_menu_label: 'Öppna/stäng mobilmenyn',
+    mobile_menu_aria_label: 'Mobilemeny',
+
+    skip_to_main_content: 'Hoppa till huvudinnehållet'
   },
   breadCrumbLabels: {
     breadcrumbs: 'Brödsmulor',
@@ -46,7 +50,8 @@ module.exports = {
     label_course_syllabus_valid_from: 'Gäller från och med',
     label_course_syllabus_valid_to: 'till slutet av ',
     header_no_syllabus: 'Kursplan och kursomgångar saknas',
-    label_no_syllabus: 'Kursplan saknas, kursinformationen som visas är övrig kursinformation. Även kursomgångar saknas för tidigare och kommande terminer, samt innevarande termin.',
+    label_no_syllabus:
+      'Kursplan saknas, kursinformationen som visas är övrig kursinformation. Även kursomgångar saknas för tidigare och kommande terminer, samt innevarande termin.',
     label_programme_year: 'Åk  ',
     label_postgraduate_course: 'Forskarkurser på ',
     label_course_cancelled: 'Detta är en nedlagd kurs.',
@@ -89,8 +94,10 @@ module.exports = {
     no_memo_connection: 'Kurs-pm kan inte visas',
     header_no_round_selected: 'Välj termin och kursomgång',
     no_round_selected: 'Välj termin och kursomgång för att se information från rätt kursplan och kursomgång.',
-    round_seats_info: 'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
-    syllabus_info: '<p>• En kurs undervisas i olika kursomgångar. För att se information om en specifik kursomgång behöver du välja termin och kursomgång. Information från kursplan kommer att uppdateras beroende på vald termin. Information från kursplan är markerad med *.</p><p>• Observera: bestämmelser i kursplaner är regler som är generellt tillämpbara och bindande för såväl anställda som studenter.</p><p>• Har du inte valt termin och kursomgång ser du kursinformation från nuvarande eller kommande kursplan. På sidan anges den period som information från kursplan gäller för.</p>',
+    round_seats_info:
+      'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
+    syllabus_info:
+      '<p>• En kurs undervisas i olika kursomgångar. För att se information om en specifik kursomgång behöver du välja termin och kursomgång. Information från kursplan kommer att uppdateras beroende på vald termin. Information från kursplan är markerad med *.</p><p>• Observera: bestämmelser i kursplaner är regler som är generellt tillämpbara och bindande för såväl anställda som studenter.</p><p>• Har du inte valt termin och kursomgång ser du kursinformation från nuvarande eller kommande kursplan. På sidan anges den period som information från kursplan gäller för.</p>',
     sideMenu: {
       aria_label: 'Undermeny',
       page_about_course: 'Om kursen ',
@@ -117,7 +124,8 @@ module.exports = {
     course_literature_comment: 'Kommentar till kurslitteratur',
     course_examination_comments: 'Kommentar till examinationsmoment *',
     course_examination: 'Examination *',
-    course_examination_disclaimer: '<p>När kurs inte längre ges har student möjlighet att examineras under ytterligare två läsår.</p>',
+    course_examination_disclaimer:
+      '<p>När kurs inte längre ges har student möjlighet att examineras under ytterligare två läsår.</p>',
     course_valid_from: 'Giltig från',
     course_main_subject: 'Huvudområde *',
     course_language: 'Undervisningsspråk *',
@@ -151,7 +159,8 @@ module.exports = {
     course_recruitment_text: 'Kort beskrivning svenska',
     course_application_info: 'Information för forskarstuderande om när kursen ges',
     course_link: 'Kurswebb',
-    course_link_text: '<p>Ytterligare information om kursen kan hittas på kurswebben via länken nedan. Information på kurswebben kommer framöver flyttas till denna sida. </p>'
+    course_link_text:
+      '<p>Ytterligare information om kursen kan hittas på kurswebben via länken nedan. Information på kurswebben kommer framöver flyttas till denna sida. </p>'
   },
   courseRoundInformation: {
     header_round: 'Om kursomgång',

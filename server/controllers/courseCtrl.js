@@ -700,10 +700,10 @@ async function getIndex(req, res, next) {
       // breadcrumbsPath: breadcrumbs,
       debug: 'debug' in req.query,
       instrumentationKey: serverConfig.appInsights.instrumentationKey,
-      html: html,
+      html,
       title: courseCode.toUpperCase(),
       initialState: JSON.stringify(hydrateStores(renderProps)),
-      lang: lang,
+      lang,
       description:
         lang === 'sv'
           ? 'KTH kursinformation för ' + courseCode.toUpperCase()

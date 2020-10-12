@@ -14,25 +14,14 @@
   padding: 15px 15px 0 !important;
 }
 
-.breadcrumb {
-  background-color: transparent;
+@media (max-width: 991.98px) {
+  nav.secondaryMenu {
+    display: none;
+  }
 }
 
-.left-side-menu {
-  margin-top: 20px;
-  width: 100%;
-
-  a.sideMenuLink {
-    color: #000000;
-    width: 100%;
-    //   &:after {
-    //       content: '>'
-    //   }
-  }
-
-  .active {
-    font-weight: 700;
-  }
+.breadcrumb {
+  background-color: transparent;
 }
 
 #course-title {
