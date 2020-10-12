@@ -179,7 +179,7 @@ class CoursePage extends Component {
       course_contact_name: courseData.courseInfo.course_contact_name,
       course_main_subject: courseData.courseInfo.course_main_subject,
       course_level_code: courseData.courseInfo.course_level_code,
-      course_valid_from: courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from
+      course_valid_from: courseData.syllabusList[routerStore.activeSyllabusIndex || 0].course_valid_from
     }
 
     return (
