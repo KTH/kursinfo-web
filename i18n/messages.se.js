@@ -25,7 +25,7 @@ module.exports = {
     lang_block_id: '1.272446',
     locale_text: 'Kursinformation på svenska',
 
-    site_name: 'Kursinformation',
+    site_name: 'Om kursen',
     host_name: 'KTH',
     page_student: 'Student på KTH',
 

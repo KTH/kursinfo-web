@@ -15,6 +15,8 @@ import CourseSectionList from '../components/CourseSectionList'
 import InfoModal from '../components/InfoModal'
 import SideMenu from '../components/SideMenu'
 
+const aboutCourseStr = (translate, courseCode = '') => `${translate.site_name} ${courseCode}`
+
 const breadcrumbs = (translation, language, courseCode) => {
   return (
     <nav lang={language} aria-label={translation.breadCrumbLabels.breadcrumbs} className="secondaryMenu">
@@ -56,6 +58,19 @@ class CoursePage extends Component {
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     // this.toggle = this.toggle.bind(this)
     this.handleSemesterDropdownSelect = this.handleSemesterDropdownSelect.bind(this)
+  }
+
+  componentDidMount() {
+    const { routerStore } = this.props
+    const courseData = routerStore.courseData || {
+      courseInfo: { course_application_info: [] },
+      syllabusSemesterList: []
+    }
+    if (!courseData.language) courseData.language = 'sv'
+    const { language } = courseData
+    const translation = i18n.messages[language === 'en' ? 0 : 1]
+    const siteNameElement = document.querySelector('.block.siteName a')
+    if (siteNameElement) siteNameElement.textContent = aboutCourseStr(translation.messages, routerStore.courseCode)
   }
 
   componentDidUpdate() {
