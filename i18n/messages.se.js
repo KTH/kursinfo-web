@@ -78,6 +78,7 @@ module.exports = {
     },
     header_dropdown_menu_navigation: 'Välj termin och kursomgång',
     header_dropdown_menue: 'Gäller för',
+    header_dropdown_menu_aria_label: 'Information om val av termin och kursomgång',
     header_course_info: 'Kursinformation',
     header_content: 'Innehåll och lärandemål',
     header_execution: 'Kurslitteratur och förberedelser',

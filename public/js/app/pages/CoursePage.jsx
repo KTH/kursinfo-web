@@ -254,6 +254,7 @@ class CoursePage extends Component {
                           infoText={translation.courseLabels.syllabus_info}
                           type="html"
                           closeLabel={translation.courseLabels.label_close}
+                          ariaLabel={translation.courseLabels.header_dropdown_menu_aria_label}
                         />
                       </h2>
                       <div className="row" id="roundDropdowns" key="roundDropdown">
