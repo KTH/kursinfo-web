@@ -368,6 +368,35 @@ class CoursePage extends Component {
                       )}
                     </div>
                   )}
+                  <aside id="syllabusContainer">
+                    <h3 className="t4">{translation.courseLabels.label_syllabus_pdf_header}</h3>
+                    <p>{translation.courseLabels.label_syllabus_pdf_info}</p>
+                    <a
+                      href={`${SYLLABUS_URL}${routerStore.courseCode}-${courseData.syllabusList[
+                        routerStore.activeSyllabusIndex
+                      ].course_valid_from.join('')}.pdf?lang=${language}`}
+                      id={
+                        courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from.join('') + '_active'
+                      }
+                      target="_blank"
+                      rel="noreferrer"
+                      className="pdf-link pdf-link-fix"
+                    >
+                      {`${translation.courseLabels.label_syllabus_link}${routerStore.courseCode}${` (${
+                        translation.courseInformation.course_short_semester[
+                          courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[1]
+                        ]
+                      }${courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[0]}–${
+                        courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to.length > 0
+                          ? translation.courseInformation.course_short_semester[
+                              courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to[1]
+                            ] +
+                            '' +
+                            courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to[0]
+                          : ''
+                      })`}`}
+                    </a>
+                  </aside>
                 </Col>
 
                 {/** ************************************************************************************************************ */}
@@ -397,50 +426,21 @@ class CoursePage extends Component {
                               className={` fade-container ${routerStore.syllabusInfoFade === true ? ' fadeOutIn' : ''}`}
                             >
                               {courseData.syllabusSemesterList.length > 0 ? (
-                                <span>
-                                  <b>{translation.courseLabels.label_course_syllabus}</b>
-                                  <a
-                                    href={`${SYLLABUS_URL}${routerStore.courseCode}-${courseData.syllabusList[
-                                      routerStore.activeSyllabusIndex
-                                    ].course_valid_from.join('')}.pdf?lang=${language}`}
-                                    id={
-                                      courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from.join(
-                                        ''
-                                      ) + '_active'
-                                    }
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="pdf-link"
-                                  >
-                                    {translation.courseLabels.label_syllabus_link}
-                                    <span className="small-text">
-                                      {` 
-                                        ( 
-                                        ${
-                                          translation.courseInformation.course_short_semester[
-                                            courseData.syllabusList[routerStore.activeSyllabusIndex]
-                                              .course_valid_from[1]
-                                          ]
-                                        }  ${
-                                        courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[0]
-                                      } -
-                                        ${
-                                          courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to
-                                            .length > 0
-                                            ? translation.courseInformation.course_short_semester[
-                                                courseData.syllabusList[routerStore.activeSyllabusIndex]
-                                                  .course_valid_to[1]
-                                              ] +
-                                              ' ' +
-                                              courseData.syllabusList[routerStore.activeSyllabusIndex]
-                                                .course_valid_to[0]
-                                            : ''
-                                        } 
-                                        )
-                                      `}
-                                    </span>
-                                  </a>
-                                </span>
+                                <span>{`${translation.courseLabels.label_course_syllabus} ${
+                                  translation.courseLabels.label_syllabus_link
+                                }${routerStore.courseCode}${` (${
+                                  translation.courseInformation.course_short_semester[
+                                    courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[1]
+                                  ]
+                                }${courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[0]}–${
+                                  courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to.length > 0
+                                    ? translation.courseInformation.course_short_semester[
+                                        courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to[1]
+                                      ] +
+                                      '' +
+                                      courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to[0]
+                                    : ''
+                                })`}`}</span>
                               ) : (
                                 ''
                               )}

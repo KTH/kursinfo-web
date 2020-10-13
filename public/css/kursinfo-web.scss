@@ -253,16 +253,21 @@ a.right-link {
 }
 
 #roundInformationContainer {
-  //margin-top: 10px;
   padding-left: 0px;
   .key-info {
-    padding: 20px;
+    padding: 0 20px 20px 20px;
     background: #f6f6f6;
     //margin-top: 10px;
   }
   .btn-info-modal {
     margin-left: 5px;
   }
+}
+
+#syllabusContainer {
+  margin-top: 30px;
+  padding: 0.5px 20px 20px 20px;
+  background: #f6f6f6;
 }
 
 .key-info {
@@ -316,10 +321,13 @@ a.right-link {
   padding-top: 30px;
 }
 
-a.pdf-link {
-  margin: 0;
+.pdf-link-fix {
+  margin-left: 0;
+  margin-right: 0.5rem;
   &::before {
-    margin-right: 0;
+    margin-top: 0.5em;
+    margin-right: 0.1em;
+    margin-bottom: 0.6em;
     margin-left: 0;
   }
 }
@@ -334,14 +342,6 @@ a.editButton {
     background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
     transform: rotate(180deg);
   }
-}
-a.pdf-link:before {
-  content: '';
-  height: 1.3em;
-  width: 1.3em;
-  display: inline-block;
-  vertical-align: middle;
-  background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/file-pdf-fa-regular.svg) no-repeat;
 }
 
 a.editButton {

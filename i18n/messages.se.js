@@ -46,7 +46,10 @@ module.exports = {
     label_course_description: 'Kursbeskrivning',
     label_course_information: 'Kursinformation',
     label_syllabus_link: 'Kursplan ',
-    label_course_syllabus: '* Hämtad från ',
+    label_syllabus_pdf_header: 'Kursplan som PDF',
+    label_syllabus_pdf_info:
+      'Notera: all information från Kursplanen visas i tillgängligt format på denna sida (se rubriker markerade med *)',
+    label_course_syllabus: '* Informationen tillhör',
     label_course_syllabus_valid_from: 'Gäller från och med',
     label_course_syllabus_valid_to: 'till slutet av ',
     header_no_syllabus: 'Kursplan och kursomgångar saknas',
