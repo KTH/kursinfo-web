@@ -74,7 +74,7 @@ module.exports = {
       CANCELLED: 'This offering is cancelled',
       FULL: 'This offering is full'
     },
-    header_dropdown_menu_navigation: 'Choose course offering',
+    header_dropdown_menu_navigation: 'Choose semester and course offering',
     header_dropdown_menue: 'Valid for',
     header_course_info: 'Course information',
     header_content: 'Content and learning outcomes',

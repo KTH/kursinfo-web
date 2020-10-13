@@ -76,7 +76,7 @@ module.exports = {
       CANCELLED: 'Kursomgång inställd',
       FULL: 'Kursomgång fullsatt'
     },
-    header_dropdown_menu_navigation: 'Välj kursomgång',
+    header_dropdown_menu_navigation: 'Välj termin och kursomgång',
     header_dropdown_menue: 'Gäller för',
     header_course_info: 'Kursinformation',
     header_content: 'Innehåll och lärandemål',
