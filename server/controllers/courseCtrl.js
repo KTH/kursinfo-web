@@ -19,6 +19,7 @@ const paths = require('../server').getPaths()
 const api = require('../api')
 
 const { EMPTY, PROGRAMME_URL, MAX_1_MONTH, MAX_2_MONTH } = require('../util/constants')
+const i18n = require('../../i18n')
 
 function _staticRender(context, location) {
   if (process.env.NODE_ENV === 'development') {
@@ -378,14 +379,14 @@ function _getRoundProgramme(programmes, language = 0) {
   return programmeString
 }
 
-function _getRoundPeriodes(periodeList, language = 0) {
+function _getRoundPeriodes(periodeList, language = 'sv') {
   var periodeString = ''
   if (periodeList) {
     if (periodeList.length > 1) {
       periodeList.map((periode) => {
         return (periodeString += `<p class="periode-list">
                               ${
-                                i18n.messages[language].courseInformation.course_short_semester[
+                                i18n.messages[language === 'en' ? 0 : 1].courseInformation.course_short_semester[
                                   periode.term.term.toString().match(/.{1,4}/g)[1]
                                 ]
                               } 
