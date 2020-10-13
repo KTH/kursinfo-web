@@ -1,34 +1,36 @@
-import React, { Component } from 'react'
+/* eslint-disable react/no-danger */
+import React from 'react'
+import { FaAsterisk } from 'react-icons/fa'
 
-class CourseSection extends Component {
-  render() {
-    const header = this.props.sectionHeader || ''
-    const courseData = this.props.courseData || []
-    const sectionId = this.props.sectionId || ''
-    const style = this.props.class
-    return (
-      <section className="col-12" id={sectionId} aria-labelledby={`${sectionId}-header`}>
-        <div>
-          {header.length > 0 ? (
-            <h2 id={`${sectionId}-header`} className={style}>
-              {header}
-            </h2>
-          ) : (
-            ''
-          )}
-          {courseData.map((data, index) => {
-            if (!data.text) return null
-            return (
-              <span key={data.header + '-' + index} className="word-break">
-                <h3>{data.header}</h3>
-                <p dangerouslySetInnerHTML={{ __html: data.text }} />
-              </span>
-            )
-          })}
-        </div>
-      </section>
-    )
-  }
+const syllabusMarker = (data, syllabusMarkerAriaLabel) => (
+  <h3>
+    {data.header}
+    {data.syllabusMarker && (
+      <sup>
+        <FaAsterisk className="syllabus-marker-icon" aria-label={syllabusMarkerAriaLabel} />
+      </sup>
+    )}
+  </h3>
+)
+
+const CourseSection = ({ header = '', courseData = [], sectionId = '', class: style, syllabusMarkerAriaLabel }) => {
+  return (
+    <section className="col-12" id={sectionId} aria-labelledby={`${sectionId}-header`}>
+      {header.length ? (
+        <h2 id={`${sectionId}-header`} className={style}>
+          {header}
+        </h2>
+      ) : null}
+      {courseData.map((data) =>
+        data.text ? (
+          <span key={data.header} className="word-break">
+            {data.header && syllabusMarker(data, syllabusMarkerAriaLabel)}
+            <p dangerouslySetInnerHTML={{ __html: data.text }} />
+          </span>
+        ) : null
+      )}
+    </section>
+  )
 }
 
 export default CourseSection

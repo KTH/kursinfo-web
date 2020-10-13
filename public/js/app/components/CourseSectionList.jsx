@@ -13,19 +13,18 @@ class CourseSectionList extends Component {
     super(props)
 
     this.state = {
+      // eslint-disable-next-line react/destructuring-assignment
       store: this.props.routerStore.courseData || {}
-      // syllabusList: (this.props.syllabusList && this.props.syllabusList[0]) || []
     }
   }
 
   getContent(translation) {
-    const syllabus = this.props.syllabusList || {}
-    const course = this.props.courseInfo || {}
-    const language = this.state.store.language || 1
+    const { syllabusList } = this.props
+    const { syllabus = {}, course = {}, language = 1 } = syllabusList
 
     const content = [
-      { header: translation.courseInformation.course_content, text: syllabus.course_content },
-      { header: translation.courseInformation.course_goals, text: syllabus.course_goals }
+      { header: translation.courseInformation.course_content, text: syllabus.course_content, syllabusMarker: true },
+      { header: translation.courseInformation.course_goals, text: syllabus.course_goals, syllabusMarker: true }
     ]
     if (course.course_disposition !== EMPTY[language]) {
       content.push({ header: translation.courseInformation.course_disposition, text: course.course_disposition })
@@ -37,9 +36,10 @@ class CourseSectionList extends Component {
   }
 
   getExecution(translation) {
-    const course = this.props.courseInfo || {}
-    const syllabus = this.props.syllabusList || {}
-    const language = this.state.store.language || 1
+    const { course = {} } = this.props
+    const { syllabusList: syllabus = {} } = this.props
+    const { store } = this.state
+    const { language = 1 } = store
 
     let literatureText =
       course.course_literature !== EMPTY[language] ? course.course_literature : syllabus.course_literature
@@ -50,15 +50,19 @@ class CourseSectionList extends Component {
           : syllabus.course_literature_comment
     }
     // Fix for course_required_equipment change in Kopps, moved from syllabus to course in newer course versions
-    const course_required_equipment =
+    const courseRequiredEquipment =
       course.course_required_equipment !== EMPTY[language]
         ? course.course_required_equipment
         : syllabus.course_required_equipment
 
     const during = [
-      { header: translation.courseInformation.course_eligibility, text: syllabus.course_eligibility },
+      {
+        header: translation.courseInformation.course_eligibility,
+        text: syllabus.course_eligibility,
+        syllabusMarker: true
+      },
       { header: translation.courseInformation.course_prerequisites, text: course.course_prerequisites },
-      { header: translation.courseInformation.course_required_equipment, text: course_required_equipment },
+      { header: translation.courseInformation.course_required_equipment, text: courseRequiredEquipment },
       { header: translation.courseInformation.course_literature, text: literatureText }
     ]
 
@@ -66,20 +70,27 @@ class CourseSectionList extends Component {
   }
 
   getExamination(translation) {
-    const course = this.props.courseInfo || {}
-    const syllabus = this.props.syllabusList || {}
-    const language = this.state.store.language || 1
+    const { courseInfo: course = {}, syllabusList: syllabus = {} } = this.props
     const examination = [
       { header: '', text: translation.courseInformation.course_examination_disclaimer },
-      { header: translation.courseInformation.course_grade_scale, text: course.course_grade_scale },
-      { header: translation.courseInformation.course_examination, text: syllabus.course_examination },
-      { header: '', text: syllabus.course_examination_comments }
+      {
+        header: translation.courseInformation.course_grade_scale,
+        text: course.course_grade_scale,
+        syllabusMarker: true
+      },
+      {
+        header: translation.courseInformation.course_examination,
+        text: syllabus.course_examination,
+        syllabusMarker: true
+      },
+      { header: '', text: syllabus.course_examination_comments, syllabusMarker: true }
     ]
 
     if (syllabus.course_requirments_for_final_grade && syllabus.course_requirments_for_final_grade.length > 0) {
       examination.push({
         header: translation.courseInformation.course_requirments_for_final_grade,
-        text: syllabus.course_requirments_for_final_grade
+        text: syllabus.course_requirments_for_final_grade,
+        syllabusMarker: true
       })
     }
     examination.push({
@@ -91,20 +102,29 @@ class CourseSectionList extends Component {
       text: course.course_possibility_to_addition
     })
     examination.push({ header: translation.courseInformation.course_examiners, text: course.course_examiners })
-    examination.push({ header: translation.courseInformation.course_ethical, text: syllabus.course_ethical })
+    examination.push({
+      header: translation.courseInformation.course_ethical,
+      text: syllabus.course_ethical,
+      syllabusMarker: true
+    })
     return examination
   }
 
   getOther(translation) {
-    const course = this.props.courseInfo || {}
-    const syllabus = this.props.syllabusList || {}
-    const language = this.state.store.language || 1
-    let prepare = [
+    const { courseInfo: course = {}, syllabusList: syllabus = {} } = this.props
+    const { store } = this.state
+    const { language = 1 } = store
+    const prepare = [
       { header: translation.courseInformation.course_department, text: course.course_department_link },
-      { header: translation.courseInformation.course_main_subject, text: course.course_main_subject },
+      {
+        header: translation.courseInformation.course_main_subject,
+        text: course.course_main_subject,
+        syllabusMarker: true
+      },
       {
         header: translation.courseInformation.course_level_code,
-        text: translation.courseInformation.course_level_code_label[course.course_level_code]
+        text: translation.courseInformation.course_level_code_label[course.course_level_code],
+        syllabusMarker: true
       },
       {
         header: translation.courseInformation.course_suggested_addon_studies,
@@ -116,7 +136,8 @@ class CourseSectionList extends Component {
     if (syllabus.course_transitional_reg !== '')
       prepare.push({
         header: translation.courseInformation.course_transitional_reg,
-        text: syllabus.course_transitional_reg
+        text: syllabus.course_transitional_reg,
+        syllabusMarker: true
       })
     if (course.course_supplemental_information !== EMPTY[language])
       prepare.push({
@@ -146,7 +167,8 @@ class CourseSectionList extends Component {
     if (syllabus.course_additional_regulations !== '')
       prepare.push({
         header: translation.courseInformation.course_additional_regulations,
-        text: syllabus.course_additional_regulations
+        text: syllabus.course_additional_regulations,
+        syllabusMarker: true
       })
 
     // if (syllabus.course_transitional_reg !== EMPTY[language]) prepare.push({header: translation.courseInformation.course_transitional_reg, text: syllabus.course_transitional_reg})
@@ -154,39 +176,40 @@ class CourseSectionList extends Component {
   }
 
   render() {
-    const { routerStore } = this.props
-    const language = this.state.store.language || 'sv'
+    const { store } = this.state
+    const { language = 'sv' } = store
     const translation = i18n.messages[language === 'en' ? 0 : 1]
+    const { partToShow } = this.props
     return (
-      <section
-        className="row"
-        id={this.props.partToShow}
-        aria-label={translation.courseLabels.label_course_information}
-      >
+      <section className="row" id={partToShow} aria-label={translation.courseLabels.label_course_information}>
         <CourseSection
           sectionHeader={translation.courseLabels.header_content}
           headerType="3"
           className="first-header"
           courseData={this.getContent(translation)}
           sectionId="Content"
+          syllabusMarkerAriaLabel={translation.courseLabels.syllabus_marker_aria_label}
         />
         <CourseSection
           sectionHeader={translation.courseLabels.header_execution}
           headerType="3"
           courseData={this.getExecution(translation)}
           sectionId="Execution"
+          syllabusMarkerAriaLabel={translation.courseLabels.syllabus_marker_aria_label}
         />
         <CourseSection
           sectionHeader={translation.courseLabels.header_examination}
           headerType="3"
           courseData={this.getExamination(translation)}
           sectionId="Examination"
+          syllabusMarkerAriaLabel={translation.courseLabels.syllabus_marker_aria_label}
         />
         <CourseSection
           sectionHeader={translation.courseLabels.header_further}
           headerType="3"
           courseData={this.getOther(translation)}
           sectionId="Other"
+          syllabusMarkerAriaLabel={translation.courseLabels.syllabus_marker_aria_label}
         />
       </section>
     )

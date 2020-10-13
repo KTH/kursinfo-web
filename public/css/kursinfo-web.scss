@@ -388,6 +388,19 @@ a.editButton {
   background: top left / 1em auto no-repeat url('https://app.kth.se/style/kth-style/img/kth-style/icons/back-link.svg');
 }
 
+.syllabus-marker-icon {
+  height: 0.7rem;
+  margin-right: 0.5rem;
+  vertical-align: baseline;
+  width: 0.7rem;
+}
+
+sup {
+  .syllabus-marker-icon {
+    margin-left: 0.3rem;
+  }
+}
+
 /************************************************/
 
 /* Animation */
