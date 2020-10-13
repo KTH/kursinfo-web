@@ -191,7 +191,7 @@ class CoursePage extends Component {
             labels={translation.courseLabels.sideMenu}
             language={language}
           />
-          <main className="col" id="mainContent" aria-labelledby="page-course-title">
+          <main className="col" id="mainContent">
             {/** ************************************************************************************************************ */}
             {/*                                                   INTRO                                                     */}
             {/** ************************************************************************************************************ */}
