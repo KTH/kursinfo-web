@@ -464,9 +464,7 @@ function _getRound(roundObject, language = 0) {
         : EMPTY[language]
   }
   if (courseRoundModel.round_short_name === EMPTY[language]) {
-    courseRoundModel.round_short_name = `${language === 0 ? 'Start date' : 'Startdatum'}  ${
-      courseRoundModel.round_start_date
-    }`
+    courseRoundModel.round_short_name = `${language === 0 ? 'Start' : 'Start'}  ${courseRoundModel.round_start_date}`
   }
 
   return courseRoundModel
