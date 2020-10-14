@@ -417,8 +417,7 @@ function _getRoundSeats(max, min, language) {
 }
 
 function _getDateFormat(date, language) {
-  console
-  if (date === EMPTY[language] || language === 1) {
+  if (date === EMPTY[language] || language === 'sv') {
     return date
   }
   const splitDate = date.split('-')
