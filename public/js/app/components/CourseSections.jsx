@@ -13,7 +13,13 @@ const syllabusMarker = (data, syllabusMarkerAriaLabel) => (
   </h3>
 )
 
-const CourseSection = ({ header = '', courseData = [], sectionId = '', class: style, syllabusMarkerAriaLabel }) => {
+const CourseSection = ({
+  sectionHeader: header = '',
+  courseData = [],
+  sectionId = '',
+  class: style,
+  syllabusMarkerAriaLabel
+}) => {
   return (
     <section className="col-12" id={sectionId} aria-labelledby={`${sectionId}-header`}>
       {header.length ? (

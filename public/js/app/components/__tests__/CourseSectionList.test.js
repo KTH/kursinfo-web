@@ -9,7 +9,7 @@ describe('Component <CourseSectionList>', () => {
     const routerStore = {}
     render(
       <Provider routerStore={routerStore}>
-        <CourseSectionList />
+        <CourseSectionList syllabusList={[]} />
       </Provider>
     )
   })
