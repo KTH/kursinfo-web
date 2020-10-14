@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react'
 import i18n from '../../../../i18n'
 import CourseSection from './CourseSections'
 
-import { EMPTY } from '../util/constants'
+const EMPTY = { en: 'No information inserted', sv: 'Ingen information tillagd' }
 
 @inject(['routerStore'])
 @observer
@@ -20,7 +20,7 @@ class CourseSectionList extends Component {
 
   getContent(translation) {
     const { syllabusList } = this.props
-    const { syllabus = {}, course = {}, language = 1 } = syllabusList
+    const { syllabus = {}, course = {}, language = 'sv' } = syllabusList
 
     const content = [
       { header: translation.courseInformation.course_content, text: syllabus.course_content, syllabusMarker: true },
@@ -36,13 +36,17 @@ class CourseSectionList extends Component {
   }
 
   getExecution(translation) {
-    const { course = {} } = this.props
+    const { courseInfo: course = {} } = this.props
     const { syllabusList: syllabus = {} } = this.props
     const { store } = this.state
-    const { language = 1 } = store
+    const { language = 'sv' } = store
+
+    console.log('course', course)
+    console.log('course.course_literature', course.course_literature)
 
     let literatureText =
       course.course_literature !== EMPTY[language] ? course.course_literature : syllabus.course_literature
+    console.log('literatureText', literatureText)
     if (syllabus.course_literature_comment !== EMPTY[language]) {
       literatureText =
         literatureText !== EMPTY[language]
@@ -113,7 +117,7 @@ class CourseSectionList extends Component {
   getOther(translation) {
     const { courseInfo: course = {}, syllabusList: syllabus = {} } = this.props
     const { store } = this.state
-    const { language = 1 } = store
+    const { language = 'sv' } = store
     const prepare = [
       { header: translation.courseInformation.course_department, text: course.course_department_link },
       {
