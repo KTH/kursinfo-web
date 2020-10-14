@@ -191,33 +191,15 @@ appRoute.get(
   SyllabusPdf.getPdfProxy(config.nodeApi.kursplanApi, config.apiKey.kursplanApi)
 )
 
-// appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', Course.getIndex)
-
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', /* getServerGatewayLogin(),*/ Course.getIndex)
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/', noCourse.getIndex)
 
-// appRoute.get(
-//   'api.sellingText',
-//   config.proxyPrefixPath.uri + '/api/kursinfo/getSellingTextByCourse/:courseCode',
-//   Course.getSellingText
-// )
-// appRoute.get('api.setImage', '/api/kursinfo/setImageByCourse/:courseCode/:imageName', Course.setImage)
 appRoute.get(
   'api.koppsCourseData',
   config.proxyPrefixPath.uri + '/api/kursinfo/getKoppsCourseDataByCourse/:courseCode/:language',
   Course.getKoppsCourseData
 )
-// appRoute.get(
-//   'api.memoData',
-//   config.proxyPrefixPath.uri + '/api/kursinfo/getMemoFilesByCourse/:courseCode',
-//   Course.getMemoFileList
-// )
 appRoute.post('redis.ugCache', config.proxyPrefixPath.uri + '/reids/kursinfo/ugChache', Course.getCourseEmployees)
-// appRoute.post(
-//   'redis.ugCache',
-//   config.proxyPrefixPath.uri + '/reids/kursinfo/ugChache/:key/:type',
-//   Course.getCourseEmployees
-// )
 
 server.use('/', appRoute.getRouter())
 

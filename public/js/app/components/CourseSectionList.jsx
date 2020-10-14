@@ -51,7 +51,6 @@ class CourseSectionList extends Component {
           ? literatureText + '<br/>' + syllabus.course_literature_comment
           : syllabus.course_literature_comment
     }
-    // Fix for course_required_equipment change in Kopps, moved from syllabus to course in newer course versions
     const courseRequiredEquipment =
       course.course_required_equipment !== EMPTY[language]
         ? course.course_required_equipment
@@ -164,8 +163,6 @@ class CourseSectionList extends Component {
     } else {
       prepare.unshift({ header: translation.courseInformation.course_link, text: course.course_web_link })
     }
-    // New from kopps
-    // if (syllabus.course_decision_to_discontinue !== '') prepare.push({header: translation.courseInformation.course_decision_to_discontinue, text: syllabus.course_decision_to_discontinue})
     if (syllabus.course_additional_regulations !== '')
       prepare.push({
         header: translation.courseInformation.course_additional_regulations,
@@ -173,7 +170,6 @@ class CourseSectionList extends Component {
         syllabusMarker: true
       })
 
-    // if (syllabus.course_transitional_reg !== EMPTY[language]) prepare.push({header: translation.courseInformation.course_transitional_reg, text: syllabus.course_transitional_reg})
     return prepare
   }
 

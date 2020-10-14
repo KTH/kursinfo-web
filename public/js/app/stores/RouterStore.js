@@ -45,7 +45,7 @@ function getCourseDefaultInformation(courseResult, language) {
   return {
     course_code: isValidData(courseResult.course.courseCode),
     course_application_info: isValidData(courseResult.course.applicationInfo, language, true),
-    course_grade_scale: isValidData(courseResult.formattedGradeScales[courseResult.course.gradeScaleCode], language), // TODO: can this be an array?
+    course_grade_scale: isValidData(courseResult.formattedGradeScales[courseResult.course.gradeScaleCode], language),
     course_level_code: isValidData(courseResult.course.educationalLevelCode),
     course_main_subject:
       courseResult.mainSubjects && courseResult.mainSubjects.length > 0
@@ -73,14 +73,12 @@ function getCourseDefaultInformation(courseResult, language) {
       ? courseResult.course.lastExamTerm.term.toString().match(/.{1,4}/g)
       : [],
     course_web_link: isValidData(courseResult.socialCoursePageUrl, language),
-    // New fields in kopps
     course_spossibility_to_completions: isValidData(courseResult.course.possibilityToCompletion, language),
     course_disposition: isValidData(courseResult.course.courseDeposition, language),
     course_possibility_to_addition: isValidData(courseResult.course.possibilityToAddition, language),
     course_literature: isValidData(courseResult.course.courseLiterature, language),
     course_required_equipment: isValidData(courseResult.course.requiredEquipment, language),
     course_state: isValidData(courseResult.course.state, language, true)
-    // course_decision_to_discontinue: isValidData(courseResult.course.decisionToDiscontinue, language)
   }
 }
 
@@ -163,7 +161,6 @@ function getExamObject(dataObject, grades, language = 0, semester = '', courseCr
     // eslint-disable-next-line no-restricted-syntax
     for (const exam of dataObject[matchingExamSemester].examinationRounds) {
       if (exam.credits) {
-        //* * Adding a decimal if it's missing in credits **/
         exam.credits =
           exam.credits !== '' && exam.credits.toString().indexOf('.') < 0 ? exam.credits + '.0' : exam.credits
       } else {
@@ -214,7 +211,7 @@ function getRounds(roundObject, language = 0) {
     round_type:
       roundObject.round.applicationCodes.length > 0
         ? isValidData(roundObject.round.applicationCodes[0].courseRoundType.name, language)
-        : EMPTY[language], // TODO: Map array
+        : EMPTY[language],
     round_application_link: isValidData(roundObject.admissionLinkUrl, language),
     round_part_of_programme:
       roundObject.usage.length > 0 ? getRoundProgramme(roundObject.usage, language) : EMPTY[language],
@@ -294,7 +291,6 @@ function getSyllabusData(courseResult, semester = 0, language) {
       courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
         ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.examComments, language, true)
         : '',
-    // New fields in kopps
     course_ethical:
       courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
         ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.ethicalApproach, language, true)
@@ -342,29 +338,28 @@ function createPersonHtml(personList) {
 }
 
 class RouterStore {
-  @observable courseCode = '' // Set from request parameters
+  @observable courseCode = ''
 
-  @observable sellingText = { en: '', sv: '' } // Set from kursinfo-admin-api
+  @observable sellingText = { en: '', sv: '' }
 
-  @observable imageFromAdmin = '' // Set from kursinfo-admin-api
+  @observable imageFromAdmin = ''
 
-  @observable showCourseWebbLink = true // is set from kursinfo-admin ( not in use )
+  @observable showCourseWebbLink = true
 
-  @observable memoList = {} // Retrieved from kurs-pm-data-api
+  @observable memoList = {}
 
-  @observable isCancelled = false // Retrieved from koppsCourseData, used to show an Alert on the course page
+  @observable isCancelled = false
 
-  @observable isDeactivated = false // Retrieved from koppsCourseData, used to show an Alert on the course page
+  @observable isDeactivated = false
 
   @observable keyList = {
-    // key list to get information from ugRedis
     teachers: [],
     responsibles: []
   }
 
-  @observable activeSemesters = [] // Computes syllabus to show based on todays date
+  @observable activeSemesters = []
 
-  @observable roundsSyllabusIndex = [] // handles connection to syllabuses for active rounds
+  @observable roundsSyllabusIndex = []
 
   @observable defaultIndex = 0
 
@@ -464,25 +459,20 @@ class RouterStore {
   /** ***************************************************************************************************************************************** */
   /*                                                       COLLECTED COURSE INFORMATION                                                        */
   /** ***************************************************************************************************************************************** */
-  //* * Handeling the course information from kopps api.**//
-  // @action getCourseInformation(courseCode, ldapUsername, lang = 'sv', roundIndex = 0) {
-  //   return axios.get(this.buildApiUrl(this.paths.api.koppsCourseData.uri, { courseCode: courseCode, language: lang }), this._getOptions()).then((res) => {
+  /* * Handeling the course information from kopps api.**/
   @action getCourseInformation(res, courseCode, ldapUsername, lang = 'sv') {
-    // const courseResult = safeGet(() => res.data, {})
     const courseResult = res.body
     const language = lang === 'en' ? 0 : 1
 
-    // this.isCancelled = courseResult.course.cancelled
-    // this.isDeactivated = courseResult.course.deactivated
     this.user = ldapUsername
 
-    //* **** Coruse information that is static on the course side *****//
+    /* **** Coruse information that is static on the course side *****/
     const courseInfo = getCourseDefaultInformation(courseResult, language)
 
-    //* **** Course title data  *****//
+    /* **** Course title data  *****/
     const courseTitleData = getTitleData(courseResult)
 
-    //* **** Get list of syllabuses and valid syllabus semesters *****//
+    /* **** Get list of syllabuses and valid syllabus semesters *****/
     const syllabusList = []
     let syllabusSemesterList = []
     let tempSyllabus = {}
@@ -503,13 +493,13 @@ class RouterStore {
       syllabusList[0] = getSyllabusData(courseResult, 0, language)
     }
 
-    //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis *****//
+    /* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis *****/
     const roundList = getRounds(courseResult.roundInfos, courseCode, language)
 
-    //* **** Sets roundsSyllabusIndex, an array used for connecting rounds with correct syllabus *****//
+    /* **** Sets roundsSyllabusIndex, an array used for connecting rounds with correct syllabus *****/
     this.getRoundsAndSyllabusConnection(syllabusSemesterList)
 
-    //* **** Get the index for start informatin based on time of year *****/
+    /* **** Get the index for start informatin based on time of year *****/
     this.defaultIndex = this.getCurrentSemesterToShow()
     syllabusSemesterList = toJS(syllabusSemesterList)
     this.courseData = {
@@ -520,21 +510,9 @@ class RouterStore {
       syllabusSemesterList,
       language
     }
-    // }).catch(err => {
-    //   // The request was made and the server responded with a status code
-    //   // that falls out of the range of 2xx
-    //   if (err.response) {
-    //     throw err
-    //   // The request was made but no response was received
-    //   // `error.request` is an instance of http.ClientRequest
-    //   } else if (err.request) {
-    //     throw new Error(err.message, err.request)
-    //   }
-    //   throw err
-    // })
   }
 
-  //* *** Default syllabus might change when the dates set in MAX_(semester)_DAY and MAX_(semester)_MONTH is passed ****/
+  /* *** Default syllabus might change when the dates set in MAX_(semester)_DAY and MAX_(semester)_MONTH is passed ****/
   @action getCurrentSemesterToShow(date = '') {
     if (this.activeSemesters.length === 0) {
       return 0
@@ -544,14 +522,14 @@ class RouterStore {
     let returnIndex = -1
     let yearMatch = -1
 
-    //* ***** Calculating current semester based on todays date ******/
+    /* ***** Calculating current semester based on todays date ******/
     if (thisDate.getMonth() + 1 >= MAX_1_MONTH && thisDate.getMonth() + 1 < MAX_2_MONTH) {
       showSemester = `${thisDate.getFullYear()}2`
     } else {
       showSemester =
         thisDate.getMonth() + 1 < MAX_1_MONTH ? `${thisDate.getFullYear()}1` : `${thisDate.getFullYear() + 1}1`
     }
-    //* ***** Check if course has a round for current semester otherwise it shows the previous semester *****/
+    /* ***** Check if course has a round for current semester otherwise it shows the previous semester *****/
     for (let index = 0; index < this.activeSemesters.length; index + 1) {
       if (this.activeSemesters[index][2] === showSemester) {
         returnIndex = index
@@ -586,7 +564,6 @@ class RouterStore {
     for (const roundInfo of roundInfos) {
       courseRound = this.getRound(roundInfo, language)
       memoId = courseCode + '_' + courseRound.round_course_term.join('') + '_' + courseRound.roundId
-      // courseRound.memoFile =
       if (courseRound.round_course_term && tempList.indexOf(courseRound.round_course_term.join('')) < 0) {
         tempList.push(courseRound.round_course_term.join(''))
         this.activeSemesters.push([...courseRound.round_course_term, courseRound.round_course_term.join(''), 0])
@@ -630,57 +607,9 @@ class RouterStore {
   }
 
   /** ***************************************************************************************************************************************** */
-  /*                                                                ADMIN                                                                      */
-  /** ***************************************************************************************************************************************** */
-
-  // @action getCourseAdminInfo(res, courseCode, lang = 'sv') {
-  //   // return axios
-  //   //   .get(this.buildApiUrl(this.paths.api.sellingText.uri, { courseCode: courseCode }), this._getOptions())
-  //   //   .then((res) => {
-  //   this.showCourseWebbLink = true // res.data.isCourseWebLink
-  //   this.sellingText = res.sellingText
-  //   this.imageFromAdmin = res.imageInfo
-  //   // })
-  //   // .catch((err) => {
-  //   //   if (err.response) {
-  //   //     throw new Error(err.message, err.response.data)
-  //   //   }
-  //   //   throw err
-  //   // })
-  // }
-
-  /** ***************************************************************************************************************************************** */
-  /*                                                    COURSE MEMO FILES  - kurs-pm-api                                                                    */
-  /** ***************************************************************************************************************************************** */
-
-  // @action getCourseMemoFiles(courseCode, lang = 'sv') {
-  //   //TODO-INTEGRATION: REMOVE
-  //   return axios
-  //     .get(this.buildApiUrl(this.paths.api.memoData.uri, { courseCode }), this._getOptions())
-  //     .then((res) => {
-  //       this.showCourseWebbLink = true // res.data.isCourseWebLink
-  //       this.memoList = res.data
-  //     })
-  //     .catch((err) => {
-  //       if (err.response) {
-  //         throw new Error(err.message, err.response.data)
-  //       }
-  //       throw err
-  //     })
-  // }
-
-  /** ***************************************************************************************************************************************** */
   /*                                            UG REDIS - examiners, teachers and responsibles                                                */
   /** ***************************************************************************************************************************************** */
   @action getCourseEmployeesPost(result) {
-    // if (Object.getOwnPropertyNames(this.courseData.roundList).length === 0) return ''
-
-    // return axios
-    //   .post(
-    //     this.buildApiUrl(this.paths.redis.ugCache.uri, { key: key, type: type }),
-    //     this._getOptions(JSON.stringify(this.keyList))
-    //   )
-    //   .then((result) => {
     const returnValue = result.data
     const emptyString = EMPTY[this.courseData.language]
     const { roundList } = this.courseData
@@ -708,31 +637,7 @@ class RouterStore {
       }
       thisStore.courseData.roundList[key] = rounds
     })
-    // })
-    // .catch((err) => {
-    //   if (err.response) {
-    //     throw new Error(err.message, err.response.data)
-    //   }
-    //   throw err
-    // })
   }
-
-  // @action getCourseEmployees(key, type = 'examinator', lang = 0) {
-  //   return axios
-  //     .get(this.buildApiUrl(this.paths.redis.ugCache.uri, { key: key, type: type }))
-  //     .then((result) => {
-  //       this.courseData.courseInfo.course_examiners =
-  //         result.data && result.data.length > 0
-  //           ? this.createPersonHtml(result.data, 'examiner')
-  //           : EMPTY[this.courseData.language]
-  //     })
-  //     .catch((err) => {
-  //       if (err.response) {
-  //         throw new Error(err.message, err.response.data)
-  //       }
-  //       throw err
-  //     })
-  // }
 
   /** ********************************************************************************************************************** */
 

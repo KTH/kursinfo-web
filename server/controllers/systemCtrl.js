@@ -35,14 +35,14 @@ module.exports = {
  * Get request on not found (404)
  * Renders the view 'notFound' with the layout 'exampleLayout'.
  */
-function _notFound (req, res, next) {
+function _notFound(req, res, next) {
   const err = new Error('Not Found: ' + req.originalUrl)
   err.status = 404
   next(err)
 }
 
 // this function must keep this signature for it to work properly
-function _final (err, req, res, next) {
+function _final(err, req, res, next) {
   const debugStatusCodes = [403, 404]
 
   let statusCode
@@ -56,8 +56,6 @@ function _final (err, req, res, next) {
 
   if (debugStatusCodes.includes(statusCode)) {
     log.debug({ err: err })
-  } else {
-    // log.error({ err: err, req: req }, 'Unhandled error in systemCtrl.js')
   }
 
   const isProd = /prod/gi.test(process.env.NODE_ENV)
@@ -92,11 +90,9 @@ function _final (err, req, res, next) {
   })
 }
 
-function _getFriendlyErrorMessage (lang, statusCode, courseCode) {
+function _getFriendlyErrorMessage(lang, statusCode, courseCode) {
   switch (statusCode) {
     case 404:
-      // if(courseCode.length > 0)
-      // return i18n.message('error_course_not_found', lang) + courseCode
       return i18n.message('error_not_found', lang)
     default:
       return i18n.message('error_generic', lang)
@@ -106,7 +102,7 @@ function _getFriendlyErrorMessage (lang, statusCode, courseCode) {
 /* GET /_about
  * About page
  */
-function _about (req, res) {
+function _about(req, res) {
   res.render('system/about', {
     debug: 'debug' in req.query,
     layout: 'systemLayout',
@@ -129,11 +125,11 @@ function _about (req, res) {
 /* GET /_monitor
  * Monitor page
  */
-async function _monitor (req, res) {
+async function _monitor(req, res) {
   const apiConfig = config.nodeApi
 
   // Check APIs
-  const subSystems = Object.keys(api).map(apiKey => {
+  const subSystems = Object.keys(api).map((apiKey) => {
     const apiHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-api')
     return apiHealthUtil.status(api[apiKey], {
       required: apiConfig[apiKey].required
@@ -146,44 +142,35 @@ async function _monitor (req, res) {
   // The property statusCode should be standard HTTP status codes.
   const localSystems = Promise.resolve({ statusCode: 200, message: 'OK' })
 
-  const systemHealthUtil = registry.getUtility(
-    IHealthCheck,
-    'kth-node-system-check'
-  )
+  const systemHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-system-check')
   const systemStatus = systemHealthUtil.status(localSystems, subSystems)
 
   systemStatus
-    .then(status => {
+    .then((status) => {
       // Return the result either as JSON or text
       if (req.headers['accept'] === 'application/json') {
         let outp = systemHealthUtil.renderJSON(status)
         res.status(status.statusCode).json(outp)
       } else {
         let outp = systemHealthUtil.renderText(status)
-        res
-          .type('text')
-          .status(status.statusCode)
-          .send(outp)
+        res.type('text').status(status.statusCode).send(outp)
       }
     })
-    .catch(err => {
-      res
-        .type('text')
-        .status(500)
-        .send(err)
+    .catch((err) => {
+      res.type('text').status(500).send(err)
     })
 }
 
 /* GET /robots.txt
  * Robots.txt page
  */
-function _robotsTxt (req, res) {
+function _robotsTxt(req, res) {
   res.type('text').render('system/robots')
 }
 
 /* GET /_paths
  * Return all paths for the system
  */
-function _paths (req, res) {
+function _paths(req, res) {
   res.json(getPaths())
 }

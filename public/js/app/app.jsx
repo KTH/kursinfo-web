@@ -2,14 +2,13 @@
 import React, { render, Component } from 'react'
 import ReactDOM from 'react-dom'
 import { Provider, inject } from 'mobx-react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom' // matchPath
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { configure } from 'mobx'
 
 import { StaticRouter } from 'react-router'
 import RouterStore from './stores/RouterStore.js'
 import CoursePage from './pages/CoursePage.jsx'
 
-// Sass
 import '../../css/kursinfo-web.scss'
 
 function appFactory() {

@@ -1,6 +1,5 @@
 const serverConfig = require('../configuration').server
 const redis = require('kth-node-redis')
-// const i18n = require('../i18n')
 const log = require('kth-node-log')
 
 const redisKeys = (courseCode, semester, ladokRoundIds) => {

@@ -8,7 +8,6 @@ import i18n from '../../../../i18n'
 import { EMPTY, FORSKARUTB_URL, SYLLABUS_URL } from '../util/constants'
 import { breadcrumbLinks, aboutCourseLink } from '../util/links'
 
-// Components
 import RoundInformationOneCol from '../components/RoundInformationOneCol'
 import CourseTitle from '../components/CourseTitle'
 import CourseSectionList from '../components/CourseSectionList'
@@ -54,7 +53,6 @@ class CoursePage extends Component {
         ? routerStore.activeSemesters[routerStore.defaultIndex][2]
         : 0
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
-    // this.toggle = this.toggle.bind(this)
     this.handleSemesterDropdownSelect = this.handleSemesterDropdownSelect.bind(this)
   }
 
@@ -72,7 +70,6 @@ class CoursePage extends Component {
   }
 
   componentDidUpdate() {
-    // Resets animation after they were triggered
     const { routerStore } = this.props
     if (routerStore.syllabusInfoFade) {
       const that = this
@@ -87,19 +84,6 @@ class CoursePage extends Component {
       }, 500)
     }
   }
-
-  // toggle (event, roundInfoFade = false, syllabusInfoFade = false) {
-  //   console.log('toggle event', event)
-  //   if (event) {
-  //     const selectedInfo = event.target.id.indexOf('_') > 0 ? event.target.id.split('_')[0] : event.target.id
-  //     let prevState = this.state
-  //     prevState.dropdownsOpen[selectedInfo] = !prevState.dropdownsOpen[selectedInfo]
-  //     this.setState({
-  //       dropdownsOpen: prevState.dropdownsOpen,
-  //       roundInfoFade
-  //     })
-  //   }
-  // }
 
   handleSemesterDropdownSelect(event) {
     event.preventDefault()
@@ -177,9 +161,9 @@ class CoursePage extends Component {
       const cms = courseData.courseInfo.course_main_subject || ''
       let mainSubjects = cms.split(',').map((s) => s.trim())
       if (mainSubjects && mainSubjects.length > 0 && language === 'en') {
-        mainSubjects = mainSubjects.map((subject) => i18n.messages[0].courseMainSubjects[subject]) // get sv translations of en mainSubjects
+        mainSubjects = mainSubjects.map((subject) => i18n.messages[0].courseMainSubjects[subject])
       }
-      courseImage = i18n.messages[1].courseImage[mainSubjects.sort()[0]] // extract picture according swidsh translation of mainSubject
+      courseImage = i18n.messages[1].courseImage[mainSubjects.sort()[0]]
       if (courseImage === undefined) {
         courseImage = translation.courseImage.default
       }
@@ -558,41 +542,6 @@ const DropdownSemesters = ({ semesterList, callerInstance, label = '', translati
         </div>
       </form>
     </div>
-    // <div className='col-12 semester-dropdowns'>
-    //   <Label htmlFor={dropdownID}>{label.label_dropdown}</Label>
-    //   <Dropdown group
-    //     isOpen={callerInstance.state.dropdownsOpen[dropdownID]}
-    //     toggle={callerInstance.toggle}
-    //     key={'dropD' + dropdownID}
-    //     id={dropdownID}
-    //     className='select-round'
-    //   >
-    //     <DropdownToggle
-    //       id={dropdownID} >
-    //       {callerInstance.state.roundDisabled
-    //         ? <span id={dropdownID + '_span'}>{label.placeholder}</span>
-    //         : <span id={dropdownID + '_span'}>{i18n.messages[language].courseInformation.course_short_semester[semester]} {year}</span>
-    //       }
-    //       <span caret className='caretholder' id={dropdownID + '_spanCaret'}></span>
-    //     </DropdownToggle>
-
-    //     <DropdownMenu>
-    //     {
-    //       semesterList.map((semesterItem, index) => {
-    //         return (
-    //           <DropdownItem
-    //             key={index}
-    //             id={dropdownID + '_' + index + '_' + '0'}
-    //             onClick={callerInstance.handleSemesterDropdownSelect}
-    //           >
-    //             {i18n.messages[language].courseInformation.course_short_semester[semesterItem[1]]}{semesterItem[0]}
-    //           </DropdownItem>
-    //         )
-    //       })
-    //     }
-    //     </DropdownMenu>
-    //   </Dropdown>
-    // </div>
   )
 }
 
@@ -644,49 +593,6 @@ const DropdownRounds = ({ courseRoundList, callerInstance, language = 0, label =
         </div>
       </form>
     </div>
-    // <div className='col-12 semester-dropdowns'>
-    //   <Label htmlFor={dropdownID}>{label.label_dropdown}</Label>
-    //   <Dropdown group
-    //     isOpen={callerInstance.state.dropdownsOpen[dropdownID]}
-    //     toggle={callerInstance.toggle}
-    //     key={'dropD' + dropdownID}
-    //     id={dropdownID}
-    //     className='select-round'
-    //   >
-    //     <DropdownToggle
-    //       id={dropdownID}
-    //       disabled={callerInstance.state.roundDisabled}
-    //     >
-    //       {callerInstance.state.roundSelected
-    //         ? <span id={dropdownID + '_span'}>
-    //             {
-    //               `${courseRoundList[callerInstance.state.activeRoundIndex].round_short_name !== EMPTY[language]
-    //                 ? courseRoundList[callerInstance.state.activeRoundIndex].round_short_name
-    //                 : ''},
-    //                 ${i18n.messages[language].courseRoundInformation.round_category[courseRoundList[callerInstance.state.activeRoundIndex].round_category]}
-    //               `
-    //             }
-    //         </span>
-    //         : <span id={dropdownID + '_spanSelect'}>{label.placeholder} </span>
-    //       }
-    //       <span caret className='caretholder' id={dropdownID + '_spanCaret'}></span>
-    //     </DropdownToggle>
-    //     <DropdownMenu>
-    //       {
-    //         courseRoundList.map((courseRound, index) => {
-    //           return (
-    //             <DropdownItem key={index} id={dropdownID + '_' + index + '_' + '0'} onClick={callerInstance.handleDropdownSelect}>
-    //               {
-    //                 `${courseRound.round_short_name !== EMPTY[language] ? courseRound.round_short_name : ''},
-    //                 ${i18n.messages[language].courseRoundInformation.round_category[courseRound.round_category]}`
-    //               }
-    //             </DropdownItem>
-    //           )
-    //         })
-    //       }
-    //     </DropdownMenu>
-    //   </Dropdown>
-    // </div>
   )
 }
 
