@@ -145,8 +145,6 @@ class RoundInformationOneCol extends Component {
                         ''
                       )}
                     </h3>
-                    {console.log('round', round)}
-                    {console.log('round.round_seats', round.round_seats)}
                     <p>{round ? round.round_seats : EMPTY[language]}</p>
 
                     <h3 className="t4">{translate.round_time_slots}</h3>
