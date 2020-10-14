@@ -19,8 +19,10 @@ class CourseSectionList extends Component {
   }
 
   getContent(translation) {
-    const { syllabusList } = this.props
-    const { syllabus = {}, course = {}, language = 'sv' } = syllabusList
+    const { courseInfo: course = {} } = this.props
+    const { syllabusList: syllabus = {} } = this.props
+    const { store } = this.state
+    const { language = 'sv' } = store
 
     const content = [
       { header: translation.courseInformation.course_content, text: syllabus.course_content, syllabusMarker: true },
