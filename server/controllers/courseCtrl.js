@@ -417,6 +417,7 @@ function _getRoundSeats(max, min, language) {
 }
 
 function _getDateFormat(date, language) {
+  console
   if (date === EMPTY[language] || language === 1) {
     return date
   }
@@ -470,7 +471,8 @@ function _getRound(roundObject, language = 0) {
   return courseRoundModel
 }
 
-function _getRounds(roundInfos, courseCode, language, routerStore) {
+function _getRounds(roundInfos, courseCode, lang, routerStore) {
+  const language = lang === 'en' ? 0 : 1
   const tempList = []
   let courseRound
   const courseRoundList = {}
