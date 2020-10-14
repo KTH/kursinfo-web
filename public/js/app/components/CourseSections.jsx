@@ -29,7 +29,7 @@ const CourseSection = ({
       ) : null}
       {courseData.map((data) =>
         data.text ? (
-          <span key={data.header} className="word-break">
+          <span key={data.header || data.text} className="word-break">
             {data.header && syllabusMarker(data, syllabusMarkerAriaLabel)}
             <p dangerouslySetInnerHTML={{ __html: data.text }} />
           </span>
