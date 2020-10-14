@@ -13,7 +13,7 @@ const PilotNewMemoLink = ({ href, translate }) => (
 
 const PdfNoMemoLink = ({ canGetMemoFiles, translate }) => (
   // eslint-disable-next-line jsx-a11y/anchor-is-valid
-  <a id="memoLink" className="pdf-link">
+  <a id="memoLink" className="pdf-link pdf-link-fix">
     {canGetMemoFiles ? translate.courseLabels.no_memo : translate.courseLabels.no_memo_connection}
   </a>
 )
@@ -29,7 +29,7 @@ const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, canGetMemo
         {courseRound.round_memoFile ? (
           <a
             id="memoLink"
-            className="pdf-link"
+            className="pdf-link pdf-link-fix"
             href={`${memoStorageURI}${courseRound.round_memoFile.fileName}`}
             target="_blank"
             rel="noreferrer"
