@@ -41,12 +41,8 @@ class CourseSectionList extends Component {
     const { store } = this.state
     const { language = 'sv' } = store
 
-    console.log('course', course)
-    console.log('course.course_literature', course.course_literature)
-
     let literatureText =
       course.course_literature !== EMPTY[language] ? course.course_literature : syllabus.course_literature
-    console.log('literatureText', literatureText)
     if (syllabus.course_literature_comment !== EMPTY[language]) {
       literatureText =
         literatureText !== EMPTY[language]
