@@ -187,9 +187,7 @@ class RoundInformationOneCol extends Component {
                   <p>{selectedRoundHeader}</p>
 
                   <h3 className="t4">{translate.round_application_code}</h3>
-                  <p>
-                    <b>{round ? round.round_application_code : EMPTY[language]}</b>
-                  </p>
+                  <p>{round ? round.round_application_code : EMPTY[language]}</p>
                   {round && round.round_application_link !== EMPTY[language] ? (
                     <Button name={translate.round_application_link} color="primary" onClick={this.openApplicationLink}>
                       {translate.round_application_link}
