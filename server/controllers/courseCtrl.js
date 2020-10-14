@@ -483,6 +483,7 @@ function _getRounds(roundInfos, courseCode, language, routerStore) {
     if (courseRound.round_course_term && tempList.indexOf(courseRound.round_course_term.join('')) < 0) {
       tempList.push(courseRound.round_course_term.join(''))
       routerStore.activeSemesters.push([...courseRound.round_course_term, courseRound.round_course_term.join(''), 0])
+      routerStore.activeSemesters.replace(routerStore.activeSemesters.slice().sort())
       courseRoundList[courseRound.round_course_term.join('')] = []
     }
 
@@ -500,9 +501,8 @@ function _getRounds(roundInfos, courseCode, language, routerStore) {
       `${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`
     )
   }
-  routerStore.activeSemesters.slice().sort()
-  routerStore.keyList.teachers.slice().sort()
-  routerStore.keyList.responsibles.slice().sort()
+  routerStore.keyList.teachers.replace(routerStore.keyList.teachers.slice().sort())
+  routerStore.keyList.responsibles.replace(routerStore.keyList.responsibles.slice().sort())
 
   return courseRoundList
 }

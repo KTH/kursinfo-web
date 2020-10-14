@@ -122,9 +122,8 @@ class CoursePage extends Component {
     routerStore.activeRoundIndex = 0
     routerStore.activeSemesterIndex = newIndex >= 0 ? newIndex : routerStore.defaultIndex
     routerStore.activeSemester =
-      activeSemester || routerStore.activeSemesters.length > 0
-        ? routerStore.activeSemesters[routerStore.defaultIndex][2]
-        : 0
+      activeSemester ||
+      (routerStore.activeSemesters.length > 0 ? routerStore.activeSemesters[routerStore.defaultIndex][2] : 0)
     routerStore.activeSyllabusIndex = routerStore.roundsSyllabusIndex[newIndex] || 0
     routerStore.roundInfoFade = true
     routerStore.showRoundData = showRoundData
@@ -150,6 +149,8 @@ class CoursePage extends Component {
     routerStore.showRoundData = eventTarget.selectedIndex !== 0
     routerStore.roundSelected = eventTarget.selectedIndex !== 0
     routerStore.roundSelectedIndex = eventTarget.selectedIndex
+
+    console.log('handleDropdownSelect - routerStore', routerStore)
 
     if (routerStore.showRoundData) {
       routerStore.getCourseEmployees()
