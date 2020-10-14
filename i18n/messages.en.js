@@ -42,8 +42,8 @@ module.exports = {
     aboutCourseMemos: 'About course memo'
   },
   courseLabels: {
-    label_course_description: 'Course description',
-    label_course_information: 'Course information',
+    label_course_description: 'Introduction to course',
+    label_course_information: 'Course information, including syllabus',
     label_syllabus_link: 'Course syllabus ',
     label_syllabus_pdf_header: 'Course syllabus as PDF',
     label_syllabus_pdf_info:
@@ -78,7 +78,7 @@ module.exports = {
       CANCELLED: 'This offering is cancelled',
       FULL: 'This offering is full'
     },
-    header_dropdown_menu_navigation: 'Choose semester and course offering',
+    header_dropdown_menu_navigation: 'Choose semester and course offering for page content',
     header_dropdown_menue: 'Valid for',
     header_dropdown_menu_aria_label: 'Information about choosing semester and course offering',
     header_course_info: 'Course information',
@@ -167,6 +167,7 @@ module.exports = {
   },
   courseRoundInformation: {
     header_round: 'About course offering',
+    round_information_aria_label: 'Information about course offering',
     round_header: 'For course offering',
     round_application_code: 'Application code',
     round_max_seats: 'Number of places',

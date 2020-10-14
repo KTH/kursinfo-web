@@ -21,7 +21,7 @@ const CourseSection = ({
   syllabusMarkerAriaLabel
 }) => {
   return (
-    <section className="col-12" id={sectionId} aria-labelledby={`${sectionId}-header`}>
+    <div className="col-12" id={sectionId} aria-labelledby={`${sectionId}-header`}>
       {header.length ? (
         <h2 id={`${sectionId}-header`} className={style}>
           {header}
@@ -35,7 +35,7 @@ const CourseSection = ({
           </span>
         ) : null
       )}
-    </section>
+    </div>
   )
 }
 

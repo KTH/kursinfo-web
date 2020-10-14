@@ -19,24 +19,22 @@ const aboutCourseStr = (translate, courseCode = '') => `${translate.site_name} $
 
 const breadcrumbs = (translation, language, courseCode) => {
   return (
-    <nav lang={language} aria-label={translation.breadCrumbLabels.breadcrumbs} className="secondaryMenu">
-      <Breadcrumb>
-        <BreadcrumbItem>
-          <a href={breadcrumbLinks.university[language]}>{translation.breadCrumbLabels.university}</a>
-        </BreadcrumbItem>
-        <BreadcrumbItem>
-          <a href={breadcrumbLinks.student[language]}>{translation.breadCrumbLabels.student}</a>
-        </BreadcrumbItem>
-        <BreadcrumbItem>
-          <a href={breadcrumbLinks.directory[language]}>{translation.breadCrumbLabels.directory}</a>
-        </BreadcrumbItem>
-        <BreadcrumbItem>
-          <a href={aboutCourseLink(courseCode, language)}>
-            {`${translation.breadCrumbLabels.aboutCourse} ${courseCode}`}
-          </a>
-        </BreadcrumbItem>
-      </Breadcrumb>
-    </nav>
+    <Breadcrumb lang={language} aria-label={translation.breadCrumbLabels.breadcrumbs} className="secondaryMenu">
+      <BreadcrumbItem>
+        <a href={breadcrumbLinks.university[language]}>{translation.breadCrumbLabels.university}</a>
+      </BreadcrumbItem>
+      <BreadcrumbItem>
+        <a href={breadcrumbLinks.student[language]}>{translation.breadCrumbLabels.student}</a>
+      </BreadcrumbItem>
+      <BreadcrumbItem>
+        <a href={breadcrumbLinks.directory[language]}>{translation.breadCrumbLabels.directory}</a>
+      </BreadcrumbItem>
+      <BreadcrumbItem>
+        <a href={aboutCourseLink(courseCode, language)}>
+          {`${translation.breadCrumbLabels.aboutCourse} ${courseCode}`}
+        </a>
+      </BreadcrumbItem>
+    </Breadcrumb>
   )
 }
 
@@ -386,7 +384,7 @@ class CoursePage extends Component {
                       )}
                     </div>
                   )}
-                  <aside id="syllabusContainer">
+                  <aside id="syllabusContainer" aria-label={translation.courseLabels.label_syllabus_pdf_header}>
                     <h3 className="t4">{translation.courseLabels.label_syllabus_pdf_header}</h3>
                     <p>{translation.courseLabels.label_syllabus_pdf_info}</p>
                     <a
@@ -474,6 +472,23 @@ class CoursePage extends Component {
                       syllabusList={courseData.syllabusList[routerStore.activeSyllabusIndex]}
                       showCourseLink={routerStore.showCourseWebbLink}
                       partToShow="courseContentBlock"
+                      syllabusName={
+                        courseData.syllabusSemesterList.length > 0
+                          ? `${routerStore.courseCode}${` (${
+                              translation.courseInformation.course_short_semester[
+                                courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[1]
+                              ]
+                            }${courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[0]}–${
+                              courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to.length > 0
+                                ? translation.courseInformation.course_short_semester[
+                                    courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to[1]
+                                  ] +
+                                  '' +
+                                  courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to[0]
+                                : ''
+                            })`}`
+                          : ''
+                      }
                     />
 
                     {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}

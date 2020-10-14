@@ -59,9 +59,11 @@ class RoundInformationOneCol extends Component {
           id="roundInformationOneCol"
           className="key-info"
           style={{ backgroundColor: courseHasRound && showRoundData ? 'rgb(246, 246, 246)' : 'rgb(252, 248, 227)' }}
-          aria-labelledby="roundHeader selectedRoundHeader"
+          aria-label={
+            courseHasRound && showRoundData ? `${translate.round_information_aria_label} ${selectedRoundHeader}` : null
+          }
         >
-          <section
+          <div
             className="row"
             id="roundFirstPart"
             aria-labelledby={courseHasRound && showRoundData ? 'courseRoundInformationHeader' : null}
@@ -165,8 +167,8 @@ class RoundInformationOneCol extends Component {
                 )}
               </div>
             </Col>
-          </section>
-          <section
+          </div>
+          <div
             className="row"
             id="roundApply"
             aria-labelledby={courseHasRound && showRoundData ? 'applicationInformationHeader' : null}
@@ -199,8 +201,8 @@ class RoundInformationOneCol extends Component {
                 ''
               )}
             </Col>
-          </section>
-          <section
+          </div>
+          <div
             className="row"
             id="roundContact"
             aria-labelledby={courseHasRound && showRoundData ? 'contactInformationHeader' : null}
@@ -242,7 +244,7 @@ class RoundInformationOneCol extends Component {
                 ''
               )}
             </Col>
-          </section>
+          </div>
         </section>
       </span>
     )

@@ -43,8 +43,8 @@ module.exports = {
     aboutCourseMemos: 'Om kurs-PM'
   },
   courseLabels: {
-    label_course_description: 'Kursbeskrivning',
-    label_course_information: 'Kursinformation',
+    label_course_description: 'Introducerande beskrivning av kursen',
+    label_course_information: 'Kursinformation inklusive kursplan',
     label_syllabus_link: 'Kursplan ',
     label_syllabus_pdf_header: 'Kursplan som PDF',
     label_syllabus_pdf_info:
@@ -80,7 +80,7 @@ module.exports = {
       CANCELLED: 'Kursomgång inställd',
       FULL: 'Kursomgång fullsatt'
     },
-    header_dropdown_menu_navigation: 'Välj termin och kursomgång',
+    header_dropdown_menu_navigation: 'Välj termin och kursomgång för innehållet på sidan',
     header_dropdown_menue: 'Gäller för',
     header_dropdown_menu_aria_label: 'Information om val av termin och kursomgång',
     header_course_info: 'Kursinformation',
@@ -169,6 +169,7 @@ module.exports = {
   },
   courseRoundInformation: {
     header_round: 'Om kursomgång',
+    round_information_aria_label: 'Information för kursomgång',
     round_header: 'Gäller för kursomgång',
     round_application_code: 'Anmälningskod',
     round_max_seats: 'Antal platser',

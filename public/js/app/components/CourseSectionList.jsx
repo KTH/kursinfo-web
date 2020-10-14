@@ -183,7 +183,11 @@ class CourseSectionList extends Component {
     const translation = i18n.messages[language === 'en' ? 0 : 1]
     const { partToShow } = this.props
     return (
-      <section className="row" id={partToShow} aria-label={translation.courseLabels.label_course_information}>
+      <section
+        className="row"
+        id={partToShow}
+        aria-label={`${translation.courseLabels.label_course_information} ${this.props.syllabusName}`}
+      >
         <CourseSection
           sectionHeader={translation.courseLabels.header_content}
           headerType="3"
