@@ -425,7 +425,7 @@ function _getDateFormat(date, language) {
   return `${splitDate[2]}/${splitDate[1]}/${splitDate[0]}`
 }
 
-function _getRound(roundObject, language = 0) {
+function _getRound(roundObject, language = 'sv') {
   const courseRoundModel = {
     roundId: isValidData(roundObject.round.ladokRoundId, language),
     round_time_slots: isValidData(roundObject.timeslots, language),
@@ -471,8 +471,7 @@ function _getRound(roundObject, language = 0) {
   return courseRoundModel
 }
 
-function _getRounds(roundInfos, courseCode, lang, routerStore) {
-  const language = lang === 'en' ? 0 : 1
+function _getRounds(roundInfos, courseCode, language, routerStore) {
   const tempList = []
   let courseRound
   const courseRoundList = {}
