@@ -263,8 +263,10 @@ class CoursePage extends Component {
                   {/* ---COURSE  DROPDOWN MENU--- */}
                   {routerStore.activeSemesters && routerStore.activeSemesters.length > 0 ? (
                     <nav id="roundDropdownMenu" aria-label={translation.courseLabels.header_dropdown_menu_navigation}>
-                      <h2 id="roundDropdownMenuHeader" style={{ marginTop: 0 }}>
-                        {translation.courseLabels.header_dropdown_menue}
+                      <span id="roundDropdownMenuHeaderWrapper">
+                        <h2 id="roundDropdownMenuHeader" style={{ marginTop: 0 }}>
+                          {translation.courseLabels.header_dropdown_menue}
+                        </h2>
                         <InfoModal
                           title={translation.courseLabels.header_dropdown_menue}
                           infoText={translation.courseLabels.syllabus_info}
@@ -272,7 +274,7 @@ class CoursePage extends Component {
                           closeLabel={translation.courseLabels.label_close}
                           ariaLabel={translation.courseLabels.header_dropdown_menu_aria_label}
                         />
-                      </h2>
+                      </span>
                       <div className="row" id="roundDropdowns" key="roundDropdown">
                         {routerStore.activeSemesters.length > 0 && (
                           <DropdownSemesters

@@ -219,11 +219,16 @@ a.right-link {
 
 #roundDropdownMenu {
   .btn {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   p {
     margin-left: 15px;
   }
+}
+
+#roundDropdownMenuHeaderWrapper {
+  display: flex;
+  align-items: center;
 }
 
 #semesterButtonMenue,

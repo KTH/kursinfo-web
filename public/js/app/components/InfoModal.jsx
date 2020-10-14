@@ -19,9 +19,9 @@ class InfoModal extends Component {
       modal.addEventListener(
         'keydown',
         (event) => {
+          const topCloseButton = modal.querySelector('.close')
+          const bottomCloseButton = modal.querySelector('.btn.btn-secondary')
           if (event.code === 'Tab') {
-            const topCloseButton = modal.querySelector('.close')
-            const bottomCloseButton = modal.querySelector('.btn.btn-secondary')
             if (event.shiftKey) {
               event.preventDefault()
               topCloseButton.focus()
@@ -36,6 +36,11 @@ class InfoModal extends Component {
               topCloseButton.tabIndex = 2
               bottomCloseButton.tabIndex = 1
             }
+          } else if (
+            event.code === 'Enter' &&
+            (event.target === topCloseButton || event.target === bottomCloseButton)
+          ) {
+            this.toggle()
           }
         },
         true
