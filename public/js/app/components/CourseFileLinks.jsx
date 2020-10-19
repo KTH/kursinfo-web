@@ -6,16 +6,16 @@ import { EMPTY, LISTS_OF_PILOT_COURSES } from '../util/constants'
 const checkIfPilotCourse = (courseCode) => LISTS_OF_PILOT_COURSES.includes(courseCode)
 
 const PilotNewMemoLink = ({ href, translate }) => (
-  <a id="memoLink" href={href}>
+  <a id="memoLink" className="pdf-link pdf-link-fix" href={href}>
     {translate.courseLabels.label_course_memo}
   </a>
 )
 
 const PdfNoMemoLink = ({ canGetMemoFiles, translate }) => (
   // eslint-disable-next-line jsx-a11y/anchor-is-valid
-  <a id="memoLink" className="pdf-link pdf-link-fix">
+  <p id="memoLink" className="pdf-link pdf-link-fix">
     {canGetMemoFiles ? translate.courseLabels.no_memo : translate.courseLabels.no_memo_connection}
-  </a>
+  </p>
 )
 
 const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, canGetMemoFiles, memoStorageURI, language }) => {

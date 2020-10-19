@@ -16,7 +16,7 @@ describe('Component <CourseFileLinks>', () => {
 
   test('renders course offering schedule correctly', () => {
     const language = 'en'
-    const translate = i18n.messages[language === 'en' ? 0 : 1]
+    const translate = i18n.messages[0] // en
     const propsWithScheduleUrl = {
       language,
       scheduleUrl: 'https://test.com'
@@ -33,5 +33,44 @@ describe('Component <CourseFileLinks>', () => {
     rerender(<CourseFileLinks {...propsWithoutScheduleUrl} />)
     const scheduleText = getByText(translate.courseLabels.no_schedule)
     expect(scheduleText).toBeInTheDocument()
+  })
+
+  test('renders course offering schedule correctly', () => {
+    const language = 'en'
+    const translate = i18n.messages[0] // en
+    const courseRoundWithMemoFile = { round_memoFile: { fileName: 'test', fileDate: '1970-01-01' } }
+    const courseRoundWithoutMemoFile = {}
+    const propsWithMemoFile = {
+      language,
+      memoStorageURI: 'https://test.com/',
+      courseRound: courseRoundWithMemoFile,
+      canGetMemoFiles: true
+    }
+    const propsWithoutMemoFile = {
+      language,
+      memoStorageURI: 'https://test.com/',
+      courseRound: courseRoundWithoutMemoFile,
+      canGetMemoFiles: true
+    }
+    const propsWithoutMemoNorConnectionFile = {
+      language,
+      memoStorageURI: 'https://test.com/',
+      courseRound: courseRoundWithoutMemoFile,
+      canGetMemoFiles: false
+    }
+
+    const { rerender } = render(<CourseFileLinks {...propsWithMemoFile} />)
+    const memoLink = getByText(
+      `${translate.courseLabels.label_course_memo} (${courseRoundWithMemoFile.round_memoFile.fileDate})`
+    )
+    expect(memoLink).toBeInTheDocument()
+
+    rerender(<CourseFileLinks {...propsWithoutMemoFile} />)
+    const memoNoText = getByText(translate.courseLabels.no_memo)
+    expect(memoNoText).toBeInTheDocument()
+
+    rerender(<CourseFileLinks {...propsWithoutMemoNorConnectionFile} />)
+    const memoNoConnectionText = getByText(translate.courseLabels.no_memo_connection)
+    expect(memoNoConnectionText).toBeInTheDocument()
   })
 })
