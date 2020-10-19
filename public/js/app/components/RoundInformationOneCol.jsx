@@ -232,13 +232,13 @@ class RoundInformationOneCol extends Component {
                   )}
 
                   <h3 className="t4">{i18n.messages[language === 'en' ? 0 : 1].courseInformation.course_examiners}</h3>
-                  <span dangerouslySetInnerHTML={{ __html: roundData.examiners }} />
+                  <span dangerouslySetInnerHTML={{ __html: roundData.examiners || EMPTY[language] }} />
 
                   <h3 className="t4">{translate.round_responsibles}</h3>
-                  <span dangerouslySetInnerHTML={{ __html: roundData.responsibles }} />
+                  <span dangerouslySetInnerHTML={{ __html: roundData.responsibles || EMPTY[language] }} />
 
                   <h3 className="t4">{translate.round_teacher}</h3>
-                  <span dangerouslySetInnerHTML={{ __html: roundData.teachers }} />
+                  <span dangerouslySetInnerHTML={{ __html: roundData.teachers || EMPTY[language] }} />
                 </span>
               ) : (
                 ''
