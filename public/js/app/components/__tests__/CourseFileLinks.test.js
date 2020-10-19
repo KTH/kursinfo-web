@@ -52,7 +52,7 @@ describe('Component <CourseFileLinks>', () => {
       courseRound: courseRoundWithoutMemoFile,
       canGetMemoFiles: true
     }
-    const propsWithoutMemoNorConnectionFile = {
+    const propsWithoutMemoFileNorConnection = {
       language,
       memoStorageURI: 'https://test.com/',
       courseRound: courseRoundWithoutMemoFile,
@@ -69,7 +69,7 @@ describe('Component <CourseFileLinks>', () => {
     const memoNoText = getByText(translate.courseLabels.no_memo)
     expect(memoNoText).toBeInTheDocument()
 
-    rerender(<CourseFileLinks {...propsWithoutMemoNorConnectionFile} />)
+    rerender(<CourseFileLinks {...propsWithoutMemoFileNorConnection} />)
     const memoNoConnectionText = getByText(translate.courseLabels.no_memo_connection)
     expect(memoNoConnectionText).toBeInTheDocument()
   })
