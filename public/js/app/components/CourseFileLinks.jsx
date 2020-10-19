@@ -48,7 +48,7 @@ const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, canGetMemo
       {/* ---LINK TO ROUND SCHEDULE-- */}
       <Col sm="12" xs="12">
         <i className="icon-schedule" />
-        {scheduleUrl !== EMPTY[language] ? (
+        {scheduleUrl !== EMPTY[language === 'en' ? 0 : 1] ? (
           <a href={scheduleUrl}>{translate.courseLabels.label_schedule}</a>
         ) : (
           <span>{translate.courseLabels.no_schedule}</span>
