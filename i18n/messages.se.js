@@ -32,7 +32,8 @@ module.exports = {
     button_mobile_menu_label: 'Öppna/stäng mobilmenyn',
     mobile_menu_aria_label: 'Mobilemeny',
 
-    skip_to_main_content: 'Hoppa till huvudinnehållet'
+    skip_to_main_content: 'Hoppa till huvudinnehållet',
+    back_to_top_label: 'Till sidans topp'
   },
   breadCrumbLabels: {
     breadcrumbs: 'Brödsmulor',

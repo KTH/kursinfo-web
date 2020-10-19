@@ -31,7 +31,8 @@ module.exports = {
     button_mobile_menu_label: 'Open/close the mobile menu',
     mobile_menu_aria_label: 'Mobile menu',
 
-    skip_to_main_content: 'Skip to main content'
+    skip_to_main_content: 'Skip to main content',
+    back_to_top_label: 'To page top'
   },
   breadCrumbLabels: {
     breadcrumbs: 'Breadcrumbs',
