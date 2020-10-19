@@ -556,7 +556,7 @@ async function getIndex(req, res, next) {
       ladokRoundIds: []
     }
     const ugRedisApiResponse = await ugRedisApi.getCourseEmployees(apiMemoData)
-    routerStore.courseData.courseInfo.course_examiners = ugRedisApiResponse.examiners
+    routerStore.courseData.courseInfo.course_examiners = ugRedisApiResponse.examiners || EMPTY[lang]
 
     const html = ReactDOMServer.renderToString(renderProps)
 
