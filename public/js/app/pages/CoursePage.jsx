@@ -363,32 +363,39 @@ class CoursePage extends Component {
                   )}
                   <aside id="syllabusContainer" aria-label={translation.courseLabels.label_syllabus_pdf_header}>
                     <h3 className="t4">{translation.courseLabels.label_syllabus_pdf_header}</h3>
-                    <p>{translation.courseLabels.label_syllabus_pdf_info}</p>
-                    <a
-                      href={`${SYLLABUS_URL}${routerStore.courseCode}-${courseData.syllabusList[
-                        routerStore.activeSyllabusIndex
-                      ].course_valid_from.join('')}.pdf?lang=${language}`}
-                      id={
-                        courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from.join('') + '_active'
-                      }
-                      target="_blank"
-                      rel="noreferrer"
-                      className="pdf-link pdf-link-fix"
-                    >
-                      {`${translation.courseLabels.label_syllabus_link}${routerStore.courseCode}${` (${
-                        translation.courseInformation.course_short_semester[
-                          courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[1]
-                        ]
-                      }${courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[0]}–${
-                        courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to.length > 0
-                          ? translation.courseInformation.course_short_semester[
-                              courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to[1]
-                            ] +
-                            '' +
-                            courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to[0]
-                          : ''
-                      })`}`}
-                    </a>
+                    {courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[0] ? (
+                      <>
+                        <p>{translation.courseLabels.label_syllabus_pdf_info}</p>
+                        <a
+                          href={`${SYLLABUS_URL}${routerStore.courseCode}-${courseData.syllabusList[
+                            routerStore.activeSyllabusIndex
+                          ].course_valid_from.join('')}.pdf?lang=${language}`}
+                          id={
+                            courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from.join('') +
+                            '_active'
+                          }
+                          target="_blank"
+                          rel="noreferrer"
+                          className="pdf-link pdf-link-fix"
+                        >
+                          {`${translation.courseLabels.label_syllabus_link}${routerStore.courseCode}${` (${
+                            translation.courseInformation.course_short_semester[
+                              courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[1]
+                            ]
+                          }${courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[0]}–${
+                            courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to.length > 0
+                              ? translation.courseInformation.course_short_semester[
+                                  courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to[1]
+                                ] +
+                                '' +
+                                courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to[0]
+                              : ''
+                          })`}`}
+                        </a>
+                      </>
+                    ) : (
+                      <>{translation.courseLabels.label_syllabus_missing}</>
+                    )}
                   </aside>
                 </Col>
 

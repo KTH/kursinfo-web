@@ -56,6 +56,7 @@ module.exports = {
     header_no_syllabus: 'Kursplan och kursomgångar saknas',
     label_no_syllabus:
       'Kursplan saknas, kursinformationen som visas är övrig kursinformation. Även kursomgångar saknas för tidigare och kommande terminer, samt innevarande termin.',
+    label_syllabus_missing: 'Kursplan saknas',
     syllabus_marker_aria_label: 'Informationen tillhör kursplan',
     label_programme_year: 'Åk  ',
     label_postgraduate_course: 'Forskarkurser på ',

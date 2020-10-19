@@ -55,6 +55,7 @@ module.exports = {
     header_no_syllabus: 'Course syllabus and course offering missing',
     label_no_syllabus:
       'Course syllabus missing, showing available course information. Course offering also missing for current semester as well as for previous and coming semesters',
+    label_syllabus_missing: 'Course syllabus missing',
     syllabus_marker_aria_label: 'Retrieved from course syllabus',
     label_programme_year: 'year ',
     label_postgraduate_course: 'Postgraduate courses at ',
