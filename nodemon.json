@@ -1,7 +1,17 @@
 {
   "verbose": false,
   "ignore": [
-  	"public/**/*.*", 
-  	"test/**/*.*", 
-	  "server/views**/*.*"]
+    "dist/*",
+    "public/**/*.*",
+    "test/**/*.*",
+    "*/__tests__/*",
+    "*/__mocks__/*",
+    "*/__snapshots__/*",
+    "*.test.js",
+    "server/views/**/*.*",
+    "server/views/system/error.handlebars",
+    "server/views/layouts/errorLayout.handlebars"
+  ],
+  "ext": "js,jsx,handlebars,scss,svg,png",
+  "delay": 3000
 }
