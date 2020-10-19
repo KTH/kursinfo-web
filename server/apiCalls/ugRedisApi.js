@@ -38,8 +38,8 @@ async function _getCourseEmployees(apiMemoData) {
   const { courseCode, semester, ladokRoundIds } = apiMemoData
   try {
     const { assistants, teachers, examiners, responsibles } = redisKeys(courseCode, semester, ladokRoundIds)
-    log.info(
-      '_getCourseEmployees for all memos course rounds with key(s): ',
+    log.debug(
+      '_getCourseEmployees for with key(s): ',
       assistants.length ? assistants : '',
       teachers.length ? teachers : '',
       examiners.length ? examiners : '',
@@ -66,7 +66,7 @@ async function _getCourseEmployees(apiMemoData) {
       employeeIndex.set('assistants', employeeIndex.size)
     }
     const arrWithStringifiedArrays = await apiCall.execAsync()
-    log.info('Ug Redis fetched correctly', arrWithStringifiedArrays)
+    log.debug('Ug Redis fetched correctly', arrWithStringifiedArrays)
     const flatArrWithHtmlStr = arrWithStringifiedArrays.map((perTypeStringifiedArr) => {
       const thisTypeAllRoundsEmployees = perTypeStringifiedArr.flatMap((perRoundStr) => JSON.parse(perRoundStr))
       /* Remove duplicates */

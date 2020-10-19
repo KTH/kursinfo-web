@@ -40,11 +40,6 @@ const breadcrumbs = (translation, language, courseCode) => {
 @inject(['routerStore'])
 @observer
 class CoursePage extends Component {
-  static fetchData(routerStore, params) {
-    // eslint-disable-next-line no-console
-    console.log('fetchData, routerStore, params', routerStore, params)
-  }
-
   constructor(props) {
     super(props)
     const { routerStore } = this.props
@@ -131,8 +126,6 @@ class CoursePage extends Component {
     routerStore.showRoundData = eventTarget.selectedIndex !== 0
     routerStore.roundSelected = eventTarget.selectedIndex !== 0
     routerStore.roundSelectedIndex = eventTarget.selectedIndex
-
-    console.log('handleDropdownSelect - routerStore', routerStore)
 
     if (routerStore.showRoundData) {
       routerStore.getCourseEmployees()
