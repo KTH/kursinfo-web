@@ -6,7 +6,7 @@ import { EMPTY, LISTS_OF_PILOT_COURSES } from '../util/constants'
 const checkIfPilotCourse = (courseCode) => LISTS_OF_PILOT_COURSES.includes(courseCode)
 
 const PilotNewMemoLink = ({ href, translate }) => (
-  <a id="memoLink" className="pdf-link pdf-link-fix" href={href}>
+  <a id="memoLink" href={href}>
     {translate.courseLabels.label_course_memo}
   </a>
 )
