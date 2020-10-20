@@ -43,14 +43,19 @@ class CourseSectionList extends Component {
     const { store } = this.state
     const { language = 'sv' } = store
 
-    let literatureText =
-      course.course_literature !== EMPTY[language] ? course.course_literature : syllabus.course_literature
-    if (syllabus.course_literature_comment !== EMPTY[language]) {
-      literatureText =
-        literatureText !== EMPTY[language]
-          ? literatureText + '<br/>' + syllabus.course_literature_comment
-          : syllabus.course_literature_comment
+    let literatureText = EMPTY[language]
+    const courseHasLiterature = course.course_literature && course.course_literature !== EMPTY[language]
+    const syllabusHasLiterature = syllabus.course_literature && syllabus.course_literature !== EMPTY[language]
+    const syllabusHasLiteratureComment =
+      syllabus.course_literature_comment && syllabus.course_literature_comment !== EMPTY[language]
+
+    if (courseHasLiterature) {
+      literatureText = course.course_literature
+    } else if (syllabusHasLiterature) {
+      const literatureComment = syllabusHasLiteratureComment ? `<br />${syllabus.course_literature_comment}` : ''
+      literatureText = `${syllabus.course_literature}${literatureComment}`
     }
+
     const courseRequiredEquipment =
       course.course_required_equipment !== EMPTY[language]
         ? course.course_required_equipment
