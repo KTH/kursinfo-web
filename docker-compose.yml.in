@@ -5,8 +5,6 @@ services:
     env_file:
       # Add the following to your .env-file
       # SESSION_SECRET= (optional)
-      # LDAP_URI=ldaps://[username]@[host]
-      # LDAP_PASSWORD=
       # REDIS_URI=redis://:[auth_key]@[host]:[port]/?ssl=true (optional if you are running a local REDIS)
       - .env
     # Existing image in repository

@@ -1,23 +1,26 @@
-FROM kthse/kth-nodejs:10.14.0
+FROM kthse/kth-nodejs:12.0.0
+LABEL maintainer="KTH-Webb web-developers@kth.se"
 
-COPY ["package.json", "package.json"]
-#COPY ["package-lock.json", "package-lock.json"]
+WORKDIR /application
 
-RUN npm install --production --no-optional
-
-# Copy files used by Gulp.
 COPY ["config", "config"]
-COPY ["public", "public"]
 COPY ["i18n", "i18n"]
-COPY ["gulpfile.js", "gulpfile.js"]
-COPY ["package.json", "package.json"]
-RUN npm run docker
-
-# Copy source files, so changes does not trigger gulp.
-COPY ["app.js", "app.js"]
+COPY ["public", "public"]
 COPY ["server", "server"]
 
-ENV NODE_PATH /
+COPY [".babelrc", ".babelrc"]
+COPY ["app.js", "app.js"]
+COPY ["package.json", "package.json"]
+COPY ["package-lock.json", "package-lock.json"]
+
+RUN apk add --no-cache --virtual .gyp-dependencies python make g++ util-linux && \
+  npm run docker && \
+  apk del .gyp-dependencies
 
 EXPOSE 3000
+ENV TZ=Europe/Stockholm
+
+ENV NODE_PATH /application
+ENV TZ=Europe/Stockholm
+
 CMD ["node", "app.js"]

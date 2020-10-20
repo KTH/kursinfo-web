@@ -17,7 +17,6 @@ const koppsOpts = {
 
 config.koppsApi.doNotCallPathsEndpoint = true // skip checking _paths, because kopps doesnt have it
 config.koppsApi.connected = true
-// config.koppsApi.json = true
 
 const koppsConfig = {
   koppsApi: config.koppsApi
@@ -25,11 +24,11 @@ const koppsConfig = {
 
 const api = connections.setup(koppsConfig, koppsConfig, koppsOpts)
 
-async function getKoppsCourseData (courseCode, lang = 'sv') {
+async function getKoppsCourseData(courseCode, lang = 'sv') {
   const { client } = api.koppsApi
   const uri = `${config.koppsApi.basePath}course/${encodeURIComponent(courseCode)}/detailedinformation?l=${lang}`
   try {
-    return await client.getAsync({uri, useCache: true})
+    return await client.getAsync({ uri, useCache: true })
   } catch (err) {
     log.debug('Kopps is not available', err)
     return err

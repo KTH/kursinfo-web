@@ -12,7 +12,7 @@ The course information project (KIP) is an initiative at KTH that was launched i
 
 ## Overview
 
-Kursinfo-web is a microservice with the public view of course information. It uses [Inferno](https://https://infernojs.org//), [MobX](https://mobx.js.org/), and is based on [node-web](https://github.com/KTH/node-web).
+Kursinfo-web is a microservice with the public view of course information. It uses [React](https://reactjs.org//), [MobX](https://mobx.js.org/), and is based on [node-web](https://github.com/KTH/node-web).
 
 ### API:s
 
@@ -46,14 +46,11 @@ Kursinfo-web fetches data from:
 
 ### Secrets for Development
 
-Secrets during local development are stored in a `.env` file in the root of your project. This file should be in `.gitignore`. It needs to contain at least LDAP connection URI and password in order for authentication to work properly.
+Secrets during local development are stored in a `.env` file in the root of your project. This file should be in `.gitignore`.
 
 Secrets (names, passwords, keys, and uri:s) for dev and prod are stored in the the course information project’s Azure key vault.
 
 ```sh
-LDAP_BASE=OU=UG,DC=ref,DC=ug,DC=kth,DC=se
-LDAP_URI=ldaps://[name]@ref.ug.kth.se@ldap.ref.ug.kth.se
-LDAP_PASSWORD=[password]
 
 # If API_URI is omitted, "http://localhost:3001/api/kursinfo?defaultTimeout=10000" will be used
 API_URI=https://api-r.referens.sys.kth.se/api/kursinfo?defaultTimeout=10000

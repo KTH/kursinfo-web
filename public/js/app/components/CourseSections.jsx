@@ -1,22 +1,42 @@
-import { Component } from 'inferno'
+/* eslint-disable react/no-danger */
+import React from 'react'
+import { FaAsterisk } from 'react-icons/fa'
 
-class CourseSection extends Component {
-  render () {
-    const props = this.props
-    return (
-      <section className='col-12' id={props.sectionId} aria-labelledBy={`${props.sectionId}-header`}>
-        <div >
-          {props.sectionHeader.length > 0 ? <h2 id={`${props.sectionId}-header`} className={props.class}>{props.sectionHeader}</h2> : ''}
-          {props.courseData.map((data, index) =>
-            <span className='word-break'>
-              <h3>{data.header}</h3>
-              <p dangerouslySetInnerHTML={{ __html: data.text}} />
-            </span>
-          )}
-        </div>
-      </section>
-    )
-  }
+const syllabusMarker = (data, syllabusMarkerAriaLabel) => (
+  <h3>
+    {data.header}
+    {data.syllabusMarker && (
+      <sup>
+        <FaAsterisk className="syllabus-marker-icon" aria-label={syllabusMarkerAriaLabel} />
+      </sup>
+    )}
+  </h3>
+)
+
+const CourseSection = ({
+  sectionHeader: header = '',
+  courseData = [],
+  sectionId = '',
+  class: style,
+  syllabusMarkerAriaLabel
+}) => {
+  return (
+    <div className="col-12" id={sectionId} aria-labelledby={`${sectionId}-header`}>
+      {header.length ? (
+        <h2 id={`${sectionId}-header`} className={style}>
+          {header}
+        </h2>
+      ) : null}
+      {courseData.map((data) =>
+        data.text ? (
+          <span key={data.header || data.text} className="word-break">
+            {data.header && syllabusMarker(data, syllabusMarkerAriaLabel)}
+            <p dangerouslySetInnerHTML={{ __html: data.text }} />
+          </span>
+        ) : null
+      )}
+    </div>
+  )
 }
 
 export default CourseSection
