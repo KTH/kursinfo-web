@@ -417,36 +417,6 @@ class CoursePage extends Component {
                         ) : (
                           ''
                         )}
-
-                        <Row id="syllabusLink">
-                          <Col sm="12">
-                            {/* --- ACTIVE SYLLABUS LINK---  */}
-                            <div
-                              key="fade-2"
-                              className={` fade-container ${routerStore.syllabusInfoFade === true ? ' fadeOutIn' : ''}`}
-                            >
-                              {courseData.syllabusSemesterList.length > 0 ? (
-                                <span>{`${translation.courseLabels.label_course_syllabus} ${
-                                  translation.courseLabels.label_syllabus_link
-                                }${routerStore.courseCode}${` (${
-                                  translation.courseInformation.course_short_semester[
-                                    courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[1]
-                                  ]
-                                }${courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[0]}–${
-                                  courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to.length > 0
-                                    ? translation.courseInformation.course_short_semester[
-                                        courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to[1]
-                                      ] +
-                                      '' +
-                                      courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to[0]
-                                    : ''
-                                })`}`}</span>
-                              ) : (
-                                ''
-                              )}
-                            </div>
-                          </Col>
-                        </Row>
                       </Col>
                     </Row>
 
@@ -454,6 +424,7 @@ class CoursePage extends Component {
                     <CourseSectionList
                       courseInfo={courseData.courseInfo}
                       syllabusList={courseData.syllabusList[routerStore.activeSyllabusIndex]}
+                      syllabusSemesterList={courseData.syllabusSemesterList}
                       showCourseLink={routerStore.showCourseWebbLink}
                       partToShow="courseContentBlock"
                       syllabusName={

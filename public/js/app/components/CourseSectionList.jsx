@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react'
 
 import i18n from '../../../../i18n'
 import CourseSection from './CourseSections'
+import SyllabusInformation from './SyllabusInformation'
 
 const EMPTY = { en: 'No information inserted', sv: 'Ingen information tillagd' }
 
@@ -182,13 +183,19 @@ class CourseSectionList extends Component {
     const { store } = this.state
     const { language = 'sv' } = store
     const translation = i18n.messages[language === 'en' ? 0 : 1]
-    const { partToShow } = this.props
+    const { partToShow, syllabusList, syllabusSemesterList } = this.props
     return (
       <section
         className="row"
         id={partToShow}
         aria-label={`${translation.courseLabels.label_course_information} ${this.props.syllabusName}`}
       >
+        <SyllabusInformation
+          routerStore={this.props.routerStore}
+          syllabusList={syllabusList}
+          syllabusSemesterList={syllabusSemesterList}
+          translation={translation}
+        />
         <CourseSection
           sectionHeader={translation.courseLabels.header_content}
           headerType="3"
