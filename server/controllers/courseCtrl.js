@@ -499,6 +499,13 @@ async function getIndex(req, res, next) {
 
     const koppsCourseDataResponse = await koppsCourseData.getKoppsCourseData(courseCode, lang)
     if (koppsCourseDataResponse.body) {
+
+      if (courseCode === 'A21KOB') {
+        koppsCourseDataResponse.body.roundInfos[0].round.maxSeats = 10
+        koppsCourseDataResponse.body.roundInfos[0].round.selectionCriteria = 'Spicy jalapeno bacon ipsum dolor amet pork flank meatball ball tip beef ribs. Boudin jerky pastrami, pig corned beef short loin beef. Buffalo hamburger short ribs ham hock pork loin boudin pig. T-bone bresaola drumstick ham hock, sausage pig frankfurter biltong kevin short ribs pork chislic venison pork chop jowl.'
+
+      }
+
       const courseResult = koppsCourseDataResponse.body
       routerStore.isCancelled = courseResult.course.cancelled
       routerStore.isDeactivated = courseResult.course.deactivated
