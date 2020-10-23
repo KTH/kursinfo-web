@@ -102,6 +102,7 @@ module.exports = {
       'Choose semester and course offering to see information from the correct course syllabus and course offering.',
     round_seats_info:
       'Course offering may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made.',
+    no_seat_limitation: 'Places are not limited',
     syllabus_info:
       '<p>• A course goes different course offerings. To see information about a specific course offering, choose semester and course offering. The course syllabus information will be updated depending on the chosen semester. Information from the course syllabus is marked with *.</p><p>• Please note: regulations in course syllabus are rules that are generally applicable and binding for both employees and students.</p><p>• If you have not chosen semester and course offering, you will see course information from the current or future course syllabus. The valid period of the course syllabus is stated on the page.</p>',
     sideMenu: {

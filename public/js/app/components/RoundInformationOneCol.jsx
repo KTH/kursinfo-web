@@ -137,7 +137,7 @@ class RoundInformationOneCol extends Component {
 
                     <h3 className="t4">
                       {translate.round_max_seats}
-                      {round /* && round.round_seats !== EMPTY[language] */ ? (
+                      {round && round.round_seats !== EMPTY[language] ? (
                         <InfoModal
                           title={translate.round_max_seats}
                           infoText={i18n.messages[language === 'en' ? 0 : 1].courseLabels.round_seats_info}
@@ -147,7 +147,7 @@ class RoundInformationOneCol extends Component {
                         ''
                       )}
                     </h3>
-                    <p>{round ? round.round_seats : EMPTY[language]}</p>
+                    {round && round.round_seats ? <p>{round.round_seats}</p> : <p>{EMPTY[language]}</p>}
 
                     <h3 className="t4">{translate.round_time_slots}</h3>
                     <p dangerouslySetInnerHTML={{ __html: round.round_time_slots }} />

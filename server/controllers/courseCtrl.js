@@ -290,7 +290,7 @@ function _getRoundPeriodes(periodeList, language = 'sv') {
 
 function _getRoundSeats(max, min, language) {
   if (max === EMPTY[language] && min === EMPTY[language]) {
-    return EMPTY[language]
+    return i18n.messages[language === 'en' ? 0 : 1].courseLabels.no_seat_limitation
   }
   if (max !== EMPTY[language]) {
     if (min !== EMPTY[language]) {
