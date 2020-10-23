@@ -363,7 +363,9 @@ class CoursePage extends Component {
                   )}
                   <aside id="syllabusContainer" aria-label={translation.courseLabels.label_syllabus_pdf_header}>
                     <h3 className="t4">{translation.courseLabels.label_syllabus_pdf_header}</h3>
-                    {courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[0] ? (
+                    {courseData.syllabusList[routerStore.activeSyllabusIndex] &&
+                    courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from &&
+                    courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[0] ? (
                       <>
                         <p>{translation.courseLabels.label_syllabus_pdf_info}</p>
                         <a
@@ -433,7 +435,12 @@ class CoursePage extends Component {
                               translation.courseInformation.course_short_semester[
                                 courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[1]
                               ]
-                            }${courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[0]}–${
+                            }${
+                              courseData.syllabusList[routerStore.activeSyllabusIndex] &&
+                              courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from
+                                ? courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[0]
+                                : ''
+                            }–${
                               courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to.length > 0
                                 ? translation.courseInformation.course_short_semester[
                                     courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_to[1]
