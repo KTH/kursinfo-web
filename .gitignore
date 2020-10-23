@@ -33,7 +33,7 @@ dist
 .cache
 
 # Docker
-*.env
+*.env*
 
 # KTH Node Web Common imported files
 server/views/system/error.handlebars
