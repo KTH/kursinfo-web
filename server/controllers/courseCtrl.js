@@ -335,6 +335,7 @@ function _getRound(roundObject, language = 'sv') {
       isValidData(roundObject.round.minSeats, language),
       language
     ),
+    round_selection_criteria: isValidData(roundObject.round.selectionCriteria, language),
     round_type:
       roundObject.round.applicationCodes.length > 0
         ? isValidData(roundObject.round.applicationCodes[0].courseRoundType.name, language)
