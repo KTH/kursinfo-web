@@ -110,7 +110,8 @@ module.exports = {
       page_about_course: 'About course',
       page_before_course: 'Before choosing course',
       page_catalog: 'Course and programme directory',
-      page_history: 'Course development and history',
+      page_development: 'Course development',
+      page_archive: 'Archive',
       page_memo: 'Prepare and take course'
     },
     label_close: 'Close'
