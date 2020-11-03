@@ -111,7 +111,8 @@ module.exports = {
       page_about_course: 'Om kursen ',
       page_before_course: 'Inför kursval',
       page_catalog: 'Kurs- och programkatalogen',
-      page_history: 'Kursens utveckling och historik',
+      page_development: 'Kursens utveckling',
+      page_archive: 'Arkiv',
       page_memo: 'Förbereda och gå kurs'
     },
     label_close: 'Stäng'

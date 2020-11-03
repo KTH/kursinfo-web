@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { COURSE_MEMO_URL, SIDE_MENU_LINK_URL, COURSE_HISTORY_URL, LISTS_OF_PILOT_COURSES } from '../util/constants'
+import { COURSE_MEMO_URL, SIDE_MENU_LINK_URL, COURSE_DEVELOPMENT_URL, LISTS_OF_PILOT_COURSES } from '../util/constants'
 
 const checkIfPilotCourse = (courseCode) => LISTS_OF_PILOT_COURSES.includes(courseCode)
 
@@ -22,7 +22,8 @@ const labelBeforeChoosingCourse = (courseCode, label) =>
   ) : null
 
 const SideMenu = ({ courseCode, labels = {}, language }) => {
-  const courseHistoryLink = `${COURSE_HISTORY_URL}${courseCode}?l=${language}`
+  const courseDevelopmentLink = `${COURSE_DEVELOPMENT_URL}${courseCode}?l=${language}`
+  const courseArchiveLink = `${COURSE_DEVELOPMENT_URL}${courseCode}/arkiv?l=${language}`
 
   return (
     <nav
@@ -58,14 +59,19 @@ const SideMenu = ({ courseCode, labels = {}, language }) => {
               </a>
             </li>
           )}
-          <li className="nav-item node">
+          <li className="nav-item leaf">
             <a
               className="nav-link"
-              id="course-development-history-link"
-              title={labels.page_history}
-              href={courseHistoryLink}
+              id="course-development-link"
+              title={labels.page_development}
+              href={courseDevelopmentLink}
             >
-              {labels.page_history}
+              {labels.page_development}
+            </a>
+          </li>
+          <li className="nav-item leaf">
+            <a className="nav-link" id="course-archive-link" title={labels.page_archive} href={courseArchiveLink}>
+              {labels.page_archive}
             </a>
           </li>
         </ul>
