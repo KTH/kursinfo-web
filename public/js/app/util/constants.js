@@ -17,16 +17,18 @@ export const SIDE_MENU_LINK_URL = {
 }
 export const LISTS_OF_PILOT_COURSES = [
   'AF1301',
+  'AF1402',
   'AI1145',
+  'ED1110',
+  'EH2720',
+  'EH2070',
   'HS1001',
   'LH238V',
   'LS1532',
   'MG1028',
   'MH2101',
   'MJ2462',
-  'ED1110',
-  'EH2720',
-  'EH2070',
+  'ML1333',
   'SD2900',
   'SD2925'
 ]
