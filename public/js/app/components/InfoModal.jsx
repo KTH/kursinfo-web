@@ -61,7 +61,7 @@ class InfoModal extends Component {
       <Button className="btn-info-modal" onClick={this.toggle} aria-label={ariaLabel}>
         {buttonLabel}
         <Modal isOpen={modal} toggle={this.toggle} onOpened={this.keepFocus} className={className} fade={fadeModal}>
-          <ModalHeader toggle={this.toggle}>{title || ''}</ModalHeader>
+          <ModalHeader className='h-4' toggle={this.toggle}>{title || ''}</ModalHeader>
           <ModalBody>
             {type && type === 'html' ? <p dangerouslySetInnerHTML={{ __html: infoText }} /> : <p>{infoText}</p>}
           </ModalBody>
