@@ -6,7 +6,7 @@ import '@testing-library/jest-dom/extend-expect'
 import RoundInformationOneCol from '../RoundInformationOneCol'
 
 import i18n from '../../../../../i18n'
-import { EMPTY } from '../../util/constants'
+import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../../util/constants'
 
 const { getByText, getAllByText } = screen
 
@@ -69,11 +69,11 @@ describe('Component <RoundInformationOneCol>', () => {
     expect(teachers).toBeInTheDocument()
 
     rerender(<RoundInformationOneCol {...propsWithEmptyEmployees} />)
-    const emptyEmployees = getAllByText(EMPTY[0]) // en
+    const emptyEmployees = getAllByText(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0]) // en
     expect(emptyEmployees.length).toBe(3)
 
     rerender(<RoundInformationOneCol {...propsWithoutEmployees} />)
-    const noEmployees = getAllByText(EMPTY[0]) // en
+    const noEmployees = getAllByText(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0]) // en
     expect(noEmployees.length).toBe(3)
   })
 })
