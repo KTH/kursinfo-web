@@ -1,5 +1,5 @@
 const PROGRAMME_URL = '/student/kurser/program'
-const EMPTY = { en: 'No information inserted', sv: 'Ingen information tillagd' }
+const INFORM_IF_IMPORTANT_INFO_IS_MISSING = { en: 'No information inserted', sv: 'Ingen information tillagd' }
 const FORSKARUTB_URL = 'https://www.kth.se/utbildning/forskarutbildning/kurser/org/'
 const COURSE_WEB_URL = 'https://www.kth.se/social/course/'
 const MAX_1_DAY = 1
@@ -30,7 +30,7 @@ const LISTS_OF_PILOT_COURSES = [
 
 module.exports = {
   PROGRAMME_URL,
-  EMPTY,
+  INFORM_IF_IMPORTANT_INFO_IS_MISSING,
   FORSKARUTB_URL,
   COURSE_WEB_URL,
   MAX_1_DAY,

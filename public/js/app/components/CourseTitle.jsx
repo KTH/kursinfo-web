@@ -3,11 +3,11 @@ import { Row } from 'reactstrap'
 
 import i18n from '../../../../i18n'
 
-import { EMPTY } from '../util/constants'
+import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../util/constants'
 
 const formatCredits = (credits, creditUnitAbbr, languageIndex) => {
   if (!credits) return <>&nbsp;</>
-  const cred = credits !== EMPTY[languageIndex] && credits.toString().indexOf('.') < 0 ? credits + '.0' : credits
+  const cred = credits !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[languageIndex] && credits.toString().indexOf('.') < 0 ? credits + '.0' : credits
   const localeCredits = languageIndex === 0 ? cred : cred.toString().replace('.', ',')
   const creditUnit = languageIndex === 0 ? 'credits' : creditUnitAbbr
   return `${localeCredits} ${creditUnit}`
