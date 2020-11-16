@@ -266,6 +266,7 @@ a.right-link {
   }
   .btn-info-modal {
     margin-left: 5px;
+    vertical-align: middle;
   }
 }
 
@@ -440,72 +441,7 @@ sup {
   }
 }
 
-///*************************************///
-.alert-info {
-  color: #000;
-  font-size: 1em;
-  min-height: 3.4rem;
-  border-radius: 0.15rem;
-  position: relative;
-  padding: 1rem 1rem 1rem 4.4rem;
-  background-color: #fcf8e3;
-  border: 1px solid #faebcc;
-
-  &::before {
-    font-size: 1.4rem;
-    position: absolute;
-    top: 10%;
-    left: 0.2em;
-    width: 2em;
-    content: url('//www.kth.se/img/kth-style/icons/alert-info.svg');
-  }
-}
-
 ///******************** MODAL ****************************///
 .modal {
   display: block;
-}
-/* The actual modal */
-.ModalFade-leave {
-  transform: translateY(0);
-  opacity: 1;
-}
-.ModalFade-leave-active {
-  overflow: hidden;
-  transition: transform 0.5s ease-in, opacity 0.4s ease-in;
-}
-.ModalFade-leave-end {
-  transform: translateY(-150%);
-  opacity: 0;
-}
-.ModalFade-enter {
-  transform: translateY(-150%);
-  opacity: 0;
-}
-.ModalFade-enter-active {
-  transition: transform 0.5s ease-out, opacity 0.4s ease-in;
-}
-.ModalFade-enter-end {
-  transform: translateY(0);
-  opacity: 1;
-}
-/* The modal background */
-.ModalBackdropFade-leave {
-  opacity: 0.5;
-}
-.ModalBackdropFade-leave-active {
-  overflow: hidden;
-  transition: opacity 0.3s ease-in;
-}
-.ModalBackdropFade-leave-end {
-  opacity: 0 !important;
-}
-.ModalBackdropFade-enter {
-  opacity: 0 !important;
-}
-.ModalBackdropFade-enter-active {
-  transition: opacity 0.3s ease-in;
-}
-.ModalBackdropFade-enter-end {
-  opacity: 0.5;
 }
