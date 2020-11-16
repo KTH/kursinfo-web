@@ -101,8 +101,9 @@ module.exports = {
     no_memo_connection: 'Kurs-pm kan inte visas',
     header_no_round_selected: 'Välj termin och kursomgång',
     no_round_selected: 'Välj termin och kursomgång för att se information från rätt kursplan och kursomgång.',
-    round_seats_info:
+    round_seats_default_info:
       'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
+    round_seats_info: 'Urvalet sker baserat på:',
     syllabus_info:
       '<p>• En kurs undervisas i olika kursomgångar. För att se information om en specifik kursomgång behöver du välja termin och kursomgång. Information från kursplan kommer att uppdateras beroende på vald termin. Information från kursplan är markerad med *.</p><p>• Observera: bestämmelser i kursplaner är regler som är generellt tillämpbara och bindande för såväl anställda som studenter.</p><p>• Har du inte valt termin och kursomgång ser du kursinformation från nuvarande eller kommande kursplan. På sidan anges den period som information från kursplan gäller för.</p>',
     sideMenu: {
@@ -175,6 +176,7 @@ module.exports = {
     round_header: 'Gäller för kursomgång',
     round_application_code: 'Anmälningskod',
     round_max_seats: 'Antal platser',
+    round_no_seats_limit: 'Ingen platsbegränsning',
     round_part_of_programme: 'Del av program',
     round_responsibles: 'Kursansvarig',
     round_end_date: 'Kursen slutar',
