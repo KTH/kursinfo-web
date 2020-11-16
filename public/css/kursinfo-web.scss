@@ -337,31 +337,6 @@ a.right-link {
     margin-left: 0;
   }
 }
-a.editButton {
-  &::after {
-    content: '';
-    height: 1.5em;
-    width: 1.5em;
-    display: inline-block;
-    margin: -0.6em 0 0.3em 0.3em;
-    vertical-align: middle;
-    background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
-    transform: rotate(180deg);
-  }
-}
-
-a.editButton {
-  &::after {
-    content: '';
-    height: 1.5em;
-    width: 1.5em;
-    display: inline-block;
-    margin: -0.6em 0 0.3em 0.3em;
-    vertical-align: middle;
-    background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
-    transform: rotate(180deg);
-  }
-}
 
 .ul-no-padding {
   padding-left: 20px;
