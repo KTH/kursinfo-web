@@ -150,7 +150,7 @@ describe('Component <RoundInformationOneCol>', () => {
     done()
   })
 
-  test('renders course offering number of places correctly', async (done) => {
+  test('renders course offering number of places correctly and default text in modal if selection criteria is empty', async (done) => {
     const language = 'en'
     const translate = i18n.messages[language === 'en' ? 0 : 1]
 
