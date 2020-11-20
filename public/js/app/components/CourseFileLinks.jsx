@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row, Col } from 'reactstrap'
 import i18n from '../../../../i18n'
-import { EMPTY, LISTS_OF_PILOT_COURSES } from '../util/constants'
+import { INFORM_IF_IMPORTANT_INFO_IS_MISSING, LISTS_OF_PILOT_COURSES } from '../util/constants'
 
 const checkIfPilotCourse = (courseCode) => LISTS_OF_PILOT_COURSES.includes(courseCode)
 
@@ -48,7 +48,7 @@ const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, canGetMemo
       {/* ---LINK TO ROUND SCHEDULE-- */}
       <Col sm="12" xs="12">
         <i className="icon-schedule" />
-        {scheduleUrl !== EMPTY[language === 'en' ? 0 : 1] ? (
+        {scheduleUrl !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language === 'en' ? 0 : 1] ? (
           <a href={scheduleUrl}>{translate.courseLabels.label_schedule}</a>
         ) : (
           <span>{translate.courseLabels.no_schedule}</span>

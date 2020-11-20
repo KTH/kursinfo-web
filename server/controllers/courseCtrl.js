@@ -18,7 +18,7 @@ const serverConfig = require('../configuration').server
 const paths = require('../server').getPaths()
 const api = require('../api')
 
-const { EMPTY, PROGRAMME_URL, MAX_1_MONTH, MAX_2_MONTH } = require('../util/constants')
+const { INFORM_IF_IMPORTANT_INFO_IS_MISSING, PROGRAMME_URL, MAX_1_MONTH, MAX_2_MONTH } = require('../util/constants')
 const i18n = require('../../i18n')
 
 function _staticRender(context, location) {
@@ -30,7 +30,7 @@ function _staticRender(context, location) {
 }
 
 function isValidData(dataObject, language, setEmpty = false) {
-  const emptyText = setEmpty ? '' : EMPTY[language]
+  const emptyText = setEmpty ? '' : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
   return !dataObject ? emptyText : dataObject
 }
 
@@ -75,17 +75,17 @@ function _getCourseDefaultInformation(courseResult, language) {
     course_main_subject:
       courseResult.mainSubjects && courseResult.mainSubjects.length > 0
         ? courseResult.mainSubjects.join(', ')
-        : EMPTY[language],
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_recruitment_text: isValidData(courseResult.course.recruitmentText, language, true),
     course_department: isValidData(courseResult.course.department.name, language),
     course_department_link:
-      isValidData(courseResult.course.department.name, language) !== EMPTY[language]
+      isValidData(courseResult.course.department.name, language) !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
         ? '<a href="/' +
           courseResult.course.department.name.split('/')[0].toLowerCase() +
           '/" target="blank">' +
           courseResult.course.department.name +
           '</a>'
-        : EMPTY[language],
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_department_code: isValidData(courseResult.course.department.code, language),
     course_contact_name: isValidData(courseResult.course.infoContactName, language).replace('<', '').replace('>', ''),
     course_prerequisites: isValidData(courseResult.course.prerequisites, language),
@@ -93,7 +93,7 @@ function _getCourseDefaultInformation(courseResult, language) {
     course_supplemental_information_url: isValidData(courseResult.course.supplementaryInfoUrl, language),
     course_supplemental_information_url_text: isValidData(courseResult.course.supplementaryInfoUrlName, language),
     course_supplemental_information: isValidData(courseResult.course.supplementaryInfo, language),
-    course_examiners: EMPTY[language],
+    course_examiners: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_last_exam: courseResult.course.lastExamTerm
       ? courseResult.course.lastExamTerm.term.toString().match(/.{1,4}/g)
       : [],
@@ -156,19 +156,19 @@ function _getSyllabusData(courseResult, semester = 0, language) {
     course_goals:
       courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
         ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.goals, language)
-        : EMPTY[language],
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_content:
       courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
         ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.content, language)
-        : EMPTY[language],
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_disposition:
       courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
         ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.disposition, language)
-        : EMPTY[language],
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_eligibility:
       courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
         ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.eligibility, language)
-        : EMPTY[language],
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_requirments_for_final_grade:
       courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
         ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.reqsForFinalGrade, language, true)
@@ -176,11 +176,11 @@ function _getSyllabusData(courseResult, semester = 0, language) {
     course_literature:
       courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
         ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.literature, language)
-        : EMPTY[language],
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_literature_comment:
       courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
         ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.literatureComment, language)
-        : EMPTY[language],
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_valid_from:
       courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
         ? isValidData(courseResult.publicSyllabusVersions[semester].validFromTerm.term)
@@ -204,7 +204,7 @@ function _getSyllabusData(courseResult, semester = 0, language) {
             courseResult.publicSyllabusVersions[semester].validFromTerm.term,
             courseResult.course.creditUnitAbbr
           )
-        : EMPTY[language],
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_examination_comments:
       courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
         ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.examComments, language, true)
@@ -285,25 +285,25 @@ function _getRoundPeriodes(periodeList, language = 'sv') {
       return periodeList[0].formattedPeriodsAndCredits
     }
   }
-  return EMPTY[language]
+  return INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
 }
 
-function _getRoundSeats(max, min, language) {
-  if (max === EMPTY[language] && min === EMPTY[language]) {
-    return i18n.messages[language === 'en' ? 0 : 1].courseLabels.no_seat_limitation
+function _getRoundSeatsMsg(max, min, language) {
+  if (!max && !min) {
+    return ''
   }
-  if (max !== EMPTY[language]) {
-    if (min !== EMPTY[language]) {
+  if (max) {
+    if (min) {
       return min + ' - ' + max
     } else {
       return 'Max: ' + max
     }
   }
-  return 'Min: ' + min
+  return min ? 'Min: ' + min : ''
 }
 
 function _getDateFormat(date, language) {
-  if (date === EMPTY[language] || language === 'sv') {
+  if (date === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language] || language === 'sv') {
     return date
   }
   const splitDate = date.split('-')
@@ -330,26 +330,27 @@ function _getRound(roundObject, language = 'sv') {
         ? roundObject.round.startTerm.term.toString().match(/.{1,4}/g)
         : [],
     round_periods: _getRoundPeriodes(roundObject.round.courseRoundTerms, language),
-    round_seats: _getRoundSeats(
-      isValidData(roundObject.round.maxSeats, language),
-      isValidData(roundObject.round.minSeats, language),
+    round_seats: _getRoundSeatsMsg(
+      isValidData(roundObject.round.maxSeats, language, true),
+      isValidData(roundObject.round.minSeats, language, true),
       language
-    ),
+    ) || '',
+    round_selection_criteria: isValidData(roundObject.round[ language === 'en' ? 'selectionCriteriaEn' : 'selectionCriteriaSv' ], language, true),
     round_type:
       roundObject.round.applicationCodes.length > 0
         ? isValidData(roundObject.round.applicationCodes[0].courseRoundType.name, language)
-        : EMPTY[language],
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     round_application_link: isValidData(roundObject.admissionLinkUrl, language),
     round_part_of_programme:
-      roundObject.usage.length > 0 ? _getRoundProgramme(roundObject.usage, language) : EMPTY[language],
+      roundObject.usage.length > 0 ? _getRoundProgramme(roundObject.usage, language) : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     round_state: isValidData(roundObject.round.state, language),
     round_comment: isValidData(roundObject.commentsToStudents, language, true),
     round_category:
       roundObject.round.applicationCodes.length > 0
         ? isValidData(roundObject.round.applicationCodes[0].courseRoundType.category, language)
-        : EMPTY[language]
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
   }
-  if (courseRoundModel.round_short_name === EMPTY[language]) {
+  if (courseRoundModel.round_short_name === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) {
     courseRoundModel.round_short_name = `${language === 0 ? 'Start' : 'Start'}  ${courseRoundModel.round_start_date}`
   }
 
@@ -487,7 +488,7 @@ async function getIndex(req, res, next) {
     //TODO-INTEGRATION: REMOVE
     if (memoApiUp) {
       const memoApiResponse = await memoApi.getFileList(courseCode)
-      if (memoApiResponse.body) {
+      if (memoApiResponse && memoApiResponse.body) {
         routerStore.memoList = memoApiResponse.body
         /* routerStore.showCourseWebbLink = memoApiResponse.body.isCourseWebLink */
       } else {
@@ -499,6 +500,25 @@ async function getIndex(req, res, next) {
 
     const koppsCourseDataResponse = await koppsCourseData.getKoppsCourseData(courseCode, lang)
     if (koppsCourseDataResponse.body) {
+
+      // if (courseCode === 'A21KOB') {
+      //   koppsCourseDataResponse.body.roundInfos[0].round.maxSeats = 10
+      //   koppsCourseDataResponse.body.roundInfos[0].round.selectionCriteriaEn = 'English. Spicy jalapeno bacon ipsum dolor amet pork flank meatball ball tip beef ribs. Boudin jerky pastrami, pig corned beef short loin beef. Buffalo hamburger short ribs ham hock pork loin boudin pig. T-bone bresaola drumstick ham hock, sausage pig frankfurter biltong kevin short ribs pork chislic venison pork chop jowl.'
+      //   koppsCourseDataResponse.body.roundInfos[0].round.selectionCriteriaSv = 'Svenska. Spicy jalapeno bacon ipsum dolor amet pork flank meatball ball tip beef ribs. Boudin jerky pastrami, pig corned beef short loin beef. Buffalo hamburger short ribs ham hock pork loin boudin pig. T-bone bresaola drumstick ham hock, sausage pig frankfurter biltong kevin short ribs pork chislic venison pork chop jowl.'
+      // }
+
+      // if (courseCode === 'SF1624') {
+      //   koppsCourseDataResponse.body.roundInfos[0].round.maxSeats = undefined
+      //   koppsCourseDataResponse.body.roundInfos[0].round.selectionCriteriaEn = ''
+      //   koppsCourseDataResponse.body.roundInfos[0].round.selectionCriteriaSv = 'Svenska. Spicy jalapeno bacon ipsum dolor amet pork flank meatball ball tip beef ribs. Boudin jerky pastrami, pig corned beef short loin beef. Buffalo hamburger short ribs ham hock pork loin boudin pig. T-bone bresaola drumstick ham hock, sausage pig frankfurter biltong kevin short ribs pork chislic venison pork chop jowl.'
+      // }
+
+      // if (courseCode === 'SF1627') {
+      //   koppsCourseDataResponse.body.roundInfos[0].round.maxSeats = 4
+      //   koppsCourseDataResponse.body.roundInfos[0].round.selectionCriteriaEn = ''
+      //   koppsCourseDataResponse.body.roundInfos[0].round.selectionCriteriaSv = 'Svenska. Spicy jalapeno bacon ipsum dolor amet pork flank meatball ball tip beef ribs. Boudin jerky pastrami, pig corned beef short loin beef. Buffalo hamburger short ribs ham hock pork loin boudin pig. T-bone bresaola drumstick ham hock, sausage pig frankfurter biltong kevin short ribs pork chislic venison pork chop jowl.'
+      // }
+
       const courseResult = koppsCourseDataResponse.body
       routerStore.isCancelled = courseResult.course.cancelled
       routerStore.isDeactivated = courseResult.course.deactivated
@@ -556,7 +576,7 @@ async function getIndex(req, res, next) {
       ladokRoundIds: []
     }
     const ugRedisApiResponse = await ugRedisApi.getCourseEmployees(apiMemoData)
-    routerStore.courseData.courseInfo.course_examiners = ugRedisApiResponse.examiners || EMPTY[lang]
+    routerStore.courseData.courseInfo.course_examiners = ugRedisApiResponse.examiners || INFORM_IF_IMPORTANT_INFO_IS_MISSING[lang]
 
     const html = ReactDOMServer.renderToString(renderProps)
 

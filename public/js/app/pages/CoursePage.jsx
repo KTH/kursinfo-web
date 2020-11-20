@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react'
 import { Row, Col, Alert, Breadcrumb, BreadcrumbItem } from 'reactstrap'
 
 import i18n from '../../../../i18n'
-import { EMPTY, FORSKARUTB_URL, SYLLABUS_URL } from '../util/constants'
+import { INFORM_IF_IMPORTANT_INFO_IS_MISSING, FORSKARUTB_URL, SYLLABUS_URL } from '../util/constants'
 import { breadcrumbLinks, aboutCourseLink } from '../util/links'
 
 import RoundInformationOneCol from '../components/RoundInformationOneCol'
@@ -286,7 +286,7 @@ class CoursePage extends Component {
                                 ${courseData.roundList[routerStore.activeSemester][0].round_course_term[0]}  
                                 ${
                                   courseData.roundList[routerStore.activeSemester][0].round_short_name !==
-                                  EMPTY[language]
+                                  INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
                                     ? courseData.roundList[routerStore.activeSemester][0].round_short_name
                                     : ''
                                 }     
@@ -553,7 +553,7 @@ const DropdownRounds = ({ courseRoundList, callerInstance, language = 0, label =
               </option>
               {courseRoundList.map((courseRound, index) => {
                 const value = `${
-                  courseRound.round_short_name !== EMPTY[language] ? courseRound.round_short_name : ''
+                  courseRound.round_short_name !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language] ? courseRound.round_short_name : ''
                 }, ${translation.courseRoundInformation.round_category[courseRound.round_category]}`
                 return (
                   <option

@@ -5,7 +5,7 @@ import '@testing-library/jest-dom/extend-expect'
 import CourseFileLinks from '../CourseFileLinks'
 
 import i18n from '../../../../../i18n'
-import { EMPTY } from '../../util/constants'
+import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../../util/constants'
 
 const { getByText } = screen
 
@@ -23,7 +23,7 @@ describe('Component <CourseFileLinks>', () => {
     }
     const propsWithoutScheduleUrl = {
       language,
-      scheduleUrl: EMPTY[0] // 'en'
+      scheduleUrl: INFORM_IF_IMPORTANT_INFO_IS_MISSING[0] // 'en'
     }
 
     const { rerender } = render(<CourseFileLinks {...propsWithScheduleUrl} />)
