@@ -7,7 +7,12 @@ module.exports = {
 }
 
 async function _getSellingText(courseCode) {
-  const { client, paths } = api.kursinfoApi
-  const uri = client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode })
-  return await client.getAsync({ uri: uri, useCache: true })
+  try {
+    const { client, paths } = api.kursinfoApi
+    const uri = client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode })
+    return await client.getAsync({ uri: uri, useCache: true })
+  } catch (err) {
+    log.debug('Kursinfo-api is not available', err)
+    return err
+  }
 }

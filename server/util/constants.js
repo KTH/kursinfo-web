@@ -15,18 +15,6 @@ const SIDE_MENU_LINK_URL = {
   en: 'https://www.kth.se/student/kurser/kurser-inom-program?l=en',
   sv: 'https://www.kth.se/student/kurser/kurser-inom-program'
 }
-const LISTS_OF_PILOT_COURSES = [
-  'AF1301',
-  'HS1001',
-  'LH238V',
-  'MG1028',
-  'MJ2462',
-  'ED1110',
-  'EH2720',
-  'EH2070',
-  'SD2900',
-  'SD2925'
-]
 
 module.exports = {
   PROGRAMME_URL,
@@ -42,6 +30,5 @@ module.exports = {
   BREADCRUMB_URL,
   COURSE_DEVELOPMENT_URL,
   COURSE_MEMO_URL,
-  SIDE_MENU_LINK_URL,
-  LISTS_OF_PILOT_COURSES
+  SIDE_MENU_LINK_URL
 }

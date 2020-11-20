@@ -181,6 +181,8 @@ describe('Component <RoundInformationOneCol>', () => {
     label.querySelector('button').click()
     await waitFor(() =>{
       expect(getByText('Course offering may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made.')).toBeInTheDocument()
+      let criteriaText = screen.queryByText('The selection results are based on:')
+      expect(criteriaText).toBeNull()
       }
     )
 
