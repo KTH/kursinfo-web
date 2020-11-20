@@ -1,10 +1,68 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 
 import SideMenu from '../SideMenu'
 
+import i18n from '../../../../../i18n'
+import '@testing-library/jest-dom/extend-expect'
+
+const { getAllByRole } = screen
+const translationEN = i18n.messages[0]
+const translationSV = i18n.messages[1]
+
 describe('Component <SideMenu>', () => {
-  test('renders an side menu', () => {
+  test('renders a side menu', () => {
     render(<SideMenu />)
   })
+
+  test('renders a side menu for a course and with labels. English', () => {
+    render(<SideMenu
+      courseCode={'KIP1111'}
+      labels={translationEN.courseLabels.sideMenu}
+      language={'en'}
+    />)
+
+    const links = getAllByRole('link')
+    expect(links.length).toBe(4)
+
+    expect(links[0].href).toBe('https://www.kth.se/student/kurser/kurser-inom-program?l=en')
+    expect(links[0].title).toBe('Course and programme directory')
+
+    expect(links[1].href).toBe('https://www.kth.se/student/kurser/kurs/KIP1111?l=en')
+    expect(links[1].title).toBe('Before choosing course')
+
+    expect(links[2].href).toBe('http://localhost/kursutveckling/KIP1111?l=en')
+    expect(links[2].title).toBe('Course development')
+
+    expect(links[3].href).toBe('http://localhost/kursutveckling/KIP1111/arkiv?l=en')
+    expect(links[3].title).toBe('Archive')
+
+  })
+
+    test('renders a side menu for a course and with labels. Swedish', () => {
+    render(<SideMenu
+      courseCode={'KIP1111'}
+      labels={translationSV.courseLabels.sideMenu}
+      language={'sv'}
+    />)
+
+    const links = getAllByRole('link')
+    expect(links.length).toBe(4)
+
+    expect(links[0].href).toBe('https://www.kth.se/student/kurser/kurser-inom-program')
+    expect(links[0].title).toBe('Kurs- och programkatalogen')
+
+    expect(links[1].href).toBe('https://www.kth.se/student/kurser/kurs/KIP1111')
+    expect(links[1].title).toBe('Inför kursval')
+
+    expect(links[2].href).toBe('http://localhost/kursutveckling/KIP1111?l=sv')
+    expect(links[2].title).toBe('Kursens utveckling')
+
+    expect(links[3].href).toBe('http://localhost/kursutveckling/KIP1111/arkiv?l=sv')
+    expect(links[3].title).toBe('Arkiv')
+
+  })
 })
+
+
+
