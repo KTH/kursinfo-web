@@ -6,7 +6,7 @@ import SideMenu from '../SideMenu'
 import i18n from '../../../../../i18n'
 import '@testing-library/jest-dom/extend-expect'
 
-const { getAllByRole } = screen
+const { getAllByRole, queryByText } = screen
 const translationEN = i18n.messages[0]
 const translationSV = i18n.messages[1]
 
@@ -37,6 +37,8 @@ describe('Component <SideMenu>', () => {
     expect(links[3].href).toBe('http://localhost/kursutveckling/KIP1111/arkiv?l=en')
     expect(links[3].title).toBe('Archive')
 
+    expect(queryByText('About course KIP1111')).toBeInTheDocument()
+
   })
 
     test('renders a side menu for a course and with labels. Swedish', () => {
@@ -60,6 +62,8 @@ describe('Component <SideMenu>', () => {
 
     expect(links[3].href).toBe('http://localhost/kursutveckling/KIP1111/arkiv?l=sv')
     expect(links[3].title).toBe('Arkiv')
+
+    expect(queryByText('Om kursen KIP1111')).toBeInTheDocument()
 
   })
 })
