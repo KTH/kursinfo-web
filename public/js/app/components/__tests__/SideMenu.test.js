@@ -23,7 +23,7 @@ describe('Component <SideMenu>', () => {
     />)
 
     const links = getAllByRole('link')
-    expect(links.length).toBe(4)
+    expect(links.length).toBe(5)
 
     expect(links[0].href).toBe('https://www.kth.se/student/kurser/kurser-inom-program?l=en')
     expect(links[0].title).toBe('Course and programme directory')
@@ -31,11 +31,14 @@ describe('Component <SideMenu>', () => {
     expect(links[1].href).toBe('https://www.kth.se/student/kurser/kurs/KIP1111?l=en')
     expect(links[1].title).toBe('Before choosing course')
 
-    expect(links[2].href).toBe('http://localhost/kursutveckling/KIP1111?l=en')
-    expect(links[2].title).toBe('Course development')
+    expect(links[2].href).toBe('http://localhost/kurs-pm/KIP1111?l=en')
+    expect(links[2].title).toBe('Prepare and take course')
 
-    expect(links[3].href).toBe('http://localhost/kursutveckling/KIP1111/arkiv?l=en')
-    expect(links[3].title).toBe('Archive')
+    expect(links[3].href).toBe('http://localhost/kursutveckling/KIP1111?l=en')
+    expect(links[3].title).toBe('Course development')
+
+    expect(links[4].href).toBe('http://localhost/kursutveckling/KIP1111/arkiv?l=en')
+    expect(links[4].title).toBe('Archive')
 
     expect(queryByText('About course KIP1111')).toBeInTheDocument()
 
@@ -49,7 +52,7 @@ describe('Component <SideMenu>', () => {
     />)
 
     const links = getAllByRole('link')
-    expect(links.length).toBe(4)
+    expect(links.length).toBe(5)
 
     expect(links[0].href).toBe('https://www.kth.se/student/kurser/kurser-inom-program')
     expect(links[0].title).toBe('Kurs- och programkatalogen')
@@ -57,11 +60,14 @@ describe('Component <SideMenu>', () => {
     expect(links[1].href).toBe('https://www.kth.se/student/kurser/kurs/KIP1111')
     expect(links[1].title).toBe('Inför kursval')
 
-    expect(links[2].href).toBe('http://localhost/kursutveckling/KIP1111?l=sv')
-    expect(links[2].title).toBe('Kursens utveckling')
+    expect(links[2].href).toBe('http://localhost/kurs-pm/KIP1111')
+    expect(links[2].title).toBe('Förbereda och gå kurs')
 
-    expect(links[3].href).toBe('http://localhost/kursutveckling/KIP1111/arkiv?l=sv')
-    expect(links[3].title).toBe('Arkiv')
+    expect(links[3].href).toBe('http://localhost/kursutveckling/KIP1111?l=sv')
+    expect(links[3].title).toBe('Kursens utveckling')
+
+    expect(links[4].href).toBe('http://localhost/kursutveckling/KIP1111/arkiv?l=sv')
+    expect(links[4].title).toBe('Arkiv')
 
     expect(queryByText('Om kursen KIP1111')).toBeInTheDocument()
 
