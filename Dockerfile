@@ -1,5 +1,4 @@
 FROM kthse/kth-nodejs:14.0.0
-LABEL maintainer="KTH-Webb web-developers@kth.se"
 
 WORKDIR /application
 
