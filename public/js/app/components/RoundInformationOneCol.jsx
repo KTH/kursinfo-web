@@ -29,7 +29,6 @@ class RoundInformationOneCol extends Component {
       fade,
       courseHasRound,
       memoStorageURI,
-      canGetMemoFiles,
       showRoundData,
       language = 'sv',
       courseRound,
@@ -159,7 +158,6 @@ class RoundInformationOneCol extends Component {
                       courseCode={course.course_code}
                       scheduleUrl={round ? round.round_schedule : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]}
                       courseRound={round}
-                      canGetMemoFiles={canGetMemoFiles}
                       memoStorageURI={memoStorageURI}
                     />
                   </span>
