@@ -97,7 +97,6 @@ module.exports = {
     header_postgraduate_course: 'Forskarkurs ',
     empty_text: 'Ingen information inlagd',
     no_schedule: 'Schema saknas',
-    no_memo: 'Inget kurs-PM inlagt',
     no_memo_connection: 'Kurs-pm kan inte visas',
     header_no_round_selected: 'Välj termin och kursomgång',
     no_round_selected: 'Välj termin och kursomgång för att se information från rätt kursplan och kursomgång.',
