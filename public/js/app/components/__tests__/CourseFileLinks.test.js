@@ -35,42 +35,67 @@ describe('Component <CourseFileLinks>', () => {
     expect(scheduleText).toBeInTheDocument()
   })
 
-  test('renders course offering schedule correctly', () => {
+  test('renders course offering memo link correctly if there is an available course memo as pdf ', () => {
     const language = 'en'
     const translate = i18n.messages[0] // en
-    const courseRoundWithMemoFile = { round_memoFile: { fileName: 'test', fileDate: '1970-01-01' } }
-    const courseRoundWithoutMemoFile = {}
     const propsWithMemoFile = {
       language,
       memoStorageURI: 'https://test.com/',
-      courseRound: courseRoundWithMemoFile,
-      canGetMemoFiles: true
+      courseRound: { round_memoFile: { fileName: 'testedMemo', fileDate: '1970-01-01' } }
     }
-    const propsWithoutMemoFile = {
+
+    render(<CourseFileLinks {...propsWithMemoFile} />)
+    const memoLink = getByText(
+      `${translate.courseLabels.label_course_memo} (${propsWithMemoFile.courseRound.round_memoFile.fileDate})`
+    )
+    expect(memoLink).toBeInTheDocument()
+    expect(memoLink.href).toBe('https://test.com/testedMemo')
+
+  })
+
+  test('renders course offering memo link correctly to web-based course memos ', () => {
+    const language = 'en'
+    const translate = i18n.messages[0] // en
+    const propsWithMemoFile = {
       language,
       memoStorageURI: 'https://test.com/',
-      courseRound: courseRoundWithoutMemoFile,
-      canGetMemoFiles: true
+      courseRound: { round_memoFile: { fileName: 'test', fileDate: '1970-01-01' } }
     }
-    const propsWithoutMemoFileNorConnection = {
+    const propsWithMemoWebPage = {
+      courseCode: 'KIP1111',
       language,
-      memoStorageURI: 'https://test.com/',
-      courseRound: courseRoundWithoutMemoFile,
-      canGetMemoFiles: false
+      courseRound: { roundId: '7', round_course_term: [ '1970', '1'] }
     }
 
     const { rerender } = render(<CourseFileLinks {...propsWithMemoFile} />)
     const memoLink = getByText(
-      `${translate.courseLabels.label_course_memo} (${courseRoundWithMemoFile.round_memoFile.fileDate})`
+      `${translate.courseLabels.label_course_memo} (${propsWithMemoFile.courseRound.round_memoFile.fileDate})`
     )
     expect(memoLink).toBeInTheDocument()
 
-    rerender(<CourseFileLinks {...propsWithoutMemoFile} />)
-    const memoNoText = getByText(translate.courseLabels.no_memo)
-    expect(memoNoText).toBeInTheDocument()
+    rerender(<CourseFileLinks {...propsWithMemoWebPage} />)
+    const linkToMemoWebPage = getByText(translate.courseLabels.label_course_memo)
+    expect(linkToMemoWebPage).toBeInTheDocument()
+    expect(linkToMemoWebPage.href).toBe('http://localhost/kurs-pm/KIP1111/19701/7')
 
-    rerender(<CourseFileLinks {...propsWithoutMemoFileNorConnection} />)
-    const memoNoConnectionText = getByText(translate.courseLabels.no_memo_connection)
-    expect(memoNoConnectionText).toBeInTheDocument()
   })
+
+  test('renders course offering memo link to pdf if it exists among other data and correctly prioriterized  ', () => {
+    const language = 'en'
+    const translate = i18n.messages[0] // en
+    const propsWithMemoFileAndOtherInfo= {
+      courseCode: 'KIP1111',
+      language,
+      memoStorageURI: 'https://test.com/',
+      courseRound: { roundId: '7', round_course_term: [ '1970', '1'], round_memoFile: { fileName: 'test', fileDate: '1970-01-01' } }
+    }
+
+    const { rerender } = render(<CourseFileLinks {...propsWithMemoFileAndOtherInfo} />)
+    const memoLink = getByText(
+      `${translate.courseLabels.label_course_memo} (${propsWithMemoFileAndOtherInfo.courseRound.round_memoFile.fileDate})`
+    )
+    expect(memoLink).toBeInTheDocument()
+
+  })
+
 })
