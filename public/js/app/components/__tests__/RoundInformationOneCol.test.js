@@ -86,7 +86,7 @@ describe('Component <RoundInformationOneCol>', () => {
       courseHasRound: true,
       courseData: {},
       courseRound: {
-        round_course_term: 1,
+        round_course_term: [ '2018', '1'],
         round_selection_criteria: 'English. Spicy jalapeno bacon ipsum',
         round_seats: 'Max: 10',
       },
@@ -129,7 +129,7 @@ describe('Component <RoundInformationOneCol>', () => {
       courseHasRound: true,
       courseData: {},
       courseRound: {
-        round_course_term: 1,
+        round_course_term: [ '2018', '1'],
         round_selection_criteria: 'English. Spicy jalapeno bacon ipsum',
         round_seats: '',
       },
@@ -160,7 +160,7 @@ describe('Component <RoundInformationOneCol>', () => {
       courseHasRound: true,
       courseData: {},
       courseRound: {
-        round_course_term: 1,
+        round_course_term: [ '2018', '1'],
         round_selection_criteria: '',
         round_seats: '5-10',
       },

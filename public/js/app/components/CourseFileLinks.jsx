@@ -3,25 +3,15 @@ import { Row, Col } from 'reactstrap'
 import i18n from '../../../../i18n'
 import { INFORM_IF_IMPORTANT_INFO_IS_MISSING, LISTS_OF_PILOT_COURSES } from '../util/constants'
 
-const checkIfPilotCourse = (courseCode) => LISTS_OF_PILOT_COURSES.includes(courseCode)
 
-const PilotNewMemoLink = ({ href, translate }) => (
+const CourseMemoLink = ({ href, translate }) => (
   <a id="memoLink" href={href}>
     {translate.courseLabels.label_course_memo}
   </a>
 )
 
-const PdfNoMemoLink = ({ canGetMemoFiles, translate }) => (
-  // eslint-disable-next-line jsx-a11y/anchor-is-valid
-  <p id="memoLink" className="pdf-link pdf-link-fix">
-    {canGetMemoFiles ? translate.courseLabels.no_memo : translate.courseLabels.no_memo_connection}
-  </p>
-)
-
-const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, canGetMemoFiles, memoStorageURI, language }) => {
+const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorageURI, language }) => {
   const translate = i18n.messages[language === 'en' ? 0 : 1]
-  const isPilot = checkIfPilotCourse(courseCode)
-
   return (
     <Row id="courseLinks">
       {/* ---LINK TO ROUND PM/MEMO IF ROUND HAS ONE-- */}
@@ -37,12 +27,12 @@ const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, canGetMemo
             {`${translate.courseLabels.label_course_memo} (${courseRound.round_memoFile.fileDate})`}
           </a>
         ) : (
-          (isPilot && (
-            <PilotNewMemoLink
-              href={`/kurs-pm/${courseCode}/${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}/${courseRound.roundId}`}
+          courseRound && courseRound.round_course_term && (
+            <CourseMemoLink
+              href={`/kurs-pm/${courseCode}/${courseRound.round_course_term.join('')}/${courseRound.roundId}`}
               translate={translate}
             />
-          )) || <PdfNoMemoLink canGetMemoFiles={canGetMemoFiles} translate={translate} />
+          )
         )}
       </Col>
       {/* ---LINK TO ROUND SCHEDULE-- */}

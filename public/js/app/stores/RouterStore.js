@@ -65,8 +65,6 @@ class RouterStore {
 
   @observable roundData = {}
 
-  @observable memoApiHasConnection = true
-
   @action getCourseEmployees = () => {
     const ladokRound = this.courseData.roundList[this.activeSemester][this.activeRoundIndex]
     const ladokRoundId = ladokRound.roundId

@@ -1,8 +1,6 @@
 import React from 'react'
 
-import { COURSE_MEMO_URL, SIDE_MENU_LINK_URL, COURSE_DEVELOPMENT_URL, LISTS_OF_PILOT_COURSES } from '../util/constants'
-
-const checkIfPilotCourse = (courseCode) => LISTS_OF_PILOT_COURSES.includes(courseCode)
+import { COURSE_MEMO_URL, SIDE_MENU_LINK_URL, COURSE_DEVELOPMENT_URL } from '../util/constants'
 
 const aboutCourseLink = (courseCode, language) => {
   const languageParameter = language === 'en' ? '?l=en' : ''
@@ -52,13 +50,11 @@ const SideMenu = ({ courseCode, labels = {}, language }) => {
               {labels.page_before_course}
             </a>
           </li>
-          {checkIfPilotCourse(courseCode) && (
-            <li className="nav-item node">
-              <a href={courseMemoLink(courseCode, language)} title={labels.page_memo} className="nav-link">
-                {labels.page_memo}
-              </a>
-            </li>
-          )}
+          <li className="nav-item node">
+            <a href={courseMemoLink(courseCode, language)} title={labels.page_memo} className="nav-link">
+              {labels.page_memo}
+            </a>
+          </li>
           <li className="nav-item leaf">
             <a
               className="nav-link"

@@ -1,34 +1,5 @@
 {
-  "parser": "babel-eslint",
-  "env": {
-    "node": true,
-    "browser": true,
-    "jest/globals": true
-  },
-  "extends": ["airbnb", "prettier"],
-  "plugins": ["prettier", "jest"],
-  "rules": {
-    "import/newline-after-import": ["error", { "count": 1 }],
-    "semi": ["error", "never"],
-    "global-require": "off",
-    "prefer-template": "off",
-    "import/order": "off",
-    "quotes": [1, "single", "avoid-escape"],
-    "no-underscore-dangle": "off",
-    "react/prop-types": "off",
-    "array-callback-return": "off",
-    "react/no-access-state-in-setstate": "off",
-    "react/destructuring-assignment": [1, "always", { "ignoreClassFields": true }],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
-    "sort-imports": [
-      "error",
-      {
-        "ignoreCase": true,
-        "ignoreDeclarationSort": true,
-        "ignoreMemberSort": true,
-        "memberSyntaxSortOrder": ["all", "single", "multiple", "none"]
-      }
-    ],
-    "strict": "off"
-  }
+  "extends": [
+    "@kth/eslint-config-kth"
+  ]
 }

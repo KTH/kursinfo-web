@@ -349,7 +349,6 @@ class CoursePage extends Component {
                       courseHasRound={routerStore.activeSemesters.length > 0}
                       fade={routerStore.roundInfoFade}
                       showRoundData={routerStore.showRoundData}
-                      canGetMemoFiles={routerStore.memoApiHasConnection}
                       memoStorageURI={routerStore.browserConfig.memoStorageUri}
                     />
                   ) : (

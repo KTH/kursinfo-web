@@ -485,39 +485,15 @@ async function getIndex(req, res, next) {
       /* routerStore.showCourseWebbLink = isCourseWebLink */
     }
 
-    //TODO-INTEGRATION: REMOVE
     if (memoApiUp) {
       const memoApiResponse = await memoApi.getFileList(courseCode)
       if (memoApiResponse && memoApiResponse.body) {
         routerStore.memoList = memoApiResponse.body
-        /* routerStore.showCourseWebbLink = memoApiResponse.body.isCourseWebLink */
-      } else {
-        routerStore.memoApiHasConnection = false
-      }
-    } else {
-      routerStore.memoApiHasConnection = false
+      } 
     }
 
     const koppsCourseDataResponse = await koppsCourseData.getKoppsCourseData(courseCode, lang)
     if (koppsCourseDataResponse.body) {
-
-      // if (courseCode === 'A21KOB') {
-      //   koppsCourseDataResponse.body.roundInfos[0].round.maxSeats = 10
-      //   koppsCourseDataResponse.body.roundInfos[0].round.selectionCriteriaEn = 'English. Spicy jalapeno bacon ipsum dolor amet pork flank meatball ball tip beef ribs. Boudin jerky pastrami, pig corned beef short loin beef. Buffalo hamburger short ribs ham hock pork loin boudin pig. T-bone bresaola drumstick ham hock, sausage pig frankfurter biltong kevin short ribs pork chislic venison pork chop jowl.'
-      //   koppsCourseDataResponse.body.roundInfos[0].round.selectionCriteriaSv = 'Svenska. Spicy jalapeno bacon ipsum dolor amet pork flank meatball ball tip beef ribs. Boudin jerky pastrami, pig corned beef short loin beef. Buffalo hamburger short ribs ham hock pork loin boudin pig. T-bone bresaola drumstick ham hock, sausage pig frankfurter biltong kevin short ribs pork chislic venison pork chop jowl.'
-      // }
-
-      // if (courseCode === 'SF1624') {
-      //   koppsCourseDataResponse.body.roundInfos[0].round.maxSeats = undefined
-      //   koppsCourseDataResponse.body.roundInfos[0].round.selectionCriteriaEn = ''
-      //   koppsCourseDataResponse.body.roundInfos[0].round.selectionCriteriaSv = 'Svenska. Spicy jalapeno bacon ipsum dolor amet pork flank meatball ball tip beef ribs. Boudin jerky pastrami, pig corned beef short loin beef. Buffalo hamburger short ribs ham hock pork loin boudin pig. T-bone bresaola drumstick ham hock, sausage pig frankfurter biltong kevin short ribs pork chislic venison pork chop jowl.'
-      // }
-
-      // if (courseCode === 'SF1627') {
-      //   koppsCourseDataResponse.body.roundInfos[0].round.maxSeats = 4
-      //   koppsCourseDataResponse.body.roundInfos[0].round.selectionCriteriaEn = ''
-      //   koppsCourseDataResponse.body.roundInfos[0].round.selectionCriteriaSv = 'Svenska. Spicy jalapeno bacon ipsum dolor amet pork flank meatball ball tip beef ribs. Boudin jerky pastrami, pig corned beef short loin beef. Buffalo hamburger short ribs ham hock pork loin boudin pig. T-bone bresaola drumstick ham hock, sausage pig frankfurter biltong kevin short ribs pork chislic venison pork chop jowl.'
-      // }
 
       const courseResult = koppsCourseDataResponse.body
       routerStore.isCancelled = courseResult.course.cancelled
@@ -560,6 +536,7 @@ async function getIndex(req, res, next) {
       routerStore.defaultIndex = _getCurrentSemesterToShow('', routerStore)
 
       syllabusSemesterList = toJS(syllabusSemesterList)
+
       routerStore.courseData = {
         syllabusList,
         courseInfo,
