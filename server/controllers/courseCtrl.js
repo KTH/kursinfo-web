@@ -536,8 +536,6 @@ async function getIndex(req, res, next) {
       routerStore.defaultIndex = _getCurrentSemesterToShow('', routerStore)
 
       syllabusSemesterList = toJS(syllabusSemesterList)
-      console.log('---syllabusSemesterList', syllabusSemesterList)
-            console.log('---syllabusList', syllabusList)
 
       routerStore.courseData = {
         syllabusList,
