@@ -8,7 +8,9 @@ import i18n from '../../../../i18n'
 import CourseFileLinks from './CourseFileLinks'
 import InfoModal from './InfoModal'
 
-const INFORM_IF_IMPORTANT_INFO_IS_MISSING = { en: 'No information inserted', sv: 'Ingen information tillagd' }
+import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../util/constants'
+
+const LABEL_MISSING_INFO = { en: INFORM_IF_IMPORTANT_INFO_IS_MISSING[0], sv: INFORM_IF_IMPORTANT_INFO_IS_MISSING[1] }
 
 @inject(['routerStore'])
 @observer
@@ -44,7 +46,7 @@ class RoundInformationOneCol extends Component {
     const selectedRoundHeader = `
       ${i18n.messages[userLangIndex].courseInformation.course_short_semester[round.round_course_term[1]]} 
       ${round.round_course_term[0]}  
-      ${round.round_short_name !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language] ? round.round_short_name : ''}     
+      ${round.round_short_name !== LABEL_MISSING_INFO[language] ? round.round_short_name : ''}     
       ${translate.round_category[round.round_category]}
     `
 
@@ -100,15 +102,15 @@ class RoundInformationOneCol extends Component {
                     <h3 className="t4">{translate.round_start_date}</h3>
                     <p className="clear-margin-bottom">
                       <i className="fas fa-hourglass-start" />
-                      {round ? round.round_start_date : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]}
+                      {round ? round.round_start_date : LABEL_MISSING_INFO[language]}
                     </p>
                     <p>
                       <i className="fas fa-hourglass-end" />
-                      {round ? round.round_end_date : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]}
+                      {round ? round.round_end_date : LABEL_MISSING_INFO[language]}
                     </p>
 
                     <h3 className="t4">{translate.round_course_place}</h3>
-                    <p>{round ? round.round_course_place : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]}</p>
+                    <p>{round ? round.round_course_place : LABEL_MISSING_INFO[language]}</p>
                   </span>
                 ) : (
                   //* ---SELECT A ROUND BOX --- *//
@@ -127,13 +129,13 @@ class RoundInformationOneCol extends Component {
                   <span>
                     <h3 className="t4">{translate.round_tutoring_form}</h3>
                     <p>
-                      {`${round ? translate.round_tutoring_form_label[round.round_tutoring_form] : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]} ${
-                        round ? translate.round_tutoring_time_label[round.round_tutoring_time] : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
+                      {`${round ? translate.round_tutoring_form_label[round.round_tutoring_form] : LABEL_MISSING_INFO[language]} ${
+                        round ? translate.round_tutoring_time_label[round.round_tutoring_time] : LABEL_MISSING_INFO[language]
                       }`}
                     </p>
 
                     <h3 className="t4">{translate.round_tutoring_language}</h3>
-                    <p>{round ? round.round_tutoring_language : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]}</p>
+                    <p>{round ? round.round_tutoring_language : LABEL_MISSING_INFO[language]}</p>
 
                     <h3 className="t4">
                       {translate.round_max_seats}
@@ -156,7 +158,7 @@ class RoundInformationOneCol extends Component {
                       language={language}
                       courseHasRound={courseHasRound}
                       courseCode={course.course_code}
-                      scheduleUrl={round ? round.round_schedule : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]}
+                      scheduleUrl={round ? round.round_schedule : LABEL_MISSING_INFO[language]}
                       courseRound={round}
                       memoStorageURI={memoStorageURI}
                     />
@@ -184,11 +186,10 @@ class RoundInformationOneCol extends Component {
                   <p>{selectedRoundHeader}</p>
 
                   <h3 className="t4">{translate.round_application_code}</h3>
-                  <p>{round ? round.round_application_code : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]}</p>
-                  {(round && round.round_application_link !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) && (
-                    <Button name={translate.round_application_link} color="primary" onClick={this.openApplicationLink}>
+                  <p>{round ? round.round_application_code : LABEL_MISSING_INFO[language]}</p>
+                  {(round && round.round_application_link !== LABEL_MISSING_INFO[language]) && (
+                    <Button name={translate.round_application_link} color="primary" className="next" onClick={this.openApplicationLink}>
                       {translate.round_application_link}
-                      <div className="icon-back-arrow" />
                     </Button>
                   )}
                 </span>
@@ -213,7 +214,7 @@ class RoundInformationOneCol extends Component {
                   <h3 className="t4">{roundHeader}</h3>
                   <p>{selectedRoundHeader}</p>
 
-                  {course.course_contact_name !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language] && (
+                  {course.course_contact_name !== LABEL_MISSING_INFO[language] && (
                     <span>
                       <h3 className="t4">
                         {i18n.messages[userLangIndex].courseInformation.course_contact_name}
@@ -224,13 +225,13 @@ class RoundInformationOneCol extends Component {
                   )}
 
                   <h3 className="t4">{i18n.messages[userLangIndex].courseInformation.course_examiners}</h3>
-                  <span dangerouslySetInnerHTML={{ __html: roundData.examiners || INFORM_IF_IMPORTANT_INFO_IS_MISSING[language] }} />
+                  <span dangerouslySetInnerHTML={{ __html: roundData.examiners || LABEL_MISSING_INFO[language] }} />
 
                   <h3 className="t4">{translate.round_responsibles}</h3>
-                  <span dangerouslySetInnerHTML={{ __html: roundData.responsibles || INFORM_IF_IMPORTANT_INFO_IS_MISSING[language] }} />
+                  <span dangerouslySetInnerHTML={{ __html: roundData.responsibles || LABEL_MISSING_INFO[language] }} />
 
                   <h3 className="t4">{translate.round_teacher}</h3>
-                  <span dangerouslySetInnerHTML={{ __html: roundData.teachers || INFORM_IF_IMPORTANT_INFO_IS_MISSING[language] }} />
+                  <span dangerouslySetInnerHTML={{ __html: roundData.teachers || LABEL_MISSING_INFO[language] }} />
                 </span>
               )}
             </Col>
