@@ -6,7 +6,8 @@ import '@testing-library/jest-dom/extend-expect'
 import RoundInformationOneCol from '../RoundInformationOneCol'
 
 import i18n from '../../../../../i18n'
-import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../../util/constants'
+
+const INFORM_IF_IMPORTANT_INFO_IS_MISSING = ['No information inserted', 'Ingen information tillagd']
 
 const { getByText, getAllByText } = screen
 

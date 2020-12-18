@@ -4,7 +4,8 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
 import CourseSectionList from '../CourseSectionList'
-import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../../util/constants'
+
+const INFORM_IF_IMPORTANT_INFO_IS_MISSING = ['No information inserted', 'Ingen information tillagd']
 
 const { getByText, queryByText } = screen
 
@@ -21,13 +22,13 @@ describe('Component <CourseSectionList>', () => {
   test('renders course literature correctly', () => {
     const language = 'en'
     const courseLiteratureNoTitle = INFORM_IF_IMPORTANT_INFO_IS_MISSING[0] // en
-    const courseInfoWithoutLiterature = { course_literature: courseLiteratureNoTitle }
+    const courseInfoWithoutLiterature = { course_literature: `<i>${courseLiteratureNoTitle}</i>` }
 
     const courseLiteratureTitle = 'Course Literature (1970)'
     const courseInfoWithLiterature = { course_literature: courseLiteratureTitle }
 
     const syllabusLiteratureNoTitle = INFORM_IF_IMPORTANT_INFO_IS_MISSING[0] // en
-    const syllabusListWithoutLiterature = { course_literature: syllabusLiteratureNoTitle }
+    const syllabusListWithoutLiterature = { course_literature:  `<i>${syllabusLiteratureNoTitle}</i>` }
 
     const syllabusLiteratureTitle = 'Syllabus Literature (1970)'
     const syllabusLiteratureComment = 'Please read this book.'
@@ -38,7 +39,7 @@ describe('Component <CourseSectionList>', () => {
     }
     const syllabusListWithLiteratureNoComment = {
       course_literature: syllabusLiteratureTitle,
-      course_literature_comment: syllabusLiteratureNoComment
+      course_literature_comment: `<i>${syllabusLiteratureNoComment}</i>`
     }
 
     const routerStore = {

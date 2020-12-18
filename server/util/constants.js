@@ -1,5 +1,5 @@
 const PROGRAMME_URL = '/student/kurser/program'
-const INFORM_IF_IMPORTANT_INFO_IS_MISSING = { en: 'No information inserted', sv: 'Ingen information tillagd' }
+const INFORM_IF_IMPORTANT_INFO_IS_MISSING = { en: '<i>No information inserted</i>', sv: '<i>Ingen information tillagd</i>' }
 const FORSKARUTB_URL = 'https://www.kth.se/utbildning/forskarutbildning/kurser/org/'
 const COURSE_WEB_URL = 'https://www.kth.se/social/course/'
 const MAX_1_DAY = 1

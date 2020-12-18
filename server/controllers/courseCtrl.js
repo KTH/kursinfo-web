@@ -34,6 +34,13 @@ function isValidData(dataObject, language, setEmpty = false) {
   return !dataObject ? emptyText : dataObject
 }
 
+function isValidContact(infoContactName, language) {
+  const courseContactName = isValidData(infoContactName, language)
+  if(courseContactName === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) return courseContactName
+  
+  return courseContactName.replace('<', '').replace('>', '')
+}
+
 async function _getCourseEmployeesPost(roundsKeys, key, type = 'multi', lang = 'sv') {
   return _getCourseEmployees(key, type, roundsKeys)
 }
@@ -87,7 +94,7 @@ function _getCourseDefaultInformation(courseResult, language) {
           '</a>'
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_department_code: isValidData(courseResult.course.department.code, language),
-    course_contact_name: isValidData(courseResult.course.infoContactName, language).replace('<', '').replace('>', ''),
+    course_contact_name: isValidContact(courseResult.course.infoContactName, language),
     course_prerequisites: isValidData(courseResult.course.prerequisites, language),
     course_suggested_addon_studies: isValidData(courseResult.course.addOn, language),
     course_supplemental_information_url: isValidData(courseResult.course.supplementaryInfoUrl, language),

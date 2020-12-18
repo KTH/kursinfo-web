@@ -93,7 +93,6 @@ module.exports = {
     header_further: 'Further information',
     header_select_course: 'Application',
     header_postgraduate_course: 'Postgraduate course ',
-    empty_text: 'No information inserted',
     no_schedule: 'No schedule',
     no_memo_connection: 'Course memo cannot be displayed',
     header_no_round_selected: 'Choose semester and course offering',

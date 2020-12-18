@@ -4,8 +4,9 @@ import { inject, observer } from 'mobx-react'
 import i18n from '../../../../i18n'
 import CourseSection from './CourseSections'
 import SyllabusInformation from './SyllabusInformation'
+import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../util/constants'
 
-const INFORM_IF_IMPORTANT_INFO_IS_MISSING = { en: 'No information inserted', sv: 'Ingen information tillagd' }
+const LABEL_MISSING_INFO = { en: INFORM_IF_IMPORTANT_INFO_IS_MISSING[0], sv: INFORM_IF_IMPORTANT_INFO_IS_MISSING[1] }
 
 @inject(['routerStore'])
 @observer
@@ -29,7 +30,7 @@ class CourseSectionList extends Component {
       { header: translation.courseInformation.course_content, text: syllabus.course_content, syllabusMarker: true },
       { header: translation.courseInformation.course_goals, text: syllabus.course_goals, syllabusMarker: true }
     ]
-    if (course.course_disposition !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) {
+    if (course.course_disposition !== LABEL_MISSING_INFO[language]) {
       content.push({ header: translation.courseInformation.course_disposition, text: course.course_disposition })
     } else {
       content.push({ header: translation.courseInformation.course_disposition, text: syllabus.course_disposition })
@@ -44,11 +45,11 @@ class CourseSectionList extends Component {
     const { store } = this.state
     const { language = 'sv' } = store
 
-    let literatureText = INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
-    const courseHasLiterature = course.course_literature && course.course_literature !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
-    const syllabusHasLiterature = syllabus.course_literature && syllabus.course_literature !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
+    let literatureText = LABEL_MISSING_INFO[language]
+    const courseHasLiterature = course.course_literature && course.course_literature !== LABEL_MISSING_INFO[language]
+    const syllabusHasLiterature = syllabus.course_literature && syllabus.course_literature !== LABEL_MISSING_INFO[language]
     const syllabusHasLiteratureComment =
-      syllabus.course_literature_comment && syllabus.course_literature_comment !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
+      syllabus.course_literature_comment && syllabus.course_literature_comment !== LABEL_MISSING_INFO[language]
 
     if (courseHasLiterature) {
       literatureText = course.course_literature
@@ -58,7 +59,7 @@ class CourseSectionList extends Component {
     }
 
     const courseRequiredEquipment =
-      course.course_required_equipment !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
+      course.course_required_equipment !== LABEL_MISSING_INFO[language]
         ? course.course_required_equipment
         : syllabus.course_required_equipment
 
@@ -138,7 +139,7 @@ class CourseSectionList extends Component {
         text: course.course_suggested_addon_studies
       }
     ]
-    if (course.course_contact_name !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language])
+    if (course.course_contact_name !== LABEL_MISSING_INFO[language])
       prepare.push({ header: translation.courseInformation.course_contact_name, text: course.course_contact_name })
     if (syllabus.course_transitional_reg !== '')
       prepare.push({
@@ -146,22 +147,22 @@ class CourseSectionList extends Component {
         text: syllabus.course_transitional_reg,
         syllabusMarker: true
       })
-    if (course.course_supplemental_information !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language])
+    if (course.course_supplemental_information !== LABEL_MISSING_INFO[language])
       prepare.push({
         header: translation.courseInformation.course_supplemental_information,
         text: course.course_supplemental_information
       })
-    if (course.course_supplemental_information_url !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language])
+    if (course.course_supplemental_information_url !== LABEL_MISSING_INFO[language])
       prepare.push({
         header: translation.courseInformation.course_supplemental_information_url,
         text: course.course_supplemental_information_url
       })
-    if (course.course_supplemental_information_url_text !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language])
+    if (course.course_supplemental_information_url_text !== LABEL_MISSING_INFO[language])
       prepare.push({
         header: translation.courseInformation.course_supplemental_information_url_text,
         text: course.course_supplemental_information_url_text
       })
-    if (course.course_web_link !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) {
+    if (course.course_web_link !== LABEL_MISSING_INFO[language]) {
       prepare.unshift({
         header: translation.courseInformation.course_link,
         text: `${translation.courseInformation.course_link_text} <a href='${course.course_web_link}'> ${translation.courseInformation.course_link} ${course.course_code}</a>`
