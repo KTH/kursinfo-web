@@ -38,7 +38,7 @@ function isValidContact(infoContactName, language) {
   const courseContactName = isValidData(infoContactName, language)
   if(courseContactName === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) return courseContactName
   
-  return courseContactName.replace('<', '').replace('>', '')
+  return courseContactName.replaceAll('<', '').replaceAll('>', '')
 }
 
 async function _getCourseEmployeesPost(roundsKeys, key, type = 'multi', lang = 'sv') {
