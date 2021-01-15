@@ -28,7 +28,7 @@ describe('Component <CourseSectionList>', () => {
     const courseInfoWithLiterature = { course_literature: courseLiteratureTitle }
 
     const syllabusLiteratureNoTitle = INFORM_IF_IMPORTANT_INFO_IS_MISSING[0] // en
-    const syllabusListWithoutLiterature = { course_literature:  `<i>${syllabusLiteratureNoTitle}</i>` }
+    const syllabusListWithoutLiterature = { course_literature: `<i>${syllabusLiteratureNoTitle}</i>` }
 
     const syllabusLiteratureTitle = 'Syllabus Literature (1970)'
     const syllabusLiteratureComment = 'Please read this book.'
@@ -40,6 +40,9 @@ describe('Component <CourseSectionList>', () => {
     const syllabusListWithLiteratureNoComment = {
       course_literature: syllabusLiteratureTitle,
       course_literature_comment: `<i>${syllabusLiteratureNoComment}</i>`
+    }
+    const syllabusListWithNoLiteratureAndComment = {
+      course_literature_comment: syllabusLiteratureComment
     }
 
     const routerStore = {
@@ -61,7 +64,7 @@ describe('Component <CourseSectionList>', () => {
         <CourseSectionList courseInfo={courseInfoWithLiterature} syllabusList={syllabusListWithLiteratureAndComment} />
       </Provider>
     )
-    let literatureText = getByText(courseLiteratureTitle)
+    const literatureText = getByText(courseLiteratureTitle)
     expect(literatureText).toBeInTheDocument()
     let syllabusText = queryByText(syllabusLiteratureTitle)
     expect(syllabusText).toBeNull()
@@ -91,6 +94,18 @@ describe('Component <CourseSectionList>', () => {
     )
     syllabusText = getByText(syllabusLiteratureTitle, { exact: false })
     expect(syllabusText).toBeInTheDocument()
+    syllabusText = getByText(syllabusLiteratureComment, { exact: false })
+    expect(syllabusText).toBeInTheDocument()
+
+    // Course hasn't literature, syllabus only has comment – Show literature comment from syllabus
+    rerender(
+      <Provider routerStore={routerStore}>
+        <CourseSectionList
+          courseInfo={courseInfoWithoutLiterature}
+          syllabusList={syllabusListWithNoLiteratureAndComment}
+        />
+      </Provider>
+    )
     syllabusText = getByText(syllabusLiteratureComment, { exact: false })
     expect(syllabusText).toBeInTheDocument()
   })

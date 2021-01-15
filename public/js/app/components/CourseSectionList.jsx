@@ -47,7 +47,8 @@ class CourseSectionList extends Component {
 
     let literatureText = LABEL_MISSING_INFO[language]
     const courseHasLiterature = course.course_literature && course.course_literature !== LABEL_MISSING_INFO[language]
-    const syllabusHasLiterature = syllabus.course_literature && syllabus.course_literature !== LABEL_MISSING_INFO[language]
+    const syllabusHasLiterature =
+      syllabus.course_literature && syllabus.course_literature !== LABEL_MISSING_INFO[language]
     const syllabusHasLiteratureComment =
       syllabus.course_literature_comment && syllabus.course_literature_comment !== LABEL_MISSING_INFO[language]
 
@@ -56,6 +57,8 @@ class CourseSectionList extends Component {
     } else if (syllabusHasLiterature) {
       const literatureComment = syllabusHasLiteratureComment ? `<br />${syllabus.course_literature_comment}` : ''
       literatureText = `${syllabus.course_literature}${literatureComment}`
+    } else if (syllabusHasLiteratureComment) {
+      literatureText = `${syllabus.course_literature_comment}`
     }
 
     const courseRequiredEquipment =
