@@ -23,7 +23,7 @@ const createPersonHtml = (personList = []) => {
   personList.forEach((person) => {
     if (person) {
       personString += `<p class = "person">
-      <img src="https://www.kth.se/files/thumbnail/${person.username}" alt="Profile picture" width="31" height="31">
+      <img class="profile-picture" src="https://www.kth.se/files/thumbnail/${person.username}" alt="Profile picture" width="31" height="31">
       <a href="/profile/${person.username}/" property="teach:teacher">
           ${person.givenName} ${person.lastName} 
       </a> 

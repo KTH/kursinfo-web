@@ -377,7 +377,7 @@ class CoursePage extends Component {
                           }
                           target="_blank"
                           rel="noreferrer"
-                          className="pdf-link pdf-link-fix"
+                          className="pdf-link pdf-link-fix pdf-link-last-line"
                         >
                           {`${translation.courseLabels.label_syllabus_link}${routerStore.courseCode}${` (${
                             translation.courseInformation.course_short_semester[
@@ -552,7 +552,9 @@ const DropdownRounds = ({ courseRoundList, callerInstance, language = 0, label =
               </option>
               {courseRoundList.map((courseRound, index) => {
                 const value = `${
-                  courseRound.round_short_name !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language] ? courseRound.round_short_name : ''
+                  courseRound.round_short_name !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
+                    ? courseRound.round_short_name
+                    : ''
                 }, ${translation.courseRoundInformation.round_category[courseRound.round_category]}`
                 return (
                   <option

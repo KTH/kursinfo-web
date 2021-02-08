@@ -3,7 +3,6 @@ import { Row, Col } from 'reactstrap'
 import i18n from '../../../../i18n'
 import { INFORM_IF_IMPORTANT_INFO_IS_MISSING, LISTS_OF_PILOT_COURSES } from '../util/constants'
 
-
 const CourseMemoLink = ({ href, translate }) => (
   <a id="memoLink" href={href}>
     {translate.courseLabels.label_course_memo}
@@ -27,7 +26,8 @@ const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorag
             {`${translate.courseLabels.label_course_memo} (${courseRound.round_memoFile.fileDate})`}
           </a>
         ) : (
-          courseRound && courseRound.round_course_term && (
+          courseRound &&
+          courseRound.round_course_term && (
             <CourseMemoLink
               href={`/kurs-pm/${courseCode}/${courseRound.round_course_term.join('')}/${courseRound.roundId}`}
               translate={translate}
