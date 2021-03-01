@@ -10,6 +10,7 @@
     "uri": "git+https://github.com/KTH/kursinfo-web.git"
   },
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "vendor": "parcel build ./public/js/vendor.js",
     "test": "NODE_ENV=test jest",
     "test:watch": "jest --watch",
