@@ -36,8 +36,8 @@ function isValidData(dataObject, language, setEmpty = false) {
 
 function isValidContact(infoContactName, language) {
   const courseContactName = isValidData(infoContactName, language)
-  if(courseContactName === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) return courseContactName
-  
+  if (courseContactName === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) return courseContactName
+
   let cleanFormat = courseContactName.replace('<', '') // two lines because of CodeQuality
   cleanFormat = courseContactName.replace('>', '')
   return cleanFormat
@@ -339,19 +339,26 @@ function _getRound(roundObject, language = 'sv') {
         ? roundObject.round.startTerm.term.toString().match(/.{1,4}/g)
         : [],
     round_periods: _getRoundPeriodes(roundObject.round.courseRoundTerms, language),
-    round_seats: _getRoundSeatsMsg(
-      isValidData(roundObject.round.maxSeats, language, true),
-      isValidData(roundObject.round.minSeats, language, true),
-      language
-    ) || '',
-    round_selection_criteria: isValidData(roundObject.round[ language === 'en' ? 'selectionCriteriaEn' : 'selectionCriteriaSv' ], language, true),
+    round_seats:
+      _getRoundSeatsMsg(
+        isValidData(roundObject.round.maxSeats, language, true),
+        isValidData(roundObject.round.minSeats, language, true),
+        language
+      ) || '',
+    round_selection_criteria: isValidData(
+      roundObject.round[language === 'en' ? 'selectionCriteriaEn' : 'selectionCriteriaSv'],
+      language,
+      true
+    ),
     round_type:
       roundObject.round.applicationCodes.length > 0
         ? isValidData(roundObject.round.applicationCodes[0].courseRoundType.name, language)
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     round_application_link: isValidData(roundObject.admissionLinkUrl, language),
     round_part_of_programme:
-      roundObject.usage.length > 0 ? _getRoundProgramme(roundObject.usage, language) : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+      roundObject.usage.length > 0
+        ? _getRoundProgramme(roundObject.usage, language)
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     round_state: isValidData(roundObject.round.state, language),
     round_comment: isValidData(roundObject.commentsToStudents, language, true),
     round_category:
@@ -482,7 +489,6 @@ async function getIndex(req, res, next) {
     const { routerStore } = renderProps.props.children.props
 
     routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
-    routerStore.__SSR__setCookieHeader(req.headers.cookie)
 
     routerStore.courseCode = courseCode
 
@@ -498,12 +504,11 @@ async function getIndex(req, res, next) {
       const memoApiResponse = await memoApi.getFileList(courseCode)
       if (memoApiResponse && memoApiResponse.body) {
         routerStore.memoList = memoApiResponse.body
-      } 
+      }
     }
 
     const koppsCourseDataResponse = await koppsCourseData.getKoppsCourseData(courseCode, lang)
     if (koppsCourseDataResponse.body) {
-
       const courseResult = koppsCourseDataResponse.body
       routerStore.isCancelled = courseResult.course.cancelled
       routerStore.isDeactivated = courseResult.course.deactivated
@@ -562,7 +567,8 @@ async function getIndex(req, res, next) {
       ladokRoundIds: []
     }
     const ugRedisApiResponse = await ugRedisApi.getCourseEmployees(apiMemoData)
-    routerStore.courseData.courseInfo.course_examiners = ugRedisApiResponse.examiners || INFORM_IF_IMPORTANT_INFO_IS_MISSING[lang]
+    routerStore.courseData.courseInfo.course_examiners =
+      ugRedisApiResponse.examiners || INFORM_IF_IMPORTANT_INFO_IS_MISSING[lang]
 
     const html = ReactDOMServer.renderToString(renderProps)
 

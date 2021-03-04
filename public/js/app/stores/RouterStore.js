@@ -90,13 +90,6 @@ class RouterStore {
     this.profileBaseUrl = profileBaseUrl
   }
 
-  // eslint-disable-next-line camelcase
-  @action __SSR__setCookieHeader(cookieHeader) {
-    if (typeof window === 'undefined') {
-      this.cookieHeader = cookieHeader || ''
-    }
-  }
-
   initializeStore(storeName) {
     const store = this
 
