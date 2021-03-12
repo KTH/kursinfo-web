@@ -24,6 +24,51 @@
   background-color: transparent;
 }
 
+.memo-header {
+  margin-bottom: 15px;
+}
+
+#page-heading {
+  margin-left: -0.095em;
+}
+
+#page-sub-heading-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  a {
+    font-family: 'Open Sans', Arial, 'Helvetica Neue', helvetica, sans-serif;
+  }
+}
+
+#page-sub-heading-admin-link {
+  font-size: 1rem;
+  line-height: 1.375;
+  margin-bottom: 14px;
+  margin-top: 0.325rem;
+  text-align: right;
+}
+
+@media (max-width: 767.98px) {
+  #page-sub-heading {
+    font-size: 1rem !important;
+  }
+}
+@media (max-width: 991.98px) {
+  #pageContainer {
+    padding-top: 2em;
+  }
+  #page-sub-heading-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: normal;
+  }
+  #page-sub-heading-admin-link {
+    text-align: left;
+  }
+}
+
 #course-title {
   border-bottom: 0px;
   margin: 0;
@@ -42,38 +87,6 @@
 
 h4.secondTitle {
   margin-top: 4px;
-}
-
-.pageTitle {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-top: 20px;
-  margin-bottom: 30px; //change later to 14px, after syllabus details moved
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-end;
-    [role='heading'] > .t4 {
-      margin-top: 4px;
-      margin-bottom: 0 !important;
-    }
-  }
-  [role='heading'] {
-    display: flex;
-    flex-direction: column;
-    .t1 {
-      margin-bottom: 0;
-      margin-left: -0.095em;
-    }
-    .t4 {
-      margin-top: 4px;
-      margin-bottom: 20px;
-    }
-  }
-  .alert {
-    margin-left: 0;
-  }
 }
 
 .paragraphs li {
@@ -109,12 +122,6 @@ main {
       font-size: 1.125rem;
     }
   }
-}
-
-a.right-link {
-  float: right;
-  font-weight: normal;
-  text-align: right;
 }
 
 #courseIntroText {

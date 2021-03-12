@@ -7,7 +7,10 @@ import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../util/constants'
 
 const formatCredits = (credits, creditUnitAbbr, languageIndex) => {
   if (!credits) return <>&nbsp;</>
-  const cred = credits !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[languageIndex] && credits.toString().indexOf('.') < 0 ? credits + '.0' : credits
+  const cred =
+    credits !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[languageIndex] && credits.toString().indexOf('.') < 0
+      ? credits + '.0'
+      : credits
   const localeCredits = languageIndex === 0 ? cred : cred.toString().replace('.', ',')
   const creditUnit = languageIndex === 0 ? 'credits' : creditUnitAbbr
   return `${localeCredits} ${creditUnit}`
@@ -23,17 +26,21 @@ const CourseTitle = ({ courseTitleData = '', language, pageTitle }) => {
   const adminLinkLabel = i18n.messages[languageIndex].courseLabels.label_edit
   return (
     <Row>
-      <header className="pageTitle col">
-        <span id="page-course-title" role="heading" aria-level="1">
-          <span className="t1">{pageTitle}</span>
-          <span className="t4">
+      <header className="col memo-header">
+        <h1 id="page-heading" aria-labelledby="page-heading page-sub-heading">
+          {pageTitle}
+        </h1>
+        <div id="page-sub-heading-wrapper">
+          <p id="page-sub-heading" aria-hidden="true">
             {`${title.course_code} ${title.course_title} `}
             {formatCredits(title.course_credits, title.course_credits_text, languageIndex)}
-          </span>
-        </span>
-        <a className="right-link" href={adminLink(title.course_code, languageIndex)} style={{ fontSize: '1rem' }}>
-          {adminLinkLabel}
-        </a>
+          </p>
+          <p id="page-sub-heading-admin-link" className="d-print-none d-none d-sm-block">
+            <a title={adminLinkLabel} href={adminLink(title.course_code, languageIndex)}>
+              {adminLinkLabel}
+            </a>
+          </p>
+        </div>
       </header>
     </Row>
   )
