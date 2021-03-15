@@ -26,7 +26,7 @@ const CourseTitle = ({ courseTitleData = '', language, pageTitle }) => {
   const adminLinkLabel = i18n.messages[languageIndex].courseLabels.label_edit
   return (
     <Row>
-      <header className="col memo-header">
+      <header className="col course-header">
         <h1 id="page-heading" aria-labelledby="page-heading page-sub-heading">
           {pageTitle}
         </h1>
@@ -35,7 +35,7 @@ const CourseTitle = ({ courseTitleData = '', language, pageTitle }) => {
             {`${title.course_code} ${title.course_title} `}
             {formatCredits(title.course_credits, title.course_credits_text, languageIndex)}
           </p>
-          <p id="page-sub-heading-admin-link" className="d-print-none d-none d-sm-block">
+          <p id="page-sub-heading-admin-link" className="d-none d-sm-block">
             <a title={adminLinkLabel} href={adminLink(title.course_code, languageIndex)}>
               {adminLinkLabel}
             </a>
