@@ -16,9 +16,8 @@ const formatCredits = (credits, creditUnitAbbr, languageIndex) => {
   return `${localeCredits} ${creditUnit}`
 }
 
-const adminLink = (courseCode, languageIndex) => {
-  return `/kursinfoadmin/kurser/kurs/${courseCode}?l=${languageIndex === 0 ? 'en' : 'sv'}`
-}
+const adminLink = (courseCode, languageIndex) =>
+  `/kursinfoadmin/kurser/kurs/${courseCode}?l=${languageIndex === 0 ? 'en' : 'sv'}`
 
 const CourseTitle = ({ courseTitleData = '', language, pageTitle }) => {
   const title = courseTitleData
@@ -28,12 +27,12 @@ const CourseTitle = ({ courseTitleData = '', language, pageTitle }) => {
     <Row>
       <header className="col course-header">
         <h1 id="page-heading" aria-labelledby="page-heading page-sub-heading">
-          {pageTitle}
+          {`${title.course_code} ${title.course_title} `}
+          {formatCredits(title.course_credits, title.course_credits_text, languageIndex)}
         </h1>
         <div id="page-sub-heading-wrapper">
           <p id="page-sub-heading" aria-hidden="true">
-            {`${title.course_code} ${title.course_title} `}
-            {formatCredits(title.course_credits, title.course_credits_text, languageIndex)}
+            {pageTitle}
           </p>
           <p id="page-sub-heading-admin-link" className="d-none d-sm-block">
             <a title={adminLinkLabel} href={adminLink(title.course_code, languageIndex)}>
