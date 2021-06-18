@@ -46,11 +46,11 @@ module.exports = {
   courseLabels: {
     label_course_description: 'Introducerande beskrivning av kursen',
     label_course_information: 'Kursinformation inklusive kursplan',
-    label_syllabus_link: 'Kursplan ',
+    label_course_syllabus_source: 'Rubriker med innehåll från kursplan',
+    label_course_syllabus_denoted: 'är markerade med en asterisk',
+    label_syllabus_link: 'Kursplan',
     label_syllabus_pdf_header: 'Kursplan som PDF',
-    label_syllabus_pdf_info:
-      'Notera: all information från Kursplanen visas i tillgängligt format på denna sida (se rubriker markerade med *)',
-    label_course_syllabus: '* Informationen tillhör',
+    label_syllabus_pdf_info: 'Notera: all information från kursplanen visas i tillgängligt format på denna sida.',
     label_course_syllabus_valid_from: 'Gäller från och med',
     label_course_syllabus_valid_to: 'till slutet av ',
     header_no_syllabus: 'Kursplan och kursomgångar saknas',
@@ -234,7 +234,6 @@ module.exports = {
     'Teknik och hälsa': 'Picture_by_MainFieldOfStudy_21_Technology_Health.jpg',
     'Teknik och management': 'Picture_by_MainFieldOfStudy_22_Technology_Management.jpg',
     Teknik: 'Picture_by_MainFieldOfStudy_23_Technology.jpg',
-    'Teknik och management': 'Picture_by_MainFieldOfStudy_22_Technology_Management.jpg',
     'Teknik och lärande': 'Picture_by_MainFieldOfStudy_25_Technology_Learning.jpg',
     default: 'Picture_by_MainFieldOfStudy_26_Default_picture.jpg'
   },

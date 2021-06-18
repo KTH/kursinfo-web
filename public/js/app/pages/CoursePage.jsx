@@ -379,7 +379,7 @@ class CoursePage extends Component {
                           rel="noreferrer"
                           className="pdf-link pdf-link-fix pdf-link-last-line"
                         >
-                          {`${translation.courseLabels.label_syllabus_link}${routerStore.courseCode}${` (${
+                          {`${translation.courseLabels.label_syllabus_link} ${routerStore.courseCode}${` (${
                             translation.courseInformation.course_short_semester[
                               courseData.syllabusList[routerStore.activeSyllabusIndex].course_valid_from[1]
                             ]

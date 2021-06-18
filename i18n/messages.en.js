@@ -45,11 +45,12 @@ module.exports = {
   courseLabels: {
     label_course_description: 'Introduction to course',
     label_course_information: 'Course information, including syllabus',
-    label_syllabus_link: 'Course syllabus ',
+    label_course_syllabus_source: 'Headings with content from the Course syllabus',
+    label_course_syllabus_denoted: 'are denoted with an asterisk',
+    label_syllabus_link: 'Course syllabus',
     label_syllabus_pdf_header: 'Course syllabus as PDF',
     label_syllabus_pdf_info:
-      'Please note: all information from the course syllabus is avaialable on this page in an accessible format (see headings marked with *)',
-    label_course_syllabus: '* Retrieved from',
+      'Please note: all information from the Course syllabus is available on this page in an accessible format.',
     label_course_syllabus_valid_from: 'Valid from',
     label_course_syllabus_valid_to: 'to end of ',
     header_no_syllabus: 'Course syllabus and course offering missing',

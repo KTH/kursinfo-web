@@ -1,23 +1,36 @@
 import React from 'react'
 import { Col } from 'reactstrap'
+import { FaAsterisk } from 'react-icons/fa'
 
 const SyllabusInformation = ({ routerStore = {}, syllabusList = {}, syllabusSemesterList = {}, translation = {} }) => {
+  const { syllabusInfoFade, courseCode } = routerStore
+  const classes = `fade-container ${syllabusInfoFade ? 'fadeOutIn' : ''}`
+
+  const { courseLabels, courseInformation } = translation
+  const {
+    label_course_syllabus_source: labelCourseSyllabusSource,
+    label_course_syllabus_denoted: labelCourseSyllabusDenoted,
+    syllabus_marker_aria_label: labelCourseSyllabusAsterisk
+  } = courseLabels
+  const { course_short_semester: courseShortSemester } = courseInformation
+
+  const { course_valid_from: courseValidFrom, course_valid_to: courseValidTo } = syllabusList
+  const courseValidFromLabel = `${courseShortSemester[courseValidFrom[1]]}${courseValidFrom[0]}`
+  const courseValidToLabel = courseValidTo.length ? courseShortSemester[courseValidTo[1]] + '' + courseValidTo[0] : ''
+  const courseValidRangeLabel = `(${courseValidFromLabel}\u2013${courseValidToLabel})`
+
+  const syllabusText = `${labelCourseSyllabusSource} ${courseCode} ${courseValidRangeLabel} ${labelCourseSyllabusDenoted}`
+
   return (
     <Col sm="12">
-      {/* --- ACTIVE SYLLABUS LINK---  */}
-      <div key="fade-2" className={` fade-container ${routerStore.syllabusInfoFade === true ? ' fadeOutIn' : ''}`}>
+      <div key="fade-2" className={classes}>
         {syllabusSemesterList.length > 0 ? (
-          <span>{`${translation.courseLabels.label_course_syllabus} ${translation.courseLabels.label_syllabus_link}${
-            routerStore.courseCode
-          }${` (${translation.courseInformation.course_short_semester[syllabusList.course_valid_from[1]]}${
-            syllabusList.course_valid_from[0]
-          }–${
-            syllabusList.course_valid_to.length > 0
-              ? translation.courseInformation.course_short_semester[syllabusList.course_valid_to[1]] +
-                '' +
-                syllabusList.course_valid_to[0]
-              : ''
-          })`}`}</span>
+          <span>
+            {syllabusText}
+            {' ( '}
+            <FaAsterisk className="syllabus-marker-icon-small" aria-label={labelCourseSyllabusAsterisk} />
+            {' )'}
+          </span>
         ) : (
           ''
         )}
