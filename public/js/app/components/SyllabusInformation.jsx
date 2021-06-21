@@ -14,7 +14,7 @@ const SyllabusInformation = ({ routerStore = {}, syllabusList = {}, syllabusSeme
   } = courseLabels
   const { course_short_semester: courseShortSemester } = courseInformation
 
-  const { course_valid_from: courseValidFrom, course_valid_to: courseValidTo } = syllabusList
+  const { course_valid_from: courseValidFrom = ['', ''], course_valid_to: courseValidTo = ['', ''] } = syllabusList
   const courseValidFromLabel = `${courseShortSemester[courseValidFrom[1]]}${courseValidFrom[0]}`
   const courseValidToLabel = courseValidTo.length ? courseShortSemester[courseValidTo[1]] + '' + courseValidTo[0] : ''
   const courseValidRangeLabel = `(${courseValidFromLabel}\u2013${courseValidToLabel})`

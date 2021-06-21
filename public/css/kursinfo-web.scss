@@ -25,7 +25,7 @@
 }
 
 .course-header {
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 
 #page-heading {
@@ -124,17 +124,6 @@ main {
   }
 }
 
-#courseIntroText {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin-right: 2px;
-  img {
-    margin: 8px 30px 10px 0;
-    width: 100%;
-    max-width: 400px;
-  }
-}
-
 #activeSyllabusContainer {
   #courseInfoHeader {
     border-bottom: 1px solid #dee2e6;
@@ -145,14 +134,16 @@ main {
   }
 }
 #courseIntroText {
-  padding-top: 10px;
   padding-bottom: 10px;
   margin-right: 2px;
   img {
     float: left;
-    margin: 8px 30px 10px 0;
+    margin: 0 50px 50px 0;
     width: 100%;
     max-width: 400px;
+  }
+  p {
+    margin-top: -8px;
   }
 }
 
@@ -265,7 +256,6 @@ main {
 }
 
 #roundInformationContainer {
-  padding-left: 0px;
   .key-info {
     padding: 0 20px 20px 20px;
     background: #f6f6f6;
