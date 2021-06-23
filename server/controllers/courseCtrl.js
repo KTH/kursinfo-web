@@ -6,7 +6,7 @@ const redis = require('kth-node-redis')
 const languageUtils = require('kth-node-web-common/lib/language')
 const ReactDOMServer = require('react-dom/server')
 const { toJS } = require('mobx')
-const httpResponse = require('kth-node-response')
+const httpResponse = require('@kth/kth-node-response')
 
 const courseApi = require('../apiCalls/kursinfoAdmin')
 const memoApi = require('../apiCalls/memoApi')
