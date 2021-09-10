@@ -79,6 +79,12 @@ These settings are also available in the `env.in` file.
 
 ### Install
 
+First time you might need to use options `--ignore-scripts` because of npm resolutions:
+```sh
+npm install --ignore-scripts
+```
+or 
+
 ```sh
 npm install
 
