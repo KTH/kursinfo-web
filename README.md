@@ -81,6 +81,13 @@ These settings are also available in the `env.in` file.
 
 ```sh
 npm install
+
+```
+You might need to install as well:
+
+```sh
+npm install cross-env
+npm install concurrently
 ```
 
 ### Usage
