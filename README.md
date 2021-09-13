@@ -50,6 +50,9 @@ Secrets during local development are stored in a `.env` file in the root of your
 
 Secrets (names, passwords, keys, and uri:s) for dev and prod are stored in the the course information project’s Azure key vault.
 
+__!IMPORTANT clean up all comments and empty strings in .env file__
+
+
 ```sh
 
 # If API_URI is omitted, "http://localhost:3001/api/kursinfo?defaultTimeout=10000" will be used
@@ -74,6 +77,7 @@ APPINSIGHTS_INSTRUMENTATIONKEY=[Azure, Application insights, Instrumentation Key
 ```
 
 These settings are also available in the `env.in` file.
+
 
 ## For Development
 
