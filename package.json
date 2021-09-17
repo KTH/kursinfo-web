@@ -19,9 +19,12 @@
     "docker": "npm install --development && npm run build && npm prune --production",
     "build": "NODE_ENV=production npm run move-handlebar-pages && rm -rf dist && parcel build ./public/js/app/app.jsx && npm run vendor --preserve-comments",
     "build-dev": "cross-env NODE_ENV=development npm run move-handlebar-pages && rm -rf dist && parcel build ./public/js/vendor.js --public-url /student/kurser/kurs/static && parcel watch ./public/js/app/app.jsx --public-url /student/kurser/kurs/static",
+    "build-dev-win": "cross-env NODE_ENV=development npm run move-handlebar-pages-win && rimraf dist && parcel build ./public/js/vendor.js --public-url /student/kurser/kurs/static && parcel watch ./public/js/app/app.jsx --public-url /student/kurser/kurs/static",
     "start": "NODE_ENV=production node app.js",
     "start-dev": "cross-env NODE_ENV=development concurrently --kill-others -n build,app \"npm run build-dev\" \"nodemon -e js,jsx,json,handlebars --ignore dist/ --ignore dist-dev/ app.js\"",
-    "move-handlebar-pages": "cp ./node_modules/kth-node-web-common/lib/handlebars/pages/views/error.handlebars ./server/views/system/error.handlebars && cp ./node_modules/kth-node-web-common/lib/handlebars/pages/layouts/errorLayout.handlebars ./server/views/layouts/errorLayout.handlebars"
+    "start-dev-win": "cross-env NODE_ENV=development concurrently --kill-others -n build,app \"npm run build-dev-win\" \"nodemon -e js,jsx,json,handlebars --ignore dist/ --ignore dist-dev/ app.js\"",
+    "move-handlebar-pages": "cp ./node_modules/kth-node-web-common/lib/handlebars/pages/views/error.handlebars ./server/views/system/error.handlebars && cp ./node_modules/kth-node-web-common/lib/handlebars/pages/layouts/errorLayout.handlebars ./server/views/layouts/errorLayout.handlebars",
+    "move-handlebar-pages-win": "copy .\\node_modules\\kth-node-web-common\\lib\\handlebars\\pages\\views\\error.handlebars .\\server\\views\\system\\error.handlebars && copy .\\node_modules\\kth-node-web-common\\lib\\handlebars\\pages\\layouts\\errorLayout.handlebars .\\server\\views\\layouts\\errorLayout.handlebars"
   },
   "dependencies": {
     "@kth/kth-node-response": "^1.0.2",
@@ -68,12 +71,12 @@
     "@kth/eslint-config-kth": "^1.0.10",
     "@testing-library/react": "^12.0.0",
     "babel-jest": "^27.0.5",
-    "concurrently": "^6.2.0",
+    "concurrently": "^6.2.1",
     "cross-env": "^7.0.3",
     "eslint": "^7.29.0",
     "husky": "^6.0.0",
     "jest": "^27.0.5",
-    "nodemon": "^2.0.7",
+    "nodemon": "^2.0.12",
     "parcel-bundler": "^1.12.5",
     "prettier": "^2.3.1",
     "pretty-quick": "^3.1.1",
