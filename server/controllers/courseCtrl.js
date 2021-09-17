@@ -146,17 +146,16 @@ function getExamObject(dataObject, grades, language = 0, semester = '', courseCr
 
       examString += `<li>${exam.examCode} - 
                         ${exam.title},
-                        ${language === 0 ? exam.credits : exam.credits.toString().replace('.', ',')} ${
-        language === 0 ? ' credits' : courseCredit
+                        ${language === 'en' ? exam.credits : exam.credits.toString().replace('.', ',')} ${
+        language === 'en' ? ' credits' : courseCredit
       },  
-                        ${language === 0 ? 'Grading scale' : 'betygsskala'}: ${
+                        ${language === 'en' ? 'grading scale' : 'betygsskala'}: ${
         grades[exam.gradeScaleCode]
       }              
                         </li>`
     }
   }
   examString += '</ul>'
-
   return examString
 }
 
