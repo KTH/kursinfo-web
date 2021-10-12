@@ -137,7 +137,7 @@ Add to .vscode file launch.json:
         {
             "type": "node",           
             "request": "launch",
-            "name": "Debug kursutvecling-web",
+            "name": "Debug kursinfo-web",
             "program": "${workspaceFolder}/app.js",
             "envFile": "${workspaceFolder}/.env",
             "env": {
