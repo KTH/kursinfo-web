@@ -108,6 +108,48 @@ Start the service on [localhost:3000/student/kurser/kurs/:courseCode](http://loc
 npm run start-dev
 ```
 
+### Debug in Visual Studio Code
+It's possible to use debugging options available in Visual Studio Code
+Add to .vscode file launch.json:
+- *Microsoft*
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",           
+            "request": "launch",
+            "name": "Debug kursinfo-web",
+            "program": "${workspaceFolder}\\app.js",
+            "envFile": "${workspaceFolder}\\.env",
+            "env": {
+              "NODE_ENV": "development"
+            }
+        }
+    ]
+}
+```
+- _Mac, Unix and so on_
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",           
+            "request": "launch",
+            "name": "Debug kursutvecling-web",
+            "program": "${workspaceFolder}/app.js",
+            "envFile": "${workspaceFolder}/.env",
+            "env": {
+              "NODE_ENV": "development"
+            }
+        }
+    ]
+}
+```
+
+
+
 ## Deploy
 
 The deployment process is described in [Build, release, deploy](https://confluence.sys.kth.se/confluence/x/aY3_Ag). Technical details, such as configuration, is described in [How to deploy your 🐳 application using Cellus-Registy](https://gita.sys.kth.se/Infosys/cellus-registry/blob/master/HOW-TO-DEPLOY.md) and [🔧 How To Configure Your Application For The Pipeline](https://gita.sys.kth.se/Infosys/cellus-registry/blob/master/HOW-TO-CONFIGURE.md).
