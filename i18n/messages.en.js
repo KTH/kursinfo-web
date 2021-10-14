@@ -107,7 +107,7 @@ module.exports = {
     sideMenu: {
       aria_label: 'Sub menu',
       page_about_course: 'About course',
-      page_before_course: 'Before choosing course',
+      page_before_course: 'Before course selection',
       page_catalog: 'Course and programme directory',
       page_development: 'Course development',
       page_archive: 'Archive',
