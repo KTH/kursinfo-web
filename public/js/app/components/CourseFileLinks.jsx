@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row, Col } from 'reactstrap'
 import i18n from '../../../../i18n'
-import { INFORM_IF_IMPORTANT_INFO_IS_MISSING, LISTS_OF_PILOT_COURSES } from '../util/constants'
+import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../util/constants'
 
 const CourseMemoLink = ({ href, translate }) => (
   <a id="memoLink" href={href}>
@@ -11,25 +11,26 @@ const CourseMemoLink = ({ href, translate }) => (
 
 const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorageURI, language }) => {
   const translate = i18n.messages[language === 'en' ? 0 : 1]
+  const { round_memoFile: memoPdfFile, roundId: ladokRoundId, round_course_term: yearAndTermArr } = courseRound
   return (
     <Row id="courseLinks">
       {/* ---LINK TO ROUND PM/MEMO IF ROUND HAS ONE-- */}
       <Col sm="12" xs="12">
-        {courseRound.round_memoFile ? (
+        {memoPdfFile ? (
           <a
             id="memoLink"
             className="pdf-link pdf-link-fix"
-            href={`${memoStorageURI}${courseRound.round_memoFile.fileName}`}
+            href={`${memoStorageURI}${memoPdfFile.fileName}`}
             target="_blank"
             rel="noreferrer"
           >
-            {`${translate.courseLabels.label_course_memo} (${courseRound.round_memoFile.fileDate})`}
+            {`${translate.courseLabels.label_course_memo} ${memoPdfFile.fileDate ? `(${memoPdfFile.fileDate})` : ''}`}
           </a>
         ) : (
           courseRound &&
-          courseRound.round_course_term && (
+          yearAndTermArr && (
             <CourseMemoLink
-              href={`/kurs-pm/${courseCode}/${courseRound.round_course_term.join('')}/${courseRound.roundId}`}
+              href={`/kurs-pm/${courseCode}/${yearAndTermArr.join('')}/${ladokRoundId}`}
               translate={translate}
             />
           )

@@ -1,20 +1,26 @@
 'use strict'
 
-const api = require('../api')
 const log = require('kth-node-log')
+const api = require('../api')
 
-async function _getFileList(courseCode) {
+async function getPrioritizedCourseMemos(courseCode) {
   try {
     const { client, paths } = api.kursPmDataApi
-    const uri = client.resolve(paths.getStoredMemoPdfListByCourseCode.uri, {
+    log.debug('Fetching info about course memos for course ', courseCode)
+
+    const uri = client.resolve(paths.getPrioritizedWebOrPdfMemosByCourseCode.uri, {
       courseCode
     })
     return client.getAsync({ uri, useCache: true })
   } catch (err) {
-    log.error('_getFileList is trying to connect with kurs-pm-api and failed for courseCode: ', courseCode, { err })
+    log.error(
+      'getPrioritizedCourseMemos is trying to connect with kurs-pm-api and failed for courseCode: ',
+      courseCode,
+      { err }
+    )
   }
 }
 
 module.exports = {
-  getFileList: _getFileList
+  getPrioritizedCourseMemos
 }

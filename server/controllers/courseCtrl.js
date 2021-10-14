@@ -376,31 +376,31 @@ function _getRounds(roundInfos, courseCode, language, routerStore) {
   const tempList = []
   let courseRound
   const courseRoundList = {}
-  let memoId = ''
   for (let roundInfo of roundInfos) {
     courseRound = _getRound(roundInfo, language)
-    memoId = courseCode + '_' + courseRound.round_course_term.join('') + '_' + courseRound.roundId
+    const { round_course_term: yearAndTermArr, roundId: ladokRoundId } = courseRound
+    const semester = yearAndTermArr.join('')
 
-    if (courseRound.round_course_term && tempList.indexOf(courseRound.round_course_term.join('')) < 0) {
-      tempList.push(courseRound.round_course_term.join(''))
-      routerStore.activeSemesters.push([...courseRound.round_course_term, courseRound.round_course_term.join(''), 0])
+    if (yearAndTermArr && tempList.indexOf(semester) < 0) {
+      tempList.push(semester)
+      routerStore.activeSemesters.push([...yearAndTermArr, semester, 0])
       routerStore.activeSemesters.replace(routerStore.activeSemesters.slice().sort())
-      courseRoundList[courseRound.round_course_term.join('')] = []
+      courseRoundList[semester] = []
     }
 
-    if (routerStore.memoList[memoId]) {
-      courseRound['round_memoFile'] = {
-        fileName: routerStore.memoList[memoId].courseMemoFileName,
-        fileDate: _getDateFormat(routerStore.memoList[memoId].pdfMemoUploadDate, language)
+    const hasMemoForThisRound = !!(routerStore.memoList[semester] && routerStore.memoList[semester][ladokRoundId])
+    if (hasMemoForThisRound) {
+      const { isPdf, courseMemoFileName, lastChangeDate } = routerStore.memoList[semester][ladokRoundId]
+      if (isPdf) {
+        courseRound['round_memoFile'] = {
+          fileName: courseMemoFileName,
+          fileDate: lastChangeDate ? _getDateFormat(lastChangeDate, language) : ''
+        }
       }
     }
-    courseRoundList[courseRound.round_course_term.join('')].push(courseRound)
-    routerStore.keyList.teachers.push(
-      `${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.teachers`
-    )
-    routerStore.keyList.responsibles.push(
-      `${courseCode}.${courseRound.round_course_term[0]}${courseRound.round_course_term[1]}.${courseRound.roundId}.courseresponsible`
-    )
+    courseRoundList[semester].push(courseRound)
+    routerStore.keyList.teachers.push(`${courseCode}.${semester}.${ladokRoundId}.teachers`)
+    routerStore.keyList.responsibles.push(`${courseCode}.${semester}.${ladokRoundId}.courseresponsible`)
   }
   routerStore.keyList.teachers.replace(routerStore.keyList.teachers.slice().sort())
   routerStore.keyList.responsibles.replace(routerStore.keyList.responsibles.slice().sort())
@@ -500,7 +500,7 @@ async function getIndex(req, res, next) {
     }
 
     if (memoApiUp) {
-      const memoApiResponse = await memoApi.getFileList(courseCode)
+      const memoApiResponse = await memoApi.getPrioritizedCourseMemos(courseCode)
       if (memoApiResponse && memoApiResponse.body) {
         routerStore.memoList = memoApiResponse.body
       }
