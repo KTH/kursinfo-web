@@ -29,7 +29,7 @@ describe('Component <SideMenu>', () => {
     expect(links[0].title).toBe('Course and programme directory')
 
     expect(links[1].href).toBe('https://www.kth.se/student/kurser/kurs/KIP1111?l=en')
-    expect(links[1].title).toBe('Before choosing course')
+    expect(links[1].title).toBe('Before course selection')
 
     expect(links[2].href).toBe('http://localhost/kurs-pm/KIP1111?l=en')
     expect(links[2].title).toBe('Prepare and take course')

@@ -31,7 +31,7 @@ describe('Component <CourseTitle>', () => {
       pageTitle={translationEN.courseLabels.sideMenu.page_before_course}
     />)
 
-    const pageTitle = queryByText('Before choosing course')
+    const pageTitle = queryByText('Before course selection')
     expect(pageTitle).toBeInTheDocument()
 
 
