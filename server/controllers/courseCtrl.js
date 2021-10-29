@@ -2,12 +2,10 @@
 
 const co = require('co')
 const log = require('kth-node-log')
-const redis = require('kth-node-redis')
 const languageUtils = require('kth-node-web-common/lib/language')
 const ReactDOMServer = require('react-dom/server')
 const { toJS } = require('mobx')
 const httpResponse = require('@kth/kth-node-response')
-
 const courseApi = require('../apiCalls/kursinfoAdmin')
 const memoApi = require('../apiCalls/memoApi')
 const koppsCourseData = require('../apiCalls/koppsCourseData')
@@ -19,6 +17,7 @@ const paths = require('../server').getPaths()
 const api = require('../api')
 
 const { INFORM_IF_IMPORTANT_INFO_IS_MISSING, PROGRAMME_URL, MAX_1_MONTH, MAX_2_MONTH } = require('../util/constants')
+const { formatVersionDate, getDateFormat } = require('../util/dates')
 const i18n = require('../../i18n')
 
 function _staticRender(context, location) {
@@ -43,10 +42,6 @@ function isValidContact(infoContactName, language) {
   return cleanFormat
 }
 
-async function _getCourseEmployeesPost(roundsKeys, key, type = 'multi', lang = 'sv') {
-  return _getCourseEmployees(key, type, roundsKeys)
-}
-
 async function _getCourseEmployees(req, res, next) {
   const apiMemoData = req.body
   const courseEmployees = await ugRedisApi.getCourseEmployees(apiMemoData)
@@ -54,7 +49,7 @@ async function _getCourseEmployees(req, res, next) {
 }
 
 async function _getKoppsCourseData(req, res, next) {
-  const courseCode = req.params.courseCode
+  const { courseCode } = req.params
   const language = req.params.language || 'sv'
   log.debug('Get Kopps course data for: ', courseCode, language)
   try {
@@ -63,13 +58,12 @@ async function _getKoppsCourseData(req, res, next) {
     if (apiResponse.statusCode && apiResponse.statusCode === 200) {
       log.debug('OK response from Kopps API for: ', courseCode, language)
       return httpResponse.json(res, apiResponse.body)
-    } else {
-      log.debug('NOK response from Kopps API for: ', courseCode, language)
-      const statusCode = apiResponse.statusCode ? apiResponse.statusCode : 500
-      res.status(statusCode)
-      res.statusCode = statusCode
-      res.send(courseCode)
     }
+    log.debug('NOK response from Kopps API for: ', courseCode, language)
+    const statusCode = apiResponse.statusCode ? apiResponse.statusCode : 500
+    res.status(statusCode)
+    res.statusCode = statusCode
+    res.send(courseCode)
   } catch (err) {
     return err
   }
@@ -303,27 +297,18 @@ function _getRoundSeatsMsg(max, min, language) {
   if (max) {
     if (min) {
       return min + ' - ' + max
-    } else {
-      return 'Max: ' + max
     }
+    return 'Max: ' + max
   }
   return min ? 'Min: ' + min : ''
-}
-
-function _getDateFormat(date, language) {
-  if (date === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language] || language === 'sv') {
-    return date
-  }
-  const splitDate = date.split('-')
-  return `${splitDate[2]}/${splitDate[1]}/${splitDate[0]}`
 }
 
 function _getRound(roundObject, language = 'sv') {
   const courseRoundModel = {
     roundId: isValidData(roundObject.round.ladokRoundId, language),
     round_time_slots: isValidData(roundObject.timeslots, language),
-    round_start_date: _getDateFormat(isValidData(roundObject.round.firstTuitionDate, language), language),
-    round_end_date: _getDateFormat(isValidData(roundObject.round.lastTuitionDate, language), language),
+    round_start_date: getDateFormat(isValidData(roundObject.round.firstTuitionDate, language), language),
+    round_end_date: getDateFormat(isValidData(roundObject.round.lastTuitionDate, language), language),
     round_target_group: isValidData(roundObject.round.targetGroup, language),
     round_tutoring_form: isValidData(roundObject.round.tutoringForm.name, language),
     round_tutoring_time: isValidData(roundObject.round.tutoringTimeOfDay.name, language),
@@ -394,7 +379,7 @@ function _getRounds(roundInfos, courseCode, language, routerStore) {
       if (isPdf) {
         courseRound['round_memoFile'] = {
           fileName: courseMemoFileName,
-          fileDate: lastChangeDate ? _getDateFormat(lastChangeDate, language) : ''
+          fileDate: lastChangeDate ? formatVersionDate(language, lastChangeDate) : ''
         }
       }
     }
@@ -596,7 +581,7 @@ async function getIndex(req, res, next) {
       if (err.code === 'ECONNABORTED' && err.config) {
         log.error(err.config.url, 'Timeout error')
       }
-      log.error({ err: err }, 'Error in getIndex')
+      log.error({ err }, 'Error in getIndex')
     }
 
     next(err)
@@ -604,7 +589,7 @@ async function getIndex(req, res, next) {
 }
 
 function hydrateStores(renderProps) {
-  const props = renderProps.props.children.props
+  const { props } = renderProps.props.children
   const outp = {}
   for (let key in props) {
     if (typeof props[key].initializeStore === 'function') {
