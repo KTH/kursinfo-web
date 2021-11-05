@@ -42,7 +42,7 @@ describe('Component <CourseTitle>', () => {
     expect(adminLink).toBeInTheDocument()
     expect(adminLink.href).toBe('http://localhost/kursinfoadmin/kurser/kurs/KIP1111?l=en')
 
-    const adminLinkName = queryByText('Administrate About course')
+    const adminLinkName = queryByText('Administer Aboute course')
     expect(adminLinkName).toBeInTheDocument()
 
     done()
