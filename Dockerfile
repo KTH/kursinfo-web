@@ -12,9 +12,7 @@ COPY ["app.js", "app.js"]
 COPY ["package.json", "package.json"]
 COPY ["package-lock.json", "package-lock.json"]
 
-RUN apk add --no-cache --virtual .gyp-dependencies python make g++ util-linux && \
-  npm run docker && \
-  apk del .gyp-dependencies
+RUN npm run docker
 
 EXPOSE 3000
 ENV TZ=Europe/Stockholm
