@@ -59,8 +59,9 @@ class CoursePage extends Component {
 
     routerStore.activeSemester = routerStore.startSemester !== '' ? startSemester : activeSemester
 
+    const roundCategory  = "VU"//single course students
     routerStore.startSemester !== ''
-    ? routerStore.courseData.roundList[routerStore.activeSemester] = this.reorder("60447", "round_application_code", routerStore.courseData.roundList[routerStore.startSemester])
+    ? routerStore.courseData.roundList[routerStore.activeSemester] = this.reorder(roundCategory, "round_category", routerStore.courseData.roundList[routerStore.startSemester])
     : routerStore.courseData.roundList[routerStore.activeSemester]// init roundList with reordered roundList after single course students
 
     routerStore.startSemester !== '' || routerStore.activeSemesters.length == 1 && routerStore.courseData.roundList[routerStore.activeSemester].length > 0
@@ -74,13 +75,7 @@ class CoursePage extends Component {
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.handleSemesterDropdownSelect = this.handleSemesterDropdownSelect.bind(this)
     this.reorder = this.reorder.bind(this)
-    console.log(routerStore.courseData.roundList[routerStore.activeSemester])
-    console.log(routerStore.courseData.roundList[routerStore.activeSemester].length)
-    console.log(routerStore.roundDisabled)
-    console.log(routerStore.showRoundData)
-    console.log(routerStore.activeSemesters.length)
-    console.log(routerStore.courseData.roundList)
-    
+       
   }
 
   componentDidMount() {
