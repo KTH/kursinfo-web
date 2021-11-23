@@ -6,6 +6,8 @@ import axios from 'axios'
 class RouterStore {
   @observable courseCode = ''
 
+  @observable startSemester = ''
+
   @observable sellingText = { en: '', sv: '' }
 
   @observable imageFromAdmin = ''
@@ -35,7 +37,7 @@ class RouterStore {
 
   @observable activeSemester = 0
 
-  @observable activeSyllabusIndex = 0
+   @observable activeSyllabusIndex = 0
 
   @observable dropdownsOpen = {
     roundsDropdown: false,

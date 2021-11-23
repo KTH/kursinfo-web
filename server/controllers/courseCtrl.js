@@ -475,6 +475,7 @@ async function getIndex(req, res, next) {
     routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
 
     routerStore.courseCode = courseCode
+    routerStore.startSemester = req.query.startterm ? req.query.startterm : '' //choosen start semester send with querystring
 
     const courseApiResponse = await courseApi.getSellingText(courseCode)
     if (courseApiResponse.body) {

@@ -43,12 +43,44 @@ class CoursePage extends Component {
   constructor(props) {
     super(props)
     const { routerStore } = this.props
-    routerStore.activeSemester =
-      routerStore.activeSemesters && routerStore.activeSemesters.length > 0
-        ? routerStore.activeSemesters[routerStore.defaultIndex][2]
-        : 0
+
+    
+    routerStore.activeSemesters = routerStore.startSemester !== ''
+    ? this.reorder(routerStore.startSemester, "2", routerStore.activeSemesters)
+    : routerStore.activeSemesters // reordering activeSemesters list after chosen startSemester on antagning.se 
+ 
+    const startSemester = routerStore.startSemester !== ''
+    ? routerStore.activeSemesters.filter(semester => semester[2] === routerStore.startSemester)
+    : [] //start semester from query string
+
+    const activeSemester = routerStore.activeSemesters && routerStore.activeSemesters.length > 0
+    ? routerStore.activeSemesters[routerStore.defaultIndex][2]
+    : 0 
+
+    routerStore.activeSemester = routerStore.startSemester !== '' ? startSemester : activeSemester
+
+    routerStore.startSemester !== ''
+    ? routerStore.courseData.roundList[routerStore.activeSemester] = this.reorder("60447", "round_application_code", routerStore.courseData.roundList[routerStore.startSemester])
+    : routerStore.courseData.roundList[routerStore.activeSemester]// init roundList with reordered roundList after single course students
+
+    routerStore.startSemester !== '' || routerStore.activeSemesters.length == 1 && routerStore.courseData.roundList[routerStore.activeSemester].length > 0
+    ? routerStore.showRoundData = true
+    : false
+
+    routerStore.startSemester !== '' || routerStore.activeSemesters.length == 1 && routerStore.courseData.roundList[routerStore.activeSemester].length > 1
+    ? routerStore.roundDisabled = false
+    : true
+     
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.handleSemesterDropdownSelect = this.handleSemesterDropdownSelect.bind(this)
+    this.reorder = this.reorder.bind(this)
+    console.log(routerStore.courseData.roundList[routerStore.activeSemester])
+    console.log(routerStore.courseData.roundList[routerStore.activeSemester].length)
+    console.log(routerStore.roundDisabled)
+    console.log(routerStore.showRoundData)
+    console.log(routerStore.activeSemesters.length)
+    console.log(routerStore.courseData.roundList)
+    
   }
 
   componentDidMount() {
@@ -130,6 +162,11 @@ class CoursePage extends Component {
     if (routerStore.showRoundData) {
       routerStore.getCourseEmployees()
     }
+  }
+  reorder(option, key, arr) {
+    var newArray = arr.slice()      
+    newArray.sort(o => o[key] !== option ? 1 : -1) // put in first
+    return newArray
   }
 
   render() {
@@ -477,6 +514,8 @@ class CoursePage extends Component {
 
 const DropdownSemesters = ({ semesterList, callerInstance, label = '', translation }) => {
   const dropdownID = 'semesterDropdown'
+  const startSemester = callerInstance.props.routerStore.startSemester
+   
   if (semesterList && semesterList.length < 1) {
     return ''
   }
@@ -494,13 +533,16 @@ const DropdownSemesters = ({ semesterList, callerInstance, label = '', translati
               aria-label={label.placeholder}
               onChange={callerInstance.handleSemesterDropdownSelect}
             >
-              <option
+               {(semesterList.length > 1  && startSemester === '')
+               ? (
+                <option
                 id={dropdownID + '_-1_0'}
                 defaultValue={callerInstance.props.routerStore.semesterSelectedIndex === 0}
                 value={label.placeholder}
               >
                 {label.placeholder}
               </option>
+              ) : ''}
               {semesterList.map((semesterItem, index) => {
                 return (
                   <option
@@ -522,8 +564,9 @@ const DropdownSemesters = ({ semesterList, callerInstance, label = '', translati
   )
 }
 
-const DropdownRounds = ({ courseRoundList, callerInstance, language = 0, label = '', translation }) => {
+const DropdownRounds = ({ courseRoundList, semesterList, callerInstance, language = 0, label = '', translation }) => {
   const dropdownID = 'roundsDropdown'
+  const startSemester = callerInstance.props.routerStore.startSemester
 
   if (courseRoundList && courseRoundList.length < 2) {
     return ''
@@ -543,13 +586,16 @@ const DropdownRounds = ({ courseRoundList, callerInstance, language = 0, label =
               onChange={callerInstance.handleDropdownSelect}
               disabled={callerInstance.props.routerStore.roundDisabled}
             >
-              <option
+              {courseRoundList.length > 1 && semesterList.length > 1 && startSemester === ''
+              ? (
+                <option
                 id={dropdownID + '_-1_0'}
                 defaultValue={callerInstance.props.routerStore.roundSelectedIndex === 0}
                 value={label.placeholder}
               >
                 {label.placeholder}
               </option>
+              ) : ''}
               {courseRoundList.map((courseRound, index) => {
                 const value = `${
                   courseRound.round_short_name !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]

@@ -62,7 +62,8 @@
     "react-icons": "^4.2.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "reactstrap": "^8.9.0"
+    "reactstrap": "^8.9.0",
+    "rimraf": "^3.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
