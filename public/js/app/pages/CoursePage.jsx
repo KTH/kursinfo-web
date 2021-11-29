@@ -199,7 +199,7 @@ class CoursePage extends Component {
       course_level_code: courseData.courseInfo.course_level_code,
       course_valid_from: courseData.syllabusList[routerStore.activeSyllabusIndex || 0].course_valid_from
     }
-
+    
     return (
       <div key="kursinfo-container" className="col" id="kursinfo-main-page">
         <Row>{breadcrumbs(translation, language, routerStore.courseCode)}</Row>
@@ -322,6 +322,25 @@ class CoursePage extends Component {
                                     courseData.roundList[routerStore.activeSemester][0].round_category
                                   ]
                                 }
+                                  ${courseData.roundList[routerStore.activeSemester][0].round_category === 'PU'
+                                  ? (courseData.roundList[routerStore.activeSemester].round_type === 'Programutbildning'
+                                    ? translation.courseRoundInformation.round_type['Programutbildning']
+                                    : '')
+                                  : ''}
+                                  ${courseData.roundList[routerStore.activeSemester][0].round_category === 'PU'
+                                  ? (courseData.roundList[routerStore.activeSemester].round_type === 'Uppdragsutbildning (ej HST-HPR)'
+                                    ? translation.courseRoundInformation.round_type['Uppdragsutbildning']
+                                    : '')
+                                  : ''}
+                                  ${courseData.roundList[routerStore.activeSemester][0].round_category === 'PU'
+                                  ? (courseData.roundList[routerStore.activeSemester].round_type === 'Kurser för KTHs personal (ej HST-HPR)'
+                                    ? translation.courseRoundInformation.round_type['Personalutbildning']
+                                    : '')
+                                  : ''}   
+                                  ${courseData.roundList[routerStore.activeSemester][0].round_category === 'VU' || courseData.roundList[routerStore.activeSemester][0].round_category === 'pu_and_vu'
+                                  ? translation.courseRoundInformation.round_category[courseData.roundList[routerStore.activeSemester][0].round_category]
+                                  : ''}
+                               
                               `}
                           </p>
                         ) : (

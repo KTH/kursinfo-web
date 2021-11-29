@@ -207,6 +207,11 @@ module.exports = {
       PU: 'programme students',
       VU: 'single courses students',
       pu_and_vu: 'programme and single courses students'
+    },
+    round_type: {
+      Programutbildning: 'programme students',
+      Uppdragsutbildning: 'contract education',
+      Personalutbildning: 'Courses for KTH staff'
     }
   },
   courseMainSubjects: {

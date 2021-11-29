@@ -46,11 +46,13 @@ class RoundInformationOneCol extends Component {
     const selectedRoundHeader = `
       ${i18n.messages[userLangIndex].courseInformation.course_short_semester[round.round_course_term[1]]} 
       ${round.round_course_term[0]}  
-      ${round.round_short_name !== LABEL_MISSING_INFO[language] ? round.round_short_name : ''}     
-      ${translate.round_category[round.round_category]}
-    `
-
-    return (
+      ${round.round_short_name !== LABEL_MISSING_INFO[language] ? round.round_short_name : ''}
+      ${round.round_category === 'PU' ? (round.round_type === 'Programutbildning' ? translate.round_type['Programutbildning'] : '') : ''}
+      ${round.round_category === 'PU' ? (round.round_type === 'Uppdragsutbildning (ej HST-HPR)' ? translate.round_type['Uppdragsutbildning'] : '') : ''}
+      ${round.round_category === 'PU' ? (round.round_type === 'Kurser för KTHs personal (ej HST-HPR)' ? translate.round_type['Personalutbildning'] : '') : ''}
+      ${round.round_category === 'VU' || round.round_category === 'pu_and_vu' ? translate.round_category[round.round_category] : ''}
+      `
+   return (
       <span>
         {courseHasRound && showRoundData ? (
           <h2 id="courseRoundInformationHeader" style={{ marginTop: '20px' }}>
