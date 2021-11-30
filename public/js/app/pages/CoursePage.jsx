@@ -317,19 +317,23 @@ class CoursePage extends Component {
                                     ? courseData.roundList[routerStore.activeSemester][0].round_short_name
                                     : ''
                                 }     
-                               
+                                ${
+                                  translation.courseRoundInformation.round_category[
+                                    courseData.roundList[routerStore.activeSemester][0].round_category
+                                  ]
+                                }
                                   ${courseData.roundList[routerStore.activeSemester][0].round_category === 'PU'
-                                  ? (courseData.roundList[routerStore.activeSemester][0].round_type === 'Programutbildning'
+                                  ? (courseData.roundList[routerStore.activeSemester].round_type === 'Programutbildning'
                                     ? translation.courseRoundInformation.round_type['Programutbildning']
                                     : '')
                                   : ''}
                                   ${courseData.roundList[routerStore.activeSemester][0].round_category === 'PU'
-                                  ? (courseData.roundList[routerStore.activeSemester][0].round_type === 'Uppdragsutbildning (ej HST-HPR)'
+                                  ? (courseData.roundList[routerStore.activeSemester].round_type === 'Uppdragsutbildning (ej HST-HPR)'
                                     ? translation.courseRoundInformation.round_type['Uppdragsutbildning']
                                     : '')
                                   : ''}
                                   ${courseData.roundList[routerStore.activeSemester][0].round_category === 'PU'
-                                  ? (courseData.roundList[routerStore.activeSemester][0].round_type === 'Kurser för KTHs personal (ej HST-HPR)'
+                                  ? (courseData.roundList[routerStore.activeSemester].round_type === 'Kurser för KTHs personal (ej HST-HPR)'
                                     ? translation.courseRoundInformation.round_type['Personalutbildning']
                                     : '')
                                   : ''}   
