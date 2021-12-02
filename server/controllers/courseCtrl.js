@@ -338,6 +338,10 @@ function _getRound(roundObject, language = 'sv') {
       roundObject.round.applicationCodes.length > 0
         ? isValidData(roundObject.round.applicationCodes[0].courseRoundType.name, language)
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    round_funding_type: 
+      roundObject.round.applicationCodes.length > 0
+        ? isValidData(roundObject.round.applicationCodes[0].courseRoundType.code, language)
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     round_application_link: isValidData(roundObject.admissionLinkUrl, language),
     round_part_of_programme:
       roundObject.usage.length > 0

@@ -44,7 +44,10 @@ class CoursePage extends Component {
     super(props)
     const { routerStore } = this.props
 
-    const checkQuery = routerStore.startSemester !== '' && routerStore.activeSemesters.some(s => s[2] === routerStore.startSemester) //check if query include chosen start semester and if it´s some old semester which is not active
+   
+    const checkQuery = routerStore.startSemester !== '' && routerStore.activeSemesters.some(s => s[2] === routerStore.startSemester)//check if query include chosen start semester and check if query include some old semester which is not active
+    
+    this.checkQuery = checkQuery
 
     routerStore.activeSemesters = checkQuery
     ? this.reorder(routerStore.startSemester, "2", routerStore.activeSemesters) : routerStore.activeSemesters // reordering activeSemesters list after chosen startSemester on antagning.se 
@@ -58,19 +61,19 @@ class CoursePage extends Component {
     : 0 
 
     routerStore.activeSemester = checkQuery ? startSemester : activeSemester
-
+    
     const roundCategory  = "VU"//single course students
     checkQuery
     ? routerStore.courseData.roundList[routerStore.activeSemester] = this.reorder(roundCategory, "round_category", routerStore.courseData.roundList[routerStore.startSemester])
     : routerStore.courseData.roundList[routerStore.activeSemester]// init roundList with reordered roundList after single course students
 
-
-    routerStore.roundDisabled = checkQuery ? false : true
+    routerStore.showRoundData = (routerStore.activeSemesters.length === 1 && routerStore.courseData.roundList[routerStore.activeSemester].length === 1) ||  (checkQuery && routerStore.courseData.roundList[routerStore.activeSemester].length === 1)? true : false
+    routerStore.roundDisabled = checkQuery ? false : routerStore.activeSemesters.length > 1
      
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.handleSemesterDropdownSelect = this.handleSemesterDropdownSelect.bind(this)
     this.reorder = this.reorder.bind(this)
-       
+         
   }
 
   componentDidMount() {
@@ -154,7 +157,7 @@ class CoursePage extends Component {
     }
   }
   reorder(option, key, arr) {
-    var newArray = arr.slice()      
+    let newArray = arr.slice()      
     newArray.sort(o => o[key] !== option ? 1 : -1) // put in first
     return newArray
   }
@@ -199,7 +202,7 @@ class CoursePage extends Component {
       course_level_code: courseData.courseInfo.course_level_code,
       course_valid_from: courseData.syllabusList[routerStore.activeSyllabusIndex || 0].course_valid_from
     }
-
+    
     return (
       <div key="kursinfo-container" className="col" id="kursinfo-main-page">
         <Row>{breadcrumbs(translation, language, routerStore.courseCode)}</Row>
@@ -288,6 +291,7 @@ class CoursePage extends Component {
                             language={language}
                             label={translation.courseLabels.label_semester_select}
                             translation={translation}
+                            checkQuery={this.checkQuery}
                           />
                         )}
                         {courseData.roundList[routerStore.activeSemester] &&
@@ -502,10 +506,12 @@ class CoursePage extends Component {
   }
 }
 
-const DropdownSemesters = ({ semesterList, callerInstance, label = '', translation }) => {
+const DropdownSemesters = ({ semesterList, callerInstance, label = '', translation, checkQuery}) => {
   const dropdownID = 'semesterDropdown'
   const startSemester = callerInstance.props.routerStore.startSemester
- 
+  const activeSemester = callerInstance.props.routerStore.activeSemester
+  const activeRoundList = callerInstance.props.routerStore.courseData.roundList[activeSemester] 
+
   if (semesterList && semesterList.length < 1) {
     return ''
   }
@@ -523,7 +529,7 @@ const DropdownSemesters = ({ semesterList, callerInstance, label = '', translati
               aria-label={label.placeholder}
               onChange={callerInstance.handleSemesterDropdownSelect}
             >
-               {(startSemester === '' || !(semesterList.some(s => s[2] === startSemester)))
+               {(semesterList.length > 1 && startSemester === '') || (startSemester === '' ? false : !checkQuery) 
                ? (
                 <option
                 id={dropdownID + '_-1_0'}
@@ -556,8 +562,7 @@ const DropdownSemesters = ({ semesterList, callerInstance, label = '', translati
 
 const DropdownRounds = ({ courseRoundList, callerInstance, language = 0, label = '', translation }) => {
   const dropdownID = 'roundsDropdown'
-  const startSemester = callerInstance.props.routerStore.startSemester
-
+  
   if (courseRoundList && courseRoundList.length < 2) {
     return ''
   }
