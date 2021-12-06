@@ -49,16 +49,16 @@ class CoursePage extends Component {
     
     this.checkQuery = checkQuery
 
-    routerStore.activeSemesters = checkQuery
-    ? this.reorder(routerStore.startSemester, "2", routerStore.activeSemesters) : routerStore.activeSemesters // reordering activeSemesters list after chosen startSemester on antagning.se 
-    
-    const startSemester = checkQuery
-    ? routerStore.activeSemesters.filter(semester => semester[2] === routerStore.startSemester)
-    : [] //start semester from query string
-
     const activeSemester = routerStore.activeSemesters && routerStore.activeSemesters.length > 0
     ? routerStore.activeSemesters[routerStore.defaultIndex][2]
     : 0 
+
+    routerStore.activeSemesters = checkQuery
+    ? this.reorder(routerStore.startSemester, "2", routerStore.activeSemesters) : this.reorder(routerStore.activeSemester, "2", routerStore.activeSemesters) // reordering activeSemesters list after chosen startSemester on antagning.se 
+    
+    const startSemester = checkQuery
+    ? routerStore.activeSemesters.filter(semester => semester[2] === routerStore.startSemester)
+    : 0 //start semester from query string
 
     routerStore.activeSemester = checkQuery ? startSemester : activeSemester
     
@@ -67,13 +67,13 @@ class CoursePage extends Component {
     ? routerStore.courseData.roundList[routerStore.activeSemester] = this.reorder(roundCategory, "round_category", routerStore.courseData.roundList[routerStore.startSemester])
     : routerStore.courseData.roundList[routerStore.activeSemester]// init roundList with reordered roundList after single course students
 
-    routerStore.showRoundData = (routerStore.activeSemesters.length === 1 && routerStore.courseData.roundList[routerStore.activeSemester].length === 1) ||  (checkQuery && routerStore.courseData.roundList[routerStore.activeSemester].length === 1)? true : false
-    routerStore.roundDisabled = checkQuery ? false : routerStore.activeSemesters.length > 1
+    routerStore.showRoundData = routerStore.activeSemester.length > 0 ? routerStore.courseData.roundList[routerStore.activeSemester].length === 1 : false
+    //routerStore.roundDisabled = checkQuery ? false : routerStore.activeSemesters.length > 1
      
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.handleSemesterDropdownSelect = this.handleSemesterDropdownSelect.bind(this)
     this.reorder = this.reorder.bind(this)
-         
+     console.log(routerStore.courseData.roundList[routerStore.activeSemester][0])
   }
 
   componentDidMount() {
@@ -313,7 +313,7 @@ class CoursePage extends Component {
                                   translation.courseInformation.course_short_semester[
                                     courseData.roundList[routerStore.activeSemester][0].round_course_term[1]
                                   ]
-                                } 
+                                }
                                 ${courseData.roundList[routerStore.activeSemester][0].round_course_term[0]}  
                                 ${
                                   courseData.roundList[routerStore.activeSemester][0].round_short_name !==
@@ -371,8 +371,9 @@ class CoursePage extends Component {
                     ''
                   )}
 
-                  {/* ---COURSE ROUND INFORMATION--- */}
+                  {/* ---COURSE ROUND INFORMATION--- */} 
                   {routerStore.activeSemesters && routerStore.activeSemesters.length > 0 ? (
+                   
                     <RoundInformationOneCol
                       courseRound={courseData.roundList[routerStore.activeSemester][routerStore.activeRoundIndex]}
                       courseData={courseInformationToRounds}
@@ -529,7 +530,7 @@ const DropdownSemesters = ({ semesterList, callerInstance, label = '', translati
               aria-label={label.placeholder}
               onChange={callerInstance.handleSemesterDropdownSelect}
             >
-               {(semesterList.length > 1 && startSemester === '') || (startSemester === '' ? false : !checkQuery) 
+               {startSemester === '' ? false : !checkQuery 
                ? (
                 <option
                 id={dropdownID + '_-1_0'}

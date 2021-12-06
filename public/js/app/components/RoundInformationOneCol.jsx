@@ -46,8 +46,8 @@ class RoundInformationOneCol extends Component {
     const selectedRoundHeader = `
       ${i18n.messages[userLangIndex].courseInformation.course_short_semester[round.round_course_term[1]]} 
       ${round.round_course_term[0]}  
-      ${round.round_short_name !== LABEL_MISSING_INFO[language] ? round.round_short_name : ''}     
-      ${translate.round_category[round.round_category]}
+      ${round.round_short_name !== LABEL_MISSING_INFO[language] ? round.round_short_name : ''} 
+      ${round.round_funding_type === 'UPP' || round.round_funding_type === 'PER' ? translate.round_type[round.round_funding_type] : translate.round_category[round.round_category]}
     `
 
     return (

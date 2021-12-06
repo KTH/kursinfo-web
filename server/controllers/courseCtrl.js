@@ -395,7 +395,7 @@ function _getRounds(roundInfos, courseCode, language, routerStore) {
   routerStore.keyList.responsibles.replace(routerStore.keyList.responsibles.slice().sort())
 
   return courseRoundList
-}
+  }
 
 function _getRoundsAndSyllabusConnection(syllabusSemesterList, routerStore) {
   for (let index = 0; index < routerStore.activeSemesters.length; index++) {
@@ -528,9 +528,10 @@ async function getIndex(req, res, next) {
       } else {
         syllabusList[0] = _getSyllabusData(courseResult, 0, lang)
       }
-
+     
       //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis *****//
       const roundList = _getRounds(courseResult.roundInfos, courseCode, lang, routerStore)
+      
 
       //* **** Sets roundsSyllabusIndex, an array used for connecting rounds with correct syllabus *****//
       _getRoundsAndSyllabusConnection(syllabusSemesterList, routerStore)

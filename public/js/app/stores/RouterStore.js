@@ -50,7 +50,7 @@ class RouterStore {
 
   @observable showRoundData = false
 
-  @observable roundDisabled = true
+  @observable roundDisabled = false
 
   @observable roundSelected = false
 

@@ -208,6 +208,11 @@ module.exports = {
       PU: 'programstuderande',
       VU: 'fristående studerande',
       pu_and_vu: 'programstuderande och fristående studerande'
+    },
+    round_type: {
+      ORD: 'programstuderande',
+      UPP: 'uppdragsutbildning',
+      PER: 'Kurser för KTHs personal'
     }
   },
   courseImage: {
