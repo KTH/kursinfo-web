@@ -73,7 +73,6 @@ class CoursePage extends Component {
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.handleSemesterDropdownSelect = this.handleSemesterDropdownSelect.bind(this)
     this.reorder = this.reorder.bind(this)
-     console.log(routerStore.courseData.roundList[routerStore.activeSemester][0])
   }
 
   componentDidMount() {
@@ -321,11 +320,9 @@ class CoursePage extends Component {
                                     ? courseData.roundList[routerStore.activeSemester][0].round_short_name
                                     : ''
                                 }     
-                                ${
-                                  translation.courseRoundInformation.round_category[
-                                    courseData.roundList[routerStore.activeSemester][0].round_category
-                                  ]
-                                }
+                                ${courseData.roundList[routerStore.activeSemester][0].round_funding_type === 'UPP' || courseData.roundList[routerStore.activeSemester][0].round_funding_type === 'PER'
+                                ? translation.courseRoundInformation.round_type[courseData.roundList[routerStore.activeSemester][0].round_funding_type]
+                                : translation.courseRoundInformation.round_category[courseData.roundList[routerStore.activeSemester][0].round_category]}
                               `}
                           </p>
                         ) : (

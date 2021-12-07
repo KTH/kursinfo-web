@@ -212,7 +212,7 @@ module.exports = {
     round_type: {
       ORD: 'programstuderande',
       UPP: 'uppdragsutbildning',
-      PER: 'Kurser för KTHs personal'
+      PER: 'Personalkurs'
     }
   },
   courseImage: {

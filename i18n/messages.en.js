@@ -211,7 +211,7 @@ module.exports = {
     round_type: {
       ORD: 'programme students',
       UPP: 'contract education',
-      PER: 'Courses for KTH staff'
+      PER: 'Course for staff'
     }
   },
   courseMainSubjects: {
