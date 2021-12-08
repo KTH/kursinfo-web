@@ -593,7 +593,9 @@ const DropdownRounds = ({ courseRoundList, callerInstance, language = 0, label =
                   courseRound.round_short_name !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
                     ? courseRound.round_short_name
                     : ''
-                }, ${translation.courseRoundInformation.round_category[courseRound.round_category]}`
+                },${courseRound.round_funding_type === 'UPP' || courseRound.round_funding_type === 'PER'
+                ? translation.courseRoundInformation.round_type[courseRound.round_funding_type]
+                : translation.courseRoundInformation.round_category[courseRound.round_category]}`
                 return (
                   <option
                     key={value}
