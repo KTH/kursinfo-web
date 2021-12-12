@@ -44,8 +44,8 @@ class CoursePage extends Component {
     super(props)
     const { routerStore } = this.props
 
-   
-    const checkQuery = routerStore.startSemester !== '' && routerStore.activeSemesters.some(s => s[2] === routerStore.startSemester)//check if query include chosen start semester and check if query include some old semester which is not active
+    const activeTerm = routerStore.activeSemesters.some(s => s[2] === routerStore.startSemester)
+    const checkQuery = routerStore.startSemester !== '' && activeTerm//check if query include chosen start semester and check if query include some old semester which is not active
     
     this.checkQuery = checkQuery
 
@@ -67,12 +67,12 @@ class CoursePage extends Component {
     ? routerStore.courseData.roundList[routerStore.activeSemester] = this.reorder(roundCategory, "round_category", routerStore.courseData.roundList[routerStore.startSemester])
     : routerStore.courseData.roundList[routerStore.activeSemester]// init roundList with reordered roundList after single course students
 
-    routerStore.showRoundData = routerStore.activeSemester.length > 0 ? routerStore.courseData.roundList[routerStore.activeSemester].length === 1 : false
-    //routerStore.roundDisabled = checkQuery ? false : routerStore.activeSemesters.length > 1
-     
+    routerStore.showRoundData =  routerStore.startSemester === '' ? routerStore.activeSemester.length > 0 && routerStore.courseData.roundList[routerStore.activeSemester].length === 1 : (checkQuery ? routerStore.courseData.roundList[routerStore.activeSemester].length === 1 : false)
+         
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.handleSemesterDropdownSelect = this.handleSemesterDropdownSelect.bind(this)
     this.reorder = this.reorder.bind(this)
+   
   }
 
   componentDidMount() {
