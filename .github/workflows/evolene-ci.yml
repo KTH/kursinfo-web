@@ -32,6 +32,7 @@ jobs:
           # BRANCHES_SAVE_STARTING_WITH: "origin/"          # Builds non main or master branches.
           # BRANCHES_TAG_AS_MAIN: "True"                    # Do not add branch names to build artifacts
           SLACK_CHANNELS: "#team-kursinfo-build"            # List of Slack channels for user information
+          BUILD_INFORMATION_OUTPUT_FILE: "/config/version.js"
           # SKIP_DRY_RUN: True                              # Skip "dry run" step
 
         run: |
