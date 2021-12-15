@@ -8,6 +8,8 @@ class RouterStore {
 
   @observable startSemester = ''
 
+  @observable startPeriod = true
+
   @observable sellingText = { en: '', sv: '' }
 
   @observable imageFromAdmin = ''

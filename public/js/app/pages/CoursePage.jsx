@@ -44,6 +44,7 @@ class CoursePage extends Component {
     super(props)
     const { routerStore } = this.props
 
+    const period = routerStore.startPeriod
     const activeTerm = routerStore.activeSemesters.some(s => s[2] === routerStore.startSemester)
     const checkQuery = routerStore.startSemester !== '' && activeTerm//check if query include chosen start semester and check if query include some old semester which is not active
     
@@ -67,12 +68,14 @@ class CoursePage extends Component {
     ? routerStore.courseData.roundList[routerStore.activeSemester] = this.reorder(roundCategory, "round_category", routerStore.courseData.roundList[routerStore.startSemester])
     : routerStore.courseData.roundList[routerStore.activeSemester]// init roundList with reordered roundList after single course students
 
-    routerStore.showRoundData =  routerStore.startSemester === '' ? routerStore.activeSemester.length > 0 && routerStore.courseData.roundList[routerStore.activeSemester].length === 1 : (checkQuery ? routerStore.courseData.roundList[routerStore.activeSemester].length === 1 : false)
+    routerStore.showRoundData =  routerStore.startSemester === ''
+    ? routerStore.activeSemester.length > 0 && routerStore.courseData.roundList[routerStore.activeSemester].length === 1 && period
+    : (checkQuery ? routerStore.courseData.roundList[routerStore.activeSemester].length === 1 : false)
          
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.handleSemesterDropdownSelect = this.handleSemesterDropdownSelect.bind(this)
     this.reorder = this.reorder.bind(this)
-   
+
   }
 
   componentDidMount() {
@@ -509,7 +512,8 @@ const DropdownSemesters = ({ semesterList, callerInstance, label = '', translati
   const startSemester = callerInstance.props.routerStore.startSemester
   const activeSemester = callerInstance.props.routerStore.activeSemester
   const activeRoundList = callerInstance.props.routerStore.courseData.roundList[activeSemester] 
-
+  const period = callerInstance.props.routerStore.startPeriod
+  
   if (semesterList && semesterList.length < 1) {
     return ''
   }
@@ -527,7 +531,7 @@ const DropdownSemesters = ({ semesterList, callerInstance, label = '', translati
               aria-label={label.placeholder}
               onChange={callerInstance.handleSemesterDropdownSelect}
             >
-               {startSemester === '' ? false : !checkQuery 
+               {(startSemester === '' ? (period ? false : true) : !checkQuery)
                ? (
                 <option
                 id={dropdownID + '_-1_0'}
@@ -560,7 +564,7 @@ const DropdownSemesters = ({ semesterList, callerInstance, label = '', translati
 
 const DropdownRounds = ({ courseRoundList, callerInstance, language = 0, label = '', translation }) => {
   const dropdownID = 'roundsDropdown'
-  
+    
   if (courseRoundList && courseRoundList.length < 2) {
     return ''
   }
