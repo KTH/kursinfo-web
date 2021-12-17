@@ -45,32 +45,39 @@ class CoursePage extends Component {
     const { routerStore } = this.props
 
     const period = routerStore.startPeriod
-    const activeTerm = routerStore.activeSemesters.some(s => s[2] === routerStore.startSemester)
-    const checkQuery = routerStore.startSemester !== '' && activeTerm//check if query include chosen start semester and check if query include some old semester which is not active
-    
-    this.checkQuery = checkQuery
+      const activeTerm = routerStore.activeSemesters && routerStore.activeSemesters.length > 0
+      ? routerStore.activeSemesters.some(s => s[2] === routerStore.startSemester)
+      : false
 
-    const activeSemester = routerStore.activeSemesters && routerStore.activeSemesters.length > 0
-    ? routerStore.activeSemesters[routerStore.defaultIndex][2]
-    : 0 
+      const checkQuery = routerStore.startSemester !== '' && activeTerm//check if query include chosen start semester and check if query include some old semester which is not active
+      
+      this.checkQuery = checkQuery
 
-    routerStore.activeSemesters = checkQuery
-    ? this.reorder(routerStore.startSemester, "2", routerStore.activeSemesters) : this.reorder(routerStore.activeSemester, "2", routerStore.activeSemesters) // reordering activeSemesters list after chosen startSemester on antagning.se 
-    
-    const startSemester = checkQuery
-    ? routerStore.activeSemesters.filter(semester => semester[2] === routerStore.startSemester)
-    : 0 //start semester from query string
+      const activeSemester = routerStore.activeSemesters && routerStore.activeSemesters.length > 0
+      ? routerStore.activeSemesters[routerStore.defaultIndex][2]
+      : 0 
 
-    routerStore.activeSemester = checkQuery ? startSemester : activeSemester
-    
-    const roundCategory  = "VU"//single course students
-    checkQuery
-    ? routerStore.courseData.roundList[routerStore.activeSemester] = this.reorder(roundCategory, "round_category", routerStore.courseData.roundList[routerStore.startSemester])
-    : routerStore.courseData.roundList[routerStore.activeSemester]// init roundList with reordered roundList after single course students
+      routerStore.activeSemesters =  routerStore.activeSemesters && routerStore.activeSemesters.length > 0
+      ? (checkQuery
+        ? this.reorder(routerStore.startSemester, "2", routerStore.activeSemesters)
+        : this.reorder(routerStore.activeSemester, "2", routerStore.activeSemesters))
+      : [] // reordering activeSemesters list after chosen startSemester on antagning.se 
+      
+      const startSemester = checkQuery
+      ? routerStore.activeSemesters.filter(semester => semester[2] === routerStore.startSemester)
+      : 0 //start semester from query string
 
-    routerStore.showRoundData =  routerStore.startSemester === ''
-    ? routerStore.activeSemester.length > 0 && routerStore.courseData.roundList[routerStore.activeSemester].length === 1 && period
-    : (checkQuery ? routerStore.courseData.roundList[routerStore.activeSemester].length === 1 : false)
+      routerStore.activeSemester = checkQuery ? startSemester : activeSemester
+      
+      routerStore.courseData.roundList
+      ? (checkQuery
+        ? routerStore.courseData.roundList[routerStore.activeSemester] = routerStore.courseData.roundList[routerStore.startSemester]
+        : routerStore.courseData.roundList[routerStore.activeSemester] = routerStore.courseData.roundList[routerStore.activeSemester])
+      : []
+                
+      routerStore.showRoundData =  routerStore.startSemester === ''
+      ? routerStore.activeSemester.length > 0 && routerStore.courseData.roundList[routerStore.activeSemester].length === 1 && period
+      : (checkQuery ? routerStore.courseData.roundList[routerStore.activeSemester].length === 1 : false)
          
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.handleSemesterDropdownSelect = this.handleSemesterDropdownSelect.bind(this)

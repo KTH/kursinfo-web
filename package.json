@@ -14,6 +14,7 @@
     "prepare": "husky install",
     "vendor": "parcel build ./public/js/vendor.js",
     "test": "NODE_ENV=test jest",
+    "test-win": "cross-env NODE_ENV=test jest",
     "test:watch": "jest --watch",
     "test:notify": "jest --watch --notify",
     "docker": "npm install --development && npm run build && npm prune --production",
