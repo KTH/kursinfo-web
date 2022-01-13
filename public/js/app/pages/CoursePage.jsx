@@ -53,8 +53,9 @@ class CoursePage extends Component {
       
       this.checkQuery = checkQuery
 
+      const newIndex = Number(routerStore.activeSemesters.length) - 1
       const activeSemester = routerStore.activeSemesters && routerStore.activeSemesters.length > 0
-      ? routerStore.activeSemesters[routerStore.defaultIndex][2]
+      ? routerStore.activeSemesters[newIndex][2]
       : 0 
 
       routerStore.activeSemesters =  routerStore.activeSemesters && routerStore.activeSemesters.length > 0
@@ -96,6 +97,7 @@ class CoursePage extends Component {
     const translation = i18n.messages[language === 'en' ? 0 : 1]
     const siteNameElement = document.querySelector('.block.siteName a')
     if (siteNameElement) siteNameElement.textContent = aboutCourseStr(translation.messages, routerStore.courseCode)
+    routerStore.getCourseEmployees()
   }
 
   componentDidUpdate() {
@@ -142,7 +144,7 @@ class CoursePage extends Component {
     routerStore.roundSelected = newIndex === -1
     routerStore.semesterSelectedIndex = eventTarget.selectedIndex
     routerStore.roundSelectedIndex = 0
-
+    
     if (routerStore.showRoundData) {
       routerStore.getCourseEmployees()
     }
@@ -571,7 +573,7 @@ const DropdownSemesters = ({ semesterList, callerInstance, label = '', translati
 
 const DropdownRounds = ({ courseRoundList, callerInstance, language = 0, label = '', translation }) => {
   const dropdownID = 'roundsDropdown'
-    
+        
   if (courseRoundList && courseRoundList.length < 2) {
     return ''
   }
