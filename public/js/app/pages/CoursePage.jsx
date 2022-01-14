@@ -536,7 +536,7 @@ const DropdownSemesters = ({
   const dropdownID = 'semesterDropdown'
   const { activeSemester, startSemester, hasQueryStartPeriod } = callerInstance.props.routerStore
   // TODO: REMOVE
-  const activeRoundList = callerInstance.props.routerStore.courseData.roundList[activeSemester]
+  // const activeRoundList = callerInstance.props.routerStore.courseData.roundList[activeSemester]
   if (semesterList && semesterList.length < 1) {
     return ''
   }
@@ -554,6 +554,7 @@ const DropdownSemesters = ({
               aria-label={label.placeholder}
               onChange={callerInstance.handleSemesterDropdownSelect}
             >
+              {/* Todo: use already existing booleans */}
               {(startSemester === '' ? (hasQueryStartPeriod ? false : true) : !hasInitialMatchedQueryAndActiveTerm) ? (
                 <option
                   id={dropdownID + '_-1_0'}
@@ -565,19 +566,17 @@ const DropdownSemesters = ({
               ) : (
                 ''
               )}
-              {semesterList.map((semesterItem, index) => {
-                return (
-                  <option
-                    key={`${translation.courseInformation.course_short_semester[semesterItem[1]]}${semesterItem[0]}`}
-                    id={dropdownID + '_' + index + '_0'}
-                    defaultValue={callerInstance.props.routerStore.semesterSelectedIndex - 1 === index}
-                    value={`${translation.courseInformation.course_short_semester[semesterItem[1]]}${semesterItem[0]}`}
-                  >
-                    {translation.courseInformation.course_short_semester[semesterItem[1]]}
-                    {semesterItem[0]}
-                  </option>
-                )
-              })}
+              {semesterList.map((semesterItem, index) => (
+                <option
+                  key={`${translation.courseInformation.course_short_semester[semesterItem[1]]}${semesterItem[0]}`}
+                  id={dropdownID + '_' + index + '_0'}
+                  defaultValue={callerInstance.props.routerStore.semesterSelectedIndex - 1 === index}
+                  value={`${translation.courseInformation.course_short_semester[semesterItem[1]]}${semesterItem[0]}`}
+                >
+                  {translation.courseInformation.course_short_semester[semesterItem[1]]}
+                  {semesterItem[0]}
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -616,27 +615,39 @@ const DropdownRounds = ({ courseRoundList, callerInstance, language = 0, label =
                 {label.placeholder}
               </option>
               )
-              {courseRoundList.map((courseRound, index) => {
-                const value = `${
-                  courseRound.round_short_name !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
-                    ? courseRound.round_short_name
-                    : ''
-                },${
-                  courseRound.round_funding_type === 'UPP' || courseRound.round_funding_type === 'PER'
-                    ? translation.courseRoundInformation.round_type[courseRound.round_funding_type]
-                    : translation.courseRoundInformation.round_category[courseRound.round_category]
-                }`
-                return (
-                  <option
-                    key={value}
-                    id={dropdownID + '_' + index + '_0'}
-                    defaultValue={callerInstance.props.routerStore.roundSelectedIndex - 1 === index}
-                    value={value}
-                  >
-                    {value}
-                  </option>
-                )
-              })}
+              {courseRoundList.map(
+                (
+                  {
+                    round_short_name: roundShortName,
+                    round_funding_type: fundingType,
+                    round_category: roundCategory,
+                    round_application_code: roundApplicationCode,
+                    round_start_date: roundStartDate
+                  },
+                  index
+                ) => {
+                  const isChosen = callerInstance.props.routerStore.roundSelectedIndex - 1 === index
+                  const optionLabel = `${
+                    roundShortName !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language] ? `${roundShortName}` : ''
+                  },${
+                    fundingType === 'UPP' || fundingType === 'PER'
+                      ? translation.courseRoundInformation.round_type[fundingType]
+                      : translation.courseRoundInformation.round_category[roundCategory]
+                  }`
+                  // Key must be unique, otherwise it will not update course rounds list for some courses, ex.FLH3000
+                  const uniqueKey = `${optionLabel}${roundApplicationCode}${roundStartDate}`
+                  return (
+                    <option
+                      key={uniqueKey}
+                      id={dropdownID + '_' + index + '_0'}
+                      defaultValue={isChosen}
+                      value={optionLabel}
+                    >
+                      {optionLabel}
+                    </option>
+                  )
+                }
+              )}
             </select>
           </div>
         </div>
