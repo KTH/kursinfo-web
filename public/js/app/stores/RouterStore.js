@@ -8,7 +8,7 @@ class RouterStore {
 
   @observable startSemester = ''
 
-  @observable startPeriod = true
+  @observable hasQueryStartPeriod = true
 
   @observable sellingText = { en: '', sv: '' }
 
@@ -39,7 +39,7 @@ class RouterStore {
 
   @observable activeSemester = 0
 
-   @observable activeSyllabusIndex = 0
+  @observable activeSyllabusIndex = 0
 
   @observable dropdownsOpen = {
     roundsDropdown: false,

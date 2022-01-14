@@ -16,26 +16,22 @@ import SideMenu from '../components/SideMenu'
 
 const aboutCourseStr = (translate, courseCode = '') => `${translate.site_name} ${courseCode}`
 
-const breadcrumbs = (translation, language, courseCode) => {
-  return (
-    <Breadcrumb lang={language} aria-label={translation.breadCrumbLabels.breadcrumbs} className="secondaryMenu">
-      <BreadcrumbItem>
-        <a href={breadcrumbLinks.university[language]}>{translation.breadCrumbLabels.university}</a>
-      </BreadcrumbItem>
-      <BreadcrumbItem>
-        <a href={breadcrumbLinks.student[language]}>{translation.breadCrumbLabels.student}</a>
-      </BreadcrumbItem>
-      <BreadcrumbItem>
-        <a href={breadcrumbLinks.directory[language]}>{translation.breadCrumbLabels.directory}</a>
-      </BreadcrumbItem>
-      <BreadcrumbItem>
-        <a href={aboutCourseLink(courseCode, language)}>
-          {`${translation.breadCrumbLabels.aboutCourse} ${courseCode}`}
-        </a>
-      </BreadcrumbItem>
-    </Breadcrumb>
-  )
-}
+const breadcrumbs = (translation, language, courseCode) => (
+  <Breadcrumb lang={language} aria-label={translation.breadCrumbLabels.breadcrumbs} className="secondaryMenu">
+    <BreadcrumbItem>
+      <a href={breadcrumbLinks.university[language]}>{translation.breadCrumbLabels.university}</a>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <a href={breadcrumbLinks.student[language]}>{translation.breadCrumbLabels.student}</a>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <a href={breadcrumbLinks.directory[language]}>{translation.breadCrumbLabels.directory}</a>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <a href={aboutCourseLink(courseCode, language)}>{`${translation.breadCrumbLabels.aboutCourse} ${courseCode}`}</a>
+    </BreadcrumbItem>
+  </Breadcrumb>
+)
 
 @inject(['routerStore'])
 @observer
@@ -44,46 +40,47 @@ class CoursePage extends Component {
     super(props)
     const { routerStore } = this.props
 
-    const period = routerStore.startPeriod
-      const activeTerm = routerStore.activeSemesters && routerStore.activeSemesters.length > 0
-      ? routerStore.activeSemesters.some(s => s[2] === routerStore.startSemester)
-      : false
+    const { hasQueryStartPeriod } = routerStore
+    const activeTerm = routerStore.activeSemesters.some((s) => s[2] === routerStore.startSemester)
 
-      const checkQuery = routerStore.startSemester !== '' && activeTerm//check if query include chosen start semester and check if query include some old semester which is not active
-      
-      this.checkQuery = checkQuery
+    this.hasMatchedQueryAndActiveTerm = routerStore.startSemester !== '' && activeTerm // check if query include chosen start semester and check if query include some old semester which is not active
 
-      const newIndex = Number(routerStore.activeSemesters.length) - 1
-      const activeSemester = routerStore.activeSemesters && routerStore.activeSemesters.length > 0
-      ? routerStore.activeSemesters[newIndex][2]
-      : 0 
+    const activeSemester =
+      routerStore.activeSemesters && routerStore.activeSemesters.length > 0
+        ? routerStore.activeSemesters[routerStore.defaultIndex][2]
+        : 0
 
-      routerStore.activeSemesters =  routerStore.activeSemesters && routerStore.activeSemesters.length > 0
-      ? (checkQuery
-        ? this.reorder(routerStore.startSemester, "2", routerStore.activeSemesters)
-        : this.reorder(routerStore.activeSemester, "2", routerStore.activeSemesters))
-      : [] // reordering activeSemesters list after chosen startSemester on antagning.se 
-      
-      const startSemester = checkQuery
-      ? routerStore.activeSemesters.filter(semester => semester[2] === routerStore.startSemester)
-      : 0 //start semester from query string
+    routerStore.activeSemesters = this.hasMatchedQueryAndActiveTerm
+      ? this.reorder(routerStore.startSemester, '2', routerStore.activeSemesters)
+      : this.reorder(routerStore.activeSemester, '2', routerStore.activeSemesters) // reordering activeSemesters list after chosen startSemester on antagning.se
 
-      routerStore.activeSemester = checkQuery ? startSemester : activeSemester
-      
-      routerStore.courseData.roundList
-      ? (checkQuery
-        ? routerStore.courseData.roundList[routerStore.activeSemester] = routerStore.courseData.roundList[routerStore.startSemester]
-        : routerStore.courseData.roundList[routerStore.activeSemester] = routerStore.courseData.roundList[routerStore.activeSemester])
-      : []
-                
-      routerStore.showRoundData =  routerStore.startSemester === ''
-      ? routerStore.activeSemester.length > 0 && routerStore.courseData.roundList[routerStore.activeSemester].length === 1 && period
-      : (checkQuery ? routerStore.courseData.roundList[routerStore.activeSemester].length === 1 : false)
-         
+    const startSemester = this.hasMatchedQueryAndActiveTerm
+      ? routerStore.activeSemesters.filter((semester) => semester[2] === routerStore.startSemester)
+      : 0 // start semester from query string
+
+    routerStore.activeSemester = this.hasMatchedQueryAndActiveTerm ? startSemester : activeSemester
+
+    const roundCategory = 'VU' //single course students
+    this.hasMatchedQueryAndActiveTerm
+      ? (routerStore.courseData.roundList[routerStore.activeSemester] = this.reorder(
+          roundCategory,
+          'round_category',
+          routerStore.courseData.roundList[routerStore.startSemester]
+        ))
+      : routerStore.courseData.roundList[routerStore.activeSemester] // init roundList with reordered roundList after single course students
+
+    routerStore.showRoundData =
+      routerStore.startSemester === ''
+        ? routerStore.activeSemester.length > 0 &&
+          routerStore.courseData.roundList[routerStore.activeSemester].length === 1 &&
+          hasQueryStartPeriod
+        : this.hasMatchedQueryAndActiveTerm
+        ? routerStore.courseData.roundList[routerStore.activeSemester].length === 1
+        : false
+
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.handleSemesterDropdownSelect = this.handleSemesterDropdownSelect.bind(this)
     this.reorder = this.reorder.bind(this)
-
   }
 
   componentDidMount() {
@@ -97,7 +94,6 @@ class CoursePage extends Component {
     const translation = i18n.messages[language === 'en' ? 0 : 1]
     const siteNameElement = document.querySelector('.block.siteName a')
     if (siteNameElement) siteNameElement.textContent = aboutCourseStr(translation.messages, routerStore.courseCode)
-    routerStore.getCourseEmployees()
   }
 
   componentDidUpdate() {
@@ -144,7 +140,7 @@ class CoursePage extends Component {
     routerStore.roundSelected = newIndex === -1
     routerStore.semesterSelectedIndex = eventTarget.selectedIndex
     routerStore.roundSelectedIndex = 0
-    
+
     if (routerStore.showRoundData) {
       routerStore.getCourseEmployees()
     }
@@ -168,8 +164,8 @@ class CoursePage extends Component {
     }
   }
   reorder(option, key, arr) {
-    let newArray = arr.slice()      
-    newArray.sort(o => o[key] !== option ? 1 : -1) // put in first
+    let newArray = arr.slice()
+    newArray.sort((o) => (o[key] !== option ? 1 : -1)) // put in first
     return newArray
   }
 
@@ -213,7 +209,7 @@ class CoursePage extends Component {
       course_level_code: courseData.courseInfo.course_level_code,
       course_valid_from: courseData.syllabusList[routerStore.activeSyllabusIndex || 0].course_valid_from
     }
-    
+
     return (
       <div key="kursinfo-container" className="col" id="kursinfo-main-page">
         <Row>{breadcrumbs(translation, language, routerStore.courseCode)}</Row>
@@ -302,7 +298,7 @@ class CoursePage extends Component {
                             language={language}
                             label={translation.courseLabels.label_semester_select}
                             translation={translation}
-                            checkQuery={this.checkQuery}
+                            hasMatchedQueryAndActiveTerm={this.hasMatchedQueryAndActiveTerm}
                           />
                         )}
                         {courseData.roundList[routerStore.activeSemester] &&
@@ -332,9 +328,16 @@ class CoursePage extends Component {
                                     ? courseData.roundList[routerStore.activeSemester][0].round_short_name
                                     : ''
                                 }     
-                                ${courseData.roundList[routerStore.activeSemester][0].round_funding_type === 'UPP' || courseData.roundList[routerStore.activeSemester][0].round_funding_type === 'PER'
-                                ? translation.courseRoundInformation.round_type[courseData.roundList[routerStore.activeSemester][0].round_funding_type]
-                                : translation.courseRoundInformation.round_category[courseData.roundList[routerStore.activeSemester][0].round_category]}
+                                ${
+                                  courseData.roundList[routerStore.activeSemester][0].round_funding_type === 'UPP' ||
+                                  courseData.roundList[routerStore.activeSemester][0].round_funding_type === 'PER'
+                                    ? translation.courseRoundInformation.round_type[
+                                        courseData.roundList[routerStore.activeSemester][0].round_funding_type
+                                      ]
+                                    : translation.courseRoundInformation.round_category[
+                                        courseData.roundList[routerStore.activeSemester][0].round_category
+                                      ]
+                                }
                               `}
                           </p>
                         ) : (
@@ -380,9 +383,8 @@ class CoursePage extends Component {
                     ''
                   )}
 
-                  {/* ---COURSE ROUND INFORMATION--- */} 
+                  {/* ---COURSE ROUND INFORMATION--- */}
                   {routerStore.activeSemesters && routerStore.activeSemesters.length > 0 ? (
-                   
                     <RoundInformationOneCol
                       courseRound={courseData.roundList[routerStore.activeSemester][routerStore.activeRoundIndex]}
                       courseData={courseInformationToRounds}
@@ -516,13 +518,11 @@ class CoursePage extends Component {
   }
 }
 
-const DropdownSemesters = ({ semesterList, callerInstance, label = '', translation, checkQuery}) => {
+const DropdownSemesters = ({ semesterList, callerInstance, label = '', translation, hasMatchedQueryAndActiveTerm }) => {
   const dropdownID = 'semesterDropdown'
-  const startSemester = callerInstance.props.routerStore.startSemester
-  const activeSemester = callerInstance.props.routerStore.activeSemester
-  const activeRoundList = callerInstance.props.routerStore.courseData.roundList[activeSemester] 
-  const period = callerInstance.props.routerStore.startPeriod
-  
+  const { activeSemester, startSemester, hasQueryStartPeriod } = callerInstance.props.routerStore
+  // TODO: REMOVE
+  const activeRoundList = callerInstance.props.routerStore.courseData.roundList[activeSemester]
   if (semesterList && semesterList.length < 1) {
     return ''
   }
@@ -540,16 +540,17 @@ const DropdownSemesters = ({ semesterList, callerInstance, label = '', translati
               aria-label={label.placeholder}
               onChange={callerInstance.handleSemesterDropdownSelect}
             >
-               {(startSemester === '' ? (period ? false : true) : !checkQuery)
-               ? (
+              {(startSemester === '' ? (hasQueryStartPeriod ? false : true) : !hasMatchedQueryAndActiveTerm) ? (
                 <option
-                id={dropdownID + '_-1_0'}
-                defaultValue={callerInstance.props.routerStore.semesterSelectedIndex === 0}
-                value={label.placeholder}
-              >
-                {label.placeholder}
-              </option>
-              ) : ''}
+                  id={dropdownID + '_-1_0'}
+                  defaultValue={callerInstance.props.routerStore.semesterSelectedIndex === 0}
+                  value={label.placeholder}
+                >
+                  {label.placeholder}
+                </option>
+              ) : (
+                ''
+              )}
               {semesterList.map((semesterItem, index) => {
                 return (
                   <option
@@ -573,7 +574,7 @@ const DropdownSemesters = ({ semesterList, callerInstance, label = '', translati
 
 const DropdownRounds = ({ courseRoundList, callerInstance, language = 0, label = '', translation }) => {
   const dropdownID = 'roundsDropdown'
-        
+
   if (courseRoundList && courseRoundList.length < 2) {
     return ''
   }
@@ -593,7 +594,7 @@ const DropdownRounds = ({ courseRoundList, callerInstance, language = 0, label =
               disabled={callerInstance.props.routerStore.roundDisabled}
             >
               (
-                <option
+              <option
                 id={dropdownID + '_-1_0'}
                 defaultValue={callerInstance.props.routerStore.roundSelectedIndex === 0}
                 value={label.placeholder}
@@ -606,9 +607,11 @@ const DropdownRounds = ({ courseRoundList, callerInstance, language = 0, label =
                   courseRound.round_short_name !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
                     ? courseRound.round_short_name
                     : ''
-                },${courseRound.round_funding_type === 'UPP' || courseRound.round_funding_type === 'PER'
-                ? translation.courseRoundInformation.round_type[courseRound.round_funding_type]
-                : translation.courseRoundInformation.round_category[courseRound.round_category]}`
+                },${
+                  courseRound.round_funding_type === 'UPP' || courseRound.round_funding_type === 'PER'
+                    ? translation.courseRoundInformation.round_type[courseRound.round_funding_type]
+                    : translation.courseRoundInformation.round_category[courseRound.round_category]
+                }`
                 return (
                   <option
                     key={value}

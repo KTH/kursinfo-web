@@ -338,7 +338,7 @@ function _getRound(roundObject, language = 'sv') {
       roundObject.round.applicationCodes.length > 0
         ? isValidData(roundObject.round.applicationCodes[0].courseRoundType.name, language)
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    round_funding_type: 
+    round_funding_type:
       roundObject.round.applicationCodes.length > 0
         ? isValidData(roundObject.round.applicationCodes[0].courseRoundType.code, language)
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
@@ -395,7 +395,7 @@ function _getRounds(roundInfos, courseCode, language, routerStore) {
   routerStore.keyList.responsibles.replace(routerStore.keyList.responsibles.slice().sort())
 
   return courseRoundList
-  }
+}
 
 function _getRoundsAndSyllabusConnection(syllabusSemesterList, routerStore) {
   for (let index = 0; index < routerStore.activeSemesters.length; index++) {
@@ -475,16 +475,16 @@ async function getIndex(req, res, next) {
     const context = {}
     const renderProps = _staticRender(context, req.url)
     const { routerStore } = renderProps.props.children.props
-
+    const { startterm, periods } = req.query
     routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
 
     routerStore.courseCode = courseCode
-    routerStore.startSemester = req.query.startterm ? req.query.startterm.substring(0, 5) : '' //choosen start semester send with querystring
-    routerStore.startPeriod = Number(req.query.periods) == 0 ? false : true
+    routerStore.startSemester = startterm ? startterm.substring(0, 5) : '' // choosen start semester send with querystring
+    routerStore.hasQueryStartPeriod = !!periods
 
     const courseApiResponse = await courseApi.getSellingText(courseCode)
     if (courseApiResponse.body) {
-      const { sellingText, imageInfo /*, isCourseWebLink */ } = courseApiResponse.body
+      const { sellingText, imageInfo } = courseApiResponse.body
       routerStore.sellingText = sellingText
       routerStore.imageFromAdmin = imageInfo || ''
       /* routerStore.showCourseWebbLink = isCourseWebLink */
@@ -529,10 +529,9 @@ async function getIndex(req, res, next) {
       } else {
         syllabusList[0] = _getSyllabusData(courseResult, 0, lang)
       }
-     
+
       //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis *****//
       const roundList = _getRounds(courseResult.roundInfos, courseCode, lang, routerStore)
-      
 
       //* **** Sets roundsSyllabusIndex, an array used for connecting rounds with correct syllabus *****//
       _getRoundsAndSyllabusConnection(syllabusSemesterList, routerStore)
