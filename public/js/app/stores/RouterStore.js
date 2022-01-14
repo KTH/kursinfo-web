@@ -8,7 +8,7 @@ class RouterStore {
 
   @observable startSemester = ''
 
-  @observable hasQueryStartPeriod = true
+  @observable hasQueryStartPeriod = false
 
   @observable sellingText = { en: '', sv: '' }
 

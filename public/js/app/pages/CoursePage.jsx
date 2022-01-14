@@ -39,44 +39,49 @@ class CoursePage extends Component {
   constructor(props) {
     super(props)
     const { routerStore } = this.props
+    const {
+      activeSemesters: initialActiveSemesters,
+      hasQueryStartPeriod,
+      startSemester: initialStartSemester
+    } = routerStore
+    const initialActiveTerm = initialActiveSemesters.some((s) => s[2] === initialStartSemester)
+    this.hasInitialMatchedQueryAndActiveTerm = initialStartSemester !== '' && initialActiveTerm // check if query include chosen start semester and check if query include some old semester which is not active
 
-    const { hasQueryStartPeriod } = routerStore
-    const activeTerm = routerStore.activeSemesters.some((s) => s[2] === routerStore.startSemester)
+    routerStore.activeSemesters = this.hasInitialMatchedQueryAndActiveTerm
+      ? this.reorder(initialStartSemester, '2', initialActiveSemesters)
+      : this.reorder(routerStore.activeSemester, '2', initialActiveSemesters) // reordering activeSemesters list after chosen startSemester on antagning.se
 
-    this.hasMatchedQueryAndActiveTerm = routerStore.startSemester !== '' && activeTerm // check if query include chosen start semester and check if query include some old semester which is not active
-
-    const activeSemester =
-      routerStore.activeSemesters && routerStore.activeSemesters.length > 0
-        ? routerStore.activeSemesters[routerStore.defaultIndex][2]
+    const orActiveSemester =
+      initialActiveSemesters && initialActiveSemesters.length > 0
+        ? initialActiveSemesters[routerStore.defaultIndex][2]
         : 0
 
-    routerStore.activeSemesters = this.hasMatchedQueryAndActiveTerm
-      ? this.reorder(routerStore.startSemester, '2', routerStore.activeSemesters)
-      : this.reorder(routerStore.activeSemester, '2', routerStore.activeSemesters) // reordering activeSemesters list after chosen startSemester on antagning.se
+    const orStartSemester = this.hasInitialMatchedQueryAndActiveTerm
+      ? initialActiveSemesters.filter((semester) => semester[2] === initialStartSemester) // start semester from query string
+      : 0
 
-    const startSemester = this.hasMatchedQueryAndActiveTerm
-      ? routerStore.activeSemesters.filter((semester) => semester[2] === routerStore.startSemester)
-      : 0 // start semester from query string
+    routerStore.activeSemester = this.hasInitialMatchedQueryAndActiveTerm ? orStartSemester : orActiveSemester
 
-    routerStore.activeSemester = this.hasMatchedQueryAndActiveTerm ? startSemester : activeSemester
+    const { activeSemester: decidedInitialActiveSemester } = routerStore
 
-    const roundCategory = 'VU' //single course students
-    this.hasMatchedQueryAndActiveTerm
-      ? (routerStore.courseData.roundList[routerStore.activeSemester] = this.reorder(
-          roundCategory,
-          'round_category',
-          routerStore.courseData.roundList[routerStore.startSemester]
-        ))
-      : routerStore.courseData.roundList[routerStore.activeSemester] // init roundList with reordered roundList after single course students
+    const roundCategory = 'VU' // single course students
+    if (this.hasInitialMatchedQueryAndActiveTerm) {
+      // init roundList with reordered roundList after single course students
+      routerStore.courseData.roundList[decidedInitialActiveSemester] = this.reorder(
+        roundCategory,
+        'round_category',
+        routerStore.courseData.roundList[initialStartSemester] // QUESTION: why initialStartSemester not decidedInitialActiveSemester ?
+      )
+    }
 
-    routerStore.showRoundData =
-      routerStore.startSemester === ''
-        ? routerStore.activeSemester.length > 0 &&
-          routerStore.courseData.roundList[routerStore.activeSemester].length === 1 &&
-          hasQueryStartPeriod
-        : this.hasMatchedQueryAndActiveTerm
-        ? routerStore.courseData.roundList[routerStore.activeSemester].length === 1
-        : false
+    // TODO: give better naming to
+    const a =
+      decidedInitialActiveSemester.length > 0 &&
+      routerStore.courseData.roundList[decidedInitialActiveSemester].length === 1 &&
+      hasQueryStartPeriod
+    const b = routerStore.courseData.roundList[decidedInitialActiveSemester].length === 1
+
+    routerStore.showRoundData = initialStartSemester === '' ? a : this.hasInitialMatchedQueryAndActiveTerm ? b : false
 
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.handleSemesterDropdownSelect = this.handleSemesterDropdownSelect.bind(this)
@@ -163,8 +168,9 @@ class CoursePage extends Component {
       routerStore.getCourseEmployees()
     }
   }
+
   reorder(option, key, arr) {
-    let newArray = arr.slice()
+    const newArray = arr.slice()
     newArray.sort((o) => (o[key] !== option ? 1 : -1)) // put in first
     return newArray
   }
@@ -298,7 +304,7 @@ class CoursePage extends Component {
                             language={language}
                             label={translation.courseLabels.label_semester_select}
                             translation={translation}
-                            hasMatchedQueryAndActiveTerm={this.hasMatchedQueryAndActiveTerm}
+                            hasInitialMatchedQueryAndActiveTerm={this.hasInitialMatchedQueryAndActiveTerm}
                           />
                         )}
                         {courseData.roundList[routerStore.activeSemester] &&
@@ -350,13 +356,15 @@ class CoursePage extends Component {
                         courseData.roundList[routerStore.activeSemester][routerStore.activeRoundIndex].round_state !==
                           'APPROVED' ? (
                           <Alert color="info" aria-live="polite">
-                            <h4>{`${
-                              translation.courseLabels.lable_round_state[
-                                courseData.roundList[routerStore.activeSemester][routerStore.activeRoundIndex]
-                                  .round_state
-                              ]
-                            }
-                            `}</h4>
+                            <h4>
+                              {`${
+                                translation.courseLabels.lable_round_state[
+                                  courseData.roundList[routerStore.activeSemester][routerStore.activeRoundIndex]
+                                    .round_state
+                                ]
+                              }
+                            `}
+                            </h4>
                           </Alert>
                         ) : (
                           ''
@@ -518,7 +526,13 @@ class CoursePage extends Component {
   }
 }
 
-const DropdownSemesters = ({ semesterList, callerInstance, label = '', translation, hasMatchedQueryAndActiveTerm }) => {
+const DropdownSemesters = ({
+  semesterList,
+  callerInstance,
+  label = '',
+  translation,
+  hasInitialMatchedQueryAndActiveTerm
+}) => {
   const dropdownID = 'semesterDropdown'
   const { activeSemester, startSemester, hasQueryStartPeriod } = callerInstance.props.routerStore
   // TODO: REMOVE
@@ -540,7 +554,7 @@ const DropdownSemesters = ({ semesterList, callerInstance, label = '', translati
               aria-label={label.placeholder}
               onChange={callerInstance.handleSemesterDropdownSelect}
             >
-              {(startSemester === '' ? (hasQueryStartPeriod ? false : true) : !hasMatchedQueryAndActiveTerm) ? (
+              {(startSemester === '' ? (hasQueryStartPeriod ? false : true) : !hasInitialMatchedQueryAndActiveTerm) ? (
                 <option
                   id={dropdownID + '_-1_0'}
                   defaultValue={callerInstance.props.routerStore.semesterSelectedIndex === 0}
