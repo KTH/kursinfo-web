@@ -87,10 +87,6 @@ class CoursePage extends Component {
     this.handleSemesterDropdownSelect = this.handleSemesterDropdownSelect.bind(this)
     this.reorder = this.reorder.bind(this)
 
-    console.log(initialActiveSemesters)
-    console.log(decidedInitialActiveSemester)
-    console.log(orStartSemester)
-    console.log(a)
   }
 
   componentDidMount() {
