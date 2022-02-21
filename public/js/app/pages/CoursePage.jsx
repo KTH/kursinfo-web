@@ -60,7 +60,7 @@ class CoursePage extends Component {
       ? initialActiveSemesters.filter((semester) => semester[2] === initialStartSemester) // start semester from query string
       : 0
  
-    routerStore.activeSemester = this.hasInitialMatchedQueryAndActiveTerm ? orStartSemester : orActiveSemester
+    routerStore.activeSemester = this.hasInitialMatchedQueryAndActiveTerm ? orStartSemester[routerStore.defaultIndex][2] : orActiveSemester
 
     const { activeSemester: decidedInitialActiveSemester } = routerStore
 
@@ -79,14 +79,17 @@ class CoursePage extends Component {
       decidedInitialActiveSemester.length > 0 &&
       routerStore.courseData.roundList[decidedInitialActiveSemester].length === 1 &&
       hasQueryStartPeriod
-   const b =decidedInitialActiveSemester.length > 0 && routerStore.courseData.roundList[decidedInitialActiveSemester].length === 1
+    const b =decidedInitialActiveSemester.length > 0 && routerStore.courseData.roundList[decidedInitialActiveSemester].length === 1
 
     routerStore.showRoundData = initialStartSemester === '' ? a : this.hasInitialMatchedQueryAndActiveTerm ? b : false 
+
+    if (routerStore.showRoundData) {
+      routerStore.getCourseEmployees()
+    }
 
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.handleSemesterDropdownSelect = this.handleSemesterDropdownSelect.bind(this)
     this.reorder = this.reorder.bind(this)
-
   }
 
   componentDidMount() {

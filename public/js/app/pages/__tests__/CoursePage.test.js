@@ -19,7 +19,8 @@ const routerStore = {
     syllabusSemesterList: [],
     courseInfo: { course_recruitment_text: '', course_application_info: '' },
     language: 'en'
-  }
+  },
+  activeSemesters: []
 }
 const translate = i18n.messages[0] // en
 
