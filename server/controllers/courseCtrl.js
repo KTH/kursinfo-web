@@ -480,7 +480,7 @@ async function getIndex(req, res, next) {
 
     routerStore.courseCode = courseCode
     routerStore.startSemester = startterm ? startterm.substring(0, 5) : '' // choosen start semester send with querystring
-    routerStore.hasQueryStartPeriod = !!periods
+    routerStore.hasQueryStartPeriod = !!Number(periods)
 
     const courseApiResponse = await courseApi.getSellingText(courseCode)
     if (courseApiResponse.body) {
