@@ -142,7 +142,7 @@ class RoundInformationOneCol extends Component {
                       {(round && round.round_seats) && (
                         <InfoModal
                           closeLabel={labels.label_close}
-                          infoText={`<p>${labels.round_seats_default_info} ${round.round_selection_criteria ? 
+                          infoText={`<p>${labels.round_seats_default_info} ${round.round_selection_criteria !== '<p></p>' ? 
                             `${labels.round_seats_info}</p>${round.round_selection_criteria}` : '</p>'}`}
                           title={translate.round_max_seats}
                           type='html'
