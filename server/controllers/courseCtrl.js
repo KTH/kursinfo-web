@@ -16,7 +16,7 @@ const serverConfig = require('../configuration').server
 const paths = require('../server').getPaths()
 const api = require('../api')
 
-const { INFORM_IF_IMPORTANT_INFO_IS_MISSING, PROGRAMME_URL, MAX_1_MONTH, MAX_2_MONTH } = require('../util/constants')
+const { INFORM_IF_IMPORTANT_INFO_IS_MISSING, INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY, PROGRAMME_URL, MAX_1_MONTH, MAX_2_MONTH } = require('../util/constants')
 const { formatVersionDate, getDateFormat } = require('../util/dates')
 const i18n = require('../../i18n')
 
@@ -78,7 +78,7 @@ function _getCourseDefaultInformation(courseResult, language) {
     course_main_subject:
       courseResult.mainSubjects && courseResult.mainSubjects.length > 0
         ? courseResult.mainSubjects.join(', ')
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
     course_recruitment_text: isValidData(courseResult.course.recruitmentText, language, true),
     course_department: isValidData(courseResult.course.department.name, language),
     course_department_link:

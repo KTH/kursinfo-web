@@ -1,5 +1,6 @@
 const PROGRAMME_URL = '/student/kurser/program'
 const INFORM_IF_IMPORTANT_INFO_IS_MISSING = { en: '<i>No information inserted</i>', sv: '<i>Ingen information tillagd</i>' }
+const INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY = { en: '<i>This course does not belong to any Main field of study</i>', sv: '<i>Denna kurs tillhör inget huvudområde</i>' }
 const FORSKARUTB_URL = 'https://www.kth.se/utbildning/forskarutbildning/kurser/org/'
 const COURSE_WEB_URL = 'https://www.kth.se/social/course/'
 const MAX_1_DAY = 1
@@ -19,6 +20,7 @@ const SIDE_MENU_LINK_URL = {
 module.exports = {
   PROGRAMME_URL,
   INFORM_IF_IMPORTANT_INFO_IS_MISSING,
+  INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY,
   FORSKARUTB_URL,
   COURSE_WEB_URL,
   MAX_1_DAY,
