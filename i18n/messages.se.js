@@ -180,6 +180,7 @@ module.exports = {
     round_responsibles: 'Kursansvarig',
     round_end_date: 'Kursen slutar',
     round_start_date: 'Varaktighet',
+    round_pace_of_study: 'Studietakt',
     round_teacher: 'Lärare',
     round_target_group: 'Målgrupp',
     round_short_name: 'Namn - kort ',

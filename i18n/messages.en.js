@@ -179,6 +179,7 @@ module.exports = {
     round_responsibles: 'Course coordinator',
     round_end_date: 'End date',
     round_start_date: 'Duration',
+    round_pace_of_study:'Pace of study',
     round_teacher: 'Teacher',
     round_target_group: 'Target group',
     round_short_name: 'Short name',

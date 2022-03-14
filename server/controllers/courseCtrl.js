@@ -318,6 +318,7 @@ function _getRound(roundObject, language = 'sv') {
     round_short_name: isValidData(roundObject.round.shortName, language),
     round_application_code: isValidData(roundObject.round.applicationCodes[0].applicationCode, language),
     round_schedule: isValidData(roundObject.schemaUrl, language),
+    round_study_pace: isValidData(roundObject.round.studyPace, language),
     round_course_term:
       isValidData(roundObject.round.startTerm.term, language).toString().length > 0
         ? roundObject.round.startTerm.term.toString().match(/.{1,4}/g)
@@ -353,6 +354,7 @@ function _getRound(roundObject, language = 'sv') {
       roundObject.round.applicationCodes.length > 0
         ? isValidData(roundObject.round.applicationCodes[0].courseRoundType.category, language)
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
+    
   }
   if (courseRoundModel.round_short_name === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) {
     courseRoundModel.round_short_name = `${language === 0 ? 'Start' : 'Start'}  ${courseRoundModel.round_start_date}`

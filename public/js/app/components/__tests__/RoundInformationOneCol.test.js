@@ -19,7 +19,30 @@ describe('Component <RoundInformationOneCol>', () => {
       </Provider>
     )
   })
-
+  test('renders study pace correctly', () => {
+    const propsWithStudyPace = {
+      language: 'en',
+      showRoundData: true,
+      courseHasRound: true,
+      courseData: {},
+      courseRound: {
+        round_course_term: ['2018', '1'],
+        round_study_pace: '25'
+      },
+      routerStore: {
+        roundData: {
+          examiners: '',
+          responsibles: '',
+          teachers: ''
+        }
+      }
+    }
+    render(<RoundInformationOneCol {...propsWithStudyPace} />)
+    const label = getByText('Pace of study')
+    expect(label).toBeInTheDocument()
+    const studyPace = getByText('25%')
+    expect(studyPace).toBeInTheDocument()
+  })
   test('renders course offering employees correctly', () => {
     const examinersData = 'Examiners’ data'
     const responsiblesData = 'Responsibles’ data'

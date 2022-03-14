@@ -101,16 +101,13 @@ class RoundInformationOneCol extends Component {
 
                     <h3 className="t4">{translate.round_start_date}</h3>
                     <p className="clear-margin-bottom">
-                      <i className="fas fa-hourglass-start" />
                       {round ? round.round_start_date : LABEL_MISSING_INFO[language]}
                     </p>
                     <p>
-                      <i className="fas fa-hourglass-end" />
                       {round ? round.round_end_date : LABEL_MISSING_INFO[language]}
                     </p>
-
-                    <h3 className="t4">{translate.round_course_place}</h3>
-                    <p>{round ? round.round_course_place : LABEL_MISSING_INFO[language]}</p>
+                    <h3 className="t4">{translate.round_pace_of_study}</h3>
+                    <p>{round ?` ${round.round_study_pace}%` : LABEL_MISSING_INFO[language]}</p>
                   </span>
                 ) : (
                   //* ---SELECT A ROUND BOX --- *//
@@ -136,7 +133,8 @@ class RoundInformationOneCol extends Component {
 
                     <h3 className="t4">{translate.round_tutoring_language}</h3>
                     <p>{round ? round.round_tutoring_language : LABEL_MISSING_INFO[language]}</p>
-
+                    <h3 className="t4">{translate.round_course_place}</h3>
+                    <p>{round ? round.round_course_place : LABEL_MISSING_INFO[language]}</p>
                     <h3 className="t4">
                       {translate.round_max_seats}
                       {(round && round.round_seats) && (
