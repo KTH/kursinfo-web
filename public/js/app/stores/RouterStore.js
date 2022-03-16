@@ -6,9 +6,9 @@ import axios from 'axios'
 class RouterStore {
   @observable courseCode = ''
 
-  @observable startSemester = ''
+  @observable useStartSemesterFromQuery = false
 
-  @observable hasQueryStartPeriod = false
+  @observable hasStartPeriodFromQuery = false
 
   @observable sellingText = { en: '', sv: '' }
 
