@@ -16,7 +16,13 @@ const serverConfig = require('../configuration').server
 const paths = require('../server').getPaths()
 const api = require('../api')
 
-const { INFORM_IF_IMPORTANT_INFO_IS_MISSING, INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY, PROGRAMME_URL, MAX_1_MONTH, MAX_2_MONTH } = require('../util/constants')
+const {
+  INFORM_IF_IMPORTANT_INFO_IS_MISSING,
+  INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY,
+  PROGRAMME_URL,
+  MAX_1_MONTH,
+  MAX_2_MONTH
+} = require('../util/constants')
 const { formatVersionDate, getDateFormat } = require('../util/dates')
 const i18n = require('../../i18n')
 
@@ -354,7 +360,6 @@ function _getRound(roundObject, language = 'sv') {
       roundObject.round.applicationCodes.length > 0
         ? isValidData(roundObject.round.applicationCodes[0].courseRoundType.category, language)
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
-    
   }
   if (courseRoundModel.round_short_name === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) {
     courseRoundModel.round_short_name = `${language === 0 ? 'Start' : 'Start'}  ${courseRoundModel.round_start_date}`
@@ -415,51 +420,72 @@ function _getRoundsAndSyllabusConnection(syllabusSemesterList, routerStore) {
   }
 }
 
+function _generateSemesterBasedOnDate(thisDate) {
+  let generatedSemester = 0
+  if (thisDate.getMonth() + 1 >= MAX_1_MONTH && thisDate.getMonth() + 1 < MAX_2_MONTH) {
+    generatedSemester = `${thisDate.getFullYear()}2`
+  } else {
+    generatedSemester =
+      thisDate.getMonth() + 1 < MAX_1_MONTH ? `${thisDate.getFullYear()}1` : `${thisDate.getFullYear() + 1}1`
+  }
+  return generatedSemester
+}
+
+function _hasSemesterInArray(semesterNumber, semesters) {
+  if (!semesterNumber) return false
+  return semesters?.some((s) => s[2] === semesterNumber)
+}
+
 //* *** Default syllabus might change when the dates set in MAX_(semester)_DAY and MAX_(semester)_MONTH is passed ****/
-function _getCurrentSemesterToShow(date = '', routerStore) {
-  if (routerStore.activeSemesters.length === 0) {
+function _getSemesterIndexToShow(externalSemesterNumber, activeSemesters) {
+  if (activeSemesters.length === 0) {
     return 0
   }
-  let thisDate = date === '' ? new Date() : new Date(date)
-  let showSemester = 0
+  const thisDate = new Date()
   let returnIndex = -1
   let yearMatch = -1
 
   //* ***** Calculating current semester based on todays date ******/
-  if (thisDate.getMonth() + 1 >= MAX_1_MONTH && thisDate.getMonth() + 1 < MAX_2_MONTH) {
-    showSemester = `${thisDate.getFullYear()}2`
-  } else {
-    if (thisDate.getMonth() + 1 < MAX_1_MONTH) {
-      showSemester = `${thisDate.getFullYear()}1`
-    } else {
-      showSemester = `${thisDate.getFullYear() + 1}1`
-    }
-  }
+  const semesterNumber = externalSemesterNumber || _generateSemesterBasedOnDate(thisDate)
+
   //* ***** Check if course has a round for current semester otherwise it shows the previous semester *****/
-  for (let index = 0; index < routerStore.activeSemesters.length; index++) {
-    if (routerStore.activeSemesters[index][2] === showSemester) {
+  for (let index = 0; index < activeSemesters.length; index++) {
+    if (activeSemesters[index][2] === semesterNumber) {
       returnIndex = index
     }
-    if (
-      thisDate.getMonth() + 1 > MAX_2_MONTH &&
-      Number(routerStore.activeSemesters[index][0]) === thisDate.getFullYear()
-    ) {
+    if (thisDate.getMonth() + 1 > MAX_2_MONTH && Number(activeSemesters[index][0]) === thisDate.getFullYear()) {
       yearMatch = index
     }
-    if (
-      thisDate.getMonth() + 1 < MAX_1_MONTH &&
-      Number(routerStore.activeSemesters[index][0]) === thisDate.getFullYear() - 1
-    ) {
+    if (thisDate.getMonth() + 1 < MAX_1_MONTH && Number(activeSemesters[index][0]) === thisDate.getFullYear() - 1) {
       yearMatch = index
     }
   }
   //* **** In case there should be no match at all, take the last senester in the list ******/
   if (returnIndex === -1 && yearMatch === -1) {
-    return routerStore.activeSemesters.length - 1
+    return activeSemesters.length - 1
   }
   return returnIndex > -1 ? returnIndex : yearMatch
 }
 
+async function _chooseSemesterAndSyllabusFromActiveSemesters(externalSemester, routerStore) {
+  const { activeSemesters } = routerStore
+  routerStore.useStartSemesterFromQuery = externalSemester
+    ? await _hasSemesterInArray(externalSemester, activeSemesters)
+    : false
+
+  const defaultSemesterIndex = _getSemesterIndexToShow(
+    routerStore.useStartSemesterFromQuery ? externalSemester : '',
+    activeSemesters
+  )
+  routerStore.defaultIndex = defaultSemesterIndex
+
+  if (routerStore.useStartSemesterFromQuery) {
+    routerStore.activeSemester = externalSemester
+    routerStore.activeSemesterIndex = defaultSemesterIndex
+    routerStore.semesterSelectedIndex = defaultSemesterIndex
+    routerStore.activeSyllabusIndex = routerStore.roundsSyllabusIndex[defaultSemesterIndex]
+  }
+}
 /* ****************************************************************************** */
 /*                    COURSE PAGE SETTINGS AND RENDERING                          */
 /* ****************************************************************************** */
@@ -481,8 +507,9 @@ async function getIndex(req, res, next) {
     routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
 
     routerStore.courseCode = courseCode
-    routerStore.startSemester = startterm ? startterm.substring(0, 5) : '' // choosen start semester send with querystring
-    routerStore.hasQueryStartPeriod = !!Number(periods)
+    const startSemesterFromQuery = startterm ? startterm.substring(0, 5) : ''
+
+    routerStore.hasStartPeriodFromQuery = !!Number(periods)
 
     const courseApiResponse = await courseApi.getSellingText(courseCode)
     if (courseApiResponse.body) {
@@ -538,8 +565,8 @@ async function getIndex(req, res, next) {
       //* **** Sets roundsSyllabusIndex, an array used for connecting rounds with correct syllabus *****//
       _getRoundsAndSyllabusConnection(syllabusSemesterList, routerStore)
 
-      //* **** Get the index for start informatin based on time of year *****/
-      routerStore.defaultIndex = _getCurrentSemesterToShow('', routerStore)
+      //* **** Get the index for start informatin based on time of year or semester if comes from query string *****/
+      await _chooseSemesterAndSyllabusFromActiveSemesters(startSemesterFromQuery, routerStore)
 
       syllabusSemesterList = toJS(syllabusSemesterList)
 
