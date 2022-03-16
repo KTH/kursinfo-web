@@ -56,7 +56,7 @@ class CoursePage extends Component {
       )
     }
 
-    const hasOnlyOneRound = activeSemester.length > 0 && routerStore.courseData.roundList[activeSemester].length === 1
+    const hasOnlyOneRound = activeSemester?.length > 0 && routerStore.courseData.roundList[activeSemester].length === 1
 
     routerStore.showRoundData = useStartSemesterFromQuery ? hasOnlyOneRound : false
 
