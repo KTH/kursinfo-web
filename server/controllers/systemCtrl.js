@@ -3,12 +3,12 @@
 /**
  * System controller for functions such as /about and /monitor
  */
-const log = require('kth-node-log')
+const log = require('@kth/log')
 const version = require('../../config/version')
 const config = require('../configuration').server
 const packageFile = require('../../package.json')
 const getPaths = require('kth-node-express-routing').getPaths
-const language = require('kth-node-web-common/lib/language')
+const language = require('@kth/kth-node-web-common/lib/language')
 const i18n = require('../../i18n')
 const api = require('../api')
 const co = require('co')

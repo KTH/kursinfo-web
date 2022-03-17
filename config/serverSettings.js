@@ -58,7 +58,11 @@ module.exports = {
 
   // Cortina
   blockApi: {
-    blockUrl: getEnv('CM_HOST_URL', devDefaults('https://www-r.referens.sys.kth.se/cm/')) // Block API base URL
+    blockUrl: getEnv('CM_HOST_URL', devDefaults('https://www-r.referens.sys.kth.se/cm/')), // Block API base URL
+    addBlocks: {
+      // klaroConfig: 1.1011116
+    },
+    globalLink: true
   },
 
   // Logging
