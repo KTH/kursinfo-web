@@ -138,7 +138,7 @@ server.use(session(options))
  * ******* LANGUAGE *******
  * ************************
  */
-const { languageHandler } = require('kth-node-web-common/lib/language')
+const { languageHandler } = require('@kth/kth-node-web-common/lib/language')
 server.use(config.proxyPrefixPath.uri, languageHandler)
 
 /* ******************************
@@ -147,7 +147,7 @@ server.use(config.proxyPrefixPath.uri, languageHandler)
  */
 server.use(
   config.proxyPrefixPath.uri,
-  require('kth-node-web-common/lib/web/cortina')({
+  require('@kth/kth-node-web-common/lib/web/cortina')({
     blockUrl: config.blockApi.blockUrl,
     proxyPrefixPath: config.proxyPrefixPath.uri,
     hostUrl: config.hostUrl,
@@ -163,7 +163,7 @@ const excludePath = config.proxyPrefixPath.uri + '(?!/static).*'
 const excludeExpression = new RegExp(excludePath)
 server.use(
   excludeExpression,
-  require('kth-node-web-common/lib/web/crawlerRedirect')({
+  require('@kth/kth-node-web-common/lib/web/crawlerRedirect')({
     hostUrl: config.hostUrl
   })
 )

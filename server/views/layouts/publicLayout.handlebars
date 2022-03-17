@@ -20,6 +20,11 @@
 
   {{{render 'styles'}}}
 
+  {{#if blocks.klaroConfig}}
+    {{{blocks.klaroConfig}}}
+    {{prefixScript '/static/kth-style/js/klaro-no-css.js' 'head-scripts'}}
+  {{/if}}
+ 
   {{prefixScript '/static/vendor.js' 'head-scripts'}}
   {{prefixScript '/static/browserConfig' 'head-scripts'}}
   {{#extend 'head-scripts'}}

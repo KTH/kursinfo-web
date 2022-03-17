@@ -2,7 +2,7 @@
 
 const co = require('co')
 const log = require('kth-node-log')
-const languageUtils = require('kth-node-web-common/lib/language')
+const languageUtils = require('@kth/kth-node-web-common/lib/language')
 const ReactDOMServer = require('react-dom/server')
 const { toJS } = require('mobx')
 const httpResponse = require('@kth/kth-node-response')

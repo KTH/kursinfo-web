@@ -24,8 +24,8 @@
     "start": "NODE_ENV=production node app.js",
     "start-dev": "cross-env NODE_ENV=development concurrently --kill-others -n build,app \"npm run build-dev\" \"nodemon -e js,jsx,json,handlebars --ignore dist/ --ignore dist-dev/ app.js\"",
     "start-dev-win": "cross-env NODE_ENV=development concurrently --kill-others -n build,app \"npm run build-dev-win\" \"nodemon -e js,jsx,json,handlebars --ignore dist/ --ignore dist-dev/ app.js\"",
-    "move-handlebar-pages": "cp ./node_modules/kth-node-web-common/lib/handlebars/pages/views/error.handlebars ./server/views/system/error.handlebars && cp ./node_modules/kth-node-web-common/lib/handlebars/pages/layouts/errorLayout.handlebars ./server/views/layouts/errorLayout.handlebars",
-    "move-handlebar-pages-win": "copy .\\node_modules\\kth-node-web-common\\lib\\handlebars\\pages\\views\\error.handlebars .\\server\\views\\system\\error.handlebars && copy .\\node_modules\\kth-node-web-common\\lib\\handlebars\\pages\\layouts\\errorLayout.handlebars .\\server\\views\\layouts\\errorLayout.handlebars"
+    "move-handlebar-pages": "cp ./node_modules/@kth/kth-node-web-common/lib/handlebars/pages/views/error.handlebars ./server/views/system/error.handlebars && cp ./node_modules/@kth/kth-node-web-common/lib/handlebars/pages/layouts/errorLayout.handlebars ./server/views/layouts/errorLayout.handlebars",
+    "move-handlebar-pages-win": "copy .\\node_modules\\@kth\\kth-node-web-common\\lib\\handlebars\\pages\\views\\error.handlebars .\\server\\views\\system\\error.handlebars && copy .\\node_modules\\@kth\\kth-node-web-common\\lib\\handlebars\\pages\\layouts\\errorLayout.handlebars .\\server\\views\\layouts\\errorLayout.handlebars"
   },
   "dependencies": {
     "@kth/kth-node-response": "^1.0.4",
@@ -54,8 +54,8 @@
     "kth-node-redis": "^3.1.36",
     "kth-node-server": "^3.1.9",
     "kth-node-session": "^1.0.7",
-    "kth-node-web-common": "^5.1.17",
-    "kth-style": "^6.0.25",
+    "@kth/kth-node-web-common": "^7.0.9",
+    "kth-style": "7.0.12",
     "mobx": "^5.15.7",
     "mobx-react": "^5.4.4",
     "react": "^16.14.0",
