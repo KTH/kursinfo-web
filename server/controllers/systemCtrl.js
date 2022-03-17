@@ -3,7 +3,7 @@
 /**
  * System controller for functions such as /about and /monitor
  */
-const log = require('kth-node-log')
+const log = require('@kth/log')
 const version = require('../../config/version')
 const config = require('../configuration').server
 const packageFile = require('../../package.json')

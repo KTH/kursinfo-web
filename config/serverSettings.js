@@ -58,7 +58,11 @@ module.exports = {
 
   // Cortina
   blockApi: {
-    blockUrl: getEnv('CM_HOST_URL', devDefaults('https://www-r.referens.sys.kth.se/cm/')) // Block API base URL
+    blockUrl: getEnv('CM_HOST_URL', devDefaults('https://www-r.referens.sys.kth.se/cm/')), // Block API base URL
+    addBlocks: {
+      // klaroConfig: 1.1011116
+    },
+    globalLink: true
   },
 
   // Logging
@@ -91,7 +95,8 @@ module.exports = {
       expireTime: getEnv('KURSPLAN_API_CACHE_EXPIRE_TIME', 60 * 60) // 60 minutes
     },
     cortinaBlock: {
-      redis: unpackRedisConfig('REDIS_URI', devRedis)
+      redis: unpackRedisConfig('REDIS_URI', devRedis),
+      expireTime: getEnv('CORTINA_CACHE_EXPIRE_TIME', 60) // 60 seconds
     },
     ugRedis: {
       redis: unpackRedisConfig('UG_REDIS_URI', devRedis)

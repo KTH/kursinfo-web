@@ -1,7 +1,7 @@
 'use strict'
 
 const co = require('co')
-const log = require('kth-node-log')
+const log = require('@kth/log')
 const languageUtils = require('@kth/kth-node-web-common/lib/language')
 const ReactDOMServer = require('react-dom/server')
 const { toJS } = require('mobx')
@@ -16,7 +16,13 @@ const serverConfig = require('../configuration').server
 const paths = require('../server').getPaths()
 const api = require('../api')
 
-const { INFORM_IF_IMPORTANT_INFO_IS_MISSING, INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY, PROGRAMME_URL, MAX_1_MONTH, MAX_2_MONTH } = require('../util/constants')
+const {
+  INFORM_IF_IMPORTANT_INFO_IS_MISSING,
+  INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY,
+  PROGRAMME_URL,
+  MAX_1_MONTH,
+  MAX_2_MONTH
+} = require('../util/constants')
 const { formatVersionDate, getDateFormat } = require('../util/dates')
 const i18n = require('../../i18n')
 
@@ -354,7 +360,6 @@ function _getRound(roundObject, language = 'sv') {
       roundObject.round.applicationCodes.length > 0
         ? isValidData(roundObject.round.applicationCodes[0].courseRoundType.category, language)
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
-    
   }
   if (courseRoundModel.round_short_name === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) {
     courseRoundModel.round_short_name = `${language === 0 ? 'Start' : 'Start'}  ${courseRoundModel.round_start_date}`

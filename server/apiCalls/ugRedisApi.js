@@ -1,6 +1,6 @@
 const serverConfig = require('../configuration').server
 const redis = require('kth-node-redis')
-const log = require('kth-node-log')
+const log = require('@kth/log')
 
 const redisKeys = (courseCode, semester, ladokRoundIds) => {
   // Used to get examiners and responsibles from UG Rdedis
