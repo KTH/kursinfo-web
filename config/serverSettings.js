@@ -95,8 +95,7 @@ module.exports = {
       expireTime: getEnv('KURSPLAN_API_CACHE_EXPIRE_TIME', 60 * 60) // 60 minutes
     },
     cortinaBlock: {
-      redis: unpackRedisConfig('REDIS_URI', devRedis),
-      expireTime: getEnv('CORTINA_CACHE_EXPIRE_TIME', 60) // 60 seconds
+      redis: unpackRedisConfig('REDIS_URI', devRedis)
     },
     ugRedis: {
       redis: unpackRedisConfig('UG_REDIS_URI', devRedis)
