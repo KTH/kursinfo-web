@@ -16,19 +16,21 @@ import SideMenu from '../components/SideMenu'
 
 const aboutCourseStr = (translate, courseCode = '') => `${translate.site_name} ${courseCode}`
 
-const breadcrumbs = (translation, language, courseCode) => (
+const Breadcrumbs = ({ translation, language, courseCode }) => (
   <Breadcrumb lang={language} aria-label={translation.breadCrumbLabels.breadcrumbs} className="secondaryMenu">
     <BreadcrumbItem>
-      <a href={breadcrumbLinks.university[language]}>{translation.breadCrumbLabels.university}</a>
+      <a href={`${breadcrumbLinks.university[language]}`}>{translation.breadCrumbLabels.university}</a>
     </BreadcrumbItem>
     <BreadcrumbItem>
-      <a href={breadcrumbLinks.student[language]}>{translation.breadCrumbLabels.student}</a>
+      <a href={`${breadcrumbLinks.student[language]}`}>{translation.breadCrumbLabels.student}</a>
     </BreadcrumbItem>
     <BreadcrumbItem>
-      <a href={breadcrumbLinks.directory[language]}>{translation.breadCrumbLabels.directory}</a>
+      <a href={`${breadcrumbLinks.directory[language]}`}>{translation.breadCrumbLabels.directory}</a>
     </BreadcrumbItem>
     <BreadcrumbItem>
-      <a href={aboutCourseLink(courseCode, language)}>{`${translation.breadCrumbLabels.aboutCourse} ${courseCode}`}</a>
+      <a
+        href={`${aboutCourseLink(courseCode, language)}`}
+      >{`${translation.breadCrumbLabels.aboutCourse} ${courseCode}`}</a>
     </BreadcrumbItem>
   </Breadcrumb>
 )
@@ -158,6 +160,7 @@ class CoursePage extends Component {
 
   render() {
     const { routerStore } = this.props
+
     const courseData = routerStore.courseData || {
       courseInfo: { course_application_info: [] },
       syllabusSemesterList: []
@@ -199,7 +202,9 @@ class CoursePage extends Component {
 
     return (
       <div key="kursinfo-container" className="col" id="kursinfo-main-page">
-        <Row>{breadcrumbs(translation, language, routerStore.courseCode)}</Row>
+        <Row>
+          <Breadcrumbs translation={translation} language={language} courseCode={routerStore.courseCode} />
+        </Row>
         <Row id="pageContainer" key="pageContainer">
           <SideMenu
             courseCode={routerStore.courseCode}
