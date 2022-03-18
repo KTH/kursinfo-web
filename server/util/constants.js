@@ -1,13 +1,18 @@
 const PROGRAMME_URL = '/student/kurser/program'
-const INFORM_IF_IMPORTANT_INFO_IS_MISSING = { en: '<i>No information inserted</i>', sv: '<i>Ingen information tillagd</i>' }
-const INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY = { en: 'This course does not belong to any Main field of study.', sv: 'Denna kurs tillhör inget huvudområde.' }
+const INFORM_IF_IMPORTANT_INFO_IS_MISSING = {
+  en: '<i>No information inserted</i>',
+  sv: '<i>Ingen information tillagd</i>'
+}
+const INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY = {
+  en: 'This course does not belong to any Main field of study.',
+  sv: 'Denna kurs tillhör inget huvudområde.'
+}
 const FORSKARUTB_URL = 'https://www.kth.se/utbildning/forskarutbildning/kurser/org/'
 const COURSE_WEB_URL = 'https://www.kth.se/social/course/'
 const MAX_1_DAY = 1
 const MAX_1_MONTH = 3
 const MAX_2_DAY = 1
 const MAX_2_MONTH = 9
-const ADMIN_URL = '/kursinfoadmin/kurser/kurs/'
 const SYLLABUS_URL = '/student/kurser/kurs/kursplan/'
 const BREADCRUMB_URL = '/student/kurser/kurser-inom-program'
 const COURSE_DEVELOPMENT_URL = '/kursutveckling/'
@@ -27,7 +32,6 @@ module.exports = {
   MAX_1_MONTH,
   MAX_2_DAY,
   MAX_2_MONTH,
-  ADMIN_URL,
   SYLLABUS_URL,
   BREADCRUMB_URL,
   COURSE_DEVELOPMENT_URL,
