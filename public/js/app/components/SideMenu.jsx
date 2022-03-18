@@ -4,7 +4,7 @@ import { COURSE_MEMO_URL, SIDE_MENU_LINK_URL, COURSE_DEVELOPMENT_URL } from '../
 
 const aboutCourseLink = (courseCode, language) => {
   const languageParameter = language === 'en' ? '?l=en' : ''
-  return `https://www.kth.se/student/kurser/kurs/${courseCode}${languageParameter}`
+  return `/student/kurser/kurs/${courseCode}${languageParameter}`
 }
 
 const courseMemoLink = (courseCode, language) => {
