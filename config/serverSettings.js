@@ -14,7 +14,6 @@ const {
   unpackRedisConfig,
   unpackNodeApiConfig
 } = require('kth-node-configuration')
-const { typeConversion } = require('kth-node-configuration/lib/utils')
 
 // DEFAULT SETTINGS used for dev, if you want to override these for you local environment, use env-vars in .env
 const devPort = devDefaults(3000)
@@ -27,7 +26,6 @@ const devKursPmDataApi = devDefaults('http://localhost:3001/api/kurs-pm-data?def
 const devSessionKey = devDefaults('kursinfo-web.sid')
 const devSessionUseRedis = devDefaults(true)
 const devRedis = devDefaults('redis://localhost:6379/')
-const devSsoBaseURL = devDefaults('https://login-r.referens.sys.kth.se')
 // END DEFAULT SETTINGS
 
 module.exports = {
@@ -61,8 +59,7 @@ module.exports = {
     blockUrl: getEnv('CM_HOST_URL', devDefaults('https://www-r.referens.sys.kth.se/cm/')), // Block API base URL
     addBlocks: {
       // klaroConfig: 1.1011116
-    },
-    globalLink: true
+    }
   },
 
   // Logging
@@ -121,6 +118,6 @@ module.exports = {
   },
 
   appInsights: {
-    instrumentationKey: getEnv('APPINSIGHTS_INSTRUMENTATIONKEY')
+    instrumentationKey: getEnv('APPINSIGHTS_INSTRUMENTATIONKEY', '')
   }
 }
