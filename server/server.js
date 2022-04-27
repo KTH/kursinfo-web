@@ -1,4 +1,4 @@
-const server = require('kth-node-server')
+const server = require('@kth/server')
 
 // Now read the server config etc.
 const config = require('./configuration').server
@@ -38,7 +38,7 @@ let logConfiguration = {
   level: config.logging.log.level,
   console: config.logging.console,
   stdout: config.logging.stdout,
-  src: config.logging.src
+  src: config.logging.src,
 }
 
 log.init(logConfiguration)
@@ -55,10 +55,10 @@ server.set('layouts', path.join(__dirname, '/views/layouts'))
 server.set('partials', path.join(__dirname, '/views/partials'))
 server.engine(
   'handlebars',
-  exphbs({
+  exphbs.engine({
     defaultLayout: 'publicLayout',
     layoutsDir: server.settings.layouts,
-    partialsDir: server.settings.partials
+    partialsDir: server.settings.partials,
   })
 )
 server.set('view engine', 'handlebars')
@@ -129,7 +129,7 @@ server.use(cookieParser())
  * ******* SESSION *******
  * ***********************
  */
-const session = require('kth-node-session')
+const session = require('@kth/session')
 const options = config.session
 options.sessionOptions.secret = config.sessionSecret
 server.use(session(options))
@@ -151,7 +151,7 @@ server.use(
     blockUrl: config.blockApi.blockUrl,
     proxyPrefixPath: config.proxyPrefixPath.uri,
     hostUrl: config.hostUrl,
-    redisConfig: config.cache.cortinaBlock.redis
+    redisConfig: config.cache.cortinaBlock.redis,
     // globalLink: true ---> don't use it, because we use local site language link, not global kth link
   })
 )
@@ -165,7 +165,7 @@ const excludeExpression = new RegExp(excludePath)
 server.use(
   excludeExpression,
   require('@kth/kth-node-web-common/lib/web/crawlerRedirect')({
-    hostUrl: config.hostUrl
+    hostUrl: config.hostUrl,
   })
 )
 
