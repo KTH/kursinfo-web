@@ -3,33 +3,44 @@
 /**
  * System controller for functions such as /about and /monitor
  */
-const log = require('@kth/log')
-const version = require('../../config/version')
-const config = require('../configuration').server
-const packageFile = require('../../package.json')
-const getPaths = require('kth-node-express-routing').getPaths
+const os = require('os')
+
+const errorHandler = require('@kth/kth-node-web-common/lib/error')
+const { getPaths } = require('kth-node-express-routing')
 const language = require('@kth/kth-node-web-common/lib/language')
+const monitorSystems = require('@kth/monitor')
+const log = require('@kth/log')
+const redis = require('kth-node-redis')
+const version = require('../../config/version')
 const i18n = require('../../i18n')
+const packageFile = require('../../package.json')
+
 const api = require('../api')
-const co = require('co')
-const Promise = require('bluebird')
-const registry = require('component-registry').globalRegistry
-const { IHealthCheck } = require('kth-node-monitor').interfaces
+const { server: config } = require('../configuration')
 
-/*
- * ----------------------------------------------------------------
- * Publicly exported functions.
- * ----------------------------------------------------------------
+/**
+ * Adds a zero (0) to numbers less then ten (10)
  */
-
-module.exports = {
-  monitor: co.wrap(_monitor),
-  about: _about,
-  robotsTxt: _robotsTxt,
-  paths: _paths,
-  notFound: _notFound,
-  final: _final
+function zeroPad(value) {
+  return value < 10 ? '0' + value : value
 }
+
+/**
+ * Takes a Date object and returns a simple date string.
+ */
+function _simpleDate(date) {
+  const year = date.getFullYear()
+  const month = zeroPad(date.getMonth() + 1)
+  const day = zeroPad(date.getDate())
+  const hours = zeroPad(date.getHours())
+  const minutes = zeroPad(date.getMinutes())
+  const seconds = zeroPad(date.getSeconds())
+  const hoursBeforeGMT = date.getTimezoneOffset() / -60
+  const timezone = [' GMT', ' CET', ' CEST'][hoursBeforeGMT] || ''
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}${timezone}`
+}
+
+const started = _simpleDate(new Date())
 
 /**
  * Get request on not found (404)
@@ -39,6 +50,15 @@ function _notFound(req, res, next) {
   const err = new Error('Not Found: ' + req.originalUrl)
   err.status = 404
   next(err)
+}
+
+function _getFriendlyErrorMessage(lang, statusCode, courseCode) {
+  switch (statusCode) {
+    case 404:
+      return i18n.message('error_not_found', lang)
+    default:
+      return i18n.message('error_generic', lang)
+  }
 }
 
 // this function must keep this signature for it to work properly
@@ -55,7 +75,7 @@ function _final(err, req, res, next) {
   }
 
   if (debugStatusCodes.includes(statusCode)) {
-    log.debug({ err: err })
+    log.debug({ err })
   }
 
   const isProd = /prod/gi.test(process.env.NODE_ENV)
@@ -69,7 +89,7 @@ function _final(err, req, res, next) {
         friendly: _getFriendlyErrorMessage(lang, statusCode, courseCode),
         error: isProd ? {} : err,
         status: statusCode,
-        debug: 'debug' in req.query
+        debug: 'debug' in req.query,
       })
     },
 
@@ -77,7 +97,7 @@ function _final(err, req, res, next) {
       res.status(statusCode).json({
         message: err.message,
         friendly: _getFriendlyErrorMessage(lang, statusCode, courseCode),
-        error: isProd ? undefined : err.stack
+        error: isProd ? undefined : err.stack,
       })
     },
 
@@ -86,39 +106,38 @@ function _final(err, req, res, next) {
         .status(statusCode)
         .type('text')
         .send(isProd ? err.message : err.stack)
-    }
+    },
   })
-}
-
-function _getFriendlyErrorMessage(lang, statusCode, courseCode) {
-  switch (statusCode) {
-    case 404:
-      return i18n.message('error_not_found', lang)
-    default:
-      return i18n.message('error_generic', lang)
-  }
 }
 
 /* GET /_about
  * About page
  */
 function _about(req, res) {
+  const { uri: proxyPrefix } = config.proxyPrefixPath
+  const paths = getPaths()
+
   res.render('system/about', {
-    debug: 'debug' in req.query,
     layout: 'systemLayout',
-    appName: JSON.stringify(packageFile.name),
-    appVersion: JSON.stringify(packageFile.version),
-    appDescription: JSON.stringify(packageFile.description),
-    version: JSON.stringify(version),
-    config: JSON.stringify(config.templateConfig),
+    title: `About ${packageFile.name}`,
+    proxyPrefix,
+    appName: packageFile.name,
+    appVersion: packageFile.version,
+    appDescription: packageFile.description,
+    monitorUri: paths.system.monitor.uri,
+    robotsUri: paths.system.robots.uri,
     gitBranch: JSON.stringify(version.gitBranch),
     gitCommit: JSON.stringify(version.gitCommit),
     jenkinsBuild: JSON.stringify(version.jenkinsBuild),
-    jenkinsBuildDate: JSON.stringify(version.jenkinsBuildDate),
+    jenkinsBuildDate: version.jenkinsBuild
+      ? _simpleDate(new Date(parseInt(version.jenkinsBuild, 10) * 1000))
+      : JSON.stringify(version.jenkinsBuildDate),
     dockerName: JSON.stringify(version.dockerName),
     dockerVersion: JSON.stringify(version.dockerVersion),
     language: language.getLanguage(res),
-    env: require('../server').get('env')
+    hostname: os.hostname(),
+    started,
+    env: process.env.NODE_ENV,
   })
 }
 
@@ -126,39 +145,37 @@ function _about(req, res) {
  * Monitor page
  */
 async function _monitor(req, res) {
-  const apiConfig = config.nodeApi
-
-  // Check APIs
-  const subSystems = Object.keys(api).map((apiKey) => {
-    const apiHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-api')
-    return apiHealthUtil.status(api[apiKey], {
-      required: apiConfig[apiKey].required
-    })
-  })
-
-  // If we need local system checks, such as memory or disk, we would add it here.
-  // Make sure it returns a promise which resolves with an object containing:
-  // {statusCode: ###, message: '...'}
-  // The property statusCode should be standard HTTP status codes.
-  const localSystems = Promise.resolve({ statusCode: 200, message: 'OK' })
-
-  const systemHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-system-check')
-  const systemStatus = systemHealthUtil.status(localSystems, subSystems)
-
-  systemStatus
-    .then((status) => {
-      // Return the result either as JSON or text
-      if (req.headers['accept'] === 'application/json') {
-        let outp = systemHealthUtil.renderJSON(status)
-        res.status(status.statusCode).json(outp)
-      } else {
-        let outp = systemHealthUtil.renderText(status)
-        res.type('text').status(status.statusCode).send(outp)
-      }
-    })
-    .catch((err) => {
-      res.type('text').status(500).send(err)
-    })
+  try {
+    const apiConfig = config.nodeApi
+    await monitorSystems(req, res, [
+      ...(api
+        ? Object.keys(api).map(apiKey => ({
+            key: apiKey,
+            required: apiConfig[apiKey].required,
+            endpoint: api[apiKey],
+          }))
+        : []),
+      {
+        key: 'redis',
+        required: true,
+        redis,
+        options: config.session.redisOptions,
+      },
+      // If we need local system checks, such as memory or disk, we would add it here.
+      // Make sure it returns an object containing:
+      // {key: 'local', isResolved: true, statusCode: ###, message: '...'}
+      // The property statusCode should be standard HTTP status codes.
+      {
+        key: 'local',
+        isResolved: true,
+        message: '- local system checks: OK',
+        statusCode: 200,
+      },
+    ])
+  } catch (error) {
+    log.error('Monitor failed', error)
+    res.status(500).end()
+  }
 }
 
 /* GET /robots.txt
@@ -173,4 +190,19 @@ function _robotsTxt(req, res) {
  */
 function _paths(req, res) {
   res.json(getPaths())
+}
+
+/*
+ * ----------------------------------------------------------------
+ * Publicly exported functions.
+ * ----------------------------------------------------------------
+ */
+
+module.exports = {
+  monitor: _monitor,
+  about: _about,
+  robotsTxt: _robotsTxt,
+  paths: _paths,
+  notFound: _notFound,
+  final: _final,
 }

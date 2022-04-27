@@ -1,19 +1,14 @@
 'use strict'
 
-
+function getIndex(req, res, next) {
+  const html = 'Something got wrong...'
+  res.render('noCourse/index', {
+    debug: 'debug' in req.query,
+    html,
+    initialState: 'Ingen kurskod',
+  })
+}
 
 module.exports = {
-  getIndex: getIndex
+  getIndex,
 }
-
- function  getIndex (req, res, next) {
-    const html='Something got wrong...' 
-    res.render('noCourse/index', {
-
-      debug: 'debug' in req.query,
-      html:html
-    ,initialState: "Ingen kurskod"
-    })
-}
-
-
