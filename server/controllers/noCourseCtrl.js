@@ -5,7 +5,7 @@ function getIndex(req, res, next) {
   res.render('noCourse/index', {
     debug: 'debug' in req.query,
     html,
-    initialState: 'Ingen kurskod',
+    compressedData: 'Ingen kurskod',
   })
 }
 
