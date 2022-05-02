@@ -3,30 +3,28 @@ import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../util/constants'
 import { useWebContext } from '../context/WebContext'
 
 const DropdownRounds = ({ courseRoundList, language = 0, label = '', translation }) => {
-  const [webContext, setWebContext] = useWebContext()
-  const context = React.useMemo(() => webContext, [webContext])
+  const [context, setWebContext] = useWebContext()
+  const { roundDisabled } = context
+  const [roundSelectedIndex, setRoundSelectIndex] = React.useState(0)
 
   const dropdownID = 'roundsDropdown'
 
-  function handleDropdownSelect(e) {
+  async function handleDropdownSelect(e) {
     e.preventDefault()
 
     const eTarget = e.target
     const selectedOption = eTarget[eTarget.selectedIndex]
 
     const selectInfo = selectedOption.id.split('_')
+
     const newContext = {
       activeRoundIndex: eTarget.selectedIndex === 0 ? 0 : selectInfo[1],
       showRoundData: eTarget.selectedIndex !== 0,
-      roundSelected: eTarget.selectedIndex !== 0,
       roundSelectedIndex: eTarget.selectedIndex,
     }
-
     setWebContext({ ...context, ...newContext })
 
-    if (context.showRoundData) {
-      context.getCourseEmployees()
-    }
+    setRoundSelectIndex(eTarget.selectedIndex)
   }
 
   if (courseRoundList && courseRoundList.length < 2) {
@@ -45,14 +43,10 @@ const DropdownRounds = ({ courseRoundList, language = 0, label = '', translation
               id={dropdownID}
               aria-label=""
               onChange={handleDropdownSelect}
-              disabled={context.roundDisabled}
+              disabled={roundDisabled}
             >
               (
-              <option
-                id={dropdownID + '_-1_0'}
-                defaultValue={context.roundSelectedIndex === 0}
-                value={label.placeholder}
-              >
+              <option id={dropdownID + '_-1_0'} defaultValue={roundSelectedIndex === 0} value={label.placeholder}>
                 {label.placeholder}
               </option>
               )
@@ -67,7 +61,7 @@ const DropdownRounds = ({ courseRoundList, language = 0, label = '', translation
                   },
                   index
                 ) => {
-                  const isChosen = context.roundSelectedIndex - 1 === index
+                  const isChosen = roundSelectedIndex - 1 === index
                   const optionLabel = `${
                     roundShortName !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language] ? `${roundShortName}` : ''
                   },${
