@@ -10,8 +10,7 @@ import SyllabusInformation from './SyllabusInformation'
 const LABEL_MISSING_INFO = { en: INFORM_IF_IMPORTANT_INFO_IS_MISSING[0], sv: INFORM_IF_IMPORTANT_INFO_IS_MISSING[1] }
 
 function CourseSectionList(props) {
-  const [webContext] = useWebContext()
-  const context = React.useMemo(() => webContext, [webContext])
+  const [context] = useWebContext()
   const { courseData = {} } = context
   const { language = 'sv' } = courseData
   const translation = i18n.messages[language === 'en' ? 0 : 1]

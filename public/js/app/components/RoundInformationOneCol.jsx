@@ -15,15 +15,15 @@ function RoundInformationOneCol({
   fade,
   courseHasRound,
   memoStorageURI,
-  showRoundData,
+  showRoundData: externalShowRoundData,
   language = 'sv',
   courseRound: round = { round_course_term: [] },
   courseData: course,
 }) {
-  const [webContext] = useWebContext()
-  const context = React.useMemo(() => webContext, [webContext])
+  const [context] = useWebContext()
 
-  const { roundData } = context
+  const courseRoundEmployees = externalShowRoundData ? context.getCourseEmployees() : {}
+
   const userLangIndex = language === 'en' ? 0 : 1
   const { courseRoundInformation: translate, courseLabels: labels } = i18n.messages[userLangIndex]
   const roundHeader = translate.round_header
@@ -45,7 +45,7 @@ function RoundInformationOneCol({
 
   return (
     <span>
-      {courseHasRound && showRoundData ? (
+      {courseHasRound && externalShowRoundData ? (
         <h2 id="courseRoundInformationHeader" style={{ marginTop: '20px' }}>
           {translate.header_round}
         </h2>
@@ -53,15 +53,19 @@ function RoundInformationOneCol({
       <section
         id="roundInformationOneCol"
         className="key-info"
-        style={{ backgroundColor: courseHasRound && showRoundData ? 'rgb(246, 246, 246)' : 'rgb(252, 248, 227)' }}
+        style={{
+          backgroundColor: courseHasRound && externalShowRoundData ? 'rgb(246, 246, 246)' : 'rgb(252, 248, 227)',
+        }}
         aria-label={
-          courseHasRound && showRoundData ? `${translate.round_information_aria_label} ${selectedRoundHeader}` : null
+          courseHasRound && externalShowRoundData
+            ? `${translate.round_information_aria_label} ${selectedRoundHeader}`
+            : null
         }
       >
         <div
           className="row"
           id="roundFirstPart"
-          aria-labelledby={courseHasRound && showRoundData ? 'courseRoundInformationHeader' : null}
+          aria-labelledby={courseHasRound && externalShowRoundData ? 'courseRoundInformationHeader' : null}
         >
           {/** ************************************************************************************************************ */}
           {/*                                  Round information  - first part                                         */}
@@ -69,7 +73,7 @@ function RoundInformationOneCol({
           <Col sm="12" id="roundKeyInformation">
             <div className={` fade-container ${fade === true ? ' fadeOutIn' : ''}`} key="fadeDiv1">
               {/* ---COURSE ROUND HEADER--- */}
-              {courseHasRound && showRoundData && (
+              {courseHasRound && externalShowRoundData && (
                 <div style={{ borderBottom: '1px solid #fff' }}>
                   <h3 className="t4" id="roundHeader">
                     {roundHeader}
@@ -79,7 +83,7 @@ function RoundInformationOneCol({
               )}
 
               {/* ---COURSE ROUND INFORMATION--- */}
-              {courseHasRound && showRoundData ? (
+              {courseHasRound && externalShowRoundData ? (
                 <span>
                   <h3 className="t4">{translate.round_target_group}</h3>
                   <span dangerouslySetInnerHTML={{ __html: round.round_target_group }} />
@@ -109,7 +113,7 @@ function RoundInformationOneCol({
               {/** ************************************************************************************************************ */}
               {/*                                            Round  information                                               */}
               {/** ************************************************************************************************************ */}
-              {courseHasRound && showRoundData && (
+              {courseHasRound && externalShowRoundData && (
                 <span>
                   <h3 className="t4">{translate.round_tutoring_form}</h3>
                   <p>
@@ -164,13 +168,13 @@ function RoundInformationOneCol({
         <div
           className="row"
           id="roundApply"
-          aria-labelledby={courseHasRound && showRoundData ? 'applicationInformationHeader' : null}
+          aria-labelledby={courseHasRound && externalShowRoundData ? 'applicationInformationHeader' : null}
         >
           <Col>
             {/** ************************************************************************************************************ */}
             {/*                                     Round - application information                                         */}
             {/** ************************************************************************************************************ */}
-            {courseHasRound && showRoundData && (
+            {courseHasRound && externalShowRoundData && (
               <span>
                 <h2 id="applicationInformationHeader" className="right-column-header">
                   {labels.header_select_course}
@@ -198,13 +202,13 @@ function RoundInformationOneCol({
         <div
           className="row"
           id="roundContact"
-          aria-labelledby={courseHasRound && showRoundData ? 'contactInformationHeader' : null}
+          aria-labelledby={courseHasRound && externalShowRoundData ? 'contactInformationHeader' : null}
         >
           <Col>
             {/** ************************************************************************************************************ */}
             {/*                                     Round - contact information                                             */}
             {/** ************************************************************************************************************ */}
-            {courseHasRound && showRoundData && (
+            {courseHasRound && externalShowRoundData && (
               <span>
                 <h2 id="contactInformationHeader" className="right-column-header">
                   {labels.header_contact}
@@ -221,13 +225,21 @@ function RoundInformationOneCol({
                 )}
 
                 <h3 className="t4">{i18n.messages[userLangIndex].courseInformation.course_examiners}</h3>
-                <span dangerouslySetInnerHTML={{ __html: roundData.examiners || LABEL_MISSING_INFO[language] }} />
+                <span
+                  dangerouslySetInnerHTML={{ __html: courseRoundEmployees.examiners || LABEL_MISSING_INFO[language] }}
+                />
 
                 <h3 className="t4">{translate.round_responsibles}</h3>
-                <span dangerouslySetInnerHTML={{ __html: roundData.responsibles || LABEL_MISSING_INFO[language] }} />
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: courseRoundEmployees.responsibles || LABEL_MISSING_INFO[language],
+                  }}
+                />
 
                 <h3 className="t4">{translate.round_teacher}</h3>
-                <span dangerouslySetInnerHTML={{ __html: roundData.teachers || LABEL_MISSING_INFO[language] }} />
+                <span
+                  dangerouslySetInnerHTML={{ __html: courseRoundEmployees.teachers || LABEL_MISSING_INFO[language] }}
+                />
               </span>
             )}
           </Col>

@@ -53,7 +53,7 @@ function InfoModal(props) {
           {title || ''}
         </ModalHeader>
         <ModalBody>
-          {type && type === 'html' ? <p dangerouslySetInnerHTML={{ __html: infoText }} /> : <p>{infoText}</p>}
+          {type && type === 'html' ? <div dangerouslySetInnerHTML={{ __html: infoText }} /> : <p>{infoText}</p>}
         </ModalBody>
         <ModalFooter>
           <Button color="secondary" onClick={toggle}>
