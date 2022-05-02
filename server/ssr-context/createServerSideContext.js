@@ -36,7 +36,6 @@ function createServerSideContext() {
     syllabusInfoFade: false,
     showRoundData: false,
     roundDisabled: false,
-    roundSelected: false,
     semesterSelectedIndex: 0,
     roundSelectedIndex: 0,
     courseData: {
@@ -45,7 +44,6 @@ function createServerSideContext() {
       },
       syllabusSemesterList: [],
     },
-    roundData: {},
     setBrowserConfig,
   }
   return context

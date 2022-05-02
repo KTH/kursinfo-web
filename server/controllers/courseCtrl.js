@@ -360,8 +360,7 @@ function _getRound(roundObject, language = 'sv') {
 }
 
 function _getRounds(roundInfos, courseCode, language, webContext) {
-  const tmpContext = { ...webContext }
-  const { memoList } = tmpContext
+  const { activeSemesters: initActives, memoList, keyList: initkeyList } = { ...webContext }
   const tempList = []
   let courseRound
   const courseRoundList = {}
@@ -369,20 +368,10 @@ function _getRounds(roundInfos, courseCode, language, webContext) {
     courseRound = _getRound(roundInfo, language)
     const { round_course_term: yearAndTermArr, roundId: ladokRoundId } = courseRound
     const semester = yearAndTermArr.join('')
-    console.log('yearAndTermArr', yearAndTermArr)
-    console.log('ladokRoundId', ladokRoundId)
 
-    console.log('courseRound', courseRound)
     if (yearAndTermArr && tempList.indexOf(semester) < 0) {
       tempList.push(semester)
-      tmpContext.activeSemesters.push([...yearAndTermArr, semester, 0])
-      // const slicedSemesters =
-      console.log('beforee', tmpContext.activeSemesters)
-
-      console.log('tmpContext.activeSemesters.slice().sort()', tmpContext.activeSemesters.slice().sort())
-
-      if (typeof tmpContext.activeSemesters === 'string')
-        tmpContext.activeSemesters.replace(tmpContext.activeSemesters.slice().sort())
+      initActives.push([...yearAndTermArr, semester, 0])
       courseRoundList[semester] = []
     }
 
@@ -397,14 +386,13 @@ function _getRounds(roundInfos, courseCode, language, webContext) {
       }
     }
     courseRoundList[semester].push(courseRound)
-    tmpContext.keyList.teachers.push(`${courseCode}.${semester}.${ladokRoundId}.teachers`)
-    tmpContext.keyList.responsibles.push(`${courseCode}.${semester}.${ladokRoundId}.courseresponsible`)
+    initkeyList.teachers.push(`${courseCode}.${semester}.${ladokRoundId}.teachers`)
+    initkeyList.responsibles.push(`${courseCode}.${semester}.${ladokRoundId}.courseresponsible`)
   }
-  tmpContext.keyList.teachers.replace(tmpContext.keyList.teachers.slice().sort())
-  tmpContext.keyList.responsibles.replace(tmpContext.keyList.responsibles.slice().sort())
-  const { activeSemesters, keyList } = tmpContext
+  initkeyList.teachers.sort()
+  initkeyList.responsibles.sort()
 
-  return { courseRoundList, activeSemesters, keyList }
+  return { courseRoundList, activeSemesters: initActives.sort(), keyList: initkeyList }
 }
 
 function _getRoundsAndSyllabusConnection(syllabusSemesterList, webContext) {
@@ -469,19 +457,27 @@ function _getSemesterIndexToShow(externalSemesterNumber, activeSemesters) {
   return returnIndex > -1 ? returnIndex : yearMatch
 }
 
-async function _chooseSemesterAndSyllabusFromActiveSemesters(externalSemester, webContext) {
+function reorder(option, key, arr) {
+  const newArray = arr.slice()
+  newArray.sort(o => (o[key] !== option ? 1 : -1)) // put in first
+  return newArray
+}
+
+function reorderRoundListAfterSingleCourseStudents(activeSemester, initContext) {
+  const singleCourseStrudentsRoundCategory = 'VU' // single course students
+  return reorder(singleCourseStrudentsRoundCategory, 'round_category', initContext.courseData.roundList[activeSemester])
+}
+
+async function _chooseSemesterAndSyllabusFromActiveSemesters(externalSemester, useStartSemesterFromQuery, webContext) {
   const { activeSemesters } = webContext
-  webContext.useStartSemesterFromQuery = externalSemester
-    ? await _hasSemesterInArray(externalSemester, activeSemesters)
-    : false
 
   const defaultSemesterIndex = _getSemesterIndexToShow(
-    webContext.useStartSemesterFromQuery ? externalSemester : '',
+    useStartSemesterFromQuery ? externalSemester : '',
     activeSemesters
   )
   webContext.defaultIndex = defaultSemesterIndex
 
-  if (webContext.useStartSemesterFromQuery) {
+  if (useStartSemesterFromQuery) {
     webContext.activeSemester = externalSemester
     webContext.activeSemesterIndex = defaultSemesterIndex
     webContext.semesterSelectedIndex = defaultSemesterIndex
@@ -573,8 +569,18 @@ async function getIndex(req, res, next) {
       //* **** Sets roundsSyllabusIndex, an array used for connecting rounds with correct syllabus *****//
       _getRoundsAndSyllabusConnection(syllabusSemesterList, webContext)
 
+      webContext.useStartSemesterFromQuery = startSemesterFromQuery
+        ? await _hasSemesterInArray(startSemesterFromQuery, activeSemesters)
+        : false
       //* **** Get the index for start informatin based on time of year or semester if comes from query string *****/
-      await _chooseSemesterAndSyllabusFromActiveSemesters(startSemesterFromQuery, webContext)
+      await _chooseSemesterAndSyllabusFromActiveSemesters(
+        startSemesterFromQuery,
+        webContext.useStartSemesterFromQuery,
+        webContext
+      )
+
+      webContext.activeSemester =
+        activeSemesters && activeSemesters.length > 0 ? activeSemesters[webContext.defaultIndex][2] : null
 
       webContext.courseData = {
         syllabusList,
@@ -584,6 +590,15 @@ async function getIndex(req, res, next) {
         syllabusSemesterList,
         language: lang,
       }
+
+      if (webContext.useStartSemesterFromQuery) {
+        // init roundList with reordered roundList after single course students
+        const contextWithReorderedRoundList = reorderRoundListAfterSingleCourseStudents(
+          webContext.activeSemester,
+          webContext
+        )
+        webContext.courseData.roundList[webContext.activeSemester] = contextWithReorderedRoundList
+      }
     }
 
     const apiMemoData = {
@@ -592,6 +607,7 @@ async function getIndex(req, res, next) {
       ladokRoundIds: [],
     }
     const ugRedisApiResponse = await ugRedisApi.getCourseEmployees(apiMemoData)
+
     webContext.courseData.courseInfo.course_examiners =
       ugRedisApiResponse.examiners || INFORM_IF_IMPORTANT_INFO_IS_MISSING[lang]
 
