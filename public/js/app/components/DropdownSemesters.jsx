@@ -5,8 +5,7 @@ const formatLongSemesterName = (semesterItem, translation) =>
   `${translation.courseInformation.course_short_semester[semesterItem[1]]}${semesterItem[0]}`
 
 const DropdownSemesters = ({ semesterList, label = '', translation, useStartSemesterFromQuery }) => {
-  const [webContext, setWebContext] = useWebContext()
-  const context = React.useMemo(() => webContext, [webContext])
+  const [context, setWebContext] = useWebContext()
 
   const dropdownID = 'semesterDropdown'
   const { hasStartPeriodFromQuery, semesterSelectedIndex } = context
@@ -22,10 +21,9 @@ const DropdownSemesters = ({ semesterList, label = '', translation, useStartSeme
     ? formatLongSemesterName(selectedSemester, translation)
     : label.placeholder
 
-  function handleSemesterDropdownSelect(e) {
+  async function handleSemesterDropdownSelect(e) {
     e.preventDefault()
     const { activeSemesters } = context
-
     const eventTarget = e.target
     const selectedOption = eventTarget[eventTarget.selectedIndex]
 
@@ -44,15 +42,10 @@ const DropdownSemesters = ({ semesterList, label = '', translation, useStartSeme
       roundInfoFade: true,
       showRoundData,
       roundDisabled: newIndex === -1,
-      roundSelected: newIndex === -1,
       semesterSelectedIndex: eventTarget.selectedIndex,
       roundSelectedIndex: 0,
     }
     setWebContext({ ...context, ...newContext })
-
-    if (showRoundData) {
-      context.getCourseEmployees()
-    }
   }
 
   return (
