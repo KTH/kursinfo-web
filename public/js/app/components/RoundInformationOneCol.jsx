@@ -22,7 +22,7 @@ function RoundInformationOneCol({
 }) {
   const [context] = useWebContext()
 
-  const courseRoundEmployees = externalShowRoundData ? context.getCourseEmployees() : {}
+  const [courseRoundEmployees, setCourseRoundEmployees] = React.useState({})
 
   const userLangIndex = language === 'en' ? 0 : 1
   const { courseRoundInformation: translate, courseLabels: labels } = i18n.messages[userLangIndex]
@@ -37,6 +37,11 @@ function RoundInformationOneCol({
         : translate.round_category[round.round_category]
     }
   `
+
+  React.useEffect(async () => {
+    const employyes = externalShowRoundData ? await context.getCourseEmployees() : null
+    if (employyes) setCourseRoundEmployees(employyes)
+  }, [externalShowRoundData])
 
   function openApplicationLink(ev) {
     ev.preventDefault()
