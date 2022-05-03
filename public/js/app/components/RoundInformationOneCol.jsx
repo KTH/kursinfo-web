@@ -19,6 +19,7 @@ function RoundInformationOneCol({
   language = 'sv',
   courseRound: round = { round_course_term: [] },
   courseData: course,
+  testEmployees = null, // used for test
 }) {
   const [context] = useWebContext()
 
@@ -39,7 +40,7 @@ function RoundInformationOneCol({
   `
 
   React.useEffect(async () => {
-    const employyes = externalShowRoundData ? await context.getCourseEmployees() : null
+    const employyes = externalShowRoundData ? await context.getCourseEmployees() : testEmployees
     if (employyes) setCourseRoundEmployees(employyes)
   }, [externalShowRoundData])
 

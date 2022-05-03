@@ -7,8 +7,7 @@ import i18n from '../../../../../i18n'
 import '@testing-library/jest-dom/extend-expect'
 
 const { getAllByRole, queryByText } = screen
-const translationEN = i18n.messages[0]
-const translationSV = i18n.messages[1]
+const [translationEN, translationSV] = i18n.messages
 
 describe('Component <SideMenu>', () => {
   test('renders a side menu', () => {

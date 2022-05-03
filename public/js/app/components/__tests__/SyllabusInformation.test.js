@@ -4,8 +4,7 @@ import { render } from '@testing-library/react'
 import SyllabusInformation from '../SyllabusInformation'
 import i18n from '../../../../../i18n'
 
-const translationEN = i18n.messages[0]
-const translationSV = i18n.messages[1]
+const [translationEN, translationSV] = i18n.messages
 
 describe('Component <SyllabusInformation>', () => {
   test('renders syllabus information in English', () => {
