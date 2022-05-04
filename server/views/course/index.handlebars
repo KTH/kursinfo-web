@@ -1,7 +1,11 @@
-<script>
-  window.__initialState__ = {{{initialState}}}
-</script>
+<script>{{{compressedData}}}</script>
 
-{{prefixScript '/static/app.js' 'scripts'}}
+{{#if error}}
+  <main id='mainContent'>
+    <p>Error: {{error}}</p>
+  </main>
+{{else}}
+  <div id='app'>{{{html}}}</div>
+{{/if}}
 
-<div id="kth-kursinfo">{{{html}}}</div>
+{{prefixScript '/static/app.js' 'scripts'}}<!---->

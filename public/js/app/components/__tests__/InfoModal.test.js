@@ -26,7 +26,7 @@ describe('Component <InfoModal> with html text 2I', () => {
     )
   )
 
-  test('renders modal button with aria label', (done) => {
+  test('renders modal button with aria label', done => {
     const modalBtn = getByRole('button')
     expect(modalBtn).toBeInTheDocument()
     expect(modalBtn).toHaveAttribute('aria-label', 'Information about choosing semester and course offering')

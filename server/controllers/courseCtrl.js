@@ -1,10 +1,7 @@
 'use strict'
 
-const co = require('co')
 const log = require('@kth/log')
 const languageUtils = require('@kth/kth-node-web-common/lib/language')
-const ReactDOMServer = require('react-dom/server')
-const { toJS } = require('mobx')
 const httpResponse = require('@kth/kth-node-response')
 const courseApi = require('../apiCalls/kursinfoAdmin')
 const memoApi = require('../apiCalls/memoApi')
@@ -15,24 +12,18 @@ const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const paths = require('../server').getPaths()
 const api = require('../api')
+const { getServerSideFunctions } = require('../utils/serverSideRendering')
+const { createServerSideContext } = require('../ssr-context/createServerSideContext')
 
 const {
   INFORM_IF_IMPORTANT_INFO_IS_MISSING,
   INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY,
   PROGRAMME_URL,
   MAX_1_MONTH,
-  MAX_2_MONTH
+  MAX_2_MONTH,
 } = require('../util/constants')
 const { formatVersionDate, getDateFormat } = require('../util/dates')
 const i18n = require('../../i18n')
-
-function _staticRender(context, location) {
-  if (process.env.NODE_ENV === 'development') {
-    delete require.cache[require.resolve('../../dist/app.js')]
-  }
-  const { staticRender } = require('../../dist/app.js')
-  return staticRender(context, location)
-}
 
 function isValidData(dataObject, language, setEmpty = false) {
   const emptyText = setEmpty ? '' : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
@@ -48,13 +39,13 @@ function isValidContact(infoContactName, language) {
   return cleanFormat
 }
 
-async function _getCourseEmployees(req, res, next) {
+async function getCourseEmployees(req, res, next) {
   const apiMemoData = req.body
   const courseEmployees = await ugRedisApi.getCourseEmployees(apiMemoData)
   res.send(courseEmployees)
 }
 
-async function _getKoppsCourseData(req, res, next) {
+async function getKoppsCourseData(req, res, next) {
   const { courseCode } = req.params
   const language = req.params.language || 'sv'
   log.debug('Get Kopps course data for: ', courseCode, language)
@@ -112,7 +103,7 @@ function _getCourseDefaultInformation(courseResult, language) {
     course_possibility_to_addition: isValidData(courseResult.course.possibilityToAddition, language),
     course_literature: isValidData(courseResult.course.courseLiterature, language),
     course_required_equipment: isValidData(courseResult.course.requiredEquipment, language),
-    course_state: isValidData(courseResult.course.state, language, true)
+    course_state: isValidData(courseResult.course.state, language, true),
   }
 }
 
@@ -122,13 +113,13 @@ function _getTitleData(courseResult) {
     course_title: isValidData(courseResult.course.title),
     course_other_title: isValidData(courseResult.course.titleOther),
     course_credits: isValidData(courseResult.course.credits),
-    course_credits_text: isValidData(courseResult.course.creditUnitAbbr)
+    course_credits_text: isValidData(courseResult.course.creditUnitAbbr),
   }
 }
 
 function getExamObject(dataObject, grades, language = 0, semester = '', courseCredit) {
   var matchingExamSemester = ''
-  Object.keys(dataObject).forEach(function (key) {
+  Object.keys(dataObject).forEach(key => {
     if (Number(semester) >= Number(key)) {
       matchingExamSemester = key
     }
@@ -244,7 +235,7 @@ function _getSyllabusData(courseResult, semester = 0, language) {
     course_decision_to_discontinue:
       courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
         ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.decisionToDiscontinue, language)
-        : ''
+        : '',
   }
   //
 }
@@ -259,7 +250,7 @@ function _getSyllabusEndSemester(newerSyllabus) {
 
 function _getRoundProgramme(programmes, language = 0) {
   let programmeString = ''
-  programmes.forEach((programme) => {
+  programmes.forEach(programme => {
     programmeString += `<p>
         <a href="${PROGRAMME_URL}/${programme.programmeCode}/${programme.progAdmissionTerm.term}/arskurs${
       programme.studyYear
@@ -277,8 +268,9 @@ function _getRoundPeriodes(periodeList, language = 'sv') {
   var periodeString = ''
   if (periodeList) {
     if (periodeList.length > 1) {
-      periodeList.map((periode) => {
-        return (periodeString += `<p class="periode-list">
+      periodeList.map(
+        periode =>
+          (periodeString += `<p class="periode-list">
                               ${
                                 i18n.messages[language === 'en' ? 0 : 1].courseInformation.course_short_semester[
                                   periode.term.term.toString().match(/.{1,4}/g)[1]
@@ -287,7 +279,7 @@ function _getRoundPeriodes(periodeList, language = 'sv') {
                               ${periode.term.term.toString().match(/.{1,4}/g)[0]}: 
                               ${periode.formattedPeriodsAndCredits}
                               </p>`)
-      })
+      )
       return periodeString
     } else {
       return periodeList[0].formattedPeriodsAndCredits
@@ -296,7 +288,7 @@ function _getRoundPeriodes(periodeList, language = 'sv') {
   return INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
 }
 
-function _getRoundSeatsMsg(max, min, language) {
+function _getRoundSeatsMsg(max, min) {
   if (!max && !min) {
     return ''
   }
@@ -333,8 +325,7 @@ function _getRound(roundObject, language = 'sv') {
     round_seats:
       _getRoundSeatsMsg(
         isValidData(roundObject.round.maxSeats, language, true),
-        isValidData(roundObject.round.minSeats, language, true),
-        language
+        isValidData(roundObject.round.minSeats, language, true)
       ) || '',
     round_selection_criteria: isValidData(
       roundObject.round[language === 'en' ? 'selectionCriteriaEn' : 'selectionCriteriaSv'],
@@ -359,7 +350,7 @@ function _getRound(roundObject, language = 'sv') {
     round_category:
       roundObject.round.applicationCodes.length > 0
         ? isValidData(roundObject.round.applicationCodes[0].courseRoundType.category, language)
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
   }
   if (courseRoundModel.round_short_name === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) {
     courseRoundModel.round_short_name = `${language === 0 ? 'Start' : 'Start'}  ${courseRoundModel.round_start_date}`
@@ -368,7 +359,8 @@ function _getRound(roundObject, language = 'sv') {
   return courseRoundModel
 }
 
-function _getRounds(roundInfos, courseCode, language, routerStore) {
+function _getRounds(roundInfos, courseCode, language, webContext) {
+  const { activeSemesters: initActives, memoList, keyList: initkeyList } = { ...webContext }
   const tempList = []
   let courseRound
   const courseRoundList = {}
@@ -379,43 +371,41 @@ function _getRounds(roundInfos, courseCode, language, routerStore) {
 
     if (yearAndTermArr && tempList.indexOf(semester) < 0) {
       tempList.push(semester)
-      routerStore.activeSemesters.push([...yearAndTermArr, semester, 0])
-      routerStore.activeSemesters.replace(routerStore.activeSemesters.slice().sort())
+      initActives.push([...yearAndTermArr, semester, 0])
       courseRoundList[semester] = []
     }
 
-    const hasMemoForThisRound = !!(routerStore.memoList[semester] && routerStore.memoList[semester][ladokRoundId])
+    const hasMemoForThisRound = !!(memoList[semester] && memoList[semester][ladokRoundId])
     if (hasMemoForThisRound) {
-      const { isPdf, courseMemoFileName, lastChangeDate } = routerStore.memoList[semester][ladokRoundId]
+      const { isPdf, courseMemoFileName, lastChangeDate } = memoList[semester][ladokRoundId]
       if (isPdf) {
         courseRound['round_memoFile'] = {
           fileName: courseMemoFileName,
-          fileDate: lastChangeDate ? formatVersionDate(language, lastChangeDate) : ''
+          fileDate: lastChangeDate ? formatVersionDate(language, lastChangeDate) : '',
         }
       }
     }
     courseRoundList[semester].push(courseRound)
-    routerStore.keyList.teachers.push(`${courseCode}.${semester}.${ladokRoundId}.teachers`)
-    routerStore.keyList.responsibles.push(`${courseCode}.${semester}.${ladokRoundId}.courseresponsible`)
+    initkeyList.teachers.push(`${courseCode}.${semester}.${ladokRoundId}.teachers`)
+    initkeyList.responsibles.push(`${courseCode}.${semester}.${ladokRoundId}.courseresponsible`)
   }
-  routerStore.keyList.teachers.replace(routerStore.keyList.teachers.slice().sort())
-  routerStore.keyList.responsibles.replace(routerStore.keyList.responsibles.slice().sort())
+  initkeyList.teachers.sort()
+  initkeyList.responsibles.sort()
 
-  return courseRoundList
+  return { courseRoundList, activeSemesters: initActives.sort(), keyList: initkeyList }
 }
 
-function _getRoundsAndSyllabusConnection(syllabusSemesterList, routerStore) {
-  for (let index = 0; index < routerStore.activeSemesters.length; index++) {
-    if (Number(syllabusSemesterList[0][0]) > Number(routerStore.activeSemesters[index][2])) {
+function _getRoundsAndSyllabusConnection(syllabusSemesterList, webContext) {
+  for (let index = 0; index < webContext.activeSemesters.length; index++) {
+    if (Number(syllabusSemesterList[0][0]) > Number(webContext.activeSemesters[index][2])) {
       for (let whileIndex = 1; whileIndex < syllabusSemesterList.length; whileIndex++) {
-        if (Number(syllabusSemesterList[whileIndex][0]) > Number(routerStore.activeSemesters[index][2])) {
-        } else {
-          routerStore.roundsSyllabusIndex[index] = whileIndex
+        if (Number(syllabusSemesterList[whileIndex][0]) < Number(webContext.activeSemesters[index][2])) {
+          webContext.roundsSyllabusIndex[index] = whileIndex
           break
         }
       }
     } else {
-      routerStore.roundsSyllabusIndex[index] = 0
+      webContext.roundsSyllabusIndex[index] = 0
     }
   }
 }
@@ -433,7 +423,7 @@ function _generateSemesterBasedOnDate(thisDate) {
 
 function _hasSemesterInArray(semesterNumber, semesters) {
   if (!semesterNumber) return false
-  return semesters?.some((s) => s[2] === semesterNumber)
+  return semesters?.some(s => s[2] === semesterNumber)
 }
 
 //* *** Default syllabus might change when the dates set in MAX_(semester)_DAY and MAX_(semester)_MONTH is passed ****/
@@ -467,23 +457,31 @@ function _getSemesterIndexToShow(externalSemesterNumber, activeSemesters) {
   return returnIndex > -1 ? returnIndex : yearMatch
 }
 
-async function _chooseSemesterAndSyllabusFromActiveSemesters(externalSemester, routerStore) {
-  const { activeSemesters } = routerStore
-  routerStore.useStartSemesterFromQuery = externalSemester
-    ? await _hasSemesterInArray(externalSemester, activeSemesters)
-    : false
+function reorder(option, key, arr) {
+  const newArray = arr.slice()
+  newArray.sort(o => (o[key] !== option ? 1 : -1)) // put in first
+  return newArray
+}
+
+function reorderRoundListAfterSingleCourseStudents(activeSemester, initContext) {
+  const singleCourseStrudentsRoundCategory = 'VU' // single course students
+  return reorder(singleCourseStrudentsRoundCategory, 'round_category', initContext.courseData.roundList[activeSemester])
+}
+
+async function _chooseSemesterAndSyllabusFromActiveSemesters(externalSemester, useStartSemesterFromQuery, webContext) {
+  const { activeSemesters } = webContext
 
   const defaultSemesterIndex = _getSemesterIndexToShow(
-    routerStore.useStartSemesterFromQuery ? externalSemester : '',
+    useStartSemesterFromQuery ? externalSemester : '',
     activeSemesters
   )
-  routerStore.defaultIndex = defaultSemesterIndex
+  webContext.defaultIndex = defaultSemesterIndex
 
-  if (routerStore.useStartSemesterFromQuery) {
-    routerStore.activeSemester = externalSemester
-    routerStore.activeSemesterIndex = defaultSemesterIndex
-    routerStore.semesterSelectedIndex = defaultSemesterIndex
-    routerStore.activeSyllabusIndex = routerStore.roundsSyllabusIndex[defaultSemesterIndex]
+  if (useStartSemesterFromQuery) {
+    webContext.activeSemester = externalSemester
+    webContext.activeSemesterIndex = defaultSemesterIndex
+    webContext.semesterSelectedIndex = defaultSemesterIndex
+    webContext.activeSyllabusIndex = webContext.roundsSyllabusIndex[defaultSemesterIndex]
   }
 }
 /* ****************************************************************************** */
@@ -500,37 +498,37 @@ async function getIndex(req, res, next) {
   const lang = languageUtils.getLanguage(res) || 'sv'
 
   try {
-    const context = {}
-    const renderProps = _staticRender(context, req.url)
-    const { routerStore } = renderProps.props.children.props
-    const { startterm, periods } = req.query
-    routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
+    const { getCompressedData, renderStaticPage } = getServerSideFunctions()
+    const webContext = { lang, proxyPrefixPath: serverConfig.proxyPrefixPath, ...createServerSideContext() }
 
-    routerStore.courseCode = courseCode
+    const { startterm, periods } = req.query
+    webContext.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
+
+    webContext.courseCode = courseCode
     const startSemesterFromQuery = startterm ? startterm.substring(0, 5) : ''
 
-    routerStore.hasStartPeriodFromQuery = !!Number(periods)
+    webContext.hasStartPeriodFromQuery = !!Number(periods)
 
     const courseApiResponse = await courseApi.getSellingText(courseCode)
     if (courseApiResponse.body) {
       const { sellingText, imageInfo } = courseApiResponse.body
-      routerStore.sellingText = sellingText
-      routerStore.imageFromAdmin = imageInfo || ''
-      /* routerStore.showCourseWebbLink = isCourseWebLink */
+      webContext.sellingText = sellingText
+      webContext.imageFromAdmin = imageInfo || ''
+      /* webContext.showCourseWebbLink = isCourseWebLink */
     }
 
     if (memoApiUp) {
       const memoApiResponse = await memoApi.getPrioritizedCourseMemos(courseCode)
       if (memoApiResponse && memoApiResponse.body) {
-        routerStore.memoList = memoApiResponse.body
+        webContext.memoList = memoApiResponse.body
       }
     }
 
     const koppsCourseDataResponse = await koppsCourseData.getKoppsCourseData(courseCode, lang)
     if (koppsCourseDataResponse.body) {
       const courseResult = koppsCourseDataResponse.body
-      routerStore.isCancelled = courseResult.course.cancelled
-      routerStore.isDeactivated = courseResult.course.deactivated
+      webContext.isCancelled = courseResult.course.cancelled
+      webContext.isDeactivated = courseResult.course.deactivated
 
       //* **** Coruse information that is static on the course side *****//
       const courseInfo = _getCourseDefaultInformation(courseResult, lang)
@@ -540,7 +538,7 @@ async function getIndex(req, res, next) {
 
       //* **** Get list of syllabuses and valid syllabus semesters *****//
       const syllabusList = []
-      let syllabusSemesterList = []
+      const syllabusSemesterList = []
       let tempSyllabus = {}
       const syllabuses = courseResult.publicSyllabusVersions
       if (syllabuses.length > 0) {
@@ -560,48 +558,81 @@ async function getIndex(req, res, next) {
       }
 
       //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis *****//
-      const roundList = _getRounds(courseResult.roundInfos, courseCode, lang, routerStore)
+      const {
+        courseRoundList: roundList,
+        activeSemesters,
+        keyList,
+      } = _getRounds(courseResult.roundInfos, courseCode, lang, webContext)
 
+      webContext.activeSemesters = activeSemesters
+      webContext.keyList = keyList
       //* **** Sets roundsSyllabusIndex, an array used for connecting rounds with correct syllabus *****//
-      _getRoundsAndSyllabusConnection(syllabusSemesterList, routerStore)
+      _getRoundsAndSyllabusConnection(syllabusSemesterList, webContext)
 
+      webContext.useStartSemesterFromQuery = startSemesterFromQuery
+        ? await _hasSemesterInArray(startSemesterFromQuery, activeSemesters)
+        : false
       //* **** Get the index for start informatin based on time of year or semester if comes from query string *****/
-      await _chooseSemesterAndSyllabusFromActiveSemesters(startSemesterFromQuery, routerStore)
+      await _chooseSemesterAndSyllabusFromActiveSemesters(
+        startSemesterFromQuery,
+        webContext.useStartSemesterFromQuery,
+        webContext
+      )
 
-      syllabusSemesterList = toJS(syllabusSemesterList)
+      webContext.activeSemester =
+        activeSemesters && activeSemesters.length > 0 ? activeSemesters[webContext.defaultIndex][2] : null
 
-      routerStore.courseData = {
+      webContext.courseData = {
         syllabusList,
         courseInfo,
         roundList,
         courseTitleData,
         syllabusSemesterList,
-        language: lang
+        language: lang,
+      }
+
+      if (webContext.useStartSemesterFromQuery) {
+        // init roundList with reordered roundList after single course students
+        const contextWithReorderedRoundList = reorderRoundListAfterSingleCourseStudents(
+          webContext.activeSemester,
+          webContext
+        )
+        webContext.courseData.roundList[webContext.activeSemester] = contextWithReorderedRoundList
       }
     }
 
     const apiMemoData = {
       courseCode,
       semester: '',
-      ladokRoundIds: []
+      ladokRoundIds: [],
     }
     const ugRedisApiResponse = await ugRedisApi.getCourseEmployees(apiMemoData)
-    routerStore.courseData.courseInfo.course_examiners =
+
+    webContext.courseData.courseInfo.course_examiners =
       ugRedisApiResponse.examiners || INFORM_IF_IMPORTANT_INFO_IS_MISSING[lang]
 
-    const html = ReactDOMServer.renderToString(renderProps)
+    const compressedData = getCompressedData(webContext)
+
+    const { uri: proxyPrefix } = serverConfig.proxyPrefixPath
+
+    const view = renderStaticPage({
+      applicationStore: {},
+      location: req.url,
+      basename: proxyPrefix,
+      context: webContext,
+    })
 
     res.render('course/index', {
+      compressedData,
       debug: 'debug' in req.query,
       instrumentationKey: serverConfig.appInsights.instrumentationKey,
-      html,
+      html: view,
       title: courseCode.toUpperCase(),
-      initialState: JSON.stringify(hydrateStores(renderProps)),
       lang,
       description:
         lang === 'sv'
           ? 'KTH kursinformation för ' + courseCode.toUpperCase()
-          : 'KTH course information ' + courseCode.toUpperCase()
+          : 'KTH course information ' + courseCode.toUpperCase(),
     })
   } catch (err) {
     const excludedStatusCodes = [403, 404]
@@ -623,19 +654,8 @@ async function getIndex(req, res, next) {
   }
 }
 
-function hydrateStores(renderProps) {
-  const { props } = renderProps.props.children
-  const outp = {}
-  for (let key in props) {
-    if (typeof props[key].initializeStore === 'function') {
-      outp[key] = encodeURIComponent(JSON.stringify(toJS(props[key], true)))
-    }
-  }
-  return outp
-}
-
 module.exports = {
   getIndex,
-  getCourseEmployees: _getCourseEmployees,
-  getKoppsCourseData: co.wrap(_getKoppsCourseData)
+  getCourseEmployees,
+  getKoppsCourseData,
 }

@@ -1,26 +1,24 @@
-const serverConfig = require('../configuration').server
 const redis = require('kth-node-redis')
 const log = require('@kth/log')
+const serverConfig = require('../configuration').server
 
-const redisKeys = (courseCode, semester, ladokRoundIds) => {
+const redisKeys = (courseCode, semester, ladokRoundIds) => ({
   // Used to get examiners and responsibles from UG Rdedis
-  return {
-    teachers: ladokRoundIds.map((round) => `${courseCode}.${semester}.${round}.teachers`),
-    examiners: [`${courseCode}.examiner`],
-    responsibles: ladokRoundIds.map((round) => `${courseCode}.${semester}.${round}.courseresponsible`),
-    assistants: ladokRoundIds.map((round) => `${courseCode}.${semester}.${round}.assistants`) // edu.courses.SF.SF1624.20191.1.assistants
-  }
-}
+  teachers: ladokRoundIds.map(round => `${courseCode}.${semester}.${round}.teachers`),
+  examiners: [`${courseCode}.examiner`],
+  responsibles: ladokRoundIds.map(round => `${courseCode}.${semester}.${round}.courseresponsible`),
+  assistants: ladokRoundIds.map(round => `${courseCode}.${semester}.${round}.assistants`), // edu.courses.SF.SF1624.20191.1.assistants
+})
 
-const _removeDublicates = (personListWithDublicates) =>
+const _removeDublicates = personListWithDublicates =>
   personListWithDublicates
-    .map((person) => JSON.stringify(person))
+    .map(person => JSON.stringify(person))
     .filter((person, index, self) => self.indexOf(person) === index)
-    .map((personStr) => JSON.parse(personStr))
+    .map(personStr => JSON.parse(personStr))
 
 const createPersonHtml = (personList = []) => {
   let personString = ''
-  personList.forEach((person) => {
+  personList.forEach(person => {
     if (person) {
       personString += `<p class = "person">
       <img class="profile-picture" src="https://www.kth.se/files/thumbnail/${person.username}" alt="Profile picture" width="31" height="31">
@@ -66,9 +64,9 @@ async function _getCourseEmployees(apiMemoData) {
       employeeIndex.set('assistants', employeeIndex.size)
     }
     const arrWithStringifiedArrays = await apiCall.execAsync()
-    log.debug('Ug Redis fetched correctly', arrWithStringifiedArrays)
-    const flatArrWithHtmlStr = arrWithStringifiedArrays.map((perTypeStringifiedArr) => {
-      const thisTypeAllRoundsEmployees = perTypeStringifiedArr.flatMap((perRoundStr) => JSON.parse(perRoundStr))
+    log.debug('Ug Redis fetched correctly', { courseCode, semester, ladokRoundIds }, arrWithStringifiedArrays)
+    const flatArrWithHtmlStr = arrWithStringifiedArrays.map(perTypeStringifiedArr => {
+      const thisTypeAllRoundsEmployees = perTypeStringifiedArr.flatMap(perRoundStr => JSON.parse(perRoundStr))
       /* Remove duplicates */
       const deepDistinctEmpoyeesNoDublicates = _removeDublicates(thisTypeAllRoundsEmployees)
       return createPersonHtml(deepDistinctEmpoyeesNoDublicates)
@@ -95,5 +93,5 @@ async function _getCourseEmployees(apiMemoData) {
 }
 
 module.exports = {
-  getCourseEmployees: _getCourseEmployees
+  getCourseEmployees: _getCourseEmployees,
 }

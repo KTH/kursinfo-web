@@ -18,25 +18,23 @@ const CourseSection = ({
   courseData = [],
   sectionId = '',
   class: style,
-  syllabusMarkerAriaLabel
-}) => {
-  return (
-    <div className="col-12" id={sectionId} aria-labelledby={`${sectionId}-header`}>
-      {header.length ? (
-        <h2 id={`${sectionId}-header`} className={style}>
-          {header}
-        </h2>
-      ) : null}
-      {courseData.map((data) =>
-        data.text ? (
-          <span key={data.header || data.text} className="word-break">
-            {data.header && syllabusMarker(data, syllabusMarkerAriaLabel)}
-            <p dangerouslySetInnerHTML={{ __html: data.text }} />
-          </span>
-        ) : null
-      )}
-    </div>
-  )
-}
+  syllabusMarkerAriaLabel,
+}) => (
+  <div className="col-12" id={sectionId} aria-labelledby={`${sectionId}-header`}>
+    {header.length ? (
+      <h2 id={`${sectionId}-header`} className={style}>
+        {header}
+      </h2>
+    ) : null}
+    {courseData.map(data =>
+      data.text ? (
+        <span key={data.header || data.text} className="word-break">
+          {data.header && syllabusMarker(data, syllabusMarkerAriaLabel)}
+          <div dangerouslySetInnerHTML={{ __html: data.text }} />
+        </span>
+      ) : null
+    )}
+  </div>
+)
 
 export default CourseSection

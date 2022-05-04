@@ -1,22 +1,20 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
-import { Provider } from 'mobx-react'
 import { render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
+import { WebContextProvider } from '../../context/WebContext'
 
 import RoundInformationOneCol from '../RoundInformationOneCol'
 
 const INFORM_IF_IMPORTANT_INFO_IS_MISSING = ['No information inserted', 'Ingen information tillagd']
-
-const { getByText, getAllByText } = screen
+const context = { browserConfig: {}, sellingText: { en: '', sv: '' }, imageFromAdmin: '' }
 
 describe('Component <RoundInformationOneCol>', () => {
   test('renders a course information column', () => {
-    const routerStore = { browserConfig: {}, sellingText: { en: '', sv: '' }, imageFromAdmin: '' }
     render(
-      <Provider routerStore={routerStore}>
+      <WebContextProvider configIn={context}>
         <RoundInformationOneCol />
-      </Provider>
+      </WebContextProvider>
     )
   })
   test('renders study pace correctly', () => {
@@ -27,20 +25,22 @@ describe('Component <RoundInformationOneCol>', () => {
       courseData: {},
       courseRound: {
         round_course_term: ['2018', '1'],
-        round_study_pace: '25'
+        round_study_pace: '25',
       },
-      routerStore: {
-        roundData: {
-          examiners: '',
-          responsibles: '',
-          teachers: ''
-        }
-      }
+      testEmployees: {
+        examiners: '',
+        responsibles: '',
+        teachers: '',
+      },
     }
-    render(<RoundInformationOneCol {...propsWithStudyPace} />)
-    const label = getByText('Pace of study')
+    render(
+      <WebContextProvider configIn={context}>
+        <RoundInformationOneCol {...propsWithStudyPace} />{' '}
+      </WebContextProvider>
+    )
+    const label = screen.getByText('Pace of study')
     expect(label).toBeInTheDocument()
-    const studyPace = getByText('25%')
+    const studyPace = screen.getByText('25%')
     expect(studyPace).toBeInTheDocument()
   })
   test('renders course offering employees correctly', () => {
@@ -52,49 +52,63 @@ describe('Component <RoundInformationOneCol>', () => {
       showRoundData: true,
       courseHasRound: true,
       courseData: {},
-      routerStore: {
-        roundData: {
-          examiners: `<span>${examinersData}</span>'`,
-          responsibles: `<span>${responsiblesData}</span>`,
-          teachers: `<span>${teachersData}</span>`
-        }
-      }
+      testEmployees: {
+        examiners: `<span>${examinersData}</span>'`,
+        responsibles: `<span>${responsiblesData}</span>`,
+        teachers: `<span>${teachersData}</span>`,
+      },
     }
+
+    render(
+      <WebContextProvider configIn={context}>
+        <RoundInformationOneCol {...propsWithEmployees} />{' '}
+      </WebContextProvider>
+    )
+    const examiners = screen.getByText(examinersData)
+    expect(examiners).toBeInTheDocument()
+    const responsibles = screen.getByText(responsiblesData)
+    expect(responsibles).toBeInTheDocument()
+    const teachers = screen.getByText(teachersData)
+    expect(teachers).toBeInTheDocument()
+  })
+
+  test('renders information about missing course empoyees in course offering because it contains empty string', () => {
     const propsWithEmptyEmployees = {
       language: 'en',
       showRoundData: true,
       courseHasRound: true,
       courseData: {},
-      routerStore: {
-        roundData: {
-          examiners: '',
-          responsibles: '',
-          teachers: ''
-        }
-      }
+      testEmployees: {
+        examiners: '',
+        responsibles: '',
+        teachers: '',
+      },
     }
+
+    render(
+      <WebContextProvider configIn={context}>
+        <RoundInformationOneCol {...propsWithEmptyEmployees} />{' '}
+      </WebContextProvider>
+    )
+    const emptyEmployees = screen.getAllByText(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0]) // en
+    expect(emptyEmployees.length).toBe(3)
+  })
+
+  test('renders information about missing course empoyees in course offering because no data about employees is provided', () => {
     const propsWithoutEmployees = {
       language: 'en',
       showRoundData: true,
       courseHasRound: true,
       courseData: {},
-      routerStore: { roundData: {} }
+      testEmployees: {},
     }
 
-    const { rerender } = render(<RoundInformationOneCol {...propsWithEmployees} />)
-    const examiners = getByText(examinersData)
-    expect(examiners).toBeInTheDocument()
-    const responsibles = getByText(responsiblesData)
-    expect(responsibles).toBeInTheDocument()
-    const teachers = getByText(teachersData)
-    expect(teachers).toBeInTheDocument()
-
-    rerender(<RoundInformationOneCol {...propsWithEmptyEmployees} />)
-    const emptyEmployees = getAllByText(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0]) // en
-    expect(emptyEmployees.length).toBe(3)
-
-    rerender(<RoundInformationOneCol {...propsWithoutEmployees} />)
-    const noEmployees = getAllByText(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0]) // en
+    render(
+      <WebContextProvider configIn={context}>
+        <RoundInformationOneCol {...propsWithoutEmployees} />
+      </WebContextProvider>
+    )
+    const noEmployees = screen.getAllByText(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0]) // en
     expect(noEmployees.length).toBe(3)
   })
 
@@ -107,37 +121,39 @@ describe('Component <RoundInformationOneCol>', () => {
       courseRound: {
         round_course_term: ['2018', '1'],
         round_selection_criteria: '<p>English. Spicy jalapeno bacon ipsum</p>',
-        round_seats: 'Max: 10'
+        round_seats: 'Max: 10',
       },
-      routerStore: {
-        roundData: {
-          examiners: '',
-          responsibles: '',
-          teachers: ''
-        }
-      }
+      testEmployees: {
+        examiners: '',
+        responsibles: '',
+        teachers: '',
+      },
     }
 
-    render(<RoundInformationOneCol {...propsWithSeatsNum} />)
-    const label = getByText('Number of places')
+    render(
+      <WebContextProvider configIn={context}>
+        <RoundInformationOneCol {...propsWithSeatsNum} />{' '}
+      </WebContextProvider>
+    )
+    const label = screen.getByText('Number of places')
     expect(label).toBeInTheDocument()
     expect(label.querySelector('button')).toBeInTheDocument()
 
-    const seatsNum = getByText('Max: 10')
+    const seatsNum = screen.getByText('Max: 10')
     expect(seatsNum).toBeInTheDocument()
 
     label.querySelector('button').click()
     await waitFor(() => {
       expect(
-        getByText(
+        screen.getByText(
           'Course offering may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made. The selection results are based on:'
         )
       ).toBeInTheDocument()
-      expect(getByText('English. Spicy jalapeno bacon ipsum')).toBeInTheDocument()
+      expect(screen.getByText('English. Spicy jalapeno bacon ipsum')).toBeInTheDocument()
     })
   })
 
-  test('renders default text and hide info icon if a course offering number of places is not provided', (done) => {
+  test('renders default text and hide info icon if a course offering number of places is not provided', done => {
     const propsWithoutSeatsNum = {
       language: 'en',
       showRoundData: true,
@@ -146,20 +162,22 @@ describe('Component <RoundInformationOneCol>', () => {
       courseRound: {
         round_course_term: ['2018', '1'],
         round_selection_criteria: '<p>English. Spicy jalapeno bacon ipsum</p>',
-        round_seats: ''
+        round_seats: '',
       },
-      routerStore: {
-        roundData: {}
-      }
+      testEmployees: {},
     }
 
-    render(<RoundInformationOneCol {...propsWithoutSeatsNum} />)
+    render(
+      <WebContextProvider configIn={context}>
+        <RoundInformationOneCol {...propsWithoutSeatsNum} />{' '}
+      </WebContextProvider>
+    )
 
-    const label = getByText('Number of places')
+    const label = screen.getByText('Number of places')
     expect(label).toBeInTheDocument()
     expect(label.querySelector('button')).toBeFalsy()
 
-    const seatsNum = getByText('Places are not limited')
+    const seatsNum = screen.getByText('Places are not limited')
     expect(seatsNum).toBeInTheDocument()
 
     done()
@@ -174,26 +192,28 @@ describe('Component <RoundInformationOneCol>', () => {
       courseRound: {
         round_course_term: ['2018', '1'],
         round_selection_criteria: '<p></p>',
-        round_seats: '5-10'
+        round_seats: '5-10',
       },
-      routerStore: {
-        roundData: {}
-      }
+      testEmployees: {},
     }
 
-    render(<RoundInformationOneCol {...propsWithEmptyCriteria} />)
+    render(
+      <WebContextProvider configIn={context}>
+        <RoundInformationOneCol {...propsWithEmptyCriteria} />
+      </WebContextProvider>
+    )
 
-    const label = getByText('Number of places')
+    const label = screen.getByText('Number of places')
     expect(label).toBeInTheDocument()
     expect(label.querySelector('button')).toBeInTheDocument()
 
-    const seatsNum = getByText('5-10')
+    const seatsNum = screen.getByText('5-10')
     expect(seatsNum).toBeInTheDocument()
 
     label.querySelector('button').click()
     await waitFor(() => {
       expect(
-        getByText(
+        screen.getByText(
           'Course offering may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made.'
         )
       ).toBeInTheDocument()
