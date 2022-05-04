@@ -58,6 +58,21 @@ describe('Component <RoundInformationOneCol>', () => {
         teachers: `<span>${teachersData}</span>`,
       },
     }
+
+    render(
+      <WebContextProvider configIn={context}>
+        <RoundInformationOneCol {...propsWithEmployees} />{' '}
+      </WebContextProvider>
+    )
+    const examiners = screen.getByText(examinersData)
+    expect(examiners).toBeInTheDocument()
+    const responsibles = screen.getByText(responsiblesData)
+    expect(responsibles).toBeInTheDocument()
+    const teachers = screen.getByText(teachersData)
+    expect(teachers).toBeInTheDocument()
+  })
+
+  test('renders information about missing course empoyees in course offering because it contains empty string', () => {
     const propsWithEmptyEmployees = {
       language: 'en',
       showRoundData: true,
@@ -69,6 +84,17 @@ describe('Component <RoundInformationOneCol>', () => {
         teachers: '',
       },
     }
+
+    render(
+      <WebContextProvider configIn={context}>
+        <RoundInformationOneCol {...propsWithEmptyEmployees} />{' '}
+      </WebContextProvider>
+    )
+    const emptyEmployees = screen.getAllByText(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0]) // en
+    expect(emptyEmployees.length).toBe(3)
+  })
+
+  test('renders information about missing course empoyees in course offering because no data about employees is provided', () => {
     const propsWithoutEmployees = {
       language: 'en',
       showRoundData: true,
@@ -77,29 +103,9 @@ describe('Component <RoundInformationOneCol>', () => {
       testEmployees: {},
     }
 
-    const { rerender } = render(
+    render(
       <WebContextProvider configIn={context}>
-        <RoundInformationOneCol {...propsWithEmployees} />{' '}
-      </WebContextProvider>
-    )
-    const examiners = screen.getByText(examinersData)
-    expect(examiners).toBeInTheDocument()
-    const responsibles = screen.getByText(responsiblesData)
-    expect(responsibles).toBeInTheDocument()
-    const teachers = screen.getByText(teachersData)
-    expect(teachers).toBeInTheDocument()
-
-    rerender(
-      <WebContextProvider configIn={context}>
-        <RoundInformationOneCol {...propsWithEmptyEmployees} />{' '}
-      </WebContextProvider>
-    )
-    const emptyEmployees = screen.getAllByText(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0]) // en
-    expect(emptyEmployees.length).toBe(3)
-
-    rerender(
-      <WebContextProvider configIn={context}>
-        <RoundInformationOneCol {...propsWithoutEmployees} />{' '}
+        <RoundInformationOneCol {...propsWithoutEmployees} />
       </WebContextProvider>
     )
     const noEmployees = screen.getAllByText(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0]) // en
@@ -124,7 +130,11 @@ describe('Component <RoundInformationOneCol>', () => {
       },
     }
 
-    render(<RoundInformationOneCol {...propsWithSeatsNum} />)
+    render(
+      <WebContextProvider configIn={context}>
+        <RoundInformationOneCol {...propsWithSeatsNum} />{' '}
+      </WebContextProvider>
+    )
     const label = screen.getByText('Number of places')
     expect(label).toBeInTheDocument()
     expect(label.querySelector('button')).toBeInTheDocument()
@@ -189,7 +199,6 @@ describe('Component <RoundInformationOneCol>', () => {
 
     render(
       <WebContextProvider configIn={context}>
-        {' '}
         <RoundInformationOneCol {...propsWithEmptyCriteria} />
       </WebContextProvider>
     )

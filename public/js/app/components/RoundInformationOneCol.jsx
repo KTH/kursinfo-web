@@ -40,8 +40,11 @@ function RoundInformationOneCol({
   `
 
   React.useEffect(async () => {
-    const employyes = externalShowRoundData ? await context.getCourseEmployees() : testEmployees
-    if (employyes) setCourseRoundEmployees(employyes)
+    if (testEmployees) setCourseRoundEmployees(testEmployees)
+    else {
+      const employyes = externalShowRoundData ? await context.getCourseEmployees() : null
+      if (employyes) setCourseRoundEmployees(employyes)
+    }
   }, [externalShowRoundData])
 
   function openApplicationLink(ev) {
