@@ -375,7 +375,7 @@ function isSyllabusValidForThisSemester(syllabusStartSemester, semester) {
   return syllabusStartSemester <= semester
 }
 
-function _createRoundsAndSyllabusConnection(syllabusSemesterList, webContext) {
+function _createSemestersAndSyllabusConnection(syllabusSemesterList, webContext) {
   const { activeSemesters } = webContext
   const numberOfSemesters = activeSemesters.length
 
@@ -552,7 +552,7 @@ async function getIndex(req, res, next) {
       webContext.activeSemesters = activeSemesters
       webContext.keyList = keyList
       //* **** Sets activeSemestersIndexesWithValidSyllabusesIndexes, an array used for connecting rounds with correct syllabus *****//
-      _createRoundsAndSyllabusConnection(syllabusSemesterList, webContext)
+      _createSemestersAndSyllabusConnection(syllabusSemesterList, webContext)
 
       webContext.useStartSemesterFromQuery = startSemesterFromQuery
         ? await _hasSemesterInArray(startSemesterFromQuery, activeSemesters)
