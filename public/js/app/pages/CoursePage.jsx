@@ -108,7 +108,6 @@ function CoursePage() {
   }, [])
 
   useEffect(() => {
-    console.log('use effect syllabusInfoFade', syllabusInfoFade)
     let isMounted = true
     if (isMounted) {
       if (syllabusInfoFade) {
