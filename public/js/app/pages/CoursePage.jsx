@@ -108,18 +108,14 @@ function CoursePage() {
   }, [])
 
   useEffect(() => {
-    console.log('use effect syllabusInfoFade', syllabusInfoFade)
     let isMounted = true
     if (isMounted) {
       if (syllabusInfoFade) {
         setTimeout(() => {
-          // context.syllabusInfoFade = false
-          // context.roundInfoFade = false
           setWebContext({ ...context, roundInfoFade: false, syllabusInfoFade: false })
         }, 800)
       } else {
         setTimeout(() => {
-          // context.roundInfoFade = false
           setWebContext({ ...context, roundInfoFade: false })
         }, 500)
       }

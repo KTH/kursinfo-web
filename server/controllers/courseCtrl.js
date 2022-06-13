@@ -25,13 +25,13 @@ const {
 const { formatVersionDate, getDateFormat } = require('../util/dates')
 const i18n = require('../../i18n')
 
-function isValidData(dataObject, language, setEmpty = false) {
+function parseOrSetEmpty(dataObject, language, setEmpty = false) {
   const emptyText = setEmpty ? '' : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
-  return !dataObject ? emptyText : dataObject
+  return dataObject ? dataObject : emptyText
 }
 
 function isValidContact(infoContactName, language) {
-  const courseContactName = isValidData(infoContactName, language)
+  const courseContactName = parseOrSetEmpty(infoContactName, language)
   if (courseContactName === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) return courseContactName
 
   let cleanFormat = courseContactName.replace('<', '') // two lines because of CodeQuality
@@ -66,67 +66,66 @@ async function getKoppsCourseData(req, res, next) {
   }
 }
 
-function _getCourseDefaultInformation(courseResult, language) {
+function _parseCourseDefaultInformation(courseResult, language) {
+  const { course, formattedGradeScales, mainSubjects, socialCoursePageUrl } = courseResult
   return {
-    course_code: isValidData(courseResult.course.courseCode),
-    course_application_info: isValidData(courseResult.course.applicationInfo, language, true),
-    course_grade_scale: isValidData(courseResult.formattedGradeScales[courseResult.course.gradeScaleCode], language),
-    course_level_code: isValidData(courseResult.course.educationalLevelCode),
+    course_code: parseOrSetEmpty(course.courseCode),
+    course_application_info: parseOrSetEmpty(course.applicationInfo, language, true),
+    course_grade_scale: parseOrSetEmpty(formattedGradeScales[course.gradeScaleCode], language),
+    course_level_code: parseOrSetEmpty(course.educationalLevelCode),
     course_main_subject:
-      courseResult.mainSubjects && courseResult.mainSubjects.length > 0
-        ? courseResult.mainSubjects.join(', ')
+      mainSubjects && mainSubjects.length > 0
+        ? mainSubjects.join(', ')
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
-    course_recruitment_text: isValidData(courseResult.course.recruitmentText, language, true),
-    course_department: isValidData(courseResult.course.department.name, language),
+    course_recruitment_text: parseOrSetEmpty(course.recruitmentText, language, true),
+    course_department: parseOrSetEmpty(course.department.name, language),
     course_department_link:
-      isValidData(courseResult.course.department.name, language) !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
+      parseOrSetEmpty(course.department.name, language) !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
         ? '<a href="/' +
-          courseResult.course.department.name.split('/')[0].toLowerCase() +
+          course.department.name.split('/')[0].toLowerCase() +
           '/" target="blank">' +
-          courseResult.course.department.name +
+          course.department.name +
           '</a>'
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_department_code: isValidData(courseResult.course.department.code, language),
-    course_contact_name: isValidContact(courseResult.course.infoContactName, language),
-    course_prerequisites: isValidData(courseResult.course.prerequisites, language),
-    course_suggested_addon_studies: isValidData(courseResult.course.addOn, language),
-    course_supplemental_information_url: isValidData(courseResult.course.supplementaryInfoUrl, language),
-    course_supplemental_information_url_text: isValidData(courseResult.course.supplementaryInfoUrlName, language),
-    course_supplemental_information: isValidData(courseResult.course.supplementaryInfo, language),
+    course_department_code: parseOrSetEmpty(course.department.code, language),
+    course_contact_name: isValidContact(course.infoContactName, language),
+    course_prerequisites: parseOrSetEmpty(course.prerequisites, language),
+    course_suggested_addon_studies: parseOrSetEmpty(course.addOn, language),
+    course_supplemental_information_url: parseOrSetEmpty(course.supplementaryInfoUrl, language),
+    course_supplemental_information_url_text: parseOrSetEmpty(course.supplementaryInfoUrlName, language),
+    course_supplemental_information: parseOrSetEmpty(course.supplementaryInfo, language),
     course_examiners: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_last_exam: courseResult.course.lastExamTerm
-      ? courseResult.course.lastExamTerm.term.toString().match(/.{1,4}/g)
-      : [],
-    course_web_link: isValidData(courseResult.socialCoursePageUrl, language),
-    course_spossibility_to_completions: isValidData(courseResult.course.possibilityToCompletion, language),
-    course_disposition: isValidData(courseResult.course.courseDeposition, language),
-    course_possibility_to_addition: isValidData(courseResult.course.possibilityToAddition, language),
-    course_literature: isValidData(courseResult.course.courseLiterature, language),
-    course_required_equipment: isValidData(courseResult.course.requiredEquipment, language),
-    course_state: isValidData(courseResult.course.state, language, true),
+    course_last_exam: course.lastExamTerm ? course.lastExamTerm.term.toString().match(/.{1,4}/g) : [],
+    course_web_link: parseOrSetEmpty(socialCoursePageUrl, language),
+    course_spossibility_to_completions: parseOrSetEmpty(course.possibilityToCompletion, language),
+    course_disposition: parseOrSetEmpty(course.courseDeposition, language),
+    course_possibility_to_addition: parseOrSetEmpty(course.possibilityToAddition, language),
+    course_literature: parseOrSetEmpty(course.courseLiterature, language),
+    course_required_equipment: parseOrSetEmpty(course.requiredEquipment, language),
+    course_state: parseOrSetEmpty(course.state, language, true),
   }
 }
 
-function _getTitleData(courseResult) {
+function _parseTitleData({ course }) {
   return {
-    course_code: isValidData(courseResult.course.courseCode),
-    course_title: isValidData(courseResult.course.title),
-    course_other_title: isValidData(courseResult.course.titleOther),
-    course_credits: isValidData(courseResult.course.credits),
-    course_credits_text: isValidData(courseResult.course.creditUnitAbbr),
+    course_code: parseOrSetEmpty(course.courseCode),
+    course_title: parseOrSetEmpty(course.title),
+    course_other_title: parseOrSetEmpty(course.titleOther),
+    course_credits: parseOrSetEmpty(course.credits),
+    course_credits_text: parseOrSetEmpty(course.creditUnitAbbr),
   }
 }
 
-function getExamObject(dataObject, grades, language = 0, semester = '', courseCredit) {
+function _parseExamObject(exams, grades, language = 0, semester = '', creditUnitAbbr) {
   var matchingExamSemester = ''
-  Object.keys(dataObject).forEach(key => {
+  Object.keys(exams).forEach(key => {
     if (Number(semester) >= Number(key)) {
       matchingExamSemester = key
     }
   })
   let examString = "<ul class='ul-no-padding' >"
-  if (dataObject[matchingExamSemester] && dataObject[matchingExamSemester].examinationRounds.length > 0) {
-    for (let exam of dataObject[matchingExamSemester].examinationRounds) {
+  if (exams[matchingExamSemester] && exams[matchingExamSemester].examinationRounds.length > 0) {
+    for (let exam of exams[matchingExamSemester].examinationRounds) {
       if (exam.credits) {
         //* * Adding a decimal if it's missing in credits **/
         exam.credits =
@@ -138,7 +137,7 @@ function getExamObject(dataObject, grades, language = 0, semester = '', courseCr
       examString += `<li>${exam.examCode} - 
                         ${exam.title},
                         ${language === 'en' ? exam.credits : exam.credits.toString().replace('.', ',')} ${
-        language === 'en' ? ' credits' : courseCredit
+        language === 'en' ? ' credits' : creditUnitAbbr
       },  
                         ${language === 'en' ? 'grading scale' : 'betygsskala'}: ${
         grades[exam.gradeScaleCode]
@@ -150,92 +149,70 @@ function getExamObject(dataObject, grades, language = 0, semester = '', courseCr
   return examString
 }
 
-function _getSyllabusData(courseResult, semester = 0, language) {
+function _parseSyllabusData(courseResult, semester = 0, language) {
+  const { course, examinationSets, formattedGradeScales, publicSyllabusVersions } = courseResult
+  const hasSyllabusData = publicSyllabusVersions && publicSyllabusVersions.length > 0
+  const semesterSyllabus = hasSyllabusData && publicSyllabusVersions[semester] ? publicSyllabusVersions[semester] : null
+
   return {
-    course_goals:
-      courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
-        ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.goals, language)
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_content:
-      courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
-        ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.content, language)
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_disposition:
-      courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
-        ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.disposition, language)
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_eligibility:
-      courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
-        ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.eligibility, language)
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_requirments_for_final_grade:
-      courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
-        ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.reqsForFinalGrade, language, true)
-        : '',
-    course_literature:
-      courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
-        ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.literature, language)
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_literature_comment:
-      courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
-        ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.literatureComment, language)
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_valid_from:
-      courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
-        ? isValidData(courseResult.publicSyllabusVersions[semester].validFromTerm.term)
-            .toString()
-            .match(/.{1,4}/g)
-        : [],
+    course_goals: semesterSyllabus
+      ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.goals, language)
+      : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    course_content: semesterSyllabus
+      ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.content, language)
+      : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    course_disposition: semesterSyllabus
+      ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.disposition, language)
+      : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    course_eligibility: semesterSyllabus
+      ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.eligibility, language)
+      : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    course_requirments_for_final_grade: semesterSyllabus
+      ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.reqsForFinalGrade, language, true)
+      : '',
+    course_literature: semesterSyllabus
+      ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.literature, language)
+      : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    course_literature_comment: semesterSyllabus
+      ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.literatureComment, language)
+      : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    course_valid_from: semesterSyllabus
+      ? parseOrSetEmpty(semesterSyllabus.validFromTerm.term)
+          .toString()
+          .match(/.{1,4}/g)
+      : [],
     course_valid_to: [],
-    course_required_equipment:
-      courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
-        ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.requiredEquipment, language)
-        : '',
+    course_required_equipment: semesterSyllabus
+      ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.requiredEquipment, language)
+      : '',
     course_examination:
-      courseResult.publicSyllabusVersions &&
-      courseResult.publicSyllabusVersions.length > 0 &&
-      courseResult.examinationSets &&
-      Object.keys(courseResult.examinationSets).length > 0
-        ? getExamObject(
-            courseResult.examinationSets,
-            courseResult.formattedGradeScales,
+      hasSyllabusData && examinationSets && Object.keys(examinationSets).length > 0
+        ? _parseExamObject(
+            examinationSets,
+            formattedGradeScales,
             language,
-            courseResult.publicSyllabusVersions[semester].validFromTerm.term,
-            courseResult.course.creditUnitAbbr
+            semesterSyllabus.validFromTerm.term,
+            course.creditUnitAbbr
           )
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_examination_comments:
-      courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
-        ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.examComments, language, true)
-        : '',
-    course_ethical:
-      courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
-        ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.ethicalApproach, language, true)
-        : '',
-    course_establishment:
-      courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
-        ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.establishment, language, true)
-        : '',
-    course_additional_regulations:
-      courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
-        ? isValidData(
-            courseResult.publicSyllabusVersions[semester].courseSyllabus.additionalRegulations,
-            language,
-            true
-          )
-        : '',
-    course_transitional_reg:
-      courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
-        ? isValidData(
-            courseResult.publicSyllabusVersions[semester].courseSyllabus.transitionalRegulations,
-            language,
-            true
-          )
-        : '',
-    course_decision_to_discontinue:
-      courseResult.publicSyllabusVersions && courseResult.publicSyllabusVersions.length > 0
-        ? isValidData(courseResult.publicSyllabusVersions[semester].courseSyllabus.decisionToDiscontinue, language)
-        : '',
+    course_examination_comments: semesterSyllabus
+      ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.examComments, language, true)
+      : '',
+    course_ethical: semesterSyllabus
+      ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.ethicalApproach, language, true)
+      : '',
+    course_establishment: semesterSyllabus
+      ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.establishment, language, true)
+      : '',
+    course_additional_regulations: semesterSyllabus
+      ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.additionalRegulations, language, true)
+      : '',
+    course_transitional_reg: semesterSyllabus
+      ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.transitionalRegulations, language, true)
+      : '',
+    course_decision_to_discontinue: semesterSyllabus
+      ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.decisionToDiscontinue, language)
+      : '',
   }
   //
 }
@@ -264,11 +241,11 @@ function _getRoundProgramme(programmes, language = 0) {
   return programmeString
 }
 
-function _getRoundPeriodes(periodeList, language = 'sv') {
+function _getRoundPeriodes(courseRoundTerms, language = 'sv') {
   var periodeString = ''
-  if (periodeList) {
-    if (periodeList.length > 1) {
-      periodeList.map(
+  if (courseRoundTerms) {
+    if (courseRoundTerms.length > 1) {
+      courseRoundTerms.map(
         periode =>
           (periodeString += `<p class="periode-list">
                               ${
@@ -282,13 +259,13 @@ function _getRoundPeriodes(periodeList, language = 'sv') {
       )
       return periodeString
     } else {
-      return periodeList[0].formattedPeriodsAndCredits
+      return courseRoundTerms[0].formattedPeriodsAndCredits
     }
   }
   return INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
 }
 
-function _getRoundSeatsMsg(max, min) {
+function _parseRoundSeatsMsg(max, min) {
   if (!max && !min) {
     return ''
   }
@@ -301,55 +278,54 @@ function _getRoundSeatsMsg(max, min) {
   return min ? 'Min: ' + min : ''
 }
 
-function _getRound(roundObject, language = 'sv') {
+function _getRound(roundObject = {}, language = 'sv') {
+  const { admissionLinkUrl, commentsToStudents, round, schemaUrl, timeslots, usage } = roundObject
   const courseRoundModel = {
-    roundId: isValidData(roundObject.round.ladokRoundId, language),
-    round_time_slots: isValidData(roundObject.timeslots, language),
-    round_start_date: getDateFormat(isValidData(roundObject.round.firstTuitionDate, language), language),
-    round_end_date: getDateFormat(isValidData(roundObject.round.lastTuitionDate, language), language),
-    round_target_group: isValidData(roundObject.round.targetGroup, language),
-    round_tutoring_form: isValidData(roundObject.round.tutoringForm.name, language),
-    round_tutoring_time: isValidData(roundObject.round.tutoringTimeOfDay.name, language),
-    round_tutoring_language: isValidData(roundObject.round.language, language),
-    round_course_place: isValidData(roundObject.round.campus.label, language),
-    round_campus: isValidData(roundObject.round.campus.name, language),
-    round_short_name: isValidData(roundObject.round.shortName, language),
-    round_application_code: isValidData(roundObject.round.applicationCodes[0].applicationCode, language),
-    round_schedule: isValidData(roundObject.schemaUrl, language),
-    round_study_pace: isValidData(roundObject.round.studyPace, language),
+    roundId: parseOrSetEmpty(round.ladokRoundId, language),
+    round_time_slots: parseOrSetEmpty(timeslots, language),
+    round_start_date: getDateFormat(parseOrSetEmpty(round.firstTuitionDate, language), language),
+    round_end_date: getDateFormat(parseOrSetEmpty(round.lastTuitionDate, language), language),
+    round_target_group: parseOrSetEmpty(round.targetGroup, language),
+    round_tutoring_form: parseOrSetEmpty(round.tutoringForm.name, language),
+    round_tutoring_time: parseOrSetEmpty(round.tutoringTimeOfDay.name, language),
+    round_tutoring_language: parseOrSetEmpty(round.language, language),
+    round_course_place: parseOrSetEmpty(round.campus.label, language),
+    round_campus: parseOrSetEmpty(round.campus.name, language),
+    round_short_name: parseOrSetEmpty(round.shortName, language),
+    round_application_code: parseOrSetEmpty(round.applicationCodes[0].applicationCode, language),
+    round_schedule: parseOrSetEmpty(schemaUrl, language),
+    round_study_pace: parseOrSetEmpty(round.studyPace, language),
     round_course_term:
-      isValidData(roundObject.round.startTerm.term, language).toString().length > 0
-        ? roundObject.round.startTerm.term.toString().match(/.{1,4}/g)
+      parseOrSetEmpty(round.startTerm.term, language).toString().length > 0
+        ? round.startTerm.term.toString().match(/.{1,4}/g)
         : [],
-    round_periods: _getRoundPeriodes(roundObject.round.courseRoundTerms, language),
+    round_periods: _getRoundPeriodes(round.courseRoundTerms, language),
     round_seats:
-      _getRoundSeatsMsg(
-        isValidData(roundObject.round.maxSeats, language, true),
-        isValidData(roundObject.round.minSeats, language, true)
+      _parseRoundSeatsMsg(
+        parseOrSetEmpty(round.maxSeats, language, true),
+        parseOrSetEmpty(round.minSeats, language, true)
       ) || '',
-    round_selection_criteria: isValidData(
-      roundObject.round[language === 'en' ? 'selectionCriteriaEn' : 'selectionCriteriaSv'],
+    round_selection_criteria: parseOrSetEmpty(
+      round[language === 'en' ? 'selectionCriteriaEn' : 'selectionCriteriaSv'],
       language,
       true
     ),
     round_type:
-      roundObject.round.applicationCodes.length > 0
-        ? isValidData(roundObject.round.applicationCodes[0].courseRoundType.name, language)
+      round.applicationCodes.length > 0
+        ? parseOrSetEmpty(round.applicationCodes[0].courseRoundType.name, language)
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     round_funding_type:
-      roundObject.round.applicationCodes.length > 0
-        ? isValidData(roundObject.round.applicationCodes[0].courseRoundType.code, language)
+      round.applicationCodes.length > 0
+        ? parseOrSetEmpty(round.applicationCodes[0].courseRoundType.code, language)
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    round_application_link: isValidData(roundObject.admissionLinkUrl, language),
+    round_application_link: parseOrSetEmpty(admissionLinkUrl, language),
     round_part_of_programme:
-      roundObject.usage.length > 0
-        ? _getRoundProgramme(roundObject.usage, language)
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    round_state: isValidData(roundObject.round.state, language),
-    round_comment: isValidData(roundObject.commentsToStudents, language, true),
+      usage.length > 0 ? _getRoundProgramme(usage, language) : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    round_state: parseOrSetEmpty(round.state, language),
+    round_comment: parseOrSetEmpty(commentsToStudents, language, true),
     round_category:
-      roundObject.round.applicationCodes.length > 0
-        ? isValidData(roundObject.round.applicationCodes[0].courseRoundType.category, language)
+      round.applicationCodes.length > 0
+        ? parseOrSetEmpty(round.applicationCodes[0].courseRoundType.category, language)
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
   }
   if (courseRoundModel.round_short_name === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) {
@@ -359,7 +335,7 @@ function _getRound(roundObject, language = 'sv') {
   return courseRoundModel
 }
 
-function _getRounds(roundInfos, courseCode, language, webContext) {
+function _parseRounds(roundInfos, courseCode, language, webContext) {
   const { activeSemesters: initActives, memoList, keyList: initkeyList } = { ...webContext }
   const tempList = []
   let courseRound
@@ -395,17 +371,26 @@ function _getRounds(roundInfos, courseCode, language, webContext) {
   return { courseRoundList, activeSemesters: initActives.sort(), keyList: initkeyList }
 }
 
-function _getRoundsAndSyllabusConnection(syllabusSemesterList, webContext) {
-  for (let index = 0; index < webContext.activeSemesters.length; index++) {
-    if (Number(syllabusSemesterList[0][0]) > Number(webContext.activeSemesters[index][2])) {
-      for (let whileIndex = 1; whileIndex < syllabusSemesterList.length; whileIndex++) {
-        if (Number(syllabusSemesterList[whileIndex][0]) < Number(webContext.activeSemesters[index][2])) {
-          webContext.roundsSyllabusIndex[index] = whileIndex
-          break
-        }
+function isSyllabusValidForThisSemester(syllabusStartSemester, semester) {
+  return syllabusStartSemester <= semester
+}
+
+function _createSemestersAndSyllabusConnection(syllabusSemesterList, webContext) {
+  const { activeSemesters } = webContext
+  const numberOfSemesters = activeSemesters.length
+
+  for (let semesterIndex = 0; semesterIndex < numberOfSemesters; semesterIndex++) {
+    const latestSyllabusIndex = 0
+    const semester = Number(activeSemesters[semesterIndex][2])
+
+    for (let syllabusIndex = latestSyllabusIndex; syllabusIndex < syllabusSemesterList.length; syllabusIndex++) {
+      const prevSyllabusStartSemester = Number(syllabusSemesterList[syllabusIndex][0])
+      const isPrevSyllabusValidForThisSemester = isSyllabusValidForThisSemester(prevSyllabusStartSemester, semester)
+
+      if (isPrevSyllabusValidForThisSemester) {
+        webContext.activeSemestersIndexesWithValidSyllabusesIndexes[semesterIndex] = syllabusIndex
+        break
       }
-    } else {
-      webContext.roundsSyllabusIndex[index] = 0
     }
   }
 }
@@ -481,7 +466,7 @@ async function _chooseSemesterAndSyllabusFromActiveSemesters(externalSemester, u
     webContext.activeSemester = externalSemester
     webContext.activeSemesterIndex = defaultSemesterIndex
     webContext.semesterSelectedIndex = defaultSemesterIndex
-    webContext.activeSyllabusIndex = webContext.roundsSyllabusIndex[defaultSemesterIndex]
+    webContext.activeSyllabusIndex = webContext.activeSemestersIndexesWithValidSyllabusesIndexes[defaultSemesterIndex]
   }
 }
 /* ****************************************************************************** */
@@ -531,20 +516,20 @@ async function getIndex(req, res, next) {
       webContext.isDeactivated = courseResult.course.deactivated
 
       //* **** Coruse information that is static on the course side *****//
-      const courseInfo = _getCourseDefaultInformation(courseResult, lang)
+      const courseInfo = _parseCourseDefaultInformation(courseResult, lang)
 
       //* **** Course title data  *****//
-      const courseTitleData = _getTitleData(courseResult)
+      const courseTitleData = _parseTitleData(courseResult)
 
       //* **** Get list of syllabuses and valid syllabus semesters *****//
       const syllabusList = []
       const syllabusSemesterList = []
       let tempSyllabus = {}
-      const syllabuses = courseResult.publicSyllabusVersions
+      const { publicSyllabusVersions: syllabuses } = courseResult
       if (syllabuses.length > 0) {
         for (let index = 0; index < syllabuses.length; index++) {
           syllabusSemesterList.push([syllabuses[index].validFromTerm.term, ''])
-          tempSyllabus = _getSyllabusData(courseResult, index, lang)
+          tempSyllabus = _parseSyllabusData(courseResult, index, lang)
           if (index > 0) {
             tempSyllabus.course_valid_to = _getSyllabusEndSemester(
               syllabusSemesterList[index - 1][0].toString().match(/.{1,4}/g)
@@ -554,7 +539,7 @@ async function getIndex(req, res, next) {
           syllabusList.push(tempSyllabus)
         }
       } else {
-        syllabusList[0] = _getSyllabusData(courseResult, 0, lang)
+        syllabusList[0] = _parseSyllabusData(courseResult, 0, lang)
       }
 
       //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis *****//
@@ -562,12 +547,12 @@ async function getIndex(req, res, next) {
         courseRoundList: roundList,
         activeSemesters,
         keyList,
-      } = _getRounds(courseResult.roundInfos, courseCode, lang, webContext)
+      } = _parseRounds(courseResult.roundInfos, courseCode, lang, webContext)
 
       webContext.activeSemesters = activeSemesters
       webContext.keyList = keyList
-      //* **** Sets roundsSyllabusIndex, an array used for connecting rounds with correct syllabus *****//
-      _getRoundsAndSyllabusConnection(syllabusSemesterList, webContext)
+      //* **** Sets activeSemestersIndexesWithValidSyllabusesIndexes, an array used for connecting rounds with correct syllabus *****//
+      _createSemestersAndSyllabusConnection(syllabusSemesterList, webContext)
 
       webContext.useStartSemesterFromQuery = startSemesterFromQuery
         ? await _hasSemesterInArray(startSemesterFromQuery, activeSemesters)

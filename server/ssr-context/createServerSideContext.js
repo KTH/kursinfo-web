@@ -22,7 +22,7 @@ function createServerSideContext() {
       responsibles: [],
     },
     activeSemesters: [],
-    roundsSyllabusIndex: [],
+    activeSemestersIndexesWithValidSyllabusesIndexes: [],
     defaultIndex: 0,
     activeRoundIndex: 0,
     activeSemesterIndex: 0,

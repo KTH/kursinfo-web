@@ -34,11 +34,12 @@ const DropdownSemesters = ({ semesterList, label = '', translation, useStartSeme
       context.courseData.roundList[activeSemester] && context.courseData.roundList[activeSemester].length === 1
 
     const newContext = {
-      syllabusInfoFade: context.activeSyllabusIndex !== context.roundsSyllabusIndex[newIndex],
+      syllabusInfoFade:
+        context.activeSyllabusIndex !== context.activeSemestersIndexesWithValidSyllabusesIndexes[newIndex],
       activeRoundIndex: 0,
       activeSemesterIndex: newIndex >= 0 ? newIndex : context.defaultIndex,
       activeSemester: activeSemester || (activeSemesters.length > 0 ? activeSemesters[context.defaultIndex][2] : 0),
-      activeSyllabusIndex: context.roundsSyllabusIndex[newIndex] || 0,
+      activeSyllabusIndex: context.activeSemestersIndexesWithValidSyllabusesIndexes[newIndex] || 0,
       roundInfoFade: true,
       showRoundData,
       roundDisabled: newIndex === -1,

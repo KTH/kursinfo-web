@@ -1,8 +1,9 @@
 'use strict'
+
 const log = require('@kth/log')
-const config = require('../configuration').server
 const redis = require('kth-node-redis')
 const connections = require('@kth/api-call').Connections
+const { server: config } = require('../configuration')
 
 const koppsOpts = {
   log,
@@ -12,14 +13,14 @@ const koppsOpts = {
   timeout: 5000,
   defaultTimeout: config.koppsApi.defaultTimeout,
   retryOnESOCKETTIMEDOUT: true,
-  useApiKey: false // skip key
+  useApiKey: false, // skip key
 }
 
 config.koppsApi.doNotCallPathsEndpoint = true // skip checking _paths, because kopps doesnt have it
 config.koppsApi.connected = true
 
 const koppsConfig = {
-  koppsApi: config.koppsApi
+  koppsApi: config.koppsApi,
 }
 
 const api = connections.setup(koppsConfig, koppsConfig, koppsOpts)
@@ -37,5 +38,5 @@ async function getKoppsCourseData(courseCode, lang = 'sv') {
 
 module.exports = {
   koppsApi: api,
-  getKoppsCourseData
+  getKoppsCourseData,
 }
