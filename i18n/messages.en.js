@@ -32,7 +32,7 @@ module.exports = {
     mobile_menu_aria_label: 'Mobile menu',
 
     skip_to_main_content: 'Skip to main content',
-    back_to_top_label: 'To page top'
+    back_to_top_label: 'To page top',
   },
   breadCrumbLabels: {
     breadcrumbs: 'Breadcrumbs',
@@ -40,7 +40,7 @@ module.exports = {
     student: 'Student at KTH',
     directory: 'Course and programme directory',
     aboutCourse: 'About course',
-    aboutCourseMemos: 'About course memo'
+    aboutCourseMemos: 'About course memo',
   },
   courseLabels: {
     label_course_description: 'Introduction to course',
@@ -71,15 +71,15 @@ module.exports = {
     lable_canavas_example: 'Canvas example course',
     label_round_select: {
       placeholder: 'Choose course offering',
-      label_dropdown: 'Course offering'
+      label_dropdown: 'Course offering',
     },
     label_semester_select: {
       placeholder: 'Choose semester',
-      label_dropdown: 'Semester'
+      label_dropdown: 'Semester',
     },
     lable_round_state: {
       CANCELLED: 'This offering is cancelled',
-      FULL: 'This offering is full'
+      FULL: 'This offering is full',
     },
     header_dropdown_menu_navigation: 'Choose semester and course offering for page content',
     header_dropdown_menue: 'Valid for',
@@ -111,9 +111,9 @@ module.exports = {
       page_catalog: 'Course and programme directory',
       page_development: 'Course development',
       page_archive: 'Archive',
-      page_memo: 'Prepare and take course'
+      page_memo: 'Prepare and take course',
     },
-    label_close: 'Close'
+    label_close: 'Close',
   },
   courseInformation: {
     course_title: 'Title english',
@@ -146,13 +146,13 @@ module.exports = {
     course_possibility_to_addition: 'Opportunity to raise an approved grade via renewed examination',
     course_short_semester: {
       1: 'Spring ',
-      2: 'Autumn '
+      2: 'Autumn ',
     },
     course_level_code_label: {
       PREPARATORY: 'Pre-university level',
       BASIC: 'First cycle',
       ADVANCED: 'Second cycle',
-      RESEARCH: 'Third cycle'
+      RESEARCH: 'Third cycle',
     },
     course_department: 'Offered by',
     course_contact_name: 'Contact ',
@@ -166,7 +166,7 @@ module.exports = {
     course_application_info: 'Information for research students about course offerings',
     course_link: 'Course web',
     course_link_text:
-      '<p>Further information about the course can be found on the Course web at the link below. Information on the Course web will later be moved to this site. </p>'
+      '<p>Further information about the course can be found on the Course web at the link below. Information on the Course web will later be moved to this site. </p>',
   },
   courseRoundInformation: {
     header_round: 'About course offering',
@@ -179,8 +179,8 @@ module.exports = {
     round_responsibles: 'Course coordinator',
     round_end_date: 'End date',
     round_start_date: 'Duration',
-    round_pace_of_study:'Pace of study',
-    round_teacher: 'Teacher',
+    round_pace_of_study: 'Pace of study',
+    round_teacher: 'Teachers',
     round_target_group: 'Target group',
     round_short_name: 'Short name',
     round_periods: 'Periods',
@@ -191,7 +191,7 @@ module.exports = {
     round_tutoring_form_label: {
       NML: 'Normal',
       DST: 'Distance',
-      ITD: 'IT based distance'
+      ITD: 'IT based distance',
     },
     round_tutoring_language: 'Language of instruction',
     round_campus: 'Campus',
@@ -200,20 +200,20 @@ module.exports = {
       DAG: 'Daytime',
       KVA: 'Evenings',
       KVÄ: 'Evenings',
-      VSL: 'Weekends'
+      VSL: 'Weekends',
     },
     round_time_slots: 'Planned modular schedule',
     round_application_link: 'Go to the registration',
     round_category: {
       PU: 'programme students',
       VU: 'single courses students',
-      pu_and_vu: 'programme and single courses students'
+      pu_and_vu: 'programme and single courses students',
     },
     round_type: {
       ORD: 'programme students',
       UPP: 'contract education',
-      PER: 'course for KTH staff'
-    }
+      PER: 'course for KTH staff',
+    },
   },
   courseMainSubjects: {
     Architecture: 'Arkitektur',
@@ -241,7 +241,7 @@ module.exports = {
     Technology: 'Teknik',
     'Engineering and Management': 'Teknik och management',
     'Technology and Learning': 'Teknik och lärande',
-    default: 'default'
+    default: 'default',
   },
   courseImage: {
     Architecture: 'Picture_by_MainFieldOfStudy_01_Architecture.jpg',
@@ -269,18 +269,18 @@ module.exports = {
     Technology: 'Picture_by_MainFieldOfStudy_23_Technology.jpg',
     'Engineering and Management': 'Picture_by_MainFieldOfStudy_24_Engineering_Management.jpg',
     'Technology and Learning': 'Picture_by_MainFieldOfStudy_25_Technology_Learning.jpg',
-    default: 'Picture_by_MainFieldOfStudy_26_Default_picture.jpg'
+    default: 'Picture_by_MainFieldOfStudy_26_Default_picture.jpg',
   },
   course_state_alert: {
     DEACTIVATED: {
       header: 'This course will be discontinued.',
       examination: 'Last planned examination: ',
-      decision: 'Decision to discontinue this course: '
+      decision: 'Decision to discontinue this course: ',
     },
     CANCELLED: {
       header: 'This course has been discontinued.',
       examination: 'Last planned examination: ',
-      decision: 'Decision to discontinue this course: '
-    }
-  }
+      decision: 'Decision to discontinue this course: ',
+    },
+  },
 }
