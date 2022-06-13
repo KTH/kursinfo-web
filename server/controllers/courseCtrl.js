@@ -33,10 +33,9 @@ function parseOrSetEmpty(dataObject, language, setEmpty = false) {
 function isValidContact(infoContactName, language) {
   const courseContactName = parseOrSetEmpty(infoContactName, language)
   if (courseContactName === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) return courseContactName
-
-  let cleanFormat = courseContactName.replace('<', '') // two lines because of CodeQuality
-  cleanFormat = courseContactName.replace('>', '')
-  return cleanFormat
+  const emailBracketsRexEx = /<|>/gi
+  const contact = courseContactName.replace(emailBracketsRexEx, '')
+  return contact
 }
 
 async function getCourseEmployees(req, res, next) {
