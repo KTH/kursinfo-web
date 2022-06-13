@@ -67,6 +67,8 @@ function CoursePage() {
   const hasOnlyOneRound = activeSemester?.length > 0 && courseData.roundList[activeSemester].length === 1
   const hasToShowRoundsData = showRoundData || (useStartSemesterFromQuery && hasOnlyOneRound)
 
+  const hasActiveSemesters = activeSemesters && activeSemesters.length > 0
+
   const { language = 'sv' } = courseData
   const translation = i18n.messages[language === 'en' ? 0 : 1]
   const introText =
@@ -182,7 +184,7 @@ function CoursePage() {
               {/** ************************************************************************************************************ */}
               <Col id="roundInformationContainer" md="4" xs="12" className="float-md-right">
                 {/* ---COURSE  DROPDOWN MENU--- */}
-                {activeSemesters && activeSemesters.length > 0 ? (
+                {hasActiveSemesters ? (
                   <nav id="roundDropdownMenu" aria-label={translation.courseLabels.header_dropdown_menu_navigation}>
                     <span id="roundDropdownMenuHeaderWrapper">
                       <h2 id="roundDropdownMenuHeader" style={{ marginTop: 0 }}>
@@ -197,7 +199,7 @@ function CoursePage() {
                       />
                     </span>
                     <div className="row" id="roundDropdowns" key="roundDropdown">
-                      {activeSemesters.length > 0 && (
+                      {hasActiveSemesters && (
                         <DropdownSemesters
                           semesterList={activeSemesters}
                           courseRoundList={courseData.roundList[activeSemester]}
@@ -250,7 +252,7 @@ function CoursePage() {
                       )}
 
                       {/* ---ROUND CANCELLED OR FULL --- */}
-                      {activeSemesters.length > 0 &&
+                      {hasActiveSemesters &&
                       hasToShowRoundsData &&
                       courseData.roundList[activeSemester][activeRoundIndex].round_state !== 'APPROVED' ? (
                         <Alert color="info" aria-live="polite">
@@ -269,8 +271,7 @@ function CoursePage() {
                     </div>
                   </nav>
                 ) : (
-                  activeSemesters &&
-                  activeSemesters.length === 0 &&
+                  hasActiveSemesters &&
                   courseData.syllabusSemesterList &&
                   courseData.syllabusSemesterList.length > 0 && (
                     <Alert color="info">
@@ -287,7 +288,7 @@ function CoursePage() {
                 )}
 
                 {/* ---COURSE ROUND INFORMATION--- */}
-                {activeSemesters && activeSemesters.length > 0 ? (
+                {hasActiveSemesters ? (
                   <RoundInformationOneCol
                     courseRound={courseData.roundList[activeSemester][activeRoundIndex]}
                     courseData={courseInformationToRounds}
@@ -299,7 +300,7 @@ function CoursePage() {
                   />
                 ) : (
                   <div className="key-info">
-                    {activeSemesters && activeSemesters.length > 0 ? (
+                    {hasActiveSemesters ? (
                       <p>{translation.courseLabels.no_round_selected}</p>
                     ) : (
                       <i>{translation.courseLabels.lable_no_rounds}</i>

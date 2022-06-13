@@ -50,14 +50,13 @@ async function getKoppsCourseData(req, res, next) {
   const language = req.params.language || 'sv'
   log.debug('Get Kopps course data for: ', courseCode, language)
   try {
-    const apiResponse = await koppsCourseData.getKoppsCourseData(courseCode, language)
+    const { body, statusCode = 500 } = await koppsCourseData.getKoppsCourseData(courseCode, language)
     log.debug('Got response from Kopps API for: ', courseCode, language)
-    if (apiResponse.statusCode && apiResponse.statusCode === 200) {
+    if (statusCode === 200) {
       log.debug('OK response from Kopps API for: ', courseCode, language)
-      return httpResponse.json(res, apiResponse.body)
+      return httpResponse.json(res, body)
     }
     log.debug('NOK response from Kopps API for: ', courseCode, language)
-    const statusCode = apiResponse.statusCode ? apiResponse.statusCode : 500
     res.status(statusCode)
     res.statusCode = statusCode
     res.send(courseCode)
@@ -66,8 +65,8 @@ async function getKoppsCourseData(req, res, next) {
   }
 }
 
-function _parseCourseDefaultInformation(courseResult, language) {
-  const { course, formattedGradeScales, mainSubjects, socialCoursePageUrl } = courseResult
+function _parseCourseDefaultInformation(courseDetails, language) {
+  const { course, formattedGradeScales, mainSubjects, socialCoursePageUrl } = courseDetails
   return {
     course_code: parseOrSetEmpty(course.courseCode),
     course_application_info: parseOrSetEmpty(course.applicationInfo, language, true),
@@ -149,8 +148,8 @@ function _parseExamObject(exams, grades, language = 0, semester = '', creditUnit
   return examString
 }
 
-function _parseSyllabusData(courseResult, semester = 0, language) {
-  const { course, examinationSets, formattedGradeScales, publicSyllabusVersions } = courseResult
+function _parseSyllabusData(courseDetails, semester = 0, language) {
+  const { course, examinationSets, formattedGradeScales, publicSyllabusVersions } = courseDetails
   const hasSyllabusData = publicSyllabusVersions && publicSyllabusVersions.length > 0
   const semesterSyllabus = hasSyllabusData && publicSyllabusVersions[semester] ? publicSyllabusVersions[semester] : null
 
@@ -355,7 +354,7 @@ function _parseRounds(roundInfos, courseCode, language, webContext) {
     if (hasMemoForThisRound) {
       const { isPdf, courseMemoFileName, lastChangeDate } = memoList[semester][ladokRoundId]
       if (isPdf) {
-        courseRound['round_memoFile'] = {
+        courseRound.round_memoFile = {
           fileName: courseMemoFileName,
           fileDate: lastChangeDate ? formatVersionDate(language, lastChangeDate) : '',
         }
@@ -494,9 +493,9 @@ async function getIndex(req, res, next) {
 
     webContext.hasStartPeriodFromQuery = !!Number(periods)
 
-    const courseApiResponse = await courseApi.getSellingText(courseCode)
-    if (courseApiResponse.body) {
-      const { sellingText, imageInfo } = courseApiResponse.body
+    const { body: introductionTextsAndImage } = await courseApi.getSellingText(courseCode)
+    if (introductionTextsAndImage) {
+      const { sellingText, imageInfo } = introductionTextsAndImage
       webContext.sellingText = sellingText
       webContext.imageFromAdmin = imageInfo || ''
       /* webContext.showCourseWebbLink = isCourseWebLink */
@@ -509,27 +508,26 @@ async function getIndex(req, res, next) {
       }
     }
 
-    const koppsCourseDataResponse = await koppsCourseData.getKoppsCourseData(courseCode, lang)
-    if (koppsCourseDataResponse.body) {
-      const courseResult = koppsCourseDataResponse.body
-      webContext.isCancelled = courseResult.course.cancelled
-      webContext.isDeactivated = courseResult.course.deactivated
+    const { body: courseDetails } = await koppsCourseData.getKoppsCourseData(courseCode, lang)
+    if (courseDetails) {
+      webContext.isCancelled = courseDetails.course.cancelled
+      webContext.isDeactivated = courseDetails.course.deactivated
 
       //* **** Coruse information that is static on the course side *****//
-      const courseInfo = _parseCourseDefaultInformation(courseResult, lang)
+      const courseInfo = _parseCourseDefaultInformation(courseDetails, lang)
 
       //* **** Course title data  *****//
-      const courseTitleData = _parseTitleData(courseResult)
+      const courseTitleData = _parseTitleData(courseDetails)
 
       //* **** Get list of syllabuses and valid syllabus semesters *****//
       const syllabusList = []
       const syllabusSemesterList = []
       let tempSyllabus = {}
-      const { publicSyllabusVersions: syllabuses } = courseResult
+      const { publicSyllabusVersions: syllabuses } = courseDetails
       if (syllabuses.length > 0) {
         for (let index = 0; index < syllabuses.length; index++) {
           syllabusSemesterList.push([syllabuses[index].validFromTerm.term, ''])
-          tempSyllabus = _parseSyllabusData(courseResult, index, lang)
+          tempSyllabus = _parseSyllabusData(courseDetails, index, lang)
           if (index > 0) {
             tempSyllabus.course_valid_to = _getSyllabusEndSemester(
               syllabusSemesterList[index - 1][0].toString().match(/.{1,4}/g)
@@ -539,7 +537,7 @@ async function getIndex(req, res, next) {
           syllabusList.push(tempSyllabus)
         }
       } else {
-        syllabusList[0] = _parseSyllabusData(courseResult, 0, lang)
+        syllabusList[0] = _parseSyllabusData(courseDetails, 0, lang)
       }
 
       //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis *****//
@@ -547,7 +545,7 @@ async function getIndex(req, res, next) {
         courseRoundList: roundList,
         activeSemesters,
         keyList,
-      } = _parseRounds(courseResult.roundInfos, courseCode, lang, webContext)
+      } = _parseRounds(courseDetails.roundInfos, courseCode, lang, webContext)
 
       webContext.activeSemesters = activeSemesters
       webContext.keyList = keyList
