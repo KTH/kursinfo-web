@@ -64,8 +64,9 @@ function CoursePage() {
   } = context
 
   // * * //
+  const hasOnlyOneSemester = activeSemesters.length === 1
   const hasOnlyOneRound = activeSemester?.length > 0 && courseData.roundList[activeSemester].length === 1
-  const hasToShowRoundsData = showRoundData || (useStartSemesterFromQuery && hasOnlyOneRound)
+  const hasToShowRoundsData = showRoundData || (useStartSemesterFromQuery && hasOnlyOneRound) || hasOnlyOneSemester
 
   const hasActiveSemesters = activeSemesters && activeSemesters.length > 0
 
