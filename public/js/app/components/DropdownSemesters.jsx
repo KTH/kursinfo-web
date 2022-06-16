@@ -9,7 +9,8 @@ const DropdownSemesters = ({ semesterList, label = '', translation, useStartSeme
 
   const dropdownID = 'semesterDropdown'
   const { hasStartPeriodFromQuery, semesterSelectedIndex } = context
-  const showSelectPlaceholder = !hasStartPeriodFromQuery && !useStartSemesterFromQuery
+
+  const showSelectPlaceholder = (!hasStartPeriodFromQuery && !useStartSemesterFromQuery) || !useStartSemesterFromQuery
 
   if (semesterList && semesterList.length < 1) {
     return ''
