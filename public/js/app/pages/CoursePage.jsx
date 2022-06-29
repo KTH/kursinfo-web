@@ -62,7 +62,6 @@ function CoursePage() {
     syllabusInfoFade,
     useStartSemesterFromQuery,
   } = context
-
   // * * //
   const hasOnlyOneRound = activeSemester?.length > 0 && courseData.roundList[activeSemester].length === 1
   const hasToShowRoundsData = showRoundData || (useStartSemesterFromQuery && hasOnlyOneRound)
@@ -99,6 +98,8 @@ function CoursePage() {
     course_level_code: courseData.courseInfo.course_level_code,
     course_valid_from: courseData.syllabusList[activeSyllabusIndex || 0].course_valid_from,
   }
+
+  const decisionToDiscontinue = courseData.syllabusList[activeSyllabusIndex].course_decision_to_discontinue
 
   useEffect(() => {
     let isMounted = true
@@ -153,14 +154,9 @@ function CoursePage() {
                   {translation.courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]}
                   {courseData.courseInfo.course_last_exam[0]}
                 </p>
-                <p>
-                  {translation.course_state_alert[courseData.courseInfo.course_state].decision}
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: courseData.syllabusList[activeSyllabusIndex].course_decision_to_discontinue,
-                    }}
-                  />
-                </p>
+                <p />
+                <span>{translation.course_state_alert[courseData.courseInfo.course_state].decision}</span>
+                <span dangerouslySetInnerHTML={{ __html: decisionToDiscontinue }} />
               </Alert>
             </div>
           )}
