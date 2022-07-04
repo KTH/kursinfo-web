@@ -105,7 +105,10 @@ function CoursePage() {
     let isMounted = true
     if (isMounted) {
       const siteNameElement = document.querySelector('.block.siteName a')
-      if (siteNameElement) siteNameElement.textContent = aboutCourseStr(translation.messages, courseCode)
+      if (siteNameElement) {
+        siteNameElement.textContent = aboutCourseStr(translation.messages, courseCode)
+        siteNameElement.href = aboutCourseLink(courseCode, language)
+      }
     }
     return () => (isMounted = false)
   }, [])
