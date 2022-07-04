@@ -179,7 +179,6 @@ const { SyllabusPdf } = require('./middleware')
 // System routes
 const systemRoute = AppRouter()
 systemRoute.get('system.monitor', config.proxyPrefixPath.uri + '/_monitor', System.monitor)
-systemRoute.get('system.home', config.proxyPrefixPath.uri + '/', System.about)
 systemRoute.get('system.about', config.proxyPrefixPath.uri + '/_about', System.about)
 systemRoute.get('system.paths', config.proxyPrefixPath.uri + '/_paths', System.paths)
 systemRoute.get('system.robots', '/robots.txt', System.robotsTxt)
@@ -193,8 +192,8 @@ appRoute.get(
   SyllabusPdf.getPdfProxy(config.nodeApi.kursplanApi, config.apiKey.kursplanApi)
 )
 
-appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', /* getServerGatewayLogin(),*/ Course.getIndex)
-appRoute.get('system.index', config.proxyPrefixPath.uri + '/', noCourse.getIndex)
+appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', Course.getIndex)
+appRoute.get('system.home', config.proxyPrefixPath.uri + '/', noCourse.getIndex)
 
 appRoute.get(
   'api.koppsCourseData',
