@@ -30,7 +30,7 @@ function parseOrSetEmpty(dataObject, language, setEmpty = false) {
   return dataObject ? dataObject : emptyText
 }
 
-function isValidContact(infoContactName, language) {
+function parceContactName(infoContactName, language) {
   const courseContactName = parseOrSetEmpty(infoContactName, language)
   if (courseContactName === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) return courseContactName
   const emailBracketsRexEx = /<|>/gi
@@ -86,7 +86,7 @@ function _parseCourseDefaultInformation(courseDetails, language) {
           '</a>'
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_department_code: parseOrSetEmpty(course.department.code, language),
-    course_contact_name: isValidContact(course.infoContactName, language),
+    course_contact_name: parceContactName(course.infoContactName, language),
     course_prerequisites: parseOrSetEmpty(course.prerequisites, language),
     course_suggested_addon_studies: parseOrSetEmpty(course.addOn, language),
     course_supplemental_information_url: parseOrSetEmpty(course.supplementaryInfoUrl, language),
@@ -212,27 +212,28 @@ function _parseSyllabusData(courseDetails, semester = 0, language) {
       ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.decisionToDiscontinue, language)
       : '',
   }
-  //
 }
 
 //* *** Sets the end semester for older syllabuses *****/
-function _getSyllabusEndSemester(newerSyllabus) {
-  if (newerSyllabus[1] === '1') {
-    return [Number(newerSyllabus[0]) - 1, '2']
+function _getSyllabusEndSemester(newerSyllabusValidFromTerm) {
+  const [year, season] = newerSyllabusValidFromTerm
+  if (season === '1') {
+    return [Number(year) - 1, '2']
   }
-  return [Number(newerSyllabus[0]), '1']
+  return [Number(year), '1']
 }
 
 function _getRoundProgramme(programmes, language = 0) {
   let programmeString = ''
   programmes.forEach(programme => {
+    const { electiveCondition, progAdmissionTerm, programmeCode, specCode, studyYear, title } = programme
     programmeString += `<p>
-        <a href="${PROGRAMME_URL}/${programme.programmeCode}/${programme.progAdmissionTerm.term}/arskurs${
-      programme.studyYear
-    }${programme.specCode ? '#inr' + programme.specCode : ''}">
-          ${programme.title}, ${language === 0 ? 'year' : 'åk'} ${programme.studyYear}, ${
-      programme.specCode ? programme.specCode + ', ' : ''
-    }${programme.electiveCondition.abbrLabel}
+        <a href="${PROGRAMME_URL}/${programmeCode}/${progAdmissionTerm.term}/arskurs${studyYear}${
+      specCode ? '#inr' + specCode : ''
+    }">
+          ${title}, ${language === 0 ? 'year' : 'åk'} ${studyYear}, ${specCode ? specCode + ', ' : ''}${
+      electiveCondition.abbrLabel
+    }
       </a>
     </p>`
   })
@@ -277,7 +278,10 @@ function _parseRoundSeatsMsg(max, min) {
 }
 
 function _getRound(roundObject = {}, language = 'sv') {
-  const { admissionLinkUrl, commentsToStudents, round, schemaUrl, timeslots, usage } = roundObject
+  const { admissionLinkUrl, commentsToStudents, round = {}, schemaUrl, timeslots, usage } = roundObject
+  const { applicationCodes } = round
+  const hasApplicationCodes = applicationCodes.length > 0
+  const [latestApplicationCode] = applicationCodes
   const courseRoundModel = {
     roundId: parseOrSetEmpty(round.ladokRoundId, language),
     round_time_slots: parseOrSetEmpty(timeslots, language),
@@ -308,23 +312,20 @@ function _getRound(roundObject = {}, language = 'sv') {
       language,
       true
     ),
-    round_type:
-      round.applicationCodes.length > 0
-        ? parseOrSetEmpty(round.applicationCodes[0].courseRoundType.name, language)
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    round_funding_type:
-      round.applicationCodes.length > 0
-        ? parseOrSetEmpty(round.applicationCodes[0].courseRoundType.code, language)
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    round_type: hasApplicationCodes
+      ? parseOrSetEmpty(latestApplicationCode.courseRoundType.name, language)
+      : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    round_funding_type: hasApplicationCodes
+      ? parseOrSetEmpty(latestApplicationCode.courseRoundType.code, language)
+      : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     round_application_link: parseOrSetEmpty(admissionLinkUrl, language),
     round_part_of_programme:
       usage.length > 0 ? _getRoundProgramme(usage, language) : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     round_state: parseOrSetEmpty(round.state, language),
     round_comment: parseOrSetEmpty(commentsToStudents, language, true),
-    round_category:
-      round.applicationCodes.length > 0
-        ? parseOrSetEmpty(round.applicationCodes[0].courseRoundType.category, language)
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    round_category: hasApplicationCodes
+      ? parseOrSetEmpty(latestApplicationCode.courseRoundType.category, language)
+      : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
   }
   if (courseRoundModel.round_short_name === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) {
     courseRoundModel.round_short_name = `${language === 0 ? 'Start' : 'Start'}  ${courseRoundModel.round_start_date}`
@@ -467,6 +468,7 @@ async function _chooseSemesterAndSyllabusFromActiveSemesters(externalSemester, u
     webContext.activeSyllabusIndex = webContext.activeSemestersIndexesWithValidSyllabusesIndexes[defaultSemesterIndex]
   }
 }
+
 /* ****************************************************************************** */
 /*                    COURSE PAGE SETTINGS AND RENDERING                          */
 /* ****************************************************************************** */
@@ -485,10 +487,11 @@ async function getIndex(req, res, next) {
     const webContext = { lang, proxyPrefixPath: serverConfig.proxyPrefixPath, ...createServerSideContext() }
 
     const { startterm, periods } = req.query
+    const startSemesterFromQuery = startterm ? startterm.substring(0, 5) : ''
+
     webContext.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
 
     webContext.courseCode = courseCode
-    const startSemesterFromQuery = startterm ? startterm.substring(0, 5) : ''
 
     webContext.hasStartPeriodFromQuery = !!Number(periods)
 
@@ -521,19 +524,21 @@ async function getIndex(req, res, next) {
       //* **** Get list of syllabuses and valid syllabus semesters *****//
       const syllabusList = []
       const syllabusSemesterList = []
-      let tempSyllabus = {}
+      let parsedSyllabus = {}
       const { publicSyllabusVersions: syllabuses } = courseDetails
       if (syllabuses.length > 0) {
         for (let index = 0; index < syllabuses.length; index++) {
           syllabusSemesterList.push([syllabuses[index].validFromTerm.term, ''])
-          tempSyllabus = _parseSyllabusData(courseDetails, index, lang)
+          parsedSyllabus = _parseSyllabusData(courseDetails, index, lang)
           if (index > 0) {
-            tempSyllabus.course_valid_to = _getSyllabusEndSemester(
-              syllabusSemesterList[index - 1][0].toString().match(/.{1,4}/g)
+            const yearRegEx = /.{1,4}/g
+            const [newerSyllabusValidFromTerm] = syllabusSemesterList[index - 1]
+            parsedSyllabus.course_valid_to = _getSyllabusEndSemester(
+              newerSyllabusValidFromTerm.toString().match(yearRegEx)
             )
-            syllabusSemesterList[index][1] = Number(tempSyllabus.course_valid_to.join(''))
+            syllabusSemesterList[index][1] = Number(parsedSyllabus.course_valid_to.join(''))
           }
-          syllabusList.push(tempSyllabus)
+          syllabusList.push(parsedSyllabus)
         }
       } else {
         syllabusList[0] = _parseSyllabusData(courseDetails, 0, lang)
