@@ -15,6 +15,7 @@
 
   <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.7.0/css/all.css"
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  
   {{prefixStyle '/static/kth-style/css/kth-bootstrap.css' 'styles' 'screen'}}
   {{prefixStyle '/static/app.css' 'styles' 'screen'}}
 
@@ -24,16 +25,15 @@
     {{{blocks.klaroConfig}}}
     {{prefixScript '/static/kth-style/js/klaro-no-css.js' 'head-scripts'}}
   {{/if}}
- 
+  
   {{prefixScript '/static/vendor.js' 'head-scripts'}}
   {{prefixScript '/static/browserConfig' 'head-scripts'}}
+  {{prefixScript '/static/kth-style/js/menus.js' 'head-scripts'}}
+  {{prefixScript '/static/kth-style/js/backtotop.js' 'head-scripts'}}
+
   {{#extend 'head-scripts'}}
     <script src="//www.kth.se/social/toolbar/widget.js"></script>
   {{/extend}}
-
-  {{#if debug}}
-    {{prefixScript '/static/lib/firebug-lite/build/firebug-lite.js' 'head-scripts'}}
-  {{/if}}
 
   {{{render 'head-scripts'}}}
   <script type="text/javascript">
