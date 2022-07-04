@@ -5,7 +5,6 @@
  */
 const os = require('os')
 
-const errorHandler = require('@kth/kth-node-web-common/lib/error')
 const { getPaths } = require('kth-node-express-routing')
 const language = require('@kth/kth-node-web-common/lib/language')
 const monitorSystems = require('@kth/monitor')
@@ -52,7 +51,7 @@ function _notFound(req, res, next) {
   next(err)
 }
 
-function _getFriendlyErrorMessage(lang, statusCode, courseCode) {
+function _getFriendlyErrorMessage(lang, statusCode) {
   switch (statusCode) {
     case 404:
       return i18n.message('error_not_found', lang)
@@ -66,10 +65,8 @@ function _final(err, req, res, next) {
   const debugStatusCodes = [403, 404]
 
   let statusCode
-  let courseCode = ''
   if (err.response) {
     statusCode = err.response.status
-    courseCode = err.response.data ? err.response.data : ''
   } else {
     statusCode = err.status || err.statusCode || 500
   }
@@ -86,7 +83,7 @@ function _final(err, req, res, next) {
       res.status(statusCode).render('system/error', {
         layout: 'errorLayout',
         message: err.message,
-        friendly: _getFriendlyErrorMessage(lang, statusCode, courseCode),
+        friendly: _getFriendlyErrorMessage(lang, statusCode),
         error: isProd ? {} : err,
         status: statusCode,
         debug: 'debug' in req.query,
@@ -96,7 +93,7 @@ function _final(err, req, res, next) {
     'application/json': () => {
       res.status(statusCode).json({
         message: err.message,
-        friendly: _getFriendlyErrorMessage(lang, statusCode, courseCode),
+        friendly: _getFriendlyErrorMessage(lang, statusCode),
         error: isProd ? undefined : err.stack,
       })
     },
