@@ -61,7 +61,7 @@ describe('Component <CourseFileLinks>', () => {
     const propsWithMemoWebPage = {
       courseCode: 'KIP1111',
       language,
-      courseRound: { roundId: '7', round_course_term: ['1970', '1'], round_published_memo: true },
+      courseRound: { roundId: '7', round_course_term: ['1970', '1'], has_round_published_memo: true },
     }
 
     const { rerender } = render(<CourseFileLinks {...propsWithMemoFile} />)

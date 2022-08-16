@@ -15,7 +15,7 @@ const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorag
     round_memoFile: memoPdfFile,
     roundId: ladokRoundId,
     round_course_term: yearAndTermArr,
-    round_published_memo: publishedMemo,
+    has_round_published_memo: publishedMemo,
   } = courseRound
   return (
     <Row id="courseLinks">

@@ -358,9 +358,8 @@ function _parseRounds(roundInfos, courseCode, language, webContext) {
           fileName: courseMemoFileName,
           fileDate: lastChangeDate ? formatVersionDate(language, lastChangeDate) : '',
         }
-      } else {
-        courseRound.round_published_memo = true
       }
+      courseRound.has_round_published_memo = true
     }
     courseRoundList[semester].push(courseRound)
     initkeyList.teachers.push(`${courseCode}.${semester}.${ladokRoundId}.teachers`)
