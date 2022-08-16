@@ -66,7 +66,9 @@ module.exports = {
     header_no_rounds: 'Course offering missing',
     lable_no_rounds: ' Course offering missing for current semester as well as for previous and coming semesters',
     label_course_memo: 'Course memo',
+    label_link_course_memo: 'Link to course memo',
     label_schedule: 'Schedule',
+    label_link_schedule: 'Link to schedule',
     label_statistics: 'Course statistics',
     lable_canavas_example: 'Canvas example course',
     label_round_select: {
@@ -95,6 +97,8 @@ module.exports = {
     header_select_course: 'Application',
     header_postgraduate_course: 'Postgraduate course ',
     no_schedule: 'No schedule',
+    no_schedule_published: 'Schedule is not published',
+    no_memo_published: 'Course memo is not published',
     no_memo_connection: 'Course memo cannot be displayed',
     header_no_round_selected: 'Choose semester and course offering',
     no_round_selected:

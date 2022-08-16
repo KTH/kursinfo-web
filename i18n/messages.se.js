@@ -33,7 +33,7 @@ module.exports = {
     mobile_menu_aria_label: 'Mobilemeny',
 
     skip_to_main_content: 'Hoppa till huvudinnehållet',
-    back_to_top_label: 'Till sidans topp'
+    back_to_top_label: 'Till sidans topp',
   },
   breadCrumbLabels: {
     breadcrumbs: 'Brödsmulor',
@@ -41,7 +41,7 @@ module.exports = {
     student: 'Student på KTH',
     directory: 'Kurs- och programkatalogen',
     aboutCourse: 'Om kursen',
-    aboutCourseMemos: 'Om kurs-PM'
+    aboutCourseMemos: 'Om kurs-PM',
   },
   courseLabels: {
     label_course_description: 'Introducerande beskrivning av kursen',
@@ -64,23 +64,25 @@ module.exports = {
     label_last_exam: 'Sista planerade examination: ',
     label_edit: 'Administrera Om kursen',
     label_course_memo: 'Kurs-pm',
+    label_link_course_memo: 'Länk till kurs-PM',
     header_no_rounds: 'Kursomgångar saknas',
     lable_no_rounds: 'Kursomgångar saknas för tidigare och kommande terminer, samt för innevarande termin.',
     label_schedule: 'Schema',
+    label_link_schedule: 'Länk till Schema',
     label_statistics: 'Kursutveckling',
     lable_canavas_example: 'Canvas exempelkurs',
     label_round_select: {
       placeholder: 'Välj kursomgång',
-      label_dropdown: 'Kursomgång'
+      label_dropdown: 'Kursomgång',
     },
     label_semester_select: {
       placeholder: 'Välj termin',
-      label_dropdown: 'Termin'
+      label_dropdown: 'Termin',
     },
 
     lable_round_state: {
       CANCELLED: 'Kursomgång inställd',
-      FULL: 'Kursomgång fullsatt'
+      FULL: 'Kursomgång fullsatt',
     },
     header_dropdown_menu_navigation: 'Välj termin och kursomgång för innehållet på sidan',
     header_dropdown_menue: 'Gäller för',
@@ -95,7 +97,9 @@ module.exports = {
     header_further: 'Ytterligare information',
     header_select_course: 'Kursval',
     header_postgraduate_course: 'Forskarkurs ',
+    no_memo_published: 'Kurs-PM är inte publicerat',
     no_schedule: 'Schema saknas',
+    no_schedule_published: 'Schema är inte publicerat',
     no_memo_connection: 'Kurs-pm kan inte visas',
     header_no_round_selected: 'Välj termin och kursomgång',
     no_round_selected: 'Välj termin och kursomgång för att se information från rätt kursplan och kursomgång.',
@@ -111,9 +115,9 @@ module.exports = {
       page_catalog: 'Kurs- och programkatalogen',
       page_development: 'Kursens utveckling',
       page_archive: 'Arkiv',
-      page_memo: 'Förbereda och gå kurs'
+      page_memo: 'Förbereda och gå kurs',
     },
-    label_close: 'Stäng'
+    label_close: 'Stäng',
   },
   courseInformation: {
     roundId: 'Kursomgångs nr',
@@ -147,13 +151,13 @@ module.exports = {
     course_possibility_to_addition: 'Möjlighet till plussning',
     course_short_semester: {
       1: 'VT ',
-      2: 'HT '
+      2: 'HT ',
     },
     course_level_code_label: {
       PREPARATORY: 'Förberedande nivå',
       BASIC: 'Grundnivå',
       ADVANCED: 'Avancerad nivå',
-      RESEARCH: 'Forskarnivå'
+      RESEARCH: 'Forskarnivå',
     },
     course_department: 'Ges av',
     course_contact_name: 'Kontaktperson',
@@ -167,7 +171,7 @@ module.exports = {
     course_application_info: 'Information för forskarstuderande om när kursen ges',
     course_link: 'Kurswebb',
     course_link_text:
-      '<p>Ytterligare information om kursen kan hittas på kurswebben via länken nedan. Information på kurswebben kommer framöver flyttas till denna sida. </p>'
+      '<p>Ytterligare information om kursen kan hittas på kurswebben via länken nedan. Information på kurswebben kommer framöver flyttas till denna sida. </p>',
   },
   courseRoundInformation: {
     header_round: 'Om kursomgång',
@@ -192,7 +196,7 @@ module.exports = {
     round_tutoring_form_label: {
       NML: 'Normal',
       DST: 'Distans',
-      ITD: 'IT-baserad distans'
+      ITD: 'IT-baserad distans',
     },
     round_tutoring_language: 'Undervisningsspråk',
     round_campus: 'Skola',
@@ -201,20 +205,20 @@ module.exports = {
       DAG: 'Dagtid',
       KVA: 'Kvällstid',
       KVÄ: 'Kvällstid',
-      VSL: 'Veckoslut'
+      VSL: 'Veckoslut',
     },
     round_time_slots: 'Planerade schemamoduler',
     round_application_link: 'Till anmälan',
     round_category: {
       PU: 'programstuderande',
       VU: 'fristående studerande',
-      pu_and_vu: 'programstuderande och fristående studerande'
+      pu_and_vu: 'programstuderande och fristående studerande',
     },
     round_type: {
       ORD: 'programstuderande',
       UPP: 'uppdragsutbildning',
-      PER: 'kurser för KTHs personal'
-    }
+      PER: 'kurser för KTHs personal',
+    },
   },
   courseImage: {
     Arkitektur: 'Picture_by_MainFieldOfStudy_01_Architecture.jpg',
@@ -241,18 +245,18 @@ module.exports = {
     'Teknik och management': 'Picture_by_MainFieldOfStudy_22_Technology_Management.jpg',
     Teknik: 'Picture_by_MainFieldOfStudy_23_Technology.jpg',
     'Teknik och lärande': 'Picture_by_MainFieldOfStudy_25_Technology_Learning.jpg',
-    default: 'Picture_by_MainFieldOfStudy_26_Default_picture.jpg'
+    default: 'Picture_by_MainFieldOfStudy_26_Default_picture.jpg',
   },
   course_state_alert: {
     DEACTIVATED: {
       header: 'Denna kurs är under avveckling.',
       examination: 'Sista planerade examination: ',
-      decision: 'Avvecklingsbeslut: '
+      decision: 'Avvecklingsbeslut: ',
     },
     CANCELLED: {
       header: 'Denna kurs är avvecklad.',
       examination: 'Sista planerade examination: ',
-      decision: 'Avvecklingsbeslut: '
-    }
-  }
+      decision: 'Avvecklingsbeslut: ',
+    },
+  },
 }

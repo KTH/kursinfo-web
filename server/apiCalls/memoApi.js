@@ -9,7 +9,7 @@ async function getPrioritizedCourseMemos(courseCode) {
     log.debug('Fetching info about course memos for course ', courseCode)
 
     const uri = client.resolve(paths.getPrioritizedWebOrPdfMemosByCourseCode.uri, {
-      courseCode
+      courseCode,
     })
     return client.getAsync({ uri, useCache: true })
   } catch (err) {
@@ -22,5 +22,5 @@ async function getPrioritizedCourseMemos(courseCode) {
 }
 
 module.exports = {
-  getPrioritizedCourseMemos
+  getPrioritizedCourseMemos,
 }

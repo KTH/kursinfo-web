@@ -5,44 +5,54 @@ import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../util/constants'
 
 const CourseMemoLink = ({ href, translate }) => (
   <a id="memoLink" href={href}>
-    {translate.courseLabels.label_course_memo}
+    {translate.courseLabels.label_link_course_memo}
   </a>
 )
 
 const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorageURI, language }) => {
   const translate = i18n.messages[language === 'en' ? 0 : 1]
-  const { round_memoFile: memoPdfFile, roundId: ladokRoundId, round_course_term: yearAndTermArr } = courseRound
+  const {
+    round_memoFile: memoPdfFile,
+    roundId: ladokRoundId,
+    round_course_term: yearAndTermArr,
+    round_published_memo: publishedMemo,
+  } = courseRound
   return (
     <Row id="courseLinks">
       {/* ---LINK TO ROUND PM/MEMO IF ROUND HAS ONE-- */}
       <Col sm="12" xs="12">
+        <h3 className="t4">{translate.courseLabels.label_course_memo}</h3>
         {memoPdfFile ? (
           <a
             id="memoLink"
-            className="pdf-link pdf-link-fix"
+            className="pdf-link-fix"
             href={`${memoStorageURI}${memoPdfFile.fileName}`}
             target="_blank"
             rel="noreferrer"
           >
-            {`${translate.courseLabels.label_course_memo} ${memoPdfFile.fileDate ? `(${memoPdfFile.fileDate})` : ''}`}
+            {translate.courseLabels.label_link_course_memo}
           </a>
         ) : (
           courseRound &&
-          yearAndTermArr && (
+          yearAndTermArr &&
+          (publishedMemo ? (
             <CourseMemoLink
               href={`/kurs-pm/${courseCode}/${yearAndTermArr.join('')}/${ladokRoundId}`}
               translate={translate}
             />
-          )
+          ) : (
+            <span>{translate.courseLabels.no_memo_published}</span>
+          ))
         )}
       </Col>
       {/* ---LINK TO ROUND SCHEDULE-- */}
       <Col sm="12" xs="12">
+        <h3 className="t4">{translate.courseLabels.label_schedule}</h3>
         <i className="icon-schedule" />
         {scheduleUrl !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language === 'en' ? 0 : 1] ? (
-          <a href={scheduleUrl}>{translate.courseLabels.label_schedule}</a>
+          <a href={scheduleUrl}>{translate.courseLabels.label_link_schedule}</a>
         ) : (
-          <span>{translate.courseLabels.no_schedule}</span>
+          <span>{translate.courseLabels.no_schedule_published}</span>
         )}
       </Col>
     </Row>
