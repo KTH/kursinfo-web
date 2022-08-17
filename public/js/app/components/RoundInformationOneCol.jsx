@@ -15,7 +15,7 @@ function RoundInformationOneCol({
   fade,
   courseHasRound,
   memoStorageURI,
-  showRoundData: externalShowRoundData,
+  showRoundData,
   language = 'sv',
   courseRound: round = { round_course_term: [] },
   courseData: course,
@@ -42,10 +42,10 @@ function RoundInformationOneCol({
   React.useEffect(async () => {
     if (testEmployees) setCourseRoundEmployees(testEmployees)
     else {
-      const employyes = externalShowRoundData ? await context.getCourseEmployees() : null
+      const employyes = showRoundData ? await context.getCourseEmployees() : null
       if (employyes) setCourseRoundEmployees(employyes)
     }
-  }, [externalShowRoundData])
+  }, [showRoundData])
 
   function openApplicationLink(ev) {
     ev.preventDefault()
@@ -54,7 +54,7 @@ function RoundInformationOneCol({
 
   return (
     <span>
-      {courseHasRound && externalShowRoundData ? (
+      {courseHasRound && showRoundData ? (
         <h2 id="courseRoundInformationHeader" style={{ marginTop: '20px' }}>
           {translate.header_round}
         </h2>
@@ -63,18 +63,16 @@ function RoundInformationOneCol({
         id="roundInformationOneCol"
         className="key-info"
         style={{
-          backgroundColor: courseHasRound && externalShowRoundData ? 'rgb(246, 246, 246)' : 'rgb(252, 248, 227)',
+          backgroundColor: courseHasRound && showRoundData ? 'rgb(246, 246, 246)' : 'rgb(252, 248, 227)',
         }}
         aria-label={
-          courseHasRound && externalShowRoundData
-            ? `${translate.round_information_aria_label} ${selectedRoundHeader}`
-            : null
+          courseHasRound && showRoundData ? `${translate.round_information_aria_label} ${selectedRoundHeader}` : null
         }
       >
         <div
           className="row"
           id="roundFirstPart"
-          aria-labelledby={courseHasRound && externalShowRoundData ? 'courseRoundInformationHeader' : null}
+          aria-labelledby={courseHasRound && showRoundData ? 'courseRoundInformationHeader' : null}
         >
           {/** ************************************************************************************************************ */}
           {/*                                  Round information  - first part                                         */}
@@ -82,7 +80,7 @@ function RoundInformationOneCol({
           <Col sm="12" id="roundKeyInformation">
             <div className={` fade-container ${fade === true ? ' fadeOutIn' : ''}`} key="fadeDiv1">
               {/* ---COURSE ROUND HEADER--- */}
-              {courseHasRound && externalShowRoundData && (
+              {courseHasRound && showRoundData && (
                 <div style={{ borderBottom: '1px solid #fff' }}>
                   <h3 className="t4" id="roundHeader">
                     {roundHeader}
@@ -92,7 +90,7 @@ function RoundInformationOneCol({
               )}
 
               {/* ---COURSE ROUND INFORMATION--- */}
-              {courseHasRound && externalShowRoundData ? (
+              {courseHasRound && showRoundData ? (
                 <span>
                   <h3 className="t4">{translate.round_target_group}</h3>
                   <span dangerouslySetInnerHTML={{ __html: round.round_target_group }} />
@@ -122,7 +120,7 @@ function RoundInformationOneCol({
               {/** ************************************************************************************************************ */}
               {/*                                            Round  information                                               */}
               {/** ************************************************************************************************************ */}
-              {courseHasRound && externalShowRoundData && (
+              {courseHasRound && showRoundData && (
                 <span>
                   <h3 className="t4">{translate.round_tutoring_form}</h3>
                   <p>
@@ -177,13 +175,13 @@ function RoundInformationOneCol({
         <div
           className="row"
           id="roundApply"
-          aria-labelledby={courseHasRound && externalShowRoundData ? 'applicationInformationHeader' : null}
+          aria-labelledby={courseHasRound && showRoundData ? 'applicationInformationHeader' : null}
         >
           <Col>
             {/** ************************************************************************************************************ */}
             {/*                                     Round - application information                                         */}
             {/** ************************************************************************************************************ */}
-            {courseHasRound && externalShowRoundData && (
+            {courseHasRound && showRoundData && (
               <span>
                 <h2 id="applicationInformationHeader" className="right-column-header">
                   {labels.header_select_course}
@@ -211,13 +209,13 @@ function RoundInformationOneCol({
         <div
           className="row"
           id="roundContact"
-          aria-labelledby={courseHasRound && externalShowRoundData ? 'contactInformationHeader' : null}
+          aria-labelledby={courseHasRound && showRoundData ? 'contactInformationHeader' : null}
         >
           <Col>
             {/** ************************************************************************************************************ */}
             {/*                                     Round - contact information                                             */}
             {/** ************************************************************************************************************ */}
-            {courseHasRound && externalShowRoundData && (
+            {courseHasRound && showRoundData && (
               <span>
                 <h2 id="contactInformationHeader" className="right-column-header">
                   {labels.header_contact}
