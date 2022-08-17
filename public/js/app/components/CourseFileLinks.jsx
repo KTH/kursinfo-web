@@ -41,7 +41,9 @@ const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorag
               translate={translate}
             />
           ) : (
-            <span>{translate.courseLabels.no_memo_published}</span>
+            <span>
+              <i>{translate.courseLabels.no_memo_published}</i>
+            </span>
           ))
         )}
       </Col>
@@ -52,7 +54,9 @@ const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorag
         {scheduleUrl !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language === 'en' ? 0 : 1] ? (
           <a href={scheduleUrl}>{translate.courseLabels.label_link_schedule}</a>
         ) : (
-          <span>{translate.courseLabels.no_schedule_published}</span>
+          <span>
+            <i>{translate.courseLabels.no_schedule_published}</i>
+          </span>
         )}
       </Col>
     </Row>
