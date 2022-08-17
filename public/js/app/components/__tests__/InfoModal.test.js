@@ -91,7 +91,7 @@ describe('Component <InfoModal> and its functionality 3I', () => {
     setTimeout(async () => waitForElementToBeRemoved(() => queryByText('Valid for')), 1000)
   })
 
-  xtest('open modal and close by clicking button "Close"', async () => {
+  test('open modal and close by clicking button "Close"', async () => {
     const modalBtn = getByRole('button')
 
     // Open modal i
