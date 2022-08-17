@@ -86,7 +86,7 @@ describe('Component <InfoModal> and its functionality 3I', () => {
     })
 
     // Close modal using ×
-    const modalCrossBtn = getAllByRole('button')[1]
+    const modalCrossBtn = getByRole('button', { name: '×' })
     fireEvent.click(modalCrossBtn)
     setTimeout(async () => waitForElementToBeRemoved(() => queryByText('Valid for')), 1000)
   })
@@ -101,7 +101,7 @@ describe('Component <InfoModal> and its functionality 3I', () => {
     })
 
     // Close modal using "Close"
-    const modalCloseBtn = getAllByRole('button')[2]
+    const modalCloseBtn = getByRole('button', { name: /close/i })
     fireEvent.click(modalCloseBtn)
 
     setTimeout(async () => waitForElementToBeRemoved(() => queryByText('Valid for')), 1000)
