@@ -6,7 +6,7 @@ const httpResponse = require('@kth/kth-node-response')
 const courseApi = require('../apiCalls/kursinfoAdmin')
 const memoApi = require('../apiCalls/memoApi')
 const koppsCourseData = require('../apiCalls/koppsCourseData')
-const ugRedisApi = require('../apiCalls/ugRedisApi')
+const ugRestApi = require('../apiCalls/ugRestApi')
 
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
@@ -40,7 +40,7 @@ function parceContactName(infoContactName, language) {
 
 async function getCourseEmployees(req, res, next) {
   const apiMemoData = req.body
-  const courseEmployees = await ugRedisApi.getCourseEmployees(apiMemoData)
+  const courseEmployees = await ugRestApi.getCourseEmployees(apiMemoData)
   res.send(courseEmployees)
 }
 
@@ -115,7 +115,7 @@ function _parseTitleData({ course }) {
 }
 
 function _parseExamObject(exams, grades, language = 0, semester = '', creditUnitAbbr) {
-  var matchingExamSemester = ''
+  let matchingExamSemester = ''
   Object.keys(exams).forEach(key => {
     if (Number(semester) >= Number(key)) {
       matchingExamSemester = key
@@ -123,7 +123,7 @@ function _parseExamObject(exams, grades, language = 0, semester = '', creditUnit
   })
   let examString = "<ul class='ul-no-padding' >"
   if (exams[matchingExamSemester] && exams[matchingExamSemester].examinationRounds.length > 0) {
-    for (let exam of exams[matchingExamSemester].examinationRounds) {
+    for (const exam of exams[matchingExamSemester].examinationRounds) {
       if (exam.credits) {
         //* * Adding a decimal if it's missing in credits **/
         exam.credits =
@@ -241,7 +241,7 @@ function _getRoundProgramme(programmes, language = 0) {
 }
 
 function _getRoundPeriodes(courseRoundTerms, language = 'sv') {
-  var periodeString = ''
+  let periodeString = ''
   if (courseRoundTerms) {
     if (courseRoundTerms.length > 1) {
       courseRoundTerms.map(
@@ -339,7 +339,7 @@ function _parseRounds(roundInfos, courseCode, language, webContext) {
   const tempList = []
   let courseRound
   const courseRoundList = {}
-  for (let roundInfo of roundInfos) {
+  for (const roundInfo of roundInfos) {
     courseRound = _getRound(roundInfo, language)
     const { round_course_term: yearAndTermArr, roundId: ladokRoundId } = courseRound
     const semester = yearAndTermArr.join('')
@@ -593,10 +593,10 @@ async function getIndex(req, res, next) {
       semester: '',
       ladokRoundIds: [],
     }
-    const ugRedisApiResponse = await ugRedisApi.getCourseEmployees(apiMemoData)
+    const ugRestApiResponse = await ugRestApi.getCourseEmployees(apiMemoData)
 
     webContext.courseData.courseInfo.course_examiners =
-      ugRedisApiResponse.examiners || INFORM_IF_IMPORTANT_INFO_IS_MISSING[lang]
+      ugRestApiResponse.examiners || INFORM_IF_IMPORTANT_INFO_IS_MISSING[lang]
 
     const compressedData = getCompressedData(webContext)
 
