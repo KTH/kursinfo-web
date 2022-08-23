@@ -359,6 +359,7 @@ function _parseRounds(roundInfos, courseCode, language, webContext) {
           fileDate: lastChangeDate ? formatVersionDate(language, lastChangeDate) : '',
         }
       }
+      courseRound.has_round_published_memo = true
     }
     courseRoundList[semester].push(courseRound)
     initkeyList.teachers.push(`${courseCode}.${semester}.${ladokRoundId}.teachers`)
@@ -366,7 +367,6 @@ function _parseRounds(roundInfos, courseCode, language, webContext) {
   }
   initkeyList.teachers.sort()
   initkeyList.responsibles.sort()
-
   return { courseRoundList, activeSemesters: initActives.sort(), keyList: initkeyList }
 }
 

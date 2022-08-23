@@ -21,13 +21,15 @@ COPY ["webpack.config.js", "webpack.config.js"]
 COPY ["babel.config.js", "babel.config.js"]
 COPY ["jest.config.js", "jest.config.js"]
 
-RUN apk stats && \
-    chmod a+rx build.sh && \
-    apk add --no-cache bash && \
-    npm install --development && \
+RUN chmod a+rx build.sh && \
+    chown -R node:node /application
+
+USER node
+
+RUN npm pkg delete scripts.prepare && \
+    npm ci --unsafe-perm && \
     npm run build && \
-    npm prune --production && \
-    apk stats
+    npm prune --production 
 
 EXPOSE 3000
 

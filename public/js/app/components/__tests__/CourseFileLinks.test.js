@@ -31,7 +31,7 @@ describe('Component <CourseFileLinks>', () => {
     expect(scheduleLink).toBeInTheDocument()
 
     rerender(<CourseFileLinks {...propsWithoutScheduleUrl} />)
-    const scheduleText = getByText(translate.courseLabels.no_schedule)
+    const scheduleText = getByText(translate.courseLabels.no_schedule_published)
     expect(scheduleText).toBeInTheDocument()
   })
 
@@ -45,9 +45,7 @@ describe('Component <CourseFileLinks>', () => {
     }
 
     render(<CourseFileLinks {...propsWithMemoFile} />)
-    const memoLink = getByText(
-      `${translate.courseLabels.label_course_memo} (${propsWithMemoFile.courseRound.round_memoFile.fileDate})`
-    )
+    const memoLink = getByText(`${translate.courseLabels.label_link_course_memo}`)
     expect(memoLink).toBeInTheDocument()
     expect(memoLink.href).toBe('https://test.com/testedMemo')
   })
@@ -63,17 +61,15 @@ describe('Component <CourseFileLinks>', () => {
     const propsWithMemoWebPage = {
       courseCode: 'KIP1111',
       language,
-      courseRound: { roundId: '7', round_course_term: ['1970', '1'] },
+      courseRound: { roundId: '7', round_course_term: ['1970', '1'], has_round_published_memo: true },
     }
 
     const { rerender } = render(<CourseFileLinks {...propsWithMemoFile} />)
-    const memoLink = getByText(
-      `${translate.courseLabels.label_course_memo} (${propsWithMemoFile.courseRound.round_memoFile.fileDate})`
-    )
+    const memoLink = getByText(`${translate.courseLabels.label_link_course_memo}`)
     expect(memoLink).toBeInTheDocument()
 
     rerender(<CourseFileLinks {...propsWithMemoWebPage} />)
-    const linkToMemoWebPage = getByText(translate.courseLabels.label_course_memo)
+    const linkToMemoWebPage = getByText(translate.courseLabels.label_link_course_memo)
     expect(linkToMemoWebPage).toBeInTheDocument()
     expect(linkToMemoWebPage.href).toBe('http://localhost/kurs-pm/KIP1111/19701/7')
   })
@@ -93,9 +89,7 @@ describe('Component <CourseFileLinks>', () => {
     }
 
     const { rerender } = render(<CourseFileLinks {...propsWithMemoFileAndOtherInfo} />)
-    const memoLink = getByText(
-      `${translate.courseLabels.label_course_memo} (${propsWithMemoFileAndOtherInfo.courseRound.round_memoFile.fileDate})`
-    )
+    const memoLink = getByText(`${translate.courseLabels.label_link_course_memo}`)
     expect(memoLink).toBeInTheDocument()
   })
 })

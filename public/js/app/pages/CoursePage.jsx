@@ -50,7 +50,7 @@ function CoursePage() {
     browserConfig,
     courseCode,
     courseData = {
-      courseInfo: { course_application_info: [] },
+      courseInfo: { course_application_info: '' },
       syllabusSemesterList: [],
     },
     imageFromAdmin,
@@ -67,17 +67,15 @@ function CoursePage() {
   const hasToShowRoundsData = showRoundData || (useStartSemesterFromQuery && hasOnlyOneRound)
 
   const hasActiveSemesters = activeSemesters && activeSemesters.length > 0
-
-  const { language = 'sv' } = courseData
+  const { courseInfo, language = 'sv' } = courseData
   const translation = i18n.messages[language === 'en' ? 0 : 1]
-  const introText =
-    sellingText[language].length > 0 ? sellingText[language] : courseData.courseInfo.course_recruitment_text
+  const introText = sellingText[language].length > 0 ? sellingText[language] : courseInfo.course_recruitment_text
 
   let courseImage = ''
   if (imageFromAdmin.length > 4) {
     courseImage = imageFromAdmin
   } else {
-    const cms = courseData.courseInfo.course_main_subject || ''
+    const cms = courseInfo.course_main_subject || ''
     let mainSubjects = cms.split(',').map(s => s.trim())
     if (mainSubjects && mainSubjects.length > 0 && language === 'en') {
       mainSubjects = mainSubjects.map(subject => i18n.messages[0].courseMainSubjects[subject])
@@ -92,10 +90,10 @@ function CoursePage() {
   if (!courseData.syllabusList) courseData.syllabusList = [{}]
   const courseInformationToRounds = {
     course_code: courseCode,
-    course_examiners: courseData.courseInfo.course_examiners,
-    course_contact_name: courseData.courseInfo.course_contact_name,
-    course_main_subject: courseData.courseInfo.course_main_subject,
-    course_level_code: courseData.courseInfo.course_level_code,
+    course_examiners: courseInfo.course_examiners,
+    course_contact_name: courseInfo.course_contact_name,
+    course_main_subject: courseInfo.course_main_subject,
+    course_level_code: courseInfo.course_level_code,
     course_valid_from: courseData.syllabusList[activeSyllabusIndex || 0].course_valid_from,
   }
 
@@ -151,14 +149,14 @@ function CoursePage() {
           {(isCancelled || isDeactivated) && (
             <div className="isCancelled">
               <Alert color="info" aria-live="polite">
-                <h3>{`${translation.course_state_alert[courseData.courseInfo.course_state].header}`}</h3>
+                <h3>{`${translation.course_state_alert[courseInfo.course_state].header}`}</h3>
                 <p>
-                  {translation.course_state_alert[courseData.courseInfo.course_state].examination}
-                  {translation.courseInformation.course_short_semester[courseData.courseInfo.course_last_exam[1]]}
-                  {courseData.courseInfo.course_last_exam[0]}
+                  {translation.course_state_alert[courseInfo.course_state].examination}
+                  {translation.courseInformation.course_short_semester[courseInfo.course_last_exam[1]]}
+                  {courseInfo.course_last_exam[0]}
                 </p>
                 <p />
-                <span>{translation.course_state_alert[courseData.courseInfo.course_state].decision}</span>
+                <span>{translation.course_state_alert[courseInfo.course_state].decision}</span>
                 <span dangerouslySetInnerHTML={{ __html: decisionToDiscontinue }} />
               </Alert>
             </div>
@@ -279,10 +277,10 @@ function CoursePage() {
                     </Alert>
                   )
                 )}
-                {courseData.courseInfo.course_application_info.length > 0 && (
+                {courseInfo.course_application_info.length > 0 && (
                   <Alert color="info">
                     <h4>{translation.courseInformation.course_application_info}</h4>
-                    <p dangerouslySetInnerHTML={{ __html: courseData.courseInfo.course_application_info }} />
+                    <span dangerouslySetInnerHTML={{ __html: courseInfo.course_application_info }} />
                   </Alert>
                 )}
 
@@ -361,7 +359,7 @@ function CoursePage() {
 
                   {/* --- COURSE INFORMATION CONTAINER---  */}
                   <CourseSectionList
-                    courseInfo={courseData.courseInfo}
+                    courseInfo={courseInfo}
                     syllabusList={courseData.syllabusList[activeSyllabusIndex]}
                     syllabusSemesterList={courseData.syllabusSemesterList}
                     showCourseLink={context.showCourseWebbLink}
@@ -391,12 +389,12 @@ function CoursePage() {
                   />
 
                   {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
-                  {courseData.courseInfo.course_level_code === 'RESEARCH' && (
+                  {courseInfo.course_level_code === 'RESEARCH' && (
                     <span>
                       <h3>{translation.courseLabels.header_postgraduate_course}</h3>
                       {translation.courseLabels.label_postgraduate_course}
-                      <a href={`${FORSKARUTB_URL}${courseData.courseInfo.course_department_code}`}>
-                        {courseData.courseInfo.course_department}
+                      <a href={`${FORSKARUTB_URL}${courseInfo.course_department_code}`}>
+                        {courseInfo.course_department}
                       </a>
                     </span>
                   )}
