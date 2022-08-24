@@ -157,8 +157,8 @@ function RoundInformationOneCol({
                   {round && <p> {round.round_seats || translate.round_no_seats_limit} </p>}
 
                   <h3 className="t4">{translate.round_time_slots}</h3>
-                  <p dangerouslySetInnerHTML={{ __html: round.round_time_slots }} />
-                  <p dangerouslySetInnerHTML={{ __html: round.round_comment }} />
+                  <span dangerouslySetInnerHTML={{ __html: round.round_time_slots }} />
+                  <span dangerouslySetInnerHTML={{ __html: round.round_comment }} />
                   <CourseFileLinks
                     language={language}
                     courseHasRound={courseHasRound}

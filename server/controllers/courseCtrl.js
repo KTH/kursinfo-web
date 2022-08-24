@@ -25,9 +25,9 @@ const {
 const { formatVersionDate, getDateFormat } = require('../util/dates')
 const i18n = require('../../i18n')
 
-function parseOrSetEmpty(dataObject, language, setEmpty = false) {
+function parseOrSetEmpty(value, language, setEmpty = false) {
   const emptyText = setEmpty ? '' : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
-  return dataObject ? dataObject : emptyText
+  return value ? value : emptyText
 }
 
 function parceContactName(infoContactName, language) {
