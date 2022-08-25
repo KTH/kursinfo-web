@@ -33,7 +33,7 @@
     "@kth/kth-node-web-common": "^7.0.10",
     "@kth/log": "^4.0.4",
     "@kth/monitor": "^3.0.24",
-    "@kth/server": "^4.0.2",
+    "@kth/server": "^4.0.3",
     "@kth/session": "^3.0.4",
     "applicationinsights": "^2.3.1",
     "axios": "^0.26.1",
@@ -61,7 +61,7 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
-    "@babel/core": "^7.17.9",
+    "@babel/core": "^7.18.13",
     "@babel/eslint-parser": "^7.18.9",
     "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
