@@ -210,7 +210,9 @@ main {
 }
 
 .word-break {
-  p {
+  p,
+  li,
+  i {
     word-break: break-word;
   }
 }
