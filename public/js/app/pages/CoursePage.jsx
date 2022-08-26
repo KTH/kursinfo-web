@@ -188,6 +188,7 @@ function CoursePage() {
                         {translation.courseLabels.header_dropdown_menue}
                       </h2>
                       <InfoModal
+                        parentTag="h2"
                         title={translation.courseLabels.header_dropdown_menue}
                         infoText={translation.courseLabels.syllabus_info}
                         type="html"
