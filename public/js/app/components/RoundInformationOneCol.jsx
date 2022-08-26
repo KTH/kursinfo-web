@@ -144,6 +144,7 @@ function RoundInformationOneCol({
                     {translate.round_max_seats}
                     {round && round.round_seats && (
                       <InfoModal
+                        parentTag="h3"
                         closeLabel={labels.label_close}
                         infoText={`<p>${labels.round_seats_default_info} ${
                           round.round_selection_criteria !== '<p></p>' && round.round_selection_criteria !== ''

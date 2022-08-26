@@ -210,7 +210,9 @@ main {
 }
 
 .word-break {
-  p {
+  p,
+  li,
+  i {
     word-break: break-word;
   }
 }
@@ -260,7 +262,7 @@ main {
     padding: 0 20px 20px 20px;
     background: #f6f6f6;
   }
-  .info-modal {
+  .info-modal-h2-top-fix {
     top: -0.3em;
   }
 }
