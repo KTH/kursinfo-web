@@ -27,11 +27,11 @@ const mockedDiscontinuedCourse = {
   },
   examiners: [
     {
-      kthid: 'u15a66y4',
-      givenName: 'Qi',
-      lastName: 'Zhou',
-      email: 'qi@kth.se',
-      username: 'qi',
+      kthid: 'lllll',
+      givenName: 'CBbbb',
+      lastName: 'Bbbb',
+      email: 'cblllllll@kth.se',
+      username: 'ccbbbbbbbb',
     },
   ],
   roundInfos: [],
