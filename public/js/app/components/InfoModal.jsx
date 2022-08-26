@@ -46,7 +46,7 @@ function InfoModal(props) {
   }
 
   return (
-    <Button className="btn-info-modal" onClick={toggle} aria-label={ariaLabel}>
+    <button type="button" className="info-modal" onClick={toggle} aria-label={ariaLabel}>
       {buttonLabel}
       <Modal isOpen={modal} toggle={toggle} onOpened={keepFocus} className={className} fade={fadeModal}>
         <ModalHeader
@@ -69,7 +69,7 @@ function InfoModal(props) {
           </Button>
         </ModalFooter>
       </Modal>
-    </Button>
+    </button>
   )
 }
 

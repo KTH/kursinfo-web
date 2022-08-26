@@ -15,7 +15,7 @@ const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorag
     round_memoFile: memoPdfFile,
     roundId: ladokRoundId,
     round_course_term: yearAndTermArr,
-    has_round_published_memo: publishedMemo,
+    has_round_published_memo: hasPublishedMemo,
   } = courseRound
   return (
     <Row id="courseLinks">
@@ -23,19 +23,13 @@ const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorag
       <Col sm="12" xs="12">
         <h3 className="t4">{translate.courseLabels.label_course_memo}</h3>
         {memoPdfFile ? (
-          <a
-            id="memoLink"
-            className="pdf-link-fix"
-            href={`${memoStorageURI}${memoPdfFile.fileName}`}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a id="memoLink" href={`${memoStorageURI}${memoPdfFile.fileName}`} target="_blank" rel="noreferrer">
             {translate.courseLabels.label_link_course_memo}
           </a>
         ) : (
           courseRound &&
           yearAndTermArr &&
-          (publishedMemo ? (
+          (hasPublishedMemo ? (
             <CourseMemoLink
               href={`/kurs-pm/${courseCode}/${yearAndTermArr.join('')}/${ladokRoundId}`}
               translate={translate}
