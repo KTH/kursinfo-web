@@ -30,7 +30,7 @@
   "dependencies": {
     "@kth/api-call": "^4.0.37",
     "@kth/kth-node-response": "^1.0.5",
-    "@kth/kth-node-web-common": "^7.0.10",
+    "@kth/kth-node-web-common": "^7.0.12",
     "@kth/log": "^4.0.4",
     "@kth/monitor": "^3.0.24",
     "@kth/server": "^4.0.3",
