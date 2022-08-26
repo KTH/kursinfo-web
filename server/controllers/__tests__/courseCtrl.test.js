@@ -97,33 +97,33 @@ describe('Discontinued course to test', () => {
     )
 
     expect(testResponse.html).toMatchInlineSnapshot(`
-      Object {
-        "applicationStore": Object {},
+      {
+        "applicationStore": {},
         "basename": "/student/kurser/kurs",
-        "context": Object {
+        "context": {
           "activeRoundIndex": 0,
           "activeSemester": null,
           "activeSemesterIndex": 0,
-          "activeSemesters": Array [],
-          "activeSemestersIndexesWithValidSyllabusesIndexes": Array [],
+          "activeSemesters": [],
+          "activeSemestersIndexesWithValidSyllabusesIndexes": [],
           "activeSyllabusIndex": 0,
-          "browserConfig": Object {
-            "session": Object {},
+          "browserConfig": {
+            "session": {},
             "sessionSecret": "xxx",
           },
           "courseCode": "FCK3305",
-          "courseData": Object {
-            "courseInfo": Object {
+          "courseData": {
+            "courseInfo": {
               "course_application_info": "<p>Kursen ges inte l&#228;s&#229;ret 22/23.</p><p>Kontakta examinator / kursansvarig f&#246;r information.</p>",
               "course_code": "FCK3305",
               "course_contact_name": "<i>Ingen information tillagd</i>",
               "course_department": "CBH/Kemi",
               "course_department_code": "CE",
-              "course_department_link": "<a href=\\"/cbh/\\" target=\\"blank\\">CBH/Kemi</a>",
+              "course_department_link": "<a href="/cbh/" target="blank">CBH/Kemi</a>",
               "course_disposition": "<p>Kursen omfattar cirka 200 heltidsstudietimmar och utg&#246;rs av f&#246;rel&#228;sningar och praktiska laborationer. Laborationerna omfattar relevanta och aktuella experimentella metoder inom kolhydratteknik, t.ex. kolhydratanalys, produktion av kolhydrataktiva enzymer, preparation och karakterisering av vedbaserade nanomaterial och kolhydratsyntes. En mer detaljerad beskrivning av kursens inneh&#229;ll och uppl&#228;gg &#229;terfinns i kurs-PM.</p>",
               "course_examiners": "<p>Examiner 1 </p>",
               "course_grade_scale": "P, F",
-              "course_last_exam": Array [],
+              "course_last_exam": [],
               "course_level_code": "RESEARCH",
               "course_literature": "<p>Litteratur anvisas vid kursstart.</p>",
               "course_main_subject": "Denna kurs tillhör inget huvudområde.",
@@ -139,7 +139,7 @@ describe('Discontinued course to test', () => {
               "course_supplemental_information_url_text": "<i>Ingen information tillagd</i>",
               "course_web_link": "https://www.kth.se/social/course/FCK3305/",
             },
-            "courseTitleData": Object {
+            "courseTitleData": {
               "course_code": "FCK3305",
               "course_credits": 7.5,
               "course_credits_text": "hp",
@@ -147,9 +147,9 @@ describe('Discontinued course to test', () => {
               "course_title": "Kolhydratteknik inom glykovetenskap",
             },
             "language": "sv",
-            "roundList": Object {},
-            "syllabusList": Array [
-              Object {
+            "roundList": {},
+            "syllabusList": [
+              {
                 "course_additional_regulations": "",
                 "course_content": "<p>Glykovetenskap &#228;r ett tv&#228;rvetenskapligt forskningsomr&#229;de som fokuserar p&#229; att f&#246;rst&#229; strukturer och funktionella roller f&#246;r glykaner (kolhydrater) i biologiska system. Det t&#228;cker &#228;mnesomr&#229;den som biologi, biokemi, kemi, medicin, materialvetenskap, nanoteknologi och ber&#228;kningsvetenskap. Kursens m&#229;l &#228;r att ge en &#246;versikt &#246;ver aktuell kunskap och teknik inom glykovetenskap, utmaningar och m&#246;jligheter f&#246;r bred till&#228;mpning av kolhydratteknik inom h&#228;lsa, energi och materialvetenskap, samt god teoretisk insikt och praktiska f&#228;rdigheter i hur kolhydratteknik kan bidra till h&#229;llbar utveckling inom energi- och materialvetenskap.</p><p>&#196;mnen som avhandlas omfattar kolhydratteknik inom h&#228;lsa, energi och materialvetenskap, glykaners funktioner, kolhydratanalys av komplexa kolhydrater, glykaner och glykokonjugat, uppbyggnaden av v&#228;xters cellv&#228;gg, kolhydrataktiva enzymer, enzymatisk nedbrytning av v&#228;xtbiomassa och modifiering av v&#228;xtbaserade fibrer, biosyntes och av cellulosa och kitin, skapande av nya kompositer genom bioteknologisk modifiering av v&#228;xtcellv&#228;ggen, modifiering av glykaner genom att f&#246;r&#228;ndra syntesv&#228;gar, omvandling av v&#228;xtbiomassa till finkemikalier och r&#229;material, polymera material och nanomaterial, anv&#228;ndande av biomassabaserade nanomaterial f&#246;r nya material och till&#228;mpningar.</p>",
                 "course_decision_to_discontinue": "<i>Ingen information tillagd</i>",
@@ -177,22 +177,22 @@ describe('Discontinued course to test', () => {
                 "course_required_equipment": "<i>Ingen information tillagd</i>",
                 "course_requirments_for_final_grade": "<p>Godk&#228;nd skriftlig tentamen, godk&#228;nda inl&#228;mningsuppgifter kopplade till f&#246;rel&#228;sningarna, 100% n&#228;rvaro p&#229; laborationer och slutf&#246;rande av laborationer, samt godk&#228;nda laborationsrapporter.</p>",
                 "course_transitional_reg": "",
-                "course_valid_from": Array [
+                "course_valid_from": [
                   "2019",
                   "2",
                 ],
-                "course_valid_to": Array [],
+                "course_valid_to": [],
               },
             ],
-            "syllabusSemesterList": Array [
-              Array [
+            "syllabusSemesterList": [
+              [
                 20192,
                 "",
               ],
             ],
           },
           "defaultIndex": 0,
-          "dropdownsOpen": Object {
+          "dropdownsOpen": {
             "roundsDropdown": false,
             "semesterDropdown": false,
           },
@@ -201,17 +201,17 @@ describe('Discontinued course to test', () => {
           "imageFromAdmin": "",
           "isCancelled": false,
           "isDeactivated": false,
-          "keyList": Object {
-            "responsibles": Array [],
-            "teachers": Array [],
+          "keyList": {
+            "responsibles": [],
+            "teachers": [],
           },
           "lang": "sv",
-          "memoList": Object {
-            "20232": Object {
-              "1": Object {
+          "memoList": {
+            "20232": {
+              "1": {
                 "courseCode": "FCK3305",
                 "isPdf": false,
-                "ladokRoundIds": Array [
+                "ladokRoundIds": [
                   "1",
                 ],
                 "lastChangeDate": "Fri Aug 26 2022 14:42:34 GMT+0200 (Central European Summer Time)",
@@ -223,23 +223,23 @@ describe('Discontinued course to test', () => {
               },
             },
           },
-          "paths": Object {
-            "system": Object {
-              "monitor": Object {
+          "paths": {
+            "system": {
+              "monitor": {
                 "uri": "/_monitor",
               },
-              "robots": Object {
+              "robots": {
                 "uri": "/robots.txt",
               },
             },
           },
-          "proxyPrefixPath": Object {
+          "proxyPrefixPath": {
             "uri": "/student/kurser/kurs",
           },
           "roundDisabled": false,
           "roundInfoFade": false,
           "roundSelectedIndex": 0,
-          "sellingText": Object {
+          "sellingText": {
             "en": "",
             "sv": "",
           },
