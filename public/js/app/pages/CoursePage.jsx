@@ -97,7 +97,8 @@ function CoursePage() {
     course_valid_from: courseData.syllabusList[activeSyllabusIndex || 0].course_valid_from,
   }
 
-  const decisionToDiscontinue = courseData.syllabusList[activeSyllabusIndex].course_decision_to_discontinue
+  const { course_decision_to_discontinue: decisionToDiscontinue = '' } =
+    activeSyllabusIndex > -1 ? courseData.syllabusList[activeSyllabusIndex] : {}
 
   useEffect(() => {
     let isMounted = true
