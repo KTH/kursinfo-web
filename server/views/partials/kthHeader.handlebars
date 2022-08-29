@@ -1,13 +1,10 @@
 <!--indexOff: all-->
-<header>
+<header lang={{lang}}>
   <div class='container-fluid'>
     <div class='container'>
       <div class='header-container__top'>
         {{{blocks.image}}}
         {{{blocks.title}}}
-        <div class='block list links secondaryMenu' data-cid='1.857266' lang='sv-SE'>
-          {{{blocks.secondaryMenu}}}
-        </div>
         <div id='mobileMenuWrapper'>
           <button
             id='nav-icon'
@@ -23,13 +20,14 @@
           <nav
             id='mobileMenu'
             aria-label='{{i18n "mobile_menu_aria_label" lang}}'
-            class='col navbar navbar-expand-lg navbar-light sticky-menu'
+            class='block navbar navbar-expand-lg navbar-light'
           >
             <div id='mobileMenuContent' class='navbar-collapse collapse'>
               <ul id='mobileMenuList' class='menu navbar-nav mr-auto'></ul>
             </div>
           </nav>
         </div>
+        {{{blocks.secondaryMenu}}}
       </div>
       <div class='header-container__bottom'>{{{blocks.megaMenu}}} {{{blocks.search}}}</div>
     </div>
