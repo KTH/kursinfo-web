@@ -12,9 +12,6 @@
   {{#if canonicalUrl}}
     <link href="{{canonicalUrl}}" rel="canonical">
   {{/if}}
-
-  <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.7.0/css/all.css"
-    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   
   {{prefixStyle '/static/kth-style/css/kth-bootstrap.css' 'styles' 'screen'}}
   {{prefixStyle '/static/app.css' 'styles' 'screen'}}
@@ -26,7 +23,6 @@
     {{prefixScript '/static/kth-style/js/klaro-no-css.js' 'head-scripts'}}
   {{/if}}
   
-  {{prefixScript '/static/vendor.js' 'head-scripts'}}
   {{prefixScript '/static/browserConfig' 'head-scripts'}}
   {{prefixScript '/static/kth-style/js/menus.js' 'head-scripts'}}
   {{prefixScript '/static/kth-style/js/backtotop.js' 'head-scripts'}}
@@ -53,7 +49,7 @@
 <body lang={{lang}}>
   <a class="skipToMainContent" href="#mainContent" tabindex="1">{{i18n 'skip_to_main_content' lang}}</a>
   {{> kthHeader }}
-  <div class="container start main">
+  <div class="container main">
     <div class="row">
       {{{body}}}
     </div>
