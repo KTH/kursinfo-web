@@ -77,10 +77,13 @@ const generateEmployeeObjectFromGroups = (groupsAlongWithMembers, assistants, te
 
 /**
  * This will first prepare filter query then pass that query to ug rest api and then return groups data along with members.
- * @param {*} courseCode Course code is needed to prepare filter for query.
+ * @param assistants Assistants group name
+ * @param teachers Teachers group name
+ * @param examiners Examiners group name
+ * @param responsibles Responsibles group name
  * @returns Will return groups along with members from ug rest api.
  */
-async function getAllGroupsAlongWithMembersRelatedToCourse(courseCode) {
+async function getAllGroupsAlongWithMembersRelatedToCourse(assistants, teachers, examiners, responsibles) {
   const { url, key } = serverConfig.ugRestApiURL
   const { authTokenURL, authClientId, authClientSecret } = serverConfig.ugAuth
   const ugConnectionProperties = {
@@ -91,16 +94,28 @@ async function getAllGroupsAlongWithMembersRelatedToCourse(courseCode) {
     subscriptionKey: key,
   }
   ugRestApiHelper.initConnectionProperties(ugConnectionProperties)
-  const filterQueryData = `edu.courses.${String(courseCode).slice(0, 2)}.${courseCode}.`
+  const filterData = []
+  if (assistants.length) {
+    filterData.push(assistants[0])
+  }
+  if (teachers.length) {
+    filterData.push(teachers[0])
+  }
+  if (examiners.length) {
+    filterData.push(examiners[0])
+  }
+  if (responsibles.length) {
+    filterData.push(responsibles[0])
+  }
   log.info('Started fetching data of groups along with members from UG Rest Api at ', getCurrentDateTime())
   log.info('Fetching groups along with members')
-  log.info('Using Filter Query Data', { filterQueryData })
-  log.info('Using Filter Operator:', 'startwith')
-  const groupDetails = await ugRestApiHelper.getUGGroupsByGroupName(filterQueryData, 'startswith', true)
+  log.info('Using Filter Query Data', { filterData })
+  log.info('Using Filter Operator:', 'in')
+  const groupDetails = await ugRestApiHelper.getUGGroups('name', 'in', filterData, true)
   log.info('Successfully fetched data of groups along with members from UG Rest Api at ', getCurrentDateTime())
   log.info('Successfully fetched groups data along with members')
-  log.info('Filter Query Data Used', { filterQueryData })
-  log.info('Filter Operator Used :', 'startwith')
+  log.info('Filter Query Data Used', { filterData })
+  log.info('Filter Operator Used :', 'in')
   return groupDetails
 }
 
@@ -117,7 +132,12 @@ async function _getCourseEmployees(apiMemoData) {
       responsibles.length ? responsibles : ''
     )
     // get all groups along with member of given course code from UG Rest Api
-    const groupsAlongWithMembers = await getAllGroupsAlongWithMembersRelatedToCourse(courseCode)
+    const groupsAlongWithMembers = await getAllGroupsAlongWithMembersRelatedToCourse(
+      assistants,
+      teachers,
+      examiners,
+      responsibles
+    )
     return generateEmployeeObjectFromGroups(groupsAlongWithMembers, assistants, teachers, examiners, responsibles)
   } catch (err) {
     log.info('Exception from UG Rest API - multi', { error: err })
