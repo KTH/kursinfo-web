@@ -48,7 +48,7 @@ jest.mock('../../apiCalls/memoApi', () => ({
   getPrioritizedCourseMemos: () => ({ body: mockedCourseMemosForDiscontinuedCourse }),
 }))
 jest.mock('../../apiCalls/koppsCourseData', () => ({ getKoppsCourseData: () => ({ body: mockedDiscontinuedCourse }) }))
-jest.mock('../../apiCalls/ugRedisApi', () => ({
+jest.mock('../../apiCalls/ugRestApi', () => ({
   getCourseEmployees: jest.fn(() => ({ examiners: '<p>Examiner 1 </p>' })),
 }))
 let testResponse, errorResponse
