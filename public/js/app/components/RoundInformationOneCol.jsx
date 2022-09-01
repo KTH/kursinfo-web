@@ -25,6 +25,7 @@ function RoundInformationOneCol({
 
   const [courseRoundEmployees, setCourseRoundEmployees] = React.useState({})
 
+  const { roundSelectedIndex } = context
   const userLangIndex = language === 'en' ? 0 : 1
   const { courseRoundInformation: translate, courseLabels: labels } = i18n.messages[userLangIndex]
   const roundHeader = translate.round_header
@@ -38,14 +39,14 @@ function RoundInformationOneCol({
         : translate.round_category[round.round_category]
     }
   `
-
   React.useEffect(async () => {
-    if (testEmployees) setCourseRoundEmployees(testEmployees)
-    else {
+    if (testEmployees) {
+      setCourseRoundEmployees(testEmployees)
+    } else {
       const employyes = showRoundData ? await context.getCourseEmployees() : null
       if (employyes) setCourseRoundEmployees(employyes)
     }
-  }, [showRoundData])
+  }, [roundSelectedIndex])
 
   function openApplicationLink(ev) {
     ev.preventDefault()
@@ -143,6 +144,7 @@ function RoundInformationOneCol({
                     {translate.round_max_seats}
                     {round && round.round_seats && (
                       <InfoModal
+                        parentTag="h3"
                         closeLabel={labels.label_close}
                         infoText={`<p>${labels.round_seats_default_info} ${
                           round.round_selection_criteria !== '<p></p>' && round.round_selection_criteria !== ''
@@ -157,8 +159,8 @@ function RoundInformationOneCol({
                   {round && <p> {round.round_seats || translate.round_no_seats_limit} </p>}
 
                   <h3 className="t4">{translate.round_time_slots}</h3>
-                  <p dangerouslySetInnerHTML={{ __html: round.round_time_slots }} />
-                  <p dangerouslySetInnerHTML={{ __html: round.round_comment }} />
+                  <span dangerouslySetInnerHTML={{ __html: round.round_time_slots }} />
+                  <span dangerouslySetInnerHTML={{ __html: round.round_comment }} />
                   <CourseFileLinks
                     language={language}
                     courseHasRound={courseHasRound}

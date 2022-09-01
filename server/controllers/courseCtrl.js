@@ -25,9 +25,9 @@ const {
 const { formatVersionDate, getDateFormat } = require('../util/dates')
 const i18n = require('../../i18n')
 
-function parseOrSetEmpty(dataObject, language, setEmpty = false) {
+function parseOrSetEmpty(value, language, setEmpty = false) {
   const emptyText = setEmpty ? '' : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
-  return dataObject ? dataObject : emptyText
+  return value ? value : emptyText
 }
 
 function parceContactName(infoContactName, language) {
@@ -486,7 +486,7 @@ async function getIndex(req, res, next) {
     const { getCompressedData, renderStaticPage } = getServerSideFunctions()
     const webContext = { lang, proxyPrefixPath: serverConfig.proxyPrefixPath, ...createServerSideContext() }
 
-    const { startterm, periods } = req.query
+    const { startterm = '', periods = '' } = req.query || {}
     const startSemesterFromQuery = startterm ? startterm.substring(0, 5) : ''
 
     webContext.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
@@ -507,6 +507,7 @@ async function getIndex(req, res, next) {
       const memoApiResponse = await memoApi.getPrioritizedCourseMemos(courseCode)
       if (memoApiResponse && memoApiResponse.body) {
         webContext.memoList = memoApiResponse.body
+        console.log('memoList', JSON.stringify(webContext.memoList))
       }
     }
 
@@ -611,8 +612,7 @@ async function getIndex(req, res, next) {
 
     res.render('course/index', {
       compressedData,
-      debug: 'debug' in req.query,
-      instrumentationKey: serverConfig.appInsights.instrumentationKey,
+      instrumentationKey: serverConfig?.appInsights?.instrumentationKey,
       html: view,
       title: courseCode.toUpperCase(),
       lang,

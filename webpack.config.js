@@ -233,7 +233,6 @@ module.exports = [
   },
   {
     entry: {
-      vendor: './public/js/vendor.js',
       app: './public/js/app/app.jsx',
     },
 

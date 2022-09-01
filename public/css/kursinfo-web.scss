@@ -210,7 +210,9 @@ main {
 }
 
 .word-break {
-  p {
+  p,
+  li,
+  i {
     word-break: break-word;
   }
 }
@@ -260,9 +262,8 @@ main {
     padding: 0 20px 20px 20px;
     background: #f6f6f6;
   }
-  .btn-info-modal {
-    min-height: 0.95rem;
-    vertical-align: middle;
+  .info-modal-h2-top-fix {
+    top: -0.3em;
   }
 }
 
@@ -329,10 +330,8 @@ main {
 
 .pdf-link-fix {
   margin-left: 0;
-  margin-right: 0.5rem;
   &::before {
     margin-top: 0.5em;
-    margin-right: 0.1em;
     margin-bottom: 0.6em;
     margin-left: 0;
   }

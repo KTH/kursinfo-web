@@ -97,7 +97,8 @@ function CoursePage() {
     course_valid_from: courseData.syllabusList[activeSyllabusIndex || 0].course_valid_from,
   }
 
-  const decisionToDiscontinue = courseData.syllabusList[activeSyllabusIndex].course_decision_to_discontinue
+  const { course_decision_to_discontinue: decisionToDiscontinue = '' } =
+    activeSyllabusIndex > -1 ? courseData.syllabusList[activeSyllabusIndex] : {}
 
   useEffect(() => {
     let isMounted = true
@@ -188,6 +189,7 @@ function CoursePage() {
                         {translation.courseLabels.header_dropdown_menue}
                       </h2>
                       <InfoModal
+                        parentTag="h2"
                         title={translation.courseLabels.header_dropdown_menue}
                         infoText={translation.courseLabels.syllabus_info}
                         type="html"
