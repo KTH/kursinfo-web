@@ -30,6 +30,7 @@
     "@kth/api-call": "^4.0.39",
     "@kth/kth-node-response": "^1.0.7",
     "@kth/kth-node-web-common": "^7.0.12",
+    "@kth/ug-rest-api-helper": "^1.0.0",
     "@kth/log": "^4.0.5",
     "@kth/monitor": "^3.0.25",
     "@kth/server": "^4.0.3",
