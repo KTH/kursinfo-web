@@ -109,7 +109,7 @@ module.exports = {
   // ug redis api base url
   ugRestApiURL: {
     url: getEnv('UG_REST_API_URI', null),
-    key: getEnv('SUBSCRIPTION_KEY', null),
+    key: getEnv('UG_REST_API_SUBSCRIPTION_KEY', null),
   },
 
   // Session
