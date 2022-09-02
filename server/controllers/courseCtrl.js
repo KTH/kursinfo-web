@@ -162,9 +162,6 @@ function _parseSyllabusData(courseDetails, semester = 0, language) {
     course_disposition: semesterSyllabus
       ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.disposition, language)
       : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_eligibility: semesterSyllabus
-      ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.eligibility, language)
-      : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_requirments_for_final_grade: semesterSyllabus
       ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.reqsForFinalGrade, language, true)
       : '',
@@ -201,9 +198,6 @@ function _parseSyllabusData(courseDetails, semester = 0, language) {
       : '',
     course_establishment: semesterSyllabus
       ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.establishment, language, true)
-      : '',
-    course_additional_regulations: semesterSyllabus
-      ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.additionalRegulations, language, true)
       : '',
     course_transitional_reg: semesterSyllabus
       ? parseOrSetEmpty(semesterSyllabus.courseSyllabus.transitionalRegulations, language, true)

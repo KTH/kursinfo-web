@@ -53,11 +53,6 @@ function CourseSectionList(props) {
         : syllabus.course_required_equipment
 
     const during = [
-      {
-        header: translation.courseInformation.course_eligibility,
-        text: syllabus.course_eligibility,
-        syllabusMarker: true,
-      },
       { header: translation.courseInformation.course_prerequisites, text: course.course_prerequisites },
       { header: translation.courseInformation.course_required_equipment, text: courseRequiredEquipment },
       { header: translation.courseInformation.course_literature, text: literatureText },
@@ -155,12 +150,6 @@ function CourseSectionList(props) {
     } else {
       prepare.unshift({ header: translation.courseInformation.course_link, text: course.course_web_link })
     }
-    if (syllabus.course_additional_regulations !== '')
-      prepare.push({
-        header: translation.courseInformation.course_additional_regulations,
-        text: syllabus.course_additional_regulations,
-        syllabusMarker: true,
-      })
 
     return prepare
   }
