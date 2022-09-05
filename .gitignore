@@ -41,3 +41,5 @@ server/views/layouts/errorLayout.handlebars
 
 # Local Docker compose
 docker-compose.yml
+# yarn
+yarn.lock
