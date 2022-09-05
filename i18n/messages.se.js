@@ -121,6 +121,7 @@ module.exports = {
   },
   courseInformation: {
     roundId: 'Kursomgångs nr',
+    course_additional_regulations: 'Övriga föreskrifter',
     course_title: 'Benämning svenska',
     course_other_title: 'Benämning engelska',
     course_code: 'Kurskod',
@@ -129,6 +130,7 @@ module.exports = {
     course_goals: 'Lärandemål',
     course_content: 'Kursinnehåll',
     course_disposition: 'Kursupplägg',
+    course_eligibility: 'Särskild behörighet',
     course_requirments_for_final_grade: 'Övriga krav för slutbetyg',
     course_literature: 'Kurslitteratur',
     course_literature_comment: 'Kommentar till kurslitteratur',
