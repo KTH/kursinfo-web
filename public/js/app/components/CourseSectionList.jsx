@@ -66,6 +66,16 @@ function CourseSectionList(props) {
     return during
   }
 
+  function addParagraphToExamComments(comments = '') {
+    // exam comments missing <p>, have to compensate
+
+    if (comments.startsWith('<p>') || !comments) return comments
+    const splittedComments = comments.split('<p>')
+    const [firstComment] = splittedComments
+    splittedComments[0] = `<p>${firstComment}</p>`
+    return splittedComments.join('<p>')
+  }
+
   function getExamination() {
     const examination = [
       { header: '', text: translation.courseInformation.course_examination_disclaimer },
@@ -79,7 +89,7 @@ function CourseSectionList(props) {
         text: syllabus.course_examination,
         syllabusMarker: true,
       },
-      { header: '', text: syllabus.course_examination_comments, syllabusMarker: true },
+      { header: '', text: addParagraphToExamComments(syllabus.course_examination_comments), syllabusMarker: true },
     ]
 
     if (syllabus.course_requirments_for_final_grade && syllabus.course_requirments_for_final_grade.length > 0) {
