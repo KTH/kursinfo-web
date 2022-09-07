@@ -81,9 +81,18 @@ const generateEmployeeObjectFromGroups = (groupsAlongWithMembers, assistants, te
  * @param teachers Teachers group name
  * @param examiners Examiners group name
  * @param responsibles Responsibles group name
+ * @param courseCode Course code is needed for logs
+ * @param semester Semester is needed for logs
  * @returns Will return groups along with members from ug rest api.
  */
-async function getAllGroupsAlongWithMembersRelatedToCourse(assistants, teachers, examiners, responsibles) {
+async function getAllGroupsAlongWithMembersRelatedToCourse(
+  assistants,
+  teachers,
+  examiners,
+  responsibles,
+  courseCode,
+  semester
+) {
   const { url, key } = serverConfig.ugRestApiURL
   const { authTokenURL, authClientId, authClientSecret } = serverConfig.ugAuth
   const ugConnectionProperties = {
@@ -107,15 +116,13 @@ async function getAllGroupsAlongWithMembersRelatedToCourse(assistants, teachers,
   if (responsibles.length) {
     filterData.push(responsibles[0])
   }
-  log.info('Started fetching data of groups along with members from UG Rest Api at ', getCurrentDateTime())
-  log.info('Fetching groups along with members')
-  log.info('Using Filter Query Data', { filterData })
-  log.info('Using Filter Operator:', 'in')
+  log.info('Going to fetch groups along with members', { courseCode, semester, requestStartTime: getCurrentDateTime() })
   const groupDetails = await ugRestApiHelper.getUGGroups('name', 'in', filterData, true)
-  log.info('Successfully fetched data of groups along with members from UG Rest Api at ', getCurrentDateTime())
-  log.info('Successfully fetched groups data along with members')
-  log.info('Filter Query Data Used', { filterData })
-  log.info('Filter Operator Used :', 'in')
+  log.info('Successfully fetched groups along with members', {
+    courseCode,
+    semester,
+    requestEndTime: getCurrentDateTime(),
+  })
   return groupDetails
 }
 
@@ -136,7 +143,9 @@ async function _getCourseEmployees(apiMemoData) {
       assistants,
       teachers,
       examiners,
-      responsibles
+      responsibles,
+      courseCode,
+      semester
     )
     return generateEmployeeObjectFromGroups(groupsAlongWithMembers, assistants, teachers, examiners, responsibles)
   } catch (err) {
