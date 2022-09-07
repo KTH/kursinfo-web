@@ -157,7 +157,8 @@ function CoursePage() {
                   {courseInfo.course_last_exam[0]}
                 </p>
                 <p />
-                <span>{translation.course_state_alert[courseInfo.course_state].decision}</span>
+                <p>{translation.course_state_alert[courseInfo.course_state].decision}</p>
+                <p />
                 <span dangerouslySetInnerHTML={{ __html: decisionToDiscontinue }} />
               </Alert>
             </div>
