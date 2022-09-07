@@ -16,6 +16,12 @@ const groupNames = (courseCode, semester, ladokRoundIds) => ({
   ), // edu.courses.SF.SF1624.20191.1.assistants
 })
 
+const _removeDuplicates = personListWithDublicates =>
+  personListWithDublicates
+    .map(person => JSON.stringify(person))
+    .filter((person, index, self) => self.indexOf(person) === index)
+    .map(personStr => JSON.parse(personStr))
+
 const createPersonHtml = (personList = []) => {
   let personString = ''
   personList.forEach(person => {
@@ -41,35 +47,79 @@ const getCurrentDateTime = () => {
   return dateTime
 }
 
-const generateEmployeeObjectFromGroups = (groupsAlongWithMembers, assistants, teachers, examiners, responsibles) => {
+const generateEmployeeObjectFromGroups = (
+  groupsAlongWithMembers,
+  assistants,
+  teachers,
+  examiners,
+  responsibles,
+  courseCode,
+  semester
+) => {
   // now need to filter groups according to above mentioned groups
   const employee = {}
   if (assistants.length) {
     const assistantGroup = groupsAlongWithMembers.find(x => x.name === assistants[0])
     if (assistantGroup) {
-      const flatArrWithHtmlStr = createPersonHtml(assistantGroup.members)
+      const uniqueMembers = _removeDuplicates(assistantGroup.members)
+      const flatArrWithHtmlStr = createPersonHtml(uniqueMembers)
       employee.assistants = flatArrWithHtmlStr
+      log.info(
+        ' Ug Rest Api, assistants: ',
+        assistantGroup.members.length,
+        ' for course ',
+        courseCode,
+        ' for semester ',
+        semester
+      )
     }
   }
   if (teachers.length) {
     const teachersGroup = groupsAlongWithMembers.find(x => x.name === teachers[0])
     if (teachersGroup) {
-      const flatArrWithHtmlStr = createPersonHtml(teachersGroup.members)
+      const uniqueMembers = _removeDuplicates(teachersGroup.members)
+      const flatArrWithHtmlStr = createPersonHtml(uniqueMembers)
       employee.teachers = flatArrWithHtmlStr
+      log.info(
+        ' Ug Rest Api, teachers: ',
+        teachersGroup.members.length,
+        ' for course ',
+        courseCode,
+        ' for semester ',
+        semester
+      )
     }
   }
   if (examiners.length) {
     const examinersGroup = groupsAlongWithMembers.find(x => x.name === examiners[0])
     if (examinersGroup) {
-      const flatArrWithHtmlStr = createPersonHtml(examinersGroup.members)
+      const uniqueMembers = _removeDuplicates(examinersGroup.members)
+      const flatArrWithHtmlStr = createPersonHtml(uniqueMembers)
       employee.examiners = flatArrWithHtmlStr
+      log.info(
+        ' Ug Rest Api, examiners: ',
+        examinersGroup.members.length,
+        ' for course ',
+        courseCode,
+        ' for semester ',
+        semester
+      )
     }
   }
   if (responsibles.length) {
     const responsiblesGroup = groupsAlongWithMembers.find(x => x.name === responsibles[0])
     if (responsiblesGroup) {
-      const flatArrWithHtmlStr = createPersonHtml(responsiblesGroup.members)
+      const uniqueMembers = _removeDuplicates(responsiblesGroup.members)
+      const flatArrWithHtmlStr = createPersonHtml(uniqueMembers)
       employee.responsibles = flatArrWithHtmlStr
+      log.info(
+        ' Ug Rest Api, responsibles: ',
+        responsiblesGroup.members.length,
+        ' for course ',
+        courseCode,
+        ' for semester ',
+        semester
+      )
     }
   }
   return employee
@@ -116,7 +166,11 @@ async function getAllGroupsAlongWithMembersRelatedToCourse(
   if (responsibles.length) {
     filterData.push(responsibles[0])
   }
-  log.info('Going to fetch groups along with members', { courseCode, semester, requestStartTime: getCurrentDateTime() })
+  log.info('Going to fetch groups along with members', {
+    courseCode,
+    semester,
+    requestStartTime: getCurrentDateTime(),
+  })
   const groupDetails = await ugRestApiHelper.getUGGroups('name', 'in', filterData, true)
   log.info('Successfully fetched groups along with members', {
     courseCode,
