@@ -83,4 +83,5 @@ async function fetchStatistics(req, res, next) {
 
 module.exports = {
   getIndex,
+  fetchStatistics,
 }
