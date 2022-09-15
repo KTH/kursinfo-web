@@ -6,7 +6,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import { WebContextProvider } from './context/WebContext'
 import { uncompressData } from './context/compress'
-import CoursePage from './pages/CoursePage.jsx'
+import CoursePage from './pages/CoursePage'
+import CourseStatisticsPage from './pages/CourseStatisticsPage'
 
 import '../../css/kursinfo-web.scss'
 
@@ -14,6 +15,7 @@ function appFactory(applicationStore, context) {
   return (
     <WebContextProvider configIn={context}>
       <Routes>
+        <Route exact path="/statistik" element={<CourseStatisticsPage />} />
         <Route exact path="/:courseCode" element={<CoursePage />} />
         <Route exact path="/" element={<CoursePage />} />
       </Routes>
