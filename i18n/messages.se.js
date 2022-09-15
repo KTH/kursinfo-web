@@ -259,4 +259,24 @@ module.exports = {
       decision: 'Avvecklingsbeslut: ',
     },
   },
+  statisticsLabels: {
+    allSchools: 'Alla skolor',
+    courseAnalysis: 'Kursanalys',
+    courseMemo: 'Kurs-PM',
+    btnShowResults: 'Visa statistik',
+    formLabels: {
+      formHeader: 'Visa statistik',
+      formSubHeaders: {
+        documentType: 'Area',
+      },
+    },
+    pageHeader: 'Statistiksidan för kursinformation',
+    period: 'Period',
+    seasonAutumn: 'HT',
+    seasonSpring: 'VT',
+    sortableTable: {
+      courseAnalysis: { header: 'Tabell med kurser och kursanalyser' },
+      courseMemo: { header: 'Tabell med kurser och kurs-PM' },
+    },
+  },
 }

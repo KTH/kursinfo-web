@@ -287,4 +287,24 @@ module.exports = {
       decision: 'Decision to discontinue this course: ',
     },
   },
+  statisticsLabels: {
+    allSchools: 'All schools',
+    courseAnalysis: 'Course analysis',
+    courseMemo: 'Course memo',
+    btnShowResults: 'Show statistics',
+    formLabels: {
+      formHeader: 'Show statistics',
+      formSubHeaders: {
+        documentType: 'Area',
+      },
+    },
+    pageHeader: 'Course Information Statistics',
+    period: 'Period',
+    seasonAutumn: 'Autumn',
+    seasonSpring: 'Spring',
+    sortableTable: {
+      courseAnalysis: { header: 'Table with courses and course analyses' },
+      courseMemo: { header: 'Table with courses and course memos' },
+    },
+  },
 }
