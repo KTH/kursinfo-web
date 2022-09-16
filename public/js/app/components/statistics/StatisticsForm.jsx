@@ -14,8 +14,9 @@ const ORDERED_RADIO_PARAMS = [PARAMS.documentType, PARAMS.school]
 
 function StatisticsForm({ onSubmit }) {
   const [context] = useWebContext()
-  const { documentType = null } = context
   const [state, setState] = useReducer(paramsReducer, {})
+  const { documentType = null } = state
+
   const { language, languageIndex } = context
   // labels are for headers and short texts
   const { statisticsLabels: labels } = i18n.messages[languageIndex]
