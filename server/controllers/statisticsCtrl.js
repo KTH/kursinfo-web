@@ -21,7 +21,6 @@ async function getIndex(req, res, next) {
   const lang = languageUtils.getLanguage(res) || 'sv'
   try {
     const { getCompressedData, renderStaticPage } = getServerSideFunctions()
-
     const webContext = { lang, proxyPrefixPath: serverConfig.proxyPrefixPath, ...createStatisticsServerSideContext() }
     webContext.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     webContext.setLanguage(lang)
@@ -64,16 +63,15 @@ async function getIndex(req, res, next) {
 }
 
 async function fetchStatistics(req, res, next) {
-  const { documentType, year, lang } = req.params
+  const { params, query } = req
+  const { documentType, year, lang } = params
 
-  const { query } = req
   // Example: `text_pattern=${pattern}`
   // const searchParamsStr = stringifyKoppsSearchParams(query)
-
   try {
-    log.debug(` trying to statistics `, { query })
+    log.info(` trying to fetch statistics `, { params, query })
     // TODO: FETCH DATA FROM KOOPPS AND FROM KURS-PM/KURSANALYS API depending on document type
-    const apiResponse = {} // await koppsApi.getSearchResults(searchParamsStr, lang)
+    const apiResponse = { data: 'Hello, results arrived' } // await koppsApi.getSearchResults(searchParamsStr, lang)
     return res.json(apiResponse)
   } catch (error) {
     log.debug(` Exception`, { error })

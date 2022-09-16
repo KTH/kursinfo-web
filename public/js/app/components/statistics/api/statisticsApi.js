@@ -6,9 +6,12 @@ async function fetchStatistics(language, proxyUrl, params) {
     // To-do send all data as a string documentType and year in url so we can see it in
     // Application insights
     const { documentType, year } = params
-    const result = await axios.get(`${proxyUrl}/api/statistics/${documentType}/${year}/${language}`, {
+    const url = `${proxyUrl}/api/kursinfo/statistics/${documentType}/${year}/${language}`
+    const result = await axios.get(
+      url /* , {
       params,
-    })
+    }*/
+    )
     if (result) {
       if (result.status >= 400) {
         return 'ERROR-fetchStatistics-' + result.status
