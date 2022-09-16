@@ -68,7 +68,6 @@ function CheckboxOption({ paramName, onChange }) {
               type="checkbox"
               className="form-check-input"
               onChange={handleChange}
-              checked={!!(options && options.includes(value))}
             />
             <label htmlFor={id} className="form-control-label">
               {label}
