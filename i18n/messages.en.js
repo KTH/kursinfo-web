@@ -300,6 +300,7 @@ module.exports = {
     },
     pageHeader: 'Course Information Statistics',
     period: 'Period',
+    searchLoading: 'Loading ...',
     seasonAutumn: 'Autumn',
     seasonSpring: 'Spring',
     sortableTable: {
