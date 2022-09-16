@@ -89,7 +89,7 @@ function CourseStatisticsPage() {
         <Col>
           {/* Ex Sammanställning av antalet publicerade kurs-PM  */}
           {/* Ex Tabell med kurser och kurs-PM  */}
-          <StatisticsResults searchParameters={params} />
+          <StatisticsResults chosenOptions={params} />
         </Col>
       </Row>
     </div>
