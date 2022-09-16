@@ -19,10 +19,10 @@ function createStatisticsServerSideContext() {
      * @property {string} school
      * @property {number} year
      */
-    documentType: null,
-    periods: null,
-    school: null,
-    year: null,
+    documentType: '',
+    periods: [],
+    school: '',
+    year: '',
     setBrowserConfig,
     setLanguage,
   }
