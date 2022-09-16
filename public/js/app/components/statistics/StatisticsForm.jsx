@@ -10,7 +10,7 @@ import { CheckboxOption, RadioboxOption } from './index'
 
 const paramsReducer = (state, action) => ({ ...state, ...action })
 
-const ORDERED_RADIO_PARAMS = [PARAMS.document, PARAMS.school]
+const ORDERED_RADIO_PARAMS = [PARAMS.documentType, PARAMS.school]
 
 function StatisticsForm({ onSubmit }) {
   const [context] = useWebContext()
@@ -44,19 +44,19 @@ function StatisticsForm({ onSubmit }) {
     >
       {/* documentType,school */}
       {ORDERED_RADIO_PARAMS.map(paramName => (
-        <Row key={`row-for-${paramName}`}>
+        <Row key={`row-for-${paramName}-choice`}>
           <Col>
             <RadioboxOption paramName={paramName} onChange={handleParamChange} />
           </Col>
         </Row>
       ))}
-      <Row>
+      <Row key={`row-for-year-choice`}>
         <Col>
           {/* replace to dropdown */}
           <RadioboxOption paramName="year" onChange={handleParamChange} />
         </Col>
       </Row>
-      <Row>
+      <Row key={`row-for-periods-or-semesters-choice`}>
         <Col>
           {/* depends on type of document to dropdown */}
           <CheckboxOption
