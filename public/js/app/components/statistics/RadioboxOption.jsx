@@ -40,7 +40,6 @@ function RadioboxOption({ paramName, onChange }) {
               type="radio"
               className="form-check-input"
               onChange={handleChange}
-              checked={option === value}
             />
             <label htmlFor={id} className="form-control-label">
               {label}
