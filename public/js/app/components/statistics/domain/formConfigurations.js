@@ -3,6 +3,7 @@ import { periods, schools, semester, year } from './index'
 
 const PARAMS = {
   documentType: 'documentType',
+  periods: 'periods',
   school: 'school',
   semesters: 'semesters',
   year: 'year',
@@ -50,9 +51,7 @@ function getOptionsValues(paramName, langIndex) {
     default: {
       if (typeof paramName !== 'string')
         throw new Error(`Check the type of parameter name: ${paramName} has the type ${typeof paramName}`)
-      throw new Error(
-        `Unknown search options: ${paramName}. Allowed options: eduLevel, showOptions, currentYear, nextYear`
-      )
+      throw new Error(`Unknown search options: ${paramName}. Allowed options: ${Object.values(PARAMS).join(', ')}`)
     }
   }
 }
