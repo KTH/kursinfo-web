@@ -72,7 +72,7 @@ function SortableCoursesAndDocuments({ languageIndex, statisticsStatus, errorTyp
 
   if (statisticsStatus === STATUS.idle) return null
   if (statisticsStatus === STATUS.pending) {
-    const { searchLoading } = i18n.messages[languageIndex].generalSearch
+    const { searchLoading } = i18n.messages[languageIndex].statisticsLabels
     return <p>{searchLoading}</p>
   }
   if (errorType) return errorItalicParagraph(errorType, languageIndex)
@@ -95,9 +95,8 @@ SortableCoursesAndDocuments.defaultProps = {
 }
 
 function StatisticsResults({ chosenOptions }) {
-  const { browserConfig, language, languageIndex } = useWebContext()
+  const [{ proxyPrefixPath, language, languageIndex }] = useWebContext()
   const { documentType } = chosenOptions
-
   // const [loadStatus, setLoadStatus] = useState('firstLoad')
 
   // TODO: FETCH TEXTS AND STATISTIC BY DOCUMENT TYPE
@@ -108,7 +107,7 @@ function StatisticsResults({ chosenOptions }) {
     // TODO: CHECK ALL PARAMS?
     if (!documentType) return
 
-    const proxyUrl = _getThisHost(browserConfig.proxyPrefixPath.uri)
+    const proxyUrl = _getThisHost(proxyPrefixPath.uri)
     // eslint-disable-next-line consistent-return
     return fetchStatistics(language, proxyUrl, chosenOptions)
   }, [chosenOptions])
