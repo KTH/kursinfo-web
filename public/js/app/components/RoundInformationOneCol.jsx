@@ -46,7 +46,7 @@ function RoundInformationOneCol({
       const employyes = showRoundData ? await context.getCourseEmployees() : null
       if (employyes) setCourseRoundEmployees(employyes)
     }
-  }, [roundSelectedIndex])
+  }, [showRoundData, roundSelectedIndex])
 
   function openApplicationLink(ev) {
     ev.preventDefault()
