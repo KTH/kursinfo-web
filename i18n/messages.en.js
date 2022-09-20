@@ -146,7 +146,7 @@ module.exports = {
     course_decision_to_discontinue: 'Avvecklingsbeslut',
     course_transitional_reg: 'Transitional regulations',
     course_ethical: 'Ethical approach',
-    course_spossibility_to_completions: 'Opportunity to complete the requirements via supplementary examination',
+    course_possibility_to_completions: 'Opportunity to complete the requirements via supplementary examination',
     course_possibility_to_addition: 'Opportunity to raise an approved grade via renewed examination',
     course_short_semester: {
       1: 'Spring ',

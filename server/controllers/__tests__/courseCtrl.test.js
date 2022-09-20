@@ -1,4 +1,5 @@
 'use strict'
+
 import { mockedCourseMemosForDiscontinuedCourse, mockedDiscontinuedCourse } from '../mocks/mockedDiscontinuedCourse'
 
 jest.mock('../../server', () => ({
@@ -128,10 +129,10 @@ describe('Discontinued course to test', () => {
               "course_literature": "<p>Litteratur anvisas vid kursstart.</p>",
               "course_main_subject": "Denna kurs tillhör inget huvudområde.",
               "course_possibility_to_addition": "<i>Ingen information tillagd</i>",
+              "course_possibility_to_completions": "<i>Ingen information tillagd</i>",
               "course_prerequisites": "<i>Ingen information tillagd</i>",
               "course_recruitment_text": "<p>Teori och metoder inom glykovetenskap.</p>",
               "course_required_equipment": "<i>Ingen information tillagd</i>",
-              "course_spossibility_to_completions": "<i>Ingen information tillagd</i>",
               "course_state": "ESTABLISHED",
               "course_suggested_addon_studies": "<i>Ingen information tillagd</i>",
               "course_supplemental_information": "<p>Ers&#228;tter kurs FBB3640.</p>",

@@ -108,8 +108,8 @@ function CourseSectionList(props) {
       })
     }
     examination.push({
-      header: translation.courseInformation.course_spossibility_to_completions,
-      text: course.course_spossibility_to_completions,
+      header: translation.courseInformation.course_possibility_to_completions,
+      text: course.course_possibility_to_completions,
     })
     examination.push({
       header: translation.courseInformation.course_possibility_to_addition,
