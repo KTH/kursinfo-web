@@ -81,8 +81,9 @@ function _parseCourseDefaultInformation(courseDetails, language) {
           '</a>'
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_disposition: parseOrSetEmpty(course.courseDeposition, language),
-    course_grade_scale: parseOrSetEmpty(formattedGradeScales[course.gradeScaleCode], language),
+    course_education_type_id: course.educationalTypeId || null,
     course_examiners: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    course_grade_scale: parseOrSetEmpty(formattedGradeScales[course.gradeScaleCode], language),
     course_last_exam: course.lastExamTerm ? course.lastExamTerm.term.toString().match(/.{1,4}/g) : [],
     course_level_code: parseOrSetEmpty(course.educationalLevelCode),
     course_literature: parseOrSetEmpty(course.courseLiterature, language),

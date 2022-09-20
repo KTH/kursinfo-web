@@ -122,6 +122,7 @@ describe('Discontinued course to test', () => {
               "course_department_code": "CE",
               "course_department_link": "<a href="/cbh/" target="blank">CBH/Kemi</a>",
               "course_disposition": "<p>Kursen omfattar cirka 200 heltidsstudietimmar och utg&#246;rs av f&#246;rel&#228;sningar och praktiska laborationer. Laborationerna omfattar relevanta och aktuella experimentella metoder inom kolhydratteknik, t.ex. kolhydratanalys, produktion av kolhydrataktiva enzymer, preparation och karakterisering av vedbaserade nanomaterial och kolhydratsyntes. En mer detaljerad beskrivning av kursens inneh&#229;ll och uppl&#228;gg &#229;terfinns i kurs-PM.</p>",
+              "course_education_type_id": null,
               "course_examiners": "<p>Examiner 1 </p>",
               "course_grade_scale": "P, F",
               "course_last_exam": [],
