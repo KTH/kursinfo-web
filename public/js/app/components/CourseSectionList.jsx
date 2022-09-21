@@ -13,6 +13,11 @@ function CourseSectionList(props) {
   const [context] = useWebContext()
   const { courseData = {} } = context
   const { language = 'sv' } = courseData
+  // const { activeRoundIndex, activeSemester, courseData = {} } = context
+  // const { language = 'sv', roundList = [] } = courseData
+  // const { round_funding_type: roundFundingType = '' } = roundList[activeSemester]
+  // ? roundList[activeSemester][activeRoundIndex]
+  // : {}
   const translation = i18n.messages[language === 'en' ? 0 : 1]
   const { courseInfo: course = {}, partToShow, syllabusList: syllabus = {}, syllabusName, syllabusSemesterList } = props
 
@@ -28,6 +33,21 @@ function CourseSectionList(props) {
     }
 
     return content
+  }
+
+  function getEligibility() {
+    const isContractEducation = [101992, 101993].includes(course.course_education_type_id)
+
+    if (isContractEducation) return [{}]
+    // if (roundFundingType === 'UPP') return [{}]
+
+    return [
+      {
+        header: translation.courseInformation.course_eligibility,
+        text: syllabus.course_eligibility,
+        syllabusMarker: true,
+      },
+    ]
   }
 
   function getExecution() {
@@ -52,12 +72,10 @@ function CourseSectionList(props) {
         ? course.course_required_equipment
         : syllabus.course_required_equipment
 
+    const eligibility = getEligibility()
+
     const during = [
-      {
-        header: translation.courseInformation.course_eligibility,
-        text: syllabus.course_eligibility,
-        syllabusMarker: true,
-      },
+      ...eligibility,
       { header: translation.courseInformation.course_prerequisites, text: course.course_prerequisites },
       { header: translation.courseInformation.course_required_equipment, text: courseRequiredEquipment },
       { header: translation.courseInformation.course_literature, text: literatureText },
@@ -100,8 +118,8 @@ function CourseSectionList(props) {
       })
     }
     examination.push({
-      header: translation.courseInformation.course_spossibility_to_completions,
-      text: course.course_spossibility_to_completions,
+      header: translation.courseInformation.course_possibility_to_completions,
+      text: course.course_possibility_to_completions,
     })
     examination.push({
       header: translation.courseInformation.course_possibility_to_addition,

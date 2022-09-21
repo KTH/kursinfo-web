@@ -67,16 +67,11 @@ async function getKoppsCourseData(req, res, next) {
 function _parseCourseDefaultInformation(courseDetails, language) {
   const { course, formattedGradeScales, mainSubjects, socialCoursePageUrl } = courseDetails
   return {
-    course_code: parseOrSetEmpty(course.courseCode),
     course_application_info: parseOrSetEmpty(course.applicationInfo, language, true),
-    course_grade_scale: parseOrSetEmpty(formattedGradeScales[course.gradeScaleCode], language),
-    course_level_code: parseOrSetEmpty(course.educationalLevelCode),
-    course_main_subject:
-      mainSubjects && mainSubjects.length > 0
-        ? mainSubjects.join(', ')
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
-    course_recruitment_text: parseOrSetEmpty(course.recruitmentText, language, true),
+    course_code: parseOrSetEmpty(course.courseCode),
+    course_contact_name: parceContactName(course.infoContactName, language),
     course_department: parseOrSetEmpty(course.department.name, language),
+    course_department_code: parseOrSetEmpty(course.department.code, language),
     course_department_link:
       parseOrSetEmpty(course.department.name, language) !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
         ? '<a href="/' +
@@ -85,22 +80,28 @@ function _parseCourseDefaultInformation(courseDetails, language) {
           course.department.name +
           '</a>'
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_department_code: parseOrSetEmpty(course.department.code, language),
-    course_contact_name: parceContactName(course.infoContactName, language),
+    course_disposition: parseOrSetEmpty(course.courseDeposition, language),
+    course_education_type_id: course.educationalTypeId || null,
+    course_examiners: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    course_grade_scale: parseOrSetEmpty(formattedGradeScales[course.gradeScaleCode], language),
+    course_last_exam: course.lastExamTerm ? course.lastExamTerm.term.toString().match(/.{1,4}/g) : [],
+    course_level_code: parseOrSetEmpty(course.educationalLevelCode),
+    course_literature: parseOrSetEmpty(course.courseLiterature, language),
+    course_main_subject:
+      mainSubjects && mainSubjects.length > 0
+        ? mainSubjects.join(', ')
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
+    course_possibility_to_addition: parseOrSetEmpty(course.possibilityToAddition, language),
+    course_possibility_to_completions: parseOrSetEmpty(course.possibilityToCompletion, language),
     course_prerequisites: parseOrSetEmpty(course.prerequisites, language),
+    course_recruitment_text: parseOrSetEmpty(course.recruitmentText, language, true),
+    course_required_equipment: parseOrSetEmpty(course.requiredEquipment, language),
     course_suggested_addon_studies: parseOrSetEmpty(course.addOn, language),
     course_supplemental_information_url: parseOrSetEmpty(course.supplementaryInfoUrl, language),
     course_supplemental_information_url_text: parseOrSetEmpty(course.supplementaryInfoUrlName, language),
     course_supplemental_information: parseOrSetEmpty(course.supplementaryInfo, language),
-    course_examiners: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_last_exam: course.lastExamTerm ? course.lastExamTerm.term.toString().match(/.{1,4}/g) : [],
-    course_web_link: parseOrSetEmpty(socialCoursePageUrl, language),
-    course_spossibility_to_completions: parseOrSetEmpty(course.possibilityToCompletion, language),
-    course_disposition: parseOrSetEmpty(course.courseDeposition, language),
-    course_possibility_to_addition: parseOrSetEmpty(course.possibilityToAddition, language),
-    course_literature: parseOrSetEmpty(course.courseLiterature, language),
-    course_required_equipment: parseOrSetEmpty(course.requiredEquipment, language),
     course_state: parseOrSetEmpty(course.state, language, true),
+    course_web_link: parseOrSetEmpty(socialCoursePageUrl, language),
   }
 }
 
@@ -115,7 +116,7 @@ function _parseTitleData({ course }) {
 }
 
 function _parseExamObject(exams, grades, language = 0, semester = '', creditUnitAbbr) {
-  var matchingExamSemester = ''
+  let matchingExamSemester = ''
   Object.keys(exams).forEach(key => {
     if (Number(semester) >= Number(key)) {
       matchingExamSemester = key
@@ -123,7 +124,7 @@ function _parseExamObject(exams, grades, language = 0, semester = '', creditUnit
   })
   let examString = "<ul class='ul-no-padding' >"
   if (exams[matchingExamSemester] && exams[matchingExamSemester].examinationRounds.length > 0) {
-    for (let exam of exams[matchingExamSemester].examinationRounds) {
+    for (const exam of exams[matchingExamSemester].examinationRounds) {
       if (exam.credits) {
         //* * Adding a decimal if it's missing in credits **/
         exam.credits =
@@ -241,7 +242,7 @@ function _getRoundProgramme(programmes, language = 0) {
 }
 
 function _getRoundPeriodes(courseRoundTerms, language = 'sv') {
-  var periodeString = ''
+  let periodeString = ''
   if (courseRoundTerms) {
     if (courseRoundTerms.length > 1) {
       courseRoundTerms.map(
@@ -339,7 +340,7 @@ function _parseRounds(roundInfos, courseCode, language, webContext) {
   const tempList = []
   let courseRound
   const courseRoundList = {}
-  for (let roundInfo of roundInfos) {
+  for (const roundInfo of roundInfos) {
     courseRound = _getRound(roundInfo, language)
     const { round_course_term: yearAndTermArr, roundId: ladokRoundId } = courseRound
     const semester = yearAndTermArr.join('')
