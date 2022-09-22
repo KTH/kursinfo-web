@@ -73,9 +73,9 @@ describe('Get list of  for each option on statistics page  in Swedish', () => {
     expect(years).toMatchInlineSnapshot(`
       [
         {
-          "id": "2019",
-          "label": "2019",
-          "value": "2019",
+          "id": 2019,
+          "label": 2019,
+          "value": 2019,
         },
         {
           "id": 2020,
@@ -127,6 +127,11 @@ describe('Get list of  for each option on statistics page  in Swedish', () => {
           "id": 3,
           "label": "Period 3, VT",
           "value": 3,
+        },
+        {
+          "id": 0,
+          "label": "Sommar",
+          "value": 0,
         },
         {
           "id": 2,

@@ -73,9 +73,9 @@ describe('Get list of  for each option on statistics page in English', () => {
     expect(years).toMatchInlineSnapshot(`
       [
         {
-          "id": "2019",
-          "label": "2019",
-          "value": "2019",
+          "id": 2019,
+          "label": 2019,
+          "value": 2019,
         },
         {
           "id": 2020,
@@ -127,6 +127,11 @@ describe('Get list of  for each option on statistics page in English', () => {
           "id": 3,
           "label": "Period 3, spring",
           "value": 3,
+        },
+        {
+          "id": 0,
+          "label": "Summer",
+          "value": 0,
         },
         {
           "id": 2,
