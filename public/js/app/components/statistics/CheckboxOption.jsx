@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Col, Row } from 'reactstrap'
 import { useWebContext } from '../../context/WebContext'
-
+import InfoModal from '../InfoModal'
 import i18n from '../../../../../i18n'
+
 import { getOptionsValues, splitToBulks } from './domain/formConfigurations'
 
 const optionsReducer = (state, action) => {
@@ -38,7 +39,10 @@ function CheckboxOption({ paramName, onChange }) {
   const { languageIndex } = context
 
   const [{ options }, setOptions] = React.useReducer(optionsReducer, { options: context[paramName] || [] }) // ???
-  const { formLabels } = i18n.messages[languageIndex].statisticsLabels
+  const { statisticsLabels, courseLabels: labels } = i18n.messages[languageIndex]
+
+  const { formLabels } = statisticsLabels
+
   const headerLabel = formLabels.formSubHeaders[paramName]
   const shortIntro = formLabels.formShortIntro[paramName]
 
@@ -61,7 +65,18 @@ function CheckboxOption({ paramName, onChange }) {
 
   return (
     <div key={paramName} className="form-group">
-      <h3>{headerLabel}</h3>
+      <h3>
+        {headerLabel}
+        {paramName === 'periods' && (
+          <InfoModal
+            parentTag="h3"
+            closeLabel={labels.label_close}
+            infoText={'Some text for study periods'}
+            title={headerLabel}
+            type="html"
+          />
+        )}
+      </h3>
 
       <fieldset>
         <legend className="form-control-label">{shortIntro}</legend>
