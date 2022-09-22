@@ -66,13 +66,13 @@ function CourseStatisticsPage() {
   }
 
   return (
-    <div className="container" style={{ paddingTop: '30px' }}>
+    <div className="container" id="kursstatistik-main-page" style={{ paddingTop: '30px' }}>
       <Row>
         <Col>
           <header>
-            <h1>{labels.pageHeader}</h1>
-            <div className="lead">{texts.pageDescription()}</div>
+            <h1 id="page-heading">{labels.pageHeader}</h1>
           </header>
+          <div className="lead">{texts.pageDescription()}</div>
         </Col>
       </Row>
       <Row>
@@ -82,6 +82,7 @@ function CourseStatisticsPage() {
       </Row>
       <Row>
         <Col>
+          <h2>{labels.formLabels.formHeader}</h2>
           <StatisticsForm onSubmit={handleSubmit} />
         </Col>
       </Row>
