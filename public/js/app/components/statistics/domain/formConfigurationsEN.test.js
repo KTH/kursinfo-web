@@ -110,6 +110,11 @@ describe('Get list of  for each option on statistics page in English', () => {
           "label": "Spring",
           "value": 1,
         },
+        {
+          "id": 0,
+          "label": "Summer",
+          "value": 0,
+        },
       ]
     `)
   })

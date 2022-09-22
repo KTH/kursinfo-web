@@ -7,9 +7,9 @@ const termConstants = {
   SUMMER_TERM_NUMBER: 0,
 }
 const ORDERED_SEASONS = [
-  termConstants.SUMMER_TERM_NUMBER,
-  termConstants.SPRING_TERM_NUMBER,
   termConstants.AUTUMN_TERM_NUMBER,
+  termConstants.SPRING_TERM_NUMBER,
+  termConstants.SUMMER_TERM_NUMBER,
 ]
 
 /**
@@ -22,9 +22,9 @@ function labelSeason(seasonNumber, langIndex) {
 
   switch (seasonNumber) {
     case termConstants.SUMMER_TERM_NUMBER:
-      return labels.seasonAutumn
-    case termConstants.AUTUMN_TERM_NUMBER:
       return labels.seasonSummer
+    case termConstants.AUTUMN_TERM_NUMBER:
+      return labels.seasonAutumn
     case termConstants.SPRING_TERM_NUMBER:
       return labels.seasonSpring
     default: {

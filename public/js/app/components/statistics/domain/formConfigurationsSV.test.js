@@ -96,8 +96,15 @@ describe('Get list of  for each option on statistics page  in Swedish', () => {
     `)
   })
 
+  test('get autumn options out of list of semesters seasons', () => {
+    const semesters = getOptionsValues(PARAMS.semesters, SV_INDEX)
+    const autumn = semesters.find(semester => (semester.id = 2))
+    expect(autumn.label).toBe('HT')
+  })
+
   test('get options list of semesters seasons', () => {
     const semesters = getOptionsValues(PARAMS.semesters, SV_INDEX)
+
     expect(semesters).toMatchInlineSnapshot(`
       [
         {
@@ -109,6 +116,11 @@ describe('Get list of  for each option on statistics page  in Swedish', () => {
           "id": 1,
           "label": "VT",
           "value": 1,
+        },
+        {
+          "id": 0,
+          "label": "Sommar",
+          "value": 0,
         },
       ]
     `)
