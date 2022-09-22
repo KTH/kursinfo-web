@@ -56,4 +56,12 @@ function getOptionsValues(paramName, langIndex) {
   }
 }
 
-export { DOCUMENT_TYPES, getOptionsValues, PARAMS }
+function splitToBulks(arr, bulkSize = 2) {
+  const bulks = []
+  for (let i = 0; i < Math.ceil(arr.length / bulkSize); i++) {
+    bulks.push(arr.slice(i * bulkSize, (i + 1) * bulkSize))
+  }
+  return bulks
+}
+
+export { DOCUMENT_TYPES, getOptionsValues, PARAMS, splitToBulks }
