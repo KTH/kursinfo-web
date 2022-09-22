@@ -30,7 +30,15 @@ const SUMMER_PERIOD_SPRING = KthPeriod.P5
  */
 const SUMMER_PERIOD_AUTUMN = KthPeriod.P0
 
-const ORDERED_PERIODS = [AUTUMN_FIRST_PERIOD, SPRING_FIRST_PERIOD, AUTUMN_SECOND_PERIOD, SPRING_SECOND_PERIOD]
+const SUMMER_PERIOD_GROUPED = KthPeriod.P0 // will mean both periods P0 and P5
+
+const ORDERED_PERIODS = [
+  AUTUMN_FIRST_PERIOD,
+  SPRING_FIRST_PERIOD,
+  SUMMER_PERIOD_GROUPED,
+  AUTUMN_SECOND_PERIOD,
+  SPRING_SECOND_PERIOD,
+]
 
 const groupedPeriodsBySeasonInCorrectOrder = {
   spring: [SPRING_FIRST_PERIOD, SPRING_SECOND_PERIOD],
@@ -56,8 +64,9 @@ function _isFallPeriod(periodNumber) {
  */
 function labelPeriod(periodNumber, langIndex) {
   const { statisticsLabels: labels } = i18n.messages[langIndex]
-  const seasonName = _isFallPeriod(periodNumber) ? labels.seasonAutumn : labels.seasonSpring
+  if (periodNumber === SUMMER_PERIOD_GROUPED) return labels.seasonSummer
 
+  const seasonName = _isFallPeriod(periodNumber) ? labels.seasonAutumn : labels.seasonSpring
   return `${labels.period} ${periodNumber}, ${langIndex === 0 ? seasonName.toLowerCase() : seasonName}`
 }
 
