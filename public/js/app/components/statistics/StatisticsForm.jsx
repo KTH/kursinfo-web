@@ -4,14 +4,29 @@ import PropTypes from 'prop-types'
 import i18n from '../../../../../i18n'
 import { useWebContext } from '../../context/WebContext'
 import { englishTexts, swedishTexts } from './StatisticsTexts'
-import { PARAMS } from './domain/formConfigurations'
+// import { PARAMS } from './domain/formConfigurations'
 
-import { CheckboxOption, RadioboxOption } from './index'
+import { CheckboxOption, DropdownOption, RadioboxOption } from './index'
 
-const paramsReducer = (state, action) => ({ ...state, ...action })
+const paramsReducer = (state, action) => {
+  const { value, type } = action
 
-const ORDERED_RADIO_PARAMS = [PARAMS.documentType, PARAMS.school]
+  switch (type) {
+    case 'UPDATE_STATE': {
+      return { ...state, ...value }
+    }
+    case 'SWITCH_STATE': {
+      return value
+    }
+    default: {
+      throw new Error(
+        `Cannot change the state in reducer. Unknown type of action: ${type}. Allowed options: UPDATE_STATE, SWITCH_STATE`
+      )
+    }
+  }
+}
 
+// const ORDERED_RADIO_PARAMS = [PARAMS.documentType, PARAMS.school]
 function StatisticsForm({ onSubmit }) {
   const [context] = useWebContext()
   const [state, setState] = useReducer(paramsReducer, {})
@@ -22,8 +37,6 @@ function StatisticsForm({ onSubmit }) {
   const { statisticsLabels: labels } = i18n.messages[languageIndex]
   // texts are for big texts with several <p>, or dynamic
   const texts = language === 'en' ? englishTexts : swedishTexts
-  // const currentYearDate = new Date().getFullYear()
-  // const nextYearDate = Number(currentYearDate) + 1
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -31,41 +44,49 @@ function StatisticsForm({ onSubmit }) {
   }
 
   function handleParamChange(params) {
-    setState(params)
+    // if (documentType && params.documentType) {
+    //   const newDocumentType = params.documentType
+    //   if (newDocumentType !== documentType) setState({ value: { documentType }, type: 'SWITCH_STATE' })
+    // }
+    setState({ value: params, type: 'UPDATE_STATE' })
   }
 
   return (
     <form
       onSubmit={handleSubmit}
-      aria-label={'??????'}
-      name="statistics-options-choise"
+      name="statistics-options-choice"
       style={{
         display: 'block',
       }}
     >
-      {/* documentType,school */}
-      {ORDERED_RADIO_PARAMS.map(paramName => (
-        <Row key={`row-for-${paramName}-choice`}>
-          <Col>
-            <RadioboxOption paramName={paramName} onChange={handleParamChange} />
-          </Col>
-        </Row>
-      ))}
-      <Row key={`row-for-year-choice`}>
+      <Row key={`row-for-documentType-choice`}>
         <Col>
-          {/* replace to dropdown */}
-          <RadioboxOption paramName="year" onChange={handleParamChange} />
+          <RadioboxOption paramName={'documentType'} onChange={handleParamChange} />
         </Col>
       </Row>
-      <Row key={`row-for-periods-or-semesters-choice`}>
-        <Col>
-          {/* depends on type of document to dropdown */}
-          <CheckboxOption
-            paramName={documentType === 'courseMemo' ? 'periods' : 'semesters'}
-            onChange={handleParamChange}
-          />
-        </Col>
-      </Row>
+      {documentType && (
+        <>
+          <Row key={`row-for-school-choice`}>
+            <Col>
+              <RadioboxOption paramName={'school'} onChange={handleParamChange} />
+            </Col>
+          </Row>
+          <Row key={`row-for-year-choice`}>
+            <Col>
+              <DropdownOption paramName="year" onChange={handleParamChange} />
+            </Col>
+          </Row>
+          <Row key={`row-for-periods-or-semesters-choice`}>
+            <Col>
+              {/* depends on type of document to dropdown */}
+              <CheckboxOption
+                paramName={documentType === 'courseMemo' ? 'periods' : 'semesters'}
+                onChange={handleParamChange}
+              />
+            </Col>
+          </Row>
+        </>
+      )}
       <Row>
         <Col>
           <button className="btn btn-primary" type="submit" style={{ float: 'left' }}>
