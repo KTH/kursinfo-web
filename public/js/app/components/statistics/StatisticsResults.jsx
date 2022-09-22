@@ -30,7 +30,9 @@ function dismountTopAlert() {
 }
 
 const errorItalicParagraph = (errorType, languageIndex) => {
-  const errorText = i18n.messages[languageIndex].generalSearch[errorType]
+  const { statisticsLabels: labels } = i18n.messages[languageIndex]
+
+  const errorText = labels[errorType].text
   if (!errorText)
     throw new Error(
       `Missing translations for errorType: ${errorType}. Allowed types: ${Object.values(ERROR_ASYNC).join(', ')}`
@@ -100,11 +102,10 @@ function StatisticsResults({ chosenOptions }) {
   // const [loadStatus, setLoadStatus] = useState('firstLoad')
 
   // TODO: FETCH TEXTS AND STATISTIC BY DOCUMENT TYPE
-  // const { sortableTable } = i18n.messages[languageIndex].statisticsLabels
-  // const { documentType } = chosenOptions
+  const { statisticsLabels } = i18n.messages[languageIndex]
+  const header = statisticsLabels[documentType]
 
   const asyncCallback = React.useCallback(() => {
-    // TODO: CHECK ALL PARAMS?
     if (!documentType) return
 
     const proxyUrl = _getThisHost(proxyPrefixPath.uri)
@@ -130,8 +131,13 @@ function StatisticsResults({ chosenOptions }) {
 
   return (
     <>
-      {statisticsStatus !== STATUS.idle && <h2 id="results-heading">{'????? RESULTS HEADER'}</h2>}
-
+      {statisticsStatus !== STATUS.idle && (
+        <Row>
+          <Col>
+            <h2 id="results-heading">{header}</h2>
+          </Col>
+        </Row>
+      )}
       <SortableCoursesAndDocuments
         statisticsStatus={statisticsStatus}
         errorType={errorType}
