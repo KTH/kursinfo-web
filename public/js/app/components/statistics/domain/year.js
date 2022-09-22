@@ -1,9 +1,10 @@
+const YEAR_MINIMUM = 2019 // The earliest year accepted by the system.
+
 function getYears() {
-  const earliestYear = '2019'
   const today = new Date()
   const currentYear = today.getFullYear()
   const years = []
-  let y = earliestYear
+  let y = YEAR_MINIMUM
   while (y <= currentYear) {
     years.push(y)
     y++
