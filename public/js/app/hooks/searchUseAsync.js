@@ -3,17 +3,19 @@ import React, { useEffect } from 'react'
 const STATUS = {
   pending: 'pending',
   resolved: 'resolved',
-  overflow: 'overflow',
-  noQueryProvided: 'noQueryProvided',
-  noHits: 'noHits',
+  missingParameters: 'missingParameters',
   rejected: 'rejected',
 }
 const ERROR_ASYNC = {
+  missingParameters: 'missingParameters',
   rejected: 'errorUnknown',
 }
 
 function asyncReducer(state, action) {
   switch (action.type) {
+    case 'missingParameters': {
+      return { status: STATUS.missingParameters, data: null, error: ERROR_ASYNC.missingParameters }
+    }
     case 'pending': {
       return { status: STATUS.pending, data: null, error: null }
     }
@@ -28,6 +30,7 @@ function asyncReducer(state, action) {
     }
   }
 }
+const missingParametersDispatch = dispatch => dispatch({ type: STATUS.missingParameters })
 
 function useAsync(asyncCallback, initialState) {
   const [state, dispatch] = React.useReducer(asyncReducer, {
@@ -44,6 +47,7 @@ function useAsync(asyncCallback, initialState) {
       data => {
         const { errorCode } = data
         if (errorCode) dispatch({ type: STATUS.rejected, error: errorCode })
+        else if (data === 'missing-parameters-in-query') missingParametersDispatch(dispatch)
         else dispatch({ type: STATUS.resolved, data })
       },
       error => dispatch({ type: STATUS.rejected, error }) // 'error-unknown'
