@@ -35,11 +35,12 @@ function CourseSectionList(props) {
     return content
   }
 
-  function getEligibility() {
-    const isContractEducation = [101992, 101993].includes(course.course_education_type_id)
+  function isContractEducation() {
+    return [101992, 101993].includes(course.course_education_type_id)
+  }
 
-    if (isContractEducation) return [{}]
-    // if (roundFundingType === 'UPP') return [{}]
+  function getEligibility() {
+    if (isContractEducation()) return [{}]
 
     return [
       {
@@ -183,7 +184,7 @@ function CourseSectionList(props) {
     } else {
       prepare.unshift({ header: translation.courseInformation.course_link, text: course.course_web_link })
     }
-    if (syllabus.course_additional_regulations !== '')
+    if (!isContractEducation() && syllabus.course_additional_regulations !== '')
       prepare.push({
         header: translation.courseInformation.course_additional_regulations,
         text: syllabus.course_additional_regulations,
