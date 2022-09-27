@@ -67,16 +67,11 @@ async function getKoppsCourseData(req, res, next) {
 function _parseCourseDefaultInformation(courseDetails, language) {
   const { course, formattedGradeScales, mainSubjects, socialCoursePageUrl } = courseDetails
   return {
-    course_code: parseOrSetEmpty(course.courseCode),
     course_application_info: parseOrSetEmpty(course.applicationInfo, language, true),
-    course_grade_scale: parseOrSetEmpty(formattedGradeScales[course.gradeScaleCode], language),
-    course_level_code: parseOrSetEmpty(course.educationalLevelCode),
-    course_main_subject:
-      mainSubjects && mainSubjects.length > 0
-        ? mainSubjects.join(', ')
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
-    course_recruitment_text: parseOrSetEmpty(course.recruitmentText, language, true),
+    course_code: parseOrSetEmpty(course.courseCode),
+    course_contact_name: parceContactName(course.infoContactName, language),
     course_department: parseOrSetEmpty(course.department.name, language),
+    course_department_code: parseOrSetEmpty(course.department.code, language),
     course_department_link:
       parseOrSetEmpty(course.department.name, language) !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
         ? '<a href="/' +
@@ -85,22 +80,28 @@ function _parseCourseDefaultInformation(courseDetails, language) {
           course.department.name +
           '</a>'
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_department_code: parseOrSetEmpty(course.department.code, language),
-    course_contact_name: parceContactName(course.infoContactName, language),
+    course_disposition: parseOrSetEmpty(course.courseDeposition, language),
+    course_education_type_id: course.educationalTypeId || null,
+    course_examiners: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    course_grade_scale: parseOrSetEmpty(formattedGradeScales[course.gradeScaleCode], language),
+    course_last_exam: course.lastExamTerm ? course.lastExamTerm.term.toString().match(/.{1,4}/g) : [],
+    course_level_code: parseOrSetEmpty(course.educationalLevelCode),
+    course_literature: parseOrSetEmpty(course.courseLiterature, language),
+    course_main_subject:
+      mainSubjects && mainSubjects.length > 0
+        ? mainSubjects.join(', ')
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
+    course_possibility_to_addition: parseOrSetEmpty(course.possibilityToAddition, language),
+    course_possibility_to_completions: parseOrSetEmpty(course.possibilityToCompletion, language),
     course_prerequisites: parseOrSetEmpty(course.prerequisites, language),
+    course_recruitment_text: parseOrSetEmpty(course.recruitmentText, language, true),
+    course_required_equipment: parseOrSetEmpty(course.requiredEquipment, language),
     course_suggested_addon_studies: parseOrSetEmpty(course.addOn, language),
     course_supplemental_information_url: parseOrSetEmpty(course.supplementaryInfoUrl, language),
     course_supplemental_information_url_text: parseOrSetEmpty(course.supplementaryInfoUrlName, language),
     course_supplemental_information: parseOrSetEmpty(course.supplementaryInfo, language),
-    course_examiners: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_last_exam: course.lastExamTerm ? course.lastExamTerm.term.toString().match(/.{1,4}/g) : [],
-    course_web_link: parseOrSetEmpty(socialCoursePageUrl, language),
-    course_spossibility_to_completions: parseOrSetEmpty(course.possibilityToCompletion, language),
-    course_disposition: parseOrSetEmpty(course.courseDeposition, language),
-    course_possibility_to_addition: parseOrSetEmpty(course.possibilityToAddition, language),
-    course_literature: parseOrSetEmpty(course.courseLiterature, language),
-    course_required_equipment: parseOrSetEmpty(course.requiredEquipment, language),
     course_state: parseOrSetEmpty(course.state, language, true),
+    course_web_link: parseOrSetEmpty(socialCoursePageUrl, language),
   }
 }
 
