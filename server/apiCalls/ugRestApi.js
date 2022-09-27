@@ -2,7 +2,7 @@ const { ugRestApiHelper } = require('@kth/ug-rest-api-helper')
 const log = require('@kth/log')
 const serverConfig = require('../configuration').server
 
-const groupNames = (courseCode, semester, ladokRoundIds) => ({
+const _groupNames = (courseCode, semester, ladokRoundIds) => ({
   // Used to get examiners and responsibles from UG Redis
   teachers: ladokRoundIds.map(
     round => `edu.courses.${String(courseCode).slice(0, 2)}.${courseCode}.${semester}.${round}.teachers`
@@ -22,7 +22,7 @@ const _removeDuplicates = personListWithDublicates =>
     .filter((person, index, self) => self.indexOf(person) === index)
     .map(personStr => JSON.parse(personStr))
 
-const createPersonHtml = (personList = []) => {
+const _createPersonHtml = (personList = []) => {
   let personString = ''
   personList.forEach(person => {
     if (person) {
@@ -39,7 +39,61 @@ const createPersonHtml = (personList = []) => {
   return personString
 }
 
-const getCurrentDateTime = () => {
+const _getAllGroups = (assistants, teachers, examiners, responsibles) => {
+  const groups = []
+  if (assistants.length) {
+    assistants.forEach(assistant => {
+      groups.push(assistant)
+    })
+  }
+  if (teachers.length) {
+    teachers.forEach(teacher => {
+      groups.push(teacher)
+    })
+  }
+  if (examiners.length) {
+    examiners.forEach(examiner => {
+      groups.push(examiner)
+    })
+  }
+  if (responsibles.length) {
+    responsibles.forEach(responsible => {
+      groups.push(responsible)
+    })
+  }
+  return groups
+}
+
+const _getGroupCategory = group => {
+  if (group.includes('teachers')) {
+    return 'teachers'
+  } else if (group.includes('examiner')) {
+    return 'examiners'
+  } else if (group.includes('courseresponsible')) {
+    return 'responsibles'
+  } else {
+    return 'assistants'
+  }
+}
+
+const _getEmployeeObject = (examiners, teachers, responsibles, assistants) => {
+  const employee = {}
+  if (examiners && examiners.length > 0) {
+    employee.examiners = _createPersonHtml(examiners)
+  }
+  if (teachers && teachers.length > 0) {
+    employee.teachers = _createPersonHtml(teachers)
+  }
+  if (responsibles && responsibles.length > 0) {
+    employee.responsibles = _createPersonHtml(responsibles)
+  }
+  if (assistants && assistants.length > 0) {
+    employee.assistants = _createPersonHtml(assistants)
+  }
+  return employee
+}
+
+const _getCurrentDateTime = () => {
   const today = new Date()
   const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
   const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
@@ -47,7 +101,7 @@ const getCurrentDateTime = () => {
   return dateTime
 }
 
-const generateEmployeeObjectFromGroups = (
+const _getMembersFromGroups = (
   groupsAlongWithMembers,
   assistants,
   teachers,
@@ -56,73 +110,42 @@ const generateEmployeeObjectFromGroups = (
   courseCode,
   semester
 ) => {
-  // now need to filter groups according to above mentioned groups
-  const employee = {}
-  if (assistants.length) {
-    const assistantGroup = groupsAlongWithMembers.find(x => x.name === assistants[0])
-    if (assistantGroup) {
-      const uniqueMembers = _removeDuplicates(assistantGroup.members)
-      const flatArrWithHtmlStr = createPersonHtml(uniqueMembers)
-      employee.assistants = flatArrWithHtmlStr
-      log.info(
-        ' Ug Rest Api, assistants: ',
-        assistantGroup.members.length,
-        ' for course ',
-        courseCode,
-        ' for semester ',
-        semester
-      )
-    }
+  let membersAsTeachers = []
+  let membersAsExaminers = []
+  let membersAsCourseCoordinators = []
+  let membersAsTeacherAssistants = []
+  if (groupsAlongWithMembers && groupsAlongWithMembers.length > 0) {
+    const groups = _getAllGroups(assistants, teachers, examiners, responsibles)
+    groupsAlongWithMembers.forEach(group => {
+      const isGroupMatched = groups.some(x => x === group.name)
+      if (isGroupMatched) {
+        const groupCategory = _getGroupCategory(group.name)
+        if (groupCategory === 'teachers') {
+          membersAsTeachers = membersAsTeachers.concat(group.members)
+        } else if (groupCategory === 'examiners') {
+          membersAsExaminers = membersAsExaminers.concat(group.members)
+        } else if (groupCategory === 'responsibles') {
+          membersAsCourseCoordinators = membersAsCourseCoordinators.concat(group.members)
+        } else {
+          membersAsTeacherAssistants = membersAsTeacherAssistants.concat(group.members)
+        }
+        log.info(
+          ` Ug Rest Api, : ${groupCategory}`,
+          group.members.length,
+          ' for course ',
+          courseCode,
+          ' for semester ',
+          semester
+        )
+      }
+    })
   }
-  if (teachers.length) {
-    const teachersGroup = groupsAlongWithMembers.find(x => x.name === teachers[0])
-    if (teachersGroup) {
-      const uniqueMembers = _removeDuplicates(teachersGroup.members)
-      const flatArrWithHtmlStr = createPersonHtml(uniqueMembers)
-      employee.teachers = flatArrWithHtmlStr
-      log.info(
-        ' Ug Rest Api, teachers: ',
-        teachersGroup.members.length,
-        ' for course ',
-        courseCode,
-        ' for semester ',
-        semester
-      )
-    }
+  return {
+    teacher: _removeDuplicates(membersAsTeachers),
+    examiner: _removeDuplicates(membersAsExaminers),
+    responsibles: _removeDuplicates(membersAsCourseCoordinators),
+    assistants: _removeDuplicates(membersAsTeacherAssistants),
   }
-  if (examiners.length) {
-    const examinersGroup = groupsAlongWithMembers.find(x => x.name === examiners[0])
-    if (examinersGroup) {
-      const uniqueMembers = _removeDuplicates(examinersGroup.members)
-      const flatArrWithHtmlStr = createPersonHtml(uniqueMembers)
-      employee.examiners = flatArrWithHtmlStr
-      log.info(
-        ' Ug Rest Api, examiners: ',
-        examinersGroup.members.length,
-        ' for course ',
-        courseCode,
-        ' for semester ',
-        semester
-      )
-    }
-  }
-  if (responsibles.length) {
-    const responsiblesGroup = groupsAlongWithMembers.find(x => x.name === responsibles[0])
-    if (responsiblesGroup) {
-      const uniqueMembers = _removeDuplicates(responsiblesGroup.members)
-      const flatArrWithHtmlStr = createPersonHtml(uniqueMembers)
-      employee.responsibles = flatArrWithHtmlStr
-      log.info(
-        ' Ug Rest Api, responsibles: ',
-        responsiblesGroup.members.length,
-        ' for course ',
-        courseCode,
-        ' for semester ',
-        semester
-      )
-    }
-  }
-  return employee
 }
 
 /**
@@ -135,7 +158,7 @@ const generateEmployeeObjectFromGroups = (
  * @param semester Semester is needed for logs
  * @returns Will return groups along with members from ug rest api.
  */
-async function getAllGroupsAlongWithMembersRelatedToCourse(
+async function _getAllGroupsAlongWithMembersRelatedToCourse(
   assistants,
   teachers,
   examiners,
@@ -146,36 +169,24 @@ async function getAllGroupsAlongWithMembersRelatedToCourse(
   const { url, key } = serverConfig.ugRestApiURL
   const { authTokenURL, authClientId, authClientSecret } = serverConfig.ugAuth
   const ugConnectionProperties = {
-    ugTokenURL: authTokenURL,
+    authorityURL: authTokenURL,
     clientId: authClientId,
     clientSecret: authClientSecret,
     ugURL: url,
     subscriptionKey: key,
   }
   ugRestApiHelper.initConnectionProperties(ugConnectionProperties)
-  const filterData = []
-  if (assistants.length) {
-    filterData.push(assistants[0])
-  }
-  if (teachers.length) {
-    filterData.push(teachers[0])
-  }
-  if (examiners.length) {
-    filterData.push(examiners[0])
-  }
-  if (responsibles.length) {
-    filterData.push(responsibles[0])
-  }
+  const groups = _getAllGroups(assistants, teachers, examiners, responsibles)
   log.info('Going to fetch groups along with members', {
     courseCode,
     semester,
-    requestStartTime: getCurrentDateTime(),
+    requestStartTime: _getCurrentDateTime(),
   })
-  const groupDetails = await ugRestApiHelper.getUGGroups('name', 'in', filterData, true)
+  const groupDetails = await ugRestApiHelper.getUGGroups('name', 'in', groups, true)
   log.info('Successfully fetched groups along with members', {
     courseCode,
     semester,
-    requestEndTime: getCurrentDateTime(),
+    requestEndTime: _getCurrentDateTime(),
   })
   return groupDetails
 }
@@ -184,7 +195,7 @@ async function getAllGroupsAlongWithMembersRelatedToCourse(
 async function _getCourseEmployees(apiMemoData) {
   const { courseCode, semester, ladokRoundIds } = apiMemoData
   try {
-    const { assistants, teachers, examiners, responsibles } = groupNames(courseCode, semester, ladokRoundIds)
+    const { assistants, teachers, examiners, responsibles } = _groupNames(courseCode, semester, ladokRoundIds)
     log.debug(
       '_getEmployeeObject for with key(s): ',
       assistants.length ? assistants : '',
@@ -193,7 +204,7 @@ async function _getCourseEmployees(apiMemoData) {
       responsibles.length ? responsibles : ''
     )
     // get all groups along with member of given course code from UG Rest Api
-    const groupsAlongWithMembers = await getAllGroupsAlongWithMembersRelatedToCourse(
+    const groupsAlongWithMembers = await _getAllGroupsAlongWithMembersRelatedToCourse(
       assistants,
       teachers,
       examiners,
@@ -201,7 +212,13 @@ async function _getCourseEmployees(apiMemoData) {
       courseCode,
       semester
     )
-    return generateEmployeeObjectFromGroups(groupsAlongWithMembers, assistants, teachers, examiners, responsibles)
+    const membersObject = _getMembersFromGroups(groupsAlongWithMembers, assistants, teachers, examiners, responsibles)
+    return _getEmployeeObject(
+      membersObject.examiner,
+      membersObject.teacher,
+      membersObject.responsibles,
+      membersObject.assistants
+    )
   } catch (err) {
     log.info('Exception from UG Rest API - multi', { error: err })
     return err
@@ -210,4 +227,5 @@ async function _getCourseEmployees(apiMemoData) {
 
 module.exports = {
   getCourseEmployees: _getCourseEmployees,
+  getMembersFromGroups: _getMembersFromGroups,
 }
