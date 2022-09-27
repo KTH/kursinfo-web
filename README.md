@@ -50,8 +50,7 @@ Secrets during local development are stored in a `.env` file in the root of your
 
 Secrets (names, passwords, keys, and uri:s) for dev and prod are stored in the the course information project’s Azure key vault.
 
-__!IMPORTANT clean up all comments and empty strings in .env file__
-
+**!IMPORTANT clean up all comments and empty strings in .env file**
 
 ```sh
 
@@ -76,7 +75,7 @@ APPINSIGHTS_INSTRUMENTATIONKEY=[Azure, Application insights, Instrumentation Key
 
 # Connection Properties of UG Rest Api to fetch names of course staff
 
-UG_REST_AUTH_API_TOKEN_URI=https://<LOGIN_HOST>/adfs/oauth2/token
+UG_REST_AUTH_API_TOKEN_URI=https://<LOGIN_HOST>/adfs/
 UG_REST_AUTH_CLIENT_ID=<FROM AZURE KEYVAULT>
 UG_REST_AUTH_CLIENT_SECRET=<FROM AZURE KEYVAULT>
 UG_REST_API_URI=https://<UG_URL>
@@ -85,21 +84,23 @@ UG_REST_API_SUBSCRIPTION_KEY=<FROM AZURE INTEGRAL OR KEYVAULT>
 
 These settings are also available in the `env.in` file.
 
-
 ## For Development
 
 ### Install
 
 First time you might need to use options `--ignore-scripts` because of npm resolutions:
+
 ```sh
 npm install --ignore-scripts
 ```
-or 
+
+or
 
 ```sh
 npm install
 
 ```
+
 You might need to install as well:
 
 ```sh
@@ -116,46 +117,49 @@ npm run start-dev
 ```
 
 ### Debug in Visual Studio Code
+
 It's possible to use debugging options available in Visual Studio Code
 Add to .vscode file launch.json:
-- *Microsoft*
+
+- _Microsoft_
+
 ```json
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",           
-            "request": "launch",
-            "name": "Debug kursinfo-web",
-            "program": "${workspaceFolder}\\app.js",
-            "envFile": "${workspaceFolder}\\.env",
-            "env": {
-              "NODE_ENV": "development"
-            }
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug kursinfo-web",
+      "program": "${workspaceFolder}\\app.js",
+      "envFile": "${workspaceFolder}\\.env",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  ]
 }
 ```
+
 - _Mac, Unix and so on_
+
 ```json
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",           
-            "request": "launch",
-            "name": "Debug kursinfo-web",
-            "program": "${workspaceFolder}/app.js",
-            "envFile": "${workspaceFolder}/.env",
-            "env": {
-              "NODE_ENV": "development"
-            }
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug kursinfo-web",
+      "program": "${workspaceFolder}/app.js",
+      "envFile": "${workspaceFolder}/.env",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  ]
 }
 ```
-
-
 
 ## Deploy
 
