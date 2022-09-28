@@ -14,29 +14,33 @@ const ERROR_ASYNC = {
 function asyncReducer(state, action) {
   switch (action.type) {
     case 'missingParameters': {
-      return { status: STATUS.missingParameters, data: null, error: ERROR_ASYNC.missingParameters }
+      return {
+        status: STATUS.missingParameters,
+        data: null,
+        error: { errorType: ERROR_ASYNC.missingParameters, errorExtraText: action.data.missingValues },
+      }
     }
     case 'pending': {
-      return { status: STATUS.pending, data: null, error: null }
+      return { status: STATUS.pending, data: null, error: {} }
     }
     case 'resolved': {
-      return { status: STATUS.resolved, data: action.data, error: null }
+      return { status: STATUS.resolved, data: action.data, error: {} }
     }
     case 'rejected': {
-      return { status: STATUS.rejected, data: null, error: ERROR_ASYNC.rejected } // for debug use: action.error
+      return { status: STATUS.rejected, data: null, error: { errorType: ERROR_ASYNC.rejected } } // for debug use: action.error
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`)
     }
   }
 }
-const missingParametersDispatch = dispatch => dispatch({ type: STATUS.missingParameters })
+const missingParametersDispatch = (dispatch, data) => dispatch({ type: STATUS.missingParameters, data })
 
 function useAsync(asyncCallback, initialState) {
   const [state, dispatch] = React.useReducer(asyncReducer, {
     status: STATUS.idle,
     data: null,
-    error: null,
+    error: {},
     ...initialState,
   })
   useEffect(() => {
@@ -46,11 +50,12 @@ function useAsync(asyncCallback, initialState) {
     promise.then(
       data => {
         const { errorCode } = data
-        if (errorCode) dispatch({ type: STATUS.rejected, error: errorCode })
-        else if (data === 'missing-parameters-in-query') missingParametersDispatch(dispatch)
+        if (errorCode) dispatch({ type: STATUS.rejected })
+        else if (data.errorType === 'missing-parameters-in-query') missingParametersDispatch(dispatch, data)
+        else if (data.errorType === 'error-unknown') dispatch({ type: STATUS.rejected })
         else dispatch({ type: STATUS.resolved, data })
       },
-      error => dispatch({ type: STATUS.rejected, error }) // 'error-unknown'
+      error => dispatch({ type: STATUS.rejected, error }) // error will be replaced by ERROR_ASYNC.rejected, for debug use: action.error
     )
   }, [asyncCallback])
 
