@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import i18n from '../../../../../i18n'
 import { useWebContext } from '../../context/WebContext'
 import { englishTexts, swedishTexts } from './StatisticsTexts'
-// import { PARAMS } from './domain/formConfigurations'
+import { studyLengthParamName } from './domain/formConfigurations'
 
 import { CheckboxOption, DropdownOption, RadioboxOption } from './index'
 
@@ -79,10 +79,7 @@ function StatisticsForm({ onSubmit }) {
           <Row key={`row-for-periods-or-semesters-choice`}>
             <Col>
               {/* depends on type of document to dropdown */}
-              <CheckboxOption
-                paramName={documentType === 'courseMemo' ? 'periods' : 'semesters'}
-                onChange={handleParamChange}
-              />
+              <CheckboxOption paramName={studyLengthParamName(documentType)} onChange={handleParamChange} />
             </Col>
           </Row>
         </>
