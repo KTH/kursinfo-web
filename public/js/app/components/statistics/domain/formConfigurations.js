@@ -8,9 +8,18 @@ const PARAMS = {
   semesters: 'semesters',
   year: 'year',
 }
+const DOCS = { courseMemo: 'courseMemo', courseAnalysis: 'courseAnalysis' }
 
-const DOCUMENT_TYPES = ['courseMemo', 'courseAnalysis']
+const DOCUMENT_TYPES = [DOCS.courseMemo, DOCS.courseAnalysis]
 
+const studyLengthParamName = documentType => (documentType === DOCS.courseMemo ? PARAMS.periods : PARAMS.semesters)
+
+const paramsByDocumentType = documentType => [
+  PARAMS.documentType,
+  PARAMS.school,
+  PARAMS.year,
+  studyLengthParamName(documentType),
+]
 // Parse functions
 /**
  * @param {array} values
@@ -64,4 +73,4 @@ function splitToBulks(arr, bulkSize = 2) {
   return bulks
 }
 
-export { DOCUMENT_TYPES, getOptionsValues, PARAMS, splitToBulks }
+export { DOCUMENT_TYPES, getOptionsValues, PARAMS, paramsByDocumentType, splitToBulks, studyLengthParamName }
