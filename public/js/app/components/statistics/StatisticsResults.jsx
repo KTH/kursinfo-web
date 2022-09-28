@@ -6,7 +6,7 @@ import { Col, Row } from 'reactstrap'
 
 import i18n from '../../../../../i18n'
 import { useWebContext } from '../../context/WebContext'
-import { STATUS, ERROR_ASYNC, useAsync } from '../../hooks/searchUseAsync'
+import { STATUS, ERROR_ASYNC, useAsync } from '../../hooks/statisticsUseAsync'
 import { englishTexts, swedishTexts } from './StatisticsTexts'
 
 import fetchStatistics from './api/statisticsApi'
@@ -18,10 +18,16 @@ function _getThisHost(thisHostBaseUrl) {
   return thisHostBaseUrl.slice(-1) === '/' ? thisHostBaseUrl.slice(0, -1) : thisHostBaseUrl
 }
 
-function renderAlertToTop(errorType, languageIndex) {
+function renderAlertToTop(error = {}, languageIndex) {
+  const { errorType = '', errorExtraText = '' } = error
   const alertContainer = document.getElementById('alert-placeholder')
   if (alertContainer) {
-    ReactDOM.render(<StatisticsAlert alertType={errorType} languageIndex={languageIndex} />, alertContainer)
+    ReactDOM.render(
+      <StatisticsAlert alertType={errorType} languageIndex={languageIndex}>
+        {errorExtraText}
+      </StatisticsAlert>,
+      alertContainer
+    )
   }
 }
 function dismountTopAlert() {
@@ -29,23 +35,32 @@ function dismountTopAlert() {
   if (alertContainer) ReactDOM.unmountComponentAtNode(alertContainer)
 }
 
-const errorItalicParagraph = (errorType, languageIndex) => {
+const errorItalicParagraph = (error = {}, languageIndex) => {
   const { statisticsLabels: labels } = i18n.messages[languageIndex]
-
-  const errorText = labels[errorType].text
+  const { errorType, errorExtraText } = error
+  const errorText = errorType ? labels[errorType].text : null
   if (!errorText)
     throw new Error(
       `Missing translations for errorType: ${errorType}. Allowed types: ${Object.values(ERROR_ASYNC).join(', ')}`
     )
 
   return (
-    <p>
-      <i>{errorText}</i>
-    </p>
+    <>
+      <p>
+        <i>{errorText}</i>
+      </p>
+      {errorExtraText && (
+        <p>
+          <i>{errorExtraText}</i>
+        </p>
+      )}
+    </>
   )
 }
 
-function SortableCoursesAndDocuments({ languageIndex, statisticsStatus, errorType, statisticsResult }) {
+function SortableCoursesAndDocuments({ languageIndex, statisticsStatus, error = {}, statisticsResult }) {
+  const { errorType } = error
+
   if (statisticsStatus === STATUS.resolved) {
     return (
       <>
@@ -77,7 +92,7 @@ function SortableCoursesAndDocuments({ languageIndex, statisticsStatus, errorTyp
     const { searchLoading } = i18n.messages[languageIndex].statisticsLabels
     return <p>{searchLoading}</p>
   }
-  if (errorType) return errorItalicParagraph(errorType, languageIndex)
+  if (errorType) return errorItalicParagraph(error, languageIndex)
 
   return null
 }
@@ -85,13 +100,16 @@ function SortableCoursesAndDocuments({ languageIndex, statisticsStatus, errorTyp
 SortableCoursesAndDocuments.propTypes = {
   languageIndex: PropTypes.oneOf([0, 1]),
   statisticsStatus: PropTypes.oneOf([...Object.values(STATUS), null]),
-  errorType: PropTypes.oneOf([...Object.values(ERROR_ASYNC), '']),
   // statisticsResult: PropTypes.shape(searchHitsPropsShape),
+  error: PropTypes.shape({
+    errorType: PropTypes.oneOf([...Object.values(ERROR_ASYNC), '']),
+    errorExtraText: PropTypes.string,
+  }),
 }
 
 SortableCoursesAndDocuments.defaultProps = {
   languageIndex: 0,
-  errorType: '',
+  error: {},
   statisticsResult: {},
   statisticsStatus: null,
 }
@@ -117,13 +135,14 @@ function StatisticsResults({ chosenOptions }) {
 
   const state = useAsync(asyncCallback, initialStatus)
 
-  const { data: statisticsResult, status: statisticsStatus, error: errorType } = state
+  const { data: statisticsResult, status: statisticsStatus, error = {} } = state || {}
+  const { errorType = '' } = error
 
   useEffect(() => {
     let isMounted = true
     if (isMounted) {
       if (errorType && errorType !== null) {
-        renderAlertToTop(errorType, languageIndex)
+        renderAlertToTop(error, languageIndex)
       } else dismountTopAlert()
     }
     return () => (isMounted = false)
@@ -140,7 +159,7 @@ function StatisticsResults({ chosenOptions }) {
       )}
       <SortableCoursesAndDocuments
         statisticsStatus={statisticsStatus}
-        errorType={errorType}
+        error={error}
         languageIndex={languageIndex}
         statisticsResult={statisticsResult}
       />
@@ -149,7 +168,6 @@ function StatisticsResults({ chosenOptions }) {
 }
 
 StatisticsResults.propTypes = {
-  onlyPattern: PropTypes.bool,
   chosenOptions: PropTypes.shape({
     documentType: PropTypes.oneOf(DOCUMENT_TYPES),
     year: PropTypes.number,
