@@ -545,7 +545,7 @@ async function getIndex(req, res, next) {
         syllabusList[0] = _parseSyllabusData(courseDetails, 0, lang)
       }
 
-      //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis *****//
+      //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from UG Rest API *****//
       const {
         courseRoundList: roundList,
         activeSemesters,
