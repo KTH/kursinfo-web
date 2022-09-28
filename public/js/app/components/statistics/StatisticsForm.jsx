@@ -30,6 +30,7 @@ const paramsReducer = (state, action) => {
 function StatisticsForm({ onSubmit }) {
   const [context] = useWebContext()
   const [state, setState] = useReducer(paramsReducer, {})
+  const [stateMode, setStateMode] = React.useState('init')
   const { documentType = null } = state
 
   const { language, languageIndex } = context
@@ -44,10 +45,18 @@ function StatisticsForm({ onSubmit }) {
   }
 
   function handleParamChange(params) {
-    // if (documentType && params.documentType) {
-    //   const newDocumentType = params.documentType
-    //   if (newDocumentType !== documentType) setState({ value: { documentType }, type: 'SWITCH_STATE' })
-    // }
+    const { documentType: newDocumentType } = params
+    const prevDocumentType = documentType
+    if (prevDocumentType && newDocumentType) {
+      if (newDocumentType !== prevDocumentType) {
+        setStateMode('cleanup')
+
+        const oldParamName = studyLengthParamName(prevDocumentType)
+        params[oldParamName] = []
+        const newParamName = studyLengthParamName(newDocumentType)
+        params[newParamName] = []
+      }
+    } else setStateMode('continue')
     setState({ value: params, type: 'UPDATE_STATE' })
   }
 
@@ -79,7 +88,11 @@ function StatisticsForm({ onSubmit }) {
           <Row key={`row-for-periods-or-semesters-choice`}>
             <Col>
               {/* depends on type of document to dropdown */}
-              <CheckboxOption paramName={studyLengthParamName(documentType)} onChange={handleParamChange} />
+              <CheckboxOption
+                paramName={studyLengthParamName(documentType)}
+                onChange={handleParamChange}
+                stateMode={stateMode}
+              />
             </Col>
           </Row>
         </>

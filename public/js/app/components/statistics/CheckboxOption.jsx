@@ -12,6 +12,9 @@ const optionsReducer = (state, action) => {
   const { options } = state
 
   switch (type) {
+    case 'CLEAN_UP': {
+      return { options: [] }
+    }
     case 'ADD_ITEM': {
       const lastIndex = options.length
 
@@ -33,7 +36,7 @@ const optionsReducer = (state, action) => {
   }
 }
 
-function CheckboxOption({ paramName, onChange }) {
+function CheckboxOption({ paramName, onChange, stateMode }) {
   /* depends on type of document to dropdown */
   const [context] = useWebContext()
   const { languageIndex } = context
@@ -54,9 +57,15 @@ function CheckboxOption({ paramName, onChange }) {
   useEffect(() => {
     let isMounted = true
 
-    if (isMounted) onChange({ [paramName]: options })
+    if (isMounted) {
+      if (stateMode === 'cleanup') {
+        setOptions({ type: 'CLEAN_UP' })
+      }
+
+      onChange({ [paramName]: options })
+    }
     return () => (isMounted = false)
-  }, [options.length])
+  }, [options.length, stateMode])
 
   function handleChange(e) {
     const { value, checked } = e.target

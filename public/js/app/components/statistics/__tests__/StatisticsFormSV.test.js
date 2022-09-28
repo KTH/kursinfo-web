@@ -27,12 +27,12 @@ function StatisticsFormWithContext({ context }) {
   )
 }
 describe('Component <StatisticsForm>', () => {
-  test('renders a form to choose parameters for a statistics page', () => {
+  test('renders a form to choose parameters for a statistics page in Swedish', () => {
     render(<StatisticsFormWithContext context={context_sv} />)
   })
 
   test('renders start state of page', () => {
-    const { rerender } = render(<StatisticsFormWithContext context={context_sv} />)
+    render(<StatisticsFormWithContext context={context_sv} />)
 
     const h3 = screen.getByRole('heading', { level: 3 })
     expect(h3).toHaveTextContent('Område')
@@ -54,7 +54,7 @@ describe('Component <StatisticsForm>', () => {
     expect(btn).toBeInTheDocument()
   })
   test('renders choose kurs-pm and show inputs for school, year and läsperiods', async () => {
-    const { rerender } = render(<StatisticsFormWithContext context={context_sv} />)
+    render(<StatisticsFormWithContext context={context_sv} />)
 
     const courseMemo = screen.getByLabelText(/kurs-pm/i)
     await userEvent.click(courseMemo)
@@ -215,10 +215,11 @@ describe('Component <StatisticsForm>', () => {
   })
 
   test('renders switch between kurs-pm and analyses and check for clean up state', async () => {
-    const { rerender } = render(<StatisticsFormWithContext context={context_sv} />)
+    render(<StatisticsFormWithContext context={context_sv} />)
 
     const courseMemo = screen.getByLabelText(/kurs-pm/i)
     const courseAnalysis = screen.getByLabelText(/kursanalys/i)
+    const btn = screen.getByRole('button', { name: /visa statistik/i })
 
     await userEvent.click(courseMemo)
     expect(courseMemo).toBeChecked()
@@ -233,6 +234,19 @@ describe('Component <StatisticsForm>', () => {
     expect(screen.getByLabelText(/period 1, HT/i)).toBeChecked()
     expect(screen.getByLabelText(/period 2, HT/i)).toBeChecked()
 
+    await userEvent.click(btn)
+    expect(submittedResults).toMatchInlineSnapshot(`
+      {
+        "documentType": "courseMemo",
+        "periods": [
+          "1",
+          "2",
+        ],
+        "school": undefined,
+        "year": undefined,
+      }
+    `)
+
     await userEvent.click(courseAnalysis)
     expect(courseAnalysis).toBeChecked()
 
@@ -246,6 +260,20 @@ describe('Component <StatisticsForm>', () => {
     expect(screen.getByLabelText(/HT/i)).toBeChecked()
     expect(screen.getByLabelText(/sommar/i)).toBeChecked()
 
+    await userEvent.click(btn)
+    expect(submittedResults).toMatchInlineSnapshot(`
+      {
+        "documentType": "courseAnalysis",
+        "periods": [],
+        "school": undefined,
+        "semesters": [
+          "2",
+          "0",
+        ],
+        "year": undefined,
+      }
+    `)
+
     await userEvent.click(courseMemo)
     expect(courseMemo).toBeChecked()
 
@@ -257,10 +285,21 @@ describe('Component <StatisticsForm>', () => {
 
     expect(screen.getByLabelText(/HT/i)).not.toBeChecked()
     expect(screen.getByLabelText(/sommar/i)).not.toBeChecked()
+
+    await userEvent.click(btn)
+    expect(submittedResults).toMatchInlineSnapshot(`
+      {
+        "documentType": "courseAnalysis",
+        "periods": [],
+        "school": undefined,
+        "semesters": [],
+        "year": undefined,
+      }
+    `)
   })
 
   test('submit for epmty submitted state', async () => {
-    const { rerender } = render(<StatisticsFormWithContext context={context_sv} />)
+    render(<StatisticsFormWithContext context={context_sv} />)
 
     const courseMemo = screen.getByLabelText(/kurs-pm/i)
     const courseAnalysis = screen.getByLabelText(/kursanalys/i)
@@ -268,12 +307,28 @@ describe('Component <StatisticsForm>', () => {
     await userEvent.click(courseMemo)
     expect(courseMemo).toBeChecked()
 
-    expect(submittedResults).toMatchInlineSnapshot(`undefined`)
+    expect(submittedResults).toMatchInlineSnapshot(`
+      {
+        "documentType": "courseAnalysis",
+        "periods": [],
+        "school": undefined,
+        "semesters": [],
+        "year": undefined,
+      }
+    `)
 
     await userEvent.click(courseAnalysis)
     expect(courseAnalysis).toBeChecked()
 
-    expect(submittedResults).toMatchInlineSnapshot(`undefined`)
+    expect(submittedResults).toMatchInlineSnapshot(`
+      {
+        "documentType": "courseAnalysis",
+        "periods": [],
+        "school": undefined,
+        "semesters": [],
+        "year": undefined,
+      }
+    `)
   })
 
   test('check or select all inputs', async () => {
@@ -294,5 +349,40 @@ describe('Component <StatisticsForm>', () => {
 
     expect(screen.getByLabelText(/period 1, HT/i)).toBeChecked()
     expect(screen.getByLabelText(/period 2, HT/i)).toBeChecked()
+  })
+
+  test('check or select all inputs for course analysis', async () => {
+    render(<StatisticsFormWithContext context={context_sv} />)
+
+    const courseanalysis = screen.getByLabelText(/kursanalys/i)
+
+    await userEvent.click(courseanalysis)
+    expect(courseanalysis).toBeChecked()
+
+    await userEvent.click(screen.getByLabelText(/alla skolor/i))
+    expect(screen.getByLabelText(/alla skolor/i)).toBeChecked()
+
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: /välj år/i }), '2020')
+
+    await userEvent.click(screen.getByLabelText(/HT/i))
+    await userEvent.click(screen.getByLabelText(/sommar/i))
+
+    expect(screen.getByLabelText(/HT/i)).toBeChecked()
+    expect(screen.getByLabelText(/sommar/i)).toBeChecked()
+
+    const btn = screen.getByRole('button', { name: /visa statistik/i })
+    await userEvent.click(btn)
+
+    expect(submittedResults).toMatchInlineSnapshot(`
+      {
+        "documentType": "courseAnalysis",
+        "school": "allSchools",
+        "semesters": [
+          "2",
+          "0",
+        ],
+        "year": "2020",
+      }
+    `)
   })
 })

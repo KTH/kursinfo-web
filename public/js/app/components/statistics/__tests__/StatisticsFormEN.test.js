@@ -24,13 +24,13 @@ function StatisticsFormWithContext({ context }) {
     </WebContextProvider>
   )
 }
-describe('Component <StatisticsForm>', () => {
+describe('Component <StatisticsForm> in english', () => {
   test('renders a form to choose parameters for a statistics page', () => {
     render(<StatisticsFormWithContext context={context_en} />)
   })
 
   test('renders start state of page', () => {
-    const { rerender } = render(<StatisticsFormWithContext context={context_en} />)
+    render(<StatisticsFormWithContext context={context_en} />)
     const h3 = screen.getByRole('heading', { level: 3 })
     expect(h3).toHaveTextContent('Area')
     const courseMemo = screen.getByLabelText(/course memo/i)
@@ -55,7 +55,7 @@ describe('Component <StatisticsForm>', () => {
   })
 
   test('renders choose course memo and show inputs for school, year and study periods', async () => {
-    const { rerender } = render(<StatisticsFormWithContext context={context_en} />)
+    render(<StatisticsFormWithContext context={context_en} />)
 
     const courseMemo = screen.getByLabelText(/course memo/i)
     await userEvent.click(courseMemo)
@@ -216,10 +216,11 @@ describe('Component <StatisticsForm>', () => {
   })
 
   test('renders switch between course memo and analyses and check for clean up state', async () => {
-    const { rerender } = render(<StatisticsFormWithContext context={context_en} />)
+    render(<StatisticsFormWithContext context={context_en} />)
 
     const courseMemo = screen.getByLabelText(/course memo/i)
     const courseAnalysis = screen.getByLabelText(/course analysis/i)
+    const btn = screen.getByRole('button', { name: /show statistics/i })
 
     await userEvent.click(courseMemo)
     expect(courseMemo).toBeChecked()
@@ -234,6 +235,19 @@ describe('Component <StatisticsForm>', () => {
     expect(screen.getByLabelText(/period 1, autumn/i)).toBeChecked()
     expect(screen.getByLabelText(/period 2, autumn/i)).toBeChecked()
 
+    await userEvent.click(btn)
+    expect(submittedResults).toMatchInlineSnapshot(`
+      {
+        "documentType": "courseMemo",
+        "periods": [
+          "1",
+          "2",
+        ],
+        "school": undefined,
+        "year": undefined,
+      }
+    `)
+
     await userEvent.click(courseAnalysis)
     expect(courseAnalysis).toBeChecked()
 
@@ -247,6 +261,20 @@ describe('Component <StatisticsForm>', () => {
     expect(screen.getByLabelText(/autumn/i)).toBeChecked()
     expect(screen.getByLabelText(/summer/i)).toBeChecked()
 
+    await userEvent.click(btn)
+    expect(submittedResults).toMatchInlineSnapshot(`
+      {
+        "documentType": "courseAnalysis",
+        "periods": [],
+        "school": undefined,
+        "semesters": [
+          "2",
+          "0",
+        ],
+        "year": undefined,
+      }
+    `)
+
     await userEvent.click(courseMemo)
     expect(courseMemo).toBeChecked()
 
@@ -258,10 +286,21 @@ describe('Component <StatisticsForm>', () => {
 
     expect(screen.getByLabelText(/autumn/i)).not.toBeChecked()
     expect(screen.getByLabelText(/summer/i)).not.toBeChecked()
+
+    await userEvent.click(btn)
+    expect(submittedResults).toMatchInlineSnapshot(`
+      {
+        "documentType": "courseAnalysis",
+        "periods": [],
+        "school": undefined,
+        "semesters": [],
+        "year": undefined,
+      }
+    `)
   })
 
   test('submit for epmty submitted state', async () => {
-    const { rerender } = render(<StatisticsFormWithContext context={context_en} />)
+    render(<StatisticsFormWithContext context={context_en} />)
 
     const courseMemo = screen.getByLabelText(/course memo/i)
     const courseAnalysis = screen.getByLabelText(/course analysis/i)
@@ -269,15 +308,35 @@ describe('Component <StatisticsForm>', () => {
     await userEvent.click(courseMemo)
     expect(courseMemo).toBeChecked()
 
-    expect(submittedResults).toMatchInlineSnapshot(`undefined`)
+    const btn = screen.getByRole('button', { name: /show statistics/i })
+    await userEvent.click(btn)
+
+    expect(submittedResults).toMatchInlineSnapshot(`
+      {
+        "documentType": "courseMemo",
+        "periods": [],
+        "school": undefined,
+        "year": undefined,
+      }
+    `)
 
     await userEvent.click(courseAnalysis)
     expect(courseAnalysis).toBeChecked()
 
-    expect(submittedResults).toMatchInlineSnapshot(`undefined`)
+    await userEvent.click(btn)
+
+    expect(submittedResults).toMatchInlineSnapshot(`
+      {
+        "documentType": "courseAnalysis",
+        "periods": [],
+        "school": undefined,
+        "semesters": [],
+        "year": undefined,
+      }
+    `)
   })
 
-  test('check or select all inputs', async () => {
+  test('check or select all inputs for course memo', async () => {
     render(<StatisticsFormWithContext context={context_en} />)
 
     const courseMemo = screen.getByLabelText(/course memo/i)
@@ -295,5 +354,55 @@ describe('Component <StatisticsForm>', () => {
 
     expect(screen.getByLabelText(/period 1, autumn/i)).toBeChecked()
     expect(screen.getByLabelText(/period 2, autumn/i)).toBeChecked()
+
+    const btn = screen.getByRole('button', { name: /show statistics/i })
+    await userEvent.click(btn)
+
+    expect(submittedResults).toMatchInlineSnapshot(`
+      {
+        "documentType": "courseMemo",
+        "periods": [
+          "1",
+          "2",
+        ],
+        "school": "EECS",
+        "year": "2019",
+      }
+    `)
+  })
+
+  test('check or select all inputs for course analysis', async () => {
+    render(<StatisticsFormWithContext context={context_en} />)
+
+    const courseanalysis = screen.getByLabelText(/course analysis/i)
+
+    await userEvent.click(courseanalysis)
+    expect(courseanalysis).toBeChecked()
+
+    await userEvent.click(screen.getByLabelText(/EECS/i))
+    expect(screen.getByLabelText(/EECS/i)).toBeChecked()
+
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: /choose a year/i }), '2019')
+
+    await userEvent.click(screen.getByLabelText(/spring/i))
+    await userEvent.click(screen.getByLabelText(/summer/i))
+
+    expect(screen.getByLabelText(/spring/i)).toBeChecked()
+    expect(screen.getByLabelText(/summer/i)).toBeChecked()
+
+    const btn = screen.getByRole('button', { name: /show statistics/i })
+    await userEvent.click(btn)
+
+    expect(submittedResults).toMatchInlineSnapshot(`
+      {
+        "documentType": "courseAnalysis",
+        "school": "EECS",
+        "semesters": [
+          "1",
+          "0",
+        ],
+        "year": "2019",
+      }
+    `)
   })
 })
