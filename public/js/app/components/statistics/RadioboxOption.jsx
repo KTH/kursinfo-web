@@ -10,6 +10,7 @@ function RadioboxOption({ paramName, onChange }) {
   const [context] = useWebContext()
   const { languageIndex } = context
   const [option, setOption] = React.useState(context[paramName])
+  const optinsLength = option ? option.length : 0
   const { formLabels } = i18n.messages[languageIndex].statisticsLabels
   const headerLabel = formLabels.formSubHeaders[paramName]
   const shortIntro = formLabels.formShortIntro[paramName]
@@ -24,7 +25,7 @@ function RadioboxOption({ paramName, onChange }) {
 
     if (isMounted) onChange({ [paramName]: option })
     return () => (isMounted = false)
-  }, [option.length])
+  }, [optinsLength])
 
   function handleChange(e) {
     const { value } = e.target
