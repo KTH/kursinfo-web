@@ -3,6 +3,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { ErrorBoundary } from 'react-error-boundary'
 
 import { WebContextProvider } from './context/WebContext'
 import { uncompressData } from './context/compress'
@@ -10,6 +11,17 @@ import CoursePage from './pages/CoursePage'
 import CourseStatisticsPage from './pages/CourseStatisticsPage'
 
 import '../../css/kursinfo-web.scss'
+
+function ErrorFallback({ error, resetErrorBoundary }) {
+  console.error(error)
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre>{error.message}</pre>
+      <button onClick={resetErrorBoundary}>Try again</button>
+    </div>
+  )
+}
 
 function appFactory(applicationStore, context) {
   return (
@@ -35,7 +47,17 @@ function _renderOnClientSide() {
 
   const basename = webContext.proxyPrefixPath.uri
 
-  const app = <BrowserRouter basename={basename}>{appFactory({}, webContext)}</BrowserRouter>
+  const app = (
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onReset={() => {
+        location.reload()
+        // reset the state of your app so the error doesn't happen again
+      }}
+    >
+      <BrowserRouter basename={basename}>{appFactory({}, webContext)}</BrowserRouter>{' '}
+    </ErrorBoundary>
+  )
 
   // Removed basename because it is causing empty string basename={basename}
   const domElement = document.getElementById('app')
