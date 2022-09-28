@@ -310,7 +310,7 @@ module.exports = {
         year: 'Choose a year',
       },
     },
-    missingParameters: { text: 'No query restriction was specified' },
+    missingParameters: { text: 'Some of the query restrictions were not specified' },
     pageHeader: 'Course Information Statistics',
     period: 'Period',
     searchLoading: 'Loading ...',
