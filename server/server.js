@@ -187,11 +187,12 @@ server.use('/', systemRoute.getRouter())
 // App routes
 const appRoute = AppRouter()
 appRoute.get('statistics.getData', config.proxyPrefixPath.uri + '/statistik', StatisticsCtrl.getIndex)
-appRoute.get(
-  'api.statistics',
-  config.proxyPrefixPath.uri + '/api/kursinfo/statistics/:documentType/:year/:language',
-  StatisticsCtrl.fetchStatistics
-)
+// appRoute.get(
+//   'api.statistics',
+//   config.proxyPrefixPath.uri + '/api/kursinfo/statistics/:documentType/:year/:language',
+//   StatisticsCtrl.fetchStatistics
+// )
+appRoute.get('api.statistics', config.proxyPrefixPath.uri + '/api/kursinfo/statistics', StatisticsCtrl.fetchStatistics)
 
 appRoute.get(
   'SyllabusPdf.getPdfProxy',

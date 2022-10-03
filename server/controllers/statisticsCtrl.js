@@ -64,7 +64,7 @@ async function getIndex(req, res, next) {
 
 async function fetchStatistics(req, res, next) {
   const { params, query } = req
-  const { documentType, year, lang } = params
+  const { documentType, school, semesters, periods, year, lang } = query
 
   // Example: `text_pattern=${pattern}`
   // const searchParamsStr = stringifyKoppsSearchParams(query)
