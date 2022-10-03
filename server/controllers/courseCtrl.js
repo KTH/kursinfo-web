@@ -6,7 +6,7 @@ const httpResponse = require('@kth/kth-node-response')
 const courseApi = require('../apiCalls/kursinfoAdmin')
 const memoApi = require('../apiCalls/memoApi')
 const koppsCourseData = require('../apiCalls/koppsCourseData')
-const ugRedisApi = require('../apiCalls/ugRedisApi')
+const ugRestApi = require('../apiCalls/ugRestApi')
 
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
@@ -40,7 +40,7 @@ function parceContactName(infoContactName, language) {
 
 async function getCourseEmployees(req, res, next) {
   const apiMemoData = req.body
-  const courseEmployees = await ugRedisApi.getCourseEmployees(apiMemoData)
+  const courseEmployees = await ugRestApi.getCourseEmployees(apiMemoData)
   res.send(courseEmployees)
 }
 
@@ -545,7 +545,7 @@ async function getIndex(req, res, next) {
         syllabusList[0] = _parseSyllabusData(courseDetails, 0, lang)
       }
 
-      //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from ugRedis *****//
+      //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from UG Rest API *****//
       const {
         courseRoundList: roundList,
         activeSemesters,
@@ -594,10 +594,10 @@ async function getIndex(req, res, next) {
       semester: '',
       ladokRoundIds: [],
     }
-    const ugRedisApiResponse = await ugRedisApi.getCourseEmployees(apiMemoData)
+    const ugRestApiResponse = await ugRestApi.getCourseEmployees(apiMemoData)
 
     webContext.courseData.courseInfo.course_examiners =
-      ugRedisApiResponse.examiners || INFORM_IF_IMPORTANT_INFO_IS_MISSING[lang]
+      ugRestApiResponse.examiners || INFORM_IF_IMPORTANT_INFO_IS_MISSING[lang]
 
     const compressedData = getCompressedData(webContext)
 
