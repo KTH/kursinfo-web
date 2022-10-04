@@ -384,8 +384,10 @@ describe('Component <CoursePage>', () => {
       paths: {
         ug: {
           rest: {
-            method: 'post',
-            uri: '/student/kurser/kurs/ug/rest',
+            api: {
+              method: 'post',
+              uri: '/student/kurser/kurs/ug/rest',
+            },
           },
         },
       },
