@@ -382,10 +382,10 @@ describe('Component <CoursePage>', () => {
       syllabusInFade: false,
       lang: 'en',
       paths: {
-        redis: {
-          ugCache: {
+        ug: {
+          rest: {
             method: 'post',
-            uri: '/student/kurser/kurs/reids/kursinfo/ugChache',
+            uri: '/student/kurser/kurs/ug/rest',
           },
         },
       },
