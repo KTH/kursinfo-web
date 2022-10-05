@@ -10,7 +10,7 @@ import { STATUS, ERROR_ASYNC, useAsync } from '../../hooks/statisticsUseAsync'
 import { englishTexts, swedishTexts } from './StatisticsTexts'
 
 import fetchStatistics from './api/statisticsApi'
-import { periods, schools, semester } from './domain/index'
+import { periods, schools, seasons } from './domain/index'
 import { DOCUMENT_TYPES } from './domain/formConfigurations'
 import { StatisticsAlert } from './index'
 
@@ -173,7 +173,7 @@ StatisticsResults.propTypes = {
     year: PropTypes.number,
     periods: PropTypes.arrayOf(PropTypes.oneOf(periods.ORDERED_PERIODS)),
     school: PropTypes.oneOf(schools.ORDERED_SCHOOL_OPTIONS),
-    semesters: PropTypes.arrayOf(PropTypes.oneOf(semester.ORDERED_SEASONS)),
+    semesters: PropTypes.arrayOf(PropTypes.oneOf(seasons.ORDERED_SEASONS)),
   }),
 }
 

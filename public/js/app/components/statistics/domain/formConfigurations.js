@@ -1,5 +1,5 @@
 import i18n from '../../../../../../i18n'
-import { periods, schools, semester, year } from './index'
+import { periods, schools, seasons, year } from './index'
 
 const PARAMS = {
   documentType: 'documentType',
@@ -54,7 +54,7 @@ function getOptionsValues(paramName, langIndex) {
     case PARAMS.year:
       return parseData(year.getYears(), langIndex)
     case PARAMS.semesters: // Course analysis
-      return parseData(semester.ORDERED_SEASONS, langIndex, semester.labelSeason)
+      return parseData(seasons.ORDERED_SEASONS, langIndex, seasons.labelSeason)
     case PARAMS.periods: // Kurs-pm
       return parseData(periods.ORDERED_PERIODS, langIndex, periods.labelPeriod)
     default: {
@@ -73,4 +73,4 @@ function splitToBulks(arr, bulkSize = 2) {
   return bulks
 }
 
-export { DOCUMENT_TYPES, getOptionsValues, PARAMS, paramsByDocumentType, splitToBulks, studyLengthParamName }
+export { DOCS, DOCUMENT_TYPES, getOptionsValues, PARAMS, paramsByDocumentType, splitToBulks, studyLengthParamName }

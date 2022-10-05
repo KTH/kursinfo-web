@@ -1,6 +1,7 @@
 import periods from './periods'
 import schools from './schools'
-import semester from './semester'
+import semesters from './semesters'
+import seasons from './seasons'
 import year from './year'
 
-export { periods, schools, semester, year }
+export { periods, seasons, schools, semesters, year }

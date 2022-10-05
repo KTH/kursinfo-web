@@ -192,7 +192,16 @@ appRoute.get('statistics.getData', config.proxyPrefixPath.uri + '/statistik', St
 //   config.proxyPrefixPath.uri + '/api/kursinfo/statistics/:documentType/:year/:language',
 //   StatisticsCtrl.fetchStatistics
 // )
-appRoute.get('api.statistics', config.proxyPrefixPath.uri + '/api/kursinfo/statistics', StatisticsCtrl.fetchStatistics)
+appRoute.get(
+  'api.statisticsMemo',
+  config.proxyPrefixPath.uri + '/api/kursinfo/statistics/courseMemo/year/:year',
+  StatisticsCtrl.fetchMemoStatistics
+)
+appRoute.get(
+  'api.statisticsAnalysis',
+  config.proxyPrefixPath.uri + '/api/kursinfo/statistics/courseAnalysis/year/:year',
+  StatisticsCtrl.fetchAnalysisStatistics
+)
 
 appRoute.get(
   'SyllabusPdf.getPdfProxy',

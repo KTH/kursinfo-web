@@ -1,4 +1,5 @@
 import i18n from '../../../../../../i18n'
+import seasonsLib from './seasons'
 
 const KthPeriod = {
   P0: 0,
@@ -70,7 +71,26 @@ function labelPeriod(periodNumber, langIndex) {
   return `${labels.period} ${periodNumber}, ${langIndex === 0 ? seasonName.toLowerCase() : seasonName}`
 }
 
+/**
+ * @param {array} periods
+ * @returns {array}
+ */
+function parsePeriodsToOrdinarieSeasons({ periods = [] }) {
+  if (periods.includes(SUMMER_PERIOD_GROUPED))
+    return [seasonsLib.seasonConstants.SPRING_TERM_NUMBER, seasonsLib.seasonConstants.AUTUMN_TERM_NUMBER]
+
+  const ordinarieSeasons = []
+  periods.forEach(periodNumber => {
+    const season = _isFallPeriod(periodNumber)
+      ? seasonsLib.seasonConstants.AUTUMN_TERM_NUMBER
+      : seasonsLib.seasonConstants.SPRING_TERM_NUMBER
+    if (!ordinarieSeasons.includes(season)) ordinarieSeasons.push(season)
+  })
+  return ordinarieSeasons.sort()
+}
+
 export default {
   labelPeriod,
   ORDERED_PERIODS,
+  parsePeriodsToOrdinarieSeasons,
 }

@@ -1,5 +1,7 @@
 import axios from 'axios'
-import { paramsByDocumentType } from '../domain/formConfigurations'
+import { DOCS, paramsByDocumentType } from '../domain/formConfigurations'
+import { periods as periodsLib, semesters as semestersLib } from '../domain/index'
+
 import i18n from '../../../../../../i18n'
 
 const queryString = params => '?' + new URLSearchParams(params).toString()
@@ -22,11 +24,11 @@ function hasValue(paramName, params) {
 // eslint-disable-next-line consistent-return
 async function fetchStatistics(language, proxyUrl, params) {
   try {
-    const { documentType } = params
+    const { documentType, year } = params
     const expectedParams = paramsByDocumentType(documentType)
     const missingParams = expectedParams.filter(paramName => !hasValue(paramName, params))
 
-    if (/* values.length < 4 ||*/ missingParams.length > 0) {
+    if (missingParams.length > 0) {
       const { formLabels } = i18n.messages[language === 'en' ? 0 : 1].statisticsLabels
       const { formSubHeaders } = formLabels
       return {
@@ -38,8 +40,16 @@ async function fetchStatistics(language, proxyUrl, params) {
     // To-do send all data as a string documentType and year in url so we can see it in
     // Application insights
 
+    // IF PERIODS, TRANSFORM TO SEMESTERS
+    // IF SUMMER SEMESTERS TRANSFORMS TO HT, VT
+
+    const seasons =
+      documentType === DOCS.courseMemo
+        ? periodsLib.parsePeriodsToOrdinarieSeasons(params)
+        : semestersLib.parseSemestersToOrdinarieSeasons(params)
+
     // const url = `${proxyUrl}/api/kursinfo/statistics/${documentType}/${year}/${language}`
-    const url = `${proxyUrl}/api/kursinfo/statistics${queryString(params)}&l=${language}`
+    const url = `${proxyUrl}/api/kursinfo/statistics/${documentType}/year/${year}/${queryString(seasons)}&l=${language}`
 
     const result = await axios.get(
       url /* , {

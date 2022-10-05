@@ -4,7 +4,7 @@ const log = require('@kth/log')
 const languageUtils = require('@kth/kth-node-web-common/lib/language')
 // const httpResponse = require('@kth/kth-node-response')
 // const courseApi = require('../apiCalls/kursinfoAdmin')
-// const memoApi = require('../apiCalls/memoApi')
+const memoApi = require('../apiCalls/memoApi')
 // const koppsCourseData = require('../apiCalls/koppsCourseData')
 // const ugRedisApi = require('../apiCalls/ugRedisApi')
 
@@ -62,12 +62,24 @@ async function getIndex(req, res, next) {
   }
 }
 
-async function fetchStatistics(req, res, next) {
+async function fetchMemoStatistics(req, res, next) {
   const { params, query } = req
-  const { documentType, school, semesters, periods, year, lang } = query
+  const { documentType, school, semesters, year, l: lang } = query
 
-  // Example: `text_pattern=${pattern}`
-  // const searchParamsStr = stringifyKoppsSearchParams(query)
+  try {
+    log.info(` trying to fetch statistics `, { params, query })
+    // TODO: FETCH DATA FROM KOOPPS AND FROM KURS-PM/KURSANALYS API depending on document type
+    const apiResponse = await memoApi.getCourseMemosForStatistics(semesters)
+    return res.json(apiResponse)
+  } catch (error) {
+    log.debug(` Exception`, { error })
+    next(error)
+  }
+}
+
+async function fetchAnalysisStatistics(req, res, next) {
+  const { params, query } = req
+
   try {
     log.info(` trying to fetch statistics `, { params, query })
     // TODO: FETCH DATA FROM KOOPPS AND FROM KURS-PM/KURSANALYS API depending on document type
@@ -81,5 +93,6 @@ async function fetchStatistics(req, res, next) {
 
 module.exports = {
   getIndex,
-  fetchStatistics,
+  fetchAnalysisStatistics,
+  fetchMemoStatistics,
 }
