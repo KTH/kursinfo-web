@@ -4,7 +4,7 @@ import { seasons as seasonsLib, periods as periodsLib } from './index'
 describe('Get list of seasons', () => {
   test('get both seasons if summer is chosen', () => {
     const summer = [0]
-    const seasonsList = periodsLib.parsePeriodsToOrdinarieSeasons(summer)
+    const seasonsList = periodsLib.parsePeriodsToOrdinarieSeasons({ periods: summer })
     expect(seasonsList.length).toBe(2)
     expect(seasonsList).toMatchInlineSnapshot(`
       [
@@ -16,7 +16,7 @@ describe('Get list of seasons', () => {
 
   test('get both seasons if all periods are chosen', () => {
     const summer = [0, 1, 2, 3, 4]
-    const seasonsList = periodsLib.parsePeriodsToOrdinarieSeasons(summer)
+    const seasonsList = periodsLib.parsePeriodsToOrdinarieSeasons({ periods: summer })
     expect(seasonsList.length).toBe(2)
     expect(seasonsList).toMatchInlineSnapshot(`
       [
