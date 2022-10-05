@@ -73,9 +73,12 @@ function labelPeriod(periodNumber, langIndex) {
 
 /**
  * @param {array} periods
+ * @throws
  * @returns {array}
  */
-function parsePeriodsToOrdinarieSeasons({ periods = [] }) {
+function parsePeriodsToOrdinarieSeasons({ periods }) {
+  if (!periods) throw new Error(`Missing periods: ${periods}.`)
+
   if (periods.includes(SUMMER_PERIOD_GROUPED))
     return [seasonsLib.seasonConstants.SPRING_TERM_NUMBER, seasonsLib.seasonConstants.AUTUMN_TERM_NUMBER]
 
@@ -86,6 +89,7 @@ function parsePeriodsToOrdinarieSeasons({ periods = [] }) {
       : seasonsLib.seasonConstants.SPRING_TERM_NUMBER
     if (!ordinarieSeasons.includes(season)) ordinarieSeasons.push(season)
   })
+
   return ordinarieSeasons.sort()
 }
 
@@ -93,4 +97,5 @@ export default {
   labelPeriod,
   ORDERED_PERIODS,
   parsePeriodsToOrdinarieSeasons,
+  SUMMER_PERIOD_GROUPED,
 }
