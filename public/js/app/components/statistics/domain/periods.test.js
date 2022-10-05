@@ -28,7 +28,7 @@ describe('Get list of seasons', () => {
 
   test('get autumn season for P1 and P2', () => {
     const periods = [1, 2]
-    const seasonsList = periodsLib.parsePeriodsToOrdinarieSeasons(periods)
+    const seasonsList = periodsLib.parsePeriodsToOrdinarieSeasons({ periods })
     expect(seasonsList.length).toBe(1)
     expect(seasonsList).toMatchInlineSnapshot(`
       [
@@ -38,7 +38,7 @@ describe('Get list of seasons', () => {
   })
   test('get autumn season for P1', () => {
     const periods = [1]
-    const seasonsList = periodsLib.parsePeriodsToOrdinarieSeasons(periods)
+    const seasonsList = periodsLib.parsePeriodsToOrdinarieSeasons({ periods })
     expect(seasonsList.length).toBe(1)
     expect(seasonsList).toMatchInlineSnapshot(`
       [
@@ -48,7 +48,7 @@ describe('Get list of seasons', () => {
   })
   test('get autumn season for P2', () => {
     const periods = [2]
-    const seasonsList = periodsLib.parsePeriodsToOrdinarieSeasons(periods)
+    const seasonsList = periodsLib.parsePeriodsToOrdinarieSeasons({ periods })
     expect(seasonsList.length).toBe(1)
     expect(seasonsList).toMatchInlineSnapshot(`
       [
@@ -59,7 +59,7 @@ describe('Get list of seasons', () => {
 
   test('get spring season for P3 and P4', () => {
     const periods = [3, 4]
-    const seasonsList = periodsLib.parsePeriodsToOrdinarieSeasons(periods)
+    const seasonsList = periodsLib.parsePeriodsToOrdinarieSeasons({ periods })
     expect(seasonsList.length).toBe(1)
     expect(seasonsList).toMatchInlineSnapshot(`
       [
@@ -69,7 +69,7 @@ describe('Get list of seasons', () => {
   })
   test('get spring season for P3', () => {
     const periods = [3]
-    const seasonsList = periodsLib.parsePeriodsToOrdinarieSeasons(periods)
+    const seasonsList = periodsLib.parsePeriodsToOrdinarieSeasons({ periods })
     expect(seasonsList.length).toBe(1)
     expect(seasonsList).toMatchInlineSnapshot(`
       [
@@ -79,7 +79,7 @@ describe('Get list of seasons', () => {
   })
   test('get autumn season for P4', () => {
     const periods = [4]
-    const seasonsList = periodsLib.parsePeriodsToOrdinarieSeasons(periods)
+    const seasonsList = periodsLib.parsePeriodsToOrdinarieSeasons({ periods })
     expect(seasonsList.length).toBe(1)
     expect(seasonsList).toMatchInlineSnapshot(`
       [
