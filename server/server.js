@@ -217,7 +217,7 @@ appRoute.get(
   config.proxyPrefixPath.uri + '/api/kursinfo/getKoppsCourseDataByCourse/:courseCode/:language',
   Course.getKoppsCourseData
 )
-appRoute.post('redis.ugCache', config.proxyPrefixPath.uri + '/reids/kursinfo/ugChache', Course.getCourseEmployees)
+appRoute.post('ug.rest.api', config.proxyPrefixPath.uri + '/ug/rest', Course.getCourseEmployees)
 
 server.use('/', appRoute.getRouter())
 
