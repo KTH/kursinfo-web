@@ -13,6 +13,24 @@ function hasValue(paramName, params) {
   if (typeof param === 'string' && param.trim().length === 0) return false
   return true
 }
+const _missingParameters = params => {
+  const { documentType } = params
+  const expectedParams = paramsByDocumentType(documentType)
+  return expectedParams.filter(paramName => !hasValue(paramName, params))
+}
+const _missingParametersError = (missingParams, language) => {
+  const { formLabels } = i18n.messages[language === 'en' ? 0 : 1].statisticsLabels
+  const { formSubHeaders } = formLabels
+  return {
+    errorType: 'missing-parameters-in-query',
+    missingValues: missingParams.map(paramName => formSubHeaders[paramName] || paramName).join(', '),
+  }
+}
+function _formSeasongByDocumentType(documentType, params) {
+  return documentType === DOCS.courseMemo
+    ? periodsLib.parsePeriodsToOrdinarieSeasons(params)
+    : semestersLib.parseSemestersToOrdinarieSeasons(params)
+}
 
 /**
  * @param {string} language
@@ -25,37 +43,17 @@ function hasValue(paramName, params) {
 async function fetchStatistics(language, proxyUrl, params) {
   try {
     const { documentType, year } = params
-    const expectedParams = paramsByDocumentType(documentType)
-    const missingParams = expectedParams.filter(paramName => !hasValue(paramName, params))
-    if (missingParams.length > 0) {
-      const { formLabels } = i18n.messages[language === 'en' ? 0 : 1].statisticsLabels
-      const { formSubHeaders } = formLabels
-      return {
-        errorType: 'missing-parameters-in-query',
-        missingValues: missingParams.map(paramName => formSubHeaders[paramName] || paramName).join(', '),
-      }
-    }
+    const missingParams = _missingParameters(params)
+    if (missingParams.length > 0) return _missingParametersError(missingParams, language)
 
-    // To-do send all data as a string documentType and year in url so we can see it in
-    // Application insights
-
-    // IF PERIODS, TRANSFORM TO SEMESTERS
-    // IF SUMMER SEMESTERS TRANSFORMS TO HT, VT
-
-    const seasons =
-      documentType === DOCS.courseMemo
-        ? periodsLib.parsePeriodsToOrdinarieSeasons(params)
-        : semestersLib.parseSemestersToOrdinarieSeasons(params)
+    const seasons = _formSeasongByDocumentType(documentType, params)
 
     // const url = `${proxyUrl}/api/kursinfo/statistics/${documentType}/${year}/${language}`
-    const url = `${proxyUrl}/api/kursinfo/statistics/${documentType}/year/${year}/${queryString({
-      seasons,
-    })}&l=${language}`
-    const result = await axios.get(
-      url /* , {
-      params,
-    }*/
-    )
+    const url = `${proxyUrl}/api/kursinfo/statistics/${documentType}/year/${year}` // ${queryString(seasons)}&l=${language}
+
+    const result = await axios.get(url, {
+      params: { seasons: seasons.join(','), l: language },
+    })
     if (result) {
       if (result.status >= 400) {
         return { errorType: 'error-unknown', message: 'ERROR-fetchStatistics-' + result.status }
