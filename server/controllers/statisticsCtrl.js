@@ -64,12 +64,13 @@ async function getIndex(req, res, next) {
 
 async function fetchMemoStatistics(req, res, next) {
   const { params, query } = req
-  const { documentType, school, semesters, year, l: lang } = query
+  const { year } = params
+  const { seasons } = query
 
   try {
-    log.info(` trying to fetch statistics `, { params, query })
+    log.info(` trying to fetch course memo statistics `, { params, query })
     // TODO: FETCH DATA FROM KOOPPS AND FROM KURS-PM/KURSANALYS API depending on document type
-    const apiResponse = await memoApi.getCourseMemosForStatistics(semesters)
+    const apiResponse = await memoApi.getCourseMemosForStatistics(year, seasons)
     return res.json(apiResponse)
   } catch (error) {
     log.debug(` Exception`, { error })

@@ -10,7 +10,7 @@ function getCourseEmployees() {
     semester: this.activeSemester,
     ladokRoundIds: [ladokRoundId],
   }
-  return axios.post(this.paths.redis.ugCache.uri, data).then(response => {
+  return axios.post(this.paths.ug.rest.api.uri, data).then(response => {
     const { examiners, responsibles, teachers } = response.data
     const courseRoundEmployees = {
       examiners,

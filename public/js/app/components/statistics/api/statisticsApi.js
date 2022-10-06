@@ -49,8 +49,9 @@ async function fetchStatistics(language, proxyUrl, params) {
         : semestersLib.parseSemestersToOrdinarieSeasons(params)
 
     // const url = `${proxyUrl}/api/kursinfo/statistics/${documentType}/${year}/${language}`
-    const url = `${proxyUrl}/api/kursinfo/statistics/${documentType}/year/${year}/${queryString(seasons)}&l=${language}`
-
+    const url = `${proxyUrl}/api/kursinfo/statistics/${documentType}/year/${year}/${queryString({
+      seasons,
+    })}&l=${language}`
     const result = await axios.get(
       url /* , {
       params,
