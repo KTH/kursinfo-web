@@ -24,7 +24,7 @@ function CourseStatisticsPageWithContext({ context }) {
     </WebContextProvider>
   )
 }
-describe('Component <CourseStatisticsPage>', () => {
+describe('Component <CourseStatisticsPage> in English', () => {
   test('renders a form to choose parameters for a statistics page', () => {
     render(<CourseStatisticsPageWithContext context={context_en} />)
   })

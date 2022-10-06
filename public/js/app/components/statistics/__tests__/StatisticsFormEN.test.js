@@ -240,8 +240,8 @@ describe('Component <StatisticsForm> in english', () => {
       {
         "documentType": "courseMemo",
         "periods": [
-          "1",
-          "2",
+          1,
+          2,
         ],
         "school": undefined,
         "year": undefined,
@@ -268,8 +268,8 @@ describe('Component <StatisticsForm> in english', () => {
         "periods": [],
         "school": undefined,
         "semesters": [
-          "2",
-          "0",
+          2,
+          0,
         ],
         "year": undefined,
       }
@@ -323,7 +323,7 @@ describe('Component <StatisticsForm> in english', () => {
       {
         "documentType": "courseMemo",
         "periods": [
-          "1",
+          1,
         ],
         "school": "SCI",
         "year": 2020,
@@ -352,8 +352,8 @@ describe('Component <StatisticsForm> in english', () => {
         "periods": [],
         "school": "SCI",
         "semesters": [
-          "2",
-          "0",
+          2,
+          0,
         ],
         "year": 2019,
       }
@@ -446,8 +446,8 @@ describe('Component <StatisticsForm> in english', () => {
       {
         "documentType": "courseMemo",
         "periods": [
-          "1",
-          "2",
+          1,
+          2,
         ],
         "school": "EECS",
         "year": 2019,
@@ -470,8 +470,8 @@ describe('Component <StatisticsForm> in english', () => {
           {
             "documentType": "courseMemo",
             "periods": [
-              "1",
-              "0",
+              1,
+              0,
             ],
             "school": "allSchools",
             "year": 2021,
@@ -506,8 +506,8 @@ describe('Component <StatisticsForm> in english', () => {
         "documentType": "courseAnalysis",
         "school": "EECS",
         "semesters": [
-          "1",
-          "0",
+          1,
+          0,
         ],
         "year": 2019,
       }
@@ -529,9 +529,9 @@ describe('Component <StatisticsForm> in english', () => {
         "documentType": "courseAnalysis",
         "school": "ITM",
         "semesters": [
-          "1",
-          "0",
-          "2",
+          1,
+          0,
+          2,
         ],
         "year": 2020,
       }
