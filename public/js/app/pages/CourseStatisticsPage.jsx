@@ -16,13 +16,14 @@ function hasValue(param) {
 }
 // { documentType, school, periods, ... }
 
-function _parseValues({ documentType, periods, school, year }) {
+function _parseValues({ documentType, periods, school, semesters, year }) {
   // clean params
 
   const optionsValues = {}
 
   if (hasValue(documentType)) optionsValues.documentType = documentType
   if (hasValue(periods)) optionsValues.periods = periods
+  if (hasValue(semesters)) optionsValues.semesters = semesters
   if (hasValue(school)) optionsValues.school = school
   if (hasValue(year)) optionsValues.year = year
 
@@ -51,17 +52,18 @@ function CourseStatisticsPage() {
      * @property {string} documentType
      * @property {array} periods
      * @property {string} school
+     * @property {array} semesters
      * @property {number} year
      */
     documentType: null,
     periods: null,
     school: null,
+    semesters: null,
     year: null,
   })
 
   function handleSubmit(props) {
     const finalSearchParams = _parseResultValues(props)
-
     setParams(finalSearchParams)
   }
 

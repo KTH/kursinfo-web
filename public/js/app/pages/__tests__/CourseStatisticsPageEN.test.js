@@ -8,7 +8,7 @@ import CourseStatisticsPage from '../CourseStatisticsPage'
 // import i18n from '../../../../../../i18n'
 
 const language_en = 'en'
-// const [translate] = i18n.messages // en
+const mockDate = new Date('2022-03-23 16:00')
 
 let submittedResults
 
@@ -25,8 +25,12 @@ function CourseStatisticsPageWithContext({ context }) {
   )
 }
 describe('Component <CourseStatisticsPage> in English', () => {
-  test('renders a form to choose parameters for a statistics page', () => {
-    render(<CourseStatisticsPageWithContext context={context_en} />)
+  beforeAll(() => {
+    jest.spyOn(global, 'Date').mockImplementation(() => mockDate)
+  })
+
+  afterAll(() => {
+    jest.spyOn(global, 'Date').mockRestore()
   })
 
   test('renders start state of page', () => {
