@@ -294,6 +294,21 @@ module.exports = {
     sortableTable: {
       courseAnalysis: { header: 'Tabell med kurser och kursanalyser' },
       courseMemo: { header: 'Tabell med kurser och kurs-PM' },
+      rowsPerPageText: 'antal rader per sida:',
+      rangeSeparatorText: 'av',
+      noDataMessage: 'din sökning gav inget resultat',
+      statisticsDataColumns: {
+        year: 'År',
+        school: 'Skola',
+        institution: 'Institution',
+        courseCode: 'Kurskod',
+        linkedProgram: 'Kopplade program',
+        courseRoundNumber: 'Kursomgångs-nummer',
+        semester: 'Läs-period',
+        courseStart: 'Kursstart',
+        publishDate: 'Publicerings-datum',
+        linkToCourse: 'Länk till kurs-PM',
+      },
     },
   },
 }

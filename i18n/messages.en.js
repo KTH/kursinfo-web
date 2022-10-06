@@ -320,6 +320,21 @@ module.exports = {
     sortableTable: {
       courseAnalysis: { header: 'Table with courses and course analyses' },
       courseMemo: { header: 'Table with courses and course memos' },
+      rowsPerPageText: 'number of rows per page:',
+      rangeSeparatorText: 'of',
+      noDataMessage: 'your search rendered no results',
+      statisticsDataColumns: {
+        year: 'Year',
+        school: 'School',
+        institution: 'Institution',
+        courseCode: 'Course code',
+        linkedProgram: 'Linked program',
+        courseRoundNumber: 'Course round number',
+        semester: 'Read-period',
+        courseStart: 'Course start',
+        publishDate: 'Publish Date',
+        linkToCourse: 'Link to kurs-PM',
+      },
     },
   },
 }
