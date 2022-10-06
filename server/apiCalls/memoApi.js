@@ -29,9 +29,10 @@ async function getPrioritizedCourseMemos(courseCode) {
  * @returns {{}}            Course memos collected under course codes
  */
 const getCourseMemosForStatistics = async (year, seasons) => {
+  if (!year || !seasons) log.error('Some value is missing', { year, seasons })
   const { client, paths } = api.kursPmDataApi
-  log.debug('Fetching info about course memos', { year, seasons })
-  const queryString = '?' + new URLSearchParams(seasons).toString()
+  log.debug('Preparing params for course memos api', { year, seasons })
+  const queryString = '?' + new URLSearchParams({ seasons }).toString()
 
   const uri = client.resolve(paths.getPrioritizedWebOrPdfMemosBySemesters.uri, {
     year,
@@ -39,6 +40,8 @@ const getCourseMemosForStatistics = async (year, seasons) => {
 
   // const uri = `/api/kurs-pm-data/v1/webAndPdfPublishedMemosBySemester/${semester}`
   try {
+    log.debug('Fetching course memos from api', { uri, year, seasons })
+
     const { body } = await client.getAsync({ uri: `${uri}${queryString}` })
 
     log.debug('getCourseMemosForStatistics returns', body)

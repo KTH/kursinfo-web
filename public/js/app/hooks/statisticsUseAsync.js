@@ -27,6 +27,7 @@ function asyncReducer(state, action) {
       return { status: STATUS.resolved, data: action.data, error: {} }
     }
     case 'rejected': {
+      console.error(`Error: ${action.error}`)
       return { status: STATUS.rejected, data: null, error: { errorType: ERROR_ASYNC.rejected } } // for debug use: action.error
     }
     default: {
