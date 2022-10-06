@@ -381,7 +381,7 @@ describe('Component <StatisticsForm>', () => {
           "2",
           "0",
         ],
-        "year": "2020",
+        "year": 2020,
       }
     `)
   })

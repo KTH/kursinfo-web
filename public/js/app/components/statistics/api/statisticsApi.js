@@ -15,8 +15,8 @@ function hasValue(paramName, params) {
 }
 
 /**
- * @param {array} language
- * @param {number} proxyUrl
+ * @param {string} language
+ * @param {string} proxyUrl
  * @param {object} params
  * @throws
  * @returns {object}
@@ -27,7 +27,6 @@ async function fetchStatistics(language, proxyUrl, params) {
     const { documentType, year } = params
     const expectedParams = paramsByDocumentType(documentType)
     const missingParams = expectedParams.filter(paramName => !hasValue(paramName, params))
-
     if (missingParams.length > 0) {
       const { formLabels } = i18n.messages[language === 'en' ? 0 : 1].statisticsLabels
       const { formSubHeaders } = formLabels
