@@ -5,9 +5,10 @@ import seasonsLib from './seasons'
  * @returns {array}
  */
 function parseSemestersToOrdinarieSeasons({ seasons = [] }) {
-  if (seasons.includes(seasonsLib.SUMMER_TERM_NUMBER)) return [seasons.SPRING_TERM_NUMBER, seasons.AUTUMN_TERM_NUMBER]
+  if (seasons.includes(seasonsLib.seasonConstants.SUMMER_TERM_NUMBER))
+    return [seasonsLib.seasonConstants.SPRING_TERM_NUMBER, seasonsLib.seasonConstants.AUTUMN_TERM_NUMBER]
 
-  return seasons.sort()
+  return seasons
 }
 
 export default {

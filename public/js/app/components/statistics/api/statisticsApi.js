@@ -29,7 +29,7 @@ const _missingParametersError = (missingParams, language) => {
 function _formSeasongByDocumentType(documentType, params) {
   return documentType === DOCS.courseMemo
     ? periodsLib.parsePeriodsToOrdinarieSeasons(params)
-    : semestersLib.parseSemestersToOrdinarieSeasons(params)
+    : semestersLib.parseSemestersToOrdinarieSeasons({ seasons: params.semesters })
 }
 
 /**
