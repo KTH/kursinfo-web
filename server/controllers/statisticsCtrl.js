@@ -5,7 +5,9 @@ const languageUtils = require('@kth/kth-node-web-common/lib/language')
 // const httpResponse = require('@kth/kth-node-response')
 // const courseApi = require('../apiCalls/kursinfoAdmin')
 const memoApi = require('../apiCalls/memoApi')
-// const koppsCourseData = require('../apiCalls/koppsCourseData')
+const koppsCourseData = require('../apiCalls/koppsCourseData')
+const { parseOfferings } = require('../apiCalls/transformers/offerings')
+
 // const ugRedisApi = require('../apiCalls/ugRedisApi')
 
 const browserConfig = require('../configuration').browser
@@ -66,12 +68,22 @@ async function fetchMemoStatistics(req, res, next) {
   const { params, query } = req
   const { year } = params
   const { seasons } = query
-
+  const sortedSemesters = seasons.map(season => Number(`${year}${season}`)).sort()
+  const [earliestSemester] = sortedSemesters
   try {
     log.info(` trying to fetch course memo statistics `, { params, query })
     // TODO: FETCH DATA FROM KOOPPS AND FROM KURS-PM/KURSANALYS API depending on document type
-    const apiResponse = await memoApi.getCourseMemosForStatistics(year, seasons)
-    return res.json(apiResponse)
+    const courses = await koppsCourseData.getCoursesAndOfferings(earliestSemester)
+    // Object with one array, containing offerings’ relevant data for memo
+    const parsedOfferings = parseOfferings(courses, sortedSemesters, 'courseMemo')
+    // Semesters found in parsed offerings.
+    const semestersInMemos = semestersInParsedOfferings(parsedOfferings)
+
+    const memos = await memoApi.getCourseMemosForStatistics(year, seasons)
+    // Course memos for semesters
+    const courseMemoData = await _fetchCourseMemos(semestersInMemos)
+
+    return res.json(memos)
   } catch (error) {
     log.debug(` Exception`, { error })
     next(error)
