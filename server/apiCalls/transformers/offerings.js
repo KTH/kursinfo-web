@@ -1,3 +1,5 @@
+const log = require('@kth/log')
+
 const SCHOOL_MAP = {
   ABE: 'ABE',
   CBH: 'CBH',
@@ -40,14 +42,17 @@ function _formatTimeToLocaleDateSV(parsedTime) {
 
 /**
  * Creates object of offering to save essential informations.
- * @param {number} firstSemester   semester when course offering is started
+ * @param {string} firstSemester   semester when course offering is started
  * @param {number} startDate       date when course offering is started
  * @param {{}} course   Each course as returned by '/api/kopps/v2/courses/offerings' in 'courses'.
+ * @param {string} course.course_code - The course code
+ * @param {string} course.department_name - The ddepartment name
+ * @param {string} course.offering_id - The offering id
  * @returns {{}}        Object with course offering data
  */
 function _formOffering(firstSemester, startDate, course) {
   return {
-    semester: firstSemester,
+    firstSemester,
     startDate,
     schoolMainCode: SCHOOL_MAP[course.school_code] || '---',
     departmentName: course.department_name,
@@ -70,22 +75,24 @@ const semestersInParsedOfferings = parsedOfferings =>
   }, [])
 
 /**
- * Parses offerings from Kopps and returns an object with two lists:
- * - One list containing offerings that starts with semester parameter. This is used for course memos.
- * - One list containing offerings that ends with semester parameter. This is used for course analyses.
- * @param {{}} courses      Courses as returned by '/api/kopps/v2/courses/offerings'.
- * @param {[]} semesters    Semesters numbers for which data is fetched
- * @returns {{}}            Object with two arrays, each containing offerings’ relevant data
+ * Parses courses offerings from Kopps and returns an object with one list depending on document type:
+ * - One type of list containing offerings that starts with semester parameter. This is used for course memos.
+ * - Another type of list containing offerings that ends with semester parameter. This is used for course analyses.
+ * @param {Object[]} courses      Courses as returned by '/api/kopps/v2/courses/offerings'.
+ * @param {string} courses[].first_yearsemester - The start semester of a course
+ * @param {Object[]} courses[].offered_semesters - The list of offered semesters of a course
+ * @param {string} courses[].offered_semesters[].semester - The current semester of a course offering
+ * @param {Object[]} semesters    Semesters strings for which data is fetched
+ * @param {string} semesters[]    Semester string chosen by user
+ * @param {string} documentType   Document type chosen by user. Values: ccourseMemo or another
+
+ * @returns {[]}           Array, containing offerings’ relevant data
  */
 function parseOfferings(courses, semesters, documentType) {
   const parsedOfferings = []
-  // {
-  //   forAnalyses: [],
-  //   forMemos: [],
-  // }
 
-  if (Array.isArray(courses.body)) {
-    courses.body.forEach(course => {
+  if (Array.isArray(courses)) {
+    courses.forEach(course => {
       // eslint-disable-next-line camelcase
       const { first_yearsemester: firstSemester, offered_semesters } = course
       // eslint-disable-next-line camelcase
@@ -112,4 +119,5 @@ function parseOfferings(courses, semesters, documentType) {
 
 module.exports = {
   parseOfferings,
+  semestersInParsedOfferings,
 }
