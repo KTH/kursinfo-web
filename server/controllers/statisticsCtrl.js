@@ -6,7 +6,7 @@ const languageUtils = require('@kth/kth-node-web-common/lib/language')
 // const courseApi = require('../apiCalls/kursinfoAdmin')
 const memoApi = require('../apiCalls/memoApi')
 const koppsCourseData = require('../apiCalls/koppsCourseData')
-const { parseOfferings } = require('../apiCalls/transformers/offerings')
+const { parseOfferings, semestersInParsedOfferings } = require('../apiCalls/transformers/offerings')
 
 // const ugRedisApi = require('../apiCalls/ugRedisApi')
 
@@ -64,24 +64,41 @@ async function getIndex(req, res, next) {
   }
 }
 
+async function _getCoursesPerSemester(semester) {
+  // TODO: FETCH DATA FROM KOOPPS AND FROM KURS-PM/KURSANALYS API depending on document type
+  const { body: courses } = await koppsCourseData.getCoursesAndOfferings(semester)
+  // Object with one array, containing offerings’ relevant data for memo
+
+  return courses
+}
+
 async function fetchMemoStatistics(req, res, next) {
   const { params, query } = req
+  log.info(` trying to fetch course memo statistics `, { params, query })
+
   const { year } = params
-  const { seasons } = query
-  const sortedSemesters = seasons.map(season => Number(`${year}${season}`)).sort()
-  const [earliestSemester] = sortedSemesters
+  const { periods: periodsStr, seasons: seasonsStr } = query
+  if (!seasonsStr) log.error('seasons must be set', seasonsStr)
+
+  const sortedSemesters = seasonsStr
+    .split(',')
+    .map(season => `${year}${season}`)
+    .sort()
+
   try {
-    log.info(` trying to fetch course memo statistics `, { params, query })
-    // TODO: FETCH DATA FROM KOOPPS AND FROM KURS-PM/KURSANALYS API depending on document type
-    const courses = await koppsCourseData.getCoursesAndOfferings(earliestSemester)
-    // Object with one array, containing offerings’ relevant data for memo
+    const courses = []
+    for await (const semester of sortedSemesters) {
+      const courseOfferingsPerSemester = await _getCoursesPerSemester(semester)
+      courses.push(...courseOfferingsPerSemester)
+    }
+
+    // TODO: FILTER BY PERIODS SENARE
     const parsedOfferings = parseOfferings(courses, sortedSemesters, 'courseMemo')
+
     // Semesters found in parsed offerings.
     const semestersInMemos = semestersInParsedOfferings(parsedOfferings)
-
-    const memos = await memoApi.getCourseMemosForStatistics(year, seasons)
     // Course memos for semesters
-    const courseMemoData = await _fetchCourseMemos(semestersInMemos)
+    const memos = await memoApi.getCourseMemosForStatistics(semestersInMemos)
 
     return res.json(memos)
   } catch (error) {
