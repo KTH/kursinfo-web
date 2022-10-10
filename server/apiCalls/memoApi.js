@@ -22,27 +22,23 @@ async function getPrioritizedCourseMemos(courseCode) {
 }
 
 /**
- * TODO: Write tests for this function!
- * TODO: Remove 'numberOfUniqPdfMemos' and 'numberOfUniqMemos'.
- * Fetch course memos for semester from '/api/kurs-pm-data/v1/webAndPdfPublishedMemosBySemester/'.
- * @param {string} semester Semester to get course analyses for
- * @returns {{}}            Course memos collected under course codes
+ * Fetch course memos for each semester in list of semesters.
+ * @param {[]} semesters Array of semesters
+ * @param {string} semesters[] Semester string, f.e., 20212
  */
-const getCourseMemosForStatistics = async (year, seasons) => {
-  if (!year || !seasons) log.error('Some value is missing', { year, seasons })
+const getCourseMemosForStatistics = async semesters => {
+  if (!semesters || !semesters.length === 0) log.error('The list of semesters are missing', { semesters })
   const { client, paths } = api.kursPmDataApi
-  log.debug('Preparing params for course memos api', { year, seasons })
-  const queryString = '?' + new URLSearchParams({ seasons }).toString()
+  log.debug('Preparing params for course memos api', { semesters })
+  const queryString = '?' + new URLSearchParams({ semesters }).toString()
 
-  const uri = client.resolve(paths.getPrioritizedWebOrPdfMemosBySemesters.uri, {
-    year,
-  })
+  const uri = `${client.resolve(paths.getPdfAndWebMemosListBySemesters.uri)}${queryString}`
 
   // const uri = `/api/kurs-pm-data/v1/webAndPdfPublishedMemosBySemester/${semester}`
   try {
-    log.debug('Fetching course memos from api', { uri, year, seasons })
+    log.debug('Fetching course memos from api', { uri, semesters })
 
-    const { body } = await client.getAsync({ uri: `${uri}${queryString}` })
+    const { body } = await client.getAsync({ uri })
 
     log.debug('getCourseMemosForStatistics returns', body)
     return body
