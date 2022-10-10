@@ -43,7 +43,6 @@ function CheckboxOption({ paramName, onChange, stateMode }) {
 
   const [{ options }, setOptions] = React.useReducer(optionsReducer, { options: context[paramName] || [] }) // ???
   const { statisticsLabels, courseLabels: labels } = i18n.messages[languageIndex]
-
   const { formLabels } = statisticsLabels
 
   const headerLabel = formLabels.formSubHeaders[paramName]
@@ -58,10 +57,9 @@ function CheckboxOption({ paramName, onChange, stateMode }) {
     let isMounted = true
 
     if (isMounted) {
-      if (stateMode === 'cleanup') {
+      if (stateMode === 'cleanup-checkboxes') {
         setOptions({ type: 'CLEAN_UP' })
       }
-
       onChange({ [paramName]: options })
     }
     return () => (isMounted = false)
@@ -69,7 +67,7 @@ function CheckboxOption({ paramName, onChange, stateMode }) {
 
   function handleChange(e) {
     const { value, checked } = e.target
-    setOptions({ value, type: checked ? 'ADD_ITEM' : 'REMOVE_ITEM' })
+    setOptions({ value: Number(value), type: checked ? 'ADD_ITEM' : 'REMOVE_ITEM' })
   }
 
   return (

@@ -32,7 +32,6 @@ function StatisticsForm({ onSubmit }) {
   const [state, setState] = useReducer(paramsReducer, {})
   const [stateMode, setStateMode] = React.useState('init')
   const { documentType = null } = state
-
   const { language, languageIndex } = context
   // labels are for headers and short texts
   const { statisticsLabels: labels } = i18n.messages[languageIndex]
@@ -49,7 +48,7 @@ function StatisticsForm({ onSubmit }) {
     const prevDocumentType = documentType
     if (prevDocumentType && newDocumentType) {
       if (newDocumentType !== prevDocumentType) {
-        setStateMode('cleanup')
+        setStateMode('cleanup-checkboxes')
 
         const oldParamName = studyLengthParamName(prevDocumentType)
         params[oldParamName] = []

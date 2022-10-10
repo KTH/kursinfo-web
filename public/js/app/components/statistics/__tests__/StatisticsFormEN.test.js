@@ -240,8 +240,8 @@ describe('Component <StatisticsForm> in english', () => {
       {
         "documentType": "courseMemo",
         "periods": [
-          "1",
-          "2",
+          1,
+          2,
         ],
         "school": undefined,
         "year": undefined,
@@ -268,8 +268,8 @@ describe('Component <StatisticsForm> in english', () => {
         "periods": [],
         "school": undefined,
         "semesters": [
-          "2",
-          "0",
+          2,
+          0,
         ],
         "year": undefined,
       }
@@ -299,7 +299,91 @@ describe('Component <StatisticsForm> in english', () => {
     `)
   })
 
-  test('submit for epmty submitted state', async () => {
+  test('renders switch between course memo and analyses and check state continue working', async () => {
+    render(<StatisticsFormWithContext context={context_en} />)
+
+    const courseMemo = screen.getByLabelText(/course memo/i)
+    const courseAnalysis = screen.getByLabelText(/course analysis/i)
+    const btn = screen.getByRole('button', { name: /show statistics/i })
+
+    await userEvent.click(courseMemo)
+    expect(courseMemo).toBeChecked()
+
+    await userEvent.click(screen.getByLabelText(/SCI/i))
+    expect(screen.getByLabelText(/SCI/i)).toBeChecked()
+
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: /choose a year/i }), '2020')
+
+    await userEvent.click(screen.getByLabelText(/period 1, autumn/i))
+
+    expect(screen.getByLabelText(/period 1, autumn/i)).toBeChecked()
+
+    await userEvent.click(btn)
+    expect(submittedResults).toMatchInlineSnapshot(`
+      {
+        "documentType": "courseMemo",
+        "periods": [
+          1,
+        ],
+        "school": "SCI",
+        "year": 2020,
+      }
+    `)
+
+    await userEvent.click(courseAnalysis)
+    expect(courseAnalysis).toBeChecked()
+
+    expect(screen.queryByRole('heading', { name: /study period/i })).not.toBeInTheDocument()
+
+    expect(screen.getByRole('heading', { name: /semester/i })).toBeInTheDocument()
+
+    await userEvent.click(screen.getByLabelText(/autumn/i))
+    await userEvent.click(screen.getByLabelText(/summer/i))
+
+    expect(screen.getByLabelText(/autumn/i)).toBeChecked()
+    expect(screen.getByLabelText(/summer/i)).toBeChecked()
+
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: /choose a year/i }), '2019')
+
+    await userEvent.click(btn)
+    expect(submittedResults).toMatchInlineSnapshot(`
+      {
+        "documentType": "courseAnalysis",
+        "periods": [],
+        "school": "SCI",
+        "semesters": [
+          2,
+          0,
+        ],
+        "year": 2019,
+      }
+    `)
+
+    // await userEvent.click(courseMemo)
+    // expect(courseMemo).toBeChecked()
+
+    // expect(screen.getByLabelText(/period 1, autumn/i)).not.toBeChecked()
+    // expect(screen.getByLabelText(/period 2, autumn/i)).not.toBeChecked()
+
+    // await userEvent.click(courseAnalysis)
+    // expect(courseAnalysis).toBeChecked()
+
+    // expect(screen.getByLabelText(/autumn/i)).not.toBeChecked()
+    // expect(screen.getByLabelText(/summer/i)).not.toBeChecked()
+
+    // await userEvent.click(btn)
+    // expect(submittedResults).toMatchInlineSnapshot(`
+    //   {
+    //     "documentType": "courseAnalysis",
+    //     "periods": [],
+    //     "school": undefined,
+    //     "semesters": [],
+    //     "year": undefined,
+    //   }
+    // `)
+  })
+
+  test('submit for empty submitted state', async () => {
     render(<StatisticsFormWithContext context={context_en} />)
 
     const courseMemo = screen.getByLabelText(/course memo/i)
@@ -362,13 +446,37 @@ describe('Component <StatisticsForm> in english', () => {
       {
         "documentType": "courseMemo",
         "periods": [
-          "1",
-          "2",
+          1,
+          2,
         ],
         "school": "EECS",
-        "year": "2019",
+        "year": 2019,
       }
     `)
+
+    // change school and year
+    await userEvent.click(screen.getByLabelText(/all schools/i))
+    expect(screen.getByLabelText(/all schools/i)).toBeChecked()
+
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: /choose a year/i }), '2021')
+
+    await userEvent.click(screen.getByLabelText(/period 2, autumn/i))
+    expect(screen.getByLabelText(/period 2, autumn/i)).not.toBeChecked()
+    await userEvent.click(screen.getByLabelText(/summer/i))
+
+    await userEvent.click(btn)
+
+    expect(submittedResults).toMatchInlineSnapshot(`
+          {
+            "documentType": "courseMemo",
+            "periods": [
+              1,
+              0,
+            ],
+            "school": "allSchools",
+            "year": 2021,
+          }
+        `)
   })
 
   test('check or select all inputs for course analysis', async () => {
@@ -398,10 +506,34 @@ describe('Component <StatisticsForm> in english', () => {
         "documentType": "courseAnalysis",
         "school": "EECS",
         "semesters": [
-          "1",
-          "0",
+          1,
+          0,
         ],
-        "year": "2019",
+        "year": 2019,
+      }
+    `)
+
+    // change school and year
+    await userEvent.click(screen.getByLabelText(/itm/i))
+    expect(screen.getByLabelText(/itm/i)).toBeChecked()
+
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: /choose a year/i }), '2020')
+
+    await userEvent.click(screen.getByLabelText(/autumn/i))
+    expect(screen.getByLabelText(/autumn/i)).toBeChecked()
+
+    await userEvent.click(btn)
+
+    expect(submittedResults).toMatchInlineSnapshot(`
+      {
+        "documentType": "courseAnalysis",
+        "school": "ITM",
+        "semesters": [
+          1,
+          0,
+          2,
+        ],
+        "year": 2020,
       }
     `)
   })
