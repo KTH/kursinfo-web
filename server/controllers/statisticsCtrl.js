@@ -125,7 +125,7 @@ async function fetchMemoStatistics(req, res, next) {
       kursPmDataApiBasePath: `${serverConfig.nodeApi.kursPmDataApi.https ? 'https' : 'http'}://${
         serverConfig.nodeApi.kursPmDataApi.host
       }${serverConfig.nodeApi.kursPmDataApi.proxyBasePath}`,
-      semesters: startSemesters,
+      semesters: startSemesters, // prev semester
       offeringsWithMemos, // big Table // in kursinfo-admin-web  combinedDataPerDepartment,
       combinedMemosPerSchool, // small table // in kursinfo-admin-web combinedMemosDataPerSchool,
       semestersInMemos,
