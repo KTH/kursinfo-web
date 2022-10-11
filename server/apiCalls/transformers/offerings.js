@@ -75,49 +75,112 @@ const semestersInParsedOfferings = parsedOfferings =>
   }, [])
 
 /**
- * Parses courses offerings from Kopps and returns an object with one list depending on document type:
- * - One type of list containing offerings that starts with semester parameter. This is used for course memos.
- * - Another type of list containing offerings that ends with semester parameter. This is used for course analyses.
+ * @param {Object[]} chosenSemesters    Semesters strings for which data is fetched
+ * @param {string} chosenSemesters[]    Semester string chosen by user
+ * @returns {{}}           Array, containingoffered semesters and startDate
+ */
+
+function _findStartDateAndLastSemester(chosenSemesters, courseOfferedSemesters) {
+  const offeredSemesters = Array.isArray(courseOfferedSemesters) ? courseOfferedSemesters : []
+
+  const { start_date: offeredSemesterStartDate = '' } =
+    offeredSemesters.find(os => chosenSemesters.includes(os.semester)) || {}
+  const startDate = offeredSemesterStartDate ? _formatTimeToLocaleDateSV(Date.parse(offeredSemesterStartDate)) : ''
+
+  const courseOfferingLastSemester = offeredSemesters.length
+    ? offeredSemesters[offeredSemesters.length - 1].semester
+    : ''
+
+  return { courseOfferingLastSemester, startDate }
+}
+
+const _isCorrectSchool = (chosenSchool, courseSchool) =>
+  chosenSchool === 'allSchools' || chosenSchool.toUpperCase() === SCHOOL_MAP[courseSchool.toUpperCase()]
+
+/**
+ * Parses courses offerings from Kopps and returns an object with one list for course memos which are created before course starts:
+ * - List containing offerings that starts with semester parameter. This is used for course memos.
  * @param {Object[]} courses      Courses as returned by '/api/kopps/v2/courses/offerings'.
  * @param {string} courses[].first_yearsemester - The start semester of a course
  * @param {Object[]} courses[].offered_semesters - The list of offered semesters of a course
  * @param {string} courses[].offered_semesters[].semester - The current semester of a course offering
- * @param {Object[]} semesters    Semesters strings for which data is fetched
- * @param {string} semesters[]    Semester string chosen by user
- * @param {string} documentType   Document type chosen by user. Values: ccourseMemo or another
-
+ * @param {Object[]} chosenSemesters    Semesters strings for which data is fetched
+ * @param {string} chosenSemesters[]    Semester string chosen by user, 5 digits in string format
+ * @param {Object[]} chosenPeriods    Periods strings for which data is fetched, 0-5
+ * @param {string} chosenPeriods[]    Period string chosen by user, 1 digit in string format, 0-5
+ * @param {string} chosenSchool    School name, or if all schools are chosen then 'allSchools
  * @returns {[]}           Array, containing offerings’ relevant data
  */
-function parseOfferings(courses, semesters, documentType) {
+function parseOfferingsForMemos(coursesR = [], chosenSemesters = [], chosenPeriods = [], chosenSchool = '') {
   const parsedOfferings = []
-
+  const courses = [coursesR[0], coursesR[1]]
   if (Array.isArray(courses)) {
     courses.forEach(course => {
       // eslint-disable-next-line camelcase
-      const { first_yearsemester: firstSemester, offered_semesters } = course
-      // eslint-disable-next-line camelcase
-      const offeredSemesters = Array.isArray(offered_semesters) ? offered_semesters : []
+      const {
+        first_yearsemester: firstSemester,
+        first_period: firstYearAndPeriod,
+        offered_semesters: courseOfferedSemesters,
+        school_code: schoolCode,
+      } = course
 
-      const { start_date: offeredSemesterStartDate = '' } =
-        offeredSemesters.find(os => semesters.includes(os.semester)) || {}
-      const startDate = offeredSemesterStartDate ? _formatTimeToLocaleDateSV(Date.parse(offeredSemesterStartDate)) : ''
-      const courseOfferingLastSemester = offeredSemesters.length
-        ? offeredSemesters[offeredSemesters.length - 1].semester
-        : ''
+      const firstPeriod = firstYearAndPeriod.substr(-1)
 
-      const isRelevant =
-        documentType === 'courseMemo'
-          ? semesters.includes(firstSemester)
-          : semesters.includes(courseOfferingLastSemester)
+      const isStartedInChosenPeriods = chosenSemesters.includes(firstSemester) && chosenPeriods.includes(firstPeriod)
+      const isCorrectSchool = _isCorrectSchool(chosenSchool, schoolCode)
 
-      if (isRelevant) parsedOfferings.push(_formOffering(firstSemester, startDate, course))
+      if (isStartedInChosenPeriods && isCorrectSchool) {
+        const { startDate } = _findStartDateAndLastSemester(chosenSemesters, courseOfferedSemesters)
+        const offering = _formOffering(firstSemester, startDate, course)
+        parsedOfferings.push(offering)
+      }
     })
   }
-  // log.debug('_parseOfferings returns', courseOfferingsWithoutAnalysis)
+  return parsedOfferings
+}
+
+/**
+ * Parses courses offerings from Kopps and returns an object with one list for course analyses which are created after course ends:
+ * - List containing offerings that ends with semester parameter. This is used for course analyses.
+ * @param {Object[]} courses      Courses as returned by '/api/kopps/v2/courses/offerings'.
+ * @param {string} courses[].first_yearsemester - The start semester of a course
+ * @param {Object[]} courses[].offered_semesters - The list of offered semesters of a course
+ * @param {string} courses[].offered_semesters[].semester - The current semester of a course offering
+ * @param {Object[]} chosenSemesters    Semesters strings for which data is fetched
+ * @param {string} chosenSemesters[]    Semester string chosen by user, 5 digits in string format
+ * @param {string} chosenSchool    School name, or if all schools are chosen then 'allSchools
+ * @returns {[]}           Array, containing offerings’ relevant data
+ */
+function parseOfferingsForAnalysis(courses = [], chosenSemesters = [], chosenSchool = '') {
+  const parsedOfferings = []
+  if (Array.isArray(courses)) {
+    courses.forEach(course => {
+      // eslint-disable-next-line camelcase
+      const {
+        first_yearsemester: firstSemester,
+        offered_semesters: courseOfferedSemesters,
+        school_code: schoolCode,
+      } = course
+
+      const { courseOfferingLastSemester, startDate } = _findStartDateAndLastSemester(
+        chosenSemesters,
+        courseOfferedSemesters
+      )
+
+      const isFinishedInChosenSemesters = chosenSemesters.includes(courseOfferingLastSemester)
+      const isCorrectSchool = _isCorrectSchool(chosenSchool, schoolCode)
+
+      if (isFinishedInChosenSemesters && isCorrectSchool) {
+        const offering = _formOffering(firstSemester, startDate, course)
+        parsedOfferings.push(offering)
+      }
+    })
+  }
   return parsedOfferings
 }
 
 module.exports = {
-  parseOfferings,
+  parseOfferingsForMemos,
+  parseOfferingsForAnalysis,
   semestersInParsedOfferings,
 }

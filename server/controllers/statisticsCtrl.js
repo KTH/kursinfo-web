@@ -6,7 +6,11 @@ const languageUtils = require('@kth/kth-node-web-common/lib/language')
 // const courseApi = require('../apiCalls/kursinfoAdmin')
 const memoApi = require('../apiCalls/memoApi')
 const koppsCourseData = require('../apiCalls/koppsCourseData')
-const { parseOfferings, semestersInParsedOfferings } = require('../apiCalls/transformers/offerings')
+const {
+  parseOfferingsForAnalysis,
+  parseOfferingsForMemos,
+  semestersInParsedOfferings,
+} = require('../apiCalls/transformers/offerings')
 
 // const ugRedisApi = require('../apiCalls/ugRedisApi')
 
@@ -72,28 +76,37 @@ async function _getCoursesPerSemester(semester) {
   return courses
 }
 
+async function _getCourses(semesters) {
+  const courses = []
+  for await (const semester of semesters) {
+    const courseOfferingsPerSemester = await _getCoursesPerSemester(semester)
+    courses.push(...courseOfferingsPerSemester)
+  }
+}
+
 async function fetchMemoStatistics(req, res, next) {
   const { params, query } = req
   log.info(` trying to fetch course memo statistics `, { params, query })
 
   const { year } = params
-  const { periods: periodsStr, seasons: seasonsStr } = query
+  const { periods: periodsStr, seasons: seasonsStr, school } = query
   if (!seasonsStr) log.error('seasons must be set', seasonsStr)
+  if (!periodsStr) log.error('periods must be set', periodsStr)
+  if (!school) log.error('school must be set', school)
 
   const sortedSemesters = seasonsStr
     .split(',')
     .map(season => `${year}${season}`)
     .sort()
+  const sortedPeriods = periodsStr
+    .split(',')
+    // .map(season => `${year}${season}`)
+    .sort()
 
   try {
-    const courses = []
-    for await (const semester of sortedSemesters) {
-      const courseOfferingsPerSemester = await _getCoursesPerSemester(semester)
-      courses.push(...courseOfferingsPerSemester)
-    }
+    const courses = await _getCourses(sortedSemesters)
 
-    // TODO: FILTER BY PERIODS SENARE
-    const parsedOfferings = parseOfferings(courses, sortedSemesters, 'courseMemo')
+    const parsedOfferings = parseOfferingsForMemos(courses, sortedSemesters, sortedPeriods, school)
 
     // Semesters found in parsed offerings.
     const semestersInMemos = semestersInParsedOfferings(parsedOfferings)
@@ -109,9 +122,22 @@ async function fetchMemoStatistics(req, res, next) {
 
 async function fetchAnalysisStatistics(req, res, next) {
   const { params, query } = req
+  log.info(` trying to fetch course analysis statistics `, { params, query })
+
+  const { year } = params
+  const { seasons: seasonsStr, school } = query
+  if (!seasonsStr) log.error('seasons must be set', seasonsStr)
+  if (!school) log.error('school must be set', school)
+
+  const sortedSemesters = seasonsStr
+    .split(',')
+    .map(season => `${year}${season}`)
+    .sort()
 
   try {
-    log.info(` trying to fetch statistics `, { params, query })
+    const courses = await _getCourses(sortedSemesters)
+
+    const parsedOfferings = parseOfferingsForAnalysis(courses, sortedSemesters, school)
     // TODO: FETCH DATA FROM KOOPPS AND FROM KURS-PM/KURSANALYS API depending on document type
     const apiResponse = { data: 'Hello, results arrived' } // await koppsApi.getSearchResults(searchParamsStr, lang)
     return res.json(apiResponse)
