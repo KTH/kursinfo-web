@@ -1,19 +1,5 @@
-const log = require('@kth/log')
-
-const SCHOOL_MAP = {
-  ABE: 'ABE',
-  CBH: 'CBH',
-  STH: 'CBH',
-  CHE: 'CBH',
-  BIO: 'CBH',
-  CSC: 'EECS',
-  ECE: 'ITM',
-  EECS: 'EECS',
-  EES: 'EECS',
-  ICT: 'EECS',
-  ITM: 'ITM',
-  SCI: 'SCI',
-}
+const { isCorrectSchool, SCHOOL_MAP } = require('./schools')
+const { formatTimeToLocaleDateSV } = require('./dates')
 
 /**
  * Creates string of programs in list.
@@ -31,13 +17,6 @@ function _getProgramList(programs) {
   const programsString = programsList.join(', ')
   // log.debug('_getProgramList returns', programsString)
   return programsString
-}
-
-function _formatTimeToLocaleDateSV(parsedTime) {
-  if (!parsedTime || Number.isNaN(parsedTime)) return ''
-  const options = { year: 'numeric', month: 'numeric', day: 'numeric' }
-  const formattedTime = new Date(parsedTime).toLocaleDateString('sv-SE', options)
-  return formattedTime
 }
 
 /**
@@ -87,7 +66,7 @@ function _findStartDateAndLastSemester(chosenSemesters, courseOfferedSemesters) 
 
   const { start_date: offeredSemesterStartDate = '' } =
     offeredSemesters.find(os => chosenSemesters.includes(os.semester)) || {}
-  const startDate = offeredSemesterStartDate ? _formatTimeToLocaleDateSV(Date.parse(offeredSemesterStartDate)) : ''
+  const startDate = offeredSemesterStartDate ? formatTimeToLocaleDateSV(Date.parse(offeredSemesterStartDate)) : ''
 
   const courseOfferingLastSemester = offeredSemesters.length
     ? offeredSemesters[offeredSemesters.length - 1].semester
@@ -95,9 +74,6 @@ function _findStartDateAndLastSemester(chosenSemesters, courseOfferedSemesters) 
 
   return { courseOfferingLastSemester, startDate }
 }
-
-const _isCorrectSchool = (chosenSchool, courseSchool) =>
-  chosenSchool === 'allSchools' || chosenSchool.toUpperCase() === SCHOOL_MAP[courseSchool.toUpperCase()]
 
 /**
  * Parses courses offerings from Kopps and returns an object with one list for course memos which are created before course starts:
@@ -113,9 +89,9 @@ const _isCorrectSchool = (chosenSchool, courseSchool) =>
  * @param {string} chosenSchool    School name, or if all schools are chosen then 'allSchools
  * @returns {[]}           Array, containing offerings’ relevant data
  */
-function parseOfferingsForMemos(coursesR = [], chosenSemesters = [], chosenPeriods = [], chosenSchool = '') {
+function parseOfferingsForMemos(courses = [], chosenSemesters = [], chosenPeriods = [], chosenSchool = '') {
   const parsedOfferings = []
-  const courses = [coursesR[0], coursesR[1]]
+  // const courses = [coursesR[0], coursesR[1]]
   if (Array.isArray(courses)) {
     courses.forEach(course => {
       // eslint-disable-next-line camelcase
@@ -129,9 +105,9 @@ function parseOfferingsForMemos(coursesR = [], chosenSemesters = [], chosenPerio
       const firstPeriod = firstYearAndPeriod.substr(-1)
 
       const isStartedInChosenPeriods = chosenSemesters.includes(firstSemester) && chosenPeriods.includes(firstPeriod)
-      const isCorrectSchool = _isCorrectSchool(chosenSchool, schoolCode)
+      const isChosenSchool = isCorrectSchool(chosenSchool, schoolCode)
 
-      if (isStartedInChosenPeriods && isCorrectSchool) {
+      if (isStartedInChosenPeriods && isChosenSchool) {
         const { startDate } = _findStartDateAndLastSemester(chosenSemesters, courseOfferedSemesters)
         const offering = _formOffering(firstSemester, startDate, course)
         parsedOfferings.push(offering)
@@ -170,9 +146,9 @@ function parseOfferingsForAnalysis(courses = [], chosenSemesters = [], chosenSch
       )
 
       const isFinishedInChosenSemesters = chosenSemesters.includes(courseOfferingLastSemester)
-      const isCorrectSchool = _isCorrectSchool(chosenSchool, schoolCode)
+      const isChosenSchool = isCorrectSchool(chosenSchool, schoolCode)
 
-      if (isFinishedInChosenSemesters && isCorrectSchool) {
+      if (isFinishedInChosenSemesters && isChosenSchool) {
         const offering = _formOffering(firstSemester, startDate, course)
         parsedOfferings.push(offering)
       }
