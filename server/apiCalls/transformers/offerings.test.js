@@ -1,6 +1,6 @@
 'use strict'
 
-import { parseOfferingsForMemos, parseOfferingsForAnalysis } from './offerings'
+import { parseOfferingsForMemos, parseOfferingsForAnalysis, semestersInParsedOfferings } from './offerings'
 
 describe('Memos functions to parse and filter offerings', () => {
   test('parse and filter offering for memos', () => {
@@ -44,6 +44,9 @@ describe('Memos functions to parse and filter offerings', () => {
     expect(offering.connectedPrograms).toBe('CINTE2-iNTeresting-2020')
     expect(offering.courseCode).toBe(expectedCourse.course_code)
     expect(offering.offeringId).toBe(expectedCourse.offering_id)
+
+    const semestersInMemos = semestersInParsedOfferings(parsedOfferings)
+    expect(semestersInMemos.length).toBe(1)
   })
 })
 

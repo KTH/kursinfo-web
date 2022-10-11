@@ -63,16 +63,18 @@ function _formOffering(firstSemester, startDate, course) {
 }
 /**
  * Finds unique semesters in object with parsed offerings.
- * @param {[]} parsedOfferings Object with two arrays, each containing offerings’ relevant data.
+ * @param {[]} parsedOfferings Array containing offerings’ relevant data.
  * @returns {[]}               Array with found unique semesters
  */
-const semestersInParsedOfferings = parsedOfferings =>
-  parsedOfferings.reduce((foundSemesters, o) => {
-    if (o.semester && !foundSemesters.includes(o.semester)) {
-      foundSemesters.push(o.semester)
+const semestersInParsedOfferings = parsedOfferings => {
+  const foundSemesters = []
+  parsedOfferings.forEach(({ firstSemester }) => {
+    if (firstSemester && !foundSemesters.includes(firstSemester)) {
+      foundSemesters.push(firstSemester)
     }
-    return foundSemesters
-  }, [])
+  })
+  return foundSemesters
+}
 
 /**
  * @param {Object[]} chosenSemesters    Semesters strings for which data is fetched
