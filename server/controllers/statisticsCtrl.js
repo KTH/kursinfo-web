@@ -12,6 +12,7 @@ const {
   semestersInParsedOfferings,
 } = require('../apiCalls/transformers/offerings')
 
+const { memosPerSchool } = require('../apiCalls/transformers/memos')
 // const ugRedisApi = require('../apiCalls/ugRedisApi')
 
 const browserConfig = require('../configuration').browser
@@ -27,7 +28,11 @@ async function getIndex(req, res, next) {
   const lang = languageUtils.getLanguage(res) || 'sv'
   try {
     const { getCompressedData, renderStaticPage } = getServerSideFunctions()
-    const webContext = { lang, proxyPrefixPath: serverConfig.proxyPrefixPath, ...createStatisticsServerSideContext() }
+    const webContext = {
+      lang,
+      proxyPrefixPath: serverConfig.proxyPrefixPath,
+      ...createStatisticsServerSideContext(),
+    }
     webContext.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     webContext.setLanguage(lang)
     const compressedData = getCompressedData(webContext)
@@ -60,7 +65,7 @@ async function getIndex(req, res, next) {
 
     if (!excludedStatusCodes.includes(statusCode)) {
       if (err.code === 'ECONNABORTED' && err.config) {
-        log.error(err.config.url, 'Timeout error')
+        log.error(err.serverConfig.url, 'Timeout error')
       }
       log.error({ err }, 'Error in statisticsCtrl.js -> in getIndex')
     }
@@ -82,6 +87,7 @@ async function _getCourses(semesters) {
     const courseOfferingsPerSemester = await _getCoursesPerSemester(semester)
     courses.push(...courseOfferingsPerSemester)
   }
+  return courses
 }
 
 async function fetchMemoStatistics(req, res, next) {
@@ -89,32 +95,41 @@ async function fetchMemoStatistics(req, res, next) {
   log.info(` trying to fetch course memo statistics `, { params, query })
 
   const { year } = params
-  const { periods: periodsStr, seasons: seasonsStr, school } = query
-  if (!seasonsStr) log.error('seasons must be set', seasonsStr)
-  if (!periodsStr) log.error('periods must be set', periodsStr)
+  const { periods, seasons, school } = query
+  if (!seasons) log.error('seasons must be set', seasons)
+  if (!periods) log.error('periods must be set', periods)
   if (!school) log.error('school must be set', school)
 
-  const sortedSemesters = seasonsStr
-    .split(',')
-    .map(season => `${year}${season}`)
-    .sort()
-  const sortedPeriods = periodsStr
-    .split(',')
-    // .map(season => `${year}${season}`)
-    .sort()
+  const startSemesters = seasons.map(season => `${year}${season}`).sort()
+  const sortedPeriods = periods.sort()
 
   try {
-    const courses = await _getCourses(sortedSemesters)
+    const courses = await _getCourses(startSemesters)
 
-    const parsedOfferings = parseOfferingsForMemos(courses, sortedSemesters, sortedPeriods, school)
+    const parsedOfferings = parseOfferingsForMemos(courses, startSemesters, sortedPeriods, school)
 
-    // Not necessary, Semesters found in parsed offerings.
-    const startSemesters = semestersInParsedOfferings(parsedOfferings)
+    // // Semesters found in parsed offerings. Not necessary, startSemesters is the same.
+    const semestersInMemos = semestersInParsedOfferings(parsedOfferings)
 
     // Course memos for semesters
-    const memos = await memoApi.getCourseMemosForStatistics(startSemesters)
+    const memos = await memoApi.getCourseMemosForStatistics(semestersInMemos)
 
-    return res.json(memos)
+    // Compiles statistics per school, including totals, for memos.
+    const { offeringsWithMemos, combinedMemosPerSchool } = memosPerSchool(parsedOfferings, memos)
+
+    return res.json({
+      totalOfferings: courses.length,
+      koppsApiBasePath: `${serverConfig.koppsApi.https ? 'https' : 'http'}://${serverConfig.koppsApi.host}${
+        serverConfig.koppsApi.basePath
+      }`,
+      kursPmDataApiBasePath: `${serverConfig.nodeApi.kursPmDataApi.https ? 'https' : 'http'}://${
+        serverConfig.nodeApi.kursPmDataApi.host
+      }${serverConfig.nodeApi.kursPmDataApi.proxyBasePath}`,
+      semesters: startSemesters,
+      offeringsWithMemos, // big Table // in kursinfo-admin-web  combinedDataPerDepartment,
+      combinedMemosPerSchool, // small table // in kursinfo-admin-web combinedMemosDataPerSchool,
+      semestersInMemos,
+    })
   } catch (error) {
     log.debug(` Exception`, { error })
     next(error)
@@ -126,11 +141,11 @@ async function fetchAnalysisStatistics(req, res, next) {
   log.info(` trying to fetch course analysis statistics `, { params, query })
 
   const { year } = params
-  const { seasons: seasonsStr, school } = query
-  if (!seasonsStr) log.error('seasons must be set', seasonsStr)
+  const { seasons: seasons, school } = query
+  if (!seasons) log.error('seasons must be set', seasons)
   if (!school) log.error('school must be set', school)
 
-  const sortedSemesters = seasonsStr
+  const sortedSemesters = seasons
     .split(',')
     .map(season => `${year}${season}`)
     .sort()
@@ -144,7 +159,7 @@ async function fetchAnalysisStatistics(req, res, next) {
     const startSemesters = semestersInParsedOfferings(parsedOfferings)
 
     // Course memos for semesters
-    const memos = await memoApi.getCourseMemosForStatistics(startSemesters)
+    // const analsis = await memoApi.getCourseMemosForStatistics(startSemesters)
 
     const apiResponse = { data: 'Hello, results arrived' } // await koppsApi.getSearchResults(searchParamsStr, lang)
     return res.json(apiResponse)

@@ -42,7 +42,7 @@ function _formSeasongByDocumentType(documentType, params) {
 // eslint-disable-next-line consistent-return
 async function fetchStatistics(language, proxyUrl, params) {
   try {
-    const { documentType, year } = params
+    const { documentType, year, periods, school } = params
     const missingParams = _missingParameters(params)
     if (missingParams.length > 0) return _missingParametersError(missingParams, language)
 
@@ -51,8 +51,10 @@ async function fetchStatistics(language, proxyUrl, params) {
     // const url = `${proxyUrl}/api/kursinfo/statistics/${documentType}/${year}/${language}`
     const url = `${proxyUrl}/api/kursinfo/statistics/${documentType}/year/${year}` // ${queryString(seasons)}&l=${language}
 
+    const periodsIfMemo = documentType === DOCS.courseMemo ? { periods } : {}
+
     const result = await axios.get(url, {
-      params: { seasons: seasons.join(','), l: language },
+      params: { school, seasons, l: language, ...periodsIfMemo },
     })
     if (result) {
       if (result.status >= 400) {
