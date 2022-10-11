@@ -108,10 +108,11 @@ async function fetchMemoStatistics(req, res, next) {
 
     const parsedOfferings = parseOfferingsForMemos(courses, sortedSemesters, sortedPeriods, school)
 
-    // Semesters found in parsed offerings.
-    const semestersInMemos = semestersInParsedOfferings(parsedOfferings)
+    // Not necessary, Semesters found in parsed offerings.
+    const startSemesters = semestersInParsedOfferings(parsedOfferings)
+
     // Course memos for semesters
-    const memos = await memoApi.getCourseMemosForStatistics(semestersInMemos)
+    const memos = await memoApi.getCourseMemosForStatistics(startSemesters)
 
     return res.json(memos)
   } catch (error) {
@@ -138,7 +139,13 @@ async function fetchAnalysisStatistics(req, res, next) {
     const courses = await _getCourses(sortedSemesters)
 
     const parsedOfferings = parseOfferingsForAnalysis(courses, sortedSemesters, school)
-    // TODO: FETCH DATA FROM KOOPPS AND FROM KURS-PM/KURSANALYS API depending on document type
+
+    // Find start semesters found in parsed offerings.
+    const startSemesters = semestersInParsedOfferings(parsedOfferings)
+
+    // Course memos for semesters
+    const memos = await memoApi.getCourseMemosForStatistics(startSemesters)
+
     const apiResponse = { data: 'Hello, results arrived' } // await koppsApi.getSearchResults(searchParamsStr, lang)
     return res.json(apiResponse)
   } catch (error) {
