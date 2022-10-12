@@ -321,5 +321,11 @@ module.exports = {
       courseAnalysis: { header: 'Table with courses and course analyses' },
       courseMemo: { header: 'Table with courses and course memos' },
     },
+    summaryLabels: {
+      subHeaders: {
+        courseMemo: 'Summary of published memos numbers',
+        courseAnalysis: 'Summary of published analyses numbers',
+      },
+    },
   },
 }

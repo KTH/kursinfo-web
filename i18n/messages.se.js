@@ -295,5 +295,11 @@ module.exports = {
       courseAnalysis: { header: 'Tabell med kurser och kursanalyser' },
       courseMemo: { header: 'Tabell med kurser och kurs-PM' },
     },
+    summaryLabels: {
+      subHeaders: {
+        courseMemo: 'Sammanställning av antalet publicerade kurs-PM',
+        courseAnalysis: 'Sammanställning av antal publicerade kursanalyser',
+      },
+    },
   },
 }
