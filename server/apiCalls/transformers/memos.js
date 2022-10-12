@@ -11,11 +11,11 @@ const memosPerCourseOffering = (parsedOfferings, memos) => {
   const courseOfferings = []
 
   parsedOfferings.forEach(offering => {
-    const { courseCode, semester } = offering
+    const { courseCode, firstSemester } = offering
     const offeringId = Number(offering.offeringId)
     let courseMemoInfo = {}
-    if (memos[courseCode] && memos[courseCode][semester] && memos[courseCode][semester][offeringId]) {
-      courseMemoInfo = memos[courseCode][semester][offeringId]
+    if (memos[courseCode] && memos[courseCode][firstSemester] && memos[courseCode][firstSemester][offeringId]) {
+      courseMemoInfo = memos[courseCode][firstSemester][offeringId]
       courseMemoInfo.publishedData = publishData(offering.startDate, courseMemoInfo.lastChangeDate)
     }
     const courseOffering = {
