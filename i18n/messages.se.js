@@ -296,7 +296,7 @@ module.exports = {
       courseMemo: { header: 'Tabell med kurser och kurs-PM' },
       rowsPerPageText: 'antal rader per sida:',
       rangeSeparatorText: 'av',
-      noDataMessage: 'din sökning gav inget resultat',
+      noDataMessage: 'Inga statistikdata hittades!',
       statisticsDataColumns: {
         year: 'År',
         school: 'Skola',

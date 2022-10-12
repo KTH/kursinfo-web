@@ -322,7 +322,7 @@ module.exports = {
       courseMemo: { header: 'Table with courses and course memos' },
       rowsPerPageText: 'number of rows per page:',
       rangeSeparatorText: 'of',
-      noDataMessage: 'your search rendered no results',
+      noDataMessage: 'No statistics data found!',
       statisticsDataColumns: {
         year: 'Year',
         school: 'School',
