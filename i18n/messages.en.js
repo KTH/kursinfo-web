@@ -322,6 +322,7 @@ module.exports = {
       courseMemo: { header: 'Table with courses and course memos' },
     },
     summaryLabels: {
+      sourceOfData: 'Read about API:s and code',
       subHeaders: {
         courseMemo: 'Summary of published memos numbers',
         courseAnalysis: 'Summary of published analyses numbers',

@@ -296,6 +296,7 @@ module.exports = {
       courseMemo: { header: 'Tabell med kurser och kurs-PM' },
     },
     summaryLabels: {
+      sourceOfData: 'Läs om API:erna och källkoden',
       subHeaders: {
         courseMemo: 'Sammanställning av antalet publicerade kurs-PM',
         courseAnalysis: 'Sammanställning av antal publicerade kursanalyser',

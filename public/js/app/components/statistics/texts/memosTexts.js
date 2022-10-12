@@ -1,20 +1,106 @@
 import React from 'react'
 
 const englishMemosSummarySection = {
+  courseDataApiDescription: koppsApiUrl => (
+    <>
+      <p>Exemple for how data is fetched for Spring 2022, period P3, school ABE:</p>
+      <p>
+        Course data is fetched from&nbsp;
+        <a href="https://www.kth.se/api/kopps/v2/apiInfo/courses">KOPPS API for Courses</a>, endpoint&nbsp;
+        <code>/api/kopps/v2/courses/offerings</code>. Data for the current page was fetched from&nbsp;
+        <a
+          href={`${koppsApiUrl}courses/offerings?from=20221&skip_coordinator_info=true`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {`${koppsApiUrl}courses/offerings?from=20221&skip_coordinator_info=true`}
+        </a>
+        .
+      </p>
+      <p>
+        For course memos, offerings that didn’t start during the 20221 semester are filtered out. This is done by
+        discarding offerings that doesn’t meet the criteria: <code>course.first_yearsemester == 20221</code>,
+        <code>course.first_period===20221P3</code>, <code>SCHOOL_MAP[course.school_code]=== &apos;ABE&apos;</code>. Date
+        used to determine if memo was published before the offering started is{' '}
+        <code>course.offered_semesters[&#123;{20221}&#125;].start_date</code>.
+      </p>
+    </>
+  ),
+  courseDocumentsDataApiDescription: kursPmApiUrl => (
+    <>
+      <p>
+        An earlier version of <i>Publish new course analysis and course data</i> had the option to upload course memos
+        together with course analyses. This option does not exist anymore, and course memos uploaded on that page are
+        filtered out.
+      </p>
+      <p>
+        Course memo data is fetched from&nbsp;
+        <a href="https://github.com/KTH/kurs-pm-data-api" target="_blank" rel="noreferrer">
+          kurs-pm-data-api
+        </a>
+        , endpoint <code>/api/kurs-pm-data/v1/prioritizedWebOrPdfMemosBySemesters?semesters=&#123;semester&#125;</code>.
+        Data for the current page was fetched from&nbsp;
+        <a
+          href={`${kursPmApiUrl}/v1/prioritizedWebOrPdfMemosBySemesters?semesters=20221`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {`${kursPmApiUrl}/v1/prioritizedWebOrPdfMemosBySemesters?semesters=20221`}
+        </a>
+        , using semester <code>20221</code>.
+      </p>
+    </>
+  ),
   subPageDescription: () => <p>Some description of memo</p>,
 }
 
 const swedishMemosSummarySection = {
   courseDataApiDescription: koppsApiUrl => (
-    <p>
-      Course data is fetched from&nbsp;
-      <a href="https://www.kth.se/api/kopps/v2/apiInfo/courses">KOPPS API for Courses</a>, endpoint&nbsp;
-      <code>/api/kopps/v2/courses/offerings</code>. Data for the current page was fetched from&nbsp;
-      <a href={koppsApiUrl} target="_blank" rel="noreferrer">
-        <code>{koppsApiUrl}</code>
-      </a>
-      .
-    </p>
+    // update course.offered_semesters
+    <>
+      <p>Exempel för hur data hämtas för en termin - VT 2022, period P3:</p>
+      <p>
+        Kursdata hämtas från <a href="https://www.kth.se/api/kopps/v2/apiInfo/courses">KOPPS API för kurser</a>,
+        endpoint: <code>/api/kopps/v2/courses/offerings</code>. För att hämta data för VT 2022 så används:{' '}
+        <a
+          href={`${koppsApiUrl}courses/offerings?from=20221&skip_coordinator_info=true`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {`${koppsApiUrl}courses/offerings?from=20221&skip_coordinator_info=true`}
+        </a>
+        . Kurs-PM med kursomgångar som inte startar under VT 2022 filtreras bort. Detta görs genom att förkasta
+        kursomgångar som inte uppfyller kriterierna: <code>course.first_yearsemester == 20221</code>,
+        <code>course.first_period===20221P3</code>, <code>SCHOOL_MAP[course.school_code]=== &apos;ABE&apos;</code>.
+        Datum som används för att avgöra om kurs-PM publicerades innan kursomgången startade är:
+        <code>course.offered_semesters[&#123;{20221}&#125;].start_date.</code>
+      </p>
+    </>
+  ),
+  courseDocumentsDataApiDescription: kursPmApiUrl => (
+    <>
+      <p>
+        En tidigare version av Publicera ny kursanalys och kursdata innehöll möjligheten att ladda upp kurs-PM
+        tillsammans med kursanalyser. Det här alternativet finns inte längre och kurs-PM som laddas upp på den sidan
+        filtreras bort.
+      </p>
+      <p>
+        Kurs-PM-data hämtas från
+        <a href="https://github.com/KTH/kurs-pm-data-api" target="_blank" rel="noreferrer">
+          kurs-pm-data-api
+        </a>
+        , endpoint <code>/api/kurs-pm-data/v1/prioritizedWebOrPdfMemosBySemesters?semesters=&#123;semester&#125;</code>.
+        För att hämta data för VT 2022 används:
+        <a
+          href={`${kursPmApiUrl}/v1/prioritizedWebOrPdfMemosBySemesters?semesters=20221`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {`${kursPmApiUrl}/v1/prioritizedWebOrPdfMemosBySemesters?semesters=20221`}
+        </a>
+        , då semester är <code>20221</code>.
+      </p>
+    </>
   ),
   subPageDescription: () => (
     <>
@@ -22,7 +108,6 @@ const swedishMemosSummarySection = {
         Här visas en sammanställning över antalet publicerade kurs-PM för vald skola, år och läsperiod. Den data som
         används hämtas från Kopps och Om kursen.
       </p>
-
       <p>
         Tabellen visar antalet kurser som startade och antalet kurs-PM som publicerades under den valda läsperioden. De
         tre diagrammen visar hur stor del av skolans kurser som publicerade kurs-PM under läsperioden, senast vid
