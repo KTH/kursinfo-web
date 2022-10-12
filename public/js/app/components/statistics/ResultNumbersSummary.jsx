@@ -7,10 +7,12 @@ import { useWebContext } from '../../context/WebContext'
 import { summaryTexts } from './StatisticsTexts'
 
 import { DOCS, DOCUMENT_TYPES } from './domain/formConfigurations'
+import { schools } from './domain/index'
+import { MemosSummary } from './index'
 
 function ResultNumbersSummary({ statisticsResult }) {
   const [{ language, languageIndex }] = useWebContext()
-  const { documentType } = statisticsResult
+  const { documentsApiBasePath, documentType, koppsApiBasePath } = statisticsResult
   // labels are for headers and short texts
   const { statisticsLabels: labels } = i18n.messages[languageIndex]
   const { summaryLabels } = labels
@@ -22,15 +24,20 @@ function ResultNumbersSummary({ statisticsResult }) {
     <>
       <h2>{labels[documentType]}</h2>
       <h3>{summaryLabels.subHeaders[documentType]}</h3>
-      <article key="memos-and-courses-compilation">
+      <article key="documents-and-courses-description">
         {texts.subPageDescription()}
-        {/* 
         <details>
-          <summary className="white">{texts.sourceOfData}</summary>
-          {texts.courseDataApiDescription(koppsApiUrl)}
-          {texts.courseDocumentsFilterDescription(semester)}
-          {texts.courseMemosDataApiDescription(kursutvecklingApiUrl, semestersInMemos)}
-        </details> */}
+          <summary className="white">{summaryLabels.sourceOfData}</summary>
+          {texts.courseDataApiDescription(koppsApiBasePath)}
+          {texts.courseDocumentsDataApiDescription(documentsApiBasePath)}
+        </details>
+      </article>
+      <article key="documents-and-courses-compilation">
+        {documentType === DOCS.courseMemo ? (
+          <MemosSummary statisticsResult={statisticsResult} />
+        ) : (
+          <p>analyses table</p>
+        )}
       </article>
     </>
   )
@@ -50,5 +57,5 @@ ResultNumbersSummary.propTypes = {
   ]),
 }
 
-MemosSummary.defaultProps = {}
-export default MemosSummary
+ResultNumbersSummary.defaultProps = {}
+export default ResultNumbersSummary

@@ -15,29 +15,12 @@ function MemosNumbersTable({ statisticsResult }) {}
 function MemosSummary({ statisticsResult }) {
   const [{ language, languageIndex }] = useWebContext()
   const { documentType } = statisticsResult
-  console.log('statisticsResult', statisticsResult)
   // labels are for headers and short texts
   const { statisticsLabels: labels } = i18n.messages[languageIndex]
   const { summaryLabels } = labels
-
-  // texts are for big texts with several <p>, or dynamic
-  const texts = summaryTexts(documentType, language)
-
   return (
     <>
-      <h2>{labels[documentType]}</h2>
-      <h3>{summaryLabels.subHeaders[documentType]}</h3>
-      <article key="memos-and-courses-compilation">
-        {texts.subPageDescription()}
-        {/* 
-        {texts.subPageDescription()}
-        <details>
-          <summary className="white">{texts.sourceOfData}</summary>
-          {texts.courseDataApiDescription(koppsApiUrl)}
-          {texts.courseMemosFilterDescription(semester)}
-          {texts.courseMemosDataApiDescription(kursutvecklingApiUrl, semestersInMemos)}
-        </details> */}
-      </article>
+      <table></table>
     </>
   )
 }

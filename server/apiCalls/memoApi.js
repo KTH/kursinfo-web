@@ -34,7 +34,6 @@ const getCourseMemosForStatistics = async semesters => {
 
   const uri = `${client.resolve(paths.getPdfAndWebMemosListBySemesters.uri)}${queryString}`
 
-  // const uri = `/api/kurs-pm-data/v1/webAndPdfPublishedMemosBySemester/${semester}`
   try {
     log.debug('Fetching course memos from api', { uri, semesters })
 
