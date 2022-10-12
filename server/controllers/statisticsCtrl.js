@@ -118,17 +118,20 @@ async function fetchMemoStatistics(req, res, next) {
     const { offeringsWithMemos, combinedMemosPerSchool } = memosPerSchool(parsedOfferings, memos)
 
     return res.json({
-      totalOfferings: courses.length,
+      combinedMemosPerSchool, // small table // in kursinfo-admin-web combinedMemosDataPerSchool,
+      documentType: 'courseMemo',
       koppsApiBasePath: `${serverConfig.koppsApi.https ? 'https' : 'http'}://${serverConfig.koppsApi.host}${
         serverConfig.koppsApi.basePath
       }`,
       kursPmDataApiBasePath: `${serverConfig.nodeApi.kursPmDataApi.https ? 'https' : 'http'}://${
         serverConfig.nodeApi.kursPmDataApi.host
       }${serverConfig.nodeApi.kursPmDataApi.proxyBasePath}`,
-      semesters: startSemesters, // prev semester
+      school,
       offeringsWithMemos, // big Table // in kursinfo-admin-web  combinedDataPerDepartment,
-      combinedMemosPerSchool, // small table // in kursinfo-admin-web combinedMemosDataPerSchool,
+      semesters: startSemesters, // prev semester
       semestersInMemos,
+      totalOfferings: courses.length,
+      year,
     })
   } catch (error) {
     log.debug(` Exception`, { error })
