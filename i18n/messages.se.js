@@ -301,6 +301,15 @@ module.exports = {
         courseMemo: 'Sammanställning av antalet publicerade kurs-PM',
         courseAnalysis: 'Sammanställning av antal publicerade kursanalyser',
       },
+      memosNumbersTable: {
+        school: 'Skola',
+        totalCourses: 'Antal kurser',
+        totalPublishedPM: 'Totalt antal publicerade kurs-PM',
+        totalPublWebPM: 'Kurs-PM som webbsida',
+        totalPublPdfPM: 'Kurs-PM som PDF',
+        totalPmPublishedBeforeCourseStart: 'Kurs-PM publicerade  senast vid kursstart',
+        totalPmPublishedOneWeekBeforeCourseStart: 'Kurs-PM publicerade en vecka före kursstart',
+      },
     },
   },
 }

@@ -49,7 +49,7 @@ ResultNumbersSummary.propTypes = {
       combinedMemosPerSchool: PropTypes.shape({}),
       documentType: PropTypes.oneOf(DOCUMENT_TYPES),
       koppsApiBasePath: PropTypes.string,
-      kursPmDataApiBasePath: PropTypes.string,
+      documentsApiBasePath: PropTypes.string,
       school: PropTypes.oneOf(schools.ORDERED_SCHOOL_OPTIONS),
       semestersInMemos: PropTypes.arrayOf(PropTypes.string),
       totalOfferings: PropTypes.number,
