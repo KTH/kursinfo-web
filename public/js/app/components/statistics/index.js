@@ -4,6 +4,8 @@ import RadioboxOption from './RadioboxOption'
 import StatisticsAlert from './StatisticsAlert'
 import StatisticsForm from './StatisticsForm'
 import StatisticsResults from './StatisticsResults'
+import StatisticsDataTable from './StatisticsDataTable'
+import SortableDataTable from './SortableDataTable'
 import { englishTexts, swedishTexts } from './StatisticsTexts'
 
 export {
@@ -14,5 +16,7 @@ export {
   StatisticsAlert,
   StatisticsForm,
   StatisticsResults,
+  StatisticsDataTable,
+  SortableDataTable,
   swedishTexts,
 }
