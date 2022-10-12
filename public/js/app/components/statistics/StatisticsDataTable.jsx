@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { useWebContext } from '../../context/WebContext'
 import i18n from '../../../../../i18n'
 import SortableDataTable, { useRowsPerPage } from './SortableDataTable'
@@ -9,10 +10,12 @@ const orderColumn = (a, b) => {
   return 0
 }
 
-function StatisticsDataTable() {
-  const [{ languageIndex }] = useWebContext()
+function StatisticsDataTable({ data = [] }) {
+  const [context] = useWebContext()
+  const { languageIndex } = context
   const { statisticsLabels } = i18n.messages[languageIndex]
-  const { statisticsDataColumns } = statisticsLabels
+  const { sortableTable } = statisticsLabels
+  const { statisticsDataColumns } = sortableTable
   const { readRowsPerPage, writeRowsPerPage } = useRowsPerPage('statisticsPage', 'EditableDataTableForStatistics', '50')
 
   const columns = [
@@ -87,16 +90,23 @@ function StatisticsDataTable() {
       sortFunction: orderColumn,
     },
   ]
-  const data = []
 
-  return data.length === 0 ? (
+  const buildLink = (link, kursPmName) => <Link to={`/users/${link}`}>{kursPmName}</Link>
+
+  const tableData = data.map((d, index) => ({
+    id: index,
+    ...d,
+    linkToCourse: d.linkToCourse ? buildLink(d.linkToCourse, d.courseCode + d.year + d.courseRoundNumber) : '',
+  }))
+
+  return tableData.length === 0 ? (
     <p>
-      <i>{statisticsLabels.noDataMessage}</i>
+      <i>{sortableTable.noDataMessage}</i>
     </p>
   ) : (
     <SortableDataTable
       columns={columns}
-      data={data}
+      data={tableData}
       rowsPerPage={readRowsPerPage()}
       onChangeRowsPerPage={writeRowsPerPage}
     ></SortableDataTable>

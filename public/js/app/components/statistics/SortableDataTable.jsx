@@ -58,11 +58,13 @@ const customStyles = {
 }
 
 function SortableDataTable({ columns, data, rowsPerPage = 10, onChangeRowsPerPage = count => {} }) {
-  const [{ languageIndex }] = useWebContext()
+  const [context] = useWebContext()
+  const { languageIndex } = context
   const { statisticsLabels } = i18n.messages[languageIndex]
+  const { sortableTable } = statisticsLabels
   const opts = {
-    rowsPerPageText: statisticsLabels.rowsPerPageText,
-    rangeSeparatorText: statisticsLabels.rangeSeparatorText,
+    rowsPerPageText: sortableTable.rowsPerPageText,
+    rangeSeparatorText: sortableTable.rangeSeparatorText,
   }
   return (
     <div className={'form-group'}>
