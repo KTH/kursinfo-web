@@ -123,7 +123,7 @@ async function fetchMemoStatistics(req, res, next) {
       koppsApiBasePath: `${serverConfig.koppsApi.https ? 'https' : 'http'}://${serverConfig.koppsApi.host}${
         serverConfig.koppsApi.basePath
       }`,
-      kursPmDataApiBasePath: `${serverConfig.nodeApi.kursPmDataApi.https ? 'https' : 'http'}://${
+      documentsApiBasePath: `${serverConfig.nodeApi.kursPmDataApi.https ? 'https' : 'http'}://${
         serverConfig.nodeApi.kursPmDataApi.host
       }${serverConfig.nodeApi.kursPmDataApi.proxyBasePath}`,
       school,
