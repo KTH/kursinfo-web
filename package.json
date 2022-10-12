@@ -58,7 +58,8 @@
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "reactstrap": "^9.1.4",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "styled-components": "^5.3.6"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
