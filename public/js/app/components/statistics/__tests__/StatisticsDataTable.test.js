@@ -1,7 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import userEvent from '@testing-library/user-event'
 import { WebContextProvider } from '../../../context/WebContext'
 import StatisticsDataTable from '../StatisticsDataTable'
 
@@ -48,7 +47,7 @@ describe('Component <StatisticsDataTable> in english', () => {
     expect(screen.getByText('No statistics data found!')).toBeInTheDocument()
   })
 
-  test('renders a table for a statistics page', () => {
+  test('Renders a table for a statistics page', () => {
     render(<StatisticsDataTableWithContext context={context_en} />)
     expect(screen.getByText('Energiteknik')).toBeInTheDocument()
     expect(screen.getByText('SF1624')).toBeInTheDocument()
