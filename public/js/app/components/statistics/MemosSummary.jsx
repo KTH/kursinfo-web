@@ -18,11 +18,11 @@ function MemosNumbersTable({ statisticsResult }) {
   const headersLabelsIds = [
     'school',
     'totalCourses',
-    'totalPublishedPM',
-    'totalPublWebPM',
-    'totalPublPdfPM',
-    'totalPmPublishedBeforeCourseStart',
-    'totalPmPublishedOneWeekBeforeCourseStart',
+    'totalPublishedMemos',
+    'totalPublWeMemos',
+    'totalPublPdMemos',
+    'totalMemosPublishedBeforeCourseStart',
+    'totalMemosPublishedOneWeekBeforeCourseStart',
   ]
   const memosPerSchoolRows = () => {
     const rows = []
