@@ -100,13 +100,13 @@ async function fetchMemoStatistics(req, res, next) {
   if (!periods) log.error('periods must be set', periods)
   if (!school) log.error('school must be set', school)
 
-  const startSemesters = seasons.map(season => `${year}${season}`).sort()
+  const chosenSemesters = seasons.map(season => `${year}${season}`).sort()
   const sortedPeriods = periods.sort()
 
   try {
-    const courses = await _getCourses(startSemesters)
+    const courses = await _getCourses(chosenSemesters)
 
-    const parsedOfferings = parseOfferingsForMemos(courses, startSemesters, sortedPeriods, school)
+    const parsedOfferings = parseOfferingsForMemos(courses, chosenSemesters, sortedPeriods, school)
 
     // // Semesters found in parsed offerings. Not necessary, startSemesters is the same.
     const semestersInMemos = semestersInParsedOfferings(parsedOfferings)
@@ -118,17 +118,21 @@ async function fetchMemoStatistics(req, res, next) {
     const { offeringsWithMemos, combinedMemosPerSchool } = memosPerSchool(parsedOfferings, memos)
 
     return res.json({
-      totalOfferings: courses.length,
+      combinedMemosPerSchool, // small table // in kursinfo-admin-web combinedMemosDataPerSchool,
+      documentType: 'courseMemo',
       koppsApiBasePath: `${serverConfig.koppsApi.https ? 'https' : 'http'}://${serverConfig.koppsApi.host}${
         serverConfig.koppsApi.basePath
       }`,
-      kursPmDataApiBasePath: `${serverConfig.nodeApi.kursPmDataApi.https ? 'https' : 'http'}://${
+      documentsApiBasePath: `${serverConfig.nodeApi.kursPmDataApi.https ? 'https' : 'http'}://${
         serverConfig.nodeApi.kursPmDataApi.host
       }${serverConfig.nodeApi.kursPmDataApi.proxyBasePath}`,
-      semesters: startSemesters, // prev semester
+      school,
       offeringsWithMemos, // big Table // in kursinfo-admin-web  combinedDataPerDepartment,
-      combinedMemosPerSchool, // small table // in kursinfo-admin-web combinedMemosDataPerSchool,
+      periods,
+      semesters: chosenSemesters, // prev semester
       semestersInMemos,
+      totalOfferings: courses.length,
+      year,
     })
   } catch (error) {
     log.debug(` Exception`, { error })
@@ -154,7 +158,7 @@ async function fetchAnalysisStatistics(req, res, next) {
     const courses = await _getCourses(sortedSemesters)
 
     const parsedOfferings = parseOfferingsForAnalysis(courses, sortedSemesters, school)
-
+    // ADD MATCHING TO SUMMER PERIOD
     // Find start semesters found in parsed offerings.
     const startSemesters = semestersInParsedOfferings(parsedOfferings)
 

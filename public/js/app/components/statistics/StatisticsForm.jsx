@@ -3,7 +3,6 @@ import { Col, Row } from 'reactstrap'
 import PropTypes from 'prop-types'
 import i18n from '../../../../../i18n'
 import { useWebContext } from '../../context/WebContext'
-import { englishTexts, swedishTexts } from './StatisticsTexts'
 import { studyLengthParamName } from './domain/formConfigurations'
 
 import { CheckboxOption, DropdownOption, RadioboxOption } from './index'
@@ -32,11 +31,9 @@ function StatisticsForm({ onSubmit }) {
   const [state, setState] = useReducer(paramsReducer, {})
   const [stateMode, setStateMode] = React.useState('init')
   const { documentType = null } = state
-  const { language, languageIndex } = context
+  const { languageIndex } = context
   // labels are for headers and short texts
   const { statisticsLabels: labels } = i18n.messages[languageIndex]
-  // texts are for big texts with several <p>, or dynamic
-  const texts = language === 'en' ? englishTexts : swedishTexts
 
   function handleSubmit(e) {
     e.preventDefault()

@@ -1,5 +1,5 @@
 const _ = require('lodash')
-const { publishData } = require('./dates')
+const { firstPublishData, publishData } = require('./dates')
 
 /**
  * Matches analyses and memos with course offerings.
@@ -11,12 +11,32 @@ const memosPerCourseOffering = (parsedOfferings, memos) => {
   const courseOfferings = []
 
   parsedOfferings.forEach(offering => {
-    const { courseCode, semester } = offering
+    const { courseCode, firstSemester } = offering
     const offeringId = Number(offering.offeringId)
     let courseMemoInfo = {}
-    if (memos[courseCode] && memos[courseCode][semester] && memos[courseCode][semester][offeringId]) {
-      courseMemoInfo = memos[courseCode][semester][offeringId]
+    const courseMemosForSemester = memos.filter(
+      memo => memo.courseCode === courseCode && memo.semester === firstSemester
+    )
+    const memosForOfferingId = courseMemosForSemester.filter(memo => memo.ladokRoundIds.includes(String(offeringId)))
+    // if (memos[courseCode] && memos[courseCode][firstSemester] && memos[courseCode][firstSemester][offeringId]) {
+    //   courseMemoInfo = memos[courseCode][firstSemester][offeringId]
+    if (memosForOfferingId.length === 1) {
+      const [publishedMemo] = memosForOfferingId
+      courseMemoInfo = publishedMemo
+      // TODO publish date need to be taken from version 1
       courseMemoInfo.publishedData = publishData(offering.startDate, courseMemoInfo.lastChangeDate)
+    }
+    if (memosForOfferingId.length > 1) {
+      const firstVersion = memosForOfferingId.find(memo => memo.version === 1)
+      const latestVersion = memosForOfferingId.find(memo => memo.version !== 1)
+
+      courseMemoInfo = latestVersion
+      // TODO publish date need to be taken from version 1
+      courseMemoInfo.publishedData = firstPublishData(
+        offering.startDate,
+        latestVersion.lastChangeDate,
+        firstVersion.lastChangeDate
+      )
     }
     const courseOffering = {
       ...offering,

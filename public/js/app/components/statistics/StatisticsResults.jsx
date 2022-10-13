@@ -7,12 +7,11 @@ import { Col, Row } from 'reactstrap'
 import i18n from '../../../../../i18n'
 import { useWebContext } from '../../context/WebContext'
 import { STATUS, ERROR_ASYNC, useAsync } from '../../hooks/statisticsUseAsync'
-import { englishTexts, swedishTexts } from './StatisticsTexts'
 
 import fetchStatistics from './api/statisticsApi'
 import { periods, schools, seasons } from './domain/index'
 import { DOCUMENT_TYPES } from './domain/formConfigurations'
-import { StatisticsAlert } from './index'
+import { ResultNumbersSummary, StatisticsAlert } from './index'
 
 function _getThisHost(thisHostBaseUrl) {
   return thisHostBaseUrl.slice(-1) === '/' ? thisHostBaseUrl.slice(0, -1) : thisHostBaseUrl
@@ -71,7 +70,8 @@ function SortableCoursesAndDocuments({ languageIndex, statisticsStatus, error = 
               {JSON.stringify(statisticsResult)}
             </div>
             {/* Ex Sammanställning av antalet publicerade kurs-PM  */}
-            {/* <StatisticsResultNumbers unsortedStatisticsResult={statisticsResult} /> */}
+            {/* <StatisticsResultNumbers statisticsResult={statisticsResult} /> */}
+            <ResultNumbersSummary statisticsResult={statisticsResult} />
           </Col>
         </Row>
         <Row>

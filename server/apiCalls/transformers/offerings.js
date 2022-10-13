@@ -29,8 +29,9 @@ function _getProgramList(programs) {
  * @param {string} course.offering_id - The offering id
  * @returns {{}}        Object with course offering data
  */
-function _formOffering(firstSemester, startDate, course) {
+function _formOffering(firstSemester, startDate, endDate, course) {
   return {
+    endDate,
     firstSemester,
     startDate,
     schoolMainCode: SCHOOL_MAP[course.school_code] || '---',
@@ -64,15 +65,14 @@ const semestersInParsedOfferings = parsedOfferings => {
 function _findStartDateAndLastSemester(chosenSemesters, courseOfferedSemesters) {
   const offeredSemesters = Array.isArray(courseOfferedSemesters) ? courseOfferedSemesters : []
 
-  const { start_date: offeredSemesterStartDate = '' } =
+  const { end_date: offeredSemesterEndtDate, start_date: offeredSemesterStartDate = '' } =
     offeredSemesters.find(os => chosenSemesters.includes(os.semester)) || {}
   const startDate = offeredSemesterStartDate ? formatTimeToLocaleDateSV(Date.parse(offeredSemesterStartDate)) : ''
+  const endDate = offeredSemesterEndtDate ? formatTimeToLocaleDateSV(Date.parse(offeredSemesterEndtDate)) : ''
 
-  const courseOfferingLastSemester = offeredSemesters.length
-    ? offeredSemesters[offeredSemesters.length - 1].semester
-    : ''
+  const lastSemester = offeredSemesters.length ? offeredSemesters[offeredSemesters.length - 1].semester : ''
 
-  return { courseOfferingLastSemester, startDate }
+  return { endDate, lastSemester, startDate }
 }
 
 /**
@@ -103,14 +103,14 @@ function parseOfferingsForMemos(courses = [], chosenSemesters = [], chosenPeriod
       } = course
 
       const firstPeriod = firstYearAndPeriod.substr(-1)
-
+      const period = firstYearAndPeriod.substr(-2)
       const isStartedInChosenPeriods = chosenSemesters.includes(firstSemester) && chosenPeriods.includes(firstPeriod)
       const isChosenSchool = isCorrectSchool(chosenSchool, schoolCode)
 
       if (isStartedInChosenPeriods && isChosenSchool) {
-        const { startDate } = _findStartDateAndLastSemester(chosenSemesters, courseOfferedSemesters)
-        const offering = _formOffering(firstSemester, startDate, course)
-        parsedOfferings.push(offering)
+        const { endDate, startDate } = _findStartDateAndLastSemester(chosenSemesters, courseOfferedSemesters)
+        const offering = _formOffering(firstSemester, startDate, endDate, course)
+        parsedOfferings.push({ ...offering, period })
       }
     })
   }
@@ -140,16 +140,16 @@ function parseOfferingsForAnalysis(courses = [], chosenSemesters = [], chosenSch
         school_code: schoolCode,
       } = course
 
-      const { courseOfferingLastSemester, startDate } = _findStartDateAndLastSemester(
+      const { endDate, lastSemester, startDate } = _findStartDateAndLastSemester(
         chosenSemesters,
         courseOfferedSemesters
       )
 
-      const isFinishedInChosenSemesters = chosenSemesters.includes(courseOfferingLastSemester)
+      const isFinishedInChosenSemesters = chosenSemesters.includes(lastSemester)
       const isChosenSchool = isCorrectSchool(chosenSchool, schoolCode)
 
       if (isFinishedInChosenSemesters && isChosenSchool) {
-        const offering = _formOffering(firstSemester, startDate, course)
+        const offering = _formOffering(firstSemester, startDate, endDate, course)
         parsedOfferings.push(offering)
       }
     })

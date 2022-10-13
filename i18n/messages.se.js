@@ -310,5 +310,21 @@ module.exports = {
         linkToCourse: 'Länk till kurs-PM',
       },
     },
+    summaryLabels: {
+      sourceOfData: 'Läs om API:erna och källkoden',
+      subHeaders: {
+        courseMemo: 'Sammanställning av antalet publicerade kurs-PM',
+        courseAnalysis: 'Sammanställning av antal publicerade kursanalyser',
+      },
+      memosNumbersTable: {
+        school: 'Skola',
+        totalCourses: 'Antal kurser',
+        totalPublishedMemos: 'Totalt antal publicerade kurs-PM',
+        totalPublWeMemos: 'Kurs-PM som webbsida',
+        totalPublPdMemos: 'Kurs-PM som PDF',
+        totalMemosPublishedBeforeCourseStart: 'Kurs-PM publicerade  senast vid kursstart',
+        totalMemosPublishedOneWeekBeforeCourseStart: 'Kurs-PM publicerade en vecka före kursstart',
+      },
+    },
   },
 }

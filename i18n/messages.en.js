@@ -336,5 +336,21 @@ module.exports = {
         linkToCourse: 'Link to kurs-PM',
       },
     },
+    summaryLabels: {
+      sourceOfData: 'Read about API:s and code',
+      subHeaders: {
+        courseMemo: 'Summary of published memos numbers',
+        courseAnalysis: 'Summary of published analyses numbers',
+      },
+      memosNumbersTable: {
+        school: 'School',
+        totalCourses: 'Number of (#) courses',
+        totalPublishedMemos: 'Total published course memos',
+        totalPublWeMemos: 'Web course memos',
+        totalPublPdMemos: 'PDF course memos',
+        totalMemosPublishedBeforeCourseStart: 'Memos published before start',
+        totalMemosPublishedOneWeekBeforeCourseStart: 'Memos published one week before start',
+      },
+    },
   },
 }
