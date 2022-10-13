@@ -6,7 +6,9 @@ import ResultNumbersSummary from './ResultNumbersSummary'
 import StatisticsAlert from './StatisticsAlert'
 import StatisticsForm from './StatisticsForm'
 import StatisticsResults from './StatisticsResults'
-import { englishTexts, swedishTexts } from './StatisticsTexts'
+import { summaryTexts, introductionTexts } from './StatisticsTexts'
+import StatisticsDataTable from './StatisticsDataTable'
+import SortableDataTable from './SortableDataTable'
 
 export {
   CheckboxOption,
@@ -18,5 +20,7 @@ export {
   StatisticsAlert,
   StatisticsForm,
   StatisticsResults,
-  swedishTexts,
+  summaryTexts,
+  SortableDataTable,
+  StatisticsDataTable,
 }
