@@ -5,15 +5,13 @@ const { firstPublishData, publishData } = require('./dates')
 /**
  * Matches analyses and memos with course offerings.
  * @param {[]} parsedOfferings Array of offerings’ relevant data
- * @param {{}} memos           Collection of course memos
+ * @param {[]} memos           Collection of course memos
  * @returns {[]}               Array, each containing offerings and their documents.
  */
-const memosPerCourseOffering = (parsedOfferings, memos) => {
+const _memosPerCourseOffering = async (parsedOfferings, memos) => {
   const courseOfferings = []
-  const found1 = [] // debug
-  const found2 = [] // debug
   const courseMemoInfos = []
-  parsedOfferings.forEach(offering => {
+  await parsedOfferings.forEach(offering => {
     const { courseCode, firstSemester } = offering
     const offeringId = Number(offering.offeringId)
     let courseMemoInfo = {}
@@ -21,27 +19,20 @@ const memosPerCourseOffering = (parsedOfferings, memos) => {
       memo => memo.courseCode === courseCode && memo.semester === firstSemester
     )
     const memosForOfferingId = courseMemosForSemester.filter(memo => memo.ladokRoundIds.includes(String(offeringId)))
-    // if (memos[courseCode] && memos[courseCode][firstSemester] && memos[courseCode][firstSemester][offeringId]) {
-    //   courseMemoInfo = memos[courseCode][firstSemester][offeringId]
     if (memosForOfferingId.length === 1) {
-      found1.push(memosForOfferingId)
-
       const [publishedMemo] = memosForOfferingId
       courseMemoInfo = publishedMemo
-      // TODO publish date need to be taken from version 1
       courseMemoInfo.publishedData = publishData(offering.startDate, courseMemoInfo.lastChangeDate)
       courseMemoInfos.push(courseMemoInfo)
     }
     if (memosForOfferingId.length > 1) {
-      found2.push(memosForOfferingId)
       const firstVersion = memosForOfferingId.find(memo => memo.version === 1)
-      const latestVersion = memosForOfferingId.find(memo => memo.version !== 1)
 
-      courseMemoInfo = latestVersion
-      // TODO publish date need to be taken from version 1
+      courseMemoInfo = firstVersion
+      // publish date need to be taken from version 1
       courseMemoInfo.publishedData = firstPublishData(
         offering.startDate,
-        latestVersion.lastChangeDate,
+        firstVersion.lastChangeDate,
         firstVersion.lastChangeDate
       )
       courseMemoInfos.push(courseMemoInfo)
@@ -53,40 +44,55 @@ const memosPerCourseOffering = (parsedOfferings, memos) => {
     courseOfferings.push(courseOffering)
   })
 
-  // log.debug('_documentsPerCourseOffering returns', courseOfferings)
   return courseOfferings
 }
-//    const isEmpty = Object.keys(courseMemoInfo).length === 0 && courseMemoInfo.constructor === Object
 
-function _setAndcountCourses(courseOfferings) {
-  const schools = {}
-  let totalNumberOfCoursesAllSchools = 0
+/**
+ * Initiating an object with counters for different types of numbers and two arrays for courses with and without memos
+ * @param {string} courseCodeId Course code id string
+ * @param {boolean} hasMemo     Booleand if a course offering has a memo or not
+ * @returns {{}}                Object with all counters and two arrays
+ */
+const _initSchoolValues = () => ({
+  numberOfCourses: 0,
+  uniqueCourseCodeDates: [],
+  uniqueCourseCodeDatesWithoutMemo: [],
+  // memos numbers
+  numberOfUniqWebMemos: 0,
+  numberOfUniqPdfMemos: 0,
+  numberOfMemosPublishedBeforeStart: 0,
+  numberOfMemosPublishedBeforeDeadline: 0,
+})
 
-  courseOfferings.forEach(courseOffering => {
-    const { courseCode, endDate, schoolMainCode: schoolCode, startDate } = courseOffering
-    const uniqueCourseId = `${courseCode}-${startDate}-${endDate}`
-    const school = schools[schoolCode]
+/**
+ * Calculate total values for all memos counters in all schools and how many courses in total for all schools
+ * @param {Object} schools Object with schools objects
+ * @returns {{}}           Values with counters
+ */
+function _calculateTotals(schools) {
+  let totalNumberOfWebMemos = 0
+  let totalNumberOfPdfMemos = 0
+  let totalNumberOfMemosPublishedBeforeStart = 0
+  let totalNumberOfMemosPublishedBeforeDeadline = 0
+  let totalNumberOfCourses = 0
 
-    if (schools[schoolCode]) {
-      if (!schools[schoolCode].courseCodes.includes(courseCode)) {
-        schools[schoolCode].courseCodes.push(courseCode)
-        totalNumberOfCoursesAllSchools++
-        schools[schoolCode].numberOfCourses += 1
-      }
-    } else {
-      totalNumberOfCoursesAllSchools++
-      schools[schoolCode] = {
-        numberOfCourses: 1,
-        courseCodes: [courseCode],
-      }
-    }
+  Object.values(schools).forEach(sc => {
+    totalNumberOfCourses += sc.numberOfCourses
+    totalNumberOfWebMemos += sc.numberOfUniqWebMemos
+    totalNumberOfPdfMemos += sc.numberOfUniqPdfMemos
+    totalNumberOfMemosPublishedBeforeStart += sc.numberOfMemosPublishedBeforeStart
+    totalNumberOfMemosPublishedBeforeDeadline += sc.numberOfMemosPublishedBeforeDeadline
   })
-
-  const dataPerSchool = {
-    schools,
-    totalNumberOfCoursesAllSchools,
+  return {
+    totalNumberOfCourses,
+    totalNumberOfWebMemos,
+    totalNumberOfPdfMemos,
+    totalNumberOfMemosPublishedBeforeStart,
+    totalNumberOfMemosPublishedBeforeDeadline,
   }
-  return dataPerSchool
+}
+function _hasValues(obj) {
+  return Object.keys(obj).length > 0 && obj.constructor === Object
 }
 /**
  * TODO: Write tests for this function!
@@ -96,101 +102,104 @@ function _setAndcountCourses(courseOfferings) {
  */
 function _countMemosDataPerSchool(courseOfferings) {
   const schools = {}
-  const uniqueCourseMemoPublished = []
   const uniqueCourseMemoPdf = []
-  let totalNumberOfCourses = 0
-  let totalNumberOfWebMemos = 0
-  let totalNumberOfPdfMemos = 0
-  let totalNumberOfMemosPublishedBeforeStart = 0
-  let totalNumberOfMemosPublishedBeforeDeadline = 0
+  const uniqueCourseMemoWeb = []
 
-  courseOfferings.forEach(courseOffering => {
-    const { schoolMainCode: schoolCode, courseCode, courseMemoInfo } = courseOffering
+  function _generateMemoAddends(memo) {
+    let pdfMemoAddend = 0
+    let webMemoAddend = 0
+    let beforeCourseStartAddend = 0
+    let beforeDeadlineAddend = 0
 
-    if (schoolCode) {
-      let numberOfMemoPdf = 0
-      let numberOfMemoPublished = 0
-      let numberOfMemosPublishedBeforeStart = 0
-      let numberOfMemosPublishedBeforeDeadline = 0
-      const isEmpty = Object.keys(courseMemoInfo).length === 0 && courseMemoInfo.constructor === Object
+    const hasMemo = _hasValues(memo)
+    if (hasMemo) {
+      const { courseMemoFileName, memoEndPoint, publishedData = {} } = memo
+      const memoId = courseMemoFileName || memoEndPoint
 
-      if (!isEmpty) {
-        if (courseMemoInfo.isPdf) {
-          if (!uniqueCourseMemoPdf.includes(courseMemoInfo.memoId)) {
-            uniqueCourseMemoPdf.push(courseMemoInfo.memoId)
-            numberOfMemoPdf = 1
-            if (courseMemoInfo.publishedData) {
-              numberOfMemosPublishedBeforeStart = courseMemoInfo.publishedData.publishedBeforeStart ? 1 : 0
-              numberOfMemosPublishedBeforeDeadline = courseMemoInfo.publishedData.publishedBeforeDeadline ? 1 : 0
-            }
-          }
-        } else if (!uniqueCourseMemoPublished.includes(courseMemoInfo.memoId)) {
-          uniqueCourseMemoPublished.push(courseMemoInfo.memoId)
-          numberOfMemoPublished = 1
-          if (courseMemoInfo.publishedData) {
-            numberOfMemosPublishedBeforeStart = courseMemoInfo.publishedData.publishedBeforeStart ? 1 : 0
-            numberOfMemosPublishedBeforeDeadline = courseMemoInfo.publishedData.publishedBeforeDeadline ? 1 : 0
-          }
-        }
+      const isUniquePdf = memo.isPdf && !uniqueCourseMemoPdf.includes(memoId)
+      const isUniqueWeb = !memo.isPdf && !uniqueCourseMemoWeb.includes(memoId)
+      if (isUniquePdf) {
+        uniqueCourseMemoPdf.push(memoId)
+        pdfMemoAddend = 1
       }
-      if (schools[schoolCode]) {
-        if (!schools[schoolCode].courseCodes.includes(courseCode)) {
-          schools[schoolCode].courseCodes.push(courseCode)
-          totalNumberOfCourses++
-          schools[schoolCode].numberOfCourses += 1
-          schools[schoolCode].numberOfUniqMemos += numberOfMemoPublished
-          schools[schoolCode].numberOfUniqPdfMemos += numberOfMemoPdf
-          schools[schoolCode].numberOfMemosPublishedBeforeStart += numberOfMemosPublishedBeforeStart
-          schools[schoolCode].numberOfMemosPublishedBeforeDeadline += numberOfMemosPublishedBeforeDeadline
-        } else {
-          schools[schoolCode].numberOfUniqMemos += numberOfMemoPublished
-          schools[schoolCode].numberOfUniqPdfMemos += numberOfMemoPdf
-          schools[schoolCode].numberOfMemosPublishedBeforeStart += numberOfMemosPublishedBeforeStart
-          schools[schoolCode].numberOfMemosPublishedBeforeDeadline += numberOfMemosPublishedBeforeDeadline
-        }
-      } else {
-        totalNumberOfCourses++
-        schools[schoolCode] = {
-          numberOfCourses: 1,
-          courseCodes: [courseCode],
-          numberOfUniqMemos: numberOfMemoPublished,
-          numberOfUniqPdfMemos: numberOfMemoPdf,
-          numberOfMemosPublishedBeforeStart,
-          numberOfMemosPublishedBeforeDeadline,
-        }
+
+      if (isUniqueWeb) {
+        uniqueCourseMemoWeb.push(memoId)
+        webMemoAddend = 1
+      }
+
+      if (isUniquePdf || isUniqueWeb) {
+        const { publishedBeforeDeadline, publishedBeforeStart } = publishedData
+        beforeCourseStartAddend = publishedBeforeStart ? 1 : 0
+        beforeDeadlineAddend = publishedBeforeDeadline ? 1 : 0
       }
     }
-  })
+    return { beforeCourseStartAddend, beforeDeadlineAddend, pdfMemoAddend, webMemoAddend }
+  }
+  for (const courseOffering of courseOfferings) {
+    const { courseCode, courseMemoInfo = {}, endDate, schoolMainCode: code, startDate } = courseOffering
+    // if (!code) return
 
-  Object.values(schools).forEach(sc => {
-    totalNumberOfWebMemos += sc.numberOfUniqMemos
-    totalNumberOfPdfMemos += sc.numberOfUniqPdfMemos
-    totalNumberOfMemosPublishedBeforeStart += sc.numberOfMemosPublishedBeforeStart
-    totalNumberOfMemosPublishedBeforeDeadline += sc.numberOfMemosPublishedBeforeDeadline
-  })
+    const courseCodeAndDates = `${courseCode}-${startDate}-${endDate}`
+    const isNewSchoolCourse = !schools[code]
+    const hasMemo = _hasValues(courseMemoInfo)
+    if (isNewSchoolCourse) {
+      schools[code] = _initSchoolValues()
+    }
+
+    if (!hasMemo) {
+      schools[code].uniqueCourseCodeDatesWithoutMemo.push(courseCodeAndDates)
+      // continue
+    }
+
+    // If a course has several ladokRoundIds which start and end at same time, it counts as one course
+    const hasCourseUniqueDates = !schools[code].uniqueCourseCodeDates.includes(courseCodeAndDates)
+
+    if (hasMemo & hasCourseUniqueDates) {
+      const { pdfMemoAddend, webMemoAddend, beforeCourseStartAddend, beforeDeadlineAddend } =
+        _generateMemoAddends(courseMemoInfo)
+      schools[code].uniqueCourseCodeDates.push(courseCodeAndDates)
+
+      // remove courseCode from list without memos if it was there
+      schools[code].uniqueCourseCodeDatesWithoutMemo = schools[code].uniqueCourseCodeDatesWithoutMemo.filter(
+        courseId => courseId !== courseCodeAndDates
+      )
+      // calculate
+      schools[code].numberOfUniqWebMemos += webMemoAddend
+      schools[code].numberOfUniqPdfMemos += pdfMemoAddend
+      schools[code].numberOfMemosPublishedBeforeStart += beforeCourseStartAddend
+      schools[code].numberOfMemosPublishedBeforeDeadline += beforeDeadlineAddend
+    }
+    // calculate number of courses
+    schools[code].numberOfCourses =
+      schools[code].uniqueCourseCodeDates.length + schools[code].uniqueCourseCodeDatesWithoutMemo.length
+  }
+
   const dataPerSchool = {
     schools,
-    totalNumberOfCourses,
-    totalNumberOfWebMemos,
-    totalNumberOfPdfMemos,
-    totalNumberOfMemosPublishedBeforeStart,
-    totalNumberOfMemosPublishedBeforeDeadline,
+    ..._calculateTotals(schools),
   }
-  // log.debug('_dataPerSchool returns', dataPerSchool)
   return dataPerSchool
 }
 
-function memosPerSchool(parsedOfferings, memos) {
+/**
+ * Merge offerings with existing memos and count them then to be sorted by schools
+ * @param {[]} courseOfferings  Array containing offerings
+ * @param {[]} memos            Array containing existing memos
+ * @returns {{}}                Collection with statistics per school, and totals, for memos
+ */
+async function memosPerSchool(parsedOfferings, memos) {
   // Matches analyses and memos with course offerings.
   // Returns an object with two arrays, each containing offerings and their documents.
-  const offeringsWithMemos = memosPerCourseOffering(parsedOfferings, memos) // prev combinedDataPerDepartment
+  const offeringsWithMemos = await _memosPerCourseOffering(parsedOfferings, memos) // prev combinedDataPerDepartment
 
   // Compiles statistics per school, including totals, for memos.
-  const combinedMemosPerSchool = _countMemosDataPerSchool(offeringsWithMemos)
+  const combinedMemosPerSchool = await _countMemosDataPerSchool(offeringsWithMemos)
   return { offeringsWithMemos, combinedMemosPerSchool }
 }
 
 module.exports = {
-  memosPerCourseOffering,
+  countMemosDataPerSchool: _countMemosDataPerSchool,
   memosPerSchool,
+  memosPerCourseOffering: _memosPerCourseOffering,
 }
