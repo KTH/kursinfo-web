@@ -35,9 +35,9 @@ function _formSeasongByDocumentType(documentType, params) {
 /**
  * @param {string} language
  * @param {string} proxyUrl
- * @param {object} params
+ * @param {Object} params
  * @throws
- * @returns {object}
+ * @returns {Object}
  */
 // eslint-disable-next-line consistent-return
 async function fetchStatistics(language, proxyUrl, params) {

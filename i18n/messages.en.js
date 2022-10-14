@@ -334,7 +334,7 @@ module.exports = {
         totalPublWeMemos: 'Web course memos',
         totalPublPdMemos: 'PDF course memos',
         totalMemosPublishedBeforeCourseStart: 'Memos published before start',
-        totalMemosPublishedOneWeekBeforeCourseStart: 'Memos published one week before start',
+        totalMemosPublishedBeforeDeadline: 'Memos published one week before start',
       },
     },
   },
