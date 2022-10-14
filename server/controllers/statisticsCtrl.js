@@ -115,7 +115,7 @@ async function fetchMemoStatistics(req, res, next) {
     const memos = await memoApi.getCourseMemosForStatistics(semestersInMemos)
 
     // Compiles statistics per school, including totals, for memos.
-    const { offeringsWithMemos, combinedMemosPerSchool } = memosPerSchool(parsedOfferings, memos)
+    const { offeringsWithMemos, combinedMemosPerSchool } = await memosPerSchool(parsedOfferings, memos)
 
     return res.json({
       combinedMemosPerSchool, // small table // in kursinfo-admin-web combinedMemosDataPerSchool,
