@@ -11,7 +11,7 @@ describe('Memos functions to parse and filter offerings', () => {
       first_yearsemester: '20202',
       first_period: '20202P1',
       offering_id: '2',
-      offered_semesters: [{ semester: '20202', start_date: '2020-10-10' }],
+      offered_semesters: [{ end_date: '2021-01-10', semester: '20202', start_date: '2020-10-10' }],
       school_code: 'BIO',
     }
     const tooOldCourse = {
@@ -39,11 +39,13 @@ describe('Memos functions to parse and filter offerings', () => {
     const [offering] = parsedOfferings
     expect(offering.firstSemester).toBe(expectedCourse.first_yearsemester)
     expect(offering.startDate).toBe(expectedCourse.offered_semesters[0].start_date)
+    expect(offering.endDate).toBe(expectedCourse.offered_semesters[0].end_date)
     expect(offering.schoolMainCode).toBe('CBH')
     expect(offering.departmentName).toBe(expectedCourse.department_name)
     expect(offering.connectedPrograms).toBe('CINTE2-iNTeresting-2020')
     expect(offering.courseCode).toBe(expectedCourse.course_code)
     expect(offering.offeringId).toBe(expectedCourse.offering_id)
+    expect(offering.period).toBe('P1')
 
     const semestersInMemos = semestersInParsedOfferings(parsedOfferings)
     expect(semestersInMemos.length).toBe(1)
@@ -52,6 +54,8 @@ describe('Memos functions to parse and filter offerings', () => {
 
 describe('Analysis functions to parse and filter offerings', () => {
   test('parse and filter offering for memos', () => {
+    const notexpectedSemester = { end_date: '2021-10-10', semester: '20212', start_date: '2020-10-10' }
+    const expectedSemester = { end_date: '2021-01-10', semester: '20202', start_date: '2020-10-10' }
     const expectedCourse = {
       connected_programs: [{ code: 'CINTE2', study_year: '2020', spec_code: 'iNTeresting' }],
       course_code: 'SF1624',
@@ -59,7 +63,7 @@ describe('Analysis functions to parse and filter offerings', () => {
       first_yearsemester: '20202',
       first_period: '20202P1',
       offering_id: '2',
-      offered_semesters: [{ semester: '20202', start_date: '2020-10-10' }],
+      offered_semesters: [notexpectedSemester, expectedSemester],
       school_code: 'BIO',
     }
     const tooOldCourse = {
@@ -86,11 +90,13 @@ describe('Analysis functions to parse and filter offerings', () => {
 
     const [offering] = parsedOfferings
     expect(offering.firstSemester).toBe(expectedCourse.first_yearsemester)
-    expect(offering.startDate).toBe(expectedCourse.offered_semesters[0].start_date)
+    expect(offering.startDate).toBe(expectedCourse.offered_semesters[1].start_date)
+    expect(offering.endDate).toBe(expectedCourse.offered_semesters[1].end_date)
     expect(offering.schoolMainCode).toBe('CBH')
     expect(offering.departmentName).toBe(expectedCourse.department_name)
     expect(offering.connectedPrograms).toBe('CINTE2-iNTeresting-2020')
     expect(offering.courseCode).toBe(expectedCourse.course_code)
     expect(offering.offeringId).toBe(expectedCourse.offering_id)
+    expect(offering.period).toBe('P1')
   })
 })

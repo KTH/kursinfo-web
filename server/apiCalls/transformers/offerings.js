@@ -135,10 +135,14 @@ function parseOfferingsForAnalysis(courses = [], chosenSemesters = [], chosenSch
     courses.forEach(course => {
       // eslint-disable-next-line camelcase
       const {
+        first_period: firstYearAndPeriod,
         first_yearsemester: firstSemester,
         offered_semesters: courseOfferedSemesters,
         school_code: schoolCode,
       } = course
+
+      const firstPeriod = firstYearAndPeriod.substr(-1)
+      const period = firstYearAndPeriod.substr(-2)
 
       const { endDate, lastSemester, startDate } = _findStartDateAndLastSemester(
         chosenSemesters,
@@ -150,7 +154,7 @@ function parseOfferingsForAnalysis(courses = [], chosenSemesters = [], chosenSch
 
       if (isFinishedInChosenSemesters && isChosenSchool) {
         const offering = _formOffering(firstSemester, startDate, endDate, course)
-        parsedOfferings.push(offering)
+        parsedOfferings.push({ ...offering, period })
       }
     })
   }
