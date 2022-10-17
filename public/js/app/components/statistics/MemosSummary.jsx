@@ -22,7 +22,7 @@ function MemosNumbersTable({ statisticsResult }) {
     'totalPublWeMemos',
     'totalPublPdMemos',
     'totalMemosPublishedBeforeCourseStart',
-    'totalMemosPublishedOneWeekBeforeCourseStart',
+    'totalMemosPublishedBeforeDeadline',
   ]
   const memosPerSchoolRows = () => {
     const rows = []
@@ -37,7 +37,7 @@ function MemosNumbersTable({ statisticsResult }) {
     Object.keys(schools).forEach(sC => {
       const {
         numberOfCourses,
-        numberOfUniqMemos,
+        numberOfUniqWebMemos,
         numberOfUniqPdfMemos,
         numberOfMemosPublishedBeforeStart,
         numberOfMemosPublishedBeforeDeadline,
@@ -46,8 +46,8 @@ function MemosNumbersTable({ statisticsResult }) {
         <tr key={sC}>
           <td>{sC}</td>
           <td>{numberOfCourses}</td>
-          <td>{Math.abs(numberOfUniqMemos) + Math.abs(numberOfUniqPdfMemos)}</td>
-          <td>{numberOfUniqMemos}</td>
+          <td>{numberOfUniqWebMemos + numberOfUniqPdfMemos}</td>
+          <td>{numberOfUniqWebMemos}</td>
           <td>{numberOfUniqPdfMemos}</td>
           <td>{numberOfMemosPublishedBeforeStart}</td>
           <td>{numberOfMemosPublishedBeforeDeadline}</td>
