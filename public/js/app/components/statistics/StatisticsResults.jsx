@@ -65,20 +65,14 @@ function SortableCoursesAndDocuments({ languageIndex, statisticsStatus, error = 
       <>
         <Row>
           <Col>
-            <div className="word-break">
-              <StatisticsDataTable statisticsResult={statisticsResult}></StatisticsDataTable>
-            </div>
             {/* Ex Sammanställning av antalet publicerade kurs-PM  */}
-            {/* <StatisticsResultNumbers statisticsResult={statisticsResult} /> */}
             <ResultNumbersSummary statisticsResult={statisticsResult} />
           </Col>
         </Row>
         <Row>
           <Col>
             {/* Ex Tabell med kurser och kurs-PM  */}
-            {/* <SortableCoursesAndDocuments
-              unsortedStatisticsResult={statisticsResult}
-            /> */}
+            <StatisticsDataTable statisticsResult={statisticsResult}></StatisticsDataTable>
           </Col>
         </Row>
       </>
