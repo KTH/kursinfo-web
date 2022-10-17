@@ -11,7 +11,7 @@ import { STATUS, ERROR_ASYNC, useAsync } from '../../hooks/statisticsUseAsync'
 import fetchStatistics from './api/statisticsApi'
 import { periods, schools, seasons } from './domain/index'
 import { DOCUMENT_TYPES } from './domain/formConfigurations'
-import { ResultNumbersSummary, StatisticsAlert } from './index'
+import { ResultNumbersSummary, StatisticsAlert, StatisticsDataTable } from './index'
 
 function _getThisHost(thisHostBaseUrl) {
   return thisHostBaseUrl.slice(-1) === '/' ? thisHostBaseUrl.slice(0, -1) : thisHostBaseUrl
@@ -66,8 +66,7 @@ function SortableCoursesAndDocuments({ languageIndex, statisticsStatus, error = 
         <Row>
           <Col>
             <div className="word-break">
-              Table with a big sorted table
-              {JSON.stringify(statisticsResult)}
+              <StatisticsDataTable statisticsResult={statisticsResult}></StatisticsDataTable>
             </div>
             {/* Ex Sammanställning av antalet publicerade kurs-PM  */}
             {/* <StatisticsResultNumbers statisticsResult={statisticsResult} /> */}

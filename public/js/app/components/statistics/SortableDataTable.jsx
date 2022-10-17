@@ -3,14 +3,6 @@ import DataTable from 'react-data-table-component'
 import { useWebContext } from '../../context/WebContext'
 import i18n from '../../../../../i18n'
 
-const customSort = (rows, selector, direction) =>
-  rows.sort((rowA, rowB) => {
-    const aField = selector(rowA)
-    const bField = selector(rowB)
-    const comparison = aField < bField ? 1 : -1
-    return direction === 'desc' ? comparison : comparison * -1
-  })
-
 const fontStyles = {
   fontFamily: 'Open Sans, Arial, Helvetica Neue, helvetica, sans-serif',
   fontSize: '1rem',
@@ -74,7 +66,6 @@ function SortableDataTable({ columns, data, rowsPerPage = 10, onChangeRowsPerPag
         defaultSortFieldId={1}
         pagination
         paginationComponentOptions={opts}
-        sortFunction={customSort}
         customStyles={customStyles}
         paginationRowsPerPageOptions={[10, 25, 50, 100, 250, 500]}
         paginationPerPage={rowsPerPage}
