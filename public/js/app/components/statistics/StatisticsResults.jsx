@@ -65,19 +65,18 @@ function SortableCoursesAndDocuments({ languageIndex, statisticsStatus, error = 
       <>
         <Row>
           <Col>
-            {/* Ex Sammanställning av antalet publicerade kurs-PM  */}
+            {/* Small table, Sammanställning av antalet publicerade kurs-PM  */}
             <ResultNumbersSummary statisticsResult={statisticsResult} />
           </Col>
         </Row>
         <Row>
           <Col>
-            {/* Ex Tabell med kurser och kurs-PM  */}
+            {/* Big table, Tabell med kurser och kurs-PM  */}
             <StatisticsDataTable statisticsResult={statisticsResult}></StatisticsDataTable>
           </Col>
         </Row>
       </>
     )
-    // f.e., return <SortableTableView unsortedStatisticsResult={statisticsResult} />
   }
 
   if (statisticsStatus === STATUS.idle) return null
