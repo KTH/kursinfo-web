@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useWebContext } from '../../context/WebContext'
 import i18n from '../../../../../i18n'
 import SortableDataTable, { useRowsPerPage } from './SortableDataTable'
