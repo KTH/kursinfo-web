@@ -4,6 +4,7 @@ const log = require('@kth/log')
 const languageUtils = require('@kth/kth-node-web-common/lib/language')
 // const httpResponse = require('@kth/kth-node-response')
 // const courseApi = require('../apiCalls/kursinfoAdmin')
+const courseAnalysesApi = require('../apiCalls/courseAnalysesApi')
 const memoApi = require('../apiCalls/memoApi')
 const koppsCourseData = require('../apiCalls/koppsCourseData')
 const {
@@ -21,7 +22,6 @@ const paths = require('../server').getPaths()
 // const api = require('../api')
 const { getServerSideFunctions } = require('../utils/serverSideRendering')
 const { createStatisticsServerSideContext } = require('../ssr-context/createStatisticsServerSideContext')
-
 // const { fetchStatistic } = require('../statisticTransformer')
 
 async function getIndex(req, res, next) {
@@ -139,31 +139,43 @@ async function fetchMemoStatistics(req, res, next) {
     next(error)
   }
 }
-
+/**
+ *
+ * @param {Object} req
+ * @param {Object} req.params
+ * @param {string} req.params.year              Year for which statistics will be fetched
+ * @param {Object} req.query
+ * @param {Object[]} req.query.analysesSeasons  - Transformed seasons chosen by users to use in analysis api, there are exists only autumn and/or spring semester, summer is replaced by autumn and spring seasons
+ * @param {Object[]} req.query.seasons          - Seasons chosen by user in raw format, summer is not replaced
+ * @param {string} req.query.school
+ * @param {string} req.query.l                  - Language "sv" or "en"
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
 async function fetchAnalysisStatistics(req, res, next) {
   const { params, query } = req
   log.info(` trying to fetch course analysis statistics `, { params, query })
 
   const { year } = params
-  const { seasons: seasons, school } = query
+  const { analysesSeasons, seasons, school, l: language } = query
+  // in analysis api, exists only autumn and/or spring semester, summer is replaced by autumn and spring seasons
+  if (!analysesSeasons) log.error('analysesSeasons must be set', analysesSeasons)
+  // seasons chosen by user, summer/autumn/spring
   if (!seasons) log.error('seasons must be set', seasons)
   if (!school) log.error('school must be set', school)
 
-  const sortedSemesters = seasons
-    .split(',')
-    .map(season => `${year}${season}`)
-    .sort()
+  const chosenSemesters = analysesSeasons.map(season => `${year}${season}`).sort()
 
   try {
-    const courses = await _getCourses(sortedSemesters)
+    const courses = await _getCourses(chosenSemesters)
 
-    const parsedOfferings = parseOfferingsForAnalysis(courses, sortedSemesters, school)
-    // ADD MATCHING TO SUMMER PERIOD
+    const parsedOfferings = parseOfferingsForAnalysis(courses, chosenSemesters, seasons, school, language)
     // Find start semesters found in parsed offerings.
-    const startSemesters = semestersInParsedOfferings(parsedOfferings)
+    const startSemestersInAnalyses = semestersInParsedOfferings(parsedOfferings)
 
-    // Course memos for semesters
-    // const analsis = await memoApi.getCourseMemosForStatistics(startSemesters)
+    // Course analyses for start semesters
+    const analyses = await courseAnalysesApi.getCourseAnalysesForStatistics(startSemestersInAnalyses)
 
     const apiResponse = { data: 'Hello, results arrived' } // await koppsApi.getSearchResults(searchParamsStr, lang)
     return res.json(apiResponse)

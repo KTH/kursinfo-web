@@ -4,8 +4,6 @@ import { periods as periodsLib, semesters as semestersLib } from '../domain/inde
 
 import i18n from '../../../../../../i18n'
 
-const queryString = params => '?' + new URLSearchParams(params).toString()
-
 function hasValue(paramName, params) {
   const param = params[paramName]
   if (!param || param === null || param === 'null' || param === '') return false
@@ -26,10 +24,15 @@ const _missingParametersError = (missingParams, language) => {
     missingValues: missingParams.map(paramName => formSubHeaders[paramName] || paramName).join(', '),
   }
 }
-function _formSeasongByDocumentType(documentType, params) {
+function _formQueryByDocumentType(documentType, params) {
   return documentType === DOCS.courseMemo
-    ? periodsLib.parsePeriodsToOrdinarieSeasons(params)
-    : semestersLib.parseSemestersToOrdinarieSeasons({ seasons: params.semesters })
+    ? { periods: params.periods, seasons: periodsLib.parsePeriodsToOrdinarieSeasons(params) }
+    : {
+        // in analysis api, exists only autumn and spring semester
+        analysesSeasons: semestersLib.parseSemestersToOrdinarieSeasons({ seasons: params.semesters }),
+        // seasons chosen by user, summer/autumn/spring
+        seasons: params.semesters,
+      }
 }
 
 /**
@@ -42,19 +45,16 @@ function _formSeasongByDocumentType(documentType, params) {
 // eslint-disable-next-line consistent-return
 async function fetchStatistics(language, proxyUrl, params) {
   try {
-    const { documentType, year, periods, school } = params
+    const { documentType, year, school } = params
     const missingParams = _missingParameters(params)
     if (missingParams.length > 0) return _missingParametersError(missingParams, language)
 
-    const seasons = _formSeasongByDocumentType(documentType, params)
+    const queryParamsByDocumentType = _formQueryByDocumentType(documentType, params)
 
-    // const url = `${proxyUrl}/api/kursinfo/statistics/${documentType}/${year}/${language}`
     const url = `${proxyUrl}/api/kursinfo/statistics/${documentType}/year/${year}` // ${queryString(seasons)}&l=${language}
 
-    const periodsIfMemo = documentType === DOCS.courseMemo ? { periods } : {}
-
     const result = await axios.get(url, {
-      params: { school, seasons, l: language, ...periodsIfMemo },
+      params: { school, l: language, ...queryParamsByDocumentType },
     })
     if (result) {
       if (result.status >= 400) {
