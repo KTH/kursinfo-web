@@ -39,7 +39,7 @@ const getCourseMemosForStatistics = async semesters => {
 
     const { body } = await client.getAsync({ uri })
 
-    log.debug('getCourseMemosForStatistics returns', body)
+    log.debug('Successfull fetch from kurs-pm-data-api, getCourseMemosForStatistics', { uri })
     return body
   } catch (err) {
     log.error(err)
