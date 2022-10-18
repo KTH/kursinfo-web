@@ -7,12 +7,25 @@ function _getThisHost(thisHostBaseUrl) {
   return thisHostBaseUrl.slice(-1) === '/' ? thisHostBaseUrl.slice(0, -1) : thisHostBaseUrl
 }
 
+const buildLink = (link, textToShow) => <a href={`${link}`}>{textToShow}</a>
+const NoDataMessage = ({ labels }) => (
+  <p>
+    <i>{labels.noDataMessage}</i>
+  </p>
+)
 function StatisticsDataTable({ statisticsResult }) {
   const [context] = useWebContext()
   const { languageIndex, browserConfig } = context
   const { statisticsLabels } = i18n.messages[languageIndex]
   const { sortableTable } = statisticsLabels
   const { statisticsDataColumns } = sortableTable
+
+  // TODO: adapt for memos and for analyses switch
+  if (!statisticsResult || !statisticsResult.offeringsWithMemos || statisticsResult.offeringsWithMemos.length === 0)
+    return <NoDataMessage labels={sortableTable} />
+
+  const { year, offeringsWithMemos } = statisticsResult
+
   const { readRowsPerPage, writeRowsPerPage } = useRowsPerPage('statisticsPage', 'EditableDataTableForStatistics', '10')
   let tableData = []
   const columnsNames = [
@@ -34,60 +47,42 @@ function StatisticsDataTable({ statisticsResult }) {
     wrap: true,
   }))
 
-  const buildLink = (link, textToShow) => <a href={`${link}`}>{textToShow}</a>
-
-  if (statisticsResult && statisticsResult.offeringsWithMemos && statisticsResult.offeringsWithMemos.length > 0) {
-    const dataRows = []
-    statisticsResult.offeringsWithMemos.forEach(offeringWithMemos => {
-      if (offeringWithMemos.courseMemoInfo && Object.keys(offeringWithMemos.courseMemoInfo).length > 0) {
-        const { courseMemoFileName, memoEndPoint } = offeringWithMemos.courseMemoInfo
-        const memoId = courseMemoFileName || memoEndPoint
-        offeringWithMemos.courseMemoInfo.ladokRoundIds.forEach(roundId => {
-          dataRows.push({
-            year: statisticsResult.year,
-            school: offeringWithMemos.schoolMainCode,
-            institution: offeringWithMemos.departmentName,
-            courseCode: offeringWithMemos.courseCode,
-            linkedProgram: offeringWithMemos.connectedPrograms,
-            courseRoundNumber: roundId,
-            semester: offeringWithMemos.courseMemoInfo.semester,
-            courseStart: offeringWithMemos.startDate,
-            publishDate: offeringWithMemos.courseMemoInfo.offeringStartTime,
-            linkToCourse: offeringWithMemos.courseMemoInfo.isPdf
-              ? buildLink(browserConfig.memoStorageUri, `${offeringWithMemos.courseMemoInfo && memoId}`)
-              : buildLink(
-                  `${_getThisHost(browserConfig.hostUrl)}/kurs-pm/${offeringWithMemos.courseCode}/${
-                    offeringWithMemos.courseMemoInfo && memoId
-                  }`,
-                  `${offeringWithMemos.courseMemoInfo && memoId}`
-                ),
-          })
-        })
-      } else {
-        dataRows.push({
-          year: statisticsResult.year,
-          school: offeringWithMemos.schoolMainCode,
-          institution: offeringWithMemos.departmentName,
-          courseCode: offeringWithMemos.courseCode,
-          linkedProgram: offeringWithMemos.connectedPrograms,
-          courseRoundNumber: '',
-          semester: offeringWithMemos.firstSemester,
-          courseStart: offeringWithMemos.startDate,
-          publishDate: '',
-          linkToCourse: '',
-        })
+  const dataRows = []
+  offeringsWithMemos.forEach(offering => {
+    const offeringBase = {
+      year,
+      school: offering.schoolMainCode,
+      institution: offering.departmentName,
+      courseCode: offering.courseCode,
+      linkedProgram: offering.connectedPrograms,
+      courseRoundNumber: offering.offeringId,
+      semester: offering.firstSemester,
+      courseStart: offering.startDate,
+      publishDate: '',
+      linkToCourse: '',
+    }
+    const hasMemo = offering.courseMemoInfo && Object.keys(offering.courseMemoInfo).length > 0
+    let memoBase = {}
+    if (hasMemo) {
+      const { courseMemoFileName, isPdf, memoEndPoint, publishedData } = offering.courseMemoInfo
+      const memoId = courseMemoFileName || memoEndPoint
+      memoBase = {
+        publishDate: publishedData.publishedTime,
+        linkToCourse: isPdf
+          ? buildLink(`${browserConfig.memoStorageUri}${memoId}`, `${memoId}`)
+          : buildLink(`${_getThisHost(browserConfig.hostUrl)}/kurs-pm/${offering.courseCode}/${memoId}`, `${memoId}`),
       }
-    })
-    tableData = dataRows.map((d, index) => ({
-      id: index,
-      ...d,
-    }))
-  }
+    }
+
+    dataRows.push({ ...offeringBase, ...memoBase })
+  })
+  tableData = dataRows.map((d, index) => ({
+    id: index,
+    ...d,
+  }))
 
   return tableData.length === 0 ? (
-    <p>
-      <i>{sortableTable.noDataMessage}</i>
-    </p>
+    <NoDataMessage labels={sortableTable} />
   ) : (
     <SortableDataTable
       columns={columns}
