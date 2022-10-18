@@ -1,3 +1,4 @@
+const { labelSeason, seasonConstants } = require('../../../domain/statistics/seasons')
 const { isCorrectSchool, SCHOOL_MAP } = require('./schools')
 const { formatTimeToLocaleDateSV } = require('./dates')
 
@@ -62,18 +63,22 @@ const semestersInParsedOfferings = parsedOfferings => {
  * @returns {{}}           Array, containingoffered semesters and startDate
  */
 
-function _findStartDateAndLastSemester(chosenSemesters, courseOfferedSemesters) {
+function _findStartEndDates(chosenSemesters, courseOfferedSemesters) {
   const offeredSemesters = Array.isArray(courseOfferedSemesters) ? courseOfferedSemesters : []
 
-  const { end_date: offeredSemesterEndtDate, start_date: offeredSemesterStartDate = '' } =
-    offeredSemesters.find(os => chosenSemesters.includes(os.semester)) || {}
+  const {
+    end_date: offeredSemesterEndtDate,
+    end_week: endWeek,
+    start_date: offeredSemesterStartDate = '',
+  } = offeredSemesters.find(os => chosenSemesters.includes(os.semester)) || {}
   const startDate = offeredSemesterStartDate ? formatTimeToLocaleDateSV(Date.parse(offeredSemesterStartDate)) : ''
   const endDate = offeredSemesterEndtDate ? formatTimeToLocaleDateSV(Date.parse(offeredSemesterEndtDate)) : ''
 
   const lastSemester = offeredSemesters.length ? offeredSemesters[offeredSemesters.length - 1].semester : ''
 
-  return { endDate, lastSemester, startDate }
+  return { endDate, endWeek, lastSemester, startDate }
 }
+// semester":"20202","start_date":"2020-08-24","end_date":"2020-10-23","start_week":"35","end_week":"43",
 
 /**
  * Parses courses offerings from Kopps and returns an object with one list for course memos which are created before course starts:
@@ -81,7 +86,9 @@ function _findStartDateAndLastSemester(chosenSemesters, courseOfferedSemesters) 
  * @param {Object[]} courses      Courses as returned by '/api/kopps/v2/courses/offerings'.
  * @param {string} courses[].first_yearsemester - The start semester of a course
  * @param {Object[]} courses[].offered_semesters - The list of offered semesters of a course
+ * @param {string} courses[].offered_semesters[].end_date - The end date of a course offering
  * @param {string} courses[].offered_semesters[].semester - The current semester of a course offering
+ * @param {string} courses[].offered_semesters[].start_date - The start date of a course offering
  * @param {Object[]} chosenSemesters    Semesters strings for which data is fetched
  * @param {string} chosenSemesters[]    Semester string chosen by user, 5 digits in string format
  * @param {Object[]} chosenPeriods    Periods strings for which data is fetched, 0-5
@@ -102,19 +109,38 @@ function parseOfferingsForMemos(courses = [], chosenSemesters = [], chosenPeriod
         school_code: schoolCode,
       } = course
 
-      const firstPeriod = firstYearAndPeriod.substr(-1)
-      const period = firstYearAndPeriod.substr(-2)
-      const isStartedInChosenPeriods = chosenSemesters.includes(firstSemester) && chosenPeriods.includes(firstPeriod)
+      const firstPeriodNumber = firstYearAndPeriod.substr(-1)
+      const firstPerioLabel = firstYearAndPeriod.substr(-2)
+      const isStartedInChosenPeriods =
+        chosenSemesters.includes(String(firstSemester)) && chosenPeriods.includes(String(firstPeriodNumber))
       const isChosenSchool = isCorrectSchool(chosenSchool, schoolCode)
 
       if (isStartedInChosenPeriods && isChosenSchool) {
-        const { endDate, startDate } = _findStartDateAndLastSemester(chosenSemesters, courseOfferedSemesters)
+        const { endDate, startDate } = _findStartEndDates(chosenSemesters, courseOfferedSemesters)
         const offering = _formOffering(firstSemester, startDate, endDate, course)
-        parsedOfferings.push({ ...offering, period })
+        parsedOfferings.push({ ...offering, period: firstPerioLabel })
       }
     })
   }
   return parsedOfferings
+}
+
+/**
+ * I så fall skulle logiken bli följande:
+ * Spring VT - kurser slutar mellan vecka 3-23,
+ * Autumn HT - kurser slutar mellan vecka 35-2,
+ * Summer Sommar - kurser slutar mellan veckor 24-34
+ * @param {string} endWeek    A number of a end week, the range is 0-35
+ * @returns {number}          Return number 0-2 for a season, 0 Summer, 1 Spring, 2 Autumn
+ */
+
+function _parseTermSeasonForNthWeek(nthWeek) {
+  const week = Number(nthWeek)
+  let seasonNumber
+  if (week >= 35 || week <= 2) return seasonConstants.AUTUMN_TERM_NUMBER
+  if (week >= 3 && week <= 23) return seasonConstants.SPRING_TERM_NUMBER
+  if (week >= 24 && week <= 34) return seasonConstants.SUMMER_TERM_NUMBER
+  return seasonNumber
 }
 
 /**
@@ -123,38 +149,46 @@ function parseOfferingsForMemos(courses = [], chosenSemesters = [], chosenPeriod
  * @param {Object[]} courses      Courses as returned by '/api/kopps/v2/courses/offerings'.
  * @param {string} courses[].first_yearsemester - The start semester of a course
  * @param {Object[]} courses[].offered_semesters - The list of offered semesters of a course
+ * @param {string} courses[].offered_semesters[].end_date - The end date of a course offering
+ * @param {string} courses[].offered_semesters[].end_week - The end week of a course offering to calculate the end period
  * @param {string} courses[].offered_semesters[].semester - The current semester of a course offering
+ * @param {string} courses[].offered_semesters[].start_date - The start date of a course offering
  * @param {Object[]} chosenSemesters    Semesters strings for which data is fetched
  * @param {string} chosenSemesters[]    Semester string chosen by user, 5 digits in string format
+ * @param {Object[]} chosenSeasons    Seasons strings chosen by user to compare with end week's season to filter terms, 0-2 (summer, spring, autumn)
+ * @param {string} chosenSeasons[]    Season string chosen by user to compare with end week's season to filter term, 1 digit in string format, 0-2 (summer, spring, autumn)
  * @param {string} chosenSchool    School name, or if all schools are chosen then 'allSchools
+ * @param {string} language    User interface language, "sv" or "en"
  * @returns {[]}           Array, containing offerings’ relevant data
  */
-function parseOfferingsForAnalysis(courses = [], chosenSemesters = [], chosenSchool = '') {
+function parseOfferingsForAnalysis(
+  courses = [],
+  chosenSemesters = [],
+  chosenSeasons = [],
+  chosenSchool = '',
+  language = 'sv'
+) {
   const parsedOfferings = []
   if (Array.isArray(courses)) {
     courses.forEach(course => {
       // eslint-disable-next-line camelcase
       const {
-        first_period: firstYearAndPeriod,
         first_yearsemester: firstSemester,
         offered_semesters: courseOfferedSemesters,
         school_code: schoolCode,
       } = course
 
-      const firstPeriod = firstYearAndPeriod.substr(-1)
-      const period = firstYearAndPeriod.substr(-2)
+      const { endDate, endWeek, lastSemester, startDate } = _findStartEndDates(chosenSemesters, courseOfferedSemesters)
+      const lastTermSeasonNumber = endDate ? _parseTermSeasonForNthWeek(endWeek) : ''
+      const lastTermSeasonLabel = endDate ? labelSeason(Number(lastTermSeasonNumber), language === 'en' ? 0 : 1) : ''
 
-      const { endDate, lastSemester, startDate } = _findStartDateAndLastSemester(
-        chosenSemesters,
-        courseOfferedSemesters
-      )
-
-      const isFinishedInChosenSemesters = chosenSemesters.includes(lastSemester)
+      const isFinishedInChosenSemesters =
+        chosenSemesters.includes(String(lastSemester)) && chosenSeasons.includes(String(lastTermSeasonNumber))
       const isChosenSchool = isCorrectSchool(chosenSchool, schoolCode)
 
       if (isFinishedInChosenSemesters && isChosenSchool) {
         const offering = _formOffering(firstSemester, startDate, endDate, course)
-        parsedOfferings.push({ ...offering, period })
+        parsedOfferings.push({ ...offering, lastSemesterLabel: lastTermSeasonLabel, lastSemester })
       }
     })
   }
@@ -162,6 +196,7 @@ function parseOfferingsForAnalysis(courses = [], chosenSemesters = [], chosenSch
 }
 
 module.exports = {
+  parsePeriodForNthWeek: _parseTermSeasonForNthWeek,
   parseOfferingsForMemos,
   parseOfferingsForAnalysis,
   semestersInParsedOfferings,
