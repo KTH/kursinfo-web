@@ -58,7 +58,7 @@ describe('Memos functions to count memos for one school', () => {
     expect(offeringsWithMemos.length).toBe(1)
     expect(Object.keys(combinedMemosPerSchool.schools).length).toBe(1)
     expect(combinedMemosPerSchool.schools.ABE.numberOfCourses).toBe(1)
-    expect(combinedMemosPerSchool.totalNumberOfCourses).toBe(1)
+    expect(combinedMemosPerSchool.totalCourses).toBe(1)
 
     expect(combinedMemosPerSchool.schools.ABE.numberOfUniqPdfMemos).toBe(0)
     expect(combinedMemosPerSchool.schools.ABE.numberOfUniqWebMemos).toBe(0)
@@ -88,7 +88,7 @@ describe('Memos functions to count memos for one school', () => {
 
     expect(Object.keys(combinedMemosPerSchool.schools).length).toBe(1)
     expect(combinedMemosPerSchool.schools.ABE.numberOfCourses).toBe(1)
-    expect(combinedMemosPerSchool.totalNumberOfCourses).toBe(1)
+    expect(combinedMemosPerSchool.totalCourses).toBe(1)
 
     expect(combinedMemosPerSchool.schools.ABE.numberOfUniqPdfMemos).toBe(0)
     expect(combinedMemosPerSchool.schools.ABE.numberOfUniqWebMemos).toBe(1)
@@ -154,7 +154,7 @@ describe('Memos functions to count memos for one school', () => {
             "uniqueCourseCodeDatesWithoutMemo": [],
           },
         },
-        "totalNumberOfCourses": 1,
+        "totalCourses": 1,
         "totalNumberOfMemosPublishedBeforeDeadline": 1,
         "totalNumberOfMemosPublishedBeforeStart": 1,
         "totalNumberOfPdfMemos": 0,

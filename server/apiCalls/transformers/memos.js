@@ -67,17 +67,17 @@ function _calculateTotals(schools) {
   let totalNumberOfPdfMemos = 0
   let totalNumberOfMemosPublishedBeforeStart = 0
   let totalNumberOfMemosPublishedBeforeDeadline = 0
-  let totalNumberOfCourses = 0
+  let totalCourses = 0
 
   Object.values(schools).forEach(sc => {
-    totalNumberOfCourses += sc.numberOfCourses
+    totalCourses += sc.numberOfCourses
     totalNumberOfWebMemos += sc.numberOfUniqWebMemos
     totalNumberOfPdfMemos += sc.numberOfUniqPdfMemos
     totalNumberOfMemosPublishedBeforeStart += sc.numberOfMemosPublishedBeforeStart
     totalNumberOfMemosPublishedBeforeDeadline += sc.numberOfMemosPublishedBeforeDeadline
   })
   return {
-    totalNumberOfCourses,
+    totalCourses,
     totalNumberOfWebMemos,
     totalNumberOfPdfMemos,
     totalNumberOfMemosPublishedBeforeStart,

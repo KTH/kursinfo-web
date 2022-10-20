@@ -44,16 +44,16 @@ const _initSchoolValues = () => ({
  * @returns {{}}           Values with counters
  */
 function _calculateTotals(schools) {
-  let totalNumberOfUniqAnalyses = 0
-  let totalNumberOfCourses = 0
+  let totalUniqPublishedAnalyses = 0
+  let totalCourses = 0
 
   Object.values(schools).forEach(sc => {
-    totalNumberOfCourses += sc.numberOfCourses
-    totalNumberOfUniqAnalyses += sc.numberOfUniqAnalyses
+    totalCourses += sc.numberOfCourses
+    totalUniqPublishedAnalyses += sc.numberOfUniqAnalyses
   })
   return {
-    totalNumberOfCourses,
-    totalNumberOfUniqAnalyses,
+    totalCourses,
+    totalUniqPublishedAnalyses,
   }
 }
 function _hasValues(obj) {
@@ -92,7 +92,6 @@ function _countAnalysesDataPerSchool(courseOfferings) {
     const courseCodeAndDates = `${courseCode}-${startDate}-${endDate}`
     const isNewSchoolCourse = !schools[code]
     const hasAnalysis = _hasValues(courseAnalysisInfo)
-    if (hasAnalysis) log.error('------', { hasAnalysis, courseAnalysisInfo, school: schools[code] })
 
     if (isNewSchoolCourse) {
       schools[code] = _initSchoolValues()

@@ -50,10 +50,10 @@ describe('Memos functions to count analyses for one school', () => {
     expect(offeringsWithAnalyses.length).toBe(1)
     expect(Object.keys(combinedAnalysesPerSchool.schools).length).toBe(1)
     expect(combinedAnalysesPerSchool.schools.ABE.numberOfCourses).toBe(1)
-    expect(combinedAnalysesPerSchool.totalNumberOfCourses).toBe(1)
+    expect(combinedAnalysesPerSchool.totalCourses).toBe(1)
 
     expect(combinedAnalysesPerSchool.schools.ABE.numberOfUniqAnalyses).toBe(0)
-    expect(combinedAnalysesPerSchool.totalNumberOfUniqAnalyses).toBe(0)
+    expect(combinedAnalysesPerSchool.totalUniqPublishedAnalyses).toBe(0)
   })
 
   test('Two courses (count as different courses) with 2 analyses', async () => {
