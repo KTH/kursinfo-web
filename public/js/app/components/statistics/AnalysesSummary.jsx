@@ -1,10 +1,12 @@
 import React from 'react'
 
 import PropTypes from 'prop-types'
+import { Col, Row } from 'reactstrap'
 
 import i18n from '../../../../../i18n'
 import { useWebContext } from '../../context/WebContext'
 import { TableSummary } from './TableSummaryRows'
+import { seasons as seasonLib } from './domain/index'
 
 function getSchoolNumbers(school) {
   const { numberOfCourses, numberOfUniqAnalyses } = school
@@ -12,6 +14,25 @@ function getSchoolNumbers(school) {
 }
 function getFootTotalNumbers(totals) {
   return [totals.totalCourses, totals.totalUniqPublishedAnalyses]
+}
+
+function Captions({ statisticsResult, languageIndex }) {
+  const { formLabels } = i18n.messages[languageIndex].statisticsLabels
+
+  const { year, seasons } = statisticsResult
+  const seasonsStr = seasons.map(season => seasonLib.labelSeason(season, languageIndex)).join(', ')
+  return (
+    <Row>
+      <Col xs="4">
+        <label>{formLabels.formSubHeaders.year}</label>
+        <text>{`: ${year}`}</text>
+      </Col>
+      <Col xs="4">
+        <label>{formLabels.formSubHeaders.semesters}</label>
+        {`: ${seasonsStr}`}
+      </Col>
+    </Row>
+  )
 }
 
 function AnalysesNumbersTable({ statisticsResult }) {
@@ -22,13 +43,17 @@ function AnalysesNumbersTable({ statisticsResult }) {
   const cellNames = ['totalCourses', 'totalUniqPublishedAnalyses']
 
   return (
-    <TableSummary
-      docsPerSchool={combinedAnalysesPerSchool}
-      cellNames={cellNames}
-      getNumbersFn={getSchoolNumbers}
-      labels={analysesNumbersTable}
-      totalNumbers={getFootTotalNumbers(combinedAnalysesPerSchool)}
-    />
+    <>
+      <Captions statisticsResult={statisticsResult} languageIndex={languageIndex} />
+
+      <TableSummary
+        docsPerSchool={combinedAnalysesPerSchool}
+        cellNames={cellNames}
+        getNumbersFn={getSchoolNumbers}
+        labels={analysesNumbersTable}
+        totalNumbers={getFootTotalNumbers(combinedAnalysesPerSchool)}
+      />
+    </>
   )
 }
 

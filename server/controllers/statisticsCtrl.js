@@ -130,7 +130,8 @@ async function fetchMemoStatistics(req, res, next) {
       school,
       offeringsWithMemos, // big Table // in kursinfo-admin-web  combinedDataPerDepartment,
       periods,
-      semesters: chosenSemesters, // prev semester
+      seasons,
+      semesters: chosenSemesters,
       semestersInMemos,
       totalOfferings: courses.length,
       year,
