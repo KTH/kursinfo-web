@@ -325,6 +325,11 @@ module.exports = {
         totalMemosPublishedBeforeCourseStart: 'Kurs-PM publicerade  senast vid kursstart',
         totalMemosPublishedBeforeDeadline: 'Kurs-PM publicerade en vecka före kursstart',
       },
+      analysesNumbersTable: {
+        school: 'School',
+        totalCourses: 'Antal kurser som slutar vald termin',
+        totalPublishedAnalyses: 'Antal publicerade kursanalyser för kursomgångar som slutar vald termin',
+      },
     },
   },
 }

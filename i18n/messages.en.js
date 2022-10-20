@@ -351,6 +351,11 @@ module.exports = {
         totalMemosPublishedBeforeCourseStart: 'Memos published before start',
         totalMemosPublishedBeforeDeadline: 'Memos published one week before start',
       },
+      analysesNumbersTable: {
+        school: 'School',
+        totalCourses: 'Number of courses finished in chosen semesters',
+        totalPublishedAnalyses: 'Total published course analyses for courses finished in chosen semesters',
+      },
     },
   },
 }
