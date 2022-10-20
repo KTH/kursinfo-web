@@ -8,7 +8,7 @@ import { summaryTexts } from './StatisticsTexts'
 
 import { DOCS, DOCUMENT_TYPES } from './domain/formConfigurations'
 import { schools } from './domain/index'
-import { MemosSummary } from './index'
+import { AnalysesSummary, MemosSummary } from './index'
 
 function ResultNumbersSummary({ statisticsResult }) {
   const [{ language, languageIndex }] = useWebContext()
@@ -22,7 +22,6 @@ function ResultNumbersSummary({ statisticsResult }) {
 
   return (
     <>
-      <h2>{labels[documentType]}</h2>
       <h3>{summaryLabels.subHeaders[documentType]}</h3>
       <article key="documents-and-courses-description">
         {texts.subPageDescription()}
@@ -36,7 +35,7 @@ function ResultNumbersSummary({ statisticsResult }) {
         {documentType === DOCS.courseMemo ? (
           <MemosSummary statisticsResult={statisticsResult} />
         ) : (
-          <p>analyses table</p>
+          <AnalysesSummary statisticsResult={statisticsResult} />
         )}
       </article>
     </>
