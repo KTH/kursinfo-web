@@ -1,6 +1,5 @@
-const log = require('@kth/log')
-
 const { firstPublishData, publishData } = require('./dates')
+const { findMemosForOfferingId } = require('./docs')
 
 /**
  * Matches analyses and memos with course offerings.
@@ -10,21 +9,18 @@ const { firstPublishData, publishData } = require('./dates')
  */
 const _memosPerCourseOffering = async (parsedOfferings, memos) => {
   const courseOfferings = []
-  const courseMemoInfos = []
   await parsedOfferings.forEach(offering => {
     const { courseCode, firstSemester } = offering
     const offeringId = Number(offering.offeringId)
     let courseMemoInfo = {}
-    const courseMemosForSemester = memos.filter(
-      memo => memo.courseCode === courseCode && memo.semester === firstSemester
-    )
-    const memosForOfferingId = courseMemosForSemester.filter(memo => memo.ladokRoundIds.includes(String(offeringId)))
+    const memosForOfferingId = findMemosForOfferingId(memos, courseCode, firstSemester, offeringId)
+
     if (memosForOfferingId.length === 1) {
       const [publishedMemo] = memosForOfferingId
       courseMemoInfo = publishedMemo
       courseMemoInfo.publishedData = publishData(offering.startDate, courseMemoInfo.lastChangeDate)
-      courseMemoInfos.push(courseMemoInfo)
     }
+    // TODO: first version of PDF file first date
     if (memosForOfferingId.length > 1) {
       const firstVersion = memosForOfferingId.find(memo => memo.version === 1)
 
@@ -35,7 +31,6 @@ const _memosPerCourseOffering = async (parsedOfferings, memos) => {
         firstVersion.lastChangeDate,
         firstVersion.lastChangeDate
       )
-      courseMemoInfos.push(courseMemoInfo)
     }
     const courseOffering = {
       ...offering,
@@ -49,8 +44,6 @@ const _memosPerCourseOffering = async (parsedOfferings, memos) => {
 
 /**
  * Initiating an object with counters for different types of numbers and two arrays for courses with and without memos
- * @param {string} courseCodeId Course code id string
- * @param {boolean} hasMemo     Booleand if a course offering has a memo or not
  * @returns {{}}                Object with all counters and two arrays
  */
 const _initSchoolValues = () => ({
@@ -138,7 +131,6 @@ function _countMemosDataPerSchool(courseOfferings) {
   }
   for (const courseOffering of courseOfferings) {
     const { courseCode, courseMemoInfo = {}, endDate, schoolMainCode: code, startDate } = courseOffering
-    // if (!code) return
 
     const courseCodeAndDates = `${courseCode}-${startDate}-${endDate}`
     const isNewSchoolCourse = !schools[code]
@@ -149,7 +141,6 @@ function _countMemosDataPerSchool(courseOfferings) {
 
     if (!hasMemo) {
       schools[code].uniqueCourseCodeDatesWithoutMemo.push(courseCodeAndDates)
-      // continue
     }
 
     // If a course has several ladokRoundIds which start and end at same time, it counts as one course
