@@ -13,6 +13,7 @@ const {
   semestersInParsedOfferings,
 } = require('../apiCalls/transformers/offerings')
 
+const { analysesPerSchool } = require('../apiCalls/transformers/analyses')
 const { memosPerSchool } = require('../apiCalls/transformers/memos')
 // const ugRedisApi = require('../apiCalls/ugRedisApi')
 
@@ -177,8 +178,26 @@ async function fetchAnalysisStatistics(req, res, next) {
     // Course analyses for start semesters
     const analyses = await courseAnalysesApi.getCourseAnalysesForStatistics(startSemestersInAnalyses)
 
-    const apiResponse = { data: 'Hello, results arrived' } // await koppsApi.getSearchResults(searchParamsStr, lang)
-    return res.json(apiResponse)
+    // Compiles statistics per school, including totals, for analyses.
+    const { offeringsWithAnalyses, combinedAnalysesPerSchool } = await analysesPerSchool(parsedOfferings, analyses)
+
+    return res.json({
+      combinedAnalysesPerSchool, // small table // in kursinfo-admin-web combinedMemosDataPerSchool,
+      documentType: 'courseAnalysis',
+      koppsApiBasePath: `${serverConfig.koppsApi.https ? 'https' : 'http'}://${serverConfig.koppsApi.host}${
+        serverConfig.koppsApi.basePath
+      }`,
+      documentsApiBasePath: `${serverConfig.nodeApi.kursutvecklingApi.https ? 'https' : 'http'}://${
+        serverConfig.nodeApi.kursutvecklingApi.host
+      }${serverConfig.nodeApi.kursutvecklingApi.proxyBasePath}`,
+      school,
+      offeringsWithAnalyses, // big Table // in kursinfo-admin-web  combinedDataPerDepartment,
+      seasons,
+      semesters: chosenSemesters, // prev semester
+      semestersInAnalyses: startSemestersInAnalyses,
+      totalOfferings: courses.length,
+      year,
+    })
   } catch (error) {
     log.debug(` Exception`, { error })
     next(error)
