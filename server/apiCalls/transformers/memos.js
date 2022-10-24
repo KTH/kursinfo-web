@@ -51,6 +51,7 @@ const _initSchoolValues = () => ({
   uniqueCourseCodeDates: [],
   uniqueCourseCodeDatesWithoutMemo: [],
   // memos numbers
+  numberOfUniqWebAndPdfMemos: 0,
   numberOfUniqWebMemos: 0,
   numberOfUniqPdfMemos: 0,
   numberOfMemosPublishedBeforeStart: 0,
@@ -161,6 +162,8 @@ function _countMemosDataPerSchool(courseOfferings) {
       schools[code].numberOfMemosPublishedBeforeStart += beforeCourseStartAddend
       schools[code].numberOfMemosPublishedBeforeDeadline += beforeDeadlineAddend
     }
+    // sum pdf and web memos
+    schools[code].numberOfUniqWebAndPdfMemos = schools[code].numberOfUniqWebMemos + schools[code].numberOfUniqPdfMemos
     // calculate number of courses
     schools[code].numberOfCourses =
       schools[code].uniqueCourseCodeDates.length + schools[code].uniqueCourseCodeDatesWithoutMemo.length

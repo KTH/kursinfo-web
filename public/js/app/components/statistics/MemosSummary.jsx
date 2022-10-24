@@ -4,14 +4,15 @@ import PropTypes from 'prop-types'
 import { Col, Row } from 'reactstrap'
 import { useWebContext } from '../../context/WebContext'
 import i18n from '../../../../../i18n'
-import { summaryTexts } from './StatisticsTexts'
 import { TableSummary } from './TableSummaryRows'
+import { summaryTexts } from './StatisticsTexts'
+import { Charts } from './Chart'
 import { periods as periodsLib } from './domain/index'
 
 function getSchoolNumbers(school = {}) {
   return [
     school.numberOfCourses,
-    school.numberOfUniqWebMemos + school.numberOfUniqPdfMemos,
+    school.numberOfUniqWebAndPdfMemos,
     school.numberOfUniqWebMemos,
     school.numberOfUniqPdfMemos,
     school.numberOfMemosPublishedBeforeStart,
@@ -41,10 +42,9 @@ function getCellNames() {
   ]
 }
 
-function Captions({ statisticsResult, languageIndex }) {
+function Captions({ year, periods, languageIndex }) {
   const { formLabels } = i18n.messages[languageIndex].statisticsLabels
 
-  const { year, periods } = statisticsResult
   const periodsStr = periods.map(period => periodsLib.labelPeriod(period, languageIndex, false)).join(', ')
   return (
     <Row>
@@ -64,12 +64,12 @@ function MemosNumbersTable({ statisticsResult }) {
   const [{ languageIndex }] = useWebContext()
   const { summaryLabels } = i18n.messages[languageIndex].statisticsLabels
   const { memosNumbersTable } = summaryLabels
-  const { combinedMemosPerSchool } = statisticsResult
+  const { combinedMemosPerSchool, year, periods } = statisticsResult
   const cellNames = getCellNames()
 
   return (
     <>
-      <Captions statisticsResult={statisticsResult} languageIndex={languageIndex} />
+      <Captions year={year} periods={periods} languageIndex={languageIndex} />
 
       <TableSummary
         docsPerSchool={combinedMemosPerSchool}
@@ -83,9 +83,30 @@ function MemosNumbersTable({ statisticsResult }) {
 }
 
 function MemosNumbersCharts({ statisticsResult }) {
-  return <></>
+  const chartNames = [
+    'numberOfUniqWebAndPdfMemos',
+    'numberOfMemosPublishedBeforeStart',
+    'numberOfMemosPublishedBeforeDeadline',
+  ]
+  const { combinedMemosPerSchool: docsPerSchool, periods, year } = statisticsResult
+  const { schools = {} } = docsPerSchool
+  const [{ languageIndex }] = useWebContext()
+
+  return (
+    <>
+      <Captions year={year} periods={periods} languageIndex={languageIndex} />
+      <Row>
+        <Col>
+          <Charts chartNames={chartNames} schools={schools} />
+        </Col>
+      </Row>
+    </>
+  )
 }
+
 function MemosNumbersChartsYearAgo({ statisticsResult }) {
+  const { combinedMemosPerSchool: docsPerSchool, periods, year } = statisticsResult
+
   return <></>
 }
 
