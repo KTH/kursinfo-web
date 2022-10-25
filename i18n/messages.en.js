@@ -317,12 +317,20 @@ module.exports = {
     seasonAutumn: 'Autumn',
     seasonSpring: 'Spring',
     seasonSummer: 'Summer',
+    exportLabels: {
+      excel: 'Download table as excel file',
+      csv: 'Download table as csv file',
+    },
     sortableTable: {
       courseAnalysis: { header: 'Table with courses and course analyses' },
       courseMemo: { header: 'Table with courses and course memos' },
       rowsPerPageText: 'number of rows per page:',
       rangeSeparatorText: 'of',
       noDataMessage: 'No statistics data found!',
+      pageHeader: 'Table of courses and course PM',
+      pageDetails:
+        'Here it is possible to see a table with data for all courses, for selected school and study period. It is possible to sort the information in the table for institution, course code, course start, publication date and link to course PM. It is also possible to download the table as an Excel or CSV file to make your own filters and sorting of the data',
+      sourceOfData: 'See table with data for course PM',
       statisticsDataColumns: {
         year: 'Year',
         school: 'School',

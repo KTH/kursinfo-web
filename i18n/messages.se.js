@@ -291,12 +291,20 @@ module.exports = {
     seasonAutumn: 'HT',
     seasonSpring: 'VT',
     seasonSummer: 'Sommar',
+    exportLabels: {
+      excel: 'Ladda ner tabell som excel-fil',
+      csv: 'Ladda ner tabell som csv-fil',
+    },
     sortableTable: {
       courseAnalysis: { header: 'Tabell med kurser och kursanalyser' },
       courseMemo: { header: 'Tabell med kurser och kurs-PM' },
       rowsPerPageText: 'antal rader per sida:',
       rangeSeparatorText: 'av',
       noDataMessage: 'Inga statistikdata hittades!',
+      pageHeader: 'Tabell med kurser och kurs-PM',
+      pageDetails:
+        'Här finns möjlighet att se en tabell med data för alla kurser, for vald skola och läsperiod. Det går att sortera informationen i tabellen for institution, kurskod, kursstart, publiceringsdatum och länk till kurs-PM. Det är även möjligt att ladda ner tabellen som en Excel- eller CSV-fil för att göra egna filtreringar och sorteringar av datan',
+      sourceOfData: 'Se tabell med data for kurs PM',
       statisticsDataColumns: {
         year: 'År',
         school: 'Skola',
