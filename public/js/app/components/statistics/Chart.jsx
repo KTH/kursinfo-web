@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Row } from 'reactstrap'
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from 'victory'
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryLabel, VictoryTheme } from 'victory'
 import i18n from '../../../../../i18n'
 import { schools as schoolsLib } from './domain'
 
@@ -38,17 +38,17 @@ function Charts({ chartNames = [], languageIndex = 1, schools = {} }) {
     <Row>
       {chartNames.map(numberName => (
         <Col key={numberName}>
-          <h4>{labels[numberName]}</h4>
-          <Chart data={getChartData(numberName, schools)} />
+          <Chart data={getChartData(numberName, schools)} label={labels[numberName]} />
         </Col>
       ))}
     </Row>
   )
 }
 
-function Chart({ data = [] }) {
+function Chart({ data = [], label = '' }) {
   return (
     <VictoryChart height={405} theme={VictoryTheme.material} domainPadding={20}>
+      <VictoryLabel x={4} y={24} text={label} style={{ fontSize: '16px' }} />
       {data.length > 1 ? (
         <VictoryAxis
           tickValues={schoolsLib.ORDERED_SCHOOLS}
@@ -60,7 +60,7 @@ function Chart({ data = [] }) {
       <VictoryAxis
         dependentAxis
         tickValues={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
-        tickFormat={label => `${label} %`}
+        tickFormat={tickLabel => `${tickLabel} %`}
         domain={[0, 100]}
       />
       <VictoryBar
@@ -68,12 +68,12 @@ function Chart({ data = [] }) {
           duration: 2000,
           onLoad: { duration: 1000 },
         }}
-        barRatio={data.length > 1 ? 0.3 : 2}
+        barRatio={data.length > 1 ? 0.6 : 2}
         data={data}
-        domainPadding={20}
+        domainPadding={50}
         labels={({ datum }) => {
           const { percentage = 0 } = datum
-          return `${percentage.toFixed(1)} %`
+          return `${Math.round(percentage * 10) / 10} %`
         }}
         height={400}
         width={400}
@@ -83,7 +83,7 @@ function Chart({ data = [] }) {
           data: {
             fill: ({ datum }) => datum.color,
           },
-          // labels: { fontSize: 15 },
+          labels: { fontWeight: 700, wordSpacing: '-2px' },
         }}
       />
     </VictoryChart>
