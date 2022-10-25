@@ -289,6 +289,12 @@ module.exports = {
   },
   statisticsLabels: {
     allSchools: 'All schools',
+    chartsLabels: {
+      header: 'Number of courses with published course memos',
+      numberOfUniqWebAndPdfMemos: 'Under study periods',
+      numberOfMemosPublishedBeforeStart: 'Before course start',
+      numberOfMemosPublishedBeforeDeadline: 'One week before course start',
+    },
     courseAnalysis: 'Course analysis',
     courseMemo: 'Course memo',
     btnShowResults: 'Show statistics',

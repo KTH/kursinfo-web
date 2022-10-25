@@ -96,7 +96,7 @@ function MemosNumbersCharts({ statisticsResult }) {
     <>
       <Captions year={year} periods={periods} languageIndex={languageIndex} />
 
-      <Charts chartNames={chartNames} schools={schools} />
+      <Charts chartNames={chartNames} schools={schools} languageIndex={languageIndex} />
     </>
   )
 }
@@ -108,9 +108,13 @@ function MemosNumbersChartsYearAgo({ statisticsResult }) {
 }
 
 function MemosSummary({ statisticsResult }) {
+  const [{ languageIndex }] = useWebContext()
+  const { chartsLabels: labels } = i18n.messages[languageIndex].statisticsLabels
+
   return (
     <>
       <MemosNumbersTable statisticsResult={statisticsResult} />
+      <h3>{labels.header}</h3>
       <MemosNumbersCharts statisticsResult={statisticsResult} />
       <MemosNumbersChartsYearAgo statisticsResult={statisticsResult} />
     </>

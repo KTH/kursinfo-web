@@ -261,6 +261,12 @@ module.exports = {
   },
   statisticsLabels: {
     allSchools: 'Alla skolor',
+    chartsLabels: {
+      header: 'Andel kurser som har publicerat kurs-PM ',
+      numberOfUniqWebAndPdfMemos: 'Under läsperiod/erna',
+      numberOfMemosPublishedBeforeStart: 'Senast vid kursstart',
+      numberOfMemosPublishedBeforeDeadline: 'En vecka före kursstart',
+    },
     courseAnalysis: 'Kursanalys',
     courseMemo: 'Kurs-PM',
     btnShowResults: 'Visa statistik',
