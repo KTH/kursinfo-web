@@ -50,7 +50,7 @@ function Captions({ year, periods, languageIndex }) {
     <Row>
       <Col xs="2">
         <label>{formLabels.formSubHeaders.year}</label>
-        <text>{`: ${year}`}</text>
+        {`: ${year}`}
       </Col>
       <Col xs="4">
         <label>{formLabels.formSubHeaders.periods}</label>
@@ -95,11 +95,8 @@ function MemosNumbersCharts({ statisticsResult }) {
   return (
     <>
       <Captions year={year} periods={periods} languageIndex={languageIndex} />
-      <Row>
-        <Col>
-          <Charts chartNames={chartNames} schools={schools} />
-        </Col>
-      </Row>
+
+      <Charts chartNames={chartNames} schools={schools} />
     </>
   )
 }

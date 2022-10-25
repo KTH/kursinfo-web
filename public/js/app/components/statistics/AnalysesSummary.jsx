@@ -25,7 +25,7 @@ function Captions({ statisticsResult, languageIndex }) {
     <Row>
       <Col xs="4">
         <label>{formLabels.formSubHeaders.year}</label>
-        <text>{`: ${year}`}</text>
+        {`: ${year}`}
       </Col>
       <Col xs="4">
         <label>{formLabels.formSubHeaders.semesters}</label>
