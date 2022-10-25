@@ -147,6 +147,7 @@ describe('Memos functions to count memos for one school', () => {
             "numberOfMemosPublishedBeforeDeadline": 1,
             "numberOfMemosPublishedBeforeStart": 1,
             "numberOfUniqPdfMemos": 0,
+            "numberOfUniqWebAndPdfMemos": 1,
             "numberOfUniqWebMemos": 1,
             "uniqueCourseCodeDates": [
               "SF1625-2021-08-30-2021-10-29",

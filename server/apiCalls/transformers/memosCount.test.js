@@ -57,6 +57,7 @@ describe('Count memos and courses for one course offering for the same school AB
             "numberOfMemosPublishedBeforeDeadline": 1,
             "numberOfMemosPublishedBeforeStart": 1,
             "numberOfUniqPdfMemos": 0,
+            "numberOfUniqWebAndPdfMemos": 1,
             "numberOfUniqWebMemos": 1,
             "uniqueCourseCodeDates": [
               "SF1625-2021-08-30-2021-10-29",
@@ -98,6 +99,7 @@ describe('Count memos and courses for one course offering for the same school AB
             "numberOfMemosPublishedBeforeDeadline": 0,
             "numberOfMemosPublishedBeforeStart": 0,
             "numberOfUniqPdfMemos": 0,
+            "numberOfUniqWebAndPdfMemos": 1,
             "numberOfUniqWebMemos": 1,
             "uniqueCourseCodeDates": [
               "SF1625-2021-08-30-2021-10-29",
@@ -136,6 +138,7 @@ describe('Count memos and courses for one course offering for the same school AB
             "numberOfMemosPublishedBeforeDeadline": 0,
             "numberOfMemosPublishedBeforeStart": 1,
             "numberOfUniqPdfMemos": 0,
+            "numberOfUniqWebAndPdfMemos": 1,
             "numberOfUniqWebMemos": 1,
             "uniqueCourseCodeDates": [
               "SF1625-2021-08-30-2021-10-29",
@@ -179,6 +182,7 @@ describe('Count memos and courses as one for one course with two course offering
             "numberOfMemosPublishedBeforeDeadline": 1,
             "numberOfMemosPublishedBeforeStart": 1,
             "numberOfUniqPdfMemos": 0,
+            "numberOfUniqWebAndPdfMemos": 1,
             "numberOfUniqWebMemos": 1,
             "uniqueCourseCodeDates": [
               "SF1625-2021-08-30-2021-10-29",
@@ -219,6 +223,7 @@ describe('Count memos and courses as one for one course with two course offering
             "numberOfMemosPublishedBeforeDeadline": 1,
             "numberOfMemosPublishedBeforeStart": 1,
             "numberOfUniqPdfMemos": 0,
+            "numberOfUniqWebAndPdfMemos": 1,
             "numberOfUniqWebMemos": 1,
             "uniqueCourseCodeDates": [
               "SF1625-2021-08-30-2021-10-29",
@@ -369,6 +374,7 @@ describe('Count memos and courses for different courses for the same school ABE'
             "numberOfMemosPublishedBeforeDeadline": 2,
             "numberOfMemosPublishedBeforeStart": 2,
             "numberOfUniqPdfMemos": 0,
+            "numberOfUniqWebAndPdfMemos": 2,
             "numberOfUniqWebMemos": 2,
             "uniqueCourseCodeDates": [
               "SF1625-2021-08-30-2021-10-29",
