@@ -13,8 +13,16 @@ const SCHOOL_MAP = {
   SCI: 'SCI',
 }
 
-const isCorrectSchool = (chosenSchool, courseSchool) =>
-  chosenSchool === 'allSchools' || chosenSchool.toUpperCase() === SCHOOL_MAP[courseSchool.toUpperCase()]
+const isCorrectSchool = (chosenSchool, courseSchool) => {
+  const chosenSchoolUp = chosenSchool.toUpperCase()
+  const courseSchoolMainCode = SCHOOL_MAP[courseSchool.toUpperCase()]
+  if (chosenSchool === 'allSchools') {
+    // to sort out others schools which are not in the school map
+    return !!courseSchoolMainCode
+  }
+
+  return chosenSchoolUp === courseSchoolMainCode
+}
 
 module.exports = {
   isCorrectSchool,

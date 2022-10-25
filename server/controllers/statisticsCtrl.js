@@ -8,8 +8,8 @@ const courseAnalysesApi = require('../apiCalls/courseAnalysesApi')
 const memoApi = require('../apiCalls/memoApi')
 const koppsCourseData = require('../apiCalls/koppsCourseData')
 const {
-  parseOfferingsForAnalysis,
-  parseOfferingsForMemos,
+  filterOfferingsForAnalysis,
+  filterOfferingsForMemos,
   semestersInParsedOfferings,
 } = require('../apiCalls/transformers/offerings')
 
@@ -107,7 +107,7 @@ async function fetchMemoStatistics(req, res, next) {
   try {
     const courses = await _getCourses(chosenSemesters)
 
-    const parsedOfferings = parseOfferingsForMemos(courses, chosenSemesters, sortedPeriods, school)
+    const parsedOfferings = filterOfferingsForMemos(courses, chosenSemesters, sortedPeriods, school)
 
     // // Semesters found in parsed offerings. Not necessary, startSemesters is the same.
     const semestersInMemos = semestersInParsedOfferings(parsedOfferings)
@@ -172,7 +172,7 @@ async function fetchAnalysisStatistics(req, res, next) {
   try {
     const courses = await _getCourses(chosenSemesters)
 
-    const parsedOfferings = parseOfferingsForAnalysis(courses, chosenSemesters, seasons, school, language)
+    const parsedOfferings = filterOfferingsForAnalysis(courses, chosenSemesters, seasons, school, language)
     // Find start semesters found in parsed offerings.
     const startSemestersInAnalyses = semestersInParsedOfferings(parsedOfferings)
 
