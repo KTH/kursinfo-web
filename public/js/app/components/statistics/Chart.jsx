@@ -1,6 +1,7 @@
 import React from 'react'
 import { Col, Row } from 'reactstrap'
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from 'victory'
+import i18n from '../../../../../i18n'
 import { schools as schoolsLib } from './domain'
 
 const colors = {
@@ -30,11 +31,14 @@ function getChartData(numberName, schools) {
   })
 }
 
-function Charts({ chartNames, schools = {} }) {
+function Charts({ chartNames = [], languageIndex = 1, schools = {} }) {
+  const { chartsLabels: labels } = i18n.messages[languageIndex].statisticsLabels
+
   return (
     <Row>
       {chartNames.map(numberName => (
         <Col key={numberName}>
+          <h4>{labels[numberName]}</h4>
           <Chart data={getChartData(numberName, schools)} />
         </Col>
       ))}
@@ -44,9 +48,21 @@ function Charts({ chartNames, schools = {} }) {
 
 function Chart({ data = [] }) {
   return (
-    <VictoryChart height={310} theme={VictoryTheme.material} domainPadding={20}>
-      <VictoryAxis />
-      <VictoryAxis dependentAxis tickFormat={label => `${label} %`} domain={[0, 100]} />
+    <VictoryChart height={405} theme={VictoryTheme.material} domainPadding={20}>
+      {data.length > 1 ? (
+        <VictoryAxis
+          tickValues={schoolsLib.ORDERED_SCHOOLS}
+          // tickValues={schoolsLib.ORDERED_SCHOOLS.map((_, i) => i + 1)}
+        />
+      ) : (
+        <VictoryAxis />
+      )}
+      <VictoryAxis
+        dependentAxis
+        tickValues={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
+        tickFormat={label => `${label} %`}
+        domain={[0, 100]}
+      />
       <VictoryBar
         animate={{
           duration: 2000,
@@ -57,16 +73,17 @@ function Chart({ data = [] }) {
         domainPadding={20}
         labels={({ datum }) => {
           const { percentage = 0 } = datum
-          return `${percentage.toFixed(1)}`
+          return `${percentage.toFixed(1)} %`
         }}
-        height={300}
-        width={300}
+        height={400}
+        width={400}
         x="school"
         y="percentage"
         style={{
           data: {
             fill: ({ datum }) => datum.color,
           },
+          // labels: { fontSize: 15 },
         }}
       />
     </VictoryChart>
