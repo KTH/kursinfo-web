@@ -59,16 +59,18 @@ function _isFallPeriod(periodNumber) {
 }
 
 /**
+ * @param {number|string} periodNumber Period number range 0-4, 0 is summer
  * @param {number} langIndex
+ * @param {boolean} withPeriodLabel
  * @throws
  * @returns {string}
  */
-function labelPeriod(periodNumber, langIndex) {
+function labelPeriod(periodNumber, langIndex, withPeriodLabel = true) {
   const { statisticsLabels: labels } = i18n.messages[langIndex]
-  if (periodNumber === SUMMER_PERIOD_GROUPED) return labels.seasonSummer
-
+  if (Number(periodNumber) === SUMMER_PERIOD_GROUPED) return labels.seasonSummer
+  const periodNumberLabel = withPeriodLabel ? `${labels.period} ${periodNumber},` : periodNumber
   const seasonName = _isFallPeriod(periodNumber) ? labels.seasonAutumn : labels.seasonSpring
-  return `${labels.period} ${periodNumber}, ${langIndex === 0 ? seasonName.toLowerCase() : seasonName}`
+  return `${periodNumberLabel} ${langIndex === 0 ? seasonName.toLowerCase() : seasonName}`
 }
 
 /**

@@ -35,7 +35,7 @@ function _formOffering(firstSemester, startDate, endDate, course) {
     endDate,
     firstSemester,
     startDate,
-    schoolMainCode: SCHOOL_MAP[course.school_code] || '---',
+    schoolMainCode: SCHOOL_MAP[course.school_code] || 'Others',
     departmentName: course.department_name,
     connectedPrograms: _getProgramList(course.connected_programs),
     courseCode: course.course_code,
@@ -96,7 +96,7 @@ function _findStartEndDates(chosenSemesters, courseOfferedSemesters) {
  * @param {string} chosenSchool    School name, or if all schools are chosen then 'allSchools
  * @returns {[]}           Array, containing offerings’ relevant data
  */
-function parseOfferingsForMemos(courses = [], chosenSemesters = [], chosenPeriods = [], chosenSchool = '') {
+function filterOfferingsForMemos(courses = [], chosenSemesters = [], chosenPeriods = [], chosenSchool = '') {
   const parsedOfferings = []
   // const courses = [coursesR[0], coursesR[1]]
   if (Array.isArray(courses)) {
@@ -161,7 +161,7 @@ function _parseTermSeasonForNthWeek(nthWeek) {
  * @param {string} language    User interface language, "sv" or "en"
  * @returns {[]}           Array, containing offerings’ relevant data
  */
-function parseOfferingsForAnalysis(
+function filterOfferingsForAnalysis(
   courses = [],
   chosenSemesters = [],
   chosenSeasons = [],
@@ -197,7 +197,7 @@ function parseOfferingsForAnalysis(
 
 module.exports = {
   parsePeriodForNthWeek: _parseTermSeasonForNthWeek,
-  parseOfferingsForMemos,
-  parseOfferingsForAnalysis,
+  filterOfferingsForMemos,
+  filterOfferingsForAnalysis,
   semestersInParsedOfferings,
 }

@@ -6,14 +6,14 @@ function formatTimeToLocaleDateSV(parsedTime) {
 }
 
 /**
- * Calculates and compiles memo publish data.
+ * Calculates and compiles document publish data.
  * @param {[]} offeringStartDate  Offering’s start date, in format accepted by Date.parse
- * @param {{}} memoChangeDate     Memo’s change date, in format accepted by Date.parse
- * @returns {{}}                  Object with publish data for memo
+ * @param {{}} docChangeDate     Document's change date, in format accepted by Date.parse
+ * @returns {{}}                  Object with publish data for memo or for analysis
  */
-const publishData = (offeringStartDate, memoChangeDate) => {
+const publishData = (offeringStartDate, docChangeDate) => {
   const offeringStartTime = Date.parse(offeringStartDate)
-  const publishedTime = Date.parse(memoChangeDate)
+  const publishedTime = Date.parse(docChangeDate)
   const formattedOfferingStartTime = formatTimeToLocaleDateSV(offeringStartTime)
   const formattedPublishedTime = formatTimeToLocaleDateSV(publishedTime)
   const ONE_WEEK_IN_MS = 7 * 24 * 60 * 60 * 1000

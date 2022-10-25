@@ -8,11 +8,12 @@ const courseAnalysesApi = require('../apiCalls/courseAnalysesApi')
 const memoApi = require('../apiCalls/memoApi')
 const koppsCourseData = require('../apiCalls/koppsCourseData')
 const {
-  parseOfferingsForAnalysis,
-  parseOfferingsForMemos,
+  filterOfferingsForAnalysis,
+  filterOfferingsForMemos,
   semestersInParsedOfferings,
 } = require('../apiCalls/transformers/offerings')
 
+const { analysesPerSchool } = require('../apiCalls/transformers/analyses')
 const { memosPerSchool } = require('../apiCalls/transformers/memos')
 // const ugRedisApi = require('../apiCalls/ugRedisApi')
 
@@ -106,7 +107,7 @@ async function fetchMemoStatistics(req, res, next) {
   try {
     const courses = await _getCourses(chosenSemesters)
 
-    const parsedOfferings = parseOfferingsForMemos(courses, chosenSemesters, sortedPeriods, school)
+    const parsedOfferings = filterOfferingsForMemos(courses, chosenSemesters, sortedPeriods, school)
 
     // // Semesters found in parsed offerings. Not necessary, startSemesters is the same.
     const semestersInMemos = semestersInParsedOfferings(parsedOfferings)
@@ -129,7 +130,8 @@ async function fetchMemoStatistics(req, res, next) {
       school,
       offeringsWithMemos, // big Table // in kursinfo-admin-web  combinedDataPerDepartment,
       periods,
-      semesters: chosenSemesters, // prev semester
+      seasons,
+      semesters: chosenSemesters,
       semestersInMemos,
       totalOfferings: courses.length,
       year,
@@ -170,15 +172,33 @@ async function fetchAnalysisStatistics(req, res, next) {
   try {
     const courses = await _getCourses(chosenSemesters)
 
-    const parsedOfferings = parseOfferingsForAnalysis(courses, chosenSemesters, seasons, school, language)
+    const parsedOfferings = filterOfferingsForAnalysis(courses, chosenSemesters, seasons, school, language)
     // Find start semesters found in parsed offerings.
     const startSemestersInAnalyses = semestersInParsedOfferings(parsedOfferings)
 
     // Course analyses for start semesters
     const analyses = await courseAnalysesApi.getCourseAnalysesForStatistics(startSemestersInAnalyses)
 
-    const apiResponse = { data: 'Hello, results arrived' } // await koppsApi.getSearchResults(searchParamsStr, lang)
-    return res.json(apiResponse)
+    // Compiles statistics per school, including totals, for analyses.
+    const { offeringsWithAnalyses, combinedAnalysesPerSchool } = await analysesPerSchool(parsedOfferings, analyses)
+
+    return res.json({
+      combinedAnalysesPerSchool, // small table // in kursinfo-admin-web combinedMemosDataPerSchool,
+      documentType: 'courseAnalysis',
+      koppsApiBasePath: `${serverConfig.koppsApi.https ? 'https' : 'http'}://${serverConfig.koppsApi.host}${
+        serverConfig.koppsApi.basePath
+      }`,
+      documentsApiBasePath: `${serverConfig.nodeApi.kursutvecklingApi.https ? 'https' : 'http'}://${
+        serverConfig.nodeApi.kursutvecklingApi.host
+      }${serverConfig.nodeApi.kursutvecklingApi.proxyBasePath}`,
+      school,
+      offeringsWithAnalyses, // big Table // in kursinfo-admin-web  combinedDataPerDepartment,
+      seasons,
+      semesters: chosenSemesters, // prev semester
+      semestersInAnalyses: startSemestersInAnalyses,
+      totalOfferings: courses.length,
+      year,
+    })
   } catch (error) {
     log.debug(` Exception`, { error })
     next(error)

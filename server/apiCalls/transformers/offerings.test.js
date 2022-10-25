@@ -2,8 +2,8 @@
 
 import {
   parsePeriodForNthWeek,
-  parseOfferingsForMemos,
-  parseOfferingsForAnalysis,
+  filterOfferingsForMemos,
+  filterOfferingsForAnalysis,
   semestersInParsedOfferings,
 } from './offerings'
 
@@ -38,7 +38,7 @@ describe('Memos functions to parse and filter offerings', () => {
       school_code: 'ITM',
     }
     const courses = [expectedCourse, tooOldCourse, wrongSchoolCourse]
-    const parsedOfferings = parseOfferingsForMemos(courses, ['20201', '20202'], ['1', '2'], 'CBH')
+    const parsedOfferings = filterOfferingsForMemos(courses, ['20201', '20202'], ['1', '2'], 'CBH')
     expect(parsedOfferings.length).toBe(1)
 
     const [offering] = parsedOfferings
@@ -115,7 +115,7 @@ describe('Analysis functions to parse and filter offerings', () => {
     }
     const courses = [expectedCourse, tooOldCourse, wrongSchoolCourse]
     // Swedish
-    const parsedOfferings = parseOfferingsForAnalysis(courses, ['20201', '20202'], ['1', '2', '0'], 'CBH', 'sv')
+    const parsedOfferings = filterOfferingsForAnalysis(courses, ['20201', '20202'], ['1', '2', '0'], 'CBH', 'sv')
     expect(parsedOfferings.length).toBe(1)
 
     const [offering] = parsedOfferings
@@ -131,7 +131,7 @@ describe('Analysis functions to parse and filter offerings', () => {
     expect(offering.lastSemesterLabel).toBe('HT')
 
     // English
-    const parsedOfferings_en = parseOfferingsForAnalysis(courses, ['20201', '20202'], ['1', '2', '0'], 'CBH', 'en')
+    const parsedOfferings_en = filterOfferingsForAnalysis(courses, ['20201', '20202'], ['1', '2', '0'], 'CBH', 'en')
     expect(parsedOfferings_en.length).toBe(1)
 
     const [offering_en] = parsedOfferings_en
@@ -183,7 +183,7 @@ describe('Analysis functions to parse and filter offerings', () => {
       school_code: 'ITM',
     }
     const courses = [expectedCourse, tooOldCourse, wrongSchoolCourse]
-    const parsedOfferings = parseOfferingsForAnalysis(courses, ['20201', '20202'], ['0'], 'CBH', 'sv')
+    const parsedOfferings = filterOfferingsForAnalysis(courses, ['20201', '20202'], ['0'], 'CBH', 'sv')
     expect(parsedOfferings.length).toBe(0)
   })
 
@@ -224,7 +224,7 @@ describe('Analysis functions to parse and filter offerings', () => {
       school_code: 'ITM',
     }
     const courses = [expectedCourse, tooOldCourse, wrongSchoolCourse]
-    const parsedOfferings = parseOfferingsForAnalysis(courses, ['20201', '20202'], ['1'], 'CBH', 'sv')
+    const parsedOfferings = filterOfferingsForAnalysis(courses, ['20201', '20202'], ['1'], 'CBH', 'sv')
     expect(parsedOfferings.length).toBe(0)
   })
 
@@ -241,7 +241,7 @@ describe('Analysis functions to parse and filter offerings', () => {
       school_code: 'EES',
     }
     const courses = [course]
-    const parsedOfferings = parseOfferingsForAnalysis(courses, ['20201', '20202'], ['0'], 'EECS', 'sv')
+    const parsedOfferings = filterOfferingsForAnalysis(courses, ['20201', '20202'], ['0'], 'EECS', 'sv')
     expect(parsedOfferings.length).toBe(0)
   })
 
@@ -259,7 +259,7 @@ describe('Analysis functions to parse and filter offerings', () => {
     }
     const courses = [expectedCourse]
     // Swedish
-    const parsedOfferings = parseOfferingsForAnalysis(courses, ['20221', '20222'], ['0'], 'EECS', 'sv')
+    const parsedOfferings = filterOfferingsForAnalysis(courses, ['20221', '20222'], ['0'], 'EECS', 'sv')
     expect(parsedOfferings.length).toBe(1)
 
     const [offering] = parsedOfferings
@@ -275,7 +275,7 @@ describe('Analysis functions to parse and filter offerings', () => {
     expect(offering.lastSemesterLabel).toBe('Sommar')
 
     // English
-    const parsedOfferings_en = parseOfferingsForAnalysis(courses, ['20221', '20222'], ['0'], 'EECS', 'en')
+    const parsedOfferings_en = filterOfferingsForAnalysis(courses, ['20221', '20222'], ['0'], 'EECS', 'en')
     expect(parsedOfferings_en.length).toBe(1)
 
     const [offering_en] = parsedOfferings_en
