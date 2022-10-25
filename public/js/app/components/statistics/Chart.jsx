@@ -1,6 +1,16 @@
 import React from 'react'
 import { Col, Row } from 'reactstrap'
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from 'victory'
+import { schools as schoolsLib } from './domain'
+
+const colors = {
+  blue: '#007FAE',
+  green: '#62922E',
+  grey: '#65656C',
+  pink: '#D02F80',
+  red: '#B52C17',
+}
+const schoolsColors = { ABE: colors.red, CBH: colors.grey, EECS: colors.green, ITM: colors.blue, SCI: colors.pink }
 
 function countPercentage(numberOfCourses, numberOfDocs) {
   return (Math.abs(numberOfDocs) * 100) / Math.abs(numberOfCourses)
@@ -12,7 +22,11 @@ function getChartData(numberName, schools) {
   return schoolCodes.map(school => {
     const schoolNumbers = schools[school]
     const { numberOfCourses } = schoolNumbers
-    return { school, percentage: countPercentage(numberOfCourses, schoolNumbers[numberName]) }
+    return {
+      color: schoolsColors[school],
+      school,
+      percentage: countPercentage(numberOfCourses, schoolNumbers[numberName]),
+    }
   })
 }
 
@@ -49,6 +63,11 @@ function Chart({ data = [] }) {
         width={300}
         x="school"
         y="percentage"
+        style={{
+          data: {
+            fill: ({ datum }) => datum.color,
+          },
+        }}
       />
     </VictoryChart>
   )
