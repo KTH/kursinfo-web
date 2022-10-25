@@ -1,13 +1,6 @@
 import React from 'react'
-// import ReactDOM from 'react-dom'
+import { Col, Row } from 'reactstrap'
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from 'victory'
-
-// const data = [
-//   { school: 'ABE', documents: 7 },
-//   //   { quarter: 2, earnings: 16500 },
-//   //   { quarter: 3, earnings: 14250 },
-//   //   { quarter: 4, earnings: 19000 },
-// ]
 
 function countPercentage(numberOfCourses, numberOfDocs) {
   return (Math.abs(numberOfDocs) * 100) / Math.abs(numberOfCourses)
@@ -18,38 +11,47 @@ function getChartData(numberName, schools) {
 
   return schoolCodes.map(school => {
     const schoolNumbers = schools[school]
-    return { school, documents: schoolNumbers[numberName] }
+    const { numberOfCourses } = schoolNumbers
+    return { school, percentage: countPercentage(numberOfCourses, schoolNumbers[numberName]) }
   })
 }
 
 function Charts({ chartNames, schools = {} }) {
-  const { numberOfCourses } = schools
-
   return (
-    <>
+    <Row>
       {chartNames.map(numberName => (
-        <Chart key={numberName} numberOfCourses={numberOfCourses} data={getChartData(numberName, schools)} />
+        <Col key={numberName}>
+          <Chart data={getChartData(numberName, schools)} />
+        </Col>
       ))}
-    </>
+    </Row>
   )
 }
 
-function Chart({ numberOfCourses = 0, data = {} }) {
-  // domain={[0, 100]}
-  //    width={400}
-  // height={400}
+function Chart({ data = [] }) {
   return (
-    <VictoryChart theme={VictoryTheme.material}>
-      {/* tickFormat={schoolsNames}  || tickValues={schoolsNames}*/}
+    <VictoryChart height={310} theme={VictoryTheme.material} domainPadding={20}>
       <VictoryAxis />
-      <VictoryAxis
-        dependentAxis
-        tickFormat={numberOfDocs => `${countPercentage(numberOfCourses, numberOfDocs)} %`}
-        domain={[0, 100]}
+      <VictoryAxis dependentAxis tickFormat={label => `${label} %`} domain={[0, 100]} />
+      <VictoryBar
+        animate={{
+          duration: 2000,
+          onLoad: { duration: 1000 },
+        }}
+        barRatio={data.length > 1 ? 0.3 : 2}
+        data={data}
+        domainPadding={20}
+        labels={({ datum }) => {
+          const { percentage = 0 } = datum
+          return `${percentage.toFixed(1)}`
+        }}
+        height={300}
+        width={300}
+        x="school"
+        y="percentage"
       />
-      <VictoryBar data={data} x="school" y="documents" />
     </VictoryChart>
   )
 }
 
-export { Charts }
+export { Chart, Charts }
