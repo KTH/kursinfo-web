@@ -98,7 +98,7 @@ describe('Component <StatisticsDataTable> in english', () => {
   test('Renders a table for a statistics page for course memo', () => {
     render(<StatisticsDataTableWithContext context={context_en} statisticsResult={statisticsResultForMemo} />)
     expect(screen.getByText('A31REA')).toBeInTheDocument()
-    expect(screen.getByText('ABE/CDE, Gru 1-2-3')).toBeInTheDocument()
+    expect(screen.getByText('CDE, Gru 1-2-3')).toBeInTheDocument()
     expect(screen.getByText('memo-123-3456.pdf')).toBeInTheDocument()
     expect(screen.getByText('ABE')).toBeInTheDocument()
     expect(screen.getByText('2019-08-26')).toBeInTheDocument()
@@ -113,7 +113,7 @@ describe('Component <StatisticsDataTable> in english', () => {
   test('Renders a table for a statistics page for course analysis', () => {
     render(<StatisticsDataTableWithContext context={context_en} statisticsResult={statisticsResultForAnalysis} />)
     expect(screen.getByText('A31REA')).toBeInTheDocument()
-    expect(screen.getByText('ABE/CDE, Gru 1-2-3')).toBeInTheDocument()
+    expect(screen.getByText('CDE, Gru 1-2-3')).toBeInTheDocument()
     expect(screen.getByText('analysis-123-3456.pdf')).toBeInTheDocument()
     expect(screen.getByText('ABE')).toBeInTheDocument()
     expect(screen.getByText('2020-01-14')).toBeInTheDocument()
