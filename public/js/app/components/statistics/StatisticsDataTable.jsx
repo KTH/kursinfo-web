@@ -14,14 +14,16 @@ const buildLink = (link, textToShow) => <a href={`${link}`}>{textToShow}</a>
 function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig) {
   const dataRows = []
   offeringsWithMemos.forEach(offering => {
+    const departmentNames = offering.departmentName.split('/')
+    const institution = departmentNames && departmentNames.length > 1 ? departmentNames[1] : offering.departmentName
     const offeringBase = {
       year,
       school: offering.schoolMainCode,
-      institution: offering.departmentName,
+      institution,
       courseCode: offering.courseCode,
       linkedProgram: offering.connectedPrograms,
       courseRoundNumber: offering.offeringId,
-      semester: offering.firstSemester,
+      period: offering.period,
       courseStart: offering.startDate,
       publishDate: '',
       linkToCoursePM: '',
@@ -46,14 +48,16 @@ function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig) {
 function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfig) {
   const dataRows = []
   offeringsWithAnalysis.forEach(offering => {
+    const departmentNames = offering.departmentName.split('/')
+    const institution = departmentNames && departmentNames.length > 1 ? departmentNames[1] : offering.departmentName
     const offeringBase = {
       year,
       school: offering.schoolMainCode,
-      institution: offering.departmentName,
+      institution,
       courseCode: offering.courseCode,
       linkedProgram: offering.connectedPrograms,
       courseRoundNumber: offering.offeringId,
-      term: offering.firstSemester,
+      term: offering.lastSemesterLabel,
       courseEndDate: offering.endDate,
       publishDate: '',
       linkToCourseAnalysis: '',
@@ -63,8 +67,18 @@ function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfi
     if (hasAnalysis) {
       const { analysisFileName, publishedDate } = offering.courseAnalysisInfo
       const analysisId = analysisFileName
+      let publishDate = ''
+      if (publishedDate && publishedDate !== '') {
+        const date = new Date(publishedDate)
+        publishDate =
+          date.getFullYear() +
+          '-' +
+          (date.getMonth() > 9 ? date.getMonth() : '0' + date.getMonth()) +
+          '-' +
+          (date.getDay() > 9 ? date.getDay() : '0' + date.getDay())
+      }
       analysisBase = {
-        publishDate: publishedDate,
+        publishDate,
         linkToCourseAnalysis: buildLink(`${browserConfig.analysisStorageUri}${analysisId}`, `${analysisId}`),
       }
     }
@@ -135,29 +149,20 @@ function StatisticsExport({ columnNames, columns, dataRows, fileName, sheetName,
 
   return (
     <>
-      <Row>
-        <Col
-          md={{
-            offset: 5,
-            size: 'auto',
-          }}
-          lg={{
-            offset: 5,
-            size: 'auto',
-          }}
-          sm="12"
-          xs="12"
-        >
-          <Button color="secondary" onClick={() => exportDataTable('csv')}>
-            {exportLabels.csv}
-          </Button>
-        </Col>
-        <Col>
-          <Button color="secondary" onClick={() => exportDataTable('xlsx')}>
-            {exportLabels.excel}
-          </Button>
-        </Col>
-      </Row>
+      <div className="padding-bottom-1">
+        <Row>
+          <Col lg="8" md="8" xs="12">
+            <Button color="secondary" onClick={() => exportDataTable('csv')} className="float-right">
+              {exportLabels.csv}
+            </Button>
+          </Col>
+          <Col>
+            <Button color="secondary" onClick={() => exportDataTable('xlsx')} className="float-right">
+              {exportLabels.excel}
+            </Button>
+          </Col>
+        </Row>
+      </div>
     </>
   )
 }
@@ -192,7 +197,7 @@ function StatisticsDataTable({ statisticsResult }) {
       'courseCode',
       'linkedProgram',
       'courseRoundNumber',
-      'semester',
+      'period',
       'courseStart',
       'publishDate',
       'linkToCoursePM',
