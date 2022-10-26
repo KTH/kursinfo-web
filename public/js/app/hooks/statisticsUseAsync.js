@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react'
+import { useWebContext } from '../context/WebContext'
+import fetchStatistics from './api/statisticsApi'
 
 const STATUS = {
   pending: 'pending',
@@ -63,4 +65,24 @@ function useAsync(asyncCallback, initialState) {
   return state
 }
 
-export { STATUS, ERROR_ASYNC, useAsync }
+function _getThisHost(thisHostBaseUrl) {
+  return thisHostBaseUrl.slice(-1) === '/' ? thisHostBaseUrl.slice(0, -1) : thisHostBaseUrl
+}
+function useStatisticsAsync(chosenOptions) {
+  const [{ proxyPrefixPath, language }] = useWebContext()
+  const { documentType } = chosenOptions
+  const asyncCallback = React.useCallback(() => {
+    if (!documentType) return
+
+    const proxyUrl = _getThisHost(proxyPrefixPath.uri)
+    // eslint-disable-next-line consistent-return
+    return fetchStatistics(language, proxyUrl, chosenOptions)
+  }, [chosenOptions])
+
+  const initialStatus = { status: STATUS.idle }
+
+  const state = useAsync(asyncCallback, initialStatus)
+  return state
+}
+
+export { STATUS, ERROR_ASYNC, useAsync, useStatisticsAsync }

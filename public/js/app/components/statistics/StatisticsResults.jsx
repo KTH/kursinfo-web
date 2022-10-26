@@ -6,16 +6,11 @@ import { Col, Row } from 'reactstrap'
 
 import i18n from '../../../../../i18n'
 import { useWebContext } from '../../context/WebContext'
-import { STATUS, ERROR_ASYNC, useAsync } from '../../hooks/statisticsUseAsync'
+import { STATUS, ERROR_ASYNC, useStatisticsAsync } from '../../hooks/statisticsUseAsync'
 
-import fetchStatistics from './api/statisticsApi'
 import { periods, schools, seasons } from './domain/index'
 import { DOCUMENT_TYPES } from './domain/formConfigurations'
 import { ResultNumbersSummary, StatisticsAlert, StatisticsDataTable } from './index'
-
-function _getThisHost(thisHostBaseUrl) {
-  return thisHostBaseUrl.slice(-1) === '/' ? thisHostBaseUrl.slice(0, -1) : thisHostBaseUrl
-}
 
 function renderAlertToTop(error = {}, languageIndex) {
   const { errorType = '', errorExtraText = '' } = error
@@ -107,25 +102,13 @@ SortableCoursesAndDocuments.defaultProps = {
 }
 
 function StatisticsResults({ chosenOptions }) {
-  const [{ proxyPrefixPath, language, languageIndex }] = useWebContext()
+  const [{ languageIndex }] = useWebContext()
   const { documentType } = chosenOptions
-  // const [loadStatus, setLoadStatus] = useState('firstLoad')
 
-  // TODO: FETCH TEXTS AND STATISTIC BY DOCUMENT TYPE
   const { statisticsLabels } = i18n.messages[languageIndex]
   const header = statisticsLabels[documentType]
 
-  const asyncCallback = React.useCallback(() => {
-    if (!documentType) return
-
-    const proxyUrl = _getThisHost(proxyPrefixPath.uri)
-    // eslint-disable-next-line consistent-return
-    return fetchStatistics(language, proxyUrl, chosenOptions)
-  }, [chosenOptions])
-
-  const initialStatus = { status: STATUS.idle }
-
-  const state = useAsync(asyncCallback, initialStatus)
+  const state = useStatisticsAsync(chosenOptions)
 
   const { data: statisticsResult, status: statisticsStatus, error = {} } = state || {}
   const { errorType = '' } = error

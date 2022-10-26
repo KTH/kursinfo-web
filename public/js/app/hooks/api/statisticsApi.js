@@ -1,8 +1,8 @@
 import axios from 'axios'
-import { DOCS, paramsByDocumentType } from '../domain/formConfigurations'
-import { periods as periodsLib, semesters as semestersLib } from '../domain/index'
+import { DOCS, paramsByDocumentType } from '../../components/statistics/domain/formConfigurations'
+import { periods as periodsLib, semesters as semestersLib } from '../../components/statistics/domain/index'
 
-import i18n from '../../../../../../i18n'
+import i18n from '../../../../../i18n'
 
 function hasValue(paramName, params) {
   const param = params[paramName]
