@@ -1,5 +1,6 @@
 import React from 'react'
 import DataTable from 'react-data-table-component'
+import { Col, Row } from 'reactstrap'
 import { useWebContext } from '../../context/WebContext'
 import i18n from '../../../../../i18n'
 
@@ -59,19 +60,23 @@ function SortableDataTable({ columns, data, rowsPerPage = 10, onChangeRowsPerPag
     rangeSeparatorText: sortableTable.rangeSeparatorText,
   }
   return (
-    <div className={'form-group'}>
-      <DataTable
-        columns={columns}
-        data={data}
-        defaultSortFieldId={1}
-        pagination
-        paginationComponentOptions={opts}
-        customStyles={customStyles}
-        paginationRowsPerPageOptions={[10, 25, 50, 100, 250, 500]}
-        paginationPerPage={rowsPerPage}
-        onChangeRowsPerPage={onChangeRowsPerPage}
-      />
-    </div>
+    <Row>
+      <Col>
+        <div className={'form-group'}>
+          <DataTable
+            columns={columns}
+            data={data}
+            defaultSortFieldId={1}
+            pagination
+            paginationComponentOptions={opts}
+            customStyles={customStyles}
+            paginationRowsPerPageOptions={[10, 25, 50, 100, 250, 500]}
+            paginationPerPage={rowsPerPage}
+            onChangeRowsPerPage={onChangeRowsPerPage}
+          />
+        </div>
+      </Col>
+    </Row>
   )
 }
 
