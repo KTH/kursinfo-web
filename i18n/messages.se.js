@@ -324,7 +324,7 @@ module.exports = {
         courseCode: 'Kurskod',
         linkedProgram: 'Kopplade program',
         courseRoundNumber: 'Kursomgångs-nummer',
-        semester: 'Läs-period',
+        period: 'Läs-period',
         courseStart: 'Kursstart',
         publishDate: 'Publicerings-datum',
         linkToCoursePM: 'Länk till kurs-PM',

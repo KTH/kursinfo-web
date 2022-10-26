@@ -350,7 +350,7 @@ module.exports = {
         courseCode: 'Course code',
         linkedProgram: 'Linked program',
         courseRoundNumber: 'Course round number',
-        semester: 'Read-period',
+        period: 'Read-period',
         courseStart: 'Course start',
         publishDate: 'Publish Date',
         linkToCoursePM: 'Link to kurs-PM',
