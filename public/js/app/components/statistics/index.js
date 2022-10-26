@@ -3,6 +3,7 @@ import CheckboxOption from './CheckboxOption'
 import DropdownOption from './DropdownOption'
 import MemosSummary from './MemosSummary'
 import RadioboxOption from './RadioboxOption'
+import Results from './Results'
 import ResultNumbersSummary from './ResultNumbersSummary'
 import StatisticsAlert from './StatisticsAlert'
 import StatisticsForm from './StatisticsForm'
@@ -18,6 +19,7 @@ export {
   introductionTexts,
   MemosSummary,
   RadioboxOption,
+  Results,
   ResultNumbersSummary,
   StatisticsAlert,
   StatisticsForm,

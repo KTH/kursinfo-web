@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
-import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { Col, Row } from 'reactstrap'
 
@@ -10,78 +9,25 @@ import { STATUS, ERROR_ASYNC, useStatisticsAsync } from '../../hooks/statisticsU
 
 import { periods, schools, seasons } from './domain/index'
 import { DOCUMENT_TYPES } from './domain/formConfigurations'
-import { ResultNumbersSummary, StatisticsAlert, StatisticsDataTable } from './index'
+import { ResultNumbersSummary, Results, StatisticsDataTable } from './index'
 
-function renderAlertToTop(error = {}, languageIndex) {
-  const { errorType = '', errorExtraText = '' } = error
-  const alertContainer = document.getElementById('alert-placeholder')
-  if (alertContainer) {
-    ReactDOM.render(
-      <StatisticsAlert alertType={errorType} languageIndex={languageIndex}>
-        {errorExtraText}
-      </StatisticsAlert>,
-      alertContainer
-    )
-  }
-}
-function dismountTopAlert() {
-  const alertContainer = document.getElementById('alert-placeholder')
-  if (alertContainer) ReactDOM.unmountComponentAtNode(alertContainer)
-}
-
-const errorItalicParagraph = (error = {}, languageIndex) => {
-  const { statisticsLabels: labels } = i18n.messages[languageIndex]
-  const { errorType, errorExtraText } = error
-  const errorText = errorType ? labels[errorType].text : null
-  if (!errorText)
-    throw new Error(
-      `Missing translations for errorType: ${errorType}. Allowed types: ${Object.values(ERROR_ASYNC).join(', ')}`
-    )
-
+function SortableCoursesAndDocuments({ statisticsStatus, error = {}, statisticsResult }) {
   return (
-    <>
-      <p>
-        <i>{errorText}</i>
-      </p>
-      {errorExtraText && (
-        <p>
-          <i>{errorExtraText}</i>
-        </p>
-      )}
-    </>
+    <Results statisticsStatus={statisticsStatus} error={error}>
+      <Row>
+        <Col>
+          {/* Small table, Sammanställning av antalet publicerade kurs-PM  */}
+          <ResultNumbersSummary statisticsResult={statisticsResult} />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          {/* Big table, Tabell med kurser och kurs-PM  */}
+          <StatisticsDataTable statisticsResult={statisticsResult}></StatisticsDataTable>
+        </Col>
+      </Row>
+    </Results>
   )
-}
-
-function SortableCoursesAndDocuments({ languageIndex, statisticsStatus, error = {}, statisticsResult }) {
-  const { errorType } = error
-
-  if (statisticsStatus === STATUS.resolved) {
-    return (
-      <>
-        <Row>
-          <Col>
-            {/* Small table, Sammanställning av antalet publicerade kurs-PM  */}
-            <ResultNumbersSummary statisticsResult={statisticsResult} />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            {/* Big table, Tabell med kurser och kurs-PM  */}
-            <StatisticsDataTable statisticsResult={statisticsResult}></StatisticsDataTable>
-          </Col>
-        </Row>
-      </>
-    )
-  }
-
-  if (statisticsStatus === STATUS.idle) return null
-  if (statisticsStatus === STATUS.pending) {
-    const { searchLoading } = i18n.messages[languageIndex].statisticsLabels
-    return <p>{searchLoading}</p>
-  }
-  if (errorType) return errorItalicParagraph(error, languageIndex)
-
-  return null
 }
 
 SortableCoursesAndDocuments.propTypes = {
@@ -111,17 +57,6 @@ function StatisticsResults({ chosenOptions }) {
   const state = useStatisticsAsync(chosenOptions)
 
   const { data: statisticsResult, status: statisticsStatus, error = {} } = state || {}
-  const { errorType = '' } = error
-
-  useEffect(() => {
-    let isMounted = true
-    if (isMounted) {
-      if (errorType && errorType !== null) {
-        renderAlertToTop(error, languageIndex)
-      } else dismountTopAlert()
-    }
-    return () => (isMounted = false)
-  }, [statisticsStatus])
 
   return (
     <>
