@@ -4,10 +4,12 @@ import PropTypes from 'prop-types'
 import { Col, Row } from 'reactstrap'
 import { useWebContext } from '../../context/WebContext'
 import i18n from '../../../../../i18n'
+import { STATUS, useStatisticsAsync } from '../../hooks/statisticsUseAsync'
 import { TableSummary } from './TableSummaryRows'
 import { summaryTexts } from './StatisticsTexts'
 import { Charts } from './Chart'
 import { periods as periodsLib } from './domain/index'
+import { Results } from './index'
 
 function getSchoolNumbers(school = {}) {
   return [
@@ -102,9 +104,20 @@ function MemosNumbersCharts({ statisticsResult }) {
 }
 
 function MemosNumbersChartsYearAgo({ statisticsResult }) {
-  const { combinedMemosPerSchool: docsPerSchool, periods, year } = statisticsResult
+  const { school, documentType, periods, year } = statisticsResult
+  const oneYearAgo = Number(year) - 1
+  const state = useStatisticsAsync({ periods, year: oneYearAgo, documentType, school })
+  const { data: statisticsResultYearAgo, status: statisticsStatus, error = {} } = state || {}
 
-  return <></>
+  return (
+    <>
+      {statisticsStatus === STATUS.resolved && (
+        <Results statisticsStatus={statisticsStatus} error={error}>
+          <MemosNumbersCharts statisticsResult={statisticsResultYearAgo} />
+        </Results>
+      )}
+    </>
+  )
 }
 
 function MemosSummary({ statisticsResult }) {
@@ -116,7 +129,7 @@ function MemosSummary({ statisticsResult }) {
       <MemosNumbersTable statisticsResult={statisticsResult} />
       <h3>{labels.header}</h3>
       <MemosNumbersCharts statisticsResult={statisticsResult} />
-      <MemosNumbersChartsYearAgo statisticsResult={statisticsResult} />
+      {/* <MemosNumbersChartsYearAgo statisticsResult={statisticsResult} /> */}
     </>
   )
 }
