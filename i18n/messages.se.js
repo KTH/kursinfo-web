@@ -355,5 +355,6 @@ module.exports = {
         totalUniqPublishedAnalyses: 'Antal publicerade kursanalyser för kursomgångar som slutar vald termin',
       },
     },
+    earlierYearThan2019: { text: 'Det finns inga data tidigare än 2019' },
   },
 }

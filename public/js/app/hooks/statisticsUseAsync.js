@@ -5,12 +5,15 @@ import { StatisticsAlert } from '../components/statistics/index'
 import fetchStatistics from './api/statisticsApi'
 
 const STATUS = {
+  idle: 'idle',
   pending: 'pending',
   resolved: 'resolved',
   missingParameters: 'missingParameters',
+  earlierYearThan2019: 'earlierYearThan2019',
   rejected: 'rejected',
 }
 const ERROR_ASYNC = {
+  earlierYearThan2019: 'earlierYearThan2019',
   missingParameters: 'missingParameters',
   rejected: 'errorUnknown',
 }
@@ -22,6 +25,13 @@ function asyncReducer(state, action) {
         status: STATUS.missingParameters,
         data: null,
         error: { errorType: ERROR_ASYNC.missingParameters, errorExtraText: action.data.missingValues },
+      }
+    }
+    case 'earlierYearThan2019': {
+      return {
+        status: STATUS.earlierYearThan2019,
+        data: null,
+        error: { errorType: ERROR_ASYNC.earlierYearThan2019, errorExtraText: action.data.year },
       }
     }
     case 'pending': {
@@ -40,6 +50,7 @@ function asyncReducer(state, action) {
   }
 }
 const missingParametersDispatch = (dispatch, data) => dispatch({ type: STATUS.missingParameters, data })
+const earlierYearThan2019Dispatch = (dispatch, data) => dispatch({ type: STATUS.earlierYearThan2019, data })
 
 function useAsync(asyncCallback, initialState) {
   const [state, dispatch] = React.useReducer(asyncReducer, {
@@ -57,6 +68,7 @@ function useAsync(asyncCallback, initialState) {
         const { errorCode } = data
         if (errorCode) dispatch({ type: STATUS.rejected })
         else if (data.errorType === 'missing-parameters-in-query') missingParametersDispatch(dispatch, data)
+        else if (data.errorType === 'earlier-year-than-2019') earlierYearThan2019Dispatch(dispatch, data)
         else if (data.errorType === 'error-unknown') dispatch({ type: STATUS.rejected })
         else dispatch({ type: STATUS.resolved, data })
       },
@@ -87,16 +99,18 @@ function dismountTopAlert() {
 function _getThisHost(thisHostBaseUrl) {
   return thisHostBaseUrl.slice(-1) === '/' ? thisHostBaseUrl.slice(0, -1) : thisHostBaseUrl
 }
-function useStatisticsAsync(chosenOptions) {
+
+function useStatisticsAsync(chosenOptions, loadType = 'onChange') {
   const [{ proxyPrefixPath, language, languageIndex }] = useWebContext()
   const { documentType } = chosenOptions
+  const dependenciesList = loadType === 'onChange' ? [chosenOptions] : []
   const asyncCallback = React.useCallback(() => {
     if (!documentType) return
 
     const proxyUrl = _getThisHost(proxyPrefixPath.uri)
     // eslint-disable-next-line consistent-return
     return fetchStatistics(language, proxyUrl, chosenOptions)
-  }, [chosenOptions])
+  }, [...dependenciesList])
 
   const initialStatus = { status: STATUS.idle }
 

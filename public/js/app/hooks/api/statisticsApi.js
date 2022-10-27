@@ -24,6 +24,12 @@ const _missingParametersError = (missingParams, language) => {
     missingValues: missingParams.map(paramName => formSubHeaders[paramName] || paramName).join(', '),
   }
 }
+
+const _noYearFoundInDocsApiError = year => ({
+  errorType: 'earlier-year-than-2019',
+  year,
+})
+
 function _formQueryByDocumentType(documentType, params) {
   return documentType === DOCS.courseMemo
     ? { periods: params.periods, seasons: periodsLib.parsePeriodsToOrdinarieSeasons(params) }
@@ -48,6 +54,7 @@ async function fetchStatistics(language, proxyUrl, params) {
     const { documentType, year, school } = params
     const missingParams = _missingParameters(params)
     if (missingParams.length > 0) return _missingParametersError(missingParams, language)
+    if (Number(year) < 2019) return _noYearFoundInDocsApiError(year)
 
     const queryParamsByDocumentType = _formQueryByDocumentType(documentType, params)
 

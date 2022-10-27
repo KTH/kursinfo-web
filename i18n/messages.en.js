@@ -381,5 +381,6 @@ module.exports = {
         totalUniqPublishedAnalyses: 'Total published course analyses for courses finished in chosen semesters',
       },
     },
+    earlierYearThan2019: { text: 'There is no data earlier than 2019' },
   },
 }
