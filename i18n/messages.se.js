@@ -263,6 +263,7 @@ module.exports = {
     allSchools: 'Alla skolor',
     chartsLabels: {
       header: 'Andel kurser som har publicerat kurs-PM ',
+      headerYearAgo: 'Jämför med resultatet för vald läsperiod från föregående år',
       numberOfUniqWebAndPdfMemos: 'Under läsperiod/erna',
       numberOfMemosPublishedBeforeStart: 'Senast vid kursstart',
       numberOfMemosPublishedBeforeDeadline: 'En vecka före kursstart',
