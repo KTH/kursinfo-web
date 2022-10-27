@@ -33,11 +33,10 @@ function getChartData(numberName, schools) {
 
 function Charts({ chartNames = [], languageIndex = 1, schools = {} }) {
   const { chartsLabels: labels } = i18n.messages[languageIndex].statisticsLabels
-
   return (
     <Row>
       {chartNames.map(numberName => (
-        <Col key={numberName}>
+        <Col key={numberName} xs="4">
           <Chart data={getChartData(numberName, schools)} label={labels[numberName]} />
         </Col>
       ))}
@@ -47,7 +46,7 @@ function Charts({ chartNames = [], languageIndex = 1, schools = {} }) {
 
 function Chart({ data = [], label = '' }) {
   return (
-    <VictoryChart height={405} theme={VictoryTheme.material} domainPadding={20}>
+    <VictoryChart height={405} width={405} theme={VictoryTheme.material} domainPadding={20}>
       <VictoryLabel x={4} y={24} text={label} style={{ fontSize: '16px' }} />
       {data.length > 1 ? (
         <VictoryAxis
