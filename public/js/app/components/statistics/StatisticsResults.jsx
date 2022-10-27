@@ -54,7 +54,7 @@ function StatisticsResults({ chosenOptions }) {
   const { statisticsLabels } = i18n.messages[languageIndex]
   const header = statisticsLabels[documentType]
 
-  const state = useStatisticsAsync(chosenOptions)
+  const state = useStatisticsAsync(chosenOptions, 'onChange')
 
   const { data: statisticsResult, status: statisticsStatus, error = {} } = state || {}
 

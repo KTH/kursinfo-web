@@ -1,12 +1,10 @@
 import React from 'react'
 
-import PropTypes from 'prop-types'
 import { Col, Row } from 'reactstrap'
 import { useWebContext } from '../../context/WebContext'
 import i18n from '../../../../../i18n'
-import { STATUS, useStatisticsAsync } from '../../hooks/statisticsUseAsync'
+import { useStatisticsAsync } from '../../hooks/statisticsUseAsync'
 import { TableSummary } from './TableSummaryRows'
-import { summaryTexts } from './StatisticsTexts'
 import { Charts } from './Chart'
 import { periods as periodsLib } from './domain/index'
 import { Results } from './index'
@@ -105,17 +103,19 @@ function MemosNumbersCharts({ statisticsResult }) {
 
 function MemosNumbersChartsYearAgo({ statisticsResult }) {
   const { school, documentType, periods, year } = statisticsResult
+
+  if (!documentType) return null
   const oneYearAgo = Number(year) - 1
-  const state = useStatisticsAsync({ periods, year: oneYearAgo, documentType, school })
+
+  const state = useStatisticsAsync({ periods, year: oneYearAgo, documentType, school }, 'once')
+
   const { data: statisticsResultYearAgo, status: statisticsStatus, error = {} } = state || {}
 
   return (
     <>
-      {statisticsStatus === STATUS.resolved && (
-        <Results statisticsStatus={statisticsStatus} error={error}>
-          <MemosNumbersCharts statisticsResult={statisticsResultYearAgo} />
-        </Results>
-      )}
+      <Results statisticsStatus={statisticsStatus} error={error}>
+        <MemosNumbersCharts statisticsResult={statisticsResultYearAgo} />
+      </Results>
     </>
   )
 }
@@ -123,27 +123,19 @@ function MemosNumbersChartsYearAgo({ statisticsResult }) {
 function MemosSummary({ statisticsResult }) {
   const [{ languageIndex }] = useWebContext()
   const { chartsLabels: labels } = i18n.messages[languageIndex].statisticsLabels
+  const [isOpen, setOpen] = React.useState(false)
 
   return (
     <>
       <MemosNumbersTable statisticsResult={statisticsResult} />
       <h3>{labels.header}</h3>
       <MemosNumbersCharts statisticsResult={statisticsResult} />
-      {/* <MemosNumbersChartsYearAgo statisticsResult={statisticsResult} /> */}
+      <details open={isOpen} onToggle={() => setOpen(!isOpen)}>
+        <summary className="white"> {labels.headerYearAgo}</summary>
+        {isOpen && <MemosNumbersChartsYearAgo statisticsResult={statisticsResult} />}
+      </details>
     </>
   )
-}
-
-MemosSummary.propTypes = {
-  // statisticsResult: PropTypes.shape({
-  //   combinedMemosPerSchool: PropTypes.shape({}),
-  //   documentType: PropTypes.oneOf(DOCUMENT_TYPES),
-  //   koppsApiBasePath: PropTypes.string,
-  //   documentsApiBasePath: PropTypes.string,
-  //   school: PropTypes.oneOf(schools.ORDERED_SCHOOL_OPTIONS),
-  //   semestersInMemos: PropTypes.arrayOf(PropTypes.string),
-  //   totalOfferings: PropTypes.number,
-  // }),
 }
 
 MemosSummary.defaultProps = {}
