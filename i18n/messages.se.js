@@ -262,8 +262,10 @@ module.exports = {
   statisticsLabels: {
     allSchools: 'Alla skolor',
     chartsLabels: {
-      header: 'Andel kurser som har publicerat kurs-PM ',
+      headerMemo: 'Andel kurser som har publicerat kurs-PM ',
+      headerAnalysis: 'Andel kurser (som slutar vald termin) som har publicerat kursanalys',
       headerYearAgo: 'Jämför med resultatet för vald läsperiod från föregående år',
+      numberOfUniqAnalyses: 'Under terminen',
       numberOfUniqWebAndPdfMemos: 'Under läsperiod/erna',
       numberOfMemosPublishedBeforeStart: 'Senast vid kursstart',
       numberOfMemosPublishedBeforeDeadline: 'En vecka före kursstart',

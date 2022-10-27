@@ -1,12 +1,14 @@
 import React from 'react'
 
-import PropTypes from 'prop-types'
 import { Col, Row } from 'reactstrap'
 
 import i18n from '../../../../../i18n'
+import { useStatisticsAsync } from '../../hooks/statisticsUseAsync'
 import { useWebContext } from '../../context/WebContext'
 import { TableSummary } from './TableSummaryRows'
 import { seasons as seasonLib } from './domain/index'
+import { Charts } from './Chart'
+import { Results } from './index'
 
 function getSchoolNumbers(school) {
   const { numberOfCourses, numberOfUniqAnalyses } = school
@@ -16,10 +18,9 @@ function getFootTotalNumbers(totals) {
   return [totals.totalCourses, totals.totalUniqPublishedAnalyses]
 }
 
-function Captions({ statisticsResult, languageIndex }) {
+function Captions({ year, seasons, languageIndex }) {
   const { formLabels } = i18n.messages[languageIndex].statisticsLabels
 
-  const { year, seasons } = statisticsResult
   const seasonsStr = seasons.map(season => seasonLib.labelSeason(season, languageIndex)).join(', ')
   return (
     <Row>
@@ -39,12 +40,12 @@ function AnalysesNumbersTable({ statisticsResult }) {
   const [{ languageIndex }] = useWebContext()
   const { summaryLabels } = i18n.messages[languageIndex].statisticsLabels
   const { analysesNumbersTable } = summaryLabels
-  const { combinedAnalysesPerSchool } = statisticsResult
+  const { combinedAnalysesPerSchool, year, seasons } = statisticsResult
   const cellNames = ['totalCourses', 'totalUniqPublishedAnalyses']
 
   return (
     <>
-      <Captions statisticsResult={statisticsResult} languageIndex={languageIndex} />
+      <Captions year={year} seasons={seasons} languageIndex={languageIndex} />
 
       <TableSummary
         docsPerSchool={combinedAnalysesPerSchool}
@@ -58,33 +59,54 @@ function AnalysesNumbersTable({ statisticsResult }) {
 }
 
 function AnalysesNumbersCharts({ statisticsResult }) {
-  return <></>
-}
-function AnalysesNumbersChartsYearAgo({ statisticsResult }) {
-  return <></>
-}
+  const chartNames = ['numberOfUniqAnalyses']
+  const { combinedAnalysesPerSchool: docsPerSchool, seasons, year } = statisticsResult
+  const { schools = {} } = docsPerSchool
+  const [{ languageIndex }] = useWebContext()
 
-function AnalysesSummary({ statisticsResult }) {
   return (
     <>
-      <AnalysesNumbersTable statisticsResult={statisticsResult} />
-      <AnalysesNumbersCharts statisticsResult={statisticsResult} />
-      <AnalysesNumbersChartsYearAgo statisticsResult={statisticsResult} />
+      <Captions year={year} seasons={seasons} languageIndex={languageIndex} />
+
+      <Charts chartNames={chartNames} schools={schools} languageIndex={languageIndex} />
+    </>
+  )
+}
+function AnalysesNumbersChartsYearAgo({ statisticsResult }) {
+  const { school, documentType, seasons, year } = statisticsResult
+
+  if (!documentType) return null
+  const oneYearAgo = Number(year) - 1
+
+  const state = useStatisticsAsync({ semesters: seasons, year: oneYearAgo, documentType, school }, 'once')
+
+  const { data: statisticsResultYearAgo, status: statisticsStatus, error = {} } = state || {}
+
+  return (
+    <>
+      <Results statisticsStatus={statisticsStatus} error={error}>
+        <AnalysesNumbersCharts statisticsResult={statisticsResultYearAgo} />
+      </Results>
     </>
   )
 }
 
-AnalysesSummary.propTypes = {
-  // statisticsResult: PropTypes.shape({
-  //   combinedAnalysesPerSchool: PropTypes.shape({}),
-  //   documentType: PropTypes.oneOf(DOCUMENT_TYPES),
-  //   koppsApiBasePath: PropTypes.string,
-  //   documentsApiBasePath: PropTypes.string,
-  //   school: PropTypes.oneOf(schools.ORDERED_SCHOOL_OPTIONS),
-  //   semestersInAnalyses: PropTypes.arrayOf(PropTypes.string),
-  //   totalOfferings: PropTypes.number,
-  // }),
+function AnalysesSummary({ statisticsResult }) {
+  const [{ languageIndex }] = useWebContext()
+  const { chartsLabels: labels } = i18n.messages[languageIndex].statisticsLabels
+  const [isOpen, setOpen] = React.useState(false)
+
+  return (
+    <>
+      <AnalysesNumbersTable statisticsResult={statisticsResult} />
+      <h3>{labels.headerAnalysis}</h3>
+      <AnalysesNumbersCharts statisticsResult={statisticsResult} />
+      <details open={isOpen} onToggle={() => setOpen(!isOpen)}>
+        <summary className="white"> {labels.headerYearAgo}</summary>
+        {isOpen && <AnalysesNumbersChartsYearAgo statisticsResult={statisticsResult} />}
+      </details>
+    </>
+  )
 }
 
-AnalysesSummary.defaultProps = {}
 export default AnalysesSummary

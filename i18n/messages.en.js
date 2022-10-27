@@ -290,9 +290,11 @@ module.exports = {
   statisticsLabels: {
     allSchools: 'All schools',
     chartsLabels: {
-      header: 'Number of courses with published course memos',
+      headerMemo: 'Number of courses with published course memos',
+      headerAnalysis: 'Number of courses (finished in chosen semesters) with published course analyses',
       headerYearAgo: 'Compare it with previous year',
-      numberOfUniqWebAndPdfMemos: 'Under study periods',
+      numberOfUniqAnalyses: 'Under semester(s)',
+      numberOfUniqWebAndPdfMemos: 'Under study period(s)',
       numberOfMemosPublishedBeforeStart: 'Before course start',
       numberOfMemosPublishedBeforeDeadline: 'One week before course start',
     },

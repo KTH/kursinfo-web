@@ -128,7 +128,7 @@ function MemosSummary({ statisticsResult }) {
   return (
     <>
       <MemosNumbersTable statisticsResult={statisticsResult} />
-      <h3>{labels.header}</h3>
+      <h3>{labels.headerMemo}</h3>
       <MemosNumbersCharts statisticsResult={statisticsResult} />
       <details open={isOpen} onToggle={() => setOpen(!isOpen)}>
         <summary className="white"> {labels.headerYearAgo}</summary>
