@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { DOCS, paramsByDocumentType } from '../../components/statistics/domain/formConfigurations'
-import { periods as periodsLib, semesters as semestersLib } from '../../components/statistics/domain/index'
+import { periods as periodsLib, seasons as seasonsLib } from '../../components/statistics/domain/index'
 
 import i18n from '../../../../../i18n'
 
@@ -35,9 +35,9 @@ function _formQueryByDocumentType(documentType, params) {
     ? { periods: params.periods, seasons: periodsLib.parsePeriodsToOrdinarieSeasons(params) }
     : {
         // in analysis api, exists only autumn and spring semester
-        analysesSeasons: semestersLib.parseSemestersToOrdinarieSeasons({ seasons: params.semesters }),
+        analysesSeasons: seasonsLib.parseToSpringOrAutumnSeasons({ seasons: params.seasons }),
         // seasons chosen by user, summer/autumn/spring
-        seasons: params.semesters,
+        seasons: params.seasons,
       }
 }
 

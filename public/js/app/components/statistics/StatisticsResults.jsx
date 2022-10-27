@@ -83,7 +83,7 @@ StatisticsResults.propTypes = {
     year: PropTypes.number,
     periods: PropTypes.arrayOf(PropTypes.oneOf(periods.ORDERED_PERIODS)),
     school: PropTypes.oneOf(schools.ORDERED_SCHOOL_OPTIONS),
-    semesters: PropTypes.arrayOf(PropTypes.oneOf(seasons.ORDERED_SEASONS)),
+    seasons: PropTypes.arrayOf(PropTypes.oneOf(seasons.ORDERED_SEASONS)),
   }),
 }
 

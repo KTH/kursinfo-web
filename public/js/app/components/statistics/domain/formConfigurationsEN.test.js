@@ -96,9 +96,9 @@ describe('Get list of  for each option on statistics page in English', () => {
     `)
   })
 
-  test('get options list of semesters seasons', () => {
-    const semesters = getOptionsValues(PARAMS.semesters, EN_INDEX)
-    expect(semesters).toMatchInlineSnapshot(`
+  test('get options list of seasons seasons', () => {
+    const seasons = getOptionsValues(PARAMS.seasons, EN_INDEX)
+    expect(seasons).toMatchInlineSnapshot(`
       [
         {
           "id": 2,

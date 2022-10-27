@@ -5,14 +5,14 @@ const PARAMS = {
   documentType: 'documentType',
   periods: 'periods',
   school: 'school',
-  semesters: 'semesters',
+  seasons: 'seasons',
   year: 'year',
 }
 const DOCS = { courseMemo: 'courseMemo', courseAnalysis: 'courseAnalysis' }
 
 const DOCUMENT_TYPES = [DOCS.courseMemo, DOCS.courseAnalysis]
 
-const studyLengthParamName = documentType => (documentType === DOCS.courseMemo ? PARAMS.periods : PARAMS.semesters)
+const studyLengthParamName = documentType => (documentType === DOCS.courseMemo ? PARAMS.periods : PARAMS.seasons)
 
 const paramsByDocumentType = documentType => [
   PARAMS.documentType,
@@ -53,7 +53,7 @@ function getOptionsValues(paramName, langIndex) {
       return parseData(schools.ORDERED_SCHOOL_OPTIONS, langIndex)
     case PARAMS.year:
       return parseData(year.getYears(), langIndex)
-    case PARAMS.semesters: // Course analysis
+    case PARAMS.seasons: // Course analysis
       return parseData(seasons.ORDERED_SEASONS, langIndex, seasons.labelSeason)
     case PARAMS.periods: // Kurs-pm
       return parseData(periods.ORDERED_PERIODS, langIndex, periods.labelPeriod)

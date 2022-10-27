@@ -16,14 +16,14 @@ function hasValue(param) {
 }
 // { documentType, school, periods, ... }
 
-function _parseValues({ documentType, periods, school, semesters, year }) {
+function _parseValues({ documentType, periods, school, seasons, year }) {
   // clean params
 
   const optionsValues = {}
 
   if (hasValue(documentType)) optionsValues.documentType = documentType
   if (hasValue(periods)) optionsValues.periods = periods
-  if (hasValue(semesters)) optionsValues.semesters = semesters
+  if (hasValue(seasons)) optionsValues.seasons = seasons
   if (hasValue(school)) optionsValues.school = school
   if (hasValue(year)) optionsValues.year = year
 
@@ -52,13 +52,13 @@ function CourseStatisticsPage() {
      * @property {string} documentType
      * @property {array} periods
      * @property {string} school
-     * @property {array} semesters
+     * @property {array} seasons
      * @property {number} year
      */
     documentType: null,
     periods: null,
     school: null,
-    semesters: null,
+    seasons: null,
     year: null,
   })
 

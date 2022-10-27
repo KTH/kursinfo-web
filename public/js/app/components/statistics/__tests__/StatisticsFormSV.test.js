@@ -266,7 +266,7 @@ describe('Component <StatisticsForm>', () => {
         "documentType": "courseAnalysis",
         "periods": [],
         "school": undefined,
-        "semesters": [
+        "seasons": [
           2,
           0,
         ],
@@ -292,7 +292,7 @@ describe('Component <StatisticsForm>', () => {
         "documentType": "courseAnalysis",
         "periods": [],
         "school": undefined,
-        "semesters": [],
+        "seasons": [],
         "year": undefined,
       }
     `)
@@ -312,7 +312,7 @@ describe('Component <StatisticsForm>', () => {
         "documentType": "courseAnalysis",
         "periods": [],
         "school": undefined,
-        "semesters": [],
+        "seasons": [],
         "year": undefined,
       }
     `)
@@ -325,7 +325,7 @@ describe('Component <StatisticsForm>', () => {
         "documentType": "courseAnalysis",
         "periods": [],
         "school": undefined,
-        "semesters": [],
+        "seasons": [],
         "year": undefined,
       }
     `)
@@ -383,7 +383,7 @@ describe('Component <StatisticsForm>', () => {
         "documentType": "courseAnalysis",
         "periods": [],
         "school": "SCI",
-        "semesters": [
+        "seasons": [
           2,
           0,
         ],
@@ -477,7 +477,7 @@ describe('Component <StatisticsForm>', () => {
       {
         "documentType": "courseAnalysis",
         "school": "allSchools",
-        "semesters": [
+        "seasons": [
           2,
           0,
         ],
@@ -499,7 +499,7 @@ describe('Component <StatisticsForm>', () => {
           {
             "documentType": "courseAnalysis",
             "school": "ITM",
-            "semesters": [
+            "seasons": [
               0,
             ],
             "year": 2020,

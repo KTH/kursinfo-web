@@ -103,7 +103,7 @@ function StatisticsForm({ onSubmit }) {
               <DropdownOption paramName="year" onChange={handleParamChange} />
             </Col>
           </Row>
-          <Row key={`row-for-periods-or-semesters-choice`}>
+          <Row key={`row-for-periods-or-seasons-choice`}>
             <Col>
               {/* depends on type of document to dropdown */}
               <CheckboxOption

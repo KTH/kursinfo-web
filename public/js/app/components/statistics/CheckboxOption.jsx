@@ -114,7 +114,7 @@ function CheckboxOption({ paramName, onChange, stateMode }) {
 }
 
 CheckboxOption.propTypes = {
-  paramName: PropTypes.oneOf(['periods', 'semesters']).isRequired,
+  paramName: PropTypes.oneOf(['periods', 'seasons']).isRequired,
   onChange: PropTypes.func.isRequired,
 }
 

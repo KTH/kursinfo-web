@@ -29,7 +29,7 @@ function Captions({ year, seasons, languageIndex }) {
         {`: ${year}`}
       </Col>
       <Col xs="4">
-        <label>{formLabels.formSubHeaders.semesters}</label>
+        <label>{formLabels.formSubHeaders.seasons}</label>
         {`: ${seasonsStr}`}
       </Col>
     </Row>
@@ -78,7 +78,7 @@ function AnalysesNumbersChartsYearAgo({ statisticsResult }) {
   if (!documentType) return null
   const oneYearAgo = Number(year) - 1
 
-  const state = useStatisticsAsync({ semesters: seasons, year: oneYearAgo, documentType, school }, 'once')
+  const state = useStatisticsAsync({ seasons, year: oneYearAgo, documentType, school }, 'once')
 
   const { data: statisticsResultYearAgo, status: statisticsStatus, error = {} } = state || {}
 
