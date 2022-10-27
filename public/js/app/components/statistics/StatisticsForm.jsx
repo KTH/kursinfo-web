@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import i18n from '../../../../../i18n'
 import { useWebContext } from '../../context/WebContext'
 import { studyLengthParamName } from './domain/formConfigurations'
-// import { Chart } from './Chart'
 
 import { CheckboxOption, DropdownOption, RadioboxOption } from './index'
 
@@ -26,16 +25,6 @@ const paramsReducer = (state, action) => {
   }
 }
 
-// const data = [{ school: 'ABE', percentage: 39 }]
-// const data1 = [
-//   { color: '#007FAE', school: 'ABE', percentage: 75 },
-//   { color: '#007FAE', school: 'ITM', percentage: 23 },
-//   { color: '#007FAE', school: 'EECS', percentage: 54 },
-//   { color: '#007FAE', school: 'SCI', percentage: 7 },
-//   { color: '#007FAE', school: 'CBH', percentage: 67 },
-// ]
-
-// const ORDERED_RADIO_PARAMS = [PARAMS.documentType, PARAMS.school]
 function StatisticsForm({ onSubmit }) {
   const [context] = useWebContext()
   const [state, setState] = useReducer(paramsReducer, {})
@@ -74,18 +63,6 @@ function StatisticsForm({ onSubmit }) {
         display: 'block',
       }}
     >
-      {/* <h3>Andelelelelelelelel</h3>
-      <Row>
-        <Col>
-          <Chart data={data} label="Under study" />
-        </Col>
-        <Col>
-          <Chart data={data1} label="Before study" />
-        </Col>
-        <Col>
-          <Chart data={data1} label="One week before study" />
-        </Col>
-      </Row> */}
       <Row key={`row-for-documentType-choice`}>
         <Col>
           <RadioboxOption paramName={'documentType'} onChange={handleParamChange} />
