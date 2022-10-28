@@ -482,6 +482,16 @@ async function getIndex(req, res, next) {
 
   const courseCode = req.params.courseCode.toUpperCase()
   const lang = languageUtils.getLanguage(res) || 'sv'
+  let klaroConsentCookie = false
+  if (req.cookies.klaro) {
+    const consentCookiesArray = req.cookies.klaro.slice(1, -1).split(',')
+    // eslint-disable-next-line prefer-destructuring
+    const analyticsConsentCookieString = consentCookiesArray
+      .find(cookie => cookie.includes('analytics-consent'))
+      .split(':')[1]
+    // eslint-disable-next-line no-const-assign
+    klaroConsentCookie = Boolean(analyticsConsentCookieString)
+  }
 
   try {
     const { getCompressedData, renderStaticPage } = getServerSideFunctions()
@@ -620,6 +630,7 @@ async function getIndex(req, res, next) {
         lang === 'sv'
           ? 'KTH kursinformation för ' + courseCode.toUpperCase()
           : 'KTH course information ' + courseCode.toUpperCase(),
+      cookies: klaroConsentCookie,
     })
   } catch (err) {
     const excludedStatusCodes = [403, 404]
