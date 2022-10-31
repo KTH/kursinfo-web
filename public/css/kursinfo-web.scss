@@ -4,7 +4,8 @@
   width: 100%;
 }
 
-#kursinfo-main-page {
+#kursinfo-main-page,
+#kursstatistik-main-page {
   margin-bottom: 20px;
   padding-left: 30px;
   width: 100%;
@@ -420,4 +421,12 @@ sup {
 ///******************** MODAL ****************************///
 .modal {
   display: block;
+}
+
+.padding-bottom-1 {
+  padding-bottom: 1rem;
+}
+
+.float-right {
+  float: right;
 }
