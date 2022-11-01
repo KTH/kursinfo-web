@@ -149,7 +149,7 @@ function _countMemosDataPerSchool(courseOfferings) {
       schools[code].uniqueCourseCodeDatesWithoutMemo.push(courseCodeAndDates)
     }
 
-    if (hasMemo && hasCourseUniqueDates) {
+    if (hasMemo && !schools[code].uniqueCourseCodeDates.includes(courseCodeAndDates)) {
       const { pdfMemoAddend, webMemoAddend, beforeCourseStartAddend, beforeDeadlineAddend } =
         _generateMemoAddends(courseMemoInfo)
       schools[code].uniqueCourseCodeDates.push(courseCodeAndDates)
