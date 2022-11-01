@@ -490,7 +490,7 @@ async function getIndex(req, res, next) {
       .find(cookie => cookie.includes('analytics-consent'))
       .split(':')[1]
     // eslint-disable-next-line no-const-assign
-    klaroConsentCookie = Boolean(analyticsConsentCookieString)
+    klaroConsentCookie = analyticsConsentCookieString === 'true'
   }
 
   try {
