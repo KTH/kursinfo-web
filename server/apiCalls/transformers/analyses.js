@@ -106,7 +106,9 @@ function _countAnalysesDataPerSchool(courseOfferings) {
       schools[code].uniqueCourseCodeDatesWithoutAnalysis.push(courseCodeAndDates)
     }
 
-    if (hasAnalysis && !schools[code].uniqueCourseCodeDates.includes(courseCodeAndDates)) {
+    const hasAlreadyTheSameCourseWithAnalysis = schools[code].uniqueCourseCodeDates.includes(courseCodeAndDates)
+
+    if (hasAnalysis && !hasAlreadyTheSameCourseWithAnalysis) {
       const { analysisAddend } = _generateAnalysisAddends(courseAnalysisInfo)
       schools[code].uniqueCourseCodeDates.push(courseCodeAndDates)
 
