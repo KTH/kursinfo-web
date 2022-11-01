@@ -97,14 +97,16 @@ function _countAnalysesDataPerSchool(courseOfferings) {
       schools[code] = _initSchoolValues()
     }
 
-    if (!hasAnalysis) {
+    // If a course has several ladokRoundIds which start and end at same time, it counts as one course
+    const hasCourseUniqueDates =
+      !schools[code].uniqueCourseCodeDates.includes(courseCodeAndDates) &&
+      !schools[code].uniqueCourseCodeDatesWithoutAnalysis.includes(courseCodeAndDates)
+
+    if (!hasAnalysis && hasCourseUniqueDates) {
       schools[code].uniqueCourseCodeDatesWithoutAnalysis.push(courseCodeAndDates)
     }
 
-    // If a course has several ladokRoundIds which start and end at same time, it counts as one course
-    const hasCourseUniqueDates = !schools[code].uniqueCourseCodeDates.includes(courseCodeAndDates)
-
-    if (hasAnalysis & hasCourseUniqueDates) {
+    if (hasAnalysis && hasCourseUniqueDates) {
       const { analysisAddend } = _generateAnalysisAddends(courseAnalysisInfo)
       schools[code].uniqueCourseCodeDates.push(courseCodeAndDates)
 

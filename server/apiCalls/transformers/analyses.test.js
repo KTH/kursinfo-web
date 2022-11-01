@@ -56,6 +56,32 @@ describe('Memos functions to count analyses for one school', () => {
     expect(combinedAnalysesPerSchool.totalUniqPublishedAnalyses).toBe(0)
   })
 
+  test('Remove duplicates of course offering and this offering does not have analyses', async () => {
+    const offerings = [offering_SF1625_202121, offering_SF1625_202121]
+
+    const analyses = []
+    const { combinedAnalysesPerSchool } = await analysesPerSchool(offerings, analyses)
+    expect(Object.keys(combinedAnalysesPerSchool.schools).length).toBe(1)
+    expect(combinedAnalysesPerSchool.schools.ABE.numberOfCourses).toBe(1)
+    expect(combinedAnalysesPerSchool.totalCourses).toBe(1)
+
+    expect(combinedAnalysesPerSchool.schools.ABE.numberOfUniqAnalyses).toBe(0)
+    expect(combinedAnalysesPerSchool.totalUniqPublishedAnalyses).toBe(0)
+  })
+
+  test('Remove duplicates of course offering and duplicates analysis for this offering', async () => {
+    const offerings = [offering_SF1625_202121, offering_SF1625_202121]
+
+    const analyses = [analysis_SF1625_202121_base(), analysis_SF1625_202121_base()]
+    const { combinedAnalysesPerSchool } = await analysesPerSchool(offerings, analyses)
+    expect(Object.keys(combinedAnalysesPerSchool.schools).length).toBe(1)
+    expect(combinedAnalysesPerSchool.schools.ABE.numberOfCourses).toBe(1)
+    expect(combinedAnalysesPerSchool.totalCourses).toBe(1)
+
+    expect(combinedAnalysesPerSchool.schools.ABE.numberOfUniqAnalyses).toBe(1)
+    expect(combinedAnalysesPerSchool.totalUniqPublishedAnalyses).toBe(1)
+  })
+
   test('Two courses (count as different courses) with 2 analyses', async () => {
     const offerings = [
       { ...offering_SF1625_202121, courseCode: 'BB1211' },

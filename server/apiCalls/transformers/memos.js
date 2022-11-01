@@ -140,14 +140,16 @@ function _countMemosDataPerSchool(courseOfferings) {
       schools[code] = _initSchoolValues()
     }
 
-    if (!hasMemo) {
+    // If a course has several ladokRoundIds which start and end at same time, it counts as one course
+    const hasCourseUniqueDates =
+      !schools[code].uniqueCourseCodeDates.includes(courseCodeAndDates) &&
+      !schools[code].uniqueCourseCodeDatesWithoutMemo.includes(courseCodeAndDates)
+
+    if (!hasMemo && hasCourseUniqueDates) {
       schools[code].uniqueCourseCodeDatesWithoutMemo.push(courseCodeAndDates)
     }
 
-    // If a course has several ladokRoundIds which start and end at same time, it counts as one course
-    const hasCourseUniqueDates = !schools[code].uniqueCourseCodeDates.includes(courseCodeAndDates)
-
-    if (hasMemo & hasCourseUniqueDates) {
+    if (hasMemo && hasCourseUniqueDates) {
       const { pdfMemoAddend, webMemoAddend, beforeCourseStartAddend, beforeDeadlineAddend } =
         _generateMemoAddends(courseMemoInfo)
       schools[code].uniqueCourseCodeDates.push(courseCodeAndDates)
