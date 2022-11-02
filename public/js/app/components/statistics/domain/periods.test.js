@@ -1,5 +1,4 @@
-import { seasons as seasonsLib, periods as periodsLib } from './index'
-// seasonConstants
+import { periods as periodsLib } from './index'
 
 describe('Get list of seasons', () => {
   test('get both seasons if summer is chosen', () => {
@@ -86,5 +85,21 @@ describe('Get list of seasons', () => {
         1,
       ]
     `)
+  })
+  test('parse periods', () => {
+    const autumnAndSpring = [1, 2, 3, 4]
+    const periods = periodsLib.parsePeriods(autumnAndSpring)
+    expect(periods).toStrictEqual(autumnAndSpring)
+  })
+  test('parse summer period as 0 and 5', () => {
+    const summerGrouped = [0]
+    const periods = periodsLib.parsePeriods(summerGrouped)
+    expect(periods).toStrictEqual([0, 5])
+  })
+
+  test('parse summer period without duplicates', () => {
+    const summer = [0, 5]
+    const periods = periodsLib.parsePeriods(summer)
+    expect(periods).toStrictEqual(summer)
   })
 })

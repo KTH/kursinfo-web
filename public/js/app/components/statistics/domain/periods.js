@@ -31,12 +31,12 @@ const SUMMER_PERIOD_SPRING = KthPeriod.P5
  */
 const SUMMER_PERIOD_AUTUMN = KthPeriod.P0
 
-const SUMMER_PERIOD_GROUPED = KthPeriod.P0 // will mean both periods P0 and P5
+const SUMMER_PERIOD_GROUPED_0 = SUMMER_PERIOD_AUTUMN // will mean both periods P0 and P5
 
 const ORDERED_PERIODS = [
   AUTUMN_FIRST_PERIOD,
   SPRING_FIRST_PERIOD,
-  SUMMER_PERIOD_GROUPED,
+  SUMMER_PERIOD_GROUPED_0,
   AUTUMN_SECOND_PERIOD,
   SPRING_SECOND_PERIOD,
 ]
@@ -67,7 +67,7 @@ function _isFallPeriod(periodNumber) {
  */
 function labelPeriod(periodNumber, langIndex, withPeriodLabel = true) {
   const { statisticsLabels: labels } = i18n.messages[langIndex]
-  if (Number(periodNumber) === SUMMER_PERIOD_GROUPED) return labels.seasonSummer
+  if (Number(periodNumber) === SUMMER_PERIOD_GROUPED_0) return labels.seasonSummer
   const periodNumberLabel = withPeriodLabel ? `${labels.period} ${periodNumber},` : periodNumber
   const seasonName = _isFallPeriod(periodNumber) ? labels.seasonAutumn : labels.seasonSpring
   return `${periodNumberLabel} ${langIndex === 0 ? seasonName.toLowerCase() : seasonName}`
@@ -75,13 +75,16 @@ function labelPeriod(periodNumber, langIndex, withPeriodLabel = true) {
 
 /**
  * @param {array} periods
+ * @param {number} periods[]
  * @throws
  * @returns {array}
  */
 function parsePeriodsToOrdinarieSeasons({ periods }) {
   if (!periods) throw new Error(`Missing periods: ${periods}.`)
+  if (periods.length > 0 && typeof periods[0] !== 'number')
+    throw new Error(`Wrong type of period: ${typeof periods[0]}.`)
 
-  if (periods.includes(SUMMER_PERIOD_GROUPED))
+  if (periods.includes(SUMMER_PERIOD_GROUPED_0))
     return [seasonsLib.seasonConstants.SPRING_TERM_NUMBER, seasonsLib.seasonConstants.AUTUMN_TERM_NUMBER]
 
   const ordinarieSeasons = []
@@ -95,9 +98,26 @@ function parsePeriodsToOrdinarieSeasons({ periods }) {
   return ordinarieSeasons.sort()
 }
 
+/**
+ * @param {array} periods
+ * @param {number} periods[]
+ * @throws
+ * @returns {array}
+ */
+function parsePeriods(periods) {
+  if (!periods) throw new Error(`Missing periods: ${periods}.`)
+  if (periods.length > 0 && typeof periods[0] !== 'number')
+    throw new Error(`Wrong type of period: ${typeof periods[0]}.`)
+  if (periods.includes(SUMMER_PERIOD_GROUPED_0)) {
+    if (!periods.includes(SUMMER_PERIOD_SPRING)) periods.push(SUMMER_PERIOD_SPRING)
+  }
+  return periods
+}
+
 export default {
   labelPeriod,
   ORDERED_PERIODS,
+  parsePeriods,
   parsePeriodsToOrdinarieSeasons,
-  SUMMER_PERIOD_GROUPED,
+  SUMMER_PERIOD_GROUPED_0,
 }
