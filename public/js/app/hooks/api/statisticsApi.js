@@ -32,7 +32,7 @@ const _noYearFoundInDocsApiError = year => ({
 
 function _formQueryByDocumentType(documentType, params) {
   return documentType === DOCS.courseMemo
-    ? { periods: params.periods, seasons: periodsLib.parsePeriodsToOrdinarieSeasons(params) }
+    ? { periods: periodsLib.parsePeriods(params.periods), seasons: periodsLib.parsePeriodsToOrdinarieSeasons(params) }
     : {
         // in analysis api, exists only autumn and spring semester
         analysesSeasons: seasonsLib.parseToSpringOrAutumnSeasons({ seasons: params.seasons }),
