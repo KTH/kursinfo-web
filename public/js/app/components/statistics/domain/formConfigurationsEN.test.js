@@ -92,6 +92,11 @@ describe('Get list of  for each option on statistics page in English', () => {
           "label": 2022,
           "value": 2022,
         },
+        {
+          "id": 2023,
+          "label": 2023,
+          "value": 2023,
+        },
       ]
     `)
   })

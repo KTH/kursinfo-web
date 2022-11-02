@@ -214,6 +214,12 @@ describe('Component <CourseStatisticsPage> in English', () => {
           >
             2022
           </option>
+          <option
+            id="2023"
+            value="2023"
+          >
+            2023
+          </option>
         </select>,
       ]
     `)
