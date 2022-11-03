@@ -80,7 +80,16 @@ afterEach(() => {
 
 describe('Discontinued course to test', () => {
   test('Gets correct data', async () => {
-    const req = buildReq({ params: { courseCode: mockedDiscontinuedCourse.course.courseCode }, language: 'sv' })
+    const req = buildReq({
+      params: { courseCode: mockedDiscontinuedCourse.course.courseCode },
+      cookies: {
+        'required-consent': true,
+        'media-consent': true,
+        'analytics-consent': true,
+        'marketing-consent': true,
+      },
+      language: 'sv',
+    })
     const next = jest.fn().mockImplementation(error => (errorResponse = error))
 
     await courseCtrl.getIndex(req, response, next)

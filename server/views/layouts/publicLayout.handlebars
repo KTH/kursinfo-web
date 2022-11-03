@@ -33,6 +33,7 @@
 
   {{{render 'head-scripts'}}}
   {{#if instrumentationKey}}
+    {{#if klaroAnalyticsConsentCookie}}
     <script type="text/javascript">
       var appInsights = window.appInsights || function (a) {
         function b(a) {
@@ -45,9 +46,9 @@
         }); try { c.cookie = d.cookie } catch (a) { } c.queue = []; for (var f = ["Event", "Exception", "Metric", "PageView", "Trace", "Dependency"]; f.length;)b("track" + f.pop()); if (b("setAuthenticatedUserContext"), b("clearAuthenticatedUserContext"), b("startTrackEvent"), b("stopTrackEvent"), b("startTrackPage"), b("stopTrackPage"), b("flush"), !a.disableExceptionTracking) { f = "onerror", b("_" + f); var g = e[f]; e[f] = function (a, b, d, e, h) { var i = g && g(a, b, d, e, h); return !0 !== i && c["_" + f](a, b, d, e, h), i } } return c
       }({ instrumentationKey: "{{{instrumentationKey}}}" }); window.appInsights = appInsights, appInsights.queue && 0 === appInsights.queue.length && appInsights.trackPageView(); 
     </script>
+    {{/if}}
   {{/if}}
 </head>
-
 <body lang={{lang}}>
   <a class="skipToMainContent" href="#mainContent" tabindex="1">{{i18n 'skip_to_main_content' lang}}</a>
   {{> kthHeader }}
