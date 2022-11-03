@@ -67,7 +67,8 @@ function _isFallPeriod(periodNumber) {
  */
 function labelPeriod(periodNumber, langIndex, withPeriodLabel = true) {
   const { statisticsLabels: labels } = i18n.messages[langIndex]
-  if (Number(periodNumber) === SUMMER_PERIOD_GROUPED_0) return labels.seasonSummer
+  if (Number(periodNumber) === SUMMER_PERIOD_SPRING || Number(periodNumber) === SUMMER_PERIOD_AUTUMN)
+    return labels.seasonSummer
   const periodNumberLabel = withPeriodLabel ? `${labels.period} ${periodNumber},` : periodNumber
   const seasonName = _isFallPeriod(periodNumber) ? labels.seasonAutumn : labels.seasonSpring
   return `${periodNumberLabel} ${langIndex === 0 ? seasonName.toLowerCase() : seasonName}`

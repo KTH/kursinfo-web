@@ -45,7 +45,9 @@ function getCellNames() {
 function Captions({ year, periods, languageIndex }) {
   const { formLabels } = i18n.messages[languageIndex].statisticsLabels
 
-  const periodsStr = periods.map(period => periodsLib.labelPeriod(period, languageIndex, false)).join(', ')
+  const periodsLabels = periods.map(period => periodsLib.labelPeriod(period, languageIndex, false))
+  const uniqquePeriodsLabels = [...new Set(periodsLabels)]
+  const periodsStr = uniqquePeriodsLabels.join(', ')
   return (
     <Row>
       <Col xs="2">
