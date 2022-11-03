@@ -364,29 +364,6 @@ describe('Component <StatisticsForm> in english', () => {
         "year": 2019,
       }
     `)
-
-    // await userEvent.click(courseMemo)
-    // expect(courseMemo).toBeChecked()
-
-    // expect(screen.getByLabelText(/period 1, autumn/i)).not.toBeChecked()
-    // expect(screen.getByLabelText(/period 2, autumn/i)).not.toBeChecked()
-
-    // await userEvent.click(courseAnalysis)
-    // expect(courseAnalysis).toBeChecked()
-
-    // expect(screen.getByLabelText(/autumn/i)).not.toBeChecked()
-    // expect(screen.getByLabelText(/summer/i)).not.toBeChecked()
-
-    // await userEvent.click(btn)
-    // expect(submittedResults).toMatchInlineSnapshot(`
-    //   {
-    //     "documentType": "courseAnalysis",
-    //     "periods": [],
-    //     "school": undefined,
-    //     "seasons": [],
-    //     "year": undefined,
-    //   }
-    // `)
   })
 
   test('submit for empty submitted state', async () => {
@@ -481,6 +458,71 @@ describe('Component <StatisticsForm> in english', () => {
             ],
             "school": "allSchools",
             "year": 2021,
+          }
+        `)
+  })
+
+  test('check, uncheck and check same inputs for course memo', async () => {
+    render(<StatisticsFormWithContext context={context_en} />)
+
+    const courseMemo = screen.getByLabelText(/course memo/i)
+
+    await userEvent.click(courseMemo)
+    expect(courseMemo).toBeChecked()
+
+    await userEvent.click(screen.getByLabelText(/EECS/i))
+    expect(screen.getByLabelText(/EECS/i)).toBeChecked()
+
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: /choose a year/i }), '2019')
+
+    await userEvent.click(screen.getByLabelText(/summer/i))
+
+    expect(screen.getByLabelText(/summer/i)).toBeChecked()
+
+    const btn = screen.getByRole('button', { name: /show statistics/i })
+    await userEvent.click(btn)
+
+    expect(submittedResults).toMatchInlineSnapshot(`
+      {
+        "documentType": "courseMemo",
+        "periods": [
+          0,
+        ],
+        "school": "EECS",
+        "year": 2019,
+      }
+    `)
+
+    // uncheck the same checkbox
+    await userEvent.click(screen.getByLabelText(/summer/i))
+
+    expect(screen.getByLabelText(/summer/i)).not.toBeChecked()
+
+    await userEvent.click(btn)
+
+    expect(submittedResults).toMatchInlineSnapshot(`
+          {
+            "documentType": "courseMemo",
+            "periods": [],
+            "school": "EECS",
+            "year": 2019,
+          }
+        `)
+    // check the same checkbox
+    await userEvent.click(screen.getByLabelText(/summer/i))
+
+    expect(screen.getByLabelText(/summer/i)).toBeChecked()
+
+    await userEvent.click(btn)
+
+    expect(submittedResults).toMatchInlineSnapshot(`
+          {
+            "documentType": "courseMemo",
+            "periods": [
+              0,
+            ],
+            "school": "EECS",
+            "year": 2019,
           }
         `)
   })

@@ -6,7 +6,7 @@ const seasonConstants = {
   AUTUMN_TERM_NUMBER: 2, // Maximum possible term number.
   SUMMER_TERM_NUMBER: 0,
 }
-const ORDERED_SEASONS = [
+const orderedSeasons = () => [
   seasonConstants.AUTUMN_TERM_NUMBER,
   seasonConstants.SPRING_TERM_NUMBER,
   seasonConstants.SUMMER_TERM_NUMBER,
@@ -37,4 +37,4 @@ function labelSeason(seasonNumber, langIndex) {
   }
 }
 
-module.exports = { labelSeason, ORDERED_SEASONS, seasonConstants }
+module.exports = { labelSeason, orderedSeasons, seasonConstants }

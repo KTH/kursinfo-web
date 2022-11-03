@@ -1,4 +1,4 @@
-import { labelSeason, ORDERED_SEASONS, seasonConstants } from '../../../../../../domain/statistics/seasons.js'
+import { labelSeason, orderedSeasons, seasonConstants } from '../../../../../../domain/statistics/seasons.js'
 
 /**
  * @param {array} seasons
@@ -13,7 +13,7 @@ function parseToSpringOrAutumnSeasons({ seasons = [] }) {
 
 export default {
   labelSeason,
-  ORDERED_SEASONS,
+  orderedSeasons,
   parseToSpringOrAutumnSeasons,
   seasonConstants,
 }

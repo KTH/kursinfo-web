@@ -33,7 +33,7 @@ const SUMMER_PERIOD_AUTUMN = KthPeriod.P0
 
 const SUMMER_PERIOD_GROUPED_0 = SUMMER_PERIOD_AUTUMN // will mean both periods P0 and P5
 
-const ORDERED_PERIODS = [
+const orderedPeriods = () => [
   AUTUMN_FIRST_PERIOD,
   SPRING_FIRST_PERIOD,
   SUMMER_PERIOD_GROUPED_0,
@@ -117,7 +117,7 @@ function parsePeriods(periods) {
 
 export default {
   labelPeriod,
-  ORDERED_PERIODS,
+  orderedPeriods,
   parsePeriods,
   parsePeriodsToOrdinarieSeasons,
   SUMMER_PERIOD_GROUPED_0,

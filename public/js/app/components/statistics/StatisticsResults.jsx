@@ -8,7 +8,7 @@ import { useWebContext } from '../../context/WebContext'
 import { STATUS, ERROR_ASYNC, useStatisticsAsync } from '../../hooks/statisticsUseAsync'
 
 import { periods, schools, seasons } from './domain/index'
-import { DOCUMENT_TYPES } from './domain/formConfigurations'
+import { documentTypes } from './domain/formConfigurations'
 import { ResultNumbersSummary, Results, StatisticsDataTable } from './index'
 
 function SortableCoursesAndDocuments({ statisticsStatus, error = {}, statisticsResult }) {
@@ -79,11 +79,11 @@ function StatisticsResults({ chosenOptions }) {
 
 StatisticsResults.propTypes = {
   chosenOptions: PropTypes.shape({
-    documentType: PropTypes.oneOf(DOCUMENT_TYPES),
+    documentType: PropTypes.oneOf(documentTypes()),
     year: PropTypes.number,
-    periods: PropTypes.arrayOf(PropTypes.oneOf(periods.ORDERED_PERIODS)),
-    school: PropTypes.oneOf(schools.ORDERED_SCHOOL_OPTIONS),
-    seasons: PropTypes.arrayOf(PropTypes.oneOf(seasons.ORDERED_SEASONS)),
+    periods: PropTypes.arrayOf(PropTypes.oneOf(periods.orderedPeriods())),
+    school: PropTypes.oneOf(schools.orderedSchoolsFormOptions()),
+    seasons: PropTypes.arrayOf(PropTypes.oneOf(seasons.orderedSeasons())),
   }),
 }
 

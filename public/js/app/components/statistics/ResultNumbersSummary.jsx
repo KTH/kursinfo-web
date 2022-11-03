@@ -6,7 +6,7 @@ import i18n from '../../../../../i18n'
 import { useWebContext } from '../../context/WebContext'
 import { summaryTexts } from './StatisticsTexts'
 
-import { DOCS, DOCUMENT_TYPES } from './domain/formConfigurations'
+import { DOCS, documentTypes } from './domain/formConfigurations'
 import { schools } from './domain/index'
 import { AnalysesSummary, MemosSummary } from './index'
 
@@ -46,10 +46,10 @@ ResultNumbersSummary.propTypes = {
   statisticsResult: PropTypes.oneOf([
     PropTypes.shape({
       combinedMemosPerSchool: PropTypes.shape({}),
-      documentType: PropTypes.oneOf(DOCUMENT_TYPES),
+      documentType: PropTypes.oneOf(documentTypes()),
       koppsApiBasePath: PropTypes.string,
       documentsApiBasePath: PropTypes.string,
-      school: PropTypes.oneOf(schools.ORDERED_SCHOOL_OPTIONS),
+      school: PropTypes.oneOf(schools.orderedSchoolsFormOptions()),
       semestersInMemos: PropTypes.arrayOf(PropTypes.string),
       totalOfferings: PropTypes.number,
     }),

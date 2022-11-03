@@ -10,7 +10,7 @@ const PARAMS = {
 }
 const DOCS = { courseMemo: 'courseMemo', courseAnalysis: 'courseAnalysis' }
 
-const DOCUMENT_TYPES = [DOCS.courseMemo, DOCS.courseAnalysis]
+const documentTypes = () => [DOCS.courseMemo, DOCS.courseAnalysis]
 
 const studyLengthParamName = documentType => (documentType === DOCS.courseMemo ? PARAMS.periods : PARAMS.seasons)
 
@@ -48,15 +48,15 @@ function parseData(values, langIndex, labelFn = null) {
 function getOptionsValues(paramName, langIndex) {
   switch (paramName) {
     case PARAMS.documentType:
-      return parseData(DOCUMENT_TYPES, langIndex)
+      return parseData(documentTypes(), langIndex)
     case PARAMS.school:
-      return parseData(schools.ORDERED_SCHOOL_OPTIONS, langIndex)
+      return parseData(schools.orderedSchoolsFormOptions(), langIndex)
     case PARAMS.year:
       return parseData(year.getYears(), langIndex)
     case PARAMS.seasons: // Course analysis
-      return parseData(seasons.ORDERED_SEASONS, langIndex, seasons.labelSeason)
+      return parseData(seasons.orderedSeasons(), langIndex, seasons.labelSeason)
     case PARAMS.periods: // Kurs-pm
-      return parseData(periods.ORDERED_PERIODS, langIndex, periods.labelPeriod)
+      return parseData(periods.orderedPeriods(), langIndex, periods.labelPeriod)
     default: {
       if (typeof paramName !== 'string')
         throw new Error(`Check the type of parameter name: ${paramName} has the type ${typeof paramName}`)
@@ -73,4 +73,4 @@ function splitToBulks(arr, bulkSize = 2) {
   return bulks
 }
 
-export { DOCS, DOCUMENT_TYPES, getOptionsValues, PARAMS, paramsByDocumentType, splitToBulks, studyLengthParamName }
+export { DOCS, documentTypes, getOptionsValues, PARAMS, paramsByDocumentType, splitToBulks, studyLengthParamName }
