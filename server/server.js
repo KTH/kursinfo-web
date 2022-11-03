@@ -208,6 +208,7 @@ appRoute.get(
   config.proxyPrefixPath.uri + '/kursplan/:course_semester',
   SyllabusPdf.getPdfProxy(config.nodeApi.kursplanApi, config.apiKey.kursplanApi)
 )
+appRoute.get('system.experiment.index', config.proxyPrefixPath.uri + '/experiment/:courseCode', Course.getIndex)
 
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', Course.getIndex)
 appRoute.get('system.home', config.proxyPrefixPath.uri + '/', noCourse.getIndex)

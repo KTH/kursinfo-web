@@ -9,7 +9,7 @@ import { WebContextProvider } from './context/WebContext'
 import { uncompressData } from './context/compress'
 import CoursePage from './pages/CoursePage'
 import CourseStatisticsPage from './pages/CourseStatisticsPage'
-
+import ExperimentCoursePage from './pages/ExperimentCoursePage'
 import '../../css/kursinfo-web.scss'
 
 function ErrorFallback({ error, resetErrorBoundary }) {
@@ -28,6 +28,7 @@ function appFactory(applicationStore, context) {
     <WebContextProvider configIn={context}>
       <Routes>
         <Route exact path="/statistik" element={<CourseStatisticsPage />} />
+        <Route exact path="/experiment/:courseCode" element={<ExperimentCoursePage />} />
         <Route exact path="/:courseCode" element={<CoursePage />} />
         <Route exact path="/" element={<CoursePage />} />
       </Routes>
