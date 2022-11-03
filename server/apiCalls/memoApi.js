@@ -21,6 +21,33 @@ async function getPrioritizedCourseMemos(courseCode) {
   }
 }
 
+/**
+ * Fetch course memos for each semester in list of semesters.
+ * @param {[]} semesters Array of semesters
+ * @param {string} semesters[] Semester string, f.e., 20212
+ */
+const getCourseMemosForStatistics = async semesters => {
+  if (!semesters || !semesters.length === 0) log.error('The list of semesters are missing', { semesters })
+  const { client, paths } = api.kursPmDataApi
+  log.debug('Preparing params for course memos api', { semesters })
+  const queryString = '?' + new URLSearchParams({ semesters }).toString()
+
+  const uri = `${client.resolve(paths.getPdfAndWebMemosListBySemesters.uri)}${queryString}`
+
+  try {
+    log.debug('Fetching course memos from api', { uri, semesters })
+
+    const { body } = await client.getAsync({ uri })
+
+    log.debug('Successfull fetch from kurs-pm-data-api, getCourseMemosForStatistics', { uri })
+    return body
+  } catch (err) {
+    log.error(err)
+    throw err
+  }
+}
+
 module.exports = {
+  getCourseMemosForStatistics,
   getPrioritizedCourseMemos,
 }

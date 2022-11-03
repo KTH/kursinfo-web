@@ -36,7 +36,20 @@ async function getKoppsCourseData(courseCode, lang = 'sv') {
   }
 }
 
+async function getCoursesAndOfferings(semester) {
+  // ?? semester
+  const { client } = api.koppsApi
+  const uri = `${config.koppsApi.basePath}courses/offerings?from=${semester}&skip_coordinator_info=true`
+  try {
+    return await client.getAsync({ uri, useCache: true })
+  } catch (err) {
+    log.debug('Kopps is not available', err)
+    return err
+  }
+}
+
 module.exports = {
   koppsApi: api,
+  getCoursesAndOfferings,
   getKoppsCourseData,
 }

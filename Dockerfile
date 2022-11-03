@@ -10,6 +10,7 @@ COPY ["config", "config"]
 COPY ["i18n", "i18n"]
 COPY ["public", "public"]
 COPY ["server", "server"]
+COPY ["domain", "domain"]
 
 COPY [".babelrc", ".babelrc"]
 COPY ["app.js", "app.js"]

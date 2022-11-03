@@ -173,7 +173,7 @@ server.use(
  * ******* APPLICATION ROUTES *******
  * **********************************
  */
-const { System, Course, noCourse } = require('./controllers')
+const { System, Course, noCourse, StatisticsCtrl } = require('./controllers')
 const { SyllabusPdf } = require('./middleware')
 
 // System routes
@@ -186,6 +186,23 @@ server.use('/', systemRoute.getRouter())
 
 // App routes
 const appRoute = AppRouter()
+appRoute.get('statistics.getData', config.proxyPrefixPath.uri + '/statistik', StatisticsCtrl.getIndex)
+// appRoute.get(
+//   'api.statistics',
+//   config.proxyPrefixPath.uri + '/api/kursinfo/statistics/:documentType/:year/:language',
+//   StatisticsCtrl.fetchStatistics
+// )
+appRoute.get(
+  'api.statisticsMemo',
+  config.proxyPrefixPath.uri + '/api/kursinfo/statistics/courseMemo/year/:year',
+  StatisticsCtrl.fetchMemoStatistics
+)
+appRoute.get(
+  'api.statisticsAnalysis',
+  config.proxyPrefixPath.uri + '/api/kursinfo/statistics/courseAnalysis/year/:year',
+  StatisticsCtrl.fetchAnalysisStatistics
+)
+
 appRoute.get(
   'SyllabusPdf.getPdfProxy',
   config.proxyPrefixPath.uri + '/kursplan/:course_semester',
