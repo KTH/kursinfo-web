@@ -173,7 +173,7 @@ function ExperimentCoursePage() {
           >
             <Col>
               <img className="float-md-left" src={courseImage} alt="" height="auto" width="300px" />
-              {/* <div className="paragraphs" dangerouslySetInnerHTML={{ __html: introText }} /> */}
+              <div className="paragraphs" dangerouslySetInnerHTML={{ __html: introText }} />
             </Col>
           </section>
           <div>
