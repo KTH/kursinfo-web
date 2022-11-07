@@ -509,7 +509,7 @@ async function getIndex(req, res, next) {
     const { body: introductionTextsAndImage } = await courseApi.getSellingText(courseCode)
     if (introductionTextsAndImage) {
       const { sellingText, imageInfo } = introductionTextsAndImage
-      webContext.sellingText = sellingText
+      webContext.sellingText = sellingText || ''
       webContext.imageFromAdmin = imageInfo || ''
       /* webContext.showCourseWebbLink = isCourseWebLink */
     }
