@@ -36,7 +36,10 @@ const Breadcrumbs = ({ translation, language, courseCode }) => (
     </BreadcrumbItem>
   </Breadcrumb>
 )
-
+function getCourseIntroduction(sellingText = {}, courseInfo = {}, language) {
+  const { course_recruitment_text: courseDefaultIntro = '<p></p>' } = courseInfo
+  return sellingText[language] && sellingText[language].length > 0 ? sellingText[language] : courseDefaultIntro
+}
 function CoursePage() {
   const [context, setWebContext] = useWebContext()
   // const context = React.useMemo(() => webContext, [webContext])
@@ -69,7 +72,7 @@ function CoursePage() {
   const hasActiveSemesters = activeSemesters && activeSemesters.length > 0
   const { courseInfo, language = 'sv' } = courseData
   const translation = i18n.messages[language === 'en' ? 0 : 1]
-  const introText = sellingText[language].length > 0 ? sellingText[language] : courseInfo.course_recruitment_text
+  const introText = getCourseIntroduction(sellingText, courseInfo, language)
 
   let courseImage = ''
   if (imageFromAdmin.length > 4) {
