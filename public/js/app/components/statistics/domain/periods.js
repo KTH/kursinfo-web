@@ -110,7 +110,7 @@ function parsePeriods(periods) {
   if (periods.length > 0 && typeof periods[0] !== 'number')
     throw new Error(`Wrong type of period: ${typeof periods[0]}.`)
   if (periods.includes(SUMMER_PERIOD_GROUPED_0)) {
-    if (!periods.includes(SUMMER_PERIOD_SPRING)) periods.push(SUMMER_PERIOD_SPRING)
+    if (!periods.includes(SUMMER_PERIOD_SPRING)) return [...periods, SUMMER_PERIOD_SPRING] // initiate new array
   }
   return periods
 }
