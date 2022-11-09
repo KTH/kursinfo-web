@@ -31,7 +31,7 @@
     "@kth/kth-node-response": "^1.0.7",
     "@kth/kth-node-web-common": "^7.0.12",
     "@kth/log": "^4.0.5",
-    "@kth/monitor": "^3.0.25",
+    "@kth/monitor": "^3.0.29",
     "@kth/server": "^4.0.3",
     "@kth/session": "^3.0.7",
     "@kth/ug-rest-api-helper": "^1.0.9",
