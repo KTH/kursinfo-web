@@ -12,16 +12,16 @@ const englishIntroTexts = {
     <>
       <p>
         The Statistics page for course information is part of the Administer about course tool. All course memos and
-        course analyses published via the tool form the basis for the statistics.{' '}
-        <a href="https://intra.kth.se/utbildning/systemstod/om-kursen/kurs-pm/riktilinjer" className="external-link">
-          Read more about About the course on the intranet.
+        course analyses published via the tool form the basis for the statistics. Read more about{' '}
+        <a href="https://intra.kth.se/en/utbildning/systemstod/om-kursen/om-kursen-1.1020344" className="external-link">
+          About the course on the intranet.
         </a>
       </p>
       <p>
         It is possible to see statistics for course memos and course analyses respectively, either for one or all
         schools and one or more study periods/semesters. You can download statistics from the year 2019 and onwards. The
         statistics for course memos enable follow-up at school level based on{' '}
-        <a href="https://intra.kth.se/utbildning/systemstod/om-kursen/kurs-pm/riktilinjer" className="external-link">
+        <a href="https://intra.kth.se/en/utbildning/systemstod/om-kursen/kurs-pm/riktilinjer" className="external-link">
           KTH`s guideline for course memos
         </a>
       </p>
@@ -51,12 +51,16 @@ const swedishIntroTexts = {
     <>
       <p>
         Statistiksidan för kursinformation är en del av verktyget Administrera Om kursen. De kurs-PM och kursanalyser
-        som publiceras via verktyget utgör underlaget för statistiken. Läs mer om Om kursen på intranätet.{' '}
+        som publiceras via verktyget utgör underlaget för statistiken. Läs mer om{' '}
+        <a href="https://intra.kth.se/utbildning/systemstod/om-kursen/om-kursen-1.1020344">Om kursen på intranätet.</a>{' '}
       </p>
       <p>
         Statistiken visas områdesvis för kurs-PM respektive kursanalys. Det går att se statistik för en eller alla
         skolor samt för en eller flera läsperioder/terminer. Det finns statistik att hämta från år 2019 och framåt.
-        Statistiken för kurs-PM möjliggör uppföljning på skolnivå utifrån KTH:s riktlinje för kurs-PM.
+        Statistiken för kurs-PM möjliggör uppföljning på skolnivå utifrån{' '}
+        <a href="https://intra.kth.se/utbildning/systemstod/om-kursen/kurs-pm/riktilinjer">
+          KTH:s riktlinje för kurs-PM.
+        </a>
       </p>
       <p>På statistiksidan finns:</p>
       <ul>

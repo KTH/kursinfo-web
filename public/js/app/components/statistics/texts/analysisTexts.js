@@ -63,8 +63,11 @@ const englishAnalysisSummarySection = {
       <ul>
         <li>
           {' '}
-          The terms are defined according to the division of the academic year: Spring week 3-23, Autumn week 35-2,
-          Summer week 24-34.
+          The terms are defined according to{' '}
+          <a href=" https://intra.kth.se/en/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135">
+            the division of the academic year
+          </a>
+          : Spring week 3-23, Autumn week 35-2, Summer week 24-34.
         </li>
         <li>
           The number of courses is calculated based on the number of unique course codes. Courses that have several
@@ -140,7 +143,12 @@ const swedishAnalysisSummarySection = {
 
       <p>Information om den data som används: </p>
       <ul>
-        <li> Terminerna definieras enligt läsårsindelningen: VT vecka 3-23, HT vecka 35-2, sommar vecka 24-34 .</li>
+        <li>
+          {' '}
+          Terminerna definieras enligt{' '}
+          <a href="https://intra.kth.se/utbildning/tentamen-och-schema/lasarsindelning">läsårsindelningen</a>: VT vecka
+          3-23, HT vecka 35-2, sommar vecka 24-34 .
+        </li>
         <li>
           Antal kurser räknas utifrån antal unika kurskoder. Kurser som har flera kurstillfällen med exakt samma start-
           och slutdatum, räknas som en kurs.

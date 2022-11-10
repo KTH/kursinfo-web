@@ -62,7 +62,7 @@ const englishMemosSummarySection = {
         selected study period. The three diagrams show how big part of the school`s courses have published course memos
         during the study period, at the latest at the start of the course (in accordance with KTH`s guideline for course
         memos{' '}
-        <a href="https://intra.kth.se/utbildning/systemstod/om-kursen/kurs-pm/riktilinjer" className="external-link">
+        <a href="https://intra.kth.se/en/utbildning/systemstod/om-kursen/kurs-pm/riktilinjer" className="external-link">
           KTH`s guideline for course memos
         </a>
         ) and one week before the start of the course. Below the diagrams, a comparison can be made with the result from
