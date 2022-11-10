@@ -4,7 +4,7 @@ const englishAnalysisSummarySection = {
   courseDataApiDescription: koppsApiUrl => (
     // change texts
     <>
-      <p>Exemple for how data is fetched for Spring 2022, period P3, school ABE:</p>
+      <p>Example for how data is fetched for Spring 2022, period P3, school ABE:</p>
       <p>
         Course data is fetched from&nbsp;
         <a href="https://www.kth.se/api/kopps/v2/apiInfo/courses">KOPPS API for Courses</a>, endpoint&nbsp;
@@ -45,7 +45,38 @@ const englishAnalysisSummarySection = {
       , with <b>first</b> semester of a course (not the end or between semesters).
     </p>
   ),
-  subPageDescription: () => <p>Some description of analyses</p>,
+  subPageDescription: () => (
+    <>
+      <p>
+        Here is a summary of the number of published course analyses for the selected school, year and semester. The
+        data used is taken from Kopps and About course.
+      </p>
+
+      <p>
+        The table shows the number of courses ending the chosen semester and the number of published course analyses for
+        course offerings ending the chosen semester. The diagrams shows what percentage of the school’s courses (ending
+        the chosen semester) that have a published course analysis. Below the diagrams, a comparison can be made with
+        the result from the previous year.
+      </p>
+
+      <p>Information about the data used: </p>
+      <ul>
+        <li>
+          {' '}
+          The terms are defined according to the division of the academic year: Spring week 3-23, Autumn week 35-2,
+          Summer week 24-34.
+        </li>
+        <li>
+          The number of courses is calculated based on the number of unique course codes. Courses that have several
+          course offerings with exactly the same start and end date are counted as one course.
+        </li>
+        <li>
+          For course offerings running that run over several semesters, the course analysis is presented for the last
+          semester of the course offering.
+        </li>
+      </ul>
+    </>
+  ),
 }
 
 // https://api.kth.se/api/kopps/v2/courses/offerings?from=20221&skip_coordinator_info=true.
