@@ -290,9 +290,9 @@ module.exports = {
   statisticsLabels: {
     allSchools: 'All schools',
     chartsLabels: {
-      headerMemo: 'Number of courses with published course memos',
-      headerAnalysis: 'Number of courses (finished in chosen semesters) with published course analyses',
-      headerYearAgo: 'Compare it with previous year',
+      headerMemo: 'Percentage of courses that have published course memos',
+      headerAnalysis: 'Percentage of courses (ending the chosen semester) that have a published course analysis',
+      headerYearAgo: 'Compare with the result for the selected study period from the previous year',
       numberOfUniqAnalyses: 'Under semester(s)',
       numberOfUniqWebAndPdfMemos: 'Under study period(s)',
       numberOfMemosPublishedBeforeStart: 'Before course start',
@@ -303,24 +303,24 @@ module.exports = {
     btnShowResults: 'Show statistics',
     errorUnknown: { text: 'An unknown error occurred - failed to retrieve course data.' },
     formLabels: {
-      formHeader: 'Show statistics',
+      formHeader: 'View statistics',
       formSubHeaders: {
-        documentType: '??? Area',
+        documentType: 'Area',
         periods: 'Study period',
         school: 'School',
         seasons: 'Semester',
         year: 'Year',
       },
       formShortIntro: {
-        documentType: '??? Choose the area you would like to see the statistics for',
-        periods: 'Choose one or several study period(s)',
-        school: 'Choose a school',
-        seasons: 'Choose one or several option(s)',
-        year: 'Choose a year',
+        documentType: 'Select the area you would like to see statistics for  ',
+        periods: 'Choose one or more option(s)',
+        school: 'Select school',
+        seasons: 'Choose one or more option(s)',
+        year: 'Select year',
       },
     },
     missingParameters: { text: 'Some of the query restrictions were not specified' },
-    pageHeader: 'Course Information Statistics',
+    pageHeader: 'The statistics page for course Information',
     period: 'Period',
     searchLoading: 'Loading ...',
     seasonAutumn: 'Autumn',
@@ -334,16 +334,16 @@ module.exports = {
       courseAnalysis: {
         header: 'Table with courses and course analyses',
         details:
-          'Here it is possible to see a table with data for all courses, for selected school and study period. It is possible to sort the information in the table for institution, course code, course start, publication date and link to course analysis. It is also possible to download the table as an Excel or CSV file to make your own filters and sorting of the data',
+          'Here it is possible to see a table with data for all course offerings for the selected school and semester. It is possible to sort the information in the table by department, course code, course start, publication date and link to course analysis. It is also possible to download the table as an Excel or CSV file to do your own filtering and sorting of the data.',
         sourceOfData: 'See table with data for course analysis',
       },
       courseMemo: {
         header: 'Table with courses and course memos',
         details:
-          'Here it is possible to see a table with data for all courses, for selected school and study period. It is possible to sort the information in the table for institution, course code, course start, publication date and link to course PM. It is also possible to download the table as an Excel or CSV file to make your own filters and sorting of the data',
-        sourceOfData: 'See table with data for course PM',
+          'Here it is possible to see a table with data for all cours offerings for the selected school and study period. It is possible to sort the information in the table by department, course code, course start, publication date and link to course memo. It is also possible to download the table as an Excel or CSV file to do your own filtering and sorting of the data.',
+        sourceOfData: 'See table with data for course memos',
       },
-      rowsPerPageText: 'number of rows per page:',
+      rowsPerPageText: 'Number of rows per page:',
       rangeSeparatorText: 'of',
       noDataMessage: 'No statistics data found!',
       statisticsDataColumns: {
@@ -363,10 +363,10 @@ module.exports = {
       },
     },
     summaryLabels: {
-      sourceOfData: 'Read about API:s and code',
+      sourceOfData: 'Read about API:s and source of data',
       subHeaders: {
-        courseMemo: 'Summary of published memos numbers',
-        courseAnalysis: 'Summary of published analyses numbers',
+        courseMemo: 'Compilation of the number of published course memos',
+        courseAnalysis: 'Compilation of the number of published course analyses',
       },
       memosNumbersTable: {
         school: 'School',

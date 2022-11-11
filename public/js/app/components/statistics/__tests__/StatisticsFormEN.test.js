@@ -175,7 +175,7 @@ describe('Component <StatisticsForm> in english', () => {
     expect(combobox).toMatchInlineSnapshot(`
       [
         <select
-          aria-label="Choose a year"
+          aria-label="Select year"
           class="form-control"
           id="year-select-year"
         >
@@ -184,7 +184,7 @@ describe('Component <StatisticsForm> in english', () => {
             selected=""
             value="placeholder"
           >
-            Choose a year
+            Select year
           </option>
           <option
             id="2019"
@@ -318,7 +318,7 @@ describe('Component <StatisticsForm> in english', () => {
     await userEvent.click(screen.getByLabelText(/SCI/i))
     expect(screen.getByLabelText(/SCI/i)).toBeChecked()
 
-    await userEvent.selectOptions(screen.getByRole('combobox', { name: /choose a year/i }), '2020')
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: /Select year/i }), '2020')
 
     await userEvent.click(screen.getByLabelText(/period 1, autumn/i))
 
@@ -349,7 +349,7 @@ describe('Component <StatisticsForm> in english', () => {
     expect(screen.getByLabelText(/autumn/i)).toBeChecked()
     expect(screen.getByLabelText(/summer/i)).toBeChecked()
 
-    await userEvent.selectOptions(screen.getByRole('combobox', { name: /choose a year/i }), '2019')
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: /Select year/i }), '2019')
 
     await userEvent.click(btn)
     expect(submittedResults).toMatchInlineSnapshot(`
@@ -414,7 +414,7 @@ describe('Component <StatisticsForm> in english', () => {
     await userEvent.click(screen.getByLabelText(/EECS/i))
     expect(screen.getByLabelText(/EECS/i)).toBeChecked()
 
-    await userEvent.selectOptions(screen.getByRole('combobox', { name: /choose a year/i }), '2019')
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: /Select year/i }), '2019')
 
     await userEvent.click(screen.getByLabelText(/period 1, autumn/i))
     await userEvent.click(screen.getByLabelText(/period 2, autumn/i))
@@ -441,7 +441,7 @@ describe('Component <StatisticsForm> in english', () => {
     await userEvent.click(screen.getByLabelText(/all schools/i))
     expect(screen.getByLabelText(/all schools/i)).toBeChecked()
 
-    await userEvent.selectOptions(screen.getByRole('combobox', { name: /choose a year/i }), '2021')
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: /Select year/i }), '2021')
 
     await userEvent.click(screen.getByLabelText(/period 2, autumn/i))
     expect(screen.getByLabelText(/period 2, autumn/i)).not.toBeChecked()
@@ -473,7 +473,7 @@ describe('Component <StatisticsForm> in english', () => {
     await userEvent.click(screen.getByLabelText(/EECS/i))
     expect(screen.getByLabelText(/EECS/i)).toBeChecked()
 
-    await userEvent.selectOptions(screen.getByRole('combobox', { name: /choose a year/i }), '2019')
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: /Select year/i }), '2019')
 
     await userEvent.click(screen.getByLabelText(/summer/i))
 
@@ -538,7 +538,7 @@ describe('Component <StatisticsForm> in english', () => {
     await userEvent.click(screen.getByLabelText(/EECS/i))
     expect(screen.getByLabelText(/EECS/i)).toBeChecked()
 
-    await userEvent.selectOptions(screen.getByRole('combobox', { name: /choose a year/i }), '2019')
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: /Select year/i }), '2019')
 
     await userEvent.click(screen.getByLabelText(/spring/i))
     await userEvent.click(screen.getByLabelText(/summer/i))
@@ -565,7 +565,7 @@ describe('Component <StatisticsForm> in english', () => {
     await userEvent.click(screen.getByLabelText(/itm/i))
     expect(screen.getByLabelText(/itm/i)).toBeChecked()
 
-    await userEvent.selectOptions(screen.getByRole('combobox', { name: /choose a year/i }), '2020')
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: /Select year/i }), '2020')
 
     await userEvent.click(screen.getByLabelText(/autumn/i))
     expect(screen.getByLabelText(/autumn/i)).toBeChecked()

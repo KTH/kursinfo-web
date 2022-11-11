@@ -3,7 +3,7 @@ import React from 'react'
 const englishMemosSummarySection = {
   courseDataApiDescription: koppsApiUrl => (
     <>
-      <p>Exemple for how data is fetched for Spring 2022, period P3, school ABE:</p>
+      <p>Example for how data is fetched for Spring 2022, period P3, school ABE:</p>
       <p>
         Course data is fetched from&nbsp;
         <a href="https://www.kth.se/api/kopps/v2/apiInfo/courses">KOPPS API for Courses</a>, endpoint&nbsp;
@@ -51,7 +51,40 @@ const englishMemosSummarySection = {
       </p>
     </>
   ),
-  subPageDescription: () => <p>Some description of memo</p>,
+  subPageDescription: () => (
+    <>
+      <p>
+        Here is a summary of the number of published course memos for the selected school, year and study period. The
+        data used is taken from Kopps and About course.
+      </p>
+      <p>
+        The table shows the number of courses that started and number of course memos that were published during the
+        selected study period. The three diagrams show how big part of the school`s courses have published course memos
+        during the study period, at the latest at the start of the course (in accordance with KTH`s guideline for course
+        memos{' '}
+        <a href="https://intra.kth.se/en/utbildning/systemstod/om-kursen/kurs-pm/riktilinjer" className="external-link">
+          KTH`s guideline for course memos
+        </a>
+        ) and one week before the start of the course. Below the diagrams, a comparison can be made with the result from
+        the previous year.
+      </p>
+
+      <p>Information about the data used: </p>
+      <ul>
+        <li>A course memo is always counted as one course memo, even if there are several published versions.</li>
+        <li>The publishing date used is the date when the first version of the course memo was published.</li>
+        <li>
+          The number of courses is calculated based on the number of unique course codes for the selected study period.
+          Courses that have several course offerings with exactly the same start and end date are counted as one course.
+        </li>
+        <li>
+          {' '}
+          For course offerings that run over several semesters, the course memo is presented for the first semester of
+          the course offering.
+        </li>
+      </ul>
+    </>
+  ),
 }
 
 const swedishMemosSummarySection = {
