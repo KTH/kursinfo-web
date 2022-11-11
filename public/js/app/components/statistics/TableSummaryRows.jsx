@@ -26,7 +26,7 @@ function TableHeaderRow({ cellNames = [], labels = {} }) {
 }
 
 function TableContentRows({ cellNames, schools, getNumbersFn = () => [] }) {
-  const schoolCodes = Object.keys(schools)
+  const schoolCodes = Object.keys(schools).sort()
 
   return schoolCodes.map(school => {
     const schoolNumbers = schools[school]
