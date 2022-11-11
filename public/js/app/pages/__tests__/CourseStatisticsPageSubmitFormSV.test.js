@@ -25,54 +25,6 @@ function CourseStatisticsPageWithContext({ context }) {
     </WebContextProvider>
   )
 }
-describe('Component <CourseStatisticsPage> form', () => {
-  test('renders start state of page', () => {
-    render(<CourseStatisticsPageWithContext context={context_sv} />)
-
-    const h3 = screen.getByRole('heading', { level: 3 })
-    expect(h3).toHaveTextContent('Område')
-
-    const courseMemo = screen.getByLabelText(/kurs-pm/i)
-    expect(courseMemo).toBeInTheDocument()
-    const courseAnalysis = screen.getByLabelText(/kursanalys/i)
-    expect(courseAnalysis).toBeInTheDocument()
-
-    const allRadios = screen.getAllByRole('radio')
-    expect(allRadios.length).toBe(2)
-
-    const checkbox = screen.queryByRole('checkbox')
-    expect(checkbox).not.toBeInTheDocument()
-
-    const select = screen.queryByRole('select')
-    expect(select).not.toBeInTheDocument()
-
-    const btn = screen.getByRole('button', { name: /visa statistik/i })
-    expect(btn).toBeInTheDocument()
-  })
-
-  test('renders choose kurs-pm and show inputs for school, year and läsperiods', async () => {
-    render(<CourseStatisticsPageWithContext context={context_sv} />)
-
-    const courseMemo = screen.getByLabelText(/kurs-pm/i)
-    await userEvent.click(courseMemo)
-    expect(courseMemo).toBeChecked()
-
-    const periods = screen.getByRole('heading', { name: /läsperiod/i })
-    expect(periods).toBeInTheDocument()
-
-    const termin = screen.queryByRole('heading', { name: /termin/i })
-    expect(termin).not.toBeInTheDocument()
-
-    const allRadios = screen.getAllByRole('radio')
-    expect(allRadios.length).toBe(8)
-
-    const checkboxes = screen.getAllByRole('checkbox')
-    expect(checkboxes.length).toBe(5)
-
-    const combobox = screen.getAllByRole('combobox')
-    expect(combobox.length).toBe(1)
-  })
-})
 
 describe('Component <CourseStatisticsPage> submit data', () => {
   test('submit empty form without choosing anything', async () => {
@@ -205,7 +157,7 @@ describe('Component <CourseStatisticsPage> submit data', () => {
     const btn = screen.getByRole('button', { name: /visa statistik/i })
     await userEvent.click(btn)
     const url = 'node/api/kursinfo/statistics/courseMemo/year/2020'
-    const paramsPeriod1 = { params: { l: 'sv', periods: [1, 2, 3, 4, 0, 5], school: 'SCI', seasons: [1, 2] } }
+    const paramsPeriod1 = { params: { l: 'sv', periods: [0, 1, 2, 3, 4, 5], school: 'SCI', seasons: [1, 2] } }
     expect(axios.get).toHaveBeenCalledTimes(1)
     expect(axios.get).toHaveBeenCalledWith(url, paramsPeriod1)
     const rejectMsg = /Ett okänt fel inträffade - misslyckad hämtning av kursdata./i

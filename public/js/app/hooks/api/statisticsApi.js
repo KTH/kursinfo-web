@@ -37,7 +37,7 @@ function _formQueryByDocumentType(documentType, params) {
         // in analysis api, exists only autumn and spring semester
         analysesSeasons: seasonsLib.parseToSpringOrAutumnSeasons({ seasons: params.seasons }),
         // seasons chosen by user, summer/autumn/spring
-        seasons: params.seasons,
+        seasons: params.seasons.sort(),
       }
 }
 

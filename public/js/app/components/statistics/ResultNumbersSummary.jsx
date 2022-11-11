@@ -50,8 +50,6 @@ ResultNumbersSummary.propTypes = {
       koppsApiBasePath: PropTypes.string,
       documentsApiBasePath: PropTypes.string,
       school: PropTypes.oneOf(schools.orderedSchoolsFormOptions()),
-      semestersInMemos: PropTypes.arrayOf(PropTypes.string),
-      totalOfferings: PropTypes.number,
     }),
   ]),
 }

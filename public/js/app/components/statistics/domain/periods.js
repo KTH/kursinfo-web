@@ -82,11 +82,16 @@ function labelPeriod(periodNumber, langIndex, withPeriodLabel = true) {
  */
 function parsePeriodsToOrdinarieSeasons({ periods }) {
   if (!periods) throw new Error(`Missing periods: ${periods}.`)
-  if (periods.length > 0 && typeof periods[0] !== 'number')
+  if (!periods.length === 0) return []
+
+  if (typeof periods[0] !== 'number' && typeof periods[0] !== 'string')
     throw new Error(`Wrong type of period: ${typeof periods[0]}.`)
 
-  if (periods.includes(SUMMER_PERIOD_GROUPED_0))
-    return [seasonsLib.seasonConstants.SPRING_TERM_NUMBER, seasonsLib.seasonConstants.AUTUMN_TERM_NUMBER]
+  const isSummer = periods.includes(
+    typeof periods[0] === 'number' ? SUMMER_PERIOD_GROUPED_0 : String(SUMMER_PERIOD_GROUPED_0)
+  )
+
+  if (isSummer) return [seasonsLib.seasonConstants.SPRING_TERM_NUMBER, seasonsLib.seasonConstants.AUTUMN_TERM_NUMBER]
 
   const ordinarieSeasons = []
   periods.forEach(periodNumber => {
@@ -101,18 +106,25 @@ function parsePeriodsToOrdinarieSeasons({ periods }) {
 
 /**
  * @param {array} periods
- * @param {number} periods[]
+ * @param {number | string} periods[]
  * @throws
  * @returns {array}
  */
 function parsePeriods(periods) {
   if (!periods) throw new Error(`Missing periods: ${periods}.`)
-  if (periods.length > 0 && typeof periods[0] !== 'number')
+  if (!periods.length === 0) return []
+
+  if (typeof periods[0] !== 'number' && typeof periods[0] !== 'string')
     throw new Error(`Wrong type of period: ${typeof periods[0]}.`)
-  if (periods.includes(SUMMER_PERIOD_GROUPED_0)) {
-    if (!periods.includes(SUMMER_PERIOD_SPRING)) return [...periods, SUMMER_PERIOD_SPRING] // initiate new array
+
+  const periodsNumbers = periods.map(period => Number(period))
+
+  const isSummer = periodsNumbers.includes(SUMMER_PERIOD_GROUPED_0)
+
+  if (isSummer) {
+    if (!periodsNumbers.includes(SUMMER_PERIOD_SPRING)) return [...periodsNumbers, SUMMER_PERIOD_SPRING].sort() // initiate new array
   }
-  return periods
+  return periodsNumbers.sort()
 }
 
 export default {
