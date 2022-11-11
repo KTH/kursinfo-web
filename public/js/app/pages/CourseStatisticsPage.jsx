@@ -74,7 +74,7 @@ function CourseStatisticsPage() {
           <header>
             <h1 id="page-heading">{labels.pageHeader}</h1>
           </header>
-          <div className="lead">{texts.pageDescription()}</div>
+          <div>{texts.pageDescription()}</div>
         </Col>
       </Row>
       <Row>
