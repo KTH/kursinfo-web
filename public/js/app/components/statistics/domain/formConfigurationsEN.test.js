@@ -73,19 +73,9 @@ describe('Get list of  for each option on statistics page in English', () => {
     expect(years).toMatchInlineSnapshot(`
       [
         {
-          "id": 2019,
-          "label": 2019,
-          "value": 2019,
-        },
-        {
-          "id": 2020,
-          "label": 2020,
-          "value": 2020,
-        },
-        {
-          "id": 2021,
-          "label": 2021,
-          "value": 2021,
+          "id": 2023,
+          "label": 2023,
+          "value": 2023,
         },
         {
           "id": 2022,
@@ -93,9 +83,19 @@ describe('Get list of  for each option on statistics page in English', () => {
           "value": 2022,
         },
         {
-          "id": 2023,
-          "label": 2023,
-          "value": 2023,
+          "id": 2021,
+          "label": 2021,
+          "value": 2021,
+        },
+        {
+          "id": 2020,
+          "label": 2020,
+          "value": 2020,
+        },
+        {
+          "id": 2019,
+          "label": 2019,
+          "value": 2019,
         },
       ]
     `)

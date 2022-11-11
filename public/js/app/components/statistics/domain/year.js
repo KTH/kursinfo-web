@@ -5,10 +5,10 @@ function getYears() {
   const currentYear = today.getFullYear()
   const nextYear = currentYear + 1
   const years = []
-  let y = YEAR_MINIMUM
-  while (y <= nextYear) {
-    years.push(y)
-    y++
+  let year = nextYear
+  while (year >= YEAR_MINIMUM) {
+    years.push(year)
+    year--
   }
   return years
 }
