@@ -71,10 +71,8 @@ function CourseStatisticsPage() {
     <div className="container" id="kursstatistik-main-page" style={{ paddingTop: '30px' }}>
       <Row>
         <Col>
-          <header>
-            <h1 id="page-heading">{labels.pageHeader}</h1>
-          </header>
-          <div>{texts.pageDescription()}</div>
+          <h1>{labels.pageHeader}</h1>
+          {texts.pageDescription()}
         </Col>
       </Row>
       <Row>
