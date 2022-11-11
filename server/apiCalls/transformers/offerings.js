@@ -57,26 +57,28 @@ const semestersInParsedOfferings = parsedOfferings => {
   return foundSemesters
 }
 
+function _sortOfferedSemesters(offeredSemesters) {
+  return offeredSemesters.sort((a, b) => new Date(b.end_date) - new Date(a.end_date))
+}
+
 /**
  * @param {Object[]} chosenSemesters    Semesters strings for which data is fetched
  * @param {string} chosenSemesters[]    Semester string chosen by user
- * @returns {{}}           Array, containingoffered semesters and startDate
+ * @returns {{}}           Array, containing offered semesters and startDate
  */
 
-function _findStartEndDates(chosenSemesters, courseOfferedSemesters) {
+function _findCourseStartEndDates(chosenSemesters, courseOfferedSemesters) {
   const offeredSemesters = Array.isArray(courseOfferedSemesters) ? courseOfferedSemesters : []
+  const { length, 0: firstOffering = {}, [length - 1]: lastOffering = {} } = _sortOfferedSemesters(offeredSemesters)
 
-  const {
-    end_date: offeredSemesterEndtDate,
-    end_week: endWeek,
-    start_date: offeredSemesterStartDate = '',
-  } = offeredSemesters.find(os => chosenSemesters.includes(os.semester)) || {}
-  const startDate = offeredSemesterStartDate ? formatTimeToLocaleDateSV(Date.parse(offeredSemesterStartDate)) : ''
-  const endDate = offeredSemesterEndtDate ? formatTimeToLocaleDateSV(Date.parse(offeredSemesterEndtDate)) : ''
+  const { start_date: courseStartDate = '' } = firstOffering
+  const startDate = courseStartDate ? formatTimeToLocaleDateSV(Date.parse(courseStartDate)) : ''
 
-  const lastSemester = offeredSemesters.length ? offeredSemesters[offeredSemesters.length - 1].semester : ''
+  const { semester: lastSemester = '', end_date: courseEndDate = '', end_week: courseEndWeek } = lastOffering
 
-  return { endDate, endWeek, lastSemester, startDate }
+  const endDate = courseEndDate ? formatTimeToLocaleDateSV(Date.parse(courseEndDate)) : ''
+
+  return { endDate, endWeek: courseEndWeek, lastSemester, startDate }
 }
 // semester":"20202","start_date":"2020-08-24","end_date":"2020-10-23","start_week":"35","end_week":"43",
 
@@ -116,7 +118,7 @@ function filterOfferingsForMemos(courses = [], chosenSemesters = [], chosenPerio
       const isChosenSchool = isCorrectSchool(chosenSchool, schoolCode)
 
       if (isStartedInChosenPeriods && isChosenSchool) {
-        const { endDate, startDate } = _findStartEndDates(chosenSemesters, courseOfferedSemesters)
+        const { endDate, startDate } = _findCourseStartEndDates(chosenSemesters, courseOfferedSemesters)
         const offering = _formOffering(firstSemester, startDate, endDate, course)
         parsedOfferings.push({ ...offering, period: firstPerioLabel })
       }
@@ -178,7 +180,10 @@ function filterOfferingsForAnalysis(
         school_code: schoolCode,
       } = course
 
-      const { endDate, endWeek, lastSemester, startDate } = _findStartEndDates(chosenSemesters, courseOfferedSemesters)
+      const { endDate, endWeek, lastSemester, startDate } = _findCourseStartEndDates(
+        chosenSemesters,
+        courseOfferedSemesters
+      )
       const lastTermSeasonNumber = endDate ? _parseTermSeasonForNthWeek(endWeek) : ''
       const lastTermSeasonLabel = endDate ? labelSeason(Number(lastTermSeasonNumber), language === 'en' ? 0 : 1) : ''
 
@@ -200,4 +205,5 @@ module.exports = {
   filterOfferingsForMemos,
   filterOfferingsForAnalysis,
   semestersInParsedOfferings,
+  sortOfferedSemesters: _sortOfferedSemesters,
 }

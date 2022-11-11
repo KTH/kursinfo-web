@@ -5,6 +5,7 @@ import {
   filterOfferingsForMemos,
   filterOfferingsForAnalysis,
   semestersInParsedOfferings,
+  sortOfferedSemesters,
 } from './offerings'
 
 describe('Memos functions to parse and filter offerings', () => {
@@ -83,7 +84,7 @@ describe('Analysis functions to parse and filter offerings', () => {
     expect(parsePeriodForNthWeek('23')).toBe(1)
   })
   test('find matching course offering. Course finishes in autumn, user has chosen summer, autumn and spring semesters.', () => {
-    const notexpectedSemester = { end_week: '40', end_date: '2021-10-10', semester: '20212', start_date: '2020-10-10' }
+    const notexpectedSemester = { end_week: '40', end_date: '2021-10-10', semester: '20212', start_date: '2020-02-10' }
     const expectedSemester = { end_week: '1', end_date: '2021-01-10', semester: '20202', start_date: '2020-10-10' }
     const expectedCourse = {
       connected_programs: [{ code: 'CINTE2', study_year: '2020', spec_code: 'iNTeresting' }],
@@ -120,7 +121,7 @@ describe('Analysis functions to parse and filter offerings', () => {
 
     const [offering] = parsedOfferings
     expect(offering.firstSemester).toBe(expectedCourse.first_yearsemester)
-    expect(offering.startDate).toBe(expectedCourse.offered_semesters[1].start_date)
+    expect(offering.startDate).toBe(expectedCourse.offered_semesters[0].start_date)
     expect(offering.endDate).toBe(expectedCourse.offered_semesters[1].end_date)
     expect(offering.schoolMainCode).toBe('CBH')
     expect(offering.departmentName).toBe(expectedCourse.department_name)
@@ -136,7 +137,7 @@ describe('Analysis functions to parse and filter offerings', () => {
 
     const [offering_en] = parsedOfferings_en
     expect(offering_en.firstSemester).toBe(expectedCourse.first_yearsemester)
-    expect(offering_en.startDate).toBe(expectedCourse.offered_semesters[1].start_date)
+    expect(offering_en.startDate).toBe(expectedCourse.offered_semesters[0].start_date)
     expect(offering_en.endDate).toBe(expectedCourse.offered_semesters[1].end_date)
     expect(offering_en.schoolMainCode).toBe('CBH')
     expect(offering_en.departmentName).toBe(expectedCourse.department_name)
@@ -290,4 +291,26 @@ describe('Analysis functions to parse and filter offerings', () => {
     expect(offering_en.lastSemester).toBe('20221')
     expect(offering_en.lastSemesterLabel).toBe('Summer')
   })
+
+  // test('sort offered semesters by date', () => {
+  //   const offeredSemesters = [
+  //     {
+  //       semester: '20231',
+  //       start_date: '2023-06-01',
+  //       end_date: '2023-06-30',
+  //     },
+  //     {
+  //       semester: '20232',
+  //       start_date: '2023-07-01',
+  //       end_date: '2024-12-31',
+  //     },
+  //   ]
+
+  //   const [firstSemester, secondSemester] = sortOfferedSemesters(offeredSemesters)
+  //   expect(firstSemester.end_date).toBe('2023-06-30')
+  //   expect(firstSemester.start_date).toBe('2023-06-01')
+
+  //   expect(secondSemester.end_date).toBe('2024-12-31')
+  //   expect(secondSemester.semester).toBe('20232')
+  // })
 })
