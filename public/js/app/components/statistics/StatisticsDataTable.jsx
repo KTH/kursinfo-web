@@ -95,9 +95,9 @@ const NoDataMessage = ({ labels }) => (
 function StatisticsExport({ columnNames, columns, dataRows, fileName, sheetName, exportLabels }) {
   const wscols = [
     { wch: 10 },
+    { wch: 20 },
     { wch: 10 },
     { wch: 50 },
-    { wch: 20 },
     { wch: 20 },
     { wch: 20 },
     { wch: 20 },
@@ -206,12 +206,12 @@ function StatisticsDataTable({ statisticsResult }) {
     // prepare columns for analysis table
     columnNames = [
       'year',
+      'term',
       'school',
       'institution',
       'courseCode',
       'linkedProgram',
       'courseRoundNumber',
-      'term',
       'courseEndDate',
       'publishDate',
       'linkToCourseAnalysis',
