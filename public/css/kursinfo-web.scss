@@ -10,7 +10,11 @@
   padding-left: 30px;
   width: 100%;
 }
-
+#kursstatistik-main-page {
+  .paragraphs p {
+    max-width: 100% !important;
+  }
+}
 .container.articleNavigation {
   padding: 15px 15px 0 !important;
 }
