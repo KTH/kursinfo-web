@@ -11,6 +11,7 @@ import CourseStatisticsPage from '../CourseStatisticsPage'
 jest.mock('axios', () => ({
   get: jest.fn(),
 }))
+jest.setTimeout(30000)
 const language_sv = 'sv'
 
 const context_sv = {
@@ -259,6 +260,7 @@ describe('Component <CourseStatisticsPage> show compilation data in for memos', 
     const url2020 = 'node/api/kursinfo/statistics/courseMemo/year/2020'
     expect(axios.get).toHaveBeenCalledTimes(2)
     expect(axios.get).toHaveBeenCalledWith(url2020, params2020)
+    jest.resetAllMocks()
   })
 })
 
@@ -295,7 +297,7 @@ describe('Component <CourseStatisticsPage> show compilation data in for course a
       koppsApiBasePath: 'https://api-r.referens.sys.kth.se/api/kopps/v2/',
       documentsApiBasePath: 'http://localhost/api/kurs-pm-data',
       school: 'allSchools',
-      seasons: ['1', '2'],
+      seasons: ['0', '1', '2'],
       semesters: ['20211', '20212'],
       year: '2021',
     }
@@ -400,8 +402,9 @@ describe('Component <CourseStatisticsPage> show compilation data in for course a
 
     await userEvent.click(btnCompare)
 
-    // const params2020 = { ...paramsPeriod1 }
-    // const url2020 = 'node/api/kursinfo/statistics/courseAnalysis/year/2020'
-    // expect(axios.get).toHaveBeenCalledWith(url2020, params2020)
+    const params2020 = { ...paramsPeriod1 }
+    const url2020 = 'node/api/kursinfo/statistics/courseAnalysis/year/2020'
+    expect(axios.get).toHaveBeenCalledWith(url2020, params2020)
+    jest.resetAllMocks()
   })
 })

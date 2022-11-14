@@ -2,18 +2,30 @@ import { labelSeason, orderedSeasons, seasonConstants } from '../../../../../../
 
 /**
  * @param {array} seasons
+ * @param {number | string} seasons[]
+ * @returns {array}
+ */
+function parseSeasons(seasons) {
+  return seasons.map(season => Number(season)).sort()
+}
+
+/**
+ * @param {array} seasons
+ * @param {number | string} seasons[]
  * @returns {array}
  */
 function parseToSpringOrAutumnSeasons({ seasons = [] }) {
-  if (seasons.includes(seasonConstants.SUMMER_TERM_NUMBER))
+  const seasonsNumbers = parseSeasons(seasons)
+  if (seasonsNumbers.includes(seasonConstants.SUMMER_TERM_NUMBER))
     return [seasonConstants.SPRING_TERM_NUMBER, seasonConstants.AUTUMN_TERM_NUMBER]
 
-  return seasons
+  return seasonsNumbers
 }
 
 export default {
   labelSeason,
   orderedSeasons,
+  parseSeasons,
   parseToSpringOrAutumnSeasons,
   seasonConstants,
 }
