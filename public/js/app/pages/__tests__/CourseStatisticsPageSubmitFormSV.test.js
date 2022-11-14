@@ -53,8 +53,8 @@ describe('Component <CourseStatisticsPage> submit data', () => {
     expect(within(alertMemoMessage).getByText(errorMessage)).toBeInTheDocument()
     expect(within(alertMemoMessage).getByText(emptyMemoFieldsNames)).toBeInTheDocument()
 
-    expect(screen.getAllByText(errorMessage, { exact: true }).length).toBe(2)
-    expect(screen.getAllByText(emptyMemoFieldsNames, { exact: true }).length).toBe(2)
+    expect(screen.getAllByText(errorMessage, { exact: true }).length).toBe(1)
+    expect(screen.getAllByText(emptyMemoFieldsNames, { exact: true }).length).toBe(1)
 
     // choose course analysis
     const courseAnalysis = screen.getByLabelText(/kursanalys/i)
@@ -68,8 +68,8 @@ describe('Component <CourseStatisticsPage> submit data', () => {
     expect(within(alertnalysisMemoMessage).getByText(errorMessage)).toBeInTheDocument()
     expect(within(alertnalysisMemoMessage).getByText(emptyAnalysisFieldsNames)).toBeInTheDocument()
 
-    expect(screen.getAllByText(errorMessage, { exact: true }).length).toBe(2)
-    expect(screen.getAllByText(emptyAnalysisFieldsNames, { exact: true }).length).toBe(2)
+    expect(screen.getAllByText(errorMessage, { exact: true }).length).toBe(1)
+    expect(screen.getAllByText(emptyAnalysisFieldsNames, { exact: true }).length).toBe(1)
   })
 
   test('choose a course memo, chose/unchoose different periods (läsperiod) and submit the rest of the form empty', async () => {

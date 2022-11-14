@@ -33,6 +33,7 @@ const errorItalicParagraph = (error = {}, languageIndex) => {
 function Results({ statisticsStatus, error = {}, children }) {
   const [{ languageIndex }] = useWebContext()
   const { errorType } = error
+  if (statisticsStatus === STATUS.missingParameters) return null
 
   if (statisticsStatus === STATUS.resolved) {
     return <>{children}</>
@@ -43,6 +44,7 @@ function Results({ statisticsStatus, error = {}, children }) {
     const { searchLoading } = i18n.messages[languageIndex].statisticsLabels
     return <p>{searchLoading}</p>
   }
+
   if (errorType) return errorItalicParagraph(error, languageIndex)
 
   return null

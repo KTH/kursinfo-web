@@ -48,14 +48,7 @@ function Chart({ data = [], label = '' }) {
   return (
     <VictoryChart height={405} width={405} theme={VictoryTheme.material} domainPadding={20}>
       <VictoryLabel x={4} y={24} text={label} style={{ fontSize: '16px' }} />
-      {data.length > 1 ? (
-        <VictoryAxis
-          tickValues={schoolsLib.ORDERED_SCHOOLS}
-          // tickValues={schoolsLib.ORDERED_SCHOOLS.map((_, i) => i + 1)}
-        />
-      ) : (
-        <VictoryAxis />
-      )}
+      {data.length > 1 ? <VictoryAxis tickValues={schoolsLib.ORDERED_SCHOOLS} /> : <VictoryAxis />}
       <VictoryAxis
         dependentAxis
         tickValues={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
