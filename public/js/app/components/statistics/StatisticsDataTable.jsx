@@ -192,12 +192,12 @@ function StatisticsDataTable({ statisticsResult }) {
   if (isMemoPage) {
     columnNames = [
       'year',
+      'period',
       'school',
       'institution',
       'courseCode',
       'linkedProgram',
       'courseRoundNumber',
-      'period',
       'courseStart',
       'publishDate',
       'linkToCoursePM',
