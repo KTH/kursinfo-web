@@ -52,13 +52,15 @@ const swedishIntroTexts = {
       <p>
         Statistiksidan för kursinformation är en del av verktyget Administrera Om kursen. De kurs-PM och kursanalyser
         som publiceras via verktyget utgör underlaget för statistiken. Läs mer om{' '}
-        <a href="https://intra.kth.se/utbildning/systemstod/om-kursen/om-kursen-1.1020344">Om kursen på intranätet.</a>{' '}
+        <a href="https://intra.kth.se/utbildning/systemstod/om-kursen/om-kursen-1.1020344" className="external-link">
+          Om kursen på intranätet.
+        </a>{' '}
       </p>
       <p>
         Statistiken visas områdesvis för kurs-PM respektive kursanalys. Det går att se statistik för en eller alla
         skolor samt för en eller flera läsperioder/terminer. Det finns statistik att hämta från år 2019 och framåt.
         Statistiken för kurs-PM möjliggör uppföljning på skolnivå utifrån{' '}
-        <a href="https://intra.kth.se/utbildning/systemstod/om-kursen/kurs-pm/riktilinjer">
+        <a href="https://intra.kth.se/utbildning/systemstod/om-kursen/kurs-pm/riktilinjer" className="external-link">
           KTH:s riktlinje för kurs-PM.
         </a>
       </p>
