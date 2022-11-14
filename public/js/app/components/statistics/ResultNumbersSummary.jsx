@@ -16,12 +16,14 @@ function ResultNumbersSummary({ statisticsResult }) {
   // labels are for headers and short texts
   const { statisticsLabels: labels } = i18n.messages[languageIndex]
   const { summaryLabels } = labels
+  const header = labels[documentType]
 
   // texts are for big texts with several <p>, or dynamic
   const texts = summaryTexts(documentType, language)
 
   return (
     <>
+      <h2 id="results-heading">{header}</h2>
       <h3>{summaryLabels.subHeaders[documentType]}</h3>
       <article key="documents-and-courses-description">
         {texts.subPageDescription()}

@@ -9,7 +9,7 @@ function StatisticsAlert({ alertType, languageIndex, children }) {
   const { header = '', help = '', text = '' } = statisticsLabels[alertType]
 
   return (
-    <Alert color="info" aria-live="polite">
+    <Alert color={alertType === ERROR_ASYNC.missingParameters ? 'danger' : 'info'} aria-live="polite">
       {header && <h5>{header}</h5>}
       {text && <p>{text}</p>}
       {help && <p>{help}</p>}

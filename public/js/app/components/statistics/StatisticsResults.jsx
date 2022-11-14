@@ -3,8 +3,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Col, Row } from 'reactstrap'
 
-import i18n from '../../../../../i18n'
-import { useWebContext } from '../../context/WebContext'
 import { STATUS, ERROR_ASYNC, useStatisticsAsync } from '../../hooks/statisticsUseAsync'
 
 import { periods, schools, seasons } from './domain/index'
@@ -33,7 +31,11 @@ function SortableCoursesAndDocuments({ statisticsStatus, error = {}, statisticsR
 SortableCoursesAndDocuments.propTypes = {
   languageIndex: PropTypes.oneOf([0, 1]),
   statisticsStatus: PropTypes.oneOf([...Object.values(STATUS), null]),
-  // statisticsResult: PropTypes.shape(searchHitsPropsShape),
+  statisticsResult: PropTypes.shape({
+    documentsApiBasePath: PropTypes.string,
+    documentType: PropTypes.oneOf(documentTypes()),
+    koppsApiBasePath: PropTypes.string,
+  }),
   error: PropTypes.shape({
     errorType: PropTypes.oneOf([...Object.values(ERROR_ASYNC), '']),
     errorExtraText: PropTypes.string,
@@ -48,32 +50,20 @@ SortableCoursesAndDocuments.defaultProps = {
 }
 
 function StatisticsResults({ chosenOptions }) {
-  const [{ languageIndex }] = useWebContext()
-  const { documentType } = chosenOptions
-
-  const { statisticsLabels } = i18n.messages[languageIndex]
-  const header = statisticsLabels[documentType]
-
   const state = useStatisticsAsync(chosenOptions, 'onChange')
 
   const { data: statisticsResult, status: statisticsStatus, error = {} } = state || {}
 
   return (
-    <>
-      {statisticsStatus !== STATUS.idle && (
-        <Row>
-          <Col>
-            <h2 id="results-heading">{header}</h2>
-          </Col>
-        </Row>
-      )}
-      <SortableCoursesAndDocuments
-        statisticsStatus={statisticsStatus}
-        error={error}
-        languageIndex={languageIndex}
-        statisticsResult={statisticsResult}
-      />
-    </>
+    <Row style={{ marginTop: '50px' }}>
+      <Col>
+        <SortableCoursesAndDocuments
+          statisticsStatus={statisticsStatus}
+          error={error}
+          statisticsResult={statisticsResult}
+        />
+      </Col>
+    </Row>
   )
 }
 
