@@ -322,7 +322,7 @@ module.exports = {
     missingParameters: { text: 'Some of the query restrictions were not specified' },
     pageHeader: 'The statistics page for course Information',
     period: 'Period',
-    searchLoading: 'Loading ...',
+    searchLoading: 'Loading data, please wait...',
     seasonAutumn: 'Autumn',
     seasonSpring: 'Spring',
     seasonSummer: 'Summer',

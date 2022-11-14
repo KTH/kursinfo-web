@@ -296,7 +296,7 @@ module.exports = {
     },
     pageHeader: 'Statistiksidan för kursinformation',
     period: 'Period',
-    searchLoading: 'Laddar ...',
+    searchLoading: 'Laddar data, vänligen vänta...',
     seasonAutumn: 'HT',
     seasonSpring: 'VT',
     seasonSummer: 'Sommar',

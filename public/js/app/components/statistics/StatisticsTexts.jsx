@@ -2,10 +2,6 @@ import React from 'react'
 import { memosTexts, analysisTexts } from './texts/index'
 import { DOCS } from './domain/formConfigurations'
 
-// TODO: MOVED from previous version, need to update texts
-// texts are for big texts with several <p>, or dynamic
-// for show labels and headers use / move to messages.en/.se
-
 const englishIntroTexts = {
   pageHeader: `Course Information Statistics`,
   pageDescription: () => (
