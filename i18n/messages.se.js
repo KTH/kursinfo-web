@@ -317,7 +317,7 @@ module.exports = {
           'Här finns möjlighet att se en tabell med data för alla kurser, for vald skola och läsperiod. Det går att sortera informationen i tabellen for institution, kurskod, kursstart, publiceringsdatum och länk till kurs-PM. Det är även möjligt att ladda ner tabellen som en Excel- eller CSV-fil för att göra egna filtreringar och sorteringar av datan',
         sourceOfData: 'Se tabell med data for kurs PM',
       },
-      rowsPerPageText: 'antal rader per sida:',
+      rowsPerPageText: 'Antal rader per sida:',
       rangeSeparatorText: 'av',
       noDataMessage: 'Inga statistikdata hittades!',
       statisticsDataColumns: {
