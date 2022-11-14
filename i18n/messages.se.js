@@ -305,6 +305,10 @@ module.exports = {
       csv: 'Ladda ner tabell som csv-fil',
     },
     sortableTable: {
+      semester: {
+        1: 'VT',
+        2: 'HT',
+      },
       courseAnalysis: {
         header: 'Tabell med kurser och kursanalyser',
         details:

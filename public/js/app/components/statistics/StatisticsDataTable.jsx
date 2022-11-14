@@ -9,12 +9,21 @@ function _getThisHost(thisHostBaseUrl) {
   return thisHostBaseUrl.slice(-1) === '/' ? thisHostBaseUrl.slice(0, -1) : thisHostBaseUrl
 }
 
+function isSpringTerm(term) {
+  if (typeof term === 'number') {
+    return term % 2 === 1
+  }
+  return term.slice(-1) === '1'
+}
+
 const buildLink = (link, textToShow) => <a href={`${link}`}>{textToShow}</a>
 
-function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig) {
+function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, semesterTranslationObject) {
   const dataRows = []
   offeringsWithMemos.forEach(offering => {
     const departmentNames = offering.departmentName.split('/')
+    const semester = isSpringTerm(offering.firstSemester) ? semesterTranslationObject[1] : semesterTranslationObject[2]
+    const period = offering.period + ', ' + semester
     const institution = departmentNames && departmentNames.length > 1 ? departmentNames[1] : offering.departmentName
     const offeringBase = {
       year,
@@ -23,7 +32,7 @@ function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig) {
       courseCode: offering.courseCode,
       linkedProgram: offering.connectedPrograms,
       courseRoundNumber: offering.offeringId,
-      period: offering.period,
+      period,
       courseStart: offering.startDate,
       publishDate: '',
       linkToCoursePM: '',
@@ -172,7 +181,7 @@ function StatisticsDataTable({ statisticsResult }) {
   const { languageIndex, browserConfig } = context
   const { statisticsLabels } = i18n.messages[languageIndex]
   const { sortableTable, exportLabels } = statisticsLabels
-  const { statisticsDataColumns, courseMemo, courseAnalysis } = sortableTable
+  const { statisticsDataColumns, courseMemo, courseAnalysis, semester: semesterTranslationObject } = sortableTable
 
   if (
     !statisticsResult ||
@@ -225,7 +234,7 @@ function StatisticsDataTable({ statisticsResult }) {
   }))
   let dataRows = []
   if (isMemoPage) {
-    dataRows = _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig)
+    dataRows = _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, semesterTranslationObject)
   } else if (isAnalysisPage) {
     dataRows = _getDataRowsForCourseAnalysis(offeringsWithAnalyses, year, browserConfig)
   }

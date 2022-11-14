@@ -331,6 +331,10 @@ module.exports = {
       csv: 'Download table as csv file',
     },
     sortableTable: {
+      semester: {
+        1: 'Spring',
+        2: 'Autumn',
+      },
       courseAnalysis: {
         header: 'Table with courses and course analyses',
         details:
