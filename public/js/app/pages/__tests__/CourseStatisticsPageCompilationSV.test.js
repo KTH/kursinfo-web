@@ -186,7 +186,7 @@ describe('Component <CourseStatisticsPage> show compilation data in for memos', 
 
     expect(
       screen.getByRole('heading', {
-        name: /andel kurser som har publicerat kurs\-pm/i,
+        name: /andel kurser som har publicerade kurs\-pm/i,
       })
     ).toBeInTheDocument()
     const periodsLabel = /Sommar, 1 HT, 2 HT, 3 VT, 4 VT/i
