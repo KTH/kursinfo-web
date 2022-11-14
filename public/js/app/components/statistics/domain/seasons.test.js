@@ -26,6 +26,18 @@ describe('Get list of seasons', () => {
     `)
   })
 
+  test('get both seasons if all seasons are chosen and are strings', () => {
+    const summer = ['0', '1', '2']
+    const seasonsList = seasonsLib.parseToSpringOrAutumnSeasons({ seasons: summer })
+    expect(seasonsList.length).toBe(2)
+    expect(seasonsList).toMatchInlineSnapshot(`
+      [
+        1,
+        2,
+      ]
+    `)
+  })
+
   test('get autumn season for Autumn and Spring', () => {
     const seasons = [1, 2]
     const seasonsList = seasonsLib.parseToSpringOrAutumnSeasons({ seasons })
