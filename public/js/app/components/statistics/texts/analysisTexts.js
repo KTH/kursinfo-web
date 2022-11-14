@@ -3,7 +3,7 @@ import React from 'react'
 const englishAnalysisSummarySection = {
   courseDataApiDescription: koppsApiUrl => (
     // change texts
-    <>
+    <div className="paragraphs">
       <p>Example for how data is fetched for Spring 2022, period P3, school ABE:</p>
       <p>
         Course data is fetched from&nbsp;
@@ -30,23 +30,25 @@ const englishAnalysisSummarySection = {
           course.offered_semesters[&#123;{'lastSemester'}&#125;].end_week {'>='} (than first week of a spring semester)
         </code>
       </p>
-    </>
+    </div>
   ),
   courseDocumentsDataApiDescription: kursutvecklingApiUrl => (
-    <p>
-      Course analyses data is fetched from&nbsp;
-      <a href="https://github.com/KTH/kursutveckling-api" target="_blank" rel="noreferrer">
-        kursutveckling-api
-      </a>
-      , endpoint <code>getCourseAnalysesForSemestersList</code>. Data for the current page was fetched from&nbsp;
-      <a href={kursutvecklingApiUrl} target="_blank" rel="noreferrer">
-        {`${kursutvecklingApiUrl}/courseAnalysesForSemestersList?semesters=20221`}
-      </a>
-      , with <b>first</b> semester of a course (not the end or between semesters).
-    </p>
+    <div className="paragraphs">
+      <p>
+        Course analyses data is fetched from&nbsp;
+        <a href="https://github.com/KTH/kursutveckling-api" target="_blank" rel="noreferrer">
+          kursutveckling-api
+        </a>
+        , endpoint <code>getCourseAnalysesForSemestersList</code>. Data for the current page was fetched from&nbsp;
+        <a href={kursutvecklingApiUrl} target="_blank" rel="noreferrer">
+          {`${kursutvecklingApiUrl}/courseAnalysesForSemestersList?semesters=20221`}
+        </a>
+        , with <b>first</b> semester of a course (not the end or between semesters).
+      </p>
+    </div>
   ),
   subPageDescription: () => (
-    <>
+    <div className="paragraphs">
       <p>
         Here is a summary of the number of published course analyses for the selected school, year and semester. The
         data used is taken from Kopps and About course.
@@ -78,14 +80,14 @@ const englishAnalysisSummarySection = {
           semester of the course offering.
         </li>
       </ul>
-    </>
+    </div>
   ),
 }
 
 // https://api.kth.se/api/kopps/v2/courses/offerings?from=20221&skip_coordinator_info=true.
 const swedishAnalysisSummarySection = {
   courseDataApiDescription: koppsApiUrl => (
-    <>
+    <div className="paragraphs">
       <p>Exempel för hur data hämtas för en termin (som exempel används VT 2022):</p>
       <p>
         Kursdata hämtas från <a href="https://www.kth.se/api/kopps/v2/apiInfo/courses">KOPPS API för kurser</a>,
@@ -110,10 +112,10 @@ const swedishAnalysisSummarySection = {
           course.offered_semesters[&#123;{'lastSemester'}&#125;].end_week {'>='} (VTs första veckan)
         </code>
       </p>
-    </>
+    </div>
   ),
   courseDocumentsDataApiDescription: kursutvecklingApiUrl => (
-    <>
+    <div className="paragraphs">
       <p>
         Kursanalysdata hämtas från
         <a href="https://github.com/KTH/kursutveckling-api" target="_blank" rel="noreferrer">
@@ -125,10 +127,10 @@ const swedishAnalysisSummarySection = {
         </a>
         , med <b>start</b> semester av kursen (inte sista semester).
       </p>
-    </>
+    </div>
   ),
   subPageDescription: () => (
-    <>
+    <div className="paragraphs">
       <p>
         Här visas en sammanställning över antalet publicerade kursanalyser för vald skola, år och termin. Den data som
         används hämtas från Kopps och Om kursen.
@@ -155,7 +157,7 @@ const swedishAnalysisSummarySection = {
         </li>
         <li>För kursomgångar som löper över flera terminer presenteras kursanalysen för kursomgångens sista termin.</li>
       </ul>
-    </>
+    </div>
   ),
 }
 

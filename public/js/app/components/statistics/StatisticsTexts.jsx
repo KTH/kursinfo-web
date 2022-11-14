@@ -5,7 +5,7 @@ import { DOCS } from './domain/formConfigurations'
 const englishIntroTexts = {
   pageHeader: `Course Information Statistics`,
   pageDescription: () => (
-    <>
+    <div className="paragraphs">
       <p>
         The Statistics page for course information is part of the Administer about course tool. All course memos and
         course analyses published via the tool form the basis for the statistics. Read more about{' '}
@@ -39,11 +39,11 @@ const englishIntroTexts = {
         </li>
         <li>a possibility to compare data for the selected year with statistics from the previous year </li>
         <li>
-          a table with all the courses of the selected school for the selected study period/semester, which can be
+          a table with all the courses of the selected school for πcharthe selected study period/semester, which can be
           downloaded to e.g. do filtering and sorting at the program level
         </li>
       </ul>
-    </>
+    </div>
   ),
   periodsInfoModal: () =>
     `${(
@@ -54,7 +54,7 @@ const englishIntroTexts = {
 }
 const swedishIntroTexts = {
   pageDescription: () => (
-    <>
+    <div className="paragraphs">
       <p>
         Statistiksidan för kursinformation är en del av verktyget Administrera Om kursen. De kurs-PM och kursanalyser
         som publiceras via verktyget utgör underlaget för statistiken. Läs mer om{' '}
@@ -89,7 +89,7 @@ const swedishIntroTexts = {
           t.ex. göra filtreringar och sorteringar på programnivå
         </li>
       </ul>
-    </>
+    </div>
   ),
   periodsInfoModal: () =>
     `${(

@@ -2,7 +2,7 @@ import React from 'react'
 
 const englishMemosSummarySection = {
   courseDataApiDescription: koppsApiUrl => (
-    <>
+    <div className="paragraphs">
       <p>Example for how data is fetched for Spring 2022, period P3, school ABE:</p>
       <p>
         Course data is fetched from&nbsp;
@@ -24,10 +24,10 @@ const englishMemosSummarySection = {
         used to determine if memo was published before the offering started is{' '}
         <code>course.offered_semesters[&#123;{20221}&#125;].start_date</code>.
       </p>
-    </>
+    </div>
   ),
   courseDocumentsDataApiDescription: kursPmApiUrl => (
-    <>
+    <div className="paragraphs">
       <p>
         An earlier version of <i>Publish new course analysis and course data</i> had the option to upload course memos
         together with course analyses. This option does not exist anymore, and course memos uploaded on that page are
@@ -49,10 +49,10 @@ const englishMemosSummarySection = {
         </a>
         , using semester <code>20221</code>.
       </p>
-    </>
+    </div>
   ),
   subPageDescription: () => (
-    <>
+    <div className="paragraphs">
       <p>
         Here is a summary of the number of published course memos for the selected school, year and study period. The
         data used is taken from Kopps and About course.
@@ -83,14 +83,14 @@ const englishMemosSummarySection = {
           the course offering.
         </li>
       </ul>
-    </>
+    </div>
   ),
 }
 
 const swedishMemosSummarySection = {
   courseDataApiDescription: koppsApiUrl => (
     // update course.offered_semesters
-    <>
+    <div className="paragraphs">
       <p>Exempel för hur data hämtas för en termin - VT 2022, period P3:</p>
       <p>
         Kursdata hämtas från <a href="https://www.kth.se/api/kopps/v2/apiInfo/courses">KOPPS API för kurser</a>,
@@ -108,10 +108,10 @@ const swedishMemosSummarySection = {
         Datum som används för att avgöra om kurs-PM publicerades innan kursomgången startade är:
         <code>course.offered_semesters[&#123;{20221}&#125;].start_date.</code>
       </p>
-    </>
+    </div>
   ),
   courseDocumentsDataApiDescription: kursPmApiUrl => (
-    <>
+    <div className="paragraphs">
       <p>
         En tidigare version av Publicera ny kursanalys och kursdata innehöll möjligheten att ladda upp kurs-PM
         tillsammans med kursanalyser. Det här alternativet finns inte längre och kurs-PM som laddas upp på den sidan
@@ -133,10 +133,10 @@ const swedishMemosSummarySection = {
         </a>
         , då semester är <code>20221</code>.
       </p>
-    </>
+    </div>
   ),
   subPageDescription: () => (
-    <>
+    <div className="paragraphs">
       <p>
         Här visas en sammanställning över antalet publicerade kurs-PM för vald skola, år och läsperiod. Den data som
         används hämtas från Kopps och Om kursen.
@@ -162,7 +162,7 @@ const swedishMemosSummarySection = {
         </li>
         <li> För kursomgångar som löper över flera terminer presenteras kurs-PM för kursomgångens första termin.</li>
       </ul>
-    </>
+    </div>
   ),
 }
 
