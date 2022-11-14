@@ -31,6 +31,7 @@ const customStyles = {
   rows: {
     style: {
       backgroundColor: '#f6f6f6',
+      padding: '0.75rem',
       '&:not(:last-of-type)': {
         borderBottom: '1px solid #fff',
       },
