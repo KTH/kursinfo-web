@@ -46,15 +46,10 @@ describe('Component <CourseStatisticsPage> submit data', () => {
     // show alert message without calling axios
     expect(axios.get).toHaveBeenCalledTimes(0)
     const alertMemoMessage = screen.getByRole('alert')
-    const errorMessage = /det finns frågebegränsning som inte angavs/i
-    const emptyMemoFieldsNames = /skola, år, läsperiod/i
+    const emptyMemoFieldsNamesMessage = /Du måste välja skola, år och läsperiod för att kunna visa statistik/i
+    expect(within(alertMemoMessage).getByText(emptyMemoFieldsNamesMessage)).toBeInTheDocument()
 
-    expect(alertMemoMessage).toBeInTheDocument()
-    expect(within(alertMemoMessage).getByText(errorMessage)).toBeInTheDocument()
-    expect(within(alertMemoMessage).getByText(emptyMemoFieldsNames)).toBeInTheDocument()
-
-    expect(screen.getAllByText(errorMessage, { exact: true }).length).toBe(1)
-    expect(screen.getAllByText(emptyMemoFieldsNames, { exact: true }).length).toBe(1)
+    expect(screen.getAllByText(emptyMemoFieldsNamesMessage, { exact: true }).length).toBe(1)
 
     // choose course analysis
     const courseAnalysis = screen.getByLabelText(/kursanalys/i)
@@ -62,13 +57,11 @@ describe('Component <CourseStatisticsPage> submit data', () => {
     // submit
     await userEvent.click(btn)
 
-    const emptyAnalysisFieldsNames = /skola, år, termin/i
+    const emptyAnalysisFieldsNames = /Du måste välja skola, år och termin för att kunna visa statistik/i
     const alertnalysisMemoMessage = screen.getByRole('alert')
     expect(alertnalysisMemoMessage).toBeInTheDocument()
-    expect(within(alertnalysisMemoMessage).getByText(errorMessage)).toBeInTheDocument()
     expect(within(alertnalysisMemoMessage).getByText(emptyAnalysisFieldsNames)).toBeInTheDocument()
 
-    expect(screen.getAllByText(errorMessage, { exact: true }).length).toBe(1)
     expect(screen.getAllByText(emptyAnalysisFieldsNames, { exact: true }).length).toBe(1)
   })
 
@@ -89,11 +82,10 @@ describe('Component <CourseStatisticsPage> submit data', () => {
     // show alert message without calling axios
     expect(axios.get).toHaveBeenCalledTimes(0)
     const alertMemoMessage1 = screen.getByRole('alert')
-    const errorMessage = /det finns frågebegränsning som inte angavs/i
+    const errorMessage = /Du måste välja skola och år för att kunna visa statistik/i
 
     expect(alertMemoMessage1).toBeInTheDocument()
     expect(within(alertMemoMessage1).getByText(errorMessage)).toBeInTheDocument()
-    expect(within(alertMemoMessage1).getByText(/skola, år/i)).toBeInTheDocument()
 
     // uncheck period 1
     await userEvent.click(periodOneCheckbox)
@@ -101,7 +93,7 @@ describe('Component <CourseStatisticsPage> submit data', () => {
     await userEvent.click(btn)
 
     const alertMemoMessage2 = screen.getByRole('alert')
-    expect(within(alertMemoMessage2).getByText(/skola, år, läsperiod/i)).toBeInTheDocument()
+    expect(within(alertMemoMessage2).getByText(/skola, år och läsperiod/i)).toBeInTheDocument()
 
     // Summer period
     const periodSummerCheckbox = screen.getByLabelText(/sommar/i)
@@ -117,7 +109,7 @@ describe('Component <CourseStatisticsPage> submit data', () => {
 
     expect(alertMemoMessage3).toBeInTheDocument()
     expect(within(alertMemoMessage3).getByText(errorMessage)).toBeInTheDocument()
-    expect(within(alertMemoMessage3).getByText(/skola, år/i)).toBeInTheDocument()
+    expect(within(alertMemoMessage3).getByText(/skola och år/i)).toBeInTheDocument()
 
     // uncheck period summer
     await userEvent.click(periodSummerCheckbox)
@@ -125,7 +117,7 @@ describe('Component <CourseStatisticsPage> submit data', () => {
     await userEvent.click(btn)
 
     const alertMemoMessage4 = screen.getByRole('alert')
-    expect(within(alertMemoMessage4).getByText(/skola, år, läsperiod/i)).toBeInTheDocument()
+    expect(within(alertMemoMessage4).getByText(/skola, år och läsperiod/i)).toBeInTheDocument()
   })
 
   test('choose all parameters, chose/unchoose different periods (läsperiod) and check clean up of periods query', async () => {
@@ -177,9 +169,8 @@ describe('Component <CourseStatisticsPage> submit data', () => {
     expect(periodSummerCheckbox).not.toBeChecked()
     await userEvent.click(btn)
 
-    const errorMessage = /det finns frågebegränsning som inte angavs/i
+    const errorMessage = /Du måste välja läsperiod för att kunna visa statistik/i
     const alertMemoMessage2 = screen.getByRole('alert')
     expect(within(alertMemoMessage2).getByText(errorMessage)).toBeInTheDocument()
-    expect(within(alertMemoMessage2).getByText(/läsperiod/i)).toBeInTheDocument()
   })
 })
