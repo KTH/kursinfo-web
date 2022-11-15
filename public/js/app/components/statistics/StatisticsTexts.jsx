@@ -28,7 +28,7 @@ const englishIntroTexts = {
           className="external-link"
           rel="noreferrer"
         >
-          KTH`s guideline for course memos
+          KTH's guideline for course memos
         </a>
       </p>
       <p>On the statistics page you will find:</p>

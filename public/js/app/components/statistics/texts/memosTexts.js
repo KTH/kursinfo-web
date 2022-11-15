@@ -61,8 +61,8 @@ const englishMemosSummarySection = {
       </p>
       <p>
         The table shows the number of courses that started and number of course memos that were published during the
-        selected study period. The three diagrams show how big part of the school`s courses have published course memos
-        during the study period, at the latest at the start of the course (in accordance with KTH`s guideline for course
+        selected study period. The three diagrams show how big part of the school's courses have published course memos
+        during the study period, at the latest at the start of the course (in accordance with KTH's guideline for course
         memos{' '}
         <a
           href="https://intra.kth.se/en/utbildning/systemstod/om-kursen/kurs-pm/riktilinjer"
@@ -70,7 +70,7 @@ const englishMemosSummarySection = {
           className="external-link"
           rel="noreferrer"
         >
-          KTH`s guideline for course memos
+          KTH's guideline for course memos
         </a>
         ) and one week before the start of the course. Below the diagrams, a comparison can be made with the result from
         the previous year.
