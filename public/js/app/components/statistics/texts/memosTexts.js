@@ -11,6 +11,7 @@ const englishMemosSummarySection = {
         <a
           href={`${koppsApiUrl}courses/offerings?from=20221&skip_coordinator_info=true`}
           target="_blank"
+          className="external-link"
           rel="noreferrer"
         >
           {`${koppsApiUrl}courses/offerings?from=20221&skip_coordinator_info=true`}
@@ -35,7 +36,7 @@ const englishMemosSummarySection = {
       </p>
       <p>
         Course memo data is fetched from&nbsp;
-        <a href="https://github.com/KTH/kurs-pm-data-api" target="_blank" rel="noreferrer">
+        <a href="https://github.com/KTH/kurs-pm-data-api" target="_blank" className="external-link" rel="noreferrer">
           kurs-pm-data-api
         </a>
         , endpoint <code>/api/kurs-pm-data/v1/prioritizedWebOrPdfMemosBySemesters?semesters=&#123;semester&#125;</code>.
@@ -43,6 +44,7 @@ const englishMemosSummarySection = {
         <a
           href={`${kursPmApiUrl}/v1/prioritizedWebOrPdfMemosBySemesters?semesters=20221`}
           target="_blank"
+          className="external-link"
           rel="noreferrer"
         >
           {`${kursPmApiUrl}/v1/prioritizedWebOrPdfMemosBySemesters?semesters=20221`}
@@ -62,7 +64,12 @@ const englishMemosSummarySection = {
         selected study period. The three diagrams show how big part of the school`s courses have published course memos
         during the study period, at the latest at the start of the course (in accordance with KTH`s guideline for course
         memos{' '}
-        <a href="https://intra.kth.se/en/utbildning/systemstod/om-kursen/kurs-pm/riktilinjer" className="external-link">
+        <a
+          href="https://intra.kth.se/en/utbildning/systemstod/om-kursen/kurs-pm/riktilinjer"
+          target="_blank"
+          className="external-link"
+          rel="noreferrer"
+        >
           KTH`s guideline for course memos
         </a>
         ) and one week before the start of the course. Below the diagrams, a comparison can be made with the result from
@@ -119,7 +126,7 @@ const swedishMemosSummarySection = {
       </p>
       <p>
         Kurs-PM-data hämtas från
-        <a href="https://github.com/KTH/kurs-pm-data-api" target="_blank" rel="noreferrer">
+        <a href="https://github.com/KTH/kurs-pm-data-api" target="_blank" className="external-link" rel="noreferrer">
           kurs-pm-data-api
         </a>
         , endpoint <code>/api/kurs-pm-data/v1/prioritizedWebOrPdfMemosBySemesters?semesters=&#123;semester&#125;</code>.
@@ -127,6 +134,7 @@ const swedishMemosSummarySection = {
         <a
           href={`${kursPmApiUrl}/v1/prioritizedWebOrPdfMemosBySemesters?semesters=20221`}
           target="_blank"
+          className="external-link"
           rel="noreferrer"
         >
           {`${kursPmApiUrl}/v1/prioritizedWebOrPdfMemosBySemesters?semesters=20221`}
@@ -145,7 +153,12 @@ const swedishMemosSummarySection = {
         Tabellen visar antalet kurser som startade och antalet kurs-PM som publicerades under den valda läsperioden. De
         tre diagrammen visar hur stor del av skolans kurser som publicerade kurs-PM under läsperioden, senast vid
         kursstart (i enlighet med{' '}
-        <a href="https://intra.kth.se/utbildning/systemstod/om-kursen/kurs-pm/riktilinjer" className="external-link">
+        <a
+          href="https://intra.kth.se/utbildning/systemstod/om-kursen/kurs-pm/riktilinjer"
+          target="_blank"
+          className="external-link"
+          rel="noreferrer"
+        >
           KTH:s riktlinje för kurs-PM
         </a>
         ) och en vecka före kursstart. Under diagrammen går det att göra en jämförelse med resultatet från föregående

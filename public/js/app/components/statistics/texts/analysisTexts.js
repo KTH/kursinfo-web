@@ -7,11 +7,20 @@ const englishAnalysisSummarySection = {
       <p>Example for how data is fetched for Spring 2022, period P3, school ABE:</p>
       <p>
         Course data is fetched from&nbsp;
-        <a href="https://www.kth.se/api/kopps/v2/apiInfo/courses">KOPPS API for Courses</a>, endpoint&nbsp;
+        <a
+          href="https://www.kth.se/api/kopps/v2/apiInfo/courses"
+          target="_blank"
+          className="external-link"
+          rel="noreferrer"
+        >
+          KOPPS API for Courses
+        </a>
+        , endpoint&nbsp;
         <code>/api/kopps/v2/courses/offerings</code>. Data for the current page was fetched from&nbsp;
         <a
           href={`${koppsApiUrl}courses/offerings?from=20221&skip_coordinator_info=true`}
           target="_blank"
+          className="external-link"
           rel="noreferrer"
         >
           {`${koppsApiUrl}courses/offerings?from=20221&skip_coordinator_info=true`}
@@ -36,11 +45,11 @@ const englishAnalysisSummarySection = {
     <div className="paragraphs">
       <p>
         Course analyses data is fetched from&nbsp;
-        <a href="https://github.com/KTH/kursutveckling-api" target="_blank" rel="noreferrer">
+        <a href="https://github.com/KTH/kursutveckling-api" target="_blank" className="external-link" rel="noreferrer">
           kursutveckling-api
         </a>
         , endpoint <code>getCourseAnalysesForSemestersList</code>. Data for the current page was fetched from&nbsp;
-        <a href={kursutvecklingApiUrl} target="_blank" rel="noreferrer">
+        <a href={kursutvecklingApiUrl} target="_blank" className="external-link" rel="noreferrer">
           {`${kursutvecklingApiUrl}/courseAnalysesForSemestersList?semesters=20221`}
         </a>
         , with <b>first</b> semester of a course (not the end or between semesters).
@@ -66,7 +75,12 @@ const englishAnalysisSummarySection = {
         <li>
           {' '}
           The terms are defined according to{' '}
-          <a href=" https://intra.kth.se/en/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135">
+          <a
+            href="https://intra.kth.se/en/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135"
+            target="_blank"
+            className="external-link"
+            rel="noreferrer"
+          >
             the division of the academic year
           </a>
           : Spring week 3-23, Autumn week 35-2, Summer week 24-34.
@@ -95,6 +109,7 @@ const swedishAnalysisSummarySection = {
         <a
           href={`${koppsApiUrl}courses/offerings?from=20221&skip_coordinator_info=true`}
           target="_blank"
+          className="external-link"
           rel="noreferrer"
         >
           {`${koppsApiUrl}courses/offerings?from=20221&skip_coordinator_info=true`}
@@ -118,11 +133,11 @@ const swedishAnalysisSummarySection = {
     <div className="paragraphs">
       <p>
         Kursanalysdata hämtas från
-        <a href="https://github.com/KTH/kursutveckling-api" target="_blank" rel="noreferrer">
+        <a href="https://github.com/KTH/kursutveckling-api" target="_blank" className="external-link" rel="noreferrer">
           kursutveckling-api
         </a>
         , endpoint <code>getCourseAnalysesForSemestersList</code>. Data för VT 2022 hämtas från
-        <a href={kursutvecklingApiUrl} target="_blank" rel="noreferrer">
+        <a href={kursutvecklingApiUrl} target="_blank" className="external-link" rel="noreferrer">
           {`${kursutvecklingApiUrl}/courseAnalysesForSemestersList?semesters=20221`}
         </a>
         , med <b>start</b> semester av kursen (inte sista semester).
@@ -148,8 +163,15 @@ const swedishAnalysisSummarySection = {
         <li>
           {' '}
           Terminerna definieras enligt{' '}
-          <a href="https://intra.kth.se/utbildning/tentamen-och-schema/lasarsindelning">läsårsindelningen</a>: VT vecka
-          3-23, HT vecka 35-2, sommar vecka 24-34 .
+          <a
+            href="https://intra.kth.se/utbildning/tentamen-och-schema/lasarsindelning"
+            target="_blank"
+            className="external-link"
+            rel="noreferrer"
+          >
+            läsårsindelningen
+          </a>
+          : VT vecka 3-23, HT vecka 35-2, sommar vecka 24-34 .
         </li>
         <li>
           Antal kurser räknas utifrån antal unika kurskoder. Kurser som har flera kurstillfällen med exakt samma start-
