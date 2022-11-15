@@ -39,7 +39,7 @@ const englishIntroTexts = {
         </li>
         <li>a possibility to compare data for the selected year with statistics from the previous year </li>
         <li>
-          a table with all the courses of the selected school for πcharthe selected study period/semester, which can be
+          a table with all the courses of the selected school for the selected study period/semester, which can be
           downloaded to e.g. do filtering and sorting at the program level
         </li>
       </ul>
