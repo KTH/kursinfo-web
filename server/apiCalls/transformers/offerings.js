@@ -62,12 +62,11 @@ function _sortOfferedSemesters(offeredSemesters) {
 }
 
 /**
- * @param {Object[]} chosenSemesters    Semesters strings for which data is fetched
- * @param {string} chosenSemesters[]    Semester string chosen by user
+ * @param {Object[]} courseOfferedSemesters    Courses offerings
+ * @param {Object} courseOfferedSemesters[]    Course offering
  * @returns {{}}           Array, containing offered semesters and startDate
  */
-
-function _findCourseStartEndDates(chosenSemesters, courseOfferedSemesters) {
+function _findCourseStartEndDates(courseOfferedSemesters) {
   const offeredSemesters = Array.isArray(courseOfferedSemesters) ? courseOfferedSemesters : []
   const { length, 0: firstOffering = {}, [length - 1]: lastOffering = {} } = _sortOfferedSemesters(offeredSemesters)
 
@@ -118,7 +117,7 @@ function filterOfferingsForMemos(courses = [], chosenSemesters = [], chosenPerio
       const isChosenSchool = isCorrectSchool(chosenSchool, schoolCode)
 
       if (isStartedInChosenPeriods && isChosenSchool) {
-        const { endDate, startDate } = _findCourseStartEndDates(chosenSemesters, courseOfferedSemesters)
+        const { endDate, startDate } = _findCourseStartEndDates(courseOfferedSemesters)
         const offering = _formOffering(firstSemester, startDate, endDate, course)
         parsedOfferings.push({ ...offering, period: firstPerioLabel })
       }
@@ -180,10 +179,7 @@ function filterOfferingsForAnalysis(
         school_code: schoolCode,
       } = course
 
-      const { endDate, endWeek, lastSemester, startDate } = _findCourseStartEndDates(
-        chosenSemesters,
-        courseOfferedSemesters
-      )
+      const { endDate, endWeek, lastSemester, startDate } = _findCourseStartEndDates(courseOfferedSemesters)
       const lastTermSeasonNumber = endDate ? _parseTermSeasonForNthWeek(endWeek) : ''
       const lastTermSeasonLabel = endDate ? labelSeason(Number(lastTermSeasonNumber), language === 'en' ? 0 : 1) : ''
 
