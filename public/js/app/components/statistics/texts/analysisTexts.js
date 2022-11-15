@@ -70,7 +70,7 @@ const englishAnalysisSummarySection = {
         the result from the previous year.
       </p>
 
-      <p>Information about the data used: </p>
+      <p>Information about the used data: </p>
       <ul>
         <li>
           {' '}

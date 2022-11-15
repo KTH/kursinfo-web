@@ -376,12 +376,12 @@ module.exports = {
       },
       memosNumbersTable: {
         school: 'School',
-        totalCourses: 'Number of (#) courses',
-        totalPublishedMemos: 'Total published course memos',
-        totalPublWebMemos: 'Web course memos',
-        totalPublPdfMemos: 'PDF course memos',
-        totalMemosPublishedBeforeCourseStart: 'Memos published before start',
-        totalMemosPublishedBeforeDeadline: 'Memos published one week before start',
+        totalCourses: 'Number of courses',
+        totalPublishedMemos: 'Total number of published course memos',
+        totalPublWebMemos: 'Memos as website',
+        totalPublPdfMemos: 'Memos as PDF',
+        totalMemosPublishedBeforeCourseStart: 'Memos published latest at course start',
+        totalMemosPublishedBeforeDeadline: 'Memos published one week before course start',
       },
       analysesNumbersTable: {
         school: 'School',

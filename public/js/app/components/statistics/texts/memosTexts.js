@@ -76,7 +76,7 @@ const englishMemosSummarySection = {
         the previous year.
       </p>
 
-      <p>Information about the data used: </p>
+      <p>Information about the used data: </p>
       <ul>
         <li>A course memo is always counted as one course memo, even if there are several published versions.</li>
         <li>The publishing date used is the date when the first version of the course memo was published.</li>
