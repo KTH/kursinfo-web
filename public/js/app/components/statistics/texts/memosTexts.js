@@ -2,7 +2,7 @@ import React from 'react'
 
 const englishMemosSummarySection = {
   courseDataApiDescription: koppsApiUrl => (
-    <div className="paragraphs">
+    <div>
       <p>Example for how data is fetched for Spring 2022, period P3, school ABE:</p>
       <p>
         Course data is fetched from&nbsp;
@@ -27,7 +27,7 @@ const englishMemosSummarySection = {
     </div>
   ),
   courseDocumentsDataApiDescription: kursPmApiUrl => (
-    <div className="paragraphs">
+    <div>
       <p>
         An earlier version of <i>Publish new course analysis and course data</i> had the option to upload course memos
         together with course analyses. This option does not exist anymore, and course memos uploaded on that page are
@@ -90,7 +90,7 @@ const englishMemosSummarySection = {
 const swedishMemosSummarySection = {
   courseDataApiDescription: koppsApiUrl => (
     // update course.offered_semesters
-    <div className="paragraphs">
+    <div>
       <p>Exempel för hur data hämtas för en termin - VT 2022, period P3:</p>
       <p>
         Kursdata hämtas från <a href="https://www.kth.se/api/kopps/v2/apiInfo/courses">KOPPS API för kurser</a>,
@@ -111,7 +111,7 @@ const swedishMemosSummarySection = {
     </div>
   ),
   courseDocumentsDataApiDescription: kursPmApiUrl => (
-    <div className="paragraphs">
+    <div>
       <p>
         En tidigare version av Publicera ny kursanalys och kursdata innehöll möjligheten att ladda upp kurs-PM
         tillsammans med kursanalyser. Det här alternativet finns inte längre och kurs-PM som laddas upp på den sidan
