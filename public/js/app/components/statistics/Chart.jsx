@@ -89,9 +89,9 @@ function Chart({ data = [], label = '' }) {
         style={{
           data: {
             fill: ({ datum }) => datum.color,
-            fontFamily: 'Open Sans',
+            fontFamily: styles.font.fontFamily,
           },
-          labels: { fontFamily: 'Open Sans', fontWeight: 700, wordSpacing: '-2px' },
+          labels: { fontFamily: styles.font.fontFamily, fontWeight: 700, wordSpacing: '-2px' },
         }}
       />
     </VictoryChart>
