@@ -363,6 +363,7 @@ module.exports = {
         linkToCoursePM: 'Link to kurs-PM',
         term: 'Term',
         courseEndDate: 'Course end date',
+        courseStartDate: 'Course start',
         linkToCourseAnalysis: 'Link to course analysis',
       },
     },
