@@ -24,7 +24,7 @@ function asyncReducer(state, action) {
       return {
         status: STATUS.missingParameters,
         data: null,
-        error: { errorType: ERROR_ASYNC.missingParameters, errorExtraText: action.data.missingValues },
+        error: { errorType: ERROR_ASYNC.missingParameters, errorExtraText: action.data.missingValues() },
       }
     }
     case 'earlierYearThan2019': {

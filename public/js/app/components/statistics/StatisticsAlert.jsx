@@ -6,7 +6,7 @@ import { ERROR_ASYNC } from '../../hooks/statisticsUseAsync'
 
 function StatisticsAlert({ alertType, languageIndex, children }) {
   const { statisticsLabels } = i18n.messages[languageIndex]
-  const { header = '', help = '', text = '' } = statisticsLabels[alertType]
+  const { header = '', help = '', text = '' } = statisticsLabels[alertType] || {}
 
   return (
     <Alert color={alertType === ERROR_ASYNC.missingParameters ? 'danger' : 'info'} aria-live="polite">

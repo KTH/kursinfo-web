@@ -18,10 +18,17 @@ const _missingParameters = params => {
 }
 const _missingParametersError = (missingParams, language) => {
   const { formLabels } = i18n.messages[language === 'en' ? 0 : 1].statisticsLabels
-  const { formSubHeaders } = formLabels
+  const { and, formSubHeaders, missingParameters } = formLabels
   return {
     errorType: 'missing-parameters-in-query',
-    missingValues: missingParams.map(paramName => formSubHeaders[paramName] || paramName).join(', '),
+    missingValues: () => {
+      const labels = missingParams.map(paramName => formSubHeaders[paramName].toLowerCase() || paramName)
+      const lastLabel = labels.length > 1 ? ` ${and} ${labels.pop()}` : ''
+
+      const missingValues = `${labels.join(', ')}${lastLabel}`
+
+      return missingParameters.text(missingValues)
+    },
   }
 }
 

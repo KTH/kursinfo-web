@@ -303,6 +303,7 @@ module.exports = {
     btnShowResults: 'Show statistics',
     errorUnknown: { text: 'An unknown error occurred - failed to retrieve course data.' },
     formLabels: {
+      and: 'and',
       formHeader: 'View statistics',
       formSubHeaders: {
         documentType: 'Area',
@@ -318,8 +319,8 @@ module.exports = {
         seasons: 'Choose one or more option(s)',
         year: 'Select year',
       },
+      missingParameters: { text: extra => `You have to select a ${extra} to view statistics.` },
     },
-    missingParameters: { text: 'Some of the query restrictions were not specified' },
     pageHeader: 'The statistics page for course Information',
     period: 'Period',
     searchLoading: 'Loading data, please wait...',

@@ -275,6 +275,7 @@ module.exports = {
     btnShowResults: 'Visa statistik',
     errorUnknown: { text: 'Ett okänt fel inträffade - misslyckad hämtning av kursdata.' },
     formLabels: {
+      and: 'och',
       formHeader: 'Visa statistik',
       formSubHeaders: {
         documentType: 'Område',
@@ -290,9 +291,9 @@ module.exports = {
         seasons: 'Kryssa i ett eller flera val',
         year: 'Välj år',
       },
-    },
-    missingParameters: {
-      text: 'Det finns frågebegränsning som inte angavs',
+      missingParameters: {
+        text: extra => `Du måste välja ${extra} för att kunna visa statistik.`,
+      },
     },
     pageHeader: 'Statistiksidan för kursinformation',
     period: 'Period',
