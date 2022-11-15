@@ -36,7 +36,7 @@ function Charts({ chartNames = [], languageIndex = 1, schools = {} }) {
   return (
     <Row>
       {chartNames.map(numberName => (
-        <Col key={numberName} xs="4">
+        <Col key={numberName} xs="4" style={{ paddingRight: 0, paddingLeft: 0 }}>
           <Chart data={getChartData(numberName, schools)} label={labels[numberName]} />
         </Col>
       ))}
@@ -45,14 +45,29 @@ function Charts({ chartNames = [], languageIndex = 1, schools = {} }) {
 }
 
 function Chart({ data = [], label = '' }) {
+  const styles = {
+    font: { fontFamily: 'Open Sans', fontSize: '16px' },
+  }
   return (
-    <VictoryChart height={405} width={405} theme={VictoryTheme.material} domainPadding={20}>
-      <VictoryLabel x={4} y={24} text={label} style={{ fontSize: '16px' }} />
-      {data.length > 1 ? <VictoryAxis tickValues={schoolsLib.ORDERED_SCHOOLS} /> : <VictoryAxis />}
+    <VictoryChart height={405} width={405} theme={VictoryTheme.material} domainPadding={20} style={styles.font}>
+      <VictoryLabel x={4} y={24} text={label} style={styles.font} />
+      {data.length > 1 ? (
+        <VictoryAxis
+          tickValues={schoolsLib.ORDERED_SCHOOLS}
+          style={{
+            tickLabels: styles.font,
+          }}
+        />
+      ) : (
+        <VictoryAxis />
+      )}
       <VictoryAxis
         dependentAxis
         tickValues={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
         tickFormat={tickLabel => `${tickLabel} %`}
+        style={{
+          tickLabels: { fontFamily: styles.font.fontFamily },
+        }}
         domain={[0, 100]}
       />
       <VictoryBar
@@ -74,6 +89,7 @@ function Chart({ data = [], label = '' }) {
         style={{
           data: {
             fill: ({ datum }) => datum.color,
+            fontFamily: 'Open Sans',
           },
           labels: { fontFamily: 'Open Sans', fontWeight: 700, wordSpacing: '-2px' },
         }}
