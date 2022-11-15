@@ -77,11 +77,6 @@ function CourseStatisticsPage() {
       </Row>
       <Row>
         <Col>
-          <div id="alert-placeholder" />
-        </Col>
-      </Row>
-      <Row>
-        <Col>
           <h2>{labels.formLabels.formHeader}</h2>
           <StatisticsForm onSubmit={handleSubmit} />
         </Col>

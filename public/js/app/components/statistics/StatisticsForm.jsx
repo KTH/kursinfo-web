@@ -94,6 +94,11 @@ function StatisticsForm({ onSubmit }) {
       )}
       <Row>
         <Col>
+          <div id="alert-placeholder" />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
           <button className="btn btn-primary" type="submit" style={{ float: 'left' }}>
             {labels.btnShowResults}
           </button>
