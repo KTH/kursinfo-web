@@ -7,7 +7,7 @@ const englishIntroTexts = {
   pageDescription: () => (
     <div className="paragraphs">
       <p>
-        The Statistics page for course information is part of the Administer about course tool. All course memos and
+        The Statistics page for course information is part of the Administer About course tool. All course memos and
         course analyses published via the tool form the basis for the statistics. Read more about{' '}
         <a
           href="https://intra.kth.se/en/utbildning/systemstod/om-kursen/om-kursen-1.1020344"
