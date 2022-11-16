@@ -333,7 +333,7 @@ module.exports = {
         institution: 'Institution',
         courseCode: 'Kurskod',
         linkedProgram: 'Kopplade program',
-        courseRoundNumber: 'Kursomgångs-nummer',
+        courseRoundNumber: 'Anmälningskod',
         period: 'Läs-period',
         courseStart: 'Kursstart',
         publishDate: 'Publicerings-datum',
