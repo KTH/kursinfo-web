@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import i18n from '../../../../../i18n'
 import { useWebContext } from '../../context/WebContext'
 import { studyLengthParamName } from './domain/formConfigurations'
-import { hasParameter } from './domain/validation'
 
 import { CheckboxOption, DropdownOption, RadioboxOption } from './index'
 
@@ -25,7 +24,6 @@ const paramsReducer = (state, action) => {
     }
   }
 }
-const frameIfEmpty = (paramName, params = {}) => (hasParameter(paramName, params) ? '' : 'empty-field')
 
 function StatisticsForm({ onSubmit }) {
   const [context] = useWebContext()
@@ -72,23 +70,17 @@ function StatisticsForm({ onSubmit }) {
       </Row>
       {documentType && (
         <>
-          <Row key={`row-for-school-choice`} className={`row-for-school-choice ${frameIfEmpty('school', state.value)}`}>
+          <Row key={`row-for-school-choice`} className={`row-for-school-choice`}>
             <Col>
               <RadioboxOption paramName={'school'} onChange={handleParamChange} />
             </Col>
           </Row>
-          <Row key={`row-for-year-choice`} className={`row-for-year-choice ${frameIfEmpty('year', state.value)}`}>
+          <Row key={`row-for-year-choice`} className={`row-for-year-choice`}>
             <Col>
               <DropdownOption paramName="year" onChange={handleParamChange} />
             </Col>
           </Row>
-          <Row
-            key={`row-for-periods-or-seasons-choice`}
-            className={`row-for-periods-or-seasons-choice ${frameIfEmpty(
-              studyLengthParamName(documentType),
-              state.value
-            )}`}
-          >
+          <Row key={`row-for-periods-or-seasons-choice`} className={`row-for-periods-or-seasons-choice`}>
             <Col>
               {/* depends on type of document to dropdown */}
               <CheckboxOption

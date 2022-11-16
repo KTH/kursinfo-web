@@ -4,6 +4,7 @@ import { Col, Row } from 'reactstrap'
 import { useWebContext } from '../../context/WebContext'
 import InfoModal from '../InfoModal'
 import i18n from '../../../../../i18n'
+import { frameIfEmpty } from './domain/validation'
 
 import { getOptionsValues, splitToBulks } from './domain/formConfigurations'
 
@@ -87,7 +88,7 @@ function CheckboxOption({ paramName, onChange, stateMode }) {
 
       <fieldset>
         <legend className="form-control-label">{shortIntro}</legend>
-        <Row>
+        <Row className={`${frameIfEmpty(options)}`}>
           {valuesBulks.map(values => (
             <Col key={`col-starts-with-${Object.values(values)[0].id}`} xs="2">
               {values.map(({ label, id, value }) => (

@@ -5,6 +5,7 @@ import { useWebContext } from '../../context/WebContext'
 
 import i18n from '../../../../../i18n'
 import { getOptionsValues } from './domain/formConfigurations'
+import { frameIfEmpty } from './domain/validation'
 
 function DropdownOption({ paramName, onChange }) {
   const [context] = useWebContext()
@@ -34,7 +35,7 @@ function DropdownOption({ paramName, onChange }) {
       <fieldset>
         <legend className="form-control-label">{shortIntro}</legend>
         <div className="form-select form-group">
-          <Row>
+          <Row className={`${frameIfEmpty(option)}`}>
             <Col xs="2">
               <div className="select-wrapper">
                 <select

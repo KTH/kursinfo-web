@@ -39,3 +39,5 @@ export const noYearFoundInDocsApiError = year => ({
   errorType: 'error-earlier-year-than-2019',
   year,
 })
+
+export const frameIfEmpty = value => (hasValue(value) ? '' : 'empty-field')
