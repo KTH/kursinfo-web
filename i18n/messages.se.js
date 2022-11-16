@@ -118,6 +118,8 @@ module.exports = {
       page_memo: 'Förbereda och gå kurs',
     },
     label_close: 'Stäng',
+    study_period_info:
+      '<p>Du hittar information om hur <a href="https://intra.kth.se/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135" class="external-link">äsåret är indelat i läsperioder</a> på intranätet</p>',
   },
   courseInformation: {
     roundId: 'Kursomgångs nr',

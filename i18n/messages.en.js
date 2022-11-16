@@ -118,6 +118,8 @@ module.exports = {
       page_memo: 'Prepare and take course',
     },
     label_close: 'Close',
+    study_period_info:
+      '<p>You can find information (in swedish) about how <a href="https://intra.kth.se/en/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135" class="external-link">The academic year is divided into study periods</a> on the intranet.</p>',
   },
   courseInformation: {
     course_additional_regulations: 'Additional regulations',

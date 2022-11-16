@@ -78,7 +78,7 @@ function CheckboxOption({ paramName, onChange, stateMode }) {
           <InfoModal
             parentTag="h3"
             closeLabel={labels.label_close}
-            infoText={'Some text for study periods'}
+            infoText={labels.study_period_info}
             title={headerLabel}
             type="html"
           />
