@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Col, Row } from 'reactstrap'
 import { useWebContext } from '../../context/WebContext'
-
 import i18n from '../../../../../i18n'
+import { frameIfEmpty } from './domain/validation'
+
 import { getOptionsValues, splitToBulks } from './domain/formConfigurations'
 
 function RadioboxOption({ paramName, onChange }) {
@@ -36,7 +37,7 @@ function RadioboxOption({ paramName, onChange }) {
       <h3 style={{ marginTop: '12px' }}>{headerLabel}</h3>
       <fieldset>
         <legend className="form-control-label">{shortIntro}</legend>
-        <Row>
+        <Row className={`${frameIfEmpty(option)}`}>
           {valuesBulks.map(values => (
             <Col key={`col-starts-with-${Object.values(values)[0].id}`} xs="2">
               {values.map(({ label, id, value }) => (

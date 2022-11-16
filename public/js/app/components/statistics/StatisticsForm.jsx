@@ -70,17 +70,17 @@ function StatisticsForm({ onSubmit }) {
       </Row>
       {documentType && (
         <>
-          <Row key={`row-for-school-choice`}>
+          <Row key={`row-for-school-choice`} className={`row-for-school-choice`}>
             <Col>
               <RadioboxOption paramName={'school'} onChange={handleParamChange} />
             </Col>
           </Row>
-          <Row key={`row-for-year-choice`}>
+          <Row key={`row-for-year-choice`} className={`row-for-year-choice`}>
             <Col>
               <DropdownOption paramName="year" onChange={handleParamChange} />
             </Col>
           </Row>
-          <Row key={`row-for-periods-or-seasons-choice`}>
+          <Row key={`row-for-periods-or-seasons-choice`} className={`row-for-periods-or-seasons-choice`}>
             <Col>
               {/* depends on type of document to dropdown */}
               <CheckboxOption

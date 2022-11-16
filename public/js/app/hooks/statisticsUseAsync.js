@@ -67,8 +67,8 @@ function useAsync(asyncCallback, initialState) {
       data => {
         const { errorCode } = data
         if (errorCode) dispatch({ type: STATUS.rejected })
-        else if (data.errorType === 'missing-parameters-in-query') missingParametersDispatch(dispatch, data)
-        else if (data.errorType === 'earlier-year-than-2019') earlierYearThan2019Dispatch(dispatch, data)
+        else if (data.errorType === 'error-missing-parameters-in-query') missingParametersDispatch(dispatch, data)
+        else if (data.errorType === 'error-earlier-year-than-2019') earlierYearThan2019Dispatch(dispatch, data)
         else if (data.errorType === 'error-unknown') dispatch({ type: STATUS.rejected })
         else dispatch({ type: STATUS.resolved, data })
       },

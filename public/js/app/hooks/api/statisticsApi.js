@@ -1,41 +1,11 @@
 import axios from 'axios'
-import { DOCS, paramsByDocumentType } from '../../components/statistics/domain/formConfigurations'
+import { DOCS } from '../../components/statistics/domain/formConfigurations'
 import { periods as periodsLib, seasons as seasonsLib } from '../../components/statistics/domain/index'
-
-import i18n from '../../../../../i18n'
-
-function hasValue(paramName, params) {
-  const param = params[paramName]
-  if (!param || param === null || param === 'null' || param === '') return false
-  if (typeof param === 'object' && param.length === 0) return false
-  if (typeof param === 'string' && param.trim().length === 0) return false
-  return true
-}
-const _missingParameters = params => {
-  const { documentType } = params
-  const expectedParams = paramsByDocumentType(documentType)
-  return expectedParams.filter(paramName => !hasValue(paramName, params))
-}
-const _missingParametersError = (missingParams, language) => {
-  const { formLabels } = i18n.messages[language === 'en' ? 0 : 1].statisticsLabels
-  const { and, formSubHeaders, missingParameters } = formLabels
-  return {
-    errorType: 'missing-parameters-in-query',
-    missingValues: () => {
-      const labels = missingParams.map(paramName => formSubHeaders[paramName].toLowerCase() || paramName)
-      const lastLabel = labels.length > 1 ? ` ${and} ${labels.pop()}` : ''
-
-      const missingValues = `${labels.join(', ')}${lastLabel}`
-
-      return missingParameters.text(missingValues)
-    },
-  }
-}
-
-const _noYearFoundInDocsApiError = year => ({
-  errorType: 'earlier-year-than-2019',
-  year,
-})
+import {
+  missingParametersError,
+  findMissingParametersKeys,
+  noYearFoundInDocsApiError,
+} from '../../components/statistics/domain/validation'
 
 function _formQueryByDocumentType(documentType, params) {
   return documentType === DOCS.courseMemo
@@ -59,9 +29,9 @@ function _formQueryByDocumentType(documentType, params) {
 async function fetchStatistics(language, proxyUrl, params) {
   try {
     const { documentType, year, school } = params
-    const missingParams = _missingParameters(params)
-    if (missingParams.length > 0) return _missingParametersError(missingParams, language)
-    if (Number(year) < 2019) return _noYearFoundInDocsApiError(year)
+    const missingParams = findMissingParametersKeys(params)
+    if (missingParams.length > 0) return missingParametersError(missingParams, language)
+    if (Number(year) < 2019) return noYearFoundInDocsApiError(year)
 
     const queryParamsByDocumentType = _formQueryByDocumentType(documentType, params)
 

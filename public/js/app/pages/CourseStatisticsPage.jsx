@@ -7,14 +7,7 @@ import { useWebContext } from '../context/WebContext'
 import { introductionTexts } from '../components/statistics/StatisticsTexts'
 import i18n from '../../../../i18n'
 import { StatisticsForm, StatisticsResults } from '../components/statistics/index'
-
-function hasValue(param) {
-  if (!param || param === null || param === '') return false
-  if (typeof param === 'object' && param.length === 0) return false
-  if (typeof param === 'string' && param.trim().length === 0) return false
-  return true
-}
-// { documentType, school, periods, ... }
+import { findMissingParametersKeys, hasValue } from '../components/statistics/domain/validation'
 
 function _parseValues({ documentType, periods, school, seasons, year }) {
   // clean params
@@ -61,14 +54,22 @@ function CourseStatisticsPage() {
     seasons: null,
     year: null,
   })
+  const [hasSubmittedEmptyValue, setHasSubmittedEmptyValue] = React.useState(false)
 
   function handleSubmit(props) {
     const finalSearchParams = _parseResultValues(props)
     setParams(finalSearchParams)
+
+    const missingParams = findMissingParametersKeys(finalSearchParams)
+    setHasSubmittedEmptyValue(missingParams.length > 0)
   }
 
   return (
-    <div className="container" id="kursstatistik-main-page" style={{ paddingTop: '30px' }}>
+    <div
+      className={`container ${hasSubmittedEmptyValue ? 'error-missing-parameters-in-query' : ''}`}
+      id={`kursstatistik-main-page`}
+      style={{ paddingTop: '30px' }}
+    >
       <Row>
         <Col>
           <h1>{labels.pageHeader}</h1>
