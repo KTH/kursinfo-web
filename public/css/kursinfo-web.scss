@@ -1,4 +1,5 @@
 // Less code goes here...!
+$red: #e01f28;
 
 #app {
   width: 100%;
@@ -25,6 +26,20 @@
     }
   }
 }
+
+.error-missing-parameters-in-query {
+  .empty-field {
+    fieldset > div:not(.form-select) {
+      outline: solid 1px $red !important;
+      outline-offset: 3px;
+    }
+    fieldset > div.form-select > div {
+      outline: solid 1px $red !important;
+      outline-offset: 3px;
+    }
+  }
+}
+
 .container.articleNavigation {
   padding: 15px 15px 0 !important;
 }
