@@ -55,7 +55,7 @@ function StatisticsResults({ chosenOptions }) {
   const { data: statisticsResult, status: statisticsStatus, error = {} } = state || {}
 
   return (
-    <Row style={{ marginTop: '50px' }}>
+    <Row style={{ marginTop: '22px' }}>
       <Col>
         <SortableCoursesAndDocuments
           statisticsStatus={statisticsStatus}
