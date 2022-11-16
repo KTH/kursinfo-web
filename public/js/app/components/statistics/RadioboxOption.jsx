@@ -32,8 +32,8 @@ function RadioboxOption({ paramName, onChange }) {
   }
 
   return (
-    <div key={paramName} className="form-group">
-      <h3>{headerLabel}</h3>
+    <div key={paramName} className="form-group" style={{ marginBottom: '12px' }}>
+      <h3 style={{ marginTop: '12px' }}>{headerLabel}</h3>
       <fieldset>
         <legend className="form-control-label">{shortIntro}</legend>
         <Row>
