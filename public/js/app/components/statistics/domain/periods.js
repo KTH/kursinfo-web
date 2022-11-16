@@ -71,7 +71,7 @@ function labelPeriod(periodNumber, langIndex, withPeriodLabel = true) {
     return labels.seasonSummer
   const periodNumberLabel = withPeriodLabel ? `${labels.period} ${periodNumber},` : periodNumber
   const seasonName = _isFallPeriod(periodNumber) ? labels.seasonAutumn : labels.seasonSpring
-  return `${periodNumberLabel} ${langIndex === 0 ? seasonName.toLowerCase() : seasonName}`
+  return `${periodNumberLabel} ${seasonName}`
 }
 
 /**
