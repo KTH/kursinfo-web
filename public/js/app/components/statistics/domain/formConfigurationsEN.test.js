@@ -130,12 +130,12 @@ describe('Get list of  for each option on statistics page in English', () => {
       [
         {
           "id": 1,
-          "label": "Period 1, autumn",
+          "label": "Period 1, Autumn",
           "value": 1,
         },
         {
           "id": 3,
-          "label": "Period 3, spring",
+          "label": "Period 3, Spring",
           "value": 3,
         },
         {
@@ -145,12 +145,12 @@ describe('Get list of  for each option on statistics page in English', () => {
         },
         {
           "id": 2,
-          "label": "Period 2, autumn",
+          "label": "Period 2, Autumn",
           "value": 2,
         },
         {
           "id": 4,
-          "label": "Period 4, spring",
+          "label": "Period 4, Spring",
           "value": 4,
         },
       ]

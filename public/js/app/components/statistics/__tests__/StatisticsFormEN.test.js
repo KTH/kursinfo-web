@@ -235,11 +235,11 @@ describe('Component <StatisticsForm> in english', () => {
 
     expect(screen.queryByRole('heading', { name: /semester/i })).not.toBeInTheDocument()
 
-    await userEvent.click(screen.getByLabelText(/period 1, autumn/i))
-    await userEvent.click(screen.getByLabelText(/period 2, autumn/i))
+    await userEvent.click(screen.getByLabelText(/period 1, Autumn/i))
+    await userEvent.click(screen.getByLabelText(/period 2, Autumn/i))
 
-    expect(screen.getByLabelText(/period 1, autumn/i)).toBeChecked()
-    expect(screen.getByLabelText(/period 2, autumn/i)).toBeChecked()
+    expect(screen.getByLabelText(/period 1, Autumn/i)).toBeChecked()
+    expect(screen.getByLabelText(/period 2, Autumn/i)).toBeChecked()
 
     await userEvent.click(btn)
     expect(submittedResults).toMatchInlineSnapshot(`
@@ -416,11 +416,11 @@ describe('Component <StatisticsForm> in english', () => {
 
     await userEvent.selectOptions(screen.getByRole('combobox', { name: /Select year/i }), '2019')
 
-    await userEvent.click(screen.getByLabelText(/period 1, autumn/i))
-    await userEvent.click(screen.getByLabelText(/period 2, autumn/i))
+    await userEvent.click(screen.getByLabelText(/period 1, Autumn/i))
+    await userEvent.click(screen.getByLabelText(/period 2, Autumn/i))
 
-    expect(screen.getByLabelText(/period 1, autumn/i)).toBeChecked()
-    expect(screen.getByLabelText(/period 2, autumn/i)).toBeChecked()
+    expect(screen.getByLabelText(/period 1, Autumn/i)).toBeChecked()
+    expect(screen.getByLabelText(/period 2, Autumn/i)).toBeChecked()
 
     const btn = screen.getByRole('button', { name: /show statistics/i })
     await userEvent.click(btn)
@@ -443,8 +443,8 @@ describe('Component <StatisticsForm> in english', () => {
 
     await userEvent.selectOptions(screen.getByRole('combobox', { name: /Select year/i }), '2021')
 
-    await userEvent.click(screen.getByLabelText(/period 2, autumn/i))
-    expect(screen.getByLabelText(/period 2, autumn/i)).not.toBeChecked()
+    await userEvent.click(screen.getByLabelText(/period 2, Autumn/i))
+    expect(screen.getByLabelText(/period 2, Autumn/i)).not.toBeChecked()
     await userEvent.click(screen.getByLabelText(/summer/i))
 
     await userEvent.click(btn)
