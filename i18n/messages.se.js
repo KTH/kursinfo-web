@@ -265,7 +265,7 @@ module.exports = {
     allSchools: 'Alla skolor',
     chartsLabels: {
       headerMemo: 'Andel kurser som har publicerade kurs-PM ',
-      headerAnalysis: 'Andel kurser (som slutar vald termin) som har publicerat kursanalys',
+      headerAnalysis: 'Andel kurser (som slutar vald termin) som har en publicerad kursanalys',
       headerYearAgo: 'Jämför med resultatet för vald läsperiod från föregående år',
       numberOfUniqAnalyses: 'Under terminen',
       numberOfUniqWebAndPdfMemos: 'Under läsperiod/erna',
