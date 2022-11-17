@@ -121,7 +121,7 @@ const swedishAnalysisSummarySection = {
         >
           {`${kursutvecklingApiUrl}/courseAnalysesForSemestersList?semesters=20192`}
         </a>
-        , med <b>första</b> semesterar av kurser som aktuella för VT 2022 (inte sista semester) exempelvis med semester
+        , med <b>första</b> semestrar av kurser som aktuella för VT 2022 (inte sista semester) exempelvis med semester
         20192.
       </p>
     </div>
