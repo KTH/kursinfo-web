@@ -22,7 +22,7 @@ const englishAnalysisSummarySection = {
         Course analyzes with course rounds that were not completed during semester 20221 are filtered out. This is done
         by discarding courses that do not meet the criteria: course.offered_semesters[&#123;{'last-element'}
         &#125;].semester === 20221 and course.offered_semesters[&#123;{'last-element'}&#125;].end_week {'<='} (than last
-        week of a spring semester) and course.offered_semesters[&#123;{'last-element'}&#125;].start_week {'>='} (than
+        week of a spring semester) and course.offered_semesters[&#123;{'last-element'}&#125;].end_week {'>='} (than
         first week of a spring semester){' '}
       </p>
     </div>
@@ -102,8 +102,7 @@ const swedishAnalysisSummarySection = {
         Kursanalyser med kursomgångar som inte avslutades under terminen 20221 filtreras bort. Detta görs genom att
         förkasta kursomgångar som inte uppfyller kriterierna: course.offered_semesters[&#123;{'sista - element'}
         &#125;].semester === 20221 och course.offered_semesters[&#123;{'sista - element'}&#125;].end_week {'<='} (VTs
-        sista veckan) och course.offered_semesters[&#123;{'sista - element'}&#125;].start_week {'>='} (VTs första
-        veckan)
+        sista veckan) och course.offered_semesters[&#123;{'sista - element'}&#125;].end_week {'>='} (VTs första veckan)
       </p>
     </div>
   ),
