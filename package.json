@@ -17,6 +17,7 @@
     "test": "NODE_ENV=test jest",
     "test-win": "cross-env NODE_ENV=test jest",
     "test:watch": "jest --watch",
+    "test:file:watch": "jest ./server/apiCalls/transformers/offerings-over-several-semesters.test.js --watch",
     "test:notify": "jest --watch --notify",
     "docker": "npm install --development && npm run build && npm prune --production",
     "lint": "eslint . && prettier-eslint --list-different **/*.js",

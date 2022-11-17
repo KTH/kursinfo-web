@@ -58,7 +58,7 @@ const semestersInParsedOfferings = parsedOfferings => {
 }
 
 function _sortOfferedSemesters(offeredSemesters) {
-  return offeredSemesters.sort((a, b) => new Date(b.end_date) - new Date(a.end_date))
+  return offeredSemesters.sort((a, b) => new Date(a.end_date) - new Date(b.end_date))
 }
 
 /**
@@ -71,15 +71,10 @@ function _findCourseStartEndDates(courseOfferedSemesters) {
   const { length, 0: firstOffering = {}, [length - 1]: lastOffering = {} } = _sortOfferedSemesters(offeredSemesters)
 
   const { start_date: courseStartDate = '' } = firstOffering
-  const startDate = courseStartDate ? formatTimeToLocaleDateSV(Date.parse(courseStartDate)) : ''
 
   const { semester: lastSemester = '', end_date: courseEndDate = '', end_week: courseEndWeek } = lastOffering
-
-  const endDate = courseEndDate ? formatTimeToLocaleDateSV(Date.parse(courseEndDate)) : ''
-
-  return { endDate, endWeek: courseEndWeek, lastSemester, startDate }
+  return { endDate: courseEndDate, endWeek: courseEndWeek, lastSemester, startDate: courseStartDate }
 }
-// semester":"20202","start_date":"2020-08-24","end_date":"2020-10-23","start_week":"35","end_week":"43",
 
 /**
  * Parses courses offerings from Kopps and returns an object with one list for course memos which are created before course starts:
@@ -180,6 +175,8 @@ function filterOfferingsForAnalysis(
       } = course
 
       const { endDate, endWeek, lastSemester, startDate } = _findCourseStartEndDates(courseOfferedSemesters)
+      console.log('_findCourseStartEndDates', endDate, endWeek, lastSemester, startDate)
+
       const lastTermSeasonNumber = endDate ? _parseTermSeasonForNthWeek(endWeek) : ''
       const lastTermSeasonLabel = endDate ? labelSeason(Number(lastTermSeasonNumber), language === 'en' ? 0 : 1) : ''
 
@@ -200,6 +197,7 @@ module.exports = {
   parsePeriodForNthWeek: _parseTermSeasonForNthWeek,
   filterOfferingsForMemos,
   filterOfferingsForAnalysis,
+  findCourseStartEndDates: _findCourseStartEndDates,
   semestersInParsedOfferings,
   sortOfferedSemesters: _sortOfferedSemesters,
 }
