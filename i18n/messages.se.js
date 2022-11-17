@@ -309,6 +309,7 @@ module.exports = {
     },
     sortableTable: {
       semester: {
+        0: 'Sommar',
         1: 'VT',
         2: 'HT',
       },

@@ -295,7 +295,7 @@ module.exports = {
       headerMemo: 'Percentage of courses that have published course memos',
       headerAnalysis: 'Percentage of courses (ending the chosen semester) that have a published course analysis',
       headerYearAgo: 'Compare with the result for the selected study period from the previous year',
-      numberOfUniqAnalyses: 'Under semester(s)',
+      numberOfUniqAnalyses: 'During the semester (s)',
       numberOfUniqWebAndPdfMemos: 'Under study period(s)',
       numberOfMemosPublishedBeforeStart: 'Before course start',
       numberOfMemosPublishedBeforeDeadline: 'One week before course start',
@@ -335,6 +335,7 @@ module.exports = {
     },
     sortableTable: {
       semester: {
+        0: 'Summer',
         1: 'Spring',
         2: 'Autumn',
       },
@@ -364,7 +365,7 @@ module.exports = {
         courseStart: 'Course start',
         publishDate: 'Publish Date',
         linkToCoursePM: 'Link to kurs-PM',
-        term: 'Term',
+        term: 'Semester',
         courseEndDate: 'Course end date',
         courseStartDate: 'Course start',
         linkToCourseAnalysis: 'Link to course analysis',
@@ -387,8 +388,9 @@ module.exports = {
       },
       analysesNumbersTable: {
         school: 'School',
-        totalCourses: 'Number of courses finished in chosen semesters',
-        totalUniqPublishedAnalyses: 'Total published course analyses for courses finished in chosen semesters',
+        totalCourses: 'Number of courses ending the chosen semesters',
+        totalUniqPublishedAnalyses:
+          'Number of published course analyses for course offerings ending the chosen semester',
       },
     },
     earlierYearThan2019: { text: 'There is no data earlier than 2019' },
