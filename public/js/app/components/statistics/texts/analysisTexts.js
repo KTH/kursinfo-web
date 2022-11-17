@@ -111,7 +111,7 @@ const swedishAnalysisSummarySection = {
       <p>
         Kursanalysdata hämtas från kursutveckling-api, endpoint
         /api/kursutveckling/v1/getCourseAnalysesForSemestersList?semesters=&#123;{'semester'}&#125;. Data för VT 2022
-        hämtas från
+        hämtas från{' '}
         <a
           href={`${kursutvecklingApiUrl}/courseAnalysesForSemestersList?semesters=20192`}
           target="_blank"
