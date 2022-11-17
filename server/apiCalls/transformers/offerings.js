@@ -175,7 +175,6 @@ function filterOfferingsForAnalysis(
       } = course
 
       const { endDate, endWeek, lastSemester, startDate } = _findCourseStartEndDates(courseOfferedSemesters)
-      console.log('_findCourseStartEndDates', endDate, endWeek, lastSemester, startDate)
 
       const lastTermSeasonNumber = endDate ? _parseTermSeasonForNthWeek(endWeek) : ''
       const lastTermSeasonLabel = endDate ? labelSeason(Number(lastTermSeasonNumber), language === 'en' ? 0 : 1) : ''
