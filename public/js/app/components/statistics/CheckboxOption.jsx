@@ -72,8 +72,8 @@ function CheckboxOption({ paramName, onChange, stateMode }) {
   }
 
   return (
-    <div key={paramName} className="form-group">
-      <h3>
+    <div key={paramName} className="form-group" style={{ marginBottom: '0px' }}>
+      <h3 style={{ marginTop: '7px' }}>
         {headerLabel}
         {paramName === 'periods' && (
           <InfoModal

@@ -9,11 +9,14 @@ function _getThisHost(thisHostBaseUrl) {
   return thisHostBaseUrl.slice(-1) === '/' ? thisHostBaseUrl.slice(0, -1) : thisHostBaseUrl
 }
 
-function isSpringTerm(term) {
-  if (typeof term === 'number') {
-    return term % 2 === 1
+function _getSemesterIndexFromPeriod(period) {
+  if (period === 'P0' || period === 'P5') {
+    return 0
+  } else if (period === 'P3' || period === 'P4') {
+    return 1
+  } else {
+    return 2
   }
-  return term.slice(-1) === '1'
 }
 
 const buildLink = (link, textToShow) => <a href={`${link}`}>{textToShow}</a>
@@ -22,8 +25,7 @@ function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, seme
   const dataRows = []
   offeringsWithMemos.forEach(offering => {
     const departmentNames = offering.departmentName.split('/')
-    const semester = isSpringTerm(offering.firstSemester) ? semesterTranslationObject[1] : semesterTranslationObject[2]
-    const period = offering.period + ', ' + semester
+    const period = semesterTranslationObject[_getSemesterIndexFromPeriod(offering.period)]
     const institution = departmentNames && departmentNames.length > 1 ? departmentNames[1] : offering.departmentName
     const offeringBase = {
       year,
