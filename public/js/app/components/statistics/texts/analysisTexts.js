@@ -4,19 +4,10 @@ const englishAnalysisSummarySection = {
   courseDataApiDescription: koppsApiUrl => (
     // change texts
     <div className="paragraphs">
-      <p>Example for how data is fetched for Spring 2022, period P3, school ABE:</p>
+      <p>Example of how data is retrieved for a semester (Spring 2022, school ABE is used as an example):</p>
       <p>
-        Course data is fetched from&nbsp;
-        <a
-          href="https://www.kth.se/api/kopps/v2/apiInfo/courses"
-          target="_blank"
-          className="external-link"
-          rel="noreferrer"
-        >
-          KOPPS API for Courses
-        </a>
-        , endpoint&nbsp;
-        <code>/api/kopps/v2/courses/offerings</code>. Data for the current page was fetched from&nbsp;
+        Course data is retrieved from the KOPPS API for courses, endpoint /api/kopps/v2/courses/offerings. To retrieve
+        data for VT 2022, use the link:&nbsp;
         <a
           href={`${koppsApiUrl}courses/offerings?from=20221&skip_coordinator_info=true`}
           target="_blank"
@@ -28,31 +19,24 @@ const englishAnalysisSummarySection = {
         .
       </p>
       <p>
-        Offerings that didn’t finish under 20221 semester are filtered out. This is done by discarding offerings that
-        doesn’t meet the criteria:{' '}
-        <code>course.offered_semesters[&#123;{'lastSemester'}&#125;].semester === 20221</code> and
-        <code>
-          course.offered_semesters[&#123;{'lastSemester'}&#125;].end_week {'<='} (than last week of a spring semester)
-        </code>{' '}
-        and{' '}
-        <code>
-          course.offered_semesters[&#123;{'lastSemester'}&#125;].end_week {'>='} (than first week of a spring semester)
-        </code>
+        Course analyzes with course rounds that were not completed during semester 20221 are filtered out. This is done
+        by discarding courses that do not meet the criteria: course.offered_semesters[&#123;{'last-element'}
+        &#125;].semester === 20221 and course.offered_semesters[&#123;{'last-element'}&#125;].end_week {'<='} (than last
+        week of a spring semester) and course.offered_semesters[&#123;{'last-element'}&#125;].end_week {'>='} (than
+        first week of a spring semester){' '}
       </p>
     </div>
   ),
   courseDocumentsDataApiDescription: kursutvecklingApiUrl => (
     <div className="paragraphs">
       <p>
-        Course analyses data is fetched from&nbsp;
-        <a href="https://github.com/KTH/kursutveckling-api" target="_blank" className="external-link" rel="noreferrer">
-          kursutveckling-api
-        </a>
-        , endpoint <code>getCourseAnalysesForSemestersList</code>. Data for the current page was fetched from&nbsp;
+        Course analysis data is retrieved from the course development api, endpoint
+        /api/kursutveckling/v1/getCourseAnalysesForSemestersList?semesters=&#123;{'semesters'}&#125;. Data for VT 2022
+        is retrieved from&nbsp;
         <a href={kursutvecklingApiUrl} target="_blank" className="external-link" rel="noreferrer">
-          {`${kursutvecklingApiUrl}/courseAnalysesForSemestersList?semesters=20221`}
+          {`${kursutvecklingApiUrl}/courseAnalysesForSemestersList?semesters=20191`}
         </a>
-        , with <b>first</b> semester of a course (not the end or between semesters).
+        , with the <b>first</b> unique semesters from each course (not the end or between semesters), f.e, 20191.
       </p>
     </div>
   ),
@@ -65,7 +49,7 @@ const englishAnalysisSummarySection = {
 
       <p>
         The table shows the number of courses ending the chosen semester and the number of published course analyses for
-        course offerings ending the chosen semester. The diagrams shows what percentage of the school’s courses (ending
+        course offerings ending the chosen semester. The diagrams show what percentage of the school’s courses (ending
         the chosen semester) that have a published course analysis. Below the diagrams, a comparison can be made with
         the result from the previous year.
       </p>
@@ -73,7 +57,6 @@ const englishAnalysisSummarySection = {
       <p>Information about the used data: </p>
       <ul>
         <li>
-          {' '}
           The terms are defined according to{' '}
           <a
             href="https://intra.kth.se/en/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135"
@@ -104,8 +87,8 @@ const swedishAnalysisSummarySection = {
     <div className="paragraphs">
       <p>Exempel för hur data hämtas för en termin (som exempel används VT 2022):</p>
       <p>
-        Kursdata hämtas från <a href="https://www.kth.se/api/kopps/v2/apiInfo/courses">KOPPS API för kurser</a>,
-        endpoint <code>/api/kopps/v2/courses/offerings</code>. För att hämta data för VT 2022 används länken:
+        Kursdata hämtas från KOPPS API för kurser, endpoint /api/kopps/v2/courses/offerings. För att hämta data för VT
+        2022 används länken:
         <a
           href={`${koppsApiUrl}courses/offerings?from=20221&skip_coordinator_info=true`}
           target="_blank"
@@ -116,31 +99,29 @@ const swedishAnalysisSummarySection = {
         </a>
       </p>
       <p>
-        Kursomgångar som inte avslutades under terminen 20221 filtreras bort. Detta görs genom att förkasta kursomgångar
-        som inte uppfyller kriterierna:{' '}
-        <code>course.offered_semesters[&#123;{'lastSemester'}&#125;].semester === 20221</code> och{' '}
-        <code>
-          course.offered_semesters[&#123;{'lastSemester'}&#125;].end_week {'<='} (VTs sista veckan)
-        </code>{' '}
-        och{' '}
-        <code>
-          course.offered_semesters[&#123;{'lastSemester'}&#125;].end_week {'>='} (VTs första veckan)
-        </code>
+        Kursanalyser med kursomgångar som inte avslutades under terminen 20221 filtreras bort. Detta görs genom att
+        förkasta kursomgångar som inte uppfyller kriterierna: course.offered_semesters[&#123;{'sista - element'}
+        &#125;].semester === 20221 och course.offered_semesters[&#123;{'sista - element'}&#125;].end_week {'<='} (VTs
+        sista veckan) och course.offered_semesters[&#123;{'sista - element'}&#125;].end_week {'>='} (VTs första veckan)
       </p>
     </div>
   ),
   courseDocumentsDataApiDescription: kursutvecklingApiUrl => (
     <div className="paragraphs">
       <p>
-        Kursanalysdata hämtas från
-        <a href="https://github.com/KTH/kursutveckling-api" target="_blank" className="external-link" rel="noreferrer">
-          kursutveckling-api
+        Kursanalysdata hämtas från kursutveckling-api, endpoint
+        /api/kursutveckling/v1/getCourseAnalysesForSemestersList?semesters=&#123;{'semester'}&#125;. Data för VT 2022
+        hämtas från{' '}
+        <a
+          href={`${kursutvecklingApiUrl}/courseAnalysesForSemestersList?semesters=20192`}
+          target="_blank"
+          className="external-link"
+          rel="noreferrer"
+        >
+          {`${kursutvecklingApiUrl}/courseAnalysesForSemestersList?semesters=20192`}
         </a>
-        , endpoint <code>getCourseAnalysesForSemestersList</code>. Data för VT 2022 hämtas från
-        <a href={kursutvecklingApiUrl} target="_blank" className="external-link" rel="noreferrer">
-          {`${kursutvecklingApiUrl}/courseAnalysesForSemestersList?semesters=20221`}
-        </a>
-        , med <b>start</b> semester av kursen (inte sista semester).
+        , med <b>första</b> semestrar av kurser som aktuella för VT 2022 (inte sista semester) exempelvis med semester
+        20192.
       </p>
     </div>
   ),
@@ -150,18 +131,15 @@ const swedishAnalysisSummarySection = {
         Här visas en sammanställning över antalet publicerade kursanalyser för vald skola, år och termin. Den data som
         används hämtas från Kopps och Om kursen.
       </p>
-
       <p>
         Tabellen visar antal kurser som slutar vald termin och antal publicerade kursanalyser för kursomgångar som
-        slutar vald termin. Diagrammen visar hur stor del av skolans kurser (som slutar vald termin) som har publicerat
-        kursanalys under terminen. Under diagrammen går det att jämföra resultatet med resultatet för vald läsperiod
-        från föregående år.
+        slutar vald termin. Diagrammen visar hur stor del av skolans kurser (som slutar vald termin) som har en
+        publicerad kursanalys. Under diagrammen går det att jämföra resultatet med resultatet för vald termin från
+        föregående år.
       </p>
-
       <p>Information om den data som används: </p>
       <ul>
         <li>
-          {' '}
           Terminerna definieras enligt{' '}
           <a
             href="https://intra.kth.se/utbildning/tentamen-och-schema/lasarsindelning"
