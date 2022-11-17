@@ -4,7 +4,7 @@ const englishAnalysisSummarySection = {
   courseDataApiDescription: koppsApiUrl => (
     // change texts
     <div className="paragraphs">
-      <p>Example of how data is retrieved for a semester (Spring 2022, period P3, school ABE is used as an example):</p>
+      <p>Example of how data is retrieved for a semester (Spring 2022, school ABE is used as an example):</p>
       <p>
         Course data is retrieved from the KOPPS API for courses, endpoint /api/kopps/v2/courses/offerings. To retrieve
         data for VT 2022, use the link:&nbsp;
