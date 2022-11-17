@@ -335,6 +335,7 @@ module.exports = {
     },
     sortableTable: {
       semester: {
+        0: 'Summer',
         1: 'Spring',
         2: 'Autumn',
       },
