@@ -335,7 +335,7 @@ describe('Component <CourseStatisticsPage> show compilation data in for course a
       screen.getByRole('heading', { name: /sammanställning av antal publicerade kursanalyser/i })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('heading', { name: /andel kurser \(som slutar vald termin\) som har publicerat kursanalys/i })
+      screen.getByRole('heading', { name: /andel kurser \(som slutar vald termin\) som har en publicerad kursanalys/i })
     ).toBeInTheDocument()
 
     // const periodsLabel = /Sommar, VT, HT/i

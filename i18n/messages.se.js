@@ -119,7 +119,7 @@ module.exports = {
     },
     label_close: 'Stäng',
     study_period_info:
-      '<p>Du hittar information om hur <a href="https://intra.kth.se/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135" class="external-link">läsåret är indelat i läsperioder</a> på intranätet.</p>',
+      '<p>Du hittar information om hur <a href="https://intra.kth.se/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135" class="external-link" target="_blank" rel="noopener noreferrer">läsåret är indelat i läsperioder</a> på intranätet.</p>',
   },
   courseInformation: {
     roundId: 'Kursomgångs nr',
@@ -265,7 +265,7 @@ module.exports = {
     allSchools: 'Alla skolor',
     chartsLabels: {
       headerMemo: 'Andel kurser som har publicerade kurs-PM ',
-      headerAnalysis: 'Andel kurser (som slutar vald termin) som har publicerat kursanalys',
+      headerAnalysis: 'Andel kurser (som slutar vald termin) som har en publicerad kursanalys',
       headerYearAgo: 'Jämför med resultatet för vald läsperiod från föregående år',
       numberOfUniqAnalyses: 'Under terminen',
       numberOfUniqWebAndPdfMemos: 'Under läsperiod/erna',
@@ -309,6 +309,7 @@ module.exports = {
     },
     sortableTable: {
       semester: {
+        0: 'Sommar',
         1: 'VT',
         2: 'HT',
       },
@@ -334,9 +335,9 @@ module.exports = {
         courseCode: 'Kurskod',
         linkedProgram: 'Kopplade program',
         courseRoundNumber: 'Anmälningskod',
-        period: 'Läs-period',
+        period: 'Läsperiod',
         courseStart: 'Kursstart',
-        publishDate: 'Publicerings-datum',
+        publishDate: 'Publiceringsdatum',
         linkToCoursePM: 'Länk till kurs-PM',
         term: 'Termin',
         courseEndDate: 'Kursens slutdatum',

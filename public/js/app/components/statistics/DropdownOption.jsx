@@ -30,8 +30,8 @@ function DropdownOption({ paramName, onChange }) {
   }
 
   return (
-    <div key={paramName} className="form-group">
-      <h3>{headerLabel}</h3>
+    <div key={paramName} className="form-group" style={{ marginBottom: '7px' }}>
+      <h3 style={{ marginTop: '7px' }}>{headerLabel}</h3>
       <fieldset>
         <legend className="form-control-label">{shortIntro}</legend>
         <div className="form-select form-group">
