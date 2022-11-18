@@ -5,9 +5,8 @@ const englishMemosSummarySection = {
     <div>
       <p>Example for how data is fetched for Spring 2022, period P3, school ABE:</p>
       <p>
-        Course data is fetched from&nbsp;
-        <a href="https://www.kth.se/api/kopps/v2/apiInfo/courses">KOPPS API for Courses</a>, endpoint&nbsp;
-        /api/kopps/v2/courses/offerings. Data for the current page was fetched from&nbsp;
+        Course data is retrieved from&nbsp; KOPPS API for Courses, endpoint&nbsp; /api/kopps/v2/courses/offerings. Data
+        for the current page was fetched from&nbsp;
         <a
           href={`${koppsApiUrl}courses/offerings?from=20221&skip_coordinator_info=true`}
           target="_blank"
@@ -34,12 +33,9 @@ const englishMemosSummarySection = {
         filtered out.
       </p>
       <p>
-        Course memo data is fetched from&nbsp;
-        <a href="https://github.com/KTH/kurs-pm-data-api" target="_blank" className="external-link" rel="noreferrer">
-          kurs-pm-data-api
-        </a>
-        , endpoint /api/kurs-pm-data/v1/prioritizedWebOrPdfMemosBySemesters?semesters=&#123;semester&#125;. Data for the
-        current page was fetched from&nbsp;
+        Course memo data is fetched from&nbsp; endpoint
+        /api/kurs-pm-data/v1/prioritizedWebOrPdfMemosBySemesters?semesters=&#123;semester&#125;. Data for the current
+        page was fetched from&nbsp;
         <a
           href={`${kursPmApiUrl}/v1/prioritizedWebOrPdfMemosBySemesters?semesters=20221`}
           target="_blank"
@@ -60,16 +56,15 @@ const englishMemosSummarySection = {
       </p>
       <p>
         The table shows the number of courses that started and number of course memos that were published during the
-        selected study period. The three diagrams show how big part of the school's courses have published course memos
-        during the study period, at the latest at the start of the course (in accordance with KTH's guideline for course
-        memos{' '}
+        selected study period. The three diagrams show how big part of the school&apos;s courses have published course
+        memos during the study period, at the latest at the start of the course (in accordance with
         <a
           href="https://intra.kth.se/en/utbildning/systemstod/om-kursen/kurs-pm/riktilinjer"
           target="_blank"
           className="external-link"
           rel="noreferrer"
         >
-          KTH's guideline for course memos
+          KTH&apos;s guideline for course memos
         </a>
         ) and one week before the start of the course. Below the diagrams, a comparison can be made with the result from
         the previous year.
@@ -84,7 +79,6 @@ const englishMemosSummarySection = {
           Courses that have several course offerings with exactly the same start and end date are counted as one course.
         </li>
         <li>
-          {' '}
           For course offerings that run over several semesters, the course memo is presented for the first semester of
           the course offering.
         </li>
