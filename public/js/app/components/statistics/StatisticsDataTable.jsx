@@ -256,7 +256,9 @@ function StatisticsDataTable({ statisticsResult }) {
       <article key="statistics-memo-analysis-description">
         {isMemoPage ? courseMemo.details : courseAnalysis.details}
         <details>
-          <summary className="white">{isMemoPage ? courseMemo.sourceOfData : courseAnalysis.sourceOfData}</summary>
+          <summary className="white" style={{ paddingTop: '20px' }}>
+            {isMemoPage ? courseMemo.sourceOfData : courseAnalysis.sourceOfData}
+          </summary>
           <StatisticsExport
             columnNames={columnNames}
             columns={columns}
