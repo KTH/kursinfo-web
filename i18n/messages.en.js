@@ -372,7 +372,7 @@ module.exports = {
       },
     },
     summaryLabels: {
-      sourceOfData: 'Read about API:s and source of data',
+      sourceOfData: 'Read about the API:s and the source of data',
       subHeaders: {
         courseMemo: 'Compilation of the number of published course memos',
         courseAnalysis: 'Compilation of the number of published course analyses',
