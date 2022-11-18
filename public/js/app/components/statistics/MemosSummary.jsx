@@ -50,11 +50,11 @@ function Captions({ year, periods, languageIndex }) {
   const periodsStr = uniqquePeriodsLabels.join(', ')
   return (
     <Row>
-      <Col xs="2">
+      <Col xs="2" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
         <label>{formLabels.formSubHeaders.year}</label>
         {`: ${year}`}
       </Col>
-      <Col xs="4">
+      <Col xs="4" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
         <label>{formLabels.formSubHeaders.periods}</label>
         {`: ${periodsStr}`}
       </Col>
