@@ -24,11 +24,11 @@ function Captions({ year, seasons, languageIndex }) {
   const seasonsStr = seasons.map(season => seasonLib.labelSeason(season, languageIndex)).join(', ')
   return (
     <Row>
-      <Col xs="4">
+      <Col xs="4" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
         <label>{formLabels.formSubHeaders.year}</label>
         {`: ${year}`}
       </Col>
-      <Col xs="4">
+      <Col xs="4" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
         <label>{formLabels.formSubHeaders.seasons}</label>
         {`: ${seasonsStr}`}
       </Col>
