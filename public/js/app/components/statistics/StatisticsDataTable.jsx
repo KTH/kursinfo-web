@@ -164,12 +164,12 @@ function StatisticsExport({ columnNames, columns, dataRows, fileName, sheetName,
       <div className="padding-bottom-1">
         <Row>
           <Col lg="8" md="8" xs="12">
-            <Button color="secondary" onClick={() => exportDataTable('csv')} className="float-right">
+            <Button color="secondary" onClick={() => exportDataTable('csv')} className="width-50 float-right">
               {exportLabels.csv}
             </Button>
           </Col>
           <Col>
-            <Button color="secondary" onClick={() => exportDataTable('xlsx')} className="float-right">
+            <Button color="secondary" onClick={() => exportDataTable('xlsx')} className="width-100">
               {exportLabels.excel}
             </Button>
           </Col>
