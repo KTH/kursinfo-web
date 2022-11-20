@@ -9,13 +9,13 @@ function _getThisHost(thisHostBaseUrl) {
   return thisHostBaseUrl.slice(-1) === '/' ? thisHostBaseUrl.slice(0, -1) : thisHostBaseUrl
 }
 
-function _getSemesterIndexFromPeriod(period) {
+function _getCompletePeriod(period, semesterTranslationObject) {
   if (period === 'P0' || period === 'P5') {
-    return 0
+    return semesterTranslationObject[0]
   } else if (period === 'P3' || period === 'P4') {
-    return 1
+    return period + ', ' + semesterTranslationObject[1]
   } else {
-    return 2
+    return period + ', ' + semesterTranslationObject[2]
   }
 }
 
@@ -25,7 +25,7 @@ function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, seme
   const dataRows = []
   offeringsWithMemos.forEach(offering => {
     const departmentNames = offering.departmentName.split('/')
-    const period = semesterTranslationObject[_getSemesterIndexFromPeriod(offering.period)]
+    const period = _getCompletePeriod(offering.period, semesterTranslationObject)
     const institution = departmentNames && departmentNames.length > 1 ? departmentNames[1] : offering.departmentName
     const offeringBase = {
       year,
