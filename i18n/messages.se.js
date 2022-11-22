@@ -316,13 +316,13 @@ module.exports = {
       courseAnalysis: {
         header: 'Tabell med kurser och kursanalyser',
         details:
-          'Här finns möjlighet att se en tabell med data för alla kurser, för vald skola och läsperiod. Det går att sortera informationen i tabellen för institution, kurskod, kursstart, publiceringsdatum och länk till kursanalyser. Det är även möjligt att ladda ner tabellen som en Excel- eller CSV-fil för att göra egna filtreringar och sorteringar av datan.',
+          'Här finns möjlighet att se en tabell med data för alla kurstillfällen, för vald skola och läsperiod. Det går att sortera informationen i tabellens kolumner. Det är även möjligt att ladda ner tabellen som en Excel- eller CSV-fil för att göra egna filtreringar och sorteringar av datan.',
         sourceOfData: 'Se tabell med data for kursanalys',
       },
       courseMemo: {
         header: 'Tabell med kurser och kurs-PM',
         details:
-          'Här finns möjlighet att se en tabell med data för alla kurser, for vald skola och läsperiod. Det går att sortera informationen i tabellen for institution, kurskod, kursstart, publiceringsdatum och länk till kurs-PM. Det är även möjligt att ladda ner tabellen som en Excel- eller CSV-fil för att göra egna filtreringar och sorteringar av datan',
+          'Här finns möjlighet att se en tabell med data för alla kurser, för vald skola och läsperiod. Det går att sortera informationen i tabellens kolumner. Det är även möjligt att ladda ner tabellen som en Excel- eller CSV-fil för att göra egna filtreringar och sorteringar av datan.',
         sourceOfData: 'Se tabell med data for kurs PM',
       },
       rowsPerPageText: 'Antal rader per sida:',
