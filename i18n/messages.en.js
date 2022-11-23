@@ -342,13 +342,13 @@ module.exports = {
       courseAnalysis: {
         header: 'Table with courses and course analyses',
         details:
-          'Here it is possible to see a table with data for all course offerings for the selected school and semester. It is possible to sort the information in the table by department, course code, course start, publication date and link to course analysis. It is also possible to download the table as an Excel or CSV file to do your own filtering and sorting of the data.',
+          'Here it is possible to see a table with data for all course offerings for the selected school and semester. It is possible to sort the information in the table columns. It is also possible to download the table as an Excel or CSV file to do your own filtering and sorting of the data.',
         sourceOfData: 'See table with data for course analysis',
       },
       courseMemo: {
         header: 'Table with courses and course memos',
         details:
-          'Here it is possible to see a table with data for all cours offerings for the selected school and study period. It is possible to sort the information in the table by department, course code, course start, publication date and link to course memo. It is also possible to download the table as an Excel or CSV file to do your own filtering and sorting of the data.',
+          'Here it is possible to see a table with data for all cours offerings for the selected school and study period. It is possible to sort the information in the table columns. It is also possible to download the table as an Excel or CSV file to do your own filtering and sorting of the data.',
         sourceOfData: 'See table with data for course memos',
       },
       rowsPerPageText: 'Number of rows per page:',
