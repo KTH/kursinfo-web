@@ -304,8 +304,8 @@ module.exports = {
     seasonSpring: 'VT',
     seasonSummer: 'Sommar',
     exportLabels: {
-      excel: 'Ladda ner tabell som excel-fil',
-      csv: 'Ladda ner tabell som csv-fil',
+      excel: 'Ladda ner tabell som Excel-fil',
+      csv: 'Ladda ner tabell som CSV-fil',
     },
     sortableTable: {
       semester: {
