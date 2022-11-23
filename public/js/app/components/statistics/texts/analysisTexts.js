@@ -57,7 +57,7 @@ const englishAnalysisSummarySection = {
       <p>Information about the used data: </p>
       <ul>
         <li>
-          The terms are defined according to{' '}
+          The semesters are defined according to{' '}
           <a
             href="https://intra.kth.se/en/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135"
             target="_blank"
