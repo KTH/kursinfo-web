@@ -104,7 +104,7 @@ const NoDataMessage = ({ labels }) => (
     <i>{labels.noDataMessage}</i>
   </p>
 )
-function StatisticsExport({ columnNames, columns, dataRows, fileName, sheetName, exportLabels }) {
+function StatisticsExport({ columnNames, columns, dataRows, fileName, sheetName, exportLabels, languageIndex }) {
   const wscols = [
     { wch: 10 },
     { wch: 20 },
@@ -163,13 +163,13 @@ function StatisticsExport({ columnNames, columns, dataRows, fileName, sheetName,
     <>
       <div className="padding-bottom-1">
         <Row>
-          <Col lg="8" md="8" xs="12">
-            <Button color="secondary" onClick={() => exportDataTable('csv')} className="width-50 float-right">
+          <Col lg="8" md="8" xs="12" className={languageIndex === 0 ? 'margin-left-5' : 'margin-left-4'}>
+            <Button color="btn btn-secondary" onClick={() => exportDataTable('csv')} className="float-right">
               {exportLabels.csv}
             </Button>
           </Col>
           <Col>
-            <Button color="secondary" onClick={() => exportDataTable('xlsx')} className="width-100">
+            <Button color="btn btn-secondary" onClick={() => exportDataTable('xlsx')}>
               {exportLabels.excel}
             </Button>
           </Col>
@@ -265,6 +265,7 @@ function StatisticsDataTable({ statisticsResult }) {
             dataRows={dataRows}
             exportLabels={exportLabels}
             sheetName={isMemoPage ? `statistics-memos` : `statistics-analyses`}
+            languageIndex={languageIndex}
             fileName={
               isMemoPage
                 ? `course-information-statistics-memos-${year}-periods-${periods.join('-')}`
