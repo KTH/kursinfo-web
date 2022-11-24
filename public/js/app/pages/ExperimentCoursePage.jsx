@@ -75,6 +75,7 @@ function ExperimentCoursePage() {
   const { courseInfo, language = 'sv' } = courseData
   const translation = i18n.messages[language === 'en' ? 0 : 1]
   const introText = getCourseIntroduction(sellingText, courseInfo, language)
+  console.log('introText', introText)
 
   let courseImage = ''
   if (imageFromAdmin.length > 4) {
@@ -178,7 +179,7 @@ function ExperimentCoursePage() {
           >
             <Col>
               <img className="float-md-left" src={courseImage} alt="" height="auto" width="300px" />
-              <div className="paragraphs" dangerouslySetInnerHTML={{ __html: introText }} />
+              <span className="paragraphs" dangerouslySetInnerHTML={{ __html: introText }} />
             </Col>
           </section>
           <div>
