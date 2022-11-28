@@ -38,6 +38,7 @@ const optionsReducer = (state, action) => {
 }
 
 function CheckboxOption({ paramName, onChange, stateMode }) {
+  console.log(paramName)
   /* depends on type of document to dropdown */
   const [context] = useWebContext()
   const { languageIndex } = context

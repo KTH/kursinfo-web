@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Col, Row } from 'reactstrap'
 import { useWebContext } from '../../context/WebContext'
-
+import InfoModal from '../InfoModal'
 import i18n from '../../../../../i18n'
 import { getOptionsValues } from './domain/formConfigurations'
 import { frameIfEmpty } from './domain/validation'
@@ -11,6 +11,7 @@ function DropdownOption({ paramName, onChange }) {
   const [context] = useWebContext()
   const { languageIndex } = context
   const [option, setOption] = React.useState(context[paramName])
+  const { courseLabels: labels } = i18n.messages[languageIndex]
   const { formLabels } = i18n.messages[languageIndex].statisticsLabels
   const headerLabel = formLabels.formSubHeaders[paramName]
   const shortIntro = formLabels.formShortIntro[paramName]
@@ -31,7 +32,18 @@ function DropdownOption({ paramName, onChange }) {
 
   return (
     <div key={paramName} className="form-group" style={{ marginBottom: '7px' }}>
-      <h3 style={{ marginTop: '7px' }}>{headerLabel}</h3>
+      <h3 style={{ marginTop: '7px' }}>
+        {headerLabel}
+        {paramName === 'year' && (
+          <InfoModal
+            parentTag="h3"
+            closeLabel={labels.label_close}
+            infoText={labels.study_year_info}
+            title={headerLabel}
+            type="html"
+          />
+        )}
+      </h3>
       <fieldset>
         <legend className="form-control-label">{shortIntro}</legend>
         <div className="form-select form-group">
