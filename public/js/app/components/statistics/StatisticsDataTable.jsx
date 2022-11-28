@@ -3,7 +3,7 @@ import { Col, Row, Button } from 'reactstrap'
 import * as xlsx from 'xlsx'
 import { useWebContext } from '../../context/WebContext'
 import i18n from '../../../../../i18n'
-import SortableDataTable, { useRowsPerPage } from './SortableDataTable'
+import SortableDataTable from './SortableDataTable'
 
 function _getThisHost(thisHostBaseUrl) {
   return thisHostBaseUrl.slice(-1) === '/' ? thisHostBaseUrl.slice(0, -1) : thisHostBaseUrl
@@ -197,8 +197,6 @@ function StatisticsDataTable({ statisticsResult }) {
   const isMemoPage = offeringsWithMemos && offeringsWithMemos.length > 0 ? true : false
   const isAnalysisPage = offeringsWithAnalyses && offeringsWithAnalyses.length > 0 ? true : false
 
-  const { readRowsPerPage, writeRowsPerPage } = useRowsPerPage('statisticsDPage', 'dataTableForStatistics', '10')
-
   let tableData = []
   let columnNames = []
   if (isMemoPage) {
@@ -272,12 +270,7 @@ function StatisticsDataTable({ statisticsResult }) {
                 : `course-information-statistics-analyses-${year}-periods-${seasons.join('-')}`
             }
           ></StatisticsExport>
-          <SortableDataTable
-            columns={columns}
-            data={tableData}
-            rowsPerPage={readRowsPerPage()}
-            onChangeRowsPerPage={writeRowsPerPage}
-          ></SortableDataTable>
+          <SortableDataTable columns={columns} data={tableData}></SortableDataTable>
         </details>
       </article>
     </>

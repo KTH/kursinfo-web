@@ -51,7 +51,7 @@ const customStyles = {
   },
 }
 
-function SortableDataTable({ columns, data, rowsPerPage = 10, onChangeRowsPerPage = count => {} }) {
+function SortableDataTable({ columns, data }) {
   const [context] = useWebContext()
   const { languageIndex } = context
   const { statisticsLabels } = i18n.messages[languageIndex]
@@ -72,36 +72,11 @@ function SortableDataTable({ columns, data, rowsPerPage = 10, onChangeRowsPerPag
             paginationComponentOptions={opts}
             customStyles={customStyles}
             paginationRowsPerPageOptions={[10, 25, 50, 100, 250, 500]}
-            paginationPerPage={rowsPerPage}
-            onChangeRowsPerPage={onChangeRowsPerPage}
           />
         </div>
       </Col>
     </Row>
   )
-}
-
-/**
- * Ett enkelt sätt att spara användarens val av sidstorlek [i localStorage].
- * Vänligen ange ett app-specifikt prefix för att undvika namnkrockar.
- */
-export const useRowsPerPage = (appPrefix, keyPrefix, defaultValue = '') => {
-  const rowsPerPageKey = 'RowsPerPage'
-  const readValue = key => {
-    const storageKey = `${appPrefix}.${keyPrefix}.${key}`
-    const value = localStorage.getItem(storageKey)
-    return value || defaultValue
-  }
-  const writeValue = (key, value) => {
-    const storageKey = `${appPrefix}.${keyPrefix}.${key}`
-    if (value) {
-      localStorage.setItem(storageKey, value)
-    }
-  }
-  return {
-    readRowsPerPage: () => parseInt(readValue(rowsPerPageKey) || '10'),
-    writeRowsPerPage: count => writeValue(rowsPerPageKey, `${count}`),
-  }
 }
 
 export default SortableDataTable
