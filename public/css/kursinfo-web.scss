@@ -461,3 +461,13 @@ sup {
 .float-right {
   float: right;
 }
+
+div::-webkit-scrollbar {
+  width: 4px;
+}
+
+div::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+}
