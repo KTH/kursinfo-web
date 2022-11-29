@@ -233,7 +233,7 @@ function StatisticsDataTable({ statisticsResult }) {
     selector: group => group[columnName],
     sortable: true,
     wrap: true,
-    minWidth: '213px',
+    minWidth: '137px',
   }))
   let dataRows = []
   if (isMemoPage) {
