@@ -362,7 +362,7 @@ module.exports = {
         institution: 'Department',
         courseCode: 'Course code',
         linkedProgram: 'Connected program(s)',
-        courseRoundNumber: 'Application code',
+        applicationCode: 'Application code',
         period: 'Study period',
         courseStart: 'Course start',
         publishDate: 'Publishing date',

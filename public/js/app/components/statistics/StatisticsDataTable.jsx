@@ -33,7 +33,10 @@ function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, seme
       institution,
       courseCode: offering.courseCode,
       linkedProgram: offering.connectedPrograms,
-      courseRoundNumber: offering.offeringId,
+      applicationCode:
+        offering.courseRoundApplications && offering.courseRoundApplications.length > 0
+          ? offering.courseRoundApplications[0].course_round_application_code
+          : '',
       period,
       courseStart: offering.startDate,
       publishDate: '',
@@ -67,7 +70,10 @@ function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfi
       institution,
       courseCode: offering.courseCode,
       linkedProgram: offering.connectedPrograms,
-      courseRoundNumber: offering.offeringId,
+      applicationCode:
+        offering.courseRoundApplications && offering.courseRoundApplications.length > 0
+          ? offering.courseRoundApplications[0].course_round_application_code
+          : '',
       term: offering.lastSemesterLabel,
       courseStartDate: offering.startDate,
       courseEndDate: offering.endDate,
@@ -207,7 +213,7 @@ function StatisticsDataTable({ statisticsResult }) {
       'institution',
       'courseCode',
       'linkedProgram',
-      'courseRoundNumber',
+      'applicationCode',
       'courseStart',
       'publishDate',
       'linkToCoursePM',
@@ -221,7 +227,7 @@ function StatisticsDataTable({ statisticsResult }) {
       'institution',
       'courseCode',
       'linkedProgram',
-      'courseRoundNumber',
+      'applicationCode',
       'courseStartDate',
       'courseEndDate',
       'publishDate',
@@ -233,7 +239,7 @@ function StatisticsDataTable({ statisticsResult }) {
     selector: group => group[columnName],
     sortable: true,
     wrap: true,
-    minWidth: columnName === 'courseRoundNumber' ? '161px' : '137px',
+    minWidth: columnName === 'applicationCode' ? '161px' : '137px',
   }))
   let dataRows = []
   if (isMemoPage) {
