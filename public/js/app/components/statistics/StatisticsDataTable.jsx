@@ -233,7 +233,7 @@ function StatisticsDataTable({ statisticsResult }) {
     selector: group => group[columnName],
     sortable: true,
     wrap: true,
-    minWidth: '137px',
+    minWidth: columnName === 'courseRoundNumber' ? '161px' : '137px',
   }))
   let dataRows = []
   if (isMemoPage) {
