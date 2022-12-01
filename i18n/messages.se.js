@@ -121,7 +121,7 @@ module.exports = {
     study_period_info:
       '<p>Du hittar information om hur <a href="https://intra.kth.se/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135" class="external-link" target="_blank" rel="noopener noreferrer">läsåret är indelat i läsperioder</a> på intranätet.</p>',
     study_year_info:
-      '<p>Välj det år som kursomgången slutar. Observera att ifall du i nästa steg väljer hösttermin (HT), visas även kurser som slutar i januari. Detta eftersom höstterminen slutar i v 2.</p><p>Du hittar information om hur <a href="https://intra.kth.se/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135" class="external-link" target="_blank" rel="noopener noreferrer">läsåret är indelat i läsperioder</a> på intranätet.</p>',
+      '<p>Välj det år som kursomgången slutar. Observera att ifall du i nästa steg väljer hösttermin (HT), visas även kurser som slutar i januari kommande år. Detta eftersom höstterminen slutar i v 2.</p><p>Du hittar information om hur <a href="https://intra.kth.se/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135" class="external-link" target="_blank" rel="noopener noreferrer">läsåret är indelat i läsperioder</a> på intranätet.</p>',
   },
   courseInformation: {
     roundId: 'Kursomgångs nr',
