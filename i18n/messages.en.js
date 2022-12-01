@@ -336,6 +336,7 @@ module.exports = {
       csv: 'Download table as CSV file',
     },
     sortableTable: {
+      search_placeholder: 'Search',
       semester: {
         0: 'Summer',
         1: 'Spring',

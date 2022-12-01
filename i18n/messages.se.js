@@ -310,6 +310,7 @@ module.exports = {
       csv: 'Ladda ner tabell som CSV-fil',
     },
     sortableTable: {
+      search_placeholder: 'Sök',
       semester: {
         0: 'Sommar',
         1: 'VT',

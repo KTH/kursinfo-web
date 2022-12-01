@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Col, Row, Button } from 'reactstrap'
 import * as xlsx from 'xlsx'
 import { useWebContext } from '../../context/WebContext'
@@ -105,6 +105,25 @@ function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfi
   return dataRows
 }
 
+function _searchInDataByText(text, data) {
+  if (text && text !== '') {
+    const dataAfterSearch = []
+    data.forEach(d => {
+      Object.keys(d).forEach(key => {
+        if (d[key]) {
+          const value = d[key].toString()
+          if (value.toLowerCase().includes(text.toLowerCase())) {
+            dataAfterSearch.push(d)
+          }
+        }
+      })
+    })
+    return dataAfterSearch
+  } else {
+    return data
+  }
+}
+
 const NoDataMessage = ({ labels }) => (
   <p>
     <i>{labels.noDataMessage}</i>
@@ -167,25 +186,30 @@ function StatisticsExport({ columnNames, columns, dataRows, fileName, sheetName,
 
   return (
     <>
-      <div className="padding-bottom-1">
-        <Row>
-          <Col lg="8" md="8" xs="12" className={languageIndex === 0 ? 'margin-left-5' : 'margin-left-4'}>
-            <Button color="btn btn-secondary" onClick={() => exportDataTable('csv')} className="float-right">
-              {exportLabels.csv}
-            </Button>
-          </Col>
-          <Col>
-            <Button color="btn btn-secondary" onClick={() => exportDataTable('xlsx')}>
-              {exportLabels.excel}
-            </Button>
-          </Col>
-        </Row>
-      </div>
+      <Col lg="4" md="4" xs="12" className={languageIndex === 0 ? 'margin-left-5' : 'margin-left-4'}>
+        <Button color="btn btn-secondary" onClick={() => exportDataTable('csv')} className="float-right">
+          {exportLabels.csv}
+        </Button>
+      </Col>
+      <Col>
+        <Button color="btn btn-secondary" onClick={() => exportDataTable('xlsx')}>
+          {exportLabels.excel}
+        </Button>
+      </Col>
     </>
   )
 }
 
+function FilterTable({ onFilter, placeholder }) {
+  return (
+    <Col lg="4" md="4" sm="12">
+      <input id="search" type="text" placeholder={placeholder} aria-label="Search Input" onChange={onFilter} />
+    </Col>
+  )
+}
+
 function StatisticsDataTable({ statisticsResult }) {
+  const [resetPaginationToggle, setResetPaginationToggle] = useState(false)
   const [context] = useWebContext()
   const { languageIndex, browserConfig } = context
   const { statisticsLabels } = i18n.messages[languageIndex]
@@ -203,7 +227,6 @@ function StatisticsDataTable({ statisticsResult }) {
   const isMemoPage = offeringsWithMemos && offeringsWithMemos.length > 0 ? true : false
   const isAnalysisPage = offeringsWithAnalyses && offeringsWithAnalyses.length > 0 ? true : false
 
-  let tableData = []
   let columnNames = []
   if (isMemoPage) {
     columnNames = [
@@ -248,14 +271,14 @@ function StatisticsDataTable({ statisticsResult }) {
     dataRows = _getDataRowsForCourseAnalysis(offeringsWithAnalyses, year, browserConfig)
   }
 
-  tableData = dataRows.map((d, index) => ({
-    id: index,
-    ...d,
-  }))
+  const [tableData, setTableData] = useState(
+    dataRows.map((d, index) => ({
+      id: index,
+      ...d,
+    }))
+  )
 
-  return tableData.length === 0 ? (
-    <NoDataMessage labels={sortableTable} />
-  ) : (
+  return (
     <>
       <h3>{isMemoPage ? courseMemo.header : courseAnalysis.header}</h3>
       <article key="statistics-memo-analysis-description">
@@ -264,20 +287,43 @@ function StatisticsDataTable({ statisticsResult }) {
           <summary className="white" style={{ paddingTop: '20px' }}>
             {isMemoPage ? courseMemo.sourceOfData : courseAnalysis.sourceOfData}
           </summary>
-          <StatisticsExport
-            columnNames={columnNames}
+          <div className="padding-bottom-1">
+            <Row>
+              <FilterTable
+                placeholder={sortableTable.search_placeholder}
+                onFilter={e => {
+                  if (e.target.value === '') {
+                    setResetPaginationToggle(!resetPaginationToggle)
+                  }
+                  setTableData(
+                    _searchInDataByText(e.target.value, dataRows).map((d, index) => ({
+                      id: index,
+                      ...d,
+                    }))
+                  )
+                }}
+              ></FilterTable>
+              <StatisticsExport
+                columnNames={columnNames}
+                columns={columns}
+                dataRows={dataRows}
+                exportLabels={exportLabels}
+                sheetName={isMemoPage ? `statistics-memos` : `statistics-analyses`}
+                languageIndex={languageIndex}
+                fileName={
+                  isMemoPage
+                    ? `course-information-statistics-memos-${year}-periods-${periods.join('-')}`
+                    : `course-information-statistics-analyses-${year}-periods-${seasons.join('-')}`
+                }
+              ></StatisticsExport>
+            </Row>
+          </div>
+          <SortableDataTable
             columns={columns}
-            dataRows={dataRows}
-            exportLabels={exportLabels}
-            sheetName={isMemoPage ? `statistics-memos` : `statistics-analyses`}
-            languageIndex={languageIndex}
-            fileName={
-              isMemoPage
-                ? `course-information-statistics-memos-${year}-periods-${periods.join('-')}`
-                : `course-information-statistics-analyses-${year}-periods-${seasons.join('-')}`
-            }
-          ></StatisticsExport>
-          <SortableDataTable columns={columns} data={tableData}></SortableDataTable>
+            data={tableData}
+            resetPaginationToggle={resetPaginationToggle}
+            emptyTableMessage={sortableTable.noDataMessage}
+          ></SortableDataTable>
         </details>
       </article>
     </>
