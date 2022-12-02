@@ -187,12 +187,12 @@ function StatisticsExport({ columnNames, columns, dataRows, fileName, sheetName,
   return (
     <>
       <Col lg="4" md="4" xs="12" className={languageIndex === 0 ? 'margin-left-5' : 'margin-left-4'}>
-        <Button color="btn btn-secondary" onClick={() => exportDataTable('csv')} className="float-right">
+        <Button color="btn btn-secondary margin-top-1-5" onClick={() => exportDataTable('csv')} className="float-right">
           {exportLabels.csv}
         </Button>
       </Col>
       <Col>
-        <Button color="btn btn-secondary" onClick={() => exportDataTable('xlsx')}>
+        <Button color="btn btn-secondary margin-top-1-5" onClick={() => exportDataTable('xlsx')}>
           {exportLabels.excel}
         </Button>
       </Col>
