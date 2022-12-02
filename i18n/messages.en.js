@@ -337,6 +337,7 @@ module.exports = {
     },
     sortableTable: {
       search_placeholder: 'Search',
+      search_label: 'Search in the table',
       semester: {
         0: 'Summer',
         1: 'Spring',

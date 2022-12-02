@@ -311,6 +311,7 @@ module.exports = {
     },
     sortableTable: {
       search_placeholder: 'Sök',
+      search_label: 'Sök i tabellen',
       semester: {
         0: 'Sommar',
         1: 'VT',

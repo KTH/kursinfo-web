@@ -200,9 +200,10 @@ function StatisticsExport({ columnNames, columns, dataRows, fileName, sheetName,
   )
 }
 
-function FilterTable({ onFilter, placeholder }) {
+function FilterTable({ onFilter, placeholder, searchLabel }) {
   return (
     <Col lg="4" md="4" sm="12">
+      <label htmlFor="search">{searchLabel}</label>
       <input id="search" type="text" placeholder={placeholder} aria-label="Search Input" onChange={onFilter} />
     </Col>
   )
@@ -291,6 +292,7 @@ function StatisticsDataTable({ statisticsResult }) {
             <Row>
               <FilterTable
                 placeholder={sortableTable.search_placeholder}
+                searchLabel={sortableTable.search_label}
                 onFilter={e => {
                   if (e.target.value === '') {
                     setResetPaginationToggle(!resetPaginationToggle)
