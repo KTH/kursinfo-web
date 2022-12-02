@@ -194,7 +194,8 @@ describe('Component <CourseStatisticsPage> show compilation data in for memos', 
     expect(screen.getAllByText(/2021/i).length).toBe(3)
     expect(screen.getAllByText(/2020/i).length).toBe(1)
 
-    const compilationTable = screen.getByRole('table')
+    const compilationTables = screen.getAllByRole('table')
+    const [compilationTable] = compilationTables
     expect(compilationTable).toBeInTheDocument()
     const columnheaderNames = within(compilationTable)
       .getAllByRole('columnheader')
@@ -343,7 +344,8 @@ describe('Component <CourseStatisticsPage> show compilation data in for course a
     // expect(screen.getAllByText(/2021/i).length).toBe(3)
     // expect(screen.getAllByText(/2020/i).length).toBe(1)
 
-    const compilationTable = screen.getByRole('table')
+    const compilationTables = screen.getAllByRole('table')
+    const [compilationTable] = compilationTables
     expect(compilationTable).toBeInTheDocument()
     const columnheaderNames = within(compilationTable)
       .getAllByRole('columnheader')

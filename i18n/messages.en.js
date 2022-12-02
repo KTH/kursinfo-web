@@ -121,7 +121,7 @@ module.exports = {
     study_period_info:
       '<p>You can find information about how <a href="https://intra.kth.se/en/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135" class="external-link" target="_blank" rel="noopener noreferrer">The academic year is divided into study periods</a> on the intranet.</p>',
     study_year_info:
-      '<p>Select the year in which the course offering ends. Please note that if you in the next step “Semester” choose autumn, you will also see courses that end in January. This is because the autumn semester ends in week 2.</p><p>You can find information about how <a href="https://intra.kth.se/en/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135" class="external-link" target="_blank" rel="noopener noreferrer">The academic year is divided into study periods</a> on the intranet.</p>',
+      '<p>Select the year in which the course offering ends. Please note that if you in the next step “Semester” choose autumn, you will also see courses that end in January the coming year. This is because the autumn semester ends in week 2.</p><p>You can find information about how <a href="https://intra.kth.se/en/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135" class="external-link" target="_blank" rel="noopener noreferrer">The academic year is divided into study periods</a> on the intranet.</p>',
   },
   courseInformation: {
     course_additional_regulations: 'Additional regulations',
@@ -336,6 +336,8 @@ module.exports = {
       csv: 'Download table as CSV file',
     },
     sortableTable: {
+      search_placeholder: 'Search',
+      search_label: 'Search in the table',
       semester: {
         0: 'Summer',
         1: 'Spring',
@@ -362,7 +364,7 @@ module.exports = {
         institution: 'Department',
         courseCode: 'Course code',
         linkedProgram: 'Connected program(s)',
-        applicationCode: 'Application code',
+        applicationCode: 'Instance code',
         period: 'Study period',
         courseStart: 'Course start',
         publishDate: 'Publishing date',

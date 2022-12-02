@@ -51,7 +51,13 @@ const customStyles = {
   },
 }
 
-function SortableDataTable({ columns, data }) {
+const NoDataMessage = ({ message }) => (
+  <p>
+    <i>{message}</i>
+  </p>
+)
+
+function SortableDataTable({ columns, data, resetPaginationToggle, emptyTableMessage }) {
   const [context] = useWebContext()
   const { languageIndex } = context
   const { statisticsLabels } = i18n.messages[languageIndex]
@@ -65,10 +71,12 @@ function SortableDataTable({ columns, data }) {
       <Col>
         <div className={'form-group'}>
           <DataTable
+            noDataComponent={<NoDataMessage message={emptyTableMessage}></NoDataMessage>}
             columns={columns}
             data={data}
             defaultSortFieldId={1}
             pagination
+            paginationResetDefaultPage={resetPaginationToggle}
             paginationComponentOptions={opts}
             customStyles={customStyles}
             paginationRowsPerPageOptions={[10, 25, 50, 100, 250, 500]}
