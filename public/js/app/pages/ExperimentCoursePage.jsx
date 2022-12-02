@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import React, { useEffect } from 'react'
+import DOMPurify from 'dompurify'
 
 import { Row, Col, Alert, Breadcrumb, BreadcrumbItem } from 'reactstrap'
 
@@ -169,6 +170,8 @@ function ExperimentCoursePage() {
             </div>
           )}
 
+          {DOMPurify.sanitize(introText)}
+
           {/* ---INTRO TEXT--- */}
           <section
             className="row"
@@ -178,8 +181,7 @@ function ExperimentCoursePage() {
           >
             <Col>
               <img className="float-md-left" src={courseImage} alt="" height="auto" width="300px" />
-              {/* <span className="paragraphs" dangerouslySetInnerHTML={{ __html: introText }} /> */}
-              {introText}
+              <span className="paragraphs" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(introText) }} />
             </Col>
           </section>
           <div>
