@@ -152,26 +152,6 @@ function ExperimentCoursePage() {
             language={language}
             pageTitle={translation.courseLabels.sideMenu.page_before_course}
           />
-          {/* ---TEXT FOR CANCELLED COURSE --- */}
-          {(isCancelled || isDeactivated) && (
-            <div className="isCancelled">
-              <Alert color="info" aria-live="polite">
-                <h3>{`${translation.course_state_alert[courseInfo.course_state].header}`}</h3>
-                <p>
-                  {translation.course_state_alert[courseInfo.course_state].examination}
-                  {translation.courseInformation.course_short_semester[courseInfo.course_last_exam[1]]}
-                  {courseInfo.course_last_exam[0]}
-                </p>
-                <p />
-                <p>{translation.course_state_alert[courseInfo.course_state].decision}</p>
-                <p />
-                <span dangerouslySetInnerHTML={{ __html: decisionToDiscontinue }} />
-              </Alert>
-            </div>
-          )}
-
-          {DOMPurify.sanitize(introText)}
-
           {/* ---INTRO TEXT--- */}
           <section
             className="row"
