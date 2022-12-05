@@ -19,7 +19,11 @@ function _getCompletePeriod(period, semesterTranslationObject) {
   }
 }
 
-const buildLink = (link, textToShow) => <a href={`${link}`}>{textToShow}</a>
+const buildLink = (link, textToShow) => (
+  <a href={`${link}`} target="_blank" rel="noopener noreferrer">
+    {textToShow}
+  </a>
+)
 
 function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, semesterTranslationObject) {
   const dataRows = []
