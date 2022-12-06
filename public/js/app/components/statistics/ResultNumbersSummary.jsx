@@ -30,7 +30,6 @@ function ResultNumbersSummary({ statisticsResult }) {
         <details>
           <summary className="white">{summaryLabels.sourceOfData}</summary>
           {texts.courseDataApiDescription(koppsApiBasePath)}
-          {texts.courseDocumentsDataApiDescription(documentsApiBasePath)}
         </details>
       </article>
       <article key="documents-and-courses-compilation">
