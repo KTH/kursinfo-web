@@ -170,18 +170,20 @@ function StatisticsExport({ columnNames, columns, dataRows, fileName, sheetName,
       })
       const worksheet = xlsx.utils.json_to_sheet(workSheetRows)
       worksheet['!cols'] = wscols
-      dataRows.forEach((row, index) => {
-        if (row[linkToCourseColumnName] && row[linkToCourseColumnName] !== '' && fileType === 'xlsx') {
-          worksheet[
-            xlsx.utils.encode_cell({
-              c: 9,
-              r: index + 1,
-            })
-          ] = {
-            f: `HYPERLINK("${row[linkToCourseColumnName].props.href}","${row[linkToCourseColumnName].props.children}")`,
+      if (fileType === 'xlsx') {
+        dataRows.forEach((row, index) => {
+          if (row[linkToCourseColumnName] && row[linkToCourseColumnName] !== '') {
+            worksheet[
+              xlsx.utils.encode_cell({
+                c: 9,
+                r: index + 1,
+              })
+            ] = {
+              f: `HYPERLINK("${row[linkToCourseColumnName].props.href}")`,
+            }
           }
-        }
-      })
+        })
+      }
       const workbook = xlsx.utils.book_new()
       xlsx.utils.book_append_sheet(workbook, worksheet, sheetName)
       xlsx.writeFile(workbook, file)
