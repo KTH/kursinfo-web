@@ -1,6 +1,7 @@
 /* eslint-disable react/no-danger */
 import React, { useEffect } from 'react'
-import DOMPurify from 'dompurify'
+// import DOMPurify from 'isomorphic-dompurify'
+import sanitizeHtml from 'sanitize-html'
 
 import { Row, Col, Alert, Breadcrumb, BreadcrumbItem } from 'reactstrap'
 
@@ -48,11 +49,6 @@ function ExperimentCoursePage() {
   // const context = React.useMemo(() => webContext, [webContext])
 
   const {
-    activeRoundIndex,
-    activeSemester,
-    activeSemesterIndex,
-    activeSemesters,
-    activeSyllabusIndex,
     browserConfig,
     courseCode,
     courseData = {
@@ -60,23 +56,16 @@ function ExperimentCoursePage() {
       syllabusSemesterList: [],
     },
     imageFromAdmin,
-    isCancelled,
-    isDeactivated,
-    roundInfoFade,
     sellingText = {},
-    showRoundData,
-    syllabusInfoFade,
-    useStartSemesterFromQuery,
   } = context
   // * * //
-  const hasOnlyOneRound = activeSemester?.length > 0 && courseData.roundList[activeSemester].length === 1
-  const hasToShowRoundsData = showRoundData || (useStartSemesterFromQuery && hasOnlyOneRound)
 
-  const hasActiveSemesters = activeSemesters && activeSemesters.length > 0
   const { courseInfo, language = 'sv' } = courseData
   const translation = i18n.messages[language === 'en' ? 0 : 1]
   const introText = getCourseIntroduction(sellingText, courseInfo, language)
-
+  // const cleanIntroText = DOMPurify.sanitize(introText)
+  const sanitizedIntroText = sanitizeHtml(introText)
+  console.log('sanitizedIntroText', sanitizedIntroText)
   let courseImage = ''
   if (imageFromAdmin.length > 4) {
     courseImage = imageFromAdmin
@@ -94,17 +83,6 @@ function ExperimentCoursePage() {
   courseImage = `${browserConfig.imageStorageUri}${courseImage}`
 
   if (!courseData.syllabusList) courseData.syllabusList = [{}]
-  const courseInformationToRounds = {
-    course_code: courseCode,
-    course_examiners: courseInfo.course_examiners,
-    course_contact_name: courseInfo.course_contact_name,
-    course_main_subject: courseInfo.course_main_subject,
-    course_level_code: courseInfo.course_level_code,
-    course_valid_from: courseData.syllabusList[activeSyllabusIndex || 0].course_valid_from,
-  }
-
-  const { course_decision_to_discontinue: decisionToDiscontinue = '' } =
-    activeSyllabusIndex > -1 ? courseData.syllabusList[activeSyllabusIndex] : {}
 
   useEffect(() => {
     let isMounted = true
@@ -117,22 +95,6 @@ function ExperimentCoursePage() {
     }
     return () => (isMounted = false)
   }, [])
-
-  useEffect(() => {
-    let isMounted = true
-    if (isMounted) {
-      if (syllabusInfoFade) {
-        setTimeout(() => {
-          setWebContext({ ...context, roundInfoFade: false, syllabusInfoFade: false })
-        }, 800)
-      } else {
-        setTimeout(() => {
-          setWebContext({ ...context, roundInfoFade: false })
-        }, 500)
-      }
-    }
-    return () => (isMounted = false)
-  }, [roundInfoFade, syllabusInfoFade])
 
   return (
     <div key="kursinfo-container" className="col" id="kursinfo-main-page">
@@ -161,7 +123,7 @@ function ExperimentCoursePage() {
           >
             <Col>
               <img className="float-md-left" src={courseImage} alt="" height="auto" width="300px" />
-              <span className="paragraphs" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(introText) }} />
+              <span className="paragraphs" dangerouslySetInnerHTML={{ __html: sanitizedIntroText }} />
             </Col>
           </section>
           <div>
