@@ -332,6 +332,8 @@ module.exports = {
       rowsPerPageText: 'Antal rader per sida:',
       rangeSeparatorText: 'av',
       noDataMessage: 'Inga statistikdata hittades!',
+      moreColumnsNote:
+        'Observera att det finns tio kolumner i tabellen. Scrolla horisontellt i tabellen för att ta del av alla.',
       statisticsDataColumns: {
         year: 'År',
         school: 'Skola',

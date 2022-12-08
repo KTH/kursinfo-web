@@ -358,6 +358,8 @@ module.exports = {
       rowsPerPageText: 'Number of rows per page:',
       rangeSeparatorText: 'of',
       noDataMessage: 'No statistics data found!',
+      moreColumnsNote:
+        'Please note that there are ten columns in the table. Scroll horizontally in the table to see them all.',
       statisticsDataColumns: {
         year: 'Year',
         school: 'School',

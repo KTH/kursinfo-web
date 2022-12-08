@@ -302,7 +302,8 @@ function StatisticsDataTable({ statisticsResult }) {
     <>
       <h3>{isMemoPage ? courseMemo.header : courseAnalysis.header}</h3>
       <article key="statistics-memo-analysis-description">
-        {isMemoPage ? courseMemo.details : courseAnalysis.details}
+        <p>{isMemoPage ? courseMemo.details : courseAnalysis.details}</p>
+        <p>{sortableTable.moreColumnsNote}</p>
         <details>
           <summary className="white" style={{ paddingTop: '20px' }}>
             {isMemoPage ? courseMemo.sourceOfData : courseAnalysis.sourceOfData}
