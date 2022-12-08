@@ -345,7 +345,6 @@ module.exports = {
         linkToCoursePM: 'Länk till kurs-PM',
         term: 'Termin',
         courseEndDate: 'Kursens slutdatum',
-        courseStartDate: 'Kursstart',
         linkToCourseAnalysis: 'Länk till kursanalys',
       },
     },
