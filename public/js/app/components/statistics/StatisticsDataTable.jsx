@@ -25,6 +25,17 @@ const buildLink = (link, textToShow) => (
   </a>
 )
 
+const sortDataForTable = dataToSort => {
+  dataToSort.sort(
+    (a, b) =>
+      String(a.school).localeCompare(b.school) ||
+      String(a.institution).localeCompare(b.institution) ||
+      String(a.courseCode).localeCompare(b.courseCode) ||
+      String(a.courseStart).localeCompare(b.courseStart) ||
+      String(a.applicationCode).localeCompare(b.applicationCode)
+  )
+}
+
 function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, semesterTranslationObject) {
   const dataRows = []
   offeringsWithMemos.forEach(offering => {
@@ -60,6 +71,7 @@ function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, seme
     }
     dataRows.push({ ...offeringBase, ...memoBase })
   })
+  sortDataForTable(dataRows)
   return dataRows
 }
 
@@ -79,7 +91,7 @@ function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfi
           ? offering.courseRoundApplications[0].course_round_application_code
           : '',
       term: offering.lastSemesterLabel,
-      courseStartDate: offering.startDate,
+      courseStart: offering.startDate,
       courseEndDate: offering.endDate,
       publishDate: '',
       linkToCourseAnalysis: '',
@@ -106,6 +118,7 @@ function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfi
     }
     dataRows.push({ ...offeringBase, ...analysisBase })
   })
+  sortDataForTable(dataRows)
   return dataRows
 }
 
@@ -258,7 +271,7 @@ function StatisticsDataTable({ statisticsResult }) {
       'courseCode',
       'linkedProgram',
       'applicationCode',
-      'courseStartDate',
+      'courseStart',
       'courseEndDate',
       'publishDate',
       'linkToCourseAnalysis',
