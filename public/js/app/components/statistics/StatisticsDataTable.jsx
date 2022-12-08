@@ -20,7 +20,7 @@ function _getCompletePeriod(period, semesterTranslationObject) {
 }
 
 const buildLink = (link, textToShow) => (
-  <a href={`${link}`} target="_blank" rel="noopener noreferrer">
+  <a href={`${link}`} target="_blank" rel="noopener noreferrer" className="external-link">
     {textToShow}
   </a>
 )
