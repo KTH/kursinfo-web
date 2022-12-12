@@ -25,7 +25,7 @@ const buildLink = (link, textToShow) => (
   </a>
 )
 
-const sortDataForTable = dataToSort => {
+const _sortDataForTable = dataToSort => {
   dataToSort.sort(
     (a, b) =>
       String(a.school).localeCompare(b.school) ||
@@ -71,7 +71,7 @@ function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, seme
     }
     dataRows.push({ ...offeringBase, ...memoBase })
   })
-  sortDataForTable(dataRows)
+  _sortDataForTable(dataRows)
   return dataRows
 }
 
@@ -118,7 +118,7 @@ function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfi
     }
     dataRows.push({ ...offeringBase, ...analysisBase })
   })
-  sortDataForTable(dataRows)
+  _sortDataForTable(dataRows)
   return dataRows
 }
 
@@ -146,19 +146,43 @@ const NoDataMessage = ({ labels }) => (
     <i>{labels.noDataMessage}</i>
   </p>
 )
-function StatisticsExport({ columnNames, columns, dataRows, fileName, sheetName, exportLabels, languageIndex }) {
-  const wscols = [
-    { wch: 10 },
-    { wch: 20 },
-    { wch: 10 },
-    { wch: 50 },
-    { wch: 20 },
-    { wch: 20 },
-    { wch: 20 },
-    { wch: 20 },
-    { wch: 20 },
-    { wch: 50 },
-  ]
+function StatisticsExport({
+  columnNames,
+  columns,
+  dataRows,
+  fileName,
+  sheetName,
+  exportLabels,
+  languageIndex,
+  isMemoPage,
+}) {
+  const wscols = {
+    courseMemo: [
+      { wch: 10 },
+      { wch: 20 },
+      { wch: 10 },
+      { wch: 50 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 50 },
+    ],
+    courseAnalysis: [
+      { wch: 10 },
+      { wch: 20 },
+      { wch: 10 },
+      { wch: 50 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 50 },
+    ],
+  }
   const exportDataTable = fileType => {
     if (dataRows.length > 0 && fileType) {
       const file = `${fileName}.${fileType}`
@@ -182,13 +206,13 @@ function StatisticsExport({ columnNames, columns, dataRows, fileName, sheetName,
         workSheetRows.push(row)
       })
       const worksheet = xlsx.utils.json_to_sheet(workSheetRows)
-      worksheet['!cols'] = wscols
+      worksheet['!cols'] = isMemoPage ? wscols.courseMemo : wscols.courseAnalysis
       if (fileType === 'xlsx') {
         dataRows.forEach((row, index) => {
           if (row[linkToCourseColumnName] && row[linkToCourseColumnName] !== '') {
             worksheet[
               xlsx.utils.encode_cell({
-                c: 9,
+                c: isMemoPage ? 9 : 10,
                 r: index + 1,
               })
             ] = {
@@ -332,6 +356,7 @@ function StatisticsDataTable({ statisticsResult }) {
                 exportLabels={exportLabels}
                 sheetName={isMemoPage ? `statistics-memos` : `statistics-analyses`}
                 languageIndex={languageIndex}
+                isMemoPage={isMemoPage}
                 fileName={
                   isMemoPage
                     ? `course-information-statistics-memos-${year}-periods-${periods.join('-')}`
