@@ -31,12 +31,12 @@ const _sortDataForTable = dataToSort => {
       String(a.school).localeCompare(b.school) ||
       String(a.institution).localeCompare(b.institution) ||
       String(a.courseCode).localeCompare(b.courseCode) ||
-      String(a.courseStart).localeCompare(b.courseStart) ||
+      new Date(a.courseStart).toLocaleDateString().localeCompare(new Date(b.courseStart).toLocaleDateString()) ||
       String(a.applicationCode).localeCompare(b.applicationCode)
   )
 }
 
-function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, semesterTranslationObject) {
+function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, semesterTranslationObject, languageIndex) {
   const dataRows = []
   offeringsWithMemos.forEach(offering => {
     const departmentNames = offering.departmentName.split('/')
@@ -53,7 +53,14 @@ function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, seme
           ? offering.courseRoundApplications[0].course_round_application_code
           : '',
       period,
-      courseStart: offering.startDate,
+      courseStart:
+        languageIndex === 0 && offering.startDate && offering.startDate !== ''
+          ? new Date(offering.startDate).toLocaleString('en-GB', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric',
+            })
+          : offering.startDate,
       publishDate: '',
       linkToCoursePM: '',
     }
@@ -63,7 +70,14 @@ function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, seme
       const { courseMemoFileName, isPdf, memoEndPoint, publishedData } = offering.courseMemoInfo
       const memoId = courseMemoFileName || memoEndPoint
       memoBase = {
-        publishDate: publishedData.publishedTime,
+        publishDate:
+          languageIndex === 0 && publishedData.publishedTime && publishedData.publishedTime !== ''
+            ? new Date(publishedData.publishedTime).toLocaleString('en-GB', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+              })
+            : publishedData.publishedTime,
         linkToCoursePM: isPdf
           ? buildLink(`${browserConfig.memoStorageUri}${memoId}`, `${memoId}`)
           : buildLink(`${_getThisHost(browserConfig.hostUrl)}/kurs-pm/${offering.courseCode}/${memoId}`, `${memoId}`),
@@ -75,7 +89,7 @@ function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, seme
   return dataRows
 }
 
-function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfig) {
+function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfig, languageIndex) {
   const dataRows = []
   offeringsWithAnalysis.forEach(offering => {
     const departmentNames = offering.departmentName.split('/')
@@ -91,8 +105,22 @@ function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfi
           ? offering.courseRoundApplications[0].course_round_application_code
           : '',
       term: offering.lastSemesterLabel,
-      courseStart: offering.startDate,
-      courseEndDate: offering.endDate,
+      courseStart:
+        languageIndex === 0 && offering.startDate && offering.startDate !== ''
+          ? new Date(offering.startDate).toLocaleString('en-GB', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric',
+            })
+          : offering.startDate,
+      courseEndDate:
+        languageIndex === 0 && offering.endDate && offering.endDate !== ''
+          ? new Date(offering.endDate).toLocaleString('en-GB', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric',
+            })
+          : offering.endDate,
       publishDate: '',
       linkToCourseAnalysis: '',
     }
@@ -110,6 +138,13 @@ function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfi
           (date.getMonth() > 9 ? date.getMonth() : '0' + date.getMonth()) +
           '-' +
           (date.getDay() > 9 ? date.getDay() : '0' + date.getDay())
+        if (languageIndex === 0) {
+          publishDate = date.toLocaleString('en-GB', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          })
+        }
       }
       analysisBase = {
         publishDate,
@@ -310,9 +345,15 @@ function StatisticsDataTable({ statisticsResult }) {
   }))
   let dataRows = []
   if (isMemoPage) {
-    dataRows = _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, semesterTranslationObject)
+    dataRows = _getDataRowsForCourseMemo(
+      offeringsWithMemos,
+      year,
+      browserConfig,
+      semesterTranslationObject,
+      languageIndex
+    )
   } else if (isAnalysisPage) {
-    dataRows = _getDataRowsForCourseAnalysis(offeringsWithAnalyses, year, browserConfig)
+    dataRows = _getDataRowsForCourseAnalysis(offeringsWithAnalyses, year, browserConfig, languageIndex)
   }
 
   const [tableData, setTableData] = useState(
