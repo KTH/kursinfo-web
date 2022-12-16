@@ -370,7 +370,7 @@ module.exports = {
         period: 'Study period',
         courseStart: 'Course start',
         publishDate: 'Publishing date',
-        linkToCoursePM: 'Link to kurs-PM',
+        linkToCoursePM: 'Link to course memo',
         term: 'Semester',
         courseEndDate: 'Offering end date',
         linkToCourseAnalysis: 'Link to course analysis',
