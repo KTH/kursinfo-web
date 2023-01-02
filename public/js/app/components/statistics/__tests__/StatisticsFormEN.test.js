@@ -187,6 +187,12 @@ describe('Component <StatisticsForm> in english', () => {
             Select year
           </option>
           <option
+            id="2024"
+            value="2024"
+          >
+            2024
+          </option>
+          <option
             id="2023"
             value="2023"
           >
