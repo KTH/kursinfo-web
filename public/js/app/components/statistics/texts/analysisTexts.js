@@ -27,19 +27,6 @@ const englishAnalysisSummarySection = {
       </p>
     </div>
   ),
-  courseDocumentsDataApiDescription: kursutvecklingApiUrl => (
-    <div className="paragraphs">
-      <p>
-        Course analysis data is retrieved from the course development api, endpoint
-        /api/kursutveckling/v1/getCourseAnalysesForSemestersList?semesters=&#123;{'semesters'}&#125;. Data for VT 2022
-        is retrieved from&nbsp;
-        <a href={kursutvecklingApiUrl} target="_blank" className="external-link" rel="noreferrer">
-          {`${kursutvecklingApiUrl}/courseAnalysesForSemestersList?semesters=20191`}
-        </a>
-        , with the <b>first</b> unique semesters from each course (not the end or between semesters), f.e, 20191.
-      </p>
-    </div>
-  ),
   subPageDescription: () => (
     <div className="paragraphs">
       <p>
@@ -103,25 +90,6 @@ const swedishAnalysisSummarySection = {
         förkasta kursomgångar som inte uppfyller kriterierna: course.offered_semesters[&#123;{'sista - element'}
         &#125;].semester === 20221 och course.offered_semesters[&#123;{'sista - element'}&#125;].end_week {'<='} (VTs
         sista veckan) och course.offered_semesters[&#123;{'sista - element'}&#125;].end_week {'>='} (VTs första veckan)
-      </p>
-    </div>
-  ),
-  courseDocumentsDataApiDescription: kursutvecklingApiUrl => (
-    <div className="paragraphs">
-      <p>
-        Kursanalysdata hämtas från kursutveckling-api, endpoint
-        /api/kursutveckling/v1/getCourseAnalysesForSemestersList?semesters=&#123;{'semester'}&#125;. Data för VT 2022
-        hämtas från{' '}
-        <a
-          href={`${kursutvecklingApiUrl}/courseAnalysesForSemestersList?semesters=20192`}
-          target="_blank"
-          className="external-link"
-          rel="noreferrer"
-        >
-          {`${kursutvecklingApiUrl}/courseAnalysesForSemestersList?semesters=20192`}
-        </a>
-        , med <b>första</b> semestrar av kurser som aktuella för VT 2022 (inte sista semester) exempelvis med semester
-        20192.
       </p>
     </div>
   ),

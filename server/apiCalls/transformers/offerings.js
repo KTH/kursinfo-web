@@ -103,6 +103,7 @@ function filterOfferingsForMemos(courses = [], chosenSemesters = [], chosenPerio
         first_period: firstYearAndPeriod,
         offered_semesters: courseOfferedSemesters,
         school_code: schoolCode,
+        course_round_applications: courseRoundApplications,
       } = course
 
       const firstPeriodNumber = firstYearAndPeriod.substr(-1)
@@ -114,7 +115,7 @@ function filterOfferingsForMemos(courses = [], chosenSemesters = [], chosenPerio
       if (isStartedInChosenPeriods && isChosenSchool) {
         const { endDate, startDate } = _findCourseStartEndDates(courseOfferedSemesters)
         const offering = _formOffering(firstSemester, startDate, endDate, course)
-        parsedOfferings.push({ ...offering, period: firstPerioLabel })
+        parsedOfferings.push({ ...offering, period: firstPerioLabel, courseRoundApplications })
       }
     })
   }
@@ -172,6 +173,7 @@ function filterOfferingsForAnalysis(
         first_yearsemester: firstSemester,
         offered_semesters: courseOfferedSemesters,
         school_code: schoolCode,
+        course_round_applications: courseRoundApplications,
       } = course
 
       const { endDate, endWeek, lastSemester, startDate } = _findCourseStartEndDates(courseOfferedSemesters)
@@ -185,7 +187,12 @@ function filterOfferingsForAnalysis(
 
       if (isFinishedInChosenSemesters && isChosenSchool) {
         const offering = _formOffering(firstSemester, startDate, endDate, course)
-        parsedOfferings.push({ ...offering, lastSemesterLabel: lastTermSeasonLabel, lastSemester })
+        parsedOfferings.push({
+          ...offering,
+          lastSemesterLabel: lastTermSeasonLabel,
+          lastSemester,
+          courseRoundApplications,
+        })
       }
     })
   }

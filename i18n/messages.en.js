@@ -121,7 +121,7 @@ module.exports = {
     study_period_info:
       '<p>You can find information about how <a href="https://intra.kth.se/en/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135" class="external-link" target="_blank" rel="noopener noreferrer">The academic year is divided into study periods</a> on the intranet.</p>',
     study_year_info:
-      '<p>Select the year in which the course offering ends. Please note that if you in the next step “Semester” choose autumn, you will also see courses that end in January. This is because the autumn semester ends in week 2.</p><p>You can find information about how <a href="https://intra.kth.se/en/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135" class="external-link" target="_blank" rel="noopener noreferrer">The academic year is divided into study periods</a> on the intranet.</p>',
+      '<p>Select the year in which the course offering ends. Please note that if you in the next step “Semester” choose autumn, you will also see courses that end in January the coming year. This is because the autumn semester ends in week 2.</p><p>You can find information about how <a href="https://intra.kth.se/en/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135" class="external-link" target="_blank" rel="noopener noreferrer">The academic year is divided into study periods</a> on the intranet.</p>',
   },
   courseInformation: {
     course_additional_regulations: 'Additional regulations',
@@ -336,6 +336,8 @@ module.exports = {
       csv: 'Download table as CSV file',
     },
     sortableTable: {
+      search_placeholder: 'Search',
+      search_label: 'Search in the table',
       semester: {
         0: 'Summer',
         1: 'Spring',
@@ -356,20 +358,21 @@ module.exports = {
       rowsPerPageText: 'Number of rows per page:',
       rangeSeparatorText: 'of',
       noDataMessage: 'No statistics data found!',
+      moreColumnsNote:
+        'Please note that there are ten columns in the table. Scroll horizontally in the table to see them all.',
       statisticsDataColumns: {
         year: 'Year',
         school: 'School',
         institution: 'Department',
         courseCode: 'Course code',
         linkedProgram: 'Connected program(s)',
-        courseRoundNumber: 'Application code',
+        applicationCode: 'Instance code',
         period: 'Study period',
         courseStart: 'Course start',
         publishDate: 'Publishing date',
-        linkToCoursePM: 'Link to kurs-PM',
+        linkToCoursePM: 'Link to course memo',
         term: 'Semester',
         courseEndDate: 'Offering end date',
-        courseStartDate: 'Course start',
         linkToCourseAnalysis: 'Link to course analysis',
       },
     },

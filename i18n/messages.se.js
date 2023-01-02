@@ -121,7 +121,7 @@ module.exports = {
     study_period_info:
       '<p>Du hittar information om hur <a href="https://intra.kth.se/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135" class="external-link" target="_blank" rel="noopener noreferrer">läsåret är indelat i läsperioder</a> på intranätet.</p>',
     study_year_info:
-      '<p>Välj det år som kursomgången slutar. Observera att ifall du i nästa steg väljer hösttermin (HT), visas även kurser som slutar i januari. Detta eftersom höstterminen slutar i v 2.</p><p>Du hittar information om hur <a href="https://intra.kth.se/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135" class="external-link" target="_blank" rel="noopener noreferrer">läsåret är indelat i läsperioder</a> på intranätet.</p>',
+      '<p>Välj det år som kursomgången slutar. Observera att ifall du i nästa steg väljer hösttermin (HT), visas även kurser som slutar i januari kommande år. Detta eftersom höstterminen slutar i v 2.</p><p>Du hittar information om hur <a href="https://intra.kth.se/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135" class="external-link" target="_blank" rel="noopener noreferrer">läsåret är indelat i läsperioder</a> på intranätet.</p>',
   },
   courseInformation: {
     roundId: 'Kursomgångs nr',
@@ -310,6 +310,8 @@ module.exports = {
       csv: 'Ladda ner tabell som CSV-fil',
     },
     sortableTable: {
+      search_placeholder: 'Sök',
+      search_label: 'Sök i tabellen',
       semester: {
         0: 'Sommar',
         1: 'VT',
@@ -330,20 +332,21 @@ module.exports = {
       rowsPerPageText: 'Antal rader per sida:',
       rangeSeparatorText: 'av',
       noDataMessage: 'Inga statistikdata hittades!',
+      moreColumnsNote:
+        'Observera att det finns tio kolumner i tabellen. Scrolla horisontellt i tabellen för att ta del av alla.',
       statisticsDataColumns: {
         year: 'År',
         school: 'Skola',
         institution: 'Institution',
         courseCode: 'Kurskod',
         linkedProgram: 'Kopplade program',
-        courseRoundNumber: 'Anmälningskod',
+        applicationCode: 'Tillfälleskod',
         period: 'Läsperiod',
         courseStart: 'Kursstart',
         publishDate: 'Publiceringsdatum',
         linkToCoursePM: 'Länk till kurs-PM',
         term: 'Termin',
         courseEndDate: 'Kursens slutdatum',
-        courseStartDate: 'Kursstart',
         linkToCourseAnalysis: 'Länk till kursanalys',
       },
     },

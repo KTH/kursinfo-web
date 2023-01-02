@@ -23,28 +23,10 @@ const englishMemosSummarySection = {
         course.first_period===20221P3, SCHOOL_MAP[course.school_code]=== &apos;ABE&apos;. Date used to determine if memo
         was published before the offering started is course.offered_semesters[&#123;{20221}&#125;].start_date.
       </p>
-    </div>
-  ),
-  courseDocumentsDataApiDescription: kursPmApiUrl => (
-    <div>
       <p>
         An earlier version of <i>Publish new course analysis and course data</i> had the option to upload course memos
-        together with course analyses. This option does not exist anymore, and course memos uploaded on that page are
-        filtered out.
-      </p>
-      <p>
-        Course memo data is fetched from&nbsp; endpoint
-        /api/kurs-pm-data/v1/prioritizedWebOrPdfMemosBySemesters?semesters=&#123;semester&#125;. Data for the current
-        page was fetched from&nbsp;
-        <a
-          href={`${kursPmApiUrl}/v1/prioritizedWebOrPdfMemosBySemesters?semesters=20221`}
-          target="_blank"
-          className="external-link"
-          rel="noreferrer"
-        >
-          {`${kursPmApiUrl}/v1/prioritizedWebOrPdfMemosBySemesters?semesters=20221`}
-        </a>
-        , using semester 20221.
+        together with course analyses. This option does not exist anymore, and course memos that were previously
+        uploaded on that page are filtered out.
       </p>
     </div>
   ),
@@ -106,28 +88,10 @@ const swedishMemosSummarySection = {
         SCHOOL_MAP[course.school_code]=== &apos;ABE&apos;. Datum som används för att avgöra om kurs-PM publicerades
         innan kursomgången startade är: course.offered_semesters[&#123;{20221}&#125;].start_date.
       </p>
-    </div>
-  ),
-  courseDocumentsDataApiDescription: kursPmApiUrl => (
-    <div>
       <p>
-        En tidigare version av Publicera ny kursanalys och kursdata innehöll möjligheten att ladda upp kurs-PM
-        tillsammans med kursanalyser. Det här alternativet finns inte längre och kurs-PM som laddas upp på den sidan
-        filtreras bort.
-      </p>
-      <p>
-        Kurs-PM-data hämtas från kurs-pm-data-api, endpoint{' '}
-        /api/kurs-pm-data/v1/prioritizedWebOrPdfMemosBySemesters?semesters=&#123;semester&#125;. För att hämta data för
-        VT 2022 används:
-        <a
-          href={`${kursPmApiUrl}/v1/prioritizedWebOrPdfMemosBySemesters?semesters=20221`}
-          target="_blank"
-          className="external-link"
-          rel="noreferrer"
-        >
-          {`${kursPmApiUrl}/v1/prioritizedWebOrPdfMemosBySemesters?semesters=20221`}
-        </a>
-        , då semester är 20221.
+        En tidigare version av <i>Publicera ny kursanalys och kursdata</i> innehöll möjligheten att ladda upp kurs-PM
+        tillsammans med kursanalyser. Det här alternativet finns inte längre och kurs-PM som tidigare laddades upp på
+        den sidan filtreras bort.
       </p>
     </div>
   ),

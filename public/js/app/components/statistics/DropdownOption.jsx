@@ -7,7 +7,7 @@ import i18n from '../../../../../i18n'
 import { getOptionsValues } from './domain/formConfigurations'
 import { frameIfEmpty } from './domain/validation'
 
-function DropdownOption({ paramName, onChange }) {
+function DropdownOption({ paramName, onChange, showInfoBox = true }) {
   const [context] = useWebContext()
   const { languageIndex } = context
   const [option, setOption] = React.useState(context[paramName])
@@ -34,7 +34,7 @@ function DropdownOption({ paramName, onChange }) {
     <div key={paramName} className="form-group" style={{ marginBottom: '7px' }}>
       <h3 style={{ marginTop: '7px' }}>
         {headerLabel}
-        {paramName === 'year' && (
+        {paramName === 'year' && showInfoBox && (
           <InfoModal
             parentTag="h3"
             closeLabel={labels.label_close}

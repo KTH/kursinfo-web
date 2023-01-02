@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Col, Row, Button } from 'reactstrap'
 import * as xlsx from 'xlsx'
 import { useWebContext } from '../../context/WebContext'
@@ -19,9 +19,24 @@ function _getCompletePeriod(period, semesterTranslationObject) {
   }
 }
 
-const buildLink = (link, textToShow) => <a href={`${link}`}>{textToShow}</a>
+const buildLink = (link, textToShow) => (
+  <a href={`${link}`} target="_blank" rel="noopener noreferrer" className="external-link">
+    {textToShow}
+  </a>
+)
 
-function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, semesterTranslationObject) {
+const _sortDataForTable = dataToSort => {
+  dataToSort.sort(
+    (a, b) =>
+      String(a.school).localeCompare(b.school) ||
+      String(a.institution).localeCompare(b.institution) ||
+      String(a.courseCode).localeCompare(b.courseCode) ||
+      new Date(a.courseStart).toLocaleDateString().localeCompare(new Date(b.courseStart).toLocaleDateString()) ||
+      String(a.applicationCode).localeCompare(b.applicationCode)
+  )
+}
+
+function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, semesterTranslationObject, languageIndex) {
   const dataRows = []
   offeringsWithMemos.forEach(offering => {
     const departmentNames = offering.departmentName.split('/')
@@ -33,9 +48,19 @@ function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, seme
       institution,
       courseCode: offering.courseCode,
       linkedProgram: offering.connectedPrograms,
-      courseRoundNumber: offering.offeringId,
+      applicationCode:
+        offering.courseRoundApplications && offering.courseRoundApplications.length > 0
+          ? offering.courseRoundApplications[0].course_round_application_code
+          : '',
       period,
-      courseStart: offering.startDate,
+      courseStart:
+        languageIndex === 0 && offering.startDate && offering.startDate !== ''
+          ? new Date(offering.startDate).toLocaleString('en-GB', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric',
+            })
+          : offering.startDate,
       publishDate: '',
       linkToCoursePM: '',
     }
@@ -45,7 +70,14 @@ function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, seme
       const { courseMemoFileName, isPdf, memoEndPoint, publishedData } = offering.courseMemoInfo
       const memoId = courseMemoFileName || memoEndPoint
       memoBase = {
-        publishDate: publishedData.publishedTime,
+        publishDate:
+          languageIndex === 0 && publishedData.publishedTime && publishedData.publishedTime !== ''
+            ? new Date(publishedData.publishedTime).toLocaleString('en-GB', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+              })
+            : publishedData.publishedTime,
         linkToCoursePM: isPdf
           ? buildLink(`${browserConfig.memoStorageUri}${memoId}`, `${memoId}`)
           : buildLink(`${_getThisHost(browserConfig.hostUrl)}/kurs-pm/${offering.courseCode}/${memoId}`, `${memoId}`),
@@ -53,10 +85,11 @@ function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, seme
     }
     dataRows.push({ ...offeringBase, ...memoBase })
   })
+  _sortDataForTable(dataRows)
   return dataRows
 }
 
-function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfig) {
+function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfig, languageIndex) {
   const dataRows = []
   offeringsWithAnalysis.forEach(offering => {
     const departmentNames = offering.departmentName.split('/')
@@ -67,10 +100,27 @@ function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfi
       institution,
       courseCode: offering.courseCode,
       linkedProgram: offering.connectedPrograms,
-      courseRoundNumber: offering.offeringId,
+      applicationCode:
+        offering.courseRoundApplications && offering.courseRoundApplications.length > 0
+          ? offering.courseRoundApplications[0].course_round_application_code
+          : '',
       term: offering.lastSemesterLabel,
-      courseStartDate: offering.startDate,
-      courseEndDate: offering.endDate,
+      courseStart:
+        languageIndex === 0 && offering.startDate && offering.startDate !== ''
+          ? new Date(offering.startDate).toLocaleString('en-GB', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric',
+            })
+          : offering.startDate,
+      courseEndDate:
+        languageIndex === 0 && offering.endDate && offering.endDate !== ''
+          ? new Date(offering.endDate).toLocaleString('en-GB', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric',
+            })
+          : offering.endDate,
       publishDate: '',
       linkToCourseAnalysis: '',
     }
@@ -88,6 +138,13 @@ function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfi
           (date.getMonth() > 9 ? date.getMonth() : '0' + date.getMonth()) +
           '-' +
           (date.getDay() > 9 ? date.getDay() : '0' + date.getDay())
+        if (languageIndex === 0) {
+          publishDate = date.toLocaleString('en-GB', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          })
+        }
       }
       analysisBase = {
         publishDate,
@@ -96,7 +153,27 @@ function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfi
     }
     dataRows.push({ ...offeringBase, ...analysisBase })
   })
+  _sortDataForTable(dataRows)
   return dataRows
+}
+
+function _searchInDataByText(text, data) {
+  if (text && text !== '') {
+    const dataAfterSearch = []
+    data.forEach(d => {
+      Object.keys(d).forEach(key => {
+        if (d[key]) {
+          const value = d[key].toString()
+          if (value.toLowerCase().includes(text.toLowerCase())) {
+            dataAfterSearch.push(d)
+          }
+        }
+      })
+    })
+    return dataAfterSearch
+  } else {
+    return data
+  }
 }
 
 const NoDataMessage = ({ labels }) => (
@@ -104,19 +181,43 @@ const NoDataMessage = ({ labels }) => (
     <i>{labels.noDataMessage}</i>
   </p>
 )
-function StatisticsExport({ columnNames, columns, dataRows, fileName, sheetName, exportLabels, languageIndex }) {
-  const wscols = [
-    { wch: 10 },
-    { wch: 20 },
-    { wch: 10 },
-    { wch: 50 },
-    { wch: 20 },
-    { wch: 20 },
-    { wch: 20 },
-    { wch: 20 },
-    { wch: 20 },
-    { wch: 50 },
-  ]
+function StatisticsExport({
+  columnNames,
+  columns,
+  dataRows,
+  fileName,
+  sheetName,
+  exportLabels,
+  languageIndex,
+  isMemoPage,
+}) {
+  const wscols = {
+    courseMemo: [
+      { wch: 10 },
+      { wch: 20 },
+      { wch: 10 },
+      { wch: 50 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 50 },
+    ],
+    courseAnalysis: [
+      { wch: 10 },
+      { wch: 20 },
+      { wch: 10 },
+      { wch: 50 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 50 },
+    ],
+  }
   const exportDataTable = fileType => {
     if (dataRows.length > 0 && fileType) {
       const file = `${fileName}.${fileType}`
@@ -140,19 +241,21 @@ function StatisticsExport({ columnNames, columns, dataRows, fileName, sheetName,
         workSheetRows.push(row)
       })
       const worksheet = xlsx.utils.json_to_sheet(workSheetRows)
-      worksheet['!cols'] = wscols
-      dataRows.forEach((row, index) => {
-        if (row[linkToCourseColumnName] && row[linkToCourseColumnName] !== '' && fileType === 'xlsx') {
-          worksheet[
-            xlsx.utils.encode_cell({
-              c: 9,
-              r: index + 1,
-            })
-          ] = {
-            f: `HYPERLINK("${row[linkToCourseColumnName].props.href}","${row[linkToCourseColumnName].props.children}")`,
+      worksheet['!cols'] = isMemoPage ? wscols.courseMemo : wscols.courseAnalysis
+      if (fileType === 'xlsx') {
+        dataRows.forEach((row, index) => {
+          if (row[linkToCourseColumnName] && row[linkToCourseColumnName] !== '') {
+            worksheet[
+              xlsx.utils.encode_cell({
+                c: isMemoPage ? 9 : 10,
+                r: index + 1,
+              })
+            ] = {
+              f: `HYPERLINK("${row[linkToCourseColumnName].props.href}")`,
+            }
           }
-        }
-      })
+        })
+      }
       const workbook = xlsx.utils.book_new()
       xlsx.utils.book_append_sheet(workbook, worksheet, sheetName)
       xlsx.writeFile(workbook, file)
@@ -161,25 +264,31 @@ function StatisticsExport({ columnNames, columns, dataRows, fileName, sheetName,
 
   return (
     <>
-      <div className="padding-bottom-1">
-        <Row>
-          <Col lg="8" md="8" xs="12" className={languageIndex === 0 ? 'margin-left-5' : 'margin-left-4'}>
-            <Button color="btn btn-secondary" onClick={() => exportDataTable('csv')} className="float-right">
-              {exportLabels.csv}
-            </Button>
-          </Col>
-          <Col>
-            <Button color="btn btn-secondary" onClick={() => exportDataTable('xlsx')}>
-              {exportLabels.excel}
-            </Button>
-          </Col>
-        </Row>
-      </div>
+      <Col lg="4" md="4" xs="12" className={languageIndex === 0 ? 'margin-left-5' : 'margin-left-4'}>
+        <Button color="btn btn-secondary margin-top-1-5" onClick={() => exportDataTable('csv')} className="float-right">
+          {exportLabels.csv}
+        </Button>
+      </Col>
+      <Col>
+        <Button color="btn btn-secondary margin-top-1-5" onClick={() => exportDataTable('xlsx')}>
+          {exportLabels.excel}
+        </Button>
+      </Col>
     </>
   )
 }
 
+function FilterTable({ onFilter, placeholder, searchLabel }) {
+  return (
+    <Col lg="4" md="4" sm="12">
+      <label htmlFor="search">{searchLabel}</label>
+      <input id="search" type="text" placeholder={placeholder} aria-label="Search Input" onChange={onFilter} />
+    </Col>
+  )
+}
+
 function StatisticsDataTable({ statisticsResult }) {
+  const [resetPaginationToggle, setResetPaginationToggle] = useState(false)
   const [context] = useWebContext()
   const { languageIndex, browserConfig } = context
   const { statisticsLabels } = i18n.messages[languageIndex]
@@ -197,7 +306,6 @@ function StatisticsDataTable({ statisticsResult }) {
   const isMemoPage = offeringsWithMemos && offeringsWithMemos.length > 0 ? true : false
   const isAnalysisPage = offeringsWithAnalyses && offeringsWithAnalyses.length > 0 ? true : false
 
-  let tableData = []
   let columnNames = []
   if (isMemoPage) {
     columnNames = [
@@ -207,7 +315,7 @@ function StatisticsDataTable({ statisticsResult }) {
       'institution',
       'courseCode',
       'linkedProgram',
-      'courseRoundNumber',
+      'applicationCode',
       'courseStart',
       'publishDate',
       'linkToCoursePM',
@@ -221,8 +329,8 @@ function StatisticsDataTable({ statisticsResult }) {
       'institution',
       'courseCode',
       'linkedProgram',
-      'courseRoundNumber',
-      'courseStartDate',
+      'applicationCode',
+      'courseStart',
       'courseEndDate',
       'publishDate',
       'linkToCourseAnalysis',
@@ -233,45 +341,77 @@ function StatisticsDataTable({ statisticsResult }) {
     selector: group => group[columnName],
     sortable: true,
     wrap: true,
-    minWidth: '213px',
+    minWidth: '137px',
   }))
   let dataRows = []
   if (isMemoPage) {
-    dataRows = _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, semesterTranslationObject)
+    dataRows = _getDataRowsForCourseMemo(
+      offeringsWithMemos,
+      year,
+      browserConfig,
+      semesterTranslationObject,
+      languageIndex
+    )
   } else if (isAnalysisPage) {
-    dataRows = _getDataRowsForCourseAnalysis(offeringsWithAnalyses, year, browserConfig)
+    dataRows = _getDataRowsForCourseAnalysis(offeringsWithAnalyses, year, browserConfig, languageIndex)
   }
 
-  tableData = dataRows.map((d, index) => ({
-    id: index,
-    ...d,
-  }))
+  const [tableData, setTableData] = useState(
+    dataRows.map((d, index) => ({
+      id: index,
+      ...d,
+    }))
+  )
 
-  return tableData.length === 0 ? (
-    <NoDataMessage labels={sortableTable} />
-  ) : (
+  return (
     <>
       <h3>{isMemoPage ? courseMemo.header : courseAnalysis.header}</h3>
       <article key="statistics-memo-analysis-description">
-        {isMemoPage ? courseMemo.details : courseAnalysis.details}
+        <p>{isMemoPage ? courseMemo.details : courseAnalysis.details}</p>
+        <p>{sortableTable.moreColumnsNote}</p>
         <details>
           <summary className="white" style={{ paddingTop: '20px' }}>
             {isMemoPage ? courseMemo.sourceOfData : courseAnalysis.sourceOfData}
           </summary>
-          <StatisticsExport
-            columnNames={columnNames}
+          <div className="padding-bottom-1">
+            <Row>
+              <FilterTable
+                placeholder={sortableTable.search_placeholder}
+                searchLabel={sortableTable.search_label}
+                onFilter={e => {
+                  if (e.target.value === '') {
+                    setResetPaginationToggle(!resetPaginationToggle)
+                  }
+                  setTableData(
+                    _searchInDataByText(e.target.value, dataRows).map((d, index) => ({
+                      id: index,
+                      ...d,
+                    }))
+                  )
+                }}
+              ></FilterTable>
+              <StatisticsExport
+                columnNames={columnNames}
+                columns={columns}
+                dataRows={dataRows}
+                exportLabels={exportLabels}
+                sheetName={isMemoPage ? `statistics-memos` : `statistics-analyses`}
+                languageIndex={languageIndex}
+                isMemoPage={isMemoPage}
+                fileName={
+                  isMemoPage
+                    ? `course-information-statistics-memos-${year}-periods-${periods.join('-')}`
+                    : `course-information-statistics-analyses-${year}-periods-${seasons.join('-')}`
+                }
+              ></StatisticsExport>
+            </Row>
+          </div>
+          <SortableDataTable
             columns={columns}
-            dataRows={dataRows}
-            exportLabels={exportLabels}
-            sheetName={isMemoPage ? `statistics-memos` : `statistics-analyses`}
-            languageIndex={languageIndex}
-            fileName={
-              isMemoPage
-                ? `course-information-statistics-memos-${year}-periods-${periods.join('-')}`
-                : `course-information-statistics-analyses-${year}-periods-${seasons.join('-')}`
-            }
-          ></StatisticsExport>
-          <SortableDataTable columns={columns} data={tableData}></SortableDataTable>
+            data={tableData}
+            resetPaginationToggle={resetPaginationToggle}
+            emptyTableMessage={sortableTable.noDataMessage}
+          ></SortableDataTable>
         </details>
       </article>
     </>

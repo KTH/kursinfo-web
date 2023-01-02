@@ -159,6 +159,16 @@ describe('Course Analysis check if it parses the correct start and end date, cou
         {
           "connectedPrograms": "LÄRGR-2",
           "courseCode": "LT1015",
+          "courseRoundApplications": [
+            {
+              "course_round_application_code": "45006",
+              "course_round_category_code": "PU",
+              "course_round_ladok_state": "Påbörjad",
+              "course_round_ladok_state_en": "Started",
+              "course_round_type": "ORD",
+              "ladok_uid": "de69ebaf-7226-11ec-a534-0f06b63e4534",
+            },
+          ],
           "departmentName": "ITM/Lärande",
           "endDate": "2023-10-29",
           "firstSemester": "20231",
@@ -240,6 +250,16 @@ describe('Course memos check if it parse the correct start and end date, course 
         {
           "connectedPrograms": "LÄRGR-2",
           "courseCode": "LT1015",
+          "courseRoundApplications": [
+            {
+              "course_round_application_code": "45006",
+              "course_round_category_code": "PU",
+              "course_round_ladok_state": "Påbörjad",
+              "course_round_ladok_state_en": "Started",
+              "course_round_type": "ORD",
+              "ladok_uid": "de69ebaf-7226-11ec-a534-0f06b63e4534",
+            },
+          ],
           "departmentName": "ITM/Lärande",
           "endDate": "2023-10-29",
           "firstSemester": "20231",

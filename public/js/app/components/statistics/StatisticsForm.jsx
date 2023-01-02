@@ -3,7 +3,7 @@ import { Col, Row } from 'reactstrap'
 import PropTypes from 'prop-types'
 import i18n from '../../../../../i18n'
 import { useWebContext } from '../../context/WebContext'
-import { studyLengthParamName } from './domain/formConfigurations'
+import { DOCS, studyLengthParamName } from './domain/formConfigurations'
 
 import { CheckboxOption, DropdownOption, RadioboxOption } from './index'
 
@@ -77,7 +77,11 @@ function StatisticsForm({ onSubmit }) {
           </Row>
           <Row key={`row-for-year-choice`} className={`row-for-year-choice`}>
             <Col>
-              <DropdownOption paramName="year" onChange={handleParamChange} />
+              <DropdownOption
+                paramName="year"
+                showInfoBox={state.documentType === DOCS.courseMemo ? false : true}
+                onChange={handleParamChange}
+              />
             </Col>
           </Row>
           <Row key={`row-for-periods-or-seasons-choice`} className={`row-for-periods-or-seasons-choice`}>
