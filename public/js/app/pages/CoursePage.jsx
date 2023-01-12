@@ -102,7 +102,7 @@ function CoursePage() {
 
   const { course_decision_to_discontinue: decisionToDiscontinue = '' } =
     activeSyllabusIndex > -1 ? courseData.syllabusList[activeSyllabusIndex] : {}
-
+  console.log(courseData)
   useEffect(() => {
     let isMounted = true
     if (isMounted) {
