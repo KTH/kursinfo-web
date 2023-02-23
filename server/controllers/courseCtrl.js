@@ -342,7 +342,11 @@ function _parseRounds(roundInfos, courseCode, language, webContext) {
   const courseRoundList = {}
   for (const roundInfo of roundInfos) {
     courseRound = _getRound(roundInfo, language)
-    const { round_course_term: yearAndTermArr, roundId: ladokRoundId } = courseRound
+    const {
+      round_course_term: yearAndTermArr,
+      roundId: ladokRoundId,
+      round_application_code: applicationCode,
+    } = courseRound
     const semester = yearAndTermArr.join('')
 
     if (yearAndTermArr && tempList.indexOf(semester) < 0) {
@@ -351,9 +355,9 @@ function _parseRounds(roundInfos, courseCode, language, webContext) {
       courseRoundList[semester] = []
     }
 
-    const hasMemoForThisRound = !!(memoList[semester] && memoList[semester][ladokRoundId])
+    const hasMemoForThisRound = !!(memoList[semester] && memoList[semester][applicationCode])
     if (hasMemoForThisRound) {
-      const { isPdf, courseMemoFileName, lastChangeDate } = memoList[semester][ladokRoundId]
+      const { isPdf, courseMemoFileName, lastChangeDate } = memoList[semester][applicationCode]
       if (isPdf) {
         courseRound.round_memoFile = {
           fileName: courseMemoFileName,

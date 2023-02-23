@@ -13,7 +13,7 @@ const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorag
   const translate = i18n.messages[language === 'en' ? 0 : 1]
   const {
     round_memoFile: memoPdfFile,
-    roundId: ladokRoundId,
+    round_application_code: applicationCode,
     round_course_term: yearAndTermArr,
     has_round_published_memo: hasPublishedMemo,
   } = courseRound
@@ -31,7 +31,7 @@ const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorag
           yearAndTermArr &&
           (hasPublishedMemo ? (
             <CourseMemoLink
-              href={`/kurs-pm/${courseCode}/${yearAndTermArr.join('')}/${ladokRoundId}`}
+              href={`/kurs-pm/${courseCode}/${yearAndTermArr.join('')}/${applicationCode}`}
               translate={translate}
             />
           ) : (

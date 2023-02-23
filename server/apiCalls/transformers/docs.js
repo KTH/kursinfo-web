@@ -12,11 +12,11 @@ function _filterRelatedDocuments(docs, courseCode, firstSemester) {
 /**
  * Find memos for an offering id
  * @param {[]} memos                     Collection of course memos
- * @param {string|number} offeringId     Course offering id, f.e., 1
+ * @param {string|number} offeringId     Course offering id, f.e., SF162 or 1234
  * @returns {[]}                         Array, containing offering's memos
  */
 function _findMemosByOfferingId(memos, offeringId) {
-  return memos.filter(memo => memo.ladokRoundIds.includes(String(offeringId)))
+  return memos.filter(memo => memo.applicationCodes.includes(String(offeringId)))
 }
 
 /**
@@ -36,11 +36,11 @@ function findMemosForOfferingId(docs, courseCode, firstSemester, offeringId) {
 /**
  * Find analyses for an offering id
  * @param {[]} analyses                     Collection of course analyses
- * @param {string|number} offeringId        Course offering id, f.e., 1
+ * @param {string|number} offeringId        Course offering id, f.e., SF162 or 1234
  * @returns {[]}                            Array, containing offering's analyses.
  */
 function _findAnalysesByOfferingId(analyses, offeringId) {
-  return analyses.filter(analysis => analysis.roundIdList.split(',').includes(String(offeringId)))
+  return analyses.filter(analysis => analysis.applicationCodes.split(',').includes(String(offeringId)))
 }
 
 /**

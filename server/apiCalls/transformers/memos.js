@@ -10,8 +10,9 @@ const { findMemosForOfferingId } = require('./docs')
 const _memosPerCourseOffering = async (parsedOfferings, memos) => {
   const courseOfferings = []
   await parsedOfferings.forEach(offering => {
-    const { courseCode, firstSemester } = offering
-    const offeringId = Number(offering.offeringId)
+    const { courseCode, firstSemester, courseRoundApplications } = offering
+    const [courseRoundApplication] = courseRoundApplications
+    const { course_round_application_code: offeringId } = courseRoundApplication
     let courseMemoInfo = {}
     const memosForOfferingId = findMemosForOfferingId(memos, courseCode, firstSemester, offeringId)
 
@@ -140,7 +141,7 @@ function _countMemosDataPerSchool(courseOfferings) {
       schools[code] = _initSchoolValues()
     }
 
-    // If a course has several ladokRoundIds which start and end at same time, it counts as one course
+    // If a course has several applicationCodes which start and end at same time, it counts as one course
     const hasCourseUniqueDates =
       !schools[code].uniqueCourseCodeDates.includes(courseCodeAndDates) &&
       !schools[code].uniqueCourseCodeDatesWithoutMemo.includes(courseCodeAndDates)

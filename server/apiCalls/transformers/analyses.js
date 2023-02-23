@@ -11,8 +11,9 @@ const { findAnalysesForOfferingId } = require('./docs')
 const _analysesPerCourseOffering = async (parsedOfferings, analyses) => {
   const courseOfferings = []
   await parsedOfferings.forEach(offering => {
-    const { courseCode, firstSemester } = offering
-    const offeringId = Number(offering.offeringId)
+    const { courseCode, firstSemester, courseRoundApplications } = offering
+    const [courseRoundApplication] = courseRoundApplications
+    const { course_round_application_code: offeringId } = courseRoundApplication
 
     const [publishedAnalysis] = findAnalysesForOfferingId(analyses, courseCode, firstSemester, offeringId)
 
@@ -97,7 +98,7 @@ function _countAnalysesDataPerSchool(courseOfferings) {
       schools[code] = _initSchoolValues()
     }
 
-    // If a course has several ladokRoundIds which start and end at same time, it counts as one course
+    // If a course has several applicationCodes which start and end at same time, it counts as one course
     const hasCourseUniqueDates =
       !schools[code].uniqueCourseCodeDates.includes(courseCodeAndDates) &&
       !schools[code].uniqueCourseCodeDatesWithoutAnalysis.includes(courseCodeAndDates)
