@@ -17,6 +17,7 @@ const offering_SF1625_202121 = {
 const memo_SF1625_202121_base = (courseCode = 'SF1625') => ({
   courseCode,
   ladokRoundIds: ['1'],
+  applicationCodes: ['1'],
   semester: '20212',
   memoEndPoint: `${courseCode}20212-1`,
   memoCommonLangAbbr: 'sv',
@@ -40,6 +41,7 @@ const offering_SF1625_202122 = {
 const memo_SF1625_202122_base = (courseCode = 'SF1625') => ({
   courseCode,
   ladokRoundIds: ['2'],
+  applicationCodes: ['2'],
   semester: '20212',
   memoEndPoint: `${courseCode}20212-2`,
   memoCommonLangAbbr: 'sv',
@@ -188,6 +190,9 @@ describe('Memos functions to count memos for one school', () => {
           "connectedPrograms": "TTGTM-2",
           "courseCode": "SF1625",
           "courseMemoInfo": {
+            "applicationCodes": [
+              "1",
+            ],
             "courseCode": "SF1625",
             "isPdf": false,
             "ladokRoundIds": [

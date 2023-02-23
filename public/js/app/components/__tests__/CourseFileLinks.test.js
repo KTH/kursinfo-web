@@ -35,7 +35,7 @@ describe('Component <CourseFileLinks>', () => {
     expect(scheduleText).toBeInTheDocument()
   })
 
-  test('renders course offering memo link correctly if there is an available course memo as pdf ', () => {
+  test('renders course offering memo link correctly if there is an available course memo as pdf', () => {
     const language = 'en'
     const [translate] = i18n.messages // en
     const propsWithMemoFile = {
@@ -50,7 +50,7 @@ describe('Component <CourseFileLinks>', () => {
     expect(memoLink.href).toBe('https://test.com/testedMemo')
   })
 
-  test('renders course offering memo link correctly to web-based course memos ', () => {
+  test('renders course offering memo link correctly to web-based course memos', () => {
     const language = 'en'
     const [translate] = i18n.messages // en
     const propsWithMemoFile = {
@@ -61,7 +61,12 @@ describe('Component <CourseFileLinks>', () => {
     const propsWithMemoWebPage = {
       courseCode: 'KIP1111',
       language,
-      courseRound: { roundId: '7', round_course_term: ['1970', '1'], has_round_published_memo: true },
+      courseRound: {
+        roundId: '7',
+        round_application_code: '7',
+        round_course_term: ['1970', '1'],
+        has_round_published_memo: true,
+      },
     }
 
     const { rerender } = render(<CourseFileLinks {...propsWithMemoFile} />)
@@ -83,6 +88,7 @@ describe('Component <CourseFileLinks>', () => {
       memoStorageURI: 'https://test.com/',
       courseRound: {
         roundId: '7',
+        round_application_code: '7',
         round_course_term: ['1970', '1'],
         round_memoFile: { fileName: 'test', fileDate: '1970-01-01' },
       },

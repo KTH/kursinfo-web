@@ -9,6 +9,7 @@ const offering1WithDates = ({ dates = {}, courseCode = 'SF1625', memoValues = {}
     courseCode,
     isPdf: false,
     ladokRoundIds: ['1'],
+    applicationCodes: ['1'],
     lastChangeDate: 'Tue Aug 02 2021 10:19:17 GMT+0000 (Coordinated Universal Time)',
     memoCommonLangAbbr: 'sv',
     memoEndPoint: `${courseCode}20212-1`,
@@ -159,8 +160,8 @@ describe('Count memos and courses for one course offering for the same school AB
 describe('Count memos and courses as one for one course with two course offerings starting at the same time', () => {
   test('One course (two offerings) and offerings has the same memo published before course start', async () => {
     const offeringsWithMemos = [
-      offering1WithDates({ memoValues: { ladokRoundIds: ['1', '2'] }, offeringValues: { offeringId: '1' } }),
-      offering1WithDates({ memoValues: { ladokRoundIds: ['1', '2'] }, offeringValues: { offeringId: '2' } }),
+      offering1WithDates({ memoValues: { applicationCodes: ['1', '2'] }, offeringValues: { offeringId: '1' } }),
+      offering1WithDates({ memoValues: { applicationCodes: ['1', '2'] }, offeringValues: { offeringId: '2' } }),
     ]
     const combinedMemosPerSchool = await countMemosDataPerSchool(offeringsWithMemos)
     expect(combinedMemosPerSchool.schools.ABE.numberOfCourses).toBe(1)
@@ -200,8 +201,8 @@ describe('Count memos and courses as one for one course with two course offering
   })
   test('One course (two offerings) and offerings has two different memos published before course start', async () => {
     const offeringsWithMemos = [
-      offering1WithDates({ memoValues: { ladokRoundIds: ['1'] }, offeringValues: { offeringId: '1' } }),
-      offering1WithDates({ memoValues: { ladokRoundIds: ['2'] }, offeringValues: { offeringId: '2' } }),
+      offering1WithDates({ memoValues: { applicationCodes: ['1'] }, offeringValues: { offeringId: '1' } }),
+      offering1WithDates({ memoValues: { applicationCodes: ['2'] }, offeringValues: { offeringId: '2' } }),
     ]
     const combinedMemosPerSchool = await countMemosDataPerSchool(offeringsWithMemos)
     expect(combinedMemosPerSchool.schools.ABE.numberOfCourses).toBe(1)
@@ -249,12 +250,12 @@ describe('Count memos and courses as one for one course with two course offering
     const offeringsWithMemos = [
       offering1WithDates({
         dates: publishedAfterCourseDates,
-        memoValues: { ladokRoundIds: ['1', '2'] },
+        memoValues: { applicationCodes: ['1', '2'] },
         offeringValues: { offeringId: '2' },
       }),
       offering1WithDates({
         dates: publishedAfterCourseDates,
-        memoValues: { ladokRoundIds: ['1', '2'] },
+        memoValues: { applicationCodes: ['1', '2'] },
         offeringValues: { offeringId: '1' },
       }),
     ]
@@ -279,12 +280,12 @@ describe('Count memos and courses as one for one course with two course offering
     const offeringsWithMemos = [
       offering1WithDates({
         dates: datesAfterDeadlineBeforeStart,
-        memoValues: { ladokRoundIds: ['2'] },
+        memoValues: { applicationCodes: ['2'] },
         offeringValues: { offeringId: '2' },
       }),
       offering1WithDates({
         dates: datesAfterDeadlineBeforeStart,
-        memoValues: { ladokRoundIds: ['4'] },
+        memoValues: { applicationCodes: ['4'] },
         offeringValues: { offeringId: '4' },
       }),
     ]
@@ -305,12 +306,12 @@ describe('Count memos and courses as one for one course with two course offering
     const offeringsWithMemos = [
       offering1WithDates({
         dates: datesAfterDeadlineBeforeStart,
-        memoValues: { ladokRoundIds: ['2', '3', '4'] },
+        memoValues: { applicationCodes: ['2', '3', '4'] },
         offeringValues: { offeringId: '2' },
       }),
       offering1WithDates({
         dates: datesAfterDeadlineBeforeStart,
-        memoValues: { ladokRoundIds: ['2', '3', '4'] },
+        memoValues: { applicationCodes: ['2', '3', '4'] },
         offeringValues: { offeringId: '4' },
       }),
     ]
@@ -332,12 +333,12 @@ describe('Count memos and courses as one for one course with two course offering
     const offeringsWithMemos = [
       offering1WithDates({
         dates: datesAfterDeadlineBeforeStart,
-        memoValues: { ladokRoundIds: ['2', '3', '4'] },
+        memoValues: { applicationCodes: ['2', '3', '4'] },
         offeringValues: { offeringId: '1' },
       }),
       offering1WithDates({
         dates: datesAfterDeadlineBeforeStart,
-        memoValues: { ladokRoundIds: ['2', '3', '4'] },
+        memoValues: { applicationCodes: ['2', '3', '4'] },
         offeringValues: { offeringId: '4' },
       }),
     ]

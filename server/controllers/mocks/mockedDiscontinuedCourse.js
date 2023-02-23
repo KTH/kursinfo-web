@@ -112,6 +112,7 @@ const mockedCourseMemosForDiscontinuedCourse = {
     1: {
       courseCode: 'FCK3305',
       ladokRoundIds: ['1'],
+      applicationCodes: ['1'],
       semester: '20232',
       memoEndPoint: 'FCK330520232-1',
       memoCommonLangAbbr: 'en',

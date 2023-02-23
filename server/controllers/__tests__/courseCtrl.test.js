@@ -220,6 +220,9 @@ describe('Discontinued course to test', () => {
           "memoList": {
             "20232": {
               "1": {
+                "applicationCodes": [
+                  "1",
+                ],
                 "courseCode": "FCK3305",
                 "isPdf": false,
                 "ladokRoundIds": [

@@ -17,6 +17,7 @@ const offering_SF1625_202121 = {
 const memo_SF1625_202121_base = {
   courseCode: 'SF1625',
   ladokRoundIds: ['1'],
+  applicationCodes: ['1'],
   semester: '20212',
   memoEndPoint: 'SF162520212-1',
   memoCommonLangAbbr: 'sv',
@@ -41,6 +42,7 @@ const offering_SF1625_202122 = {
 const memo_SF1625_202122_base = {
   courseCode: 'SF1625',
   ladokRoundIds: ['2'],
+  applicationCodes: ['2'],
   semester: '20212',
   memoEndPoint: 'SF162520212-2',
   memoCommonLangAbbr: 'sv',
@@ -62,6 +64,9 @@ describe('Count memos and courses', () => {
           "connectedPrograms": "TTGTM-2",
           "courseCode": "SF1625",
           "courseMemoInfo": {
+            "applicationCodes": [
+              "1",
+            ],
             "courseCode": "SF1625",
             "isPdf": false,
             "ladokRoundIds": [
@@ -132,6 +137,9 @@ describe('Count memos and courses', () => {
     expect(offering2WithMemo2.courseMemoInfo.memoEndPoint).toBe('SF162520212-2')
     expect(offering2WithMemo2.courseMemoInfo).toMatchInlineSnapshot(`
       {
+        "applicationCodes": [
+          "2",
+        ],
         "courseCode": "SF1625",
         "isPdf": false,
         "ladokRoundIds": [
@@ -159,6 +167,7 @@ describe('Count memos and courses', () => {
       {
         courseCode: 'SF1625',
         ladokRoundIds: ['1', '2'],
+        applicationCodes: ['1', '2'],
         semester: '20212',
         memoEndPoint: 'SF162520212-1-2',
         memoCommonLangAbbr: 'sv',
@@ -185,6 +194,7 @@ describe('Count memos and courses', () => {
       {
         courseCode: 'BB1211',
         ladokRoundIds: ['1', '2'],
+        applicationCodes: ['1', '2'],
         semester: '20212',
         memoEndPoint: 'BB121120212-1-2',
         memoCommonLangAbbr: 'sv',

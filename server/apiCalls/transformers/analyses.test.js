@@ -16,7 +16,7 @@ const offering_SF1625_202121 = {
 }
 const analysis_SF1625_202121_base = (courseCode = 'SF1625') => ({
   courseCode,
-  roundIdList: '1',
+  applicationCodes: '1',
   semester: '20212',
   analysisFileName: `analysis-${courseCode}20212-1.pdf`,
   publishedDate: '2020-06-25T08:44:50.77Z',
@@ -35,7 +35,7 @@ const offering_SF1625_202122 = {
 }
 const analysis_SF1625_202122_base = (courseCode = 'SF1625') => ({
   courseCode,
-  roundIdList: '2',
+  applicationCodes: '2',
   semester: '20212',
   analysisFileName: `analysis-${courseCode}20212-2.pdf`,
   publishedDate: '2020-06-25T08:44:50.77Z',
