@@ -13,6 +13,11 @@ const offering_SF1625_202121 = {
   courseCode: 'SF1625',
   offeringId: '1',
   period: 'P1',
+  courseRoundApplications: [
+    {
+      course_round_application_code: '1',
+    },
+  ],
 }
 const memo_SF1625_202121_base = (courseCode = 'SF1625') => ({
   courseCode,
@@ -37,6 +42,11 @@ const offering_SF1625_202122 = {
   courseCode: 'SF1625',
   offeringId: '2',
   period: 'P1',
+  courseRoundApplications: [
+    {
+      course_round_application_code: '2',
+    },
+  ],
 }
 const memo_SF1625_202122_base = (courseCode = 'SF1625') => ({
   courseCode,
@@ -211,6 +221,11 @@ describe('Memos functions to count memos for one school', () => {
             "semester": "20212",
             "version": 1,
           },
+          "courseRoundApplications": [
+            {
+              "course_round_application_code": "1",
+            },
+          ],
           "departmentName": "ABE/Geoinformatik",
           "endDate": "2021-10-29",
           "firstSemester": "20212",
