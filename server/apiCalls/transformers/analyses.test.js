@@ -11,7 +11,6 @@ const offering_SF1625_202121 = {
   departmentName: 'ABE/Geoinformatik',
   connectedPrograms: 'TTGTM-2',
   courseCode: 'SF1625',
-  offeringId: '1',
   period: 'P1',
   courseRoundApplications: [
     {
@@ -36,7 +35,6 @@ const offering_SF1625_202122 = {
   departmentName: 'ABE/Geoinformatik',
   connectedPrograms: '',
   courseCode: 'SF1625',
-  offeringId: '2',
   period: 'P1',
   courseRoundApplications: [
     {

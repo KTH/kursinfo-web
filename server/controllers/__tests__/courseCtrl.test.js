@@ -225,9 +225,6 @@ describe('Discontinued course to test', () => {
                 ],
                 "courseCode": "FCK3305",
                 "isPdf": false,
-                "ladokRoundIds": [
-                  "1",
-                ],
                 "lastChangeDate": "Fri Aug 26 2022 14:42:34 GMT+0200 (Central European Summer Time)",
                 "memoCommonLangAbbr": "en",
                 "memoEndPoint": "FCK330520232-1",

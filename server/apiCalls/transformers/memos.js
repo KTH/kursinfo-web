@@ -1,5 +1,5 @@
 const { firstPublishData, publishData } = require('./dates')
-const { findMemosForOfferingId } = require('./docs')
+const { findMemosForApplicationCode } = require('./docs')
 
 /**
  * Matches analyses and memos with course offerings.
@@ -12,18 +12,18 @@ const _memosPerCourseOffering = async (parsedOfferings, memos) => {
   await parsedOfferings.forEach(offering => {
     const { courseCode, firstSemester, courseRoundApplications } = offering
     const [courseRoundApplication] = courseRoundApplications
-    const { course_round_application_code: offeringId } = courseRoundApplication
+    const { course_round_application_code: applicationCode } = courseRoundApplication
     let courseMemoInfo = {}
-    const memosForOfferingId = findMemosForOfferingId(memos, courseCode, firstSemester, offeringId)
+    const memosForApplicationCode = findMemosForApplicationCode(memos, courseCode, firstSemester, applicationCode)
 
-    if (memosForOfferingId.length === 1) {
-      const [publishedMemo] = memosForOfferingId
+    if (memosForApplicationCode.length === 1) {
+      const [publishedMemo] = memosForApplicationCode
       courseMemoInfo = publishedMemo
       courseMemoInfo.publishedData = publishData(offering.startDate, courseMemoInfo.lastChangeDate)
     }
     // TODO: first version of PDF file first date
-    if (memosForOfferingId.length > 1) {
-      const firstVersion = memosForOfferingId.find(memo => memo.version === 1)
+    if (memosForApplicationCode.length > 1) {
+      const firstVersion = memosForApplicationCode.find(memo => memo.version === 1)
 
       courseMemoInfo = firstVersion
       // publish date need to be taken from version 1

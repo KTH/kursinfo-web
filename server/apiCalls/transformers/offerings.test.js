@@ -15,7 +15,6 @@ describe('Memos functions to parse and filter offerings', () => {
       department_name: 'CBH/Fiber- och Polymerteknologi',
       first_yearsemester: '20202',
       first_period: '20202P1',
-      offering_id: '2',
       offered_semesters: [{ end_date: '2021-01-10', semester: '20202', start_date: '2020-10-10' }],
       school_code: 'BIO',
     }
@@ -24,7 +23,6 @@ describe('Memos functions to parse and filter offerings', () => {
       course_code: 'SF1625',
       first_yearsemester: '20192',
       first_period: '20192P1',
-      offering_id: '1',
       offered_semesters: [],
       school_code: 'CBH',
     }
@@ -33,7 +31,6 @@ describe('Memos functions to parse and filter offerings', () => {
       course_code: 'SF1629',
       first_yearsemester: '20202',
       first_period: '20202P1',
-      offering_id: '2',
       offered_semesters: [],
       school_code: 'ITM',
     }
@@ -49,7 +46,6 @@ describe('Memos functions to parse and filter offerings', () => {
     expect(offering.departmentName).toBe(expectedCourse.department_name)
     expect(offering.connectedPrograms).toBe('CINTE2-iNTeresting-2020')
     expect(offering.courseCode).toBe(expectedCourse.course_code)
-    expect(offering.offeringId).toBe(expectedCourse.offering_id)
     expect(offering.period).toBe('P1')
 
     const semestersInMemos = semestersInParsedOfferings(parsedOfferings)
@@ -91,7 +87,6 @@ describe('Analysis functions to parse and filter offerings', () => {
       department_name: 'CBH/Fiber- och Polymerteknologi',
       first_yearsemester: '20202',
       first_period: '20202P1',
-      offering_id: '2',
       offered_semesters: [notexpectedSemester, expectedSemester],
       school_code: 'BIO',
     }
@@ -100,7 +95,6 @@ describe('Analysis functions to parse and filter offerings', () => {
       course_code: 'SF1625',
       first_yearsemester: '20192',
       first_period: '20192P1',
-      offering_id: '1',
       offered_semesters: [],
       school_code: 'CBH',
     }
@@ -109,7 +103,6 @@ describe('Analysis functions to parse and filter offerings', () => {
       course_code: 'SF1629',
       first_yearsemester: '20202',
       first_period: '20202P1',
-      offering_id: '2',
       offered_semesters: [],
       school_code: 'ITM',
     }
@@ -126,7 +119,6 @@ describe('Analysis functions to parse and filter offerings', () => {
     expect(offering.departmentName).toBe(expectedCourse.department_name)
     expect(offering.connectedPrograms).toBe('CINTE2-iNTeresting-2020')
     expect(offering.courseCode).toBe(expectedCourse.course_code)
-    expect(offering.offeringId).toBe(expectedCourse.offering_id)
     expect(offering.lastSemester).toBe('20202')
     expect(offering.lastSemesterLabel).toBe('HT')
 
@@ -142,7 +134,6 @@ describe('Analysis functions to parse and filter offerings', () => {
     expect(offering_en.departmentName).toBe(expectedCourse.department_name)
     expect(offering_en.connectedPrograms).toBe('CINTE2-iNTeresting-2020')
     expect(offering_en.courseCode).toBe(expectedCourse.course_code)
-    expect(offering_en.offeringId).toBe(expectedCourse.offering_id)
     expect(offering_en.lastSemester).toBe('20202')
     expect(offering_en.lastSemesterLabel).toBe('Autumn')
   })
@@ -160,7 +151,6 @@ describe('Analysis functions to parse and filter offerings', () => {
       department_name: 'CBH/Fiber- och Polymerteknologi',
       first_yearsemester: '20202',
       first_period: '20202P1',
-      offering_id: '2',
       offered_semesters: [notexpectedSemester, notexpectedSemesterLast],
       school_code: 'BIO',
     }
@@ -169,7 +159,6 @@ describe('Analysis functions to parse and filter offerings', () => {
       course_code: 'SF1625',
       first_yearsemester: '20192',
       first_period: '20192P1',
-      offering_id: '1',
       offered_semesters: [],
       school_code: 'CBH',
     }
@@ -178,7 +167,6 @@ describe('Analysis functions to parse and filter offerings', () => {
       course_code: 'SF1629',
       first_yearsemester: '20202',
       first_period: '20202P1',
-      offering_id: '2',
       offered_semesters: [],
       school_code: 'ITM',
     }
@@ -201,7 +189,6 @@ describe('Analysis functions to parse and filter offerings', () => {
       department_name: 'CBH/Fiber- och Polymerteknologi',
       first_yearsemester: '20202',
       first_period: '20202P1',
-      offering_id: '2',
       offered_semesters: [notexpectedSemester, notexpectedSemesterLast],
       school_code: 'BIO',
     }
@@ -210,7 +197,6 @@ describe('Analysis functions to parse and filter offerings', () => {
       course_code: 'SF1625',
       first_yearsemester: '20192',
       first_period: '20192P1',
-      offering_id: '1',
       offered_semesters: [],
       school_code: 'CBH',
     }
@@ -219,7 +205,6 @@ describe('Analysis functions to parse and filter offerings', () => {
       course_code: 'SF1629',
       first_yearsemester: '20202',
       first_period: '20202P1',
-      offering_id: '2',
       offered_semesters: [],
       school_code: 'ITM',
     }
@@ -236,7 +221,6 @@ describe('Analysis functions to parse and filter offerings', () => {
       department_name: 'CBH/Fiber- och Polymerteknologi',
       first_yearsemester: '20221',
       first_period: '20221P5',
-      offering_id: '9',
       offered_semesters: [semester],
       school_code: 'EES',
     }
@@ -253,7 +237,6 @@ describe('Analysis functions to parse and filter offerings', () => {
       department_name: 'CBH/Fiber- och Polymerteknologi',
       first_yearsemester: '20221',
       first_period: '20221P5',
-      offering_id: '9',
       offered_semesters: [semester],
       school_code: 'EES',
     }
@@ -270,7 +253,6 @@ describe('Analysis functions to parse and filter offerings', () => {
     expect(offering.departmentName).toBe(expectedCourse.department_name)
     expect(offering.connectedPrograms).toBe('CINTE2-iNTeresting-2022')
     expect(offering.courseCode).toBe(expectedCourse.course_code)
-    expect(offering.offeringId).toBe(expectedCourse.offering_id)
     expect(offering.lastSemester).toBe('20221')
     expect(offering.lastSemesterLabel).toBe('Sommar')
 
@@ -286,7 +268,6 @@ describe('Analysis functions to parse and filter offerings', () => {
     expect(offering_en.departmentName).toBe(expectedCourse.department_name)
     expect(offering_en.connectedPrograms).toBe('CINTE2-iNTeresting-2022')
     expect(offering_en.courseCode).toBe(expectedCourse.course_code)
-    expect(offering_en.offeringId).toBe(expectedCourse.offering_id)
     expect(offering_en.lastSemester).toBe('20221')
     expect(offering_en.lastSemesterLabel).toBe('Summer')
   })

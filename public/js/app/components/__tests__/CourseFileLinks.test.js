@@ -62,7 +62,6 @@ describe('Component <CourseFileLinks>', () => {
       courseCode: 'KIP1111',
       language,
       courseRound: {
-        roundId: '7',
         round_application_code: '7',
         round_course_term: ['1970', '1'],
         has_round_published_memo: true,
@@ -79,7 +78,7 @@ describe('Component <CourseFileLinks>', () => {
     expect(linkToMemoWebPage.href).toBe('http://localhost/kurs-pm/KIP1111/19701/7')
   })
 
-  test('renders course offering memo link to pdf if it exists among other data and correctly prioriterized  ', () => {
+  test('renders course offering memo link to pdf if it exists among other data and correctly prioriterized', () => {
     const language = 'en'
     const [translate] = i18n.messages // en
     const propsWithMemoFileAndOtherInfo = {
@@ -87,7 +86,6 @@ describe('Component <CourseFileLinks>', () => {
       language,
       memoStorageURI: 'https://test.com/',
       courseRound: {
-        roundId: '7',
         round_application_code: '7',
         round_course_term: ['1970', '1'],
         round_memoFile: { fileName: 'test', fileDate: '1970-01-01' },

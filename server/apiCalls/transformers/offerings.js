@@ -27,7 +27,6 @@ function _getProgramList(programs) {
  * @param {{}} course   Each course as returned by '/api/kopps/v2/courses/offerings' in 'courses'.
  * @param {string} course.course_code - The course code
  * @param {string} course.department_name - The ddepartment name
- * @param {string} course.offering_id - The offering id
  * @returns {{}}        Object with course offering data
  */
 function _formOffering(firstSemester, startDate, endDate, course) {
@@ -39,7 +38,6 @@ function _formOffering(firstSemester, startDate, endDate, course) {
     departmentName: course.department_name,
     connectedPrograms: _getProgramList(course.connected_programs),
     courseCode: course.course_code,
-    offeringId: course.offering_id,
   }
 }
 /**

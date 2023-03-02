@@ -121,7 +121,6 @@ describe('Component <CoursePage>', () => {
           20221: [
             {
               has_round_published_memo: true,
-              roundId: '1',
               round_application_code: '60747',
               round_application_link: '<i>No information inserted</i>',
               round_campus: 'KTH Campus',
@@ -152,7 +151,6 @@ describe('Component <CoursePage>', () => {
           20222: [
             {
               has_round_published_memo: true,
-              roundId: '1',
               round_application_code: '60747',
               round_application_link: '<i>No information inserted</i>',
               round_campus: 'KTH Campus',
@@ -183,7 +181,6 @@ describe('Component <CoursePage>', () => {
           20231: [
             {
               has_round_published_memo: true,
-              roundId: '1',
               round_application_code: '60747',
               round_application_link: '<i>No information inserted</i>',
               round_campus: 'KTH Campus',

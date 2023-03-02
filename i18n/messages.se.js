@@ -124,7 +124,6 @@ module.exports = {
       '<p>Välj det år som kursomgången slutar. Observera att ifall du i nästa steg väljer hösttermin (HT), visas även kurser som slutar i januari kommande år. Detta eftersom höstterminen slutar i v 2.</p><p>Du hittar information om hur <a href="https://intra.kth.se/utbildning/tentamen-och-schema/lasarsindelning/lasarsindelning-1.1201135" class="external-link" target="_blank" rel="noopener noreferrer">läsåret är indelat i läsperioder</a> på intranätet.</p>',
   },
   courseInformation: {
-    roundId: 'Kursomgångs nr',
     course_additional_regulations: 'Övriga föreskrifter',
     course_title: 'Benämning svenska',
     course_other_title: 'Benämning engelska',

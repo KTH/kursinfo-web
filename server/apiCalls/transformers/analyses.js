@@ -1,6 +1,6 @@
 const log = require('@kth/log')
 
-const { findAnalysesForOfferingId } = require('./docs')
+const { findAnalysesForApplicationCode } = require('./docs')
 
 /**
  * Matches analyses with course offerings.
@@ -13,9 +13,9 @@ const _analysesPerCourseOffering = async (parsedOfferings, analyses) => {
   await parsedOfferings.forEach(offering => {
     const { courseCode, firstSemester, courseRoundApplications } = offering
     const [courseRoundApplication] = courseRoundApplications
-    const { course_round_application_code: offeringId } = courseRoundApplication
+    const { course_round_application_code: applicationCode } = courseRoundApplication
 
-    const [publishedAnalysis] = findAnalysesForOfferingId(analyses, courseCode, firstSemester, offeringId)
+    const [publishedAnalysis] = findAnalysesForApplicationCode(analyses, courseCode, firstSemester, applicationCode)
 
     const courseOffering = {
       ...offering,

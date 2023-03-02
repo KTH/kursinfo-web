@@ -13,11 +13,6 @@ function CourseSectionList(props) {
   const [context] = useWebContext()
   const { courseData = {} } = context
   const { language = 'sv' } = courseData
-  // const { activeRoundIndex, activeSemester, courseData = {} } = context
-  // const { language = 'sv', roundList = [] } = courseData
-  // const { round_funding_type: roundFundingType = '' } = roundList[activeSemester]
-  // ? roundList[activeSemester][activeRoundIndex]
-  // : {}
   const translation = i18n.messages[language === 'en' ? 0 : 1]
   const { courseInfo: course = {}, partToShow, syllabusList: syllabus = {}, syllabusName, syllabusSemesterList } = props
 
