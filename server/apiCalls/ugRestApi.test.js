@@ -9,6 +9,8 @@ log.info = jest.fn()
 log.debug = jest.fn()
 log.error = jest.fn()
 
+jest.mock('./koppsCourseData', () => ({ getLadokRoundIdsFromApplicationCodes: () => [] }))
+
 const userInfoToCheckDuplicate = {
   email: faker.internet.email(),
   givenName: faker.name.firstName(),
