@@ -2,6 +2,17 @@
 
 import { mockedCourseMemosForDiscontinuedCourse, mockedDiscontinuedCourse } from '../mocks/mockedDiscontinuedCourse'
 
+const applicationPaths = {
+  system: {
+    monitor: {
+      uri: '/_monitor',
+    },
+    robots: {
+      uri: '/robots.txt',
+    },
+  },
+}
+
 jest.mock('../../server', () => ({
   use: jest.fn(() => {}),
   getPaths: jest.fn(() => applicationPaths),
@@ -18,16 +29,6 @@ jest.mock('@kth/kth-node-web-common/lib/handlebars/helpers/headerContent')
 jest.mock('@kth/kth-node-web-common/lib/language', () => ({
   getLanguage: jest.fn(() => 'sv'),
 }))
-const applicationPaths = {
-  system: {
-    monitor: {
-      uri: '/_monitor',
-    },
-    robots: {
-      uri: '/robots.txt',
-    },
-  },
-}
 jest.mock('kth-node-express-routing', () => ({
   getPaths: jest.fn(() => applicationPaths),
 }))
