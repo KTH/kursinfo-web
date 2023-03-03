@@ -42,7 +42,7 @@ async function _getApplicationCodeFromLadokUID(ladokuid) {
     const uri = `${config.koppsApi.basePath}courses/offerings/roundnumber?ladokuid=${ladokuid}`
     const { body } = await client.getAsync({ uri, useCache: true })
     if (body) {
-      const { application_code } = body
+      const { application_code = '' } = body
       return application_code
     }
     return ''
@@ -65,7 +65,7 @@ async function getLadokRoundIdsFromApplicationCodes(courseCode, semester, applic
       if (rounds && rounds.length > 0) {
         for await (const round of rounds) {
           const { ladokUID, ladokRoundId } = round
-          if (ladokUID && ladokUID !== '') {
+          if (ladokUID) {
             const applicationCode = await _getApplicationCodeFromLadokUID(ladokUID)
             const index = applicationCodes.findIndex(x => x.toString() === applicationCode.toString())
             if (index >= 0) {
