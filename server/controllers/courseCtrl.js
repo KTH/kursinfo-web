@@ -284,7 +284,6 @@ function _getRound(roundObject = {}, language = 'sv') {
   const hasApplicationCodes = applicationCodes.length > 0
   const [latestApplicationCode] = applicationCodes
   const courseRoundModel = {
-    roundId: parseOrSetEmpty(round.ladokRoundId, language),
     round_time_slots: parseOrSetEmpty(timeslots, language),
     round_start_date: getDateFormat(parseOrSetEmpty(round.firstTuitionDate, language), language),
     round_end_date: getDateFormat(parseOrSetEmpty(round.lastTuitionDate, language), language),
@@ -342,7 +341,7 @@ function _parseRounds(roundInfos, courseCode, language, webContext) {
   const courseRoundList = {}
   for (const roundInfo of roundInfos) {
     courseRound = _getRound(roundInfo, language)
-    const { round_course_term: yearAndTermArr, roundId: ladokRoundId } = courseRound
+    const { round_course_term: yearAndTermArr, round_application_code: applicationCode } = courseRound
     const semester = yearAndTermArr.join('')
 
     if (yearAndTermArr && tempList.indexOf(semester) < 0) {
@@ -351,9 +350,9 @@ function _parseRounds(roundInfos, courseCode, language, webContext) {
       courseRoundList[semester] = []
     }
 
-    const hasMemoForThisRound = !!(memoList[semester] && memoList[semester][ladokRoundId])
+    const hasMemoForThisRound = !!(memoList[semester] && memoList[semester][applicationCode])
     if (hasMemoForThisRound) {
-      const { isPdf, courseMemoFileName, lastChangeDate } = memoList[semester][ladokRoundId]
+      const { isPdf, courseMemoFileName, lastChangeDate } = memoList[semester][applicationCode]
       if (isPdf) {
         courseRound.round_memoFile = {
           fileName: courseMemoFileName,
@@ -363,6 +362,9 @@ function _parseRounds(roundInfos, courseCode, language, webContext) {
       courseRound.has_round_published_memo = true
     }
     courseRoundList[semester].push(courseRound)
+    // TODO: This will be removed. Because UG Rest Api is still using ladokRoundId. So once it get replaced by application code then this will be removed.
+    const { round = {} } = roundInfo
+    const { ladokRoundId } = round
     initkeyList.teachers.push(`${courseCode}.${semester}.${ladokRoundId}.teachers`)
     initkeyList.responsibles.push(`${courseCode}.${semester}.${ladokRoundId}.courseresponsible`)
   }
@@ -602,7 +604,7 @@ async function getIndex(req, res, next) {
     const apiMemoData = {
       courseCode,
       semester: '',
-      ladokRoundIds: [],
+      applicationCodes: [],
     }
     const ugRestApiResponse = await ugRestApi.getCourseEmployees(apiMemoData)
 

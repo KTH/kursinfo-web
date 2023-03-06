@@ -11,12 +11,16 @@ const offering_SF1625_202121 = {
   departmentName: 'ABE/Geoinformatik',
   connectedPrograms: 'TTGTM-2',
   courseCode: 'SF1625',
-  offeringId: '1',
   period: 'P1',
+  courseRoundApplications: [
+    {
+      course_round_application_code: '1',
+    },
+  ],
 }
 const memo_SF1625_202121_base = {
   courseCode: 'SF1625',
-  ladokRoundIds: ['1'],
+  applicationCodes: ['1'],
   semester: '20212',
   memoEndPoint: 'SF162520212-1',
   memoCommonLangAbbr: 'sv',
@@ -35,12 +39,16 @@ const offering_SF1625_202122 = {
   departmentName: 'ABE/Geoinformatik',
   connectedPrograms: '',
   courseCode: 'SF1625',
-  offeringId: '2',
   period: 'P1',
+  courseRoundApplications: [
+    {
+      course_round_application_code: '2',
+    },
+  ],
 }
 const memo_SF1625_202122_base = {
   courseCode: 'SF1625',
-  ladokRoundIds: ['2'],
+  applicationCodes: ['2'],
   semester: '20212',
   memoEndPoint: 'SF162520212-2',
   memoCommonLangAbbr: 'sv',
@@ -62,11 +70,11 @@ describe('Count memos and courses', () => {
           "connectedPrograms": "TTGTM-2",
           "courseCode": "SF1625",
           "courseMemoInfo": {
-            "courseCode": "SF1625",
-            "isPdf": false,
-            "ladokRoundIds": [
+            "applicationCodes": [
               "1",
             ],
+            "courseCode": "SF1625",
+            "isPdf": false,
             "lastChangeDate": "Tue Aug 02 2021 10:19:17 GMT+0000 (Coordinated Universal Time)",
             "memoCommonLangAbbr": "sv",
             "memoEndPoint": "SF162520212-1",
@@ -80,10 +88,14 @@ describe('Count memos and courses', () => {
             "semester": "20212",
             "version": 1,
           },
+          "courseRoundApplications": [
+            {
+              "course_round_application_code": "1",
+            },
+          ],
           "departmentName": "ABE/Geoinformatik",
           "endDate": "2021-10-29",
           "firstSemester": "20212",
-          "offeringId": "1",
           "period": "P1",
           "schoolMainCode": "ABE",
           "startDate": "2021-08-30",
@@ -108,10 +120,14 @@ describe('Count memos and courses', () => {
         "connectedPrograms": "",
         "courseCode": "SF1625",
         "courseMemoInfo": {},
+        "courseRoundApplications": [
+          {
+            "course_round_application_code": "2",
+          },
+        ],
         "departmentName": "ABE/Geoinformatik",
         "endDate": "2021-10-29",
         "firstSemester": "20212",
-        "offeringId": "2",
         "period": "P1",
         "schoolMainCode": "ABE",
         "startDate": "2021-08-30",
@@ -132,11 +148,11 @@ describe('Count memos and courses', () => {
     expect(offering2WithMemo2.courseMemoInfo.memoEndPoint).toBe('SF162520212-2')
     expect(offering2WithMemo2.courseMemoInfo).toMatchInlineSnapshot(`
       {
-        "courseCode": "SF1625",
-        "isPdf": false,
-        "ladokRoundIds": [
+        "applicationCodes": [
           "2",
         ],
+        "courseCode": "SF1625",
+        "isPdf": false,
         "lastChangeDate": "Wed Oct 27 2021 12:14:32 GMT+0000 (Coordinated Universal Time)",
         "memoCommonLangAbbr": "sv",
         "memoEndPoint": "SF162520212-2",
@@ -158,7 +174,7 @@ describe('Count memos and courses', () => {
     const memos = [
       {
         courseCode: 'SF1625',
-        ladokRoundIds: ['1', '2'],
+        applicationCodes: ['1', '2'],
         semester: '20212',
         memoEndPoint: 'SF162520212-1-2',
         memoCommonLangAbbr: 'sv',
@@ -184,7 +200,7 @@ describe('Count memos and courses', () => {
     const memos = [
       {
         courseCode: 'BB1211',
-        ladokRoundIds: ['1', '2'],
+        applicationCodes: ['1', '2'],
         semester: '20212',
         memoEndPoint: 'BB121120212-1-2',
         memoCommonLangAbbr: 'sv',
@@ -199,11 +215,9 @@ describe('Count memos and courses', () => {
     const [offering1WithOUTMemo, offering2WithOUTMemo] = offeringsWithMemos
 
     expect(offering1WithOUTMemo.courseCode).toBe('SF1625')
-    expect(offering1WithOUTMemo.offeringId).toBe('1')
     expect(offering1WithOUTMemo.courseMemoInfo).toMatchInlineSnapshot(`{}`)
 
     expect(offering2WithOUTMemo.courseCode).toBe('SF1625')
-    expect(offering2WithOUTMemo.offeringId).toBe('2')
     expect(offering2WithOUTMemo.courseMemoInfo).toMatchInlineSnapshot(`{}`)
   })
 })

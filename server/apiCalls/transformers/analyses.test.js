@@ -11,12 +11,17 @@ const offering_SF1625_202121 = {
   departmentName: 'ABE/Geoinformatik',
   connectedPrograms: 'TTGTM-2',
   courseCode: 'SF1625',
-  offeringId: '1',
   period: 'P1',
+  courseRoundApplications: [
+    {
+      course_round_application_code: '1',
+    },
+  ],
 }
 const analysis_SF1625_202121_base = (courseCode = 'SF1625') => ({
   courseCode,
-  roundIdList: '1',
+  roundList: '1',
+  applicationCodes: '1',
   semester: '20212',
   analysisFileName: `analysis-${courseCode}20212-1.pdf`,
   publishedDate: '2020-06-25T08:44:50.77Z',
@@ -30,12 +35,17 @@ const offering_SF1625_202122 = {
   departmentName: 'ABE/Geoinformatik',
   connectedPrograms: '',
   courseCode: 'SF1625',
-  offeringId: '2',
   period: 'P1',
+  courseRoundApplications: [
+    {
+      course_round_application_code: '2',
+    },
+  ],
 }
 const analysis_SF1625_202122_base = (courseCode = 'SF1625') => ({
   courseCode,
-  roundIdList: '2',
+  roundList: '2',
+  applicationCodes: '2',
   semester: '20212',
   analysisFileName: `analysis-${courseCode}20212-2.pdf`,
   publishedDate: '2020-06-25T08:44:50.77Z',

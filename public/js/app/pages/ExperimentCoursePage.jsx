@@ -63,9 +63,7 @@ function ExperimentCoursePage() {
   const { courseInfo, language = 'sv' } = courseData
   const translation = i18n.messages[language === 'en' ? 0 : 1]
   const introText = getCourseIntroduction(sellingText, courseInfo, language)
-  // const cleanIntroText = DOMPurify.sanitize(introText)
   const sanitizedIntroText = sanitizeHtml(introText)
-  console.log('sanitizedIntroText', sanitizedIntroText)
   let courseImage = ''
   if (imageFromAdmin.length > 4) {
     courseImage = imageFromAdmin

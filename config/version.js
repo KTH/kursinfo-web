@@ -9,5 +9,5 @@ module.exports = {
   jenkinsBuild: 'NOT SET BY JENKINS',
   jenkinsBuildDate: 'NOT SET BY JENKINS',
   dockerName: 'NOT SET BY JENKINS',
-  dockerVersion: 'NOT SET BY JENKINS'
+  dockerVersion: 'NOT SET BY JENKINS',
 }

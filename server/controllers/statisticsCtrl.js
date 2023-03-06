@@ -2,8 +2,6 @@
 
 const log = require('@kth/log')
 const languageUtils = require('@kth/kth-node-web-common/lib/language')
-// const httpResponse = require('@kth/kth-node-response')
-// const courseApi = require('../apiCalls/kursinfoAdmin')
 const courseAnalysesApi = require('../apiCalls/courseAnalysesApi')
 const memoApi = require('../apiCalls/memoApi')
 const koppsCourseData = require('../apiCalls/koppsCourseData')
@@ -15,15 +13,12 @@ const {
 
 const { analysesPerSchool } = require('../apiCalls/transformers/analyses')
 const { memosPerSchool } = require('../apiCalls/transformers/memos')
-// const ugRedisApi = require('../apiCalls/ugRedisApi')
 
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const paths = require('../server').getPaths()
-// const api = require('../api')
 const { getServerSideFunctions } = require('../utils/serverSideRendering')
 const { createStatisticsServerSideContext } = require('../ssr-context/createStatisticsServerSideContext')
-// const { fetchStatistic } = require('../statisticTransformer')
 
 async function getIndex(req, res, next) {
   const lang = languageUtils.getLanguage(res) || 'sv'

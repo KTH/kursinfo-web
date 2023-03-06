@@ -2,6 +2,17 @@
 
 import { mockedCourseMemosForDiscontinuedCourse, mockedDiscontinuedCourse } from '../mocks/mockedDiscontinuedCourse'
 
+const applicationPaths = {
+  system: {
+    monitor: {
+      uri: '/_monitor',
+    },
+    robots: {
+      uri: '/robots.txt',
+    },
+  },
+}
+
 jest.mock('../../server', () => ({
   use: jest.fn(() => {}),
   getPaths: jest.fn(() => applicationPaths),
@@ -18,16 +29,6 @@ jest.mock('@kth/kth-node-web-common/lib/handlebars/helpers/headerContent')
 jest.mock('@kth/kth-node-web-common/lib/language', () => ({
   getLanguage: jest.fn(() => 'sv'),
 }))
-const applicationPaths = {
-  system: {
-    monitor: {
-      uri: '/_monitor',
-    },
-    robots: {
-      uri: '/robots.txt',
-    },
-  },
-}
 jest.mock('kth-node-express-routing', () => ({
   getPaths: jest.fn(() => applicationPaths),
 }))
@@ -220,11 +221,11 @@ describe('Discontinued course to test', () => {
           "memoList": {
             "20232": {
               "1": {
-                "courseCode": "FCK3305",
-                "isPdf": false,
-                "ladokRoundIds": [
+                "applicationCodes": [
                   "1",
                 ],
+                "courseCode": "FCK3305",
+                "isPdf": false,
                 "lastChangeDate": "Fri Aug 26 2022 14:42:34 GMT+0200 (Central European Summer Time)",
                 "memoCommonLangAbbr": "en",
                 "memoEndPoint": "FCK330520232-1",

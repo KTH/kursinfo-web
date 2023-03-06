@@ -1,6 +1,7 @@
 const { ugRestApiHelper } = require('@kth/ug-rest-api-helper')
 const log = require('@kth/log')
 const serverConfig = require('../configuration').server
+const { getLadokRoundIdsFromApplicationCodes } = require('./koppsCourseData')
 
 const _groupNames = (courseCode, semester, ladokRoundIds) => ({
   // Used to get examiners and responsibles from UG Redis
@@ -193,8 +194,10 @@ async function _getAllGroupsAlongWithMembersRelatedToCourse(
 
 // ------- EXAMINATOR AND RESPONSIBLES FROM UG-REST_API: ------- /
 async function _getCourseEmployees(apiMemoData) {
-  const { courseCode, semester, ladokRoundIds } = apiMemoData
+  const { courseCode, semester, applicationCodes = [] } = apiMemoData
   try {
+    // TODO: This will be removed. Because UG Rest Api is still using ladokRoundId. So once it get replaced by application code then this will be removed.
+    const ladokRoundIds = await getLadokRoundIdsFromApplicationCodes(courseCode, semester, new Array(applicationCodes))
     const { assistants, teachers, examiners, responsibles } = _groupNames(courseCode, semester, ladokRoundIds)
     log.debug(
       '_getEmployeeObject for with key(s): ',

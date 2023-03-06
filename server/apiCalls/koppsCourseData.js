@@ -36,6 +36,56 @@ async function getKoppsCourseData(courseCode, lang = 'sv') {
   }
 }
 
+async function _getApplicationCodeFromLadokUID(ladokuid) {
+  try {
+    const { client } = api.koppsApi
+    const uri = `${config.koppsApi.basePath}courses/offerings/roundnumber?ladokuid=${ladokuid}`
+    const { body } = await client.getAsync({ uri, useCache: true })
+    if (body) {
+      const { application_code = '' } = body
+      return application_code
+    }
+    return ''
+  } catch (err) {
+    return err
+  }
+}
+
+// TODO: This will be removed. Because UG Rest Api is still using ladokRoundId. So once it get replaced by application code then this will be removed.
+async function getLadokRoundIdsFromApplicationCodes(courseCode, semester, applicationCodes = []) {
+  const { client } = api.koppsApi
+  const uri = `${config.koppsApi.basePath}course/${encodeURIComponent(courseCode)}/courseroundterms`
+  try {
+    const { body } = await client.getAsync({ uri, useCache: true })
+    const { termsWithCourseRounds } = body
+    const selectedTerm = termsWithCourseRounds.find(t => t.term.toString() === semester.toString())
+    const ladokRoundIds = []
+    if (selectedTerm) {
+      const { rounds = [] } = selectedTerm
+      if (rounds && rounds.length > 0) {
+        for await (const round of rounds) {
+          const { ladokUID, ladokRoundId } = round
+          if (ladokUID) {
+            const applicationCode = await _getApplicationCodeFromLadokUID(ladokUID)
+            const index = applicationCodes.findIndex(x => x.toString() === applicationCode.toString())
+            if (index >= 0) {
+              ladokRoundIds.push(ladokRoundId.toString())
+              applicationCodes.splice(index, 0)
+            }
+            if (applicationCodes.length === 0) {
+              break
+            }
+          }
+        }
+      }
+    }
+    return ladokRoundIds
+  } catch (err) {
+    log.error('getKoppsCourseRoundTerms has an error:' + err)
+    return err
+  }
+}
+
 async function getCoursesAndOfferings(semester) {
   // ?? semester
   const { client } = api.koppsApi
@@ -52,4 +102,5 @@ module.exports = {
   koppsApi: api,
   getCoursesAndOfferings,
   getKoppsCourseData,
+  getLadokRoundIdsFromApplicationCodes,
 }

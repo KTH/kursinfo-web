@@ -11,12 +11,16 @@ const offering_SF1625_202121 = {
   departmentName: 'ABE/Geoinformatik',
   connectedPrograms: 'TTGTM-2',
   courseCode: 'SF1625',
-  offeringId: '1',
   period: 'P1',
+  courseRoundApplications: [
+    {
+      course_round_application_code: '1',
+    },
+  ],
 }
 const memo_SF1625_202121_base = (courseCode = 'SF1625') => ({
   courseCode,
-  ladokRoundIds: ['1'],
+  applicationCodes: ['1'],
   semester: '20212',
   memoEndPoint: `${courseCode}20212-1`,
   memoCommonLangAbbr: 'sv',
@@ -34,12 +38,16 @@ const offering_SF1625_202122 = {
   departmentName: 'ABE/Geoinformatik',
   connectedPrograms: '',
   courseCode: 'SF1625',
-  offeringId: '2',
   period: 'P1',
+  courseRoundApplications: [
+    {
+      course_round_application_code: '2',
+    },
+  ],
 }
 const memo_SF1625_202122_base = (courseCode = 'SF1625') => ({
   courseCode,
-  ladokRoundIds: ['2'],
+  applicationCodes: ['2'],
   semester: '20212',
   memoEndPoint: `${courseCode}20212-2`,
   memoCommonLangAbbr: 'sv',
@@ -188,11 +196,11 @@ describe('Memos functions to count memos for one school', () => {
           "connectedPrograms": "TTGTM-2",
           "courseCode": "SF1625",
           "courseMemoInfo": {
-            "courseCode": "SF1625",
-            "isPdf": false,
-            "ladokRoundIds": [
+            "applicationCodes": [
               "1",
             ],
+            "courseCode": "SF1625",
+            "isPdf": false,
             "lastChangeDate": "Tue Aug 02 2021 10:19:17 GMT+0000 (Coordinated Universal Time)",
             "memoCommonLangAbbr": "sv",
             "memoEndPoint": "SF162520212-1",
@@ -206,10 +214,14 @@ describe('Memos functions to count memos for one school', () => {
             "semester": "20212",
             "version": 1,
           },
+          "courseRoundApplications": [
+            {
+              "course_round_application_code": "1",
+            },
+          ],
           "departmentName": "ABE/Geoinformatik",
           "endDate": "2021-10-29",
           "firstSemester": "20212",
-          "offeringId": "1",
           "period": "P1",
           "schoolMainCode": "ABE",
           "startDate": "2021-08-30",
