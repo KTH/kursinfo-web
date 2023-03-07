@@ -128,23 +128,22 @@ function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfi
     let analysisBase = {}
     if (hasAnalysis) {
       const { analysisFileName, publishedDate } = offering.courseAnalysisInfo
+
       const analysisId = analysisFileName
       let publishDate = ''
       if (publishedDate && publishedDate !== '') {
         const date = new Date(publishedDate)
+
         publishDate =
-          date.getFullYear() +
-          '-' +
-          (date.getMonth() > 9 ? date.getMonth() : '0' + date.getMonth()) +
-          '-' +
-          (date.getDay() > 9 ? date.getDay() : '0' + date.getDay())
-        if (languageIndex === 0) {
-          publishDate = date.toLocaleString('en-GB', {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
-          })
-        }
+          languageIndex === 1
+            ? date.toLocaleString('en-GB', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+              })
+            : date.toLocaleString('sv-SE', {
+                dateStyle: 'short',
+              })
       }
       analysisBase = {
         publishDate,
@@ -301,7 +300,6 @@ function StatisticsDataTable({ statisticsResult }) {
     (statisticsResult.offeringsWithAnalyses && statisticsResult.offeringsWithAnalyses.length === 0)
   )
     return <NoDataMessage labels={sortableTable} />
-
   const { year, offeringsWithMemos, periods = [], seasons = [], offeringsWithAnalyses } = statisticsResult
   const isMemoPage = offeringsWithMemos && offeringsWithMemos.length > 0 ? true : false
   const isAnalysisPage = offeringsWithAnalyses && offeringsWithAnalyses.length > 0 ? true : false
