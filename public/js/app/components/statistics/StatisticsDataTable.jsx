@@ -135,7 +135,7 @@ function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfi
         const date = new Date(publishedDate)
 
         publishDate =
-          languageIndex === 1
+          languageIndex === 0
             ? date.toLocaleString('en-GB', {
                 day: 'numeric',
                 month: 'short',
