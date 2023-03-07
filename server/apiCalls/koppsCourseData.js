@@ -47,9 +47,8 @@ async function getLadokRoundIdsFromApplicationCodes(courseCode, semester, applic
     const ladokRoundIds = []
     if (selectedTerm) {
       const { rounds = [] } = selectedTerm
-      if (rounds && rounds.length > 0) {
-        for (const round of rounds) {
-          const { applicationCode = '', ladokRoundId = '' } = round
+      if (rounds.length > 0) {
+        for (const { applicationCode = '', ladokRoundId = '' } of rounds) {
           const index = applicationCodes.findIndex(x => x.toString() === applicationCode.toString())
           if (index >= 0) {
             ladokRoundIds.push(ladokRoundId.toString())
