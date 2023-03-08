@@ -10,8 +10,16 @@ const colors = {
   grey: '#65656C',
   pink: '#D02F80',
   red: '#B52C17',
+  yellow: '#fab919',
 }
-const schoolsColors = { ABE: colors.red, CBH: colors.grey, EECS: colors.green, ITM: colors.blue, SCI: colors.pink }
+const schoolsColors = {
+  ABE: colors.red,
+  CBH: colors.grey,
+  EECS: colors.green,
+  ITM: colors.blue,
+  SCI: colors.pink,
+  ALLS: colors.yellow,
+}
 
 function countPercentage(numberOfCourses, numberOfDocs) {
   return (Math.abs(numberOfDocs) * 100) / Math.abs(numberOfCourses)
@@ -37,17 +45,20 @@ function Charts({ chartNames = [], languageIndex = 1, schools = {} }) {
     <Row>
       {chartNames.map(numberName => (
         <Col key={numberName} xs="4" style={{ paddingRight: 0, paddingLeft: 0 }}>
-          <Chart data={getChartData(numberName, schools)} label={labels[numberName]} />
+          <Chart data={getChartData(numberName, schools)} label={labels[numberName]} languageIndex={languageIndex} />
         </Col>
       ))}
     </Row>
   )
 }
 
-function Chart({ data = [], label = '' }) {
+function Chart({ data = [], label = '', languageIndex }) {
   const styles = {
     font: { fontFamily: 'Open Sans', fontSize: '16px' },
   }
+  const xAxesLable = languageIndex === 0 ? `All\nschools` : `Alla\nskolor`
+  const formatLabel = t => (t === 'ALLS' ? xAxesLable : t)
+
   return (
     <VictoryChart height={405} width={405} theme={VictoryTheme.material} domainPadding={20} style={styles.font}>
       <VictoryLabel x={4} y={24} text={label} style={styles.font} />
@@ -57,6 +68,7 @@ function Chart({ data = [], label = '' }) {
           style={{
             tickLabels: styles.font,
           }}
+          tickFormat={t => formatLabel(t)}
         />
       ) : (
         <VictoryAxis />

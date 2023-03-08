@@ -41,6 +41,21 @@ function getCellNames() {
     'totalMemosPublishedBeforeDeadline',
   ]
 }
+function addAllSchoolsData({
+  totalCourses,
+  totalNumberOfMemosPublishedBeforeDeadline,
+  totalNumberOfMemosPublishedBeforeStart,
+  totalNumberOfPdfMemos,
+  totalNumberOfWebMemos,
+}) {
+  const allSchools = {}
+  allSchools.numberOfCourses = totalCourses
+  allSchools.numberOfMemosPublishedBeforeDeadline = totalNumberOfMemosPublishedBeforeDeadline
+  allSchools.numberOfMemosPublishedBeforeStart = totalNumberOfMemosPublishedBeforeStart
+  allSchools.numberOfUniqWebAndPdfMemos = totalNumberOfPdfMemos + totalNumberOfWebMemos
+
+  return allSchools
+}
 
 function Captions({ year, periods, languageIndex }) {
   const { formLabels } = i18n.messages[languageIndex].statisticsLabels
@@ -85,14 +100,16 @@ function MemosNumbersTable({ statisticsResult }) {
 }
 
 function MemosNumbersCharts({ statisticsResult }) {
+  console.log(statisticsResult)
   const chartNames = [
     'numberOfUniqWebAndPdfMemos',
     'numberOfMemosPublishedBeforeStart',
     'numberOfMemosPublishedBeforeDeadline',
   ]
   const { combinedMemosPerSchool: docsPerSchool, periods, year } = statisticsResult
-  const { schools = {} } = docsPerSchool
+  let { schools = {} } = docsPerSchool
   const [{ languageIndex }] = useWebContext()
+  schools = { ...schools, ALLS: addAllSchoolsData(docsPerSchool) }
 
   return (
     <>
