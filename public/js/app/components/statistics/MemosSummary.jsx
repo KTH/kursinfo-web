@@ -100,7 +100,6 @@ function MemosNumbersTable({ statisticsResult }) {
 }
 
 function MemosNumbersCharts({ statisticsResult }) {
-  console.log(statisticsResult)
   const chartNames = [
     'numberOfUniqWebAndPdfMemos',
     'numberOfMemosPublishedBeforeStart',
@@ -109,7 +108,7 @@ function MemosNumbersCharts({ statisticsResult }) {
   const { combinedMemosPerSchool: docsPerSchool, periods, year } = statisticsResult
   let { schools = {} } = docsPerSchool
   const [{ languageIndex }] = useWebContext()
-  schools = { ...schools, ALLS: addAllSchoolsData(docsPerSchool) }
+  schools.ALLS = addAllSchoolsData(docsPerSchool)
 
   return (
     <>
