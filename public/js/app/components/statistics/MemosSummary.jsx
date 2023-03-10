@@ -106,9 +106,9 @@ function MemosNumbersCharts({ statisticsResult }) {
     'numberOfMemosPublishedBeforeDeadline',
   ]
   const { combinedMemosPerSchool: docsPerSchool, periods, year } = statisticsResult
-  let { schools = {} } = docsPerSchool
+  const { schools = {} } = docsPerSchool
   const [{ languageIndex }] = useWebContext()
-  schools.ALLS = addAllSchoolsData(docsPerSchool)
+  schools['All schools'] = addAllSchoolsData(docsPerSchool)
 
   return (
     <>

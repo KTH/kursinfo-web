@@ -18,7 +18,7 @@ const schoolsColors = {
   EECS: colors.green,
   ITM: colors.blue,
   SCI: colors.pink,
-  ALLS: colors.yellow,
+  'All schools': colors.yellow,
 }
 
 function countPercentage(numberOfCourses, numberOfDocs) {
@@ -53,11 +53,12 @@ function Charts({ chartNames = [], languageIndex = 1, schools = {} }) {
 }
 
 function Chart({ data = [], label = '', languageIndex }) {
+  const { allSchools } = i18n.messages[languageIndex].statisticsLabels
   const styles = {
     font: { fontFamily: 'Open Sans', fontSize: '16px' },
   }
-  const xAxesLable = languageIndex === 0 ? `All\nschools` : `Alla\nskolor`
-  const formatLabel = t => (t === 'ALLS' ? xAxesLable : t)
+  const tickLable = allSchools.split(' ').join('\n')
+  const formatLabel = t => (t === 'All schools' ? tickLable : t)
 
   return (
     <VictoryChart height={405} width={405} theme={VictoryTheme.material} domainPadding={20} style={styles.font}>
