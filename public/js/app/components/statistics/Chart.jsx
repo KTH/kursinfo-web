@@ -12,27 +12,32 @@ const colors = {
   red: '#B52C17',
   yellow: '#fab919',
 }
-const schoolsColors = {
-  ABE: colors.red,
-  CBH: colors.grey,
-  EECS: colors.green,
-  ITM: colors.blue,
-  SCI: colors.pink,
-  allSchools: colors.yellow,
+const schoolsColors = languageIndex => {
+  let { allSchools } = i18n.messages[languageIndex].statisticsLabels
+  const schoolColorsObject = {
+    ABE: colors.red,
+    CBH: colors.grey,
+    EECS: colors.green,
+    ITM: colors.blue,
+    SCI: colors.pink,
+  }
+  allSchools = allSchools.split(' ').join('\n')
+  schoolColorsObject[allSchools] = colors.yellow
+  return schoolColorsObject
 }
 
 function countPercentage(numberOfCourses, numberOfDocs) {
   return (Math.abs(numberOfDocs) * 100) / Math.abs(numberOfCourses)
 }
 
-function getChartData(numberName, schools) {
+function getChartData(numberName, schools, languageIndex) {
   const schoolCodes = Object.keys(schools)
 
   return schoolCodes.map(school => {
     const schoolNumbers = schools[school]
     const { numberOfCourses } = schoolNumbers
     return {
-      color: schoolsColors[school],
+      color: schoolsColors(languageIndex)[school],
       school,
       percentage: countPercentage(numberOfCourses, schoolNumbers[numberName]),
     }
@@ -45,21 +50,17 @@ function Charts({ chartNames = [], languageIndex = 1, schools = {} }) {
     <Row>
       {chartNames.map(numberName => (
         <Col key={numberName} xs="4" style={{ paddingRight: 0, paddingLeft: 0 }}>
-          <Chart data={getChartData(numberName, schools)} label={labels[numberName]} languageIndex={languageIndex} />
+          <Chart data={getChartData(numberName, schools, languageIndex)} label={labels[numberName]} />
         </Col>
       ))}
     </Row>
   )
 }
 
-function Chart({ data = [], label = '', languageIndex }) {
-  const { allSchools } = i18n.messages[languageIndex].statisticsLabels
+function Chart({ data = [], label = '' }) {
   const styles = {
     font: { fontFamily: 'Open Sans', fontSize: '16px' },
   }
-  const tickLable = allSchools.split(' ').join('\n')
-  schoolsLib.ORDERED_SCHOOLS[schoolsLib.ORDERED_SCHOOLS.indexOf('allSchools')] = tickLable
-  // const formatLabel = t => (t === 'All schools' ? tickLable : t)
 
   return (
     <VictoryChart height={405} width={405} theme={VictoryTheme.material} domainPadding={20} style={styles.font}>
@@ -70,7 +71,6 @@ function Chart({ data = [], label = '', languageIndex }) {
           style={{
             tickLabels: styles.font,
           }}
-          /*  tickFormat={t => formatLabel(t)} */
         />
       ) : (
         <VictoryAxis />

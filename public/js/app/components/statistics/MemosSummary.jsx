@@ -6,7 +6,7 @@ import i18n from '../../../../../i18n'
 import { useStatisticsAsync } from '../../hooks/statisticsUseAsync'
 import { TableSummary } from './TableSummaryRows'
 import { Charts } from './Chart'
-import { periods as periodsLib } from './domain/index'
+import { periods as periodsLib, schools as schoolsLib } from './domain/index'
 import { Results } from './index'
 
 function getSchoolNumbers(school = {}) {
@@ -105,10 +105,15 @@ function MemosNumbersCharts({ statisticsResult }) {
     'numberOfMemosPublishedBeforeStart',
     'numberOfMemosPublishedBeforeDeadline',
   ]
-  const { combinedMemosPerSchool: docsPerSchool, periods, year } = statisticsResult
+  const { combinedMemosPerSchool: docsPerSchool, periods, year, school } = statisticsResult
   const { schools = {} } = docsPerSchool
   const [{ languageIndex }] = useWebContext()
-  schools.allSchools = addAllSchoolsData(docsPerSchool)
+  if (school === 'allSchools') {
+    let { allSchools } = i18n.messages[languageIndex].statisticsLabels
+    allSchools = allSchools.split(' ').join('\n')
+    schools[allSchools] = addAllSchoolsData(docsPerSchool)
+    schoolsLib.updateOrderedSchools(languageIndex)
+  }
 
   return (
     <>
