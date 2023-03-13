@@ -18,7 +18,7 @@ const schoolsColors = {
   EECS: colors.green,
   ITM: colors.blue,
   SCI: colors.pink,
-  'All schools': colors.yellow,
+  allSchools: colors.yellow,
 }
 
 function countPercentage(numberOfCourses, numberOfDocs) {
@@ -58,7 +58,8 @@ function Chart({ data = [], label = '', languageIndex }) {
     font: { fontFamily: 'Open Sans', fontSize: '16px' },
   }
   const tickLable = allSchools.split(' ').join('\n')
-  const formatLabel = t => (t === 'All schools' ? tickLable : t)
+  schoolsLib.ORDERED_SCHOOLS[schoolsLib.ORDERED_SCHOOLS.indexOf('allSchools')] = tickLable
+  // const formatLabel = t => (t === 'All schools' ? tickLable : t)
 
   return (
     <VictoryChart height={405} width={405} theme={VictoryTheme.material} domainPadding={20} style={styles.font}>
@@ -69,7 +70,7 @@ function Chart({ data = [], label = '', languageIndex }) {
           style={{
             tickLabels: styles.font,
           }}
-          tickFormat={t => formatLabel(t)}
+          /*  tickFormat={t => formatLabel(t)} */
         />
       ) : (
         <VictoryAxis />
