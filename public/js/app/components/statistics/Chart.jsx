@@ -10,14 +10,30 @@ const colors = {
   grey: '#65656C',
   pink: '#D02F80',
   red: '#B52C17',
+  yellow: '#fab919',
 }
-const schoolsColors = { ABE: colors.red, CBH: colors.grey, EECS: colors.green, ITM: colors.blue, SCI: colors.pink }
+const schoolsColors = {
+  ABE: colors.red,
+  CBH: colors.grey,
+  EECS: colors.green,
+  ITM: colors.blue,
+  SCI: colors.pink,
+  allSchools: colors.yellow,
+}
 
 function countPercentage(numberOfCourses, numberOfDocs) {
   return (Math.abs(numberOfDocs) * 100) / Math.abs(numberOfCourses)
 }
 
-function getChartData(numberName, schools) {
+function splitIntoLines(label) {
+  const newLabel = label.replace(' ', '\n')
+
+  return newLabel
+}
+
+function getChartData(numberName, schools, languageIndex) {
+  const { allSchools } = i18n.messages[languageIndex].statisticsLabels
+
   const schoolCodes = Object.keys(schools)
 
   return schoolCodes.map(school => {
@@ -25,7 +41,7 @@ function getChartData(numberName, schools) {
     const { numberOfCourses } = schoolNumbers
     return {
       color: schoolsColors[school],
-      school,
+      school: school === 'allSchools' ? splitIntoLines(allSchools) : school,
       percentage: countPercentage(numberOfCourses, schoolNumbers[numberName]),
     }
   })
@@ -33,11 +49,12 @@ function getChartData(numberName, schools) {
 
 function Charts({ chartNames = [], languageIndex = 1, schools = {} }) {
   const { chartsLabels: labels } = i18n.messages[languageIndex].statisticsLabels
+
   return (
     <Row>
       {chartNames.map(numberName => (
         <Col key={numberName} xs="4" style={{ paddingRight: 0, paddingLeft: 0 }}>
-          <Chart data={getChartData(numberName, schools)} label={labels[numberName]} />
+          <Chart data={getChartData(numberName, schools, languageIndex)} label={labels[numberName]} />
         </Col>
       ))}
     </Row>
@@ -53,7 +70,7 @@ function Chart({ data = [], label = '' }) {
       <VictoryLabel x={4} y={24} text={label} style={styles.font} />
       {data.length > 1 ? (
         <VictoryAxis
-          tickValues={schoolsLib.ORDERED_SCHOOLS}
+          tickValues={schoolsLib.orderedSchoolsFormOptions}
           style={{
             tickLabels: styles.font,
           }}

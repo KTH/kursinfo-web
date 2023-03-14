@@ -18,6 +18,14 @@ function getFootTotalNumbers(totals) {
   return [totals.totalCourses, totals.totalUniqPublishedAnalyses]
 }
 
+function addAllSchoolsData({ totalCourses, totalUniqPublishedAnalyses }) {
+  const allSchools = {}
+  allSchools.numberOfCourses = totalCourses
+  allSchools.numberOfUniqAnalyses = totalUniqPublishedAnalyses
+
+  return allSchools
+}
+
 function Captions({ year, seasons, languageIndex }) {
   const { formLabels } = i18n.messages[languageIndex].statisticsLabels
 
@@ -60,9 +68,12 @@ function AnalysesNumbersTable({ statisticsResult }) {
 
 function AnalysesNumbersCharts({ statisticsResult }) {
   const chartNames = ['numberOfUniqAnalyses']
-  const { combinedAnalysesPerSchool: docsPerSchool, seasons, year } = statisticsResult
+  const { combinedAnalysesPerSchool: docsPerSchool, seasons, year, school } = statisticsResult
   const { schools = {} } = docsPerSchool
   const [{ languageIndex }] = useWebContext()
+  if (school === 'allSchools') {
+    schools.allSchools = addAllSchoolsData(docsPerSchool)
+  }
 
   return (
     <>

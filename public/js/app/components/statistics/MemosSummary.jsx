@@ -42,6 +42,22 @@ function getCellNames() {
   ]
 }
 
+function addAllSchoolsData({
+  totalCourses,
+  totalNumberOfMemosPublishedBeforeDeadline,
+  totalNumberOfMemosPublishedBeforeStart,
+  totalNumberOfPdfMemos,
+  totalNumberOfWebMemos,
+}) {
+  const allSchools = {}
+  allSchools.numberOfCourses = totalCourses
+  allSchools.numberOfMemosPublishedBeforeDeadline = totalNumberOfMemosPublishedBeforeDeadline
+  allSchools.numberOfMemosPublishedBeforeStart = totalNumberOfMemosPublishedBeforeStart
+  allSchools.numberOfUniqWebAndPdfMemos = totalNumberOfPdfMemos + totalNumberOfWebMemos
+
+  return allSchools
+}
+
 function Captions({ year, periods, languageIndex }) {
   const { formLabels } = i18n.messages[languageIndex].statisticsLabels
 
@@ -90,9 +106,12 @@ function MemosNumbersCharts({ statisticsResult }) {
     'numberOfMemosPublishedBeforeStart',
     'numberOfMemosPublishedBeforeDeadline',
   ]
-  const { combinedMemosPerSchool: docsPerSchool, periods, year } = statisticsResult
+  const { combinedMemosPerSchool: docsPerSchool, periods, year, school } = statisticsResult
   const { schools = {} } = docsPerSchool
   const [{ languageIndex }] = useWebContext()
+  if (school === 'allSchools') {
+    schools.allSchools = addAllSchoolsData(docsPerSchool)
+  }
 
   return (
     <>
