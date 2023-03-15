@@ -30,7 +30,9 @@ function TableContentRows({ cellNames, schools, getNumbersFn = () => [] }) {
 
   return schoolCodes.map(school => {
     const schoolNumbers = schools[school]
-    return <TableRow key={school} cellNames={cellNames} cellsContent={[school, ...getNumbersFn(schoolNumbers)]} />
+    if (school !== 'allSchools') {
+      return <TableRow key={school} cellNames={cellNames} cellsContent={[school, ...getNumbersFn(schoolNumbers)]} />
+    }
   })
 }
 
