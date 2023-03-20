@@ -64,7 +64,7 @@ module.exports = {
     label_last_exam: 'Last planned examination: ',
     label_edit: 'Administer About course',
     header_no_rounds: 'Course offering missing',
-    lable_no_rounds: ' Course offering missing for current semester as well as for previous and coming semesters',
+    lable_no_rounds: 'Course offerings are missing for current or upcoming semesters.',
     label_course_memo: 'Course memo',
     label_link_course_memo: 'Link to course memo',
     label_schedule: 'Schedule',

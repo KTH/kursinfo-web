@@ -66,7 +66,7 @@ module.exports = {
     label_course_memo: 'Kurs-PM',
     label_link_course_memo: 'Länk till kurs-PM',
     header_no_rounds: 'Kursomgångar saknas',
-    lable_no_rounds: 'Kursomgångar saknas för tidigare och kommande terminer, samt för innevarande termin.',
+    lable_no_rounds: 'Kursomgångar saknas för aktuella eller kommande terminer.',
     label_schedule: 'Schema',
     label_link_schedule: 'Länk till Schema',
     label_statistics: 'Kursutveckling',
