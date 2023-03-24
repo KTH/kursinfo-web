@@ -102,7 +102,8 @@ module.exports = {
     no_schedule_published: 'Schema är inte publicerat',
     no_memo_connection: 'Kurs-pm kan inte visas',
     header_no_round_selected: 'Välj termin och kursomgång',
-    no_round_selected: 'Välj termin och kursomgång för att se information från rätt kursplan och kursomgång.',
+    no_round_selected:
+      'Välj termin och kursomgång för att se aktuell information och mer om kursen, såsom kursplan, studieperiod och anmälningsinformation.',
     round_seats_default_info:
       'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
     round_seats_info: 'Urvalet sker baserat på:',

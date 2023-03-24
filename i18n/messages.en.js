@@ -102,7 +102,7 @@ module.exports = {
     no_memo_connection: 'Course memo cannot be displayed',
     header_no_round_selected: 'Choose semester and course offering',
     no_round_selected:
-      'Choose semester and course offering to see information from the correct course syllabus and course offering.',
+      'Choose semester and course offering to see current information and more about the course, such as course syllabus, study period, and application information.',
     round_seats_default_info:
       'Course offering may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made.',
     round_seats_info: 'The selection results are based on:',
