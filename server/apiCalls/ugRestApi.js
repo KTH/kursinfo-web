@@ -130,7 +130,7 @@ const _getMembersFromGroups = (
         } else {
           membersAsTeacherAssistants = membersAsTeacherAssistants.concat(group.members)
         }
-        log.info(
+        log.debug(
           ` Ug Rest Api, : ${groupCategory}`,
           group.members.length,
           ' for course ',
