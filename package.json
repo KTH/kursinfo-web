@@ -32,7 +32,7 @@
     "@kth/kth-node-response": "^1.0.7",
     "@kth/kth-node-web-common": "^7.0.15",
     "@kth/log": "^4.0.5",
-    "@kth/monitor": "^3.0.29",
+    "@kth/monitor": "^4.0.0",
     "@kth/server": "^4.0.4",
     "@kth/session": "^3.0.7",
     "@kth/ug-rest-api-helper": "^1.0.19",
