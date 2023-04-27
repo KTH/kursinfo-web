@@ -3,7 +3,10 @@
 const log = require('@kth/log')
 const redis = require('kth-node-redis')
 const connections = require('@kth/api-call').Connections
+const i18n = require('../../i18n')
 const { server: config } = require('../configuration')
+
+const HTTP_CODE_404 = 404
 
 const koppsOpts = {
   log,
@@ -25,11 +28,33 @@ const koppsConfig = {
 
 const api = connections.setup(koppsConfig, koppsConfig, koppsOpts)
 
+function createInvalidCourseCodeError(lang) {
+  const errorMessage = i18n.message('error_not_found', lang)
+  const error = new Error(errorMessage)
+  error.statusCode = HTTP_CODE_404
+  return error
+}
+
+function callKoppsAndPossiblyHandle404(client, uri, lang) {
+  return new Promise((resolve, reject) => {
+    client
+      .getAsync({ uri, useCache: true })
+      .then(({ response }) => {
+        if (response.statusCode === HTTP_CODE_404) {
+          const error = createInvalidCourseCodeError(lang)
+          reject(error)
+        }
+        resolve(response)
+      })
+      .catch(error => reject(error))
+  })
+}
+
 async function getKoppsCourseData(courseCode, lang = 'sv') {
   const { client } = api.koppsApi
   const uri = `${config.koppsApi.basePath}course/${encodeURIComponent(courseCode)}/detailedinformation?l=${lang}`
   try {
-    return await client.getAsync({ uri, useCache: true })
+    return callKoppsAndPossiblyHandle404(client, uri, lang, courseCode)
   } catch (err) {
     log.debug('Kopps is not available', err)
     return err
