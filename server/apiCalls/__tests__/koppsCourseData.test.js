@@ -1,6 +1,6 @@
-const { getKoppsCourseData } = require('./koppsCourseData')
+const { getKoppsCourseData } = require('../koppsCourseData')
 
-jest.mock('../configuration', () => ({
+jest.mock('../../configuration', () => ({
   server: {
     cache: '',
     koppsApi: {},
@@ -8,7 +8,7 @@ jest.mock('../configuration', () => ({
 }))
 
 jest.mock('@kth/api-call', () => {
-  const { mockGetAsync } = require('./mockKthApiCall')
+  const { mockGetAsync } = require('../mocks/mockedKthApiCall')
 
   return {
     Connections: {
@@ -25,7 +25,7 @@ jest.mock('@kth/api-call', () => {
 
 describe('getKoppsCourseData', () => {
   it('should call Kopps detailedinformation with correct values', () => {
-    const { mockGetAsync } = require('./mockKthApiCall')
+    const { mockGetAsync } = require('../mocks/mockedKthApiCall')
 
     let courseCode = 'someCourseCode'
     let language = 'en'
@@ -59,7 +59,7 @@ describe('getKoppsCourseData', () => {
   }
 
   it('should reject with error if getAsync called with language=en and resolves with 404', async () => {
-    const { mockGetAsync } = require('./mockKthApiCall')
+    const { mockGetAsync } = require('../mocks/mockedKthApiCall')
 
     const expectedErrorEnglish = new Error(`Sorry, we can't find your requested page`)
     mockGetAsync.mockResolvedValueOnce({
@@ -74,7 +74,7 @@ describe('getKoppsCourseData', () => {
   })
 
   it('should reject with error if getAsync called with language=sv and resolves with 404', async () => {
-    const { mockGetAsync } = require('./mockKthApiCall')
+    const { mockGetAsync } = require('../mocks/mockedKthApiCall')
 
     const expectedErrorSwedish = new Error(`Tyvärr kunde vi inte hitta sidan du efterfrågade`)
     mockGetAsync.mockResolvedValueOnce({
@@ -89,7 +89,7 @@ describe('getKoppsCourseData', () => {
   })
 
   it('should reject with error if getAsync rejects with error', async () => {
-    const { mockGetAsync } = require('./mockKthApiCall')
+    const { mockGetAsync } = require('../mocks/mockedKthApiCall')
 
     const expectedError = new Error(`Some error from getAsync`)
     mockGetAsync.mockRejectedValueOnce(expectedError)
@@ -104,7 +104,7 @@ describe('getKoppsCourseData', () => {
       someOtherParameter: 'someKey',
     }
 
-    const { mockGetAsync } = require('./mockKthApiCall')
+    const { mockGetAsync } = require('../mocks/mockedKthApiCall')
 
     mockGetAsync.mockResolvedValueOnce({
       response,
