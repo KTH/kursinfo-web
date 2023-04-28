@@ -1,15 +1,15 @@
-jest.mock('../configuration', () => ({ server: {} }))
+jest.mock('../../configuration', () => ({ server: {} }))
 jest.mock('@kth/ug-rest-api-helper', () => ({}))
 const log = require('@kth/log')
 const { faker } = require('@faker-js/faker')
-const { getMembersFromGroups } = require('./ugRestApi')
+const { getMembersFromGroups } = require('../ugRestApi')
 
 jest.mock('@kth/log')
 log.info = jest.fn()
 log.debug = jest.fn()
 log.error = jest.fn()
 
-jest.mock('./koppsCourseData', () => ({ getLadokRoundIdsFromApplicationCodes: () => [] }))
+jest.mock('../koppsCourseData', () => ({ getLadokRoundIdsFromApplicationCodes: () => [] }))
 
 const userInfoToCheckDuplicate = {
   email: faker.internet.email(),
