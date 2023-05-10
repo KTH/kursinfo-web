@@ -58,14 +58,12 @@ describe('getKoppsCourseData', () => {
     }
   }
 
-  it('should reject with error if getAsync called with language=en and resolves with 404', async () => {
+  it('should throw error if getAsync called with language=en and resolves with 404', async () => {
     const { mockGetAsync } = require('../mocks/mockedKthApiCall')
 
     const expectedErrorEnglish = new Error(`Sorry, we can't find your requested page`)
     mockGetAsync.mockResolvedValueOnce({
-      response: {
-        statusCode: 404,
-      },
+      statusCode: 404,
     })
 
     const error = await getError(getKoppsCourseData('someCourseCode', 'en'))
@@ -73,14 +71,12 @@ describe('getKoppsCourseData', () => {
     expect(error).toStrictEqual(expectedErrorEnglish)
   })
 
-  it('should reject with error if getAsync called with language=sv and resolves with 404', async () => {
+  it('should throw error if getAsync called with language=sv and resolves with 404', async () => {
     const { mockGetAsync } = require('../mocks/mockedKthApiCall')
 
     const expectedErrorSwedish = new Error(`Tyvärr kunde vi inte hitta sidan du efterfrågade`)
     mockGetAsync.mockResolvedValueOnce({
-      response: {
-        statusCode: 404,
-      },
+      statusCode: 404,
     })
 
     const error = await getError(getKoppsCourseData('someCourseCode', 'sv'))
@@ -88,7 +84,7 @@ describe('getKoppsCourseData', () => {
     expect(error).toStrictEqual(expectedErrorSwedish)
   })
 
-  it('should reject with error if getAsync rejects with error', async () => {
+  it('should throw error if getAsync rejects with error', async () => {
     const { mockGetAsync } = require('../mocks/mockedKthApiCall')
 
     const expectedError = new Error(`Some error from getAsync`)
@@ -98,7 +94,7 @@ describe('getKoppsCourseData', () => {
     expect(error).toStrictEqual(expectedError)
   })
 
-  it('should resolve with response from getAsync', async () => {
+  it('should return response from getAsync', async () => {
     const response = {
       statusCode: 200,
       someOtherParameter: 'someKey',
@@ -106,9 +102,7 @@ describe('getKoppsCourseData', () => {
 
     const { mockGetAsync } = require('../mocks/mockedKthApiCall')
 
-    mockGetAsync.mockResolvedValueOnce({
-      response,
-    })
+    mockGetAsync.mockResolvedValueOnce(response)
 
     const result = await getKoppsCourseData('someCourseCode', 'en')
 

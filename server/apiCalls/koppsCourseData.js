@@ -35,19 +35,13 @@ function createInvalidCourseCodeError(lang) {
   return error
 }
 
-function callKoppsAndPossiblyHandle404(client, uri, lang) {
-  return new Promise((resolve, reject) => {
-    client
-      .getAsync({ uri, useCache: true })
-      .then(({ response }) => {
-        if (response.statusCode === HTTP_CODE_404) {
-          const error = createInvalidCourseCodeError(lang)
-          reject(error)
-        }
-        resolve(response)
-      })
-      .catch(error => reject(error))
-  })
+async function callKoppsAndPossiblyHandle404(client, uri, lang) {
+  const response = await client.getAsync({ uri, useCache: true })
+  if (response.statusCode === HTTP_CODE_404) {
+    const error = createInvalidCourseCodeError(lang)
+    throw error
+  }
+  return response
 }
 
 async function getKoppsCourseData(courseCode, lang = 'sv') {
