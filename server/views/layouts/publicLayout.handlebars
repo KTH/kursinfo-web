@@ -48,6 +48,12 @@
     </script>
     {{/if}}
   {{/if}}
+
+  {{#if blocks.matomoAnalytics}}
+    <!-- analytics start -->
+      {{{blocks.matomoAnalytics}}}
+    <!-- analytics end -->
+  {{/if}}
 </head>
 <body lang={{lang}}>
   <a class="skipToMainContent" href="#mainContent" tabindex="1">{{i18n 'skip_to_main_content' lang}}</a>
