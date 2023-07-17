@@ -100,7 +100,6 @@ module.exports = {
     }, // 2 * 60 s = 2 MINUTES},
     cortinaBlock: {
       redis: unpackRedisConfig('REDIS_URI', devRedis),
-      redisExpire: 1,
     },
   },
   redisServer: unpackRedisConfig('REDIS_URI', devRedis),
