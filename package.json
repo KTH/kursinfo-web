@@ -61,7 +61,7 @@
     "reactstrap": "^8.10.1",
     "rimraf": "^3.0.2",
     "sanitize-html": "^2.11.0",
-    "styled-components": "^5.3.11",
+    "styled-components": "^6.0.7",
     "victory": "^36.6.11",
     "xlsx": "^0.18.5"
   },
