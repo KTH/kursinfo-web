@@ -1,7 +1,7 @@
 # Welcome to kursinfo-web 👋
 
 ![Version](https://img.shields.io/badge/version-2.0.0-blue.svg?cacheSeconds=2592000)
-![Prerequisite](https://img.shields.io/badge/node-14.0.0-blue.svg)
+![Prerequisite](https://img.shields.io/badge/node-20.0.0-blue.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
 
 ## Introduction
@@ -41,7 +41,7 @@ Kursinfo-web fetches data from:
 
 ## Prerequisites
 
-- Node.js 14.0.0
+- Node.js 20.0.0
 - Ansible Vault
 
 ### Secrets for Development
