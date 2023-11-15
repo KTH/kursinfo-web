@@ -25,12 +25,12 @@ const _memosPerCourseOffering = async (parsedOfferings, memos) => {
     if (memosForApplicationCode.length > 1) {
       const firstVersion = memosForApplicationCode.find(memo => memo.version === 1)
 
-      courseMemoInfo = firstVersion
+      courseMemoInfo = firstVersion !== undefined ? firstVersion : memosForApplicationCode[0]
       // publish date need to be taken from version 1
       courseMemoInfo.publishedData = firstPublishData(
         offering.startDate,
-        firstVersion.lastChangeDate,
-        firstVersion.lastChangeDate
+        courseMemoInfo.isPdf !== true ? firstVersion.lastChangeDate : courseMemoInfo.lastChangeDate,
+        courseMemoInfo.isPdf !== true ? firstVersion.lastChangeDate : courseMemoInfo.lastChangeDate
       )
     }
     const courseOffering = {
