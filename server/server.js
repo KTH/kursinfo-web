@@ -152,6 +152,9 @@ server.use(
     proxyPrefixPath: config.proxyPrefixPath.uri,
     hostUrl: config.hostUrl,
     redisConfig: config.cache.cortinaBlock.redis,
+    globalLink: config.blockApi.globalLink,
+    addBlocks: config.blockApi.addBlocks,
+    redisKey: config.cache.cortinaBlock.redisKey,
     // globalLink: true ---> don't use it, because we use local site language link, not global kth link
   })
 )
