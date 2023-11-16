@@ -104,6 +104,7 @@ module.exports = {
     }, // 2 * 60 s = 2 MINUTES},
     cortinaBlock: {
       redis: unpackRedisConfig('REDIS_URI', devRedis),
+      redisKey: 'CortinaBlock_kursinfo-web_',
     },
   },
   redisServer: unpackRedisConfig('REDIS_URI', devRedis),
