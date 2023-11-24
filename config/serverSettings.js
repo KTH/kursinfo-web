@@ -72,7 +72,7 @@ module.exports = {
   // Logging
   logging: {
     log: {
-      level: getEnv('LOGGING_LEVEL', 'debug'),
+      level: getEnv('LOGGING_LEVEL', 'info'),
     },
     accessLog: {
       useAccessLog: getEnv('LOGGING_ACCESS_LOG', true),
