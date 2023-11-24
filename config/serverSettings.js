@@ -79,7 +79,7 @@ module.exports = {
     },
   },
   clientLogging: {
-    level: 'debug',
+    level: 'info',
   },
   cache: {
     koppsApi: {
