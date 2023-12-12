@@ -120,7 +120,7 @@ function ExperimentCoursePage() {
             aria-label={translation.courseLabels.label_course_description}
           >
             <Col>
-              <img className="float-md-left" src={courseImage} alt="" height="auto" width="300px" />
+              <img className="float-md-start" src={courseImage} alt="" height="auto" width="300px" />
               <span className="paragraphs" dangerouslySetInnerHTML={{ __html: sanitizedIntroText }} />
             </Col>
           </section>

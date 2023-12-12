@@ -1,10 +1,9 @@
 'use strict'
 
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'
-
+import { hydrateRoot } from 'react-dom/client'
 import { WebContextProvider } from './context/WebContext'
 import { uncompressData } from './context/compress'
 import CoursePage from './pages/CoursePage'
@@ -25,14 +24,22 @@ function ErrorFallback({ error, resetErrorBoundary }) {
 
 function appFactory(applicationStore, context) {
   return (
-    <WebContextProvider configIn={context}>
-      <Routes>
-        <Route exact path="/statistik" element={<CourseStatisticsPage />} />
-        <Route exact path="/experiment/:courseCode" element={<ExperimentCoursePage />} />
-        <Route exact path="/:courseCode" element={<CoursePage />} />
-        <Route exact path="/" element={<CoursePage />} />
-      </Routes>
-    </WebContextProvider>
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onReset={() => {
+        location.reload()
+        // reset the state of your app so the error doesn't happen again
+      }}
+    >
+      <WebContextProvider configIn={context}>
+        <Routes>
+          <Route exact path="/statistik" element={<CourseStatisticsPage />} />
+          <Route exact path="/experiment/:courseCode" element={<ExperimentCoursePage />} />
+          <Route exact path="/:courseCode" element={<CoursePage />} />
+          <Route exact path="/" element={<CoursePage />} />
+        </Routes>
+      </WebContextProvider>
+    </ErrorBoundary>
   )
 }
 
@@ -48,21 +55,11 @@ function _renderOnClientSide() {
 
   const basename = webContext.proxyPrefixPath.uri
 
-  const app = (
-    <ErrorBoundary
-      FallbackComponent={ErrorFallback}
-      onReset={() => {
-        location.reload()
-        // reset the state of your app so the error doesn't happen again
-      }}
-    >
-      <BrowserRouter basename={basename}>{appFactory({}, webContext)}</BrowserRouter>{' '}
-    </ErrorBoundary>
-  )
+  const app = <BrowserRouter basename={basename}>{appFactory({}, webContext)}</BrowserRouter>
 
   // Removed basename because it is causing empty string basename={basename}
   const domElement = document.getElementById('app')
-  ReactDOM.hydrate(app, domElement)
+  hydrateRoot(domElement, app)
 }
 
 _renderOnClientSide()

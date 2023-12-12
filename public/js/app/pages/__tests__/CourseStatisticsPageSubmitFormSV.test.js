@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen, within } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
 
 import axios from 'axios'
@@ -153,7 +153,7 @@ describe('Component <CourseStatisticsPage> submit data', () => {
     expect(axios.get).toHaveBeenCalledTimes(1)
     expect(axios.get).toHaveBeenCalledWith(url, paramsPeriod1)
     const rejectMsg = /Ett okänt fel inträffade - misslyckad hämtning av kursdata./i
-    const alertMemoMessage1 = screen.getByRole('alert')
+    const alertMemoMessage1 = await screen.findByRole('alert')
 
     expect(alertMemoMessage1).toBeInTheDocument()
     expect(within(alertMemoMessage1).getByText(rejectMsg)).toBeInTheDocument()

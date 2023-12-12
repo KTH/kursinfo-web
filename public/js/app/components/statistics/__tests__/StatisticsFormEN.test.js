@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
 import { WebContextProvider } from '../../../context/WebContext'
 import StatisticsForm from '../StatisticsForm'
@@ -176,7 +176,7 @@ describe('Component <StatisticsForm> in english', () => {
       [
         <select
           aria-label="Select year"
-          class="form-control"
+          class="form-select"
           id="year-select-year"
         >
           <option

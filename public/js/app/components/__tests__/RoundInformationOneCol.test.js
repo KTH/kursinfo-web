@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 import { WebContextProvider } from '../../context/WebContext'
 
 import RoundInformationOneCol from '../RoundInformationOneCol'

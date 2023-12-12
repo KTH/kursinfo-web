@@ -3,7 +3,7 @@ import { render, fireEvent, waitFor, waitForElementToBeRemoved, screen } from '@
 
 import InfoModal from '../InfoModal'
 
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 
 const { queryByText, getByRole, getAllByRole } = screen
 
