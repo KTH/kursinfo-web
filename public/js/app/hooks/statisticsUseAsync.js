@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { useWebContext } from '../context/WebContext'
 import { StatisticsAlert } from '../components/statistics/index'
 import fetchStatistics from './api/statisticsApi'
@@ -82,8 +82,9 @@ function useAsync(asyncCallback, initialState) {
 function renderAlertToTop(error = {}, languageIndex) {
   const { errorType = '', errorExtraText = '' } = error
   const alertContainer = document.getElementById('alert-placeholder')
+  const alertContainerRoot = createRoot(alertContainer)
   if (alertContainer) {
-    ReactDOM.render(
+    alertContainerRoot.render(
       <StatisticsAlert alertType={errorType} languageIndex={languageIndex}>
         {errorExtraText}
       </StatisticsAlert>,
@@ -93,7 +94,8 @@ function renderAlertToTop(error = {}, languageIndex) {
 }
 function dismountTopAlert() {
   const alertContainer = document.getElementById('alert-placeholder')
-  if (alertContainer) ReactDOM.unmountComponentAtNode(alertContainer)
+  const alertContainerRoot = createRoot(alertContainer)
+  if (alertContainer) alertContainerRoot.unmount()
 }
 
 function _getThisHost(thisHostBaseUrl) {

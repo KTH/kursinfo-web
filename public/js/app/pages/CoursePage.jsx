@@ -174,7 +174,7 @@ function CoursePage() {
             aria-label={translation.courseLabels.label_course_description}
           >
             <Col>
-              <img className="float-md-left" src={courseImage} alt="" height="auto" width="300px" />
+              <img className="float-md-start" src={courseImage} alt="" height="auto" width="300px" />
               <div className="paragraphs" dangerouslySetInnerHTML={{ __html: introText }} />
             </Col>
           </section>
@@ -183,7 +183,7 @@ function CoursePage() {
               {/** ************************************************************************************************************ */}
               {/*                                      RIGHT COLUMN - ROUND INFORMATION                                         */}
               {/** ************************************************************************************************************ */}
-              <Col id="roundInformationContainer" md="4" xs="12" className="float-md-right">
+              <Col id="roundInformationContainer" md="4" xs="12" className="ps-3 float-md-end">
                 {/* ---COURSE  DROPDOWN MENU--- */}
                 {hasActiveSemesters ? (
                   <nav id="roundDropdownMenu" aria-label={translation.courseLabels.header_dropdown_menu_navigation}>
@@ -349,7 +349,7 @@ function CoursePage() {
               {/** ************************************************************************************************************ */}
               {/*                           LEFT COLUMN - SYLLABUS + OTHER COURSE INFORMATION                                 */}
               {/** ************************************************************************************************************ */}
-              <Col id="coreContent" md="8" xs="12" className="float-md-left paragraphs">
+              <Col id="coreContent" md="8" xs="12" className="pe-3 float-md-start paragraphs">
                 <div key="fade-2" className={` fade-container ${syllabusInfoFade === true ? ' fadeOutIn' : ''} `}>
                   <Row id="activeSyllabusContainer" key="activeSyllabusContainer">
                     <Col sm="12">

@@ -3,7 +3,7 @@ import React from 'react'
 import CourseSections from '../CourseSections'
 import i18n from '../../../../../i18n'
 import { render, screen } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 const { getByText } = screen
 const [translationEN] = i18n.messages
 

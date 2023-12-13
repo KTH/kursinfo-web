@@ -63,7 +63,6 @@ function CourseStatisticsPage() {
     const missingParams = findMissingParametersKeys(finalSearchParams)
     setHasSubmittedEmptyValue(missingParams.length > 0)
   }
-
   return (
     <div
       className={`container ${hasSubmittedEmptyValue ? 'error-missing-parameters-in-query' : ''}`}

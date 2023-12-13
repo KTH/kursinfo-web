@@ -39,13 +39,16 @@ function RoundInformationOneCol({
         : translate.round_category[round.round_category]
     }
   `
-  React.useEffect(async () => {
-    if (testEmployees) {
-      setCourseRoundEmployees(testEmployees)
-    } else {
-      const employyes = showRoundData ? await context.getCourseEmployees() : null
-      if (employyes) setCourseRoundEmployees(employyes)
+  React.useEffect(() => {
+    const posibleTestEmployees = async () => {
+      if (testEmployees) {
+        setCourseRoundEmployees(testEmployees)
+      } else {
+        const employyes = showRoundData ? await context.getCourseEmployees() : null
+        if (employyes) setCourseRoundEmployees(employyes)
+      }
     }
+    posibleTestEmployees()
   }, [showRoundData, roundSelectedIndex, activeSemester])
 
   function openApplicationLink(ev) {

@@ -46,12 +46,12 @@ function DropdownOption({ paramName, onChange, showInfoBox = true }) {
       </h3>
       <fieldset>
         <legend className="form-control-label">{shortIntro}</legend>
-        <div className="form-select form-group">
+        <div className="form-group">
           <Row className={`${frameIfEmpty(option)}`}>
             <Col xs="2">
               <div className="select-wrapper">
                 <select
-                  className="form-control"
+                  className="form-select"
                   id={`${paramName}-select-year`}
                   aria-label={shortIntro}
                   onChange={handleChange}

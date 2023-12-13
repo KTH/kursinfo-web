@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 import CourseTitle from '../CourseTitle'
 
 import i18n from '../../../../../i18n'
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 
 const [translationEN, translationSV] = i18n.messages
 

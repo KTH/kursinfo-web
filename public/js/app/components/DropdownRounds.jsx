@@ -36,10 +36,10 @@ const DropdownRounds = ({ courseRoundList, language = 0, label = '', translation
         <label className="form-control-label" htmlFor={dropdownID}>
           {label.label_dropdown}
         </label>
-        <div className="form-select form-group">
+        <div className="form-group">
           <div className="select-wrapper">
             <select
-              className="form-control"
+              className="form-select"
               id={dropdownID}
               aria-label=""
               onChange={handleDropdownSelect}

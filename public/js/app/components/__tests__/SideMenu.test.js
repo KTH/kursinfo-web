@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 import SideMenu from '../SideMenu'
 
 import i18n from '../../../../../i18n'
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 
 const { getAllByRole, queryByText } = screen
 const [translationEN, translationSV] = i18n.messages
