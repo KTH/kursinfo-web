@@ -183,7 +183,7 @@ function CoursePage() {
               {/** ************************************************************************************************************ */}
               {/*                                      RIGHT COLUMN - ROUND INFORMATION                                         */}
               {/** ************************************************************************************************************ */}
-              <Col id="roundInformationContainer" md="4" xs="12" className="ps-3 float-md-end">
+              <Col id="roundInformationContainer" md="4" xs="12" className="float-md-end">
                 {/* ---COURSE  DROPDOWN MENU--- */}
                 {hasActiveSemesters ? (
                   <nav id="roundDropdownMenu" aria-label={translation.courseLabels.header_dropdown_menu_navigation}>
