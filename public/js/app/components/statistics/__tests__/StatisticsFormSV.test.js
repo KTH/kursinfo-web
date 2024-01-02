@@ -1,16 +1,13 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import userEvent from '@testing-library/user-event'
+import { userEvent } from '@testing-library/user-event'
 
 import { WebContextProvider } from '../../../context/WebContext'
 
 import StatisticsForm from '../StatisticsForm'
 
-// import i18n from '../../../../../../i18n'
-
 const language_sv = 'sv'
-// const [translate] = i18n.messages // en
 
 let submittedResults
 
@@ -35,9 +32,6 @@ describe('Component <StatisticsForm>', () => {
   afterAll(() => {
     jest.useRealTimers()
   })
-  test('renders a form to choose parameters for a statistics page in Swedish', () => {
-    render(<StatisticsFormWithContext context={context_sv} />)
-  })
 
   test('renders start state of page', () => {
     render(<StatisticsFormWithContext context={context_sv} />)
@@ -47,7 +41,6 @@ describe('Component <StatisticsForm>', () => {
 
     const courseMemo = screen.getByLabelText(/kurs-pm/i)
     expect(courseMemo).toBeInTheDocument()
-    const courseAnalysis = screen.getByLabelText(/kursanalys/i)
 
     const allRadios = screen.getAllByRole('radio')
     expect(allRadios.length).toBe(2)

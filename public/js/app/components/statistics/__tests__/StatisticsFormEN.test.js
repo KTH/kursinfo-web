@@ -1,14 +1,11 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import userEvent from '@testing-library/user-event'
+import { userEvent } from '@testing-library/user-event'
 import { WebContextProvider } from '../../../context/WebContext'
 import StatisticsForm from '../StatisticsForm'
 
-// import i18n from '../../../../../../i18n'
-
 const language_en = 'en'
-// const [translate] = i18n.messages // en
 
 let submittedResults
 
@@ -32,9 +29,6 @@ describe('Component <StatisticsForm> in english', () => {
 
   afterAll(() => {
     jest.useRealTimers()
-  })
-  test('renders a form to choose parameters for a statistics page', () => {
-    render(<StatisticsFormWithContext context={context_en} />)
   })
 
   test('renders start state of page', () => {
