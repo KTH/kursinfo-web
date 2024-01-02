@@ -25,6 +25,14 @@ function StatisticsFormWithContext({ context }) {
   )
 }
 describe('Component <StatisticsForm> in english', () => {
+  beforeAll(() => {
+    jest.useFakeTimers({ advanceTimers: true })
+    jest.setSystemTime(new Date(2023, 3, 1))
+  })
+
+  afterAll(() => {
+    jest.useRealTimers()
+  })
   test('renders a form to choose parameters for a statistics page', () => {
     render(<StatisticsFormWithContext context={context_en} />)
   })
