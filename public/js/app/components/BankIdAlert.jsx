@@ -12,15 +12,16 @@ const BankIdAlert = ({ tutoringForm, fundingType, contextLang, roundSpecified, t
   // Engelska sidan + fristående kurser
   const case2 = contextLang === 'en' && standaloneCourse && roundSpecified
 
+  const showAlert = case1 || case2
+
   return (
-    case1 ||
-    (case2 && (
+    showAlert && (
       <section className="bankIdAlert">
         <Alert color="info">
           <p dangerouslySetInnerHTML={{ __html: translation.bankIdAlertText }}></p>
         </Alert>
       </section>
-    ))
+    )
   )
 }
 
