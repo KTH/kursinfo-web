@@ -180,13 +180,15 @@ function CoursePage() {
               <img className="float-md-start" src={courseImage} alt="" height="auto" width="300px" />
               <div className="paragraphs" dangerouslySetInnerHTML={{ __html: introText }} />
             </Col>
-            <BankIdAlert
-              tutoringForm={courseData.roundList[activeSemester][roundSelectedIndex].round_tutoring_form}
-              fundingType={courseData.roundList[activeSemester][roundSelectedIndex].round_funding_type}
-              contextLang={lang}
-              roundSpecified={activeSemesters.length > 0 && hasToShowRoundsData}
-              translation={translation}
-            />
+            {courseData.roundList && (
+              <BankIdAlert
+                tutoringForm={courseData.roundList[activeSemester][roundSelectedIndex].round_tutoring_form}
+                fundingType={courseData.roundList[activeSemester][roundSelectedIndex].round_funding_type}
+                contextLang={lang}
+                roundSpecified={activeSemesters.length > 0 && hasToShowRoundsData}
+                translation={translation}
+              />
+            )}
           </section>
           <Row id="columnContainer" key="columnContainer">
             <Col id="leftContainer" key="leftContainer">
