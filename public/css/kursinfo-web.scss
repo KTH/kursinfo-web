@@ -261,6 +261,12 @@ main {
   align-items: center;
 }
 
+.bankIdAlert {
+  margin: 1rem 0 0 0;
+  p {
+    font-family: 'Open Sans', Arial, 'Helvetica Neue', helvetica, sans-serif;
+  }
+}
 #semesterButtonMenue,
 #roundDropdownMenu {
   & > .button-clean {

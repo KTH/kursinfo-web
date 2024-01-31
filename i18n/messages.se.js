@@ -35,6 +35,8 @@ module.exports = {
     skip_to_main_content: 'Hoppa till huvudinnehållet',
     back_to_top_label: 'Till sidans topp',
   },
+  bankIdAlertText:
+    'Du behöver ett KTH-konto för att läsa en kurs på KTH, kontot aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.',
   breadCrumbLabels: {
     breadcrumbs: 'Brödsmulor',
     university: 'KTH',
