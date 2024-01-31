@@ -59,7 +59,7 @@ describe('Comoponent <BankIdAlert>', () => {
     )
 
     const alert = screen.getByText(
-      `Du behöver ett KTH-konto för att läsa en fristående kurs, som aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.`
+      `Du behöver ett KTH-konto för att läsa en kurs på KTH, kontot aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.`
     )
     expect(alert).toBeInTheDocument()
   })
@@ -81,7 +81,7 @@ describe('Comoponent <BankIdAlert>', () => {
     )
 
     const alert = screen.queryByText(
-      `Du behöver ett KTH-konto för att läsa en fristående kurs, som aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.`
+      `Du behöver ett KTH-konto för att läsa en kurs på KTH, kontot aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.`
     )
     expect(alert).not.toBeInTheDocument()
   })
@@ -103,7 +103,7 @@ describe('Comoponent <BankIdAlert>', () => {
     )
 
     const alert = screen.queryByText(
-      `Du behöver ett KTH-konto för att läsa en fristående kurs, som aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.`
+      `Du behöver ett KTH-konto för att läsa en kurs på KTH, kontot aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.`
     )
     expect(alert).not.toBeInTheDocument()
   })
@@ -125,7 +125,7 @@ describe('Comoponent <BankIdAlert>', () => {
     )
 
     const alert = screen.queryByText(
-      `Du behöver ett KTH-konto för att läsa en fristående kurs, som aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.`
+      `Du behöver ett KTH-konto för att läsa en kurs på KTH, kontot aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.`
     )
     expect(alert).not.toBeInTheDocument()
   })
@@ -147,7 +147,7 @@ describe('Comoponent <BankIdAlert>', () => {
     )
 
     const alert = screen.queryByText(
-      `Du behöver ett KTH-konto för att läsa en fristående kurs, som aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.`
+      `Du behöver ett KTH-konto för att läsa en kurs på KTH, kontot aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.`
     )
     expect(alert).not.toBeInTheDocument()
   })
