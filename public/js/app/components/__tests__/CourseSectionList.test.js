@@ -107,4 +107,37 @@ describe('Component <CourseSectionList>', () => {
     syllabusText = screen.getByText(syllabusLiteratureComment, { exact: false })
     expect(syllabusText).toBeInTheDocument()
   })
+
+  test('renders course department correctly', () => {
+    const courseDepartmentLinkText = 'Link text'
+    const courseDepartmentFallbackValue = 'Fallback text'
+
+    const courseInfoWithLink = {
+      course_department_link: `<a href="/itm/" target="blank">${courseDepartmentLinkText}</a>`,
+      course_department: courseDepartmentFallbackValue,
+    }
+    const { rerender } = render(
+      <WebContextProvider configIn={{ courseInfo: courseInfoWithLink }}>
+        <CourseSectionList courseInfo={courseInfoWithLink} />
+      </WebContextProvider>
+    )
+    const linkText1 = screen.queryByText(courseDepartmentLinkText)
+    expect(linkText1).toBeInTheDocument()
+    const fallbackText1 = screen.queryByText(courseDepartmentFallbackValue)
+    expect(fallbackText1).not.toBeInTheDocument()
+
+    const courseInfoWithoutLink = {
+      course_department_link: undefined,
+      course_department: courseDepartmentFallbackValue,
+    }
+    rerender(
+      <WebContextProvider configIn={{ courseInfo: courseInfoWithoutLink }}>
+        <CourseSectionList courseInfo={courseInfoWithoutLink} />
+      </WebContextProvider>
+    )
+    const linkText2 = screen.queryByText(courseDepartmentLinkText)
+    expect(linkText2).not.toBeInTheDocument()
+    const fallbackText2 = screen.queryByText(courseDepartmentFallbackValue)
+    expect(fallbackText2).toBeInTheDocument()
+  })
 })
