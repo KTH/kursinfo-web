@@ -46,49 +46,9 @@ Kursinfo-web fetches data from:
 
 ### Secrets for Development
 
-Secrets during local development are stored in a `.env` file in the root of your project. This file should be in `.gitignore`.
+Secrets during local development are stored in a `.env` file in the root of your project. This file should be in `.gitignore`. Template for `.env` with all needed environment variables are available in the `env.in` file.
 
 Secrets (names, passwords, keys, and uri:s) for dev and prod are stored in the the course information project’s Azure key vault.
-
-**!IMPORTANT clean up all comments and empty strings in .env file**
-
-```sh
-
-# If API_URI is omitted, "http://localhost:3001/api/kursinfo?defaultTimeout=10000" will be used
-API_URI=https://api-r.referens.sys.kth.se/api/kursinfo?defaultTimeout=10000
-# If API_KEY is omitted, default key 123489 will be used
-API_KEY=[key]
-
-# If KURSPLAN_API_URI is omitted, http://localhost:3001/api/kursplan?defaultTimeout=10000 will be used
-KURSPLAN_API_URI=https://api-r.referens.sys.kth.se/api/kursplan?defaultTimeout=10000
-# If KURSPLAN_API_KEY is omitted, default key 5678 will be used
-KURSPLAN_API_KEY=[key]
-
-# If KURS_PM_DATA_API_URI is omitted, http://localhost:3001/api/kurs-pm-data?defaultTimeout=10000 will be used
-KURS_PM_DATA_API_URI=https://api-r.referens.sys.kth.se/api/kurs-pm-data?defaultTimeout=10000
-# If KURS_PM_DATA_API_KEY is omitted, default key 9876 will be used
-KURS_PM_DATA_API_KEY=[key]
-
-# If KURSUTVECKLING_API_URI is omitted, http://localhost:3001/api/kursutveckling?defaultTimeout=10000 will be used
-KURSUTVECKLING_API_URI=https://api-r.referens.sys.kth.se/api/kursutveckling?defaultTimeout=50000
-# If KURSUTVECKLING_API_KEY is omitted, default key 1234 will be used
-KURSUTVECKLING_API_KEY=[key]
-
-# If KOPPS_URI is omitted, https://api-r.referens.sys.kth.se/api/kopps/v2/?defaultTimeout=10000 will be used
-
-APPINSIGHTS_INSTRUMENTATIONKEY=[Azure, Application insights, Instrumentation Key, can be found in Overview]
-REDIS_URI=[connection string to redis]
-
-# Connection Properties of UG Rest Api to fetch names of course staff
-
-UG_REST_AUTH_API_TOKEN_URI=https://<LOGIN_HOST>/adfs/
-UG_REST_AUTH_CLIENT_ID=<FROM AZURE KEYVAULT>
-UG_REST_AUTH_CLIENT_SECRET=<FROM AZURE KEYVAULT>
-UG_REST_API_URI=https://<UG_URL>
-UG_REST_API_SUBSCRIPTION_KEY=<FROM AZURE INTEGRAL OR KEYVAULT>
-```
-
-These settings are also available in the `env.in` file.
 
 ## For Development
 
