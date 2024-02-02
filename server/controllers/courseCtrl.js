@@ -22,6 +22,7 @@ const {
   MAX_1_MONTH,
   MAX_2_MONTH,
 } = require('../util/constants')
+const { buildCourseDepartmentLink } = require('../util/courseDepartmentUtils')
 const { formatVersionDate, getDateFormat } = require('../util/dates')
 const i18n = require('../../i18n')
 
@@ -72,14 +73,7 @@ function _parseCourseDefaultInformation(courseDetails, language) {
     course_contact_name: parceContactName(course.infoContactName, language),
     course_department: parseOrSetEmpty(course.department.name, language),
     course_department_code: parseOrSetEmpty(course.department.code, language),
-    course_department_link:
-      parseOrSetEmpty(course.department.name, language) !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
-        ? '<a href="/' +
-          course.department.name.split('/')[0].toLowerCase() +
-          '/" target="blank">' +
-          course.department.name +
-          '</a>'
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    course_department_link: buildCourseDepartmentLink(course.department, language),
     course_disposition: parseOrSetEmpty(course.courseDeposition, language),
     course_education_type_id: course.educationalTypeId || null,
     course_examiners: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],

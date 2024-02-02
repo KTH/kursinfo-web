@@ -132,7 +132,10 @@ function CourseSectionList(props) {
 
   function getOther() {
     const prepare = [
-      { header: translation.courseInformation.course_department, text: course.course_department_link },
+      {
+        header: translation.courseInformation.course_department,
+        text: course.course_department_link ?? course.course_department,
+      },
       {
         header: translation.courseInformation.course_main_subject,
         text: course.course_main_subject,
