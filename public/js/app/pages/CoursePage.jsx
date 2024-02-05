@@ -66,7 +66,6 @@ function CoursePage() {
     syllabusInfoFade,
     useStartSemesterFromQuery,
     lang,
-    roundSelectedIndex,
   } = context
   // * * //
   const hasOnlyOneRound = activeSemester?.length > 0 && courseData.roundList[activeSemester].length === 1
@@ -180,10 +179,10 @@ function CoursePage() {
               <img className="float-md-start" src={courseImage} alt="" height="auto" width="300px" />
               <div className="paragraphs" dangerouslySetInnerHTML={{ __html: introText }} />
             </Col>
-            {courseData.roundList && (
+            {courseData.roundList && activeSemesters.length > 0 && hasToShowRoundsData && (
               <BankIdAlert
-                tutoringForm={courseData.roundList[activeSemester][roundSelectedIndex].round_tutoring_form}
-                fundingType={courseData.roundList[activeSemester][roundSelectedIndex].round_funding_type}
+                tutoringForm={courseData.roundList[activeSemester][activeRoundIndex].round_tutoring_form}
+                fundingType={courseData.roundList[activeSemester][activeRoundIndex].round_funding_type}
                 contextLang={lang}
                 roundSpecified={activeSemesters.length > 0 && hasToShowRoundsData}
                 translation={translation}
