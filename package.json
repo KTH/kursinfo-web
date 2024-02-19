@@ -74,7 +74,7 @@
     "@kth/eslint-config-kth": "^3.1.0",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.1.2",
-    "@testing-library/user-event": "^14.5.1",
+    "@testing-library/user-event": "^14.5.2",
     "@types/jest": "^29.5.11",
     "ansi-regex": "^6.0.1",
     "babel-jest": "^29.7.0",
