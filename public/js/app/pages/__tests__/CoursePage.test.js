@@ -13,13 +13,16 @@ import i18n from '../../../../../i18n'
 jest.mock('axios')
 const context = {
   browserConfig: {},
-  sellingText: { en: '', sv: '' },
-  imageFromAdmin: '',
   activeSyllabusIndex: 0,
   courseData: {
     syllabusList: [{ course_valid_from: [], course_valid_to: [] }],
     syllabusSemesterList: [],
-    courseInfo: { course_recruitment_text: '', course_application_info: '' },
+    courseInfo: {
+      course_recruitment_text: '',
+      course_application_info: '',
+      sellingText: { en: '', sv: '' },
+      imageFromAdmin: '',
+    },
     language: 'en',
   },
   activeSemesters: [],
@@ -69,8 +72,6 @@ describe('Component <CoursePage>', () => {
       })
     const contextToTest = {
       browserConfig: {},
-      sellingText: { en: '', sv: '' },
-      imageFromAdmin: '',
       activeSemester: '20231',
       activeRoundIndex: 0,
       activeSemesterIndex: 0,
@@ -108,6 +109,8 @@ describe('Component <CoursePage>', () => {
           course_supplemental_information_url: '<i>No information inserted</i>',
           course_supplemental_information_url_text: '<i>No information inserted</i>',
           course_web_link: 'https://www-r.referens.sys.kth.se/social/course/MF1016/',
+          sellingText: { en: '', sv: '' },
+          imageFromAdmin: '',
         },
         courseTitleData: {
           course_code: 'MF1016',
