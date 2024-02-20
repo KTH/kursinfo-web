@@ -37,10 +37,6 @@ const Breadcrumbs = ({ translation, language, courseCode }) => (
     </BreadcrumbItem>
   </Breadcrumb>
 )
-function getCourseIntroduction(sellingText = {}, courseInfo = {}, language) {
-  const { course_recruitment_text: courseDefaultIntro = '<p></p>' } = courseInfo
-  return sellingText[language] && sellingText[language].length > 0 ? sellingText[language] : courseDefaultIntro
-}
 function CoursePage() {
   const [context, setWebContext] = useWebContext()
   // const context = React.useMemo(() => webContext, [webContext])
@@ -57,11 +53,9 @@ function CoursePage() {
       courseInfo: { course_application_info: '' },
       syllabusSemesterList: [],
     },
-    imageFromAdmin,
     isCancelled,
     isDeactivated,
     roundInfoFade,
-    sellingText,
     showRoundData,
     syllabusInfoFade,
     useStartSemesterFromQuery,
@@ -74,7 +68,8 @@ function CoursePage() {
   const hasActiveSemesters = activeSemesters && activeSemesters.length > 0
   const { courseInfo, language = 'sv' } = courseData
   const translation = i18n.messages[language === 'en' ? 0 : 1]
-  const introText = getCourseIntroduction(sellingText, courseInfo, language)
+
+  const { sellingText, imageFromAdmin } = courseInfo
 
   let courseImage = ''
   if (imageFromAdmin.length > 4) {
@@ -177,7 +172,7 @@ function CoursePage() {
           >
             <Col>
               <img className="float-md-start" src={courseImage} alt="" height="auto" width="300px" />
-              <div className="paragraphs" dangerouslySetInnerHTML={{ __html: introText }} />
+              <div className="paragraphs" dangerouslySetInnerHTML={{ __html: sellingText }} />
             </Col>
             {courseData.roundList && activeSemesters.length > 0 && hasToShowRoundsData && (
               <BankIdAlert

@@ -3,7 +3,7 @@
 const log = require('@kth/log')
 const languageUtils = require('@kth/kth-node-web-common/lib/language')
 const httpResponse = require('@kth/kth-node-response')
-const courseApi = require('../apiCalls/kursinfoAdmin')
+const courseApi = require('../apiCalls/kursinfoApi')
 const memoApi = require('../apiCalls/memoApi')
 const koppsCourseData = require('../apiCalls/koppsCourseData')
 const ugRestApi = require('../apiCalls/ugRestApi')
@@ -74,7 +74,6 @@ function _parseCourseDefaultInformation(courseDetails, language) {
     course_department: parseOrSetEmpty(course.department.name, language),
     course_department_code: parseOrSetEmpty(course.department.code, language),
     course_department_link: buildCourseDepartmentLink(course.department, language),
-    course_disposition: parseOrSetEmpty(course.courseDeposition, language),
     course_education_type_id: course.educationalTypeId || null,
     course_examiners: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_grade_scale: parseOrSetEmpty(formattedGradeScales[course.gradeScaleCode], language),
@@ -93,7 +92,6 @@ function _parseCourseDefaultInformation(courseDetails, language) {
     course_suggested_addon_studies: parseOrSetEmpty(course.addOn, language),
     course_supplemental_information_url: parseOrSetEmpty(course.supplementaryInfoUrl, language),
     course_supplemental_information_url_text: parseOrSetEmpty(course.supplementaryInfoUrlName, language),
-    course_supplemental_information: parseOrSetEmpty(course.supplementaryInfo, language),
     course_state: parseOrSetEmpty(course.state, language, true),
     course_web_link: parseOrSetEmpty(socialCoursePageUrl, language),
   }
@@ -466,6 +464,10 @@ async function _chooseSemesterAndSyllabusFromActiveSemesters(externalSemester, u
   }
 }
 
+function resolveText(text = {}, lang) {
+  return text[lang] ?? ''
+}
+
 /* ****************************************************************************** */
 /*                    COURSE PAGE SETTINGS AND RENDERING                          */
 /* ****************************************************************************** */
@@ -502,14 +504,6 @@ async function getIndex(req, res, next) {
 
     webContext.hasStartPeriodFromQuery = !!Number(periods)
 
-    const { body: introductionTextsAndImage } = await courseApi.getSellingText(courseCode)
-    if (introductionTextsAndImage) {
-      const { sellingText, imageInfo } = introductionTextsAndImage
-      webContext.sellingText = sellingText || {}
-      webContext.imageFromAdmin = imageInfo || ''
-      /* webContext.showCourseWebbLink = isCourseWebLink */
-    }
-
     if (memoApiUp) {
       const memoApiResponse = await memoApi.getPrioritizedCourseMemos(courseCode)
       if (memoApiResponse && memoApiResponse.body) {
@@ -524,6 +518,12 @@ async function getIndex(req, res, next) {
 
       //* **** Coruse information that is static on the course side *****//
       const courseInfo = _parseCourseDefaultInformation(courseDetails, lang)
+
+      const { sellingText, courseDisposition, supplementaryInfo, imageInfo } = await courseApi.getCourseInfo(courseCode)
+      courseInfo.sellingText = resolveText(sellingText, lang)
+      courseInfo.imageFromAdmin = imageInfo
+      courseInfo.course_disposition = resolveText(courseDisposition, lang)
+      courseInfo.course_supplemental_information = resolveText(supplementaryInfo, lang)
 
       //* **** Course title data  *****//
       const courseTitleData = _parseTitleData(courseDetails)

@@ -43,8 +43,13 @@ jest.mock('../../configuration', () => ({
   browser: { session: {}, sessionSecret: 'xxx' },
 }))
 jest.mock('../../api', () => ({ kursPmDataApi: { connected: true } }))
-jest.mock('../../apiCalls/kursinfoAdmin', () => ({
-  getSellingText: () => ({ sellingText: '<p>This course is awesome</p>', imageInfo: 'own_image' }),
+jest.mock('../../apiCalls/kursinfoApi', () => ({
+  getCourseInfo: () => ({
+    sellingText: { sv: '<p>Fantastisk kurs</p>', en: '<p>This course is awesome</p>' },
+    courseDisposition: { sv: '<p>Kursupplägg på svenska</p>', en: '<p>Course Disposition in english</p>' },
+    supplementaryInfo: { sv: '<p>Övrig info</p>', en: '<p>Extra info</p>' },
+    imageInfo: 'own_image',
+  }),
 }))
 jest.mock('../../apiCalls/memoApi', () => ({
   getPrioritizedCourseMemos: () => ({ body: mockedCourseMemosForDiscontinuedCourse }),
@@ -131,7 +136,7 @@ describe('Discontinued course to test', () => {
               "course_department": "CBH/Kemi",
               "course_department_code": "CE",
               "course_department_link": "<a href="/cbh/" target="blank">CBH/Kemi</a>",
-              "course_disposition": "<p>Kursen omfattar cirka 200 heltidsstudietimmar och utg&#246;rs av f&#246;rel&#228;sningar och praktiska laborationer. Laborationerna omfattar relevanta och aktuella experimentella metoder inom kolhydratteknik, t.ex. kolhydratanalys, produktion av kolhydrataktiva enzymer, preparation och karakterisering av vedbaserade nanomaterial och kolhydratsyntes. En mer detaljerad beskrivning av kursens inneh&#229;ll och uppl&#228;gg &#229;terfinns i kurs-PM.</p>",
+              "course_disposition": "<p>Kursupplägg på svenska</p>",
               "course_education_type_id": null,
               "course_examiners": "<p>Examiner 1 </p>",
               "course_grade_scale": "P, F",
@@ -146,10 +151,12 @@ describe('Discontinued course to test', () => {
               "course_required_equipment": "<i>Ingen information tillagd</i>",
               "course_state": "ESTABLISHED",
               "course_suggested_addon_studies": "<i>Ingen information tillagd</i>",
-              "course_supplemental_information": "<p>Ers&#228;tter kurs FBB3640.</p>",
+              "course_supplemental_information": "<p>Övrig info</p>",
               "course_supplemental_information_url": "<i>Ingen information tillagd</i>",
               "course_supplemental_information_url_text": "<i>Ingen information tillagd</i>",
               "course_web_link": "https://www.kth.se/social/course/FCK3305/",
+              "imageFromAdmin": "own_image",
+              "sellingText": "<p>Fantastisk kurs</p>",
             },
             "courseTitleData": {
               "course_code": "FCK3305",
