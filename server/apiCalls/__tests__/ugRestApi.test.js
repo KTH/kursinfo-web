@@ -13,29 +13,29 @@ jest.mock('../koppsCourseData', () => ({ getLadokRoundIdsFromApplicationCodes: (
 
 const userInfoToCheckDuplicate = {
   email: faker.internet.email(),
-  givenName: faker.name.firstName(),
-  id: faker.datatype.uuid(),
-  surname: faker.name.lastName(),
+  givenName: faker.person.firstName(),
+  id: faker.string.uuid(),
+  surname: faker.person.lastName(),
 }
 
 const users = [
   {
     email: faker.internet.email(),
-    givenName: faker.name.firstName(),
-    id: faker.datatype.uuid(),
-    surname: faker.name.lastName(),
+    givenName: faker.person.firstName(),
+    id: faker.string.uuid(),
+    surname: faker.person.lastName(),
   },
   {
     email: faker.internet.email(),
-    givenName: faker.name.firstName(),
-    id: faker.datatype.uuid(),
-    surname: faker.name.lastName(),
+    givenName: faker.person.firstName(),
+    id: faker.string.uuid(),
+    surname: faker.person.lastName(),
   },
   {
     email: faker.internet.email(),
-    givenName: faker.name.firstName(),
-    id: faker.datatype.uuid(),
-    surname: faker.name.lastName(),
+    givenName: faker.person.firstName(),
+    id: faker.string.uuid(),
+    surname: faker.person.lastName(),
   },
   userInfoToCheckDuplicate,
   userInfoToCheckDuplicate,
