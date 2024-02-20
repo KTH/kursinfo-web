@@ -49,10 +49,10 @@ describe('Component <CoursePage>', () => {
   })
 
   test('renders course syllabus and check employees by changing semester', async () => {
-    const examinerName = faker.name.fullName()
-    const responsibleName = faker.name.fullName()
-    const teacherName = faker.name.fullName()
-    const courseContactName = faker.name.fullName()
+    const examinerName = faker.person.fullName()
+    const responsibleName = faker.person.fullName()
+    const teacherName = faker.person.fullName()
+    const courseContactName = faker.person.fullName()
     const courseContactEmail = faker.internet.email()
     const examiners = `<p class = "person">\n      <img class="profile-picture" src="" alt="Profile picture" width="31" height="31">\n      <a href="#" property="teach:teacher">\n          ${examinerName} \n      </a> \n    </p>  <p class = "person">\n      <img class="profile-picture" src="" alt="Profile picture" width="31" height="31">\n      <a href="#" property="teach:teacher">\n          ${examinerName} \n      </a> \n    </p`
     const responsibles = `<p class = "person">\n      <img class="profile-picture" src="" alt="Profile picture" width="31" height="31">\n      <a href="#" property="teach:teacher">\n          ${responsibleName} \n      </a> \n    </p>  <p class = "person">\n      <img class="profile-picture" src="" alt="Profile picture" width="31" height="31">\n      <a href="#" property="teach:teacher">\n          ${responsibleName} \n      </a> \n    </p>`
