@@ -174,10 +174,10 @@ module.exports = {
     course_supplemental_information: 'Övrig information',
     course_examiners: 'Examinator',
     course_recruitment_text: 'Kort beskrivning svenska',
+    course_room_canvas: 'Kursrum i Canvas',
+    course_room_canvas_info:
+      'Registrerade studenter hittar information för genomförande av kursen i kursrummet i Canvas. En länk till kursrummet finns under fliken Studier i Personliga menyn vid kursstart.',
     course_application_info: 'Information för forskarstuderande om när kursen ges',
-    course_link: 'Kurswebb',
-    course_link_text:
-      '<p>Ytterligare information om kursen kan hittas på kurswebben via länken nedan. Information på kurswebben kommer framöver flyttas till denna sida. </p>',
   },
   courseRoundInformation: {
     header_round: 'Om kursomgång',
