@@ -13,7 +13,6 @@ function createServerSideContext() {
     hasStartPeriodFromQuery: false,
     sellingText: { en: '', sv: '' },
     imageFromAdmin: '',
-    showCourseWebbLink: true,
     memoList: {},
     isCancelled: false,
     isDeactivated: false,

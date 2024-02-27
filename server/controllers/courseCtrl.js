@@ -93,7 +93,6 @@ function _parseCourseDefaultInformation(courseDetails, language) {
     course_supplemental_information_url: parseOrSetEmpty(course.supplementaryInfoUrl, language),
     course_supplemental_information_url_text: parseOrSetEmpty(course.supplementaryInfoUrlName, language),
     course_state: parseOrSetEmpty(course.state, language, true),
-    course_web_link: parseOrSetEmpty(socialCoursePageUrl, language),
   }
 }
 
@@ -128,11 +127,11 @@ function _parseExamObject(exams, grades, language = 0, semester = '', creditUnit
       examString += `<li>${exam.examCode} - 
                         ${exam.title},
                         ${language === 'en' ? exam.credits : exam.credits.toString().replace('.', ',')} ${
-        language === 'en' ? ' credits' : creditUnitAbbr
-      },  
+                          language === 'en' ? ' credits' : creditUnitAbbr
+                        },  
                         ${language === 'en' ? 'grading scale' : 'betygsskala'}: ${
-        grades[exam.gradeScaleCode]
-      }              
+                          grades[exam.gradeScaleCode]
+                        }              
                         </li>`
     }
   }
@@ -222,11 +221,11 @@ function _getRoundProgramme(programmes, language = 0) {
     const { electiveCondition, progAdmissionTerm, programmeCode, specCode, studyYear, title } = programme
     programmeString += `<p>
         <a href="${PROGRAMME_URL}/${programmeCode}/${progAdmissionTerm.term}/arskurs${studyYear}${
-      specCode ? '#inr' + specCode : ''
-    }">
+          specCode ? '#inr' + specCode : ''
+        }">
           ${title}, ${language === 0 ? 'year' : 'åk'} ${studyYear}, ${specCode ? specCode + ', ' : ''}${
-      electiveCondition.abbrLabel
-    }
+            electiveCondition.abbrLabel
+          }
       </a>
     </p>`
   })
