@@ -108,7 +108,6 @@ describe('Component <CoursePage>', () => {
           course_supplemental_information: '<i>No information inserted</i>',
           course_supplemental_information_url: '<i>No information inserted</i>',
           course_supplemental_information_url_text: '<i>No information inserted</i>',
-          course_web_link: 'https://www-r.referens.sys.kth.se/social/course/MF1016/',
           sellingText: { en: '', sv: '' },
           imageFromAdmin: '',
         },
