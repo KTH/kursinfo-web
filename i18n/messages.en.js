@@ -173,9 +173,6 @@ module.exports = {
     course_examiners: 'Examiner',
     course_recruitment_text: 'Abstract',
     course_application_info: 'Information for research students about course offerings',
-    course_link: 'Course web',
-    course_link_text:
-      '<p>Further information about the course can be found on the Course web at the link below. Information on the Course web will later be moved to this site. </p>',
   },
   courseRoundInformation: {
     header_round: 'About course offering',
