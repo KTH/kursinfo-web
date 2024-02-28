@@ -20,7 +20,6 @@ const RoundApplicationInfo = ({
     ev.preventDefault()
     window.open(round.round_application_link)
   }
-
   if (!(showRoundData && courseHasRound)) return <></>
   if (fundingType !== 'LL') return <></>
   return (
