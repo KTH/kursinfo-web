@@ -9,11 +9,24 @@ async function _getCourseInfo(courseCode) {
     const uri = client.resolve(paths.getCourseInfoByCourseCode.uri, { courseCode })
     const res = await client.getAsync({ uri }, { useCache: false })
 
-    if (res.body) {
-      const { sellingText, courseDisposition, supplementaryInfo, imageInfo } = res.body
-      return { sellingText, courseDisposition, supplementaryInfo, imageInfo }
+    const defaultValues = {
+      sellingText: { sv: '', en: '' },
+      imageInfo: '',
+      supplementaryInfo: { sv: '', en: '' },
+      courseDisposition: { sv: '', en: '' },
     }
-    return { sellingText: {}, imageInfo: '', supplementaryInfo: {}, courseDisposition: {} }
+
+    if (res.statusCode === 200 && res.body) {
+      const { body } = res
+      return {
+        sellingText: body.sellingText ?? defaultValues.sellingText,
+        courseDisposition: body.courseDisposition ?? defaultValues.courseDisposition,
+        supplementaryInfo: body.supplementaryInfo ?? defaultValues.supplementaryInfo,
+        imageInfo: body.imageInfo ?? defaultValues.imageInfo,
+      }
+    }
+
+    return defaultValues
   } catch (err) {
     log.error('Kursinfo-api is not available', err)
     return err
