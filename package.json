@@ -58,7 +58,7 @@
     "react-router-dom": "^6.20.1",
     "reactstrap": "^9.2.2",
     "rimraf": "^5.0.5",
-    "sanitize-html": "^2.11.0",
+    "sanitize-html": "^2.12.1",
     "styled-components": "^6.1.1",
     "victory": "^36.7.0",
     "xlsx": "^0.18.5"
