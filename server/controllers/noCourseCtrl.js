@@ -6,8 +6,8 @@ function getIndex(req, res, next) {
   const lang = languageUtils.getLanguage(res) || 'sv'
   const html =
     lang === 'en'
-      ? 'No course code was entered. Try to add a course code to the existing web browser addresss'
-      : 'Web addressen saknar en kurskod. Försöka med att lägga till en kurskod till addressen.'
+      ? 'No course code was entered. Try to add a course code to the existing web browser address'
+      : 'Webbaddressen saknar kurskod. Försök att lägga till en kurskod till addressen.'
   const title = lang === 'en' ? 'No course code was entered' : 'Ingen kurskod'
 
   res.render('noCourse/index', {

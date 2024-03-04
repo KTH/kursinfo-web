@@ -373,7 +373,6 @@ function CoursePage() {
                     courseInfo={courseInfo}
                     syllabusList={courseData.syllabusList[activeSyllabusIndex]}
                     syllabusSemesterList={courseData.syllabusSemesterList}
-                    showCourseLink={context.showCourseWebbLink}
                     partToShow="courseContentBlock"
                     syllabusName={
                       courseData.syllabusSemesterList.length > 0

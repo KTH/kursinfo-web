@@ -132,6 +132,10 @@ function CourseSectionList(props) {
   function getOther() {
     const prepare = [
       {
+        header: translation.courseInformation.course_room_canvas,
+        text: translation.courseInformation.course_room_canvas_info,
+      },
+      {
         header: translation.courseInformation.course_department,
         text: courseInfo.course_department_link ?? courseInfo.course_department,
       },
@@ -173,14 +177,7 @@ function CourseSectionList(props) {
         header: translation.courseInformation.course_supplemental_information_url_text,
         text: courseInfo.course_supplemental_information_url_text,
       })
-    if (courseInfo.course_web_link !== LABEL_MISSING_INFO[language]) {
-      prepare.unshift({
-        header: translation.courseInformation.course_link,
-        text: `${translation.courseInformation.course_link_text} <a href='${courseInfo.course_web_link}'> ${translation.courseInformation.course_link} ${courseInfo.course_code}</a>`,
-      })
-    } else {
-      prepare.unshift({ header: translation.courseInformation.course_link, text: courseInfo.course_web_link })
-    }
+
     if (!isContractEducation() && syllabus.course_additional_regulations !== '')
       prepare.push({
         header: translation.courseInformation.course_additional_regulations,

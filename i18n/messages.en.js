@@ -172,10 +172,10 @@ module.exports = {
     course_supplemental_information: 'Supplementary information ',
     course_examiners: 'Examiner',
     course_recruitment_text: 'Abstract',
+    course_room_canvas: 'Course room in Canvas',
+    course_room_canvas_info:
+      'Registered students find further information about the implementation of the course in the course room in Canvas. A link to the course room can be found under the tab Studies in the Personal menu at the start of the course.',
     course_application_info: 'Information for research students about course offerings',
-    course_link: 'Course web',
-    course_link_text:
-      '<p>Further information about the course can be found on the Course web at the link below. Information on the Course web will later be moved to this site. </p>',
   },
   courseRoundInformation: {
     header_round: 'About course offering',
