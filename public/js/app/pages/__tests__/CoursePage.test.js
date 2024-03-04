@@ -131,7 +131,7 @@ describe('Component <CoursePage>', () => {
               round_course_place: 'KTH Campus',
               round_course_term: ['2022', '1'],
               round_end_date: '07/06/2022',
-              round_funding_type: 'ORD',
+              round_funding_type: 'LL',
               round_part_of_programme:
                 '<p>\n        <a href="/student/kurser/program/CINEK/20202/arskurs2#inrPPUI">\n          Degree Programme in Industrial Engineering and Management, åk 2, PPUI, Mandatory\n      </a>\n    </p><p>\n        <a href="/student/kurser/program/CMAST/20202/arskurs2">\n          Degree Programme in Mechanical Engineering, åk 2, Mandatory\n      </a>\n    </p><p>\n        <a href="/student/kurser/program/CMAST/20202/arskurs2#inrINTF">\n          Degree Programme in Mechanical Engineering, åk 2, INTF, Mandatory\n      </a>\n    </p><p>\n        <a href="/student/kurser/program/CMAST/20202/arskurs2#inrINTS">\n          Degree Programme in Mechanical Engineering, åk 2, INTS, Mandatory\n      </a>\n    </p><p>\n        <a href="/student/kurser/program/CMAST/20202/arskurs2#inrINTT">\n          Degree Programme in Mechanical Engineering, åk 2, INTT, Mandatory\n      </a>\n    </p>',
               round_periods: 'P3 (4.5 hp), P4 (4.5 hp)',
@@ -161,7 +161,7 @@ describe('Component <CoursePage>', () => {
               round_course_place: 'KTH Campus',
               round_course_term: ['2022', '2'],
               round_end_date: '16/01/2023',
-              round_funding_type: 'ORD',
+              round_funding_type: 'LL',
               round_part_of_programme:
                 '<p>\n        <a href="/student/kurser/program/CINEK/20202/arskurs2#inrPPUI">\n          Degree Programme in Industrial Engineering and Management, åk 2, PPUI, Mandatory\n      </a>\n    </p><p>\n        <a href="/student/kurser/program/CMAST/20202/arskurs2">\n          Degree Programme in Mechanical Engineering, åk 2, Mandatory\n      </a>\n    </p><p>\n        <a href="/student/kurser/program/CMAST/20202/arskurs2#inrINTF">\n          Degree Programme in Mechanical Engineering, åk 2, INTF, Mandatory\n      </a>\n    </p><p>\n        <a href="/student/kurser/program/CMAST/20202/arskurs2#inrINTS">\n          Degree Programme in Mechanical Engineering, åk 2, INTS, Mandatory\n      </a>\n    </p><p>\n        <a href="/student/kurser/program/CMAST/20202/arskurs2#inrINTT">\n          Degree Programme in Mechanical Engineering, åk 2, INTT, Mandatory\n      </a>\n    </p>',
               round_periods: 'P3 (4.5 hp), P4 (4.5 hp)',
@@ -191,7 +191,7 @@ describe('Component <CoursePage>', () => {
               round_course_place: 'KTH Campus',
               round_course_term: ['2023', '1'],
               round_end_date: '05/06/2023',
-              round_funding_type: 'ORD',
+              round_funding_type: 'LL',
               round_part_of_programme:
                 '<p>\n        <a href="/student/kurser/program/CINEK/20202/arskurs2#inrPPUI">\n          Degree Programme in Industrial Engineering and Management, åk 2, PPUI, Mandatory\n      </a>\n    </p><p>\n        <a href="/student/kurser/program/CMAST/20202/arskurs2">\n          Degree Programme in Mechanical Engineering, åk 2, Mandatory\n      </a>\n    </p><p>\n        <a href="/student/kurser/program/CMAST/20202/arskurs2#inrINTF">\n          Degree Programme in Mechanical Engineering, åk 2, INTF, Mandatory\n      </a>\n    </p><p>\n        <a href="/student/kurser/program/CMAST/20202/arskurs2#inrINTS">\n          Degree Programme in Mechanical Engineering, åk 2, INTS, Mandatory\n      </a>\n    </p><p>\n        <a href="/student/kurser/program/CMAST/20202/arskurs2#inrINTT">\n          Degree Programme in Mechanical Engineering, åk 2, INTT, Mandatory\n      </a>\n    </p>',
               round_periods: 'P3 (4.5 hp), P4 (4.5 hp)',

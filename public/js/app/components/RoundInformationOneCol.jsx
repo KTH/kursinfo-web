@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from 'react'
-import { Col, Button } from 'reactstrap'
+import { Col } from 'reactstrap'
 import { useWebContext } from '../context/WebContext'
 
 import i18n from '../../../../i18n'
@@ -8,6 +8,7 @@ import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../util/constants'
 
 import CourseFileLinks from './CourseFileLinks'
 import InfoModal from './InfoModal'
+import RoundApplicationInfo from './RoundApplicationInfo'
 
 const LABEL_MISSING_INFO = { en: INFORM_IF_IMPORTANT_INFO_IS_MISSING[0], sv: INFORM_IF_IMPORTANT_INFO_IS_MISSING[1] }
 
@@ -50,11 +51,6 @@ function RoundInformationOneCol({
     }
     posibleTestEmployees()
   }, [showRoundData, roundSelectedIndex, activeSemester])
-
-  function openApplicationLink(ev) {
-    ev.preventDefault()
-    window.open(round.round_application_link)
-  }
 
   return (
     <span>
@@ -184,31 +180,17 @@ function RoundInformationOneCol({
         >
           <Col>
             {/** ************************************************************************************************************ */}
-            {/*                                     Round - application information                                         */}
+            {/*                                     Round - application information                                           */}
             {/** ************************************************************************************************************ */}
-            {courseHasRound && showRoundData && (
-              <span>
-                <h2 id="applicationInformationHeader" className="right-column-header">
-                  {labels.header_select_course}
-                </h2>
-
-                <h3 className="t4">{roundHeader}</h3>
-                <p>{selectedRoundHeader}</p>
-
-                <h3 className="t4">{translate.round_application_code}</h3>
-                <p>{round ? round.round_application_code : LABEL_MISSING_INFO[language]}</p>
-                {round && round.round_application_link !== LABEL_MISSING_INFO[language] && (
-                  <Button
-                    name={translate.round_application_link}
-                    color="primary"
-                    className="next"
-                    onClick={openApplicationLink}
-                  >
-                    {translate.round_application_link}
-                  </Button>
-                )}
-              </span>
-            )}
+            <RoundApplicationInfo
+              roundHeader={roundHeader}
+              selectedRoundHeader={selectedRoundHeader}
+              userLanguage={userLangIndex}
+              round={round}
+              courseHasRound={courseHasRound}
+              showRoundData={showRoundData}
+              fundingType={round.round_funding_type}
+            />
           </Col>
         </div>
         <div
@@ -218,7 +200,7 @@ function RoundInformationOneCol({
         >
           <Col>
             {/** ************************************************************************************************************ */}
-            {/*                                     Round - contact information                                             */}
+            {/*                                     Round - contact information                                               */}
             {/** ************************************************************************************************************ */}
             {courseHasRound && showRoundData && (
               <span>
