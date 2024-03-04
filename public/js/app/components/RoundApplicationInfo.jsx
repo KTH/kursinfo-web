@@ -14,7 +14,7 @@ const RoundApplicationInfo = ({
   courseHasRound,
   fundingType,
 }) => {
-  const { courseRoundInformation: translate, courseLabels: labels } = i18n.messages[userLanguage]
+  const { courseRoundInformation, courseLabels } = i18n.messages[userLanguage]
 
   const openApplicationLink = ev => {
     ev.preventDefault()
@@ -31,17 +31,22 @@ const RoundApplicationInfo = ({
   return (
     <span>
       <h2 id="applicationInformationHeader" className="right-column-header">
-        {labels.header_select_course}
+        {courseLabels.header_select_course}
       </h2>
 
       <h3 className="t4">{roundHeader}</h3>
       <p>{selectedRoundHeader}</p>
 
-      <h3 className="t4">{translate.round_application_code}</h3>
+      <h3 className="t4">{courseRoundInformation.round_application_code}</h3>
       <p>{round ? round.round_application_code : LABEL_MISSING_INFO[userLanguage]}</p>
       {showApplicationLink && (
-        <Button name={translate.round_application_link} color="primary" className="next" onClick={openApplicationLink}>
-          {translate.round_application_link}
+        <Button
+          name={courseRoundInformation.round_application_link}
+          color="primary"
+          className="next"
+          onClick={openApplicationLink}
+        >
+          {courseRoundInformation.round_application_link}
         </Button>
       )}
     </span>

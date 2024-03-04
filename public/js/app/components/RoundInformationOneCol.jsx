@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from 'react'
-import { Col, Button } from 'reactstrap'
+import { Col } from 'reactstrap'
 import { useWebContext } from '../context/WebContext'
 
 import i18n from '../../../../i18n'
@@ -51,11 +51,6 @@ function RoundInformationOneCol({
     }
     posibleTestEmployees()
   }, [showRoundData, roundSelectedIndex, activeSemester])
-
-  function openApplicationLink(ev) {
-    ev.preventDefault()
-    window.open(round.round_application_link)
-  }
 
   return (
     <span>
