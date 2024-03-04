@@ -20,8 +20,14 @@ const RoundApplicationInfo = ({
     ev.preventDefault()
     window.open(round.round_application_link)
   }
-  if (!(showRoundData && courseHasRound)) return <></>
-  if (fundingType !== 'LL') return <></>
+
+  const showApplicationLink =
+    showRoundData &&
+    courseHasRound &&
+    fundingType === 'LL' &&
+    round &&
+    round.round_application_link !== LABEL_MISSING_INFO[userLanguage]
+
   return (
     <span>
       <h2 id="applicationInformationHeader" className="right-column-header">
@@ -33,7 +39,7 @@ const RoundApplicationInfo = ({
 
       <h3 className="t4">{translate.round_application_code}</h3>
       <p>{round ? round.round_application_code : LABEL_MISSING_INFO[userLanguage]}</p>
-      {round && round.round_application_link !== LABEL_MISSING_INFO[userLanguage] && (
+      {showApplicationLink && (
         <Button name={translate.round_application_link} color="primary" className="next" onClick={openApplicationLink}>
           {translate.round_application_link}
         </Button>
