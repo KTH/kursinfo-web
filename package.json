@@ -28,7 +28,7 @@
   "dependencies": {
     "@kth/api-call": "^4.0.40",
     "@kth/kth-node-response": "^1.0.7",
-    "@kth/kth-node-web-common": "^9.0.1",
+    "@kth/kth-node-web-common": "^9.0.2",
     "@kth/log": "^4.0.7",
     "@kth/monitor": "^4.2.1",
     "@kth/server": "^4.0.4",
@@ -49,7 +49,7 @@
     "kth-node-express-routing": "^2.0.16",
     "kth-node-i18n": "^1.0.18",
     "kth-node-redis": "^3.2.0",
-    "kth-style": "^9.0.11",
+    "kth-style": "^9.1.1",
     "react": "^18.2.0",
     "react-data-table-component": "^7.5.4",
     "react-dom": "^18.2.0",
