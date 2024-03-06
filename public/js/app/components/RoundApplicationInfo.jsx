@@ -9,12 +9,13 @@ const RoundApplicationInfo = ({
   roundHeader,
   selectedRoundHeader,
   userLanguage,
+  userLanguageIndex,
   round,
   showRoundData,
   courseHasRound,
   fundingType,
 }) => {
-  const { courseRoundInformation, courseLabels } = i18n.messages[userLanguage]
+  const { courseRoundInformation, courseLabels } = i18n.messages[userLanguageIndex]
 
   const openApplicationLink = ev => {
     ev.preventDefault()

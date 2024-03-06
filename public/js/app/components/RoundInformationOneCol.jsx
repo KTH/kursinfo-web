@@ -185,7 +185,8 @@ function RoundInformationOneCol({
             <RoundApplicationInfo
               roundHeader={roundHeader}
               selectedRoundHeader={selectedRoundHeader}
-              userLanguage={userLangIndex}
+              userLanguage={language}
+              userLanguageIndex={userLangIndex}
               round={round}
               courseHasRound={courseHasRound}
               showRoundData={showRoundData}
