@@ -224,6 +224,7 @@ module.exports = {
       ORD: 'programstuderande',
       UPP: 'uppdragsutbildning',
       PER: 'kurser för KTHs personal',
+      SAP: 'Study Abroad Programme',
     },
   },
   courseImage: {

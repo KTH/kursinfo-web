@@ -2,13 +2,12 @@
 import React from 'react'
 import { Col } from 'reactstrap'
 import { useWebContext } from '../context/WebContext'
-
 import i18n from '../../../../i18n'
-import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../util/constants'
-
 import CourseFileLinks from './CourseFileLinks'
 import InfoModal from './InfoModal'
 import RoundApplicationInfo from './RoundApplicationInfo'
+import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../util/constants'
+import { createRoundHeader } from '../util/courseHeaderUtils'
 
 const LABEL_MISSING_INFO = { en: INFORM_IF_IMPORTANT_INFO_IS_MISSING[0], sv: INFORM_IF_IMPORTANT_INFO_IS_MISSING[1] }
 
@@ -28,18 +27,12 @@ function RoundInformationOneCol({
 
   const { roundSelectedIndex, activeSemester = '' } = context
   const userLangIndex = language === 'en' ? 0 : 1
-  const { courseRoundInformation: translate, courseLabels: labels } = i18n.messages[userLangIndex]
+  const { courseRoundInformation: translate, courseLabels: labels, courseInformation } = i18n.messages[userLangIndex]
+
   const roundHeader = translate.round_header
-  const selectedRoundHeader = `
-    ${i18n.messages[userLangIndex].courseInformation.course_short_semester[round.round_course_term[1]]} 
-    ${round.round_course_term[0]}  
-    ${round.round_short_name !== LABEL_MISSING_INFO[language] ? round.round_short_name : ''} 
-    ${
-      round.round_funding_type === 'UPP' || round.round_funding_type === 'PER'
-        ? translate.round_type[round.round_funding_type]
-        : translate.round_category[round.round_category]
-    }
-  `
+
+  const selectedRoundHeader = createRoundHeader(userLangIndex, round)
+
   React.useEffect(() => {
     const posibleTestEmployees = async () => {
       if (testEmployees) {
