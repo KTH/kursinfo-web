@@ -1,6 +1,6 @@
 import React from 'react'
-import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../util/constants'
 import { useWebContext } from '../context/WebContext'
+import { createRoundLabel } from '../util/courseHeaderUtils'
 
 const DropdownRounds = ({ courseRoundList, language = 0, label = '', translation }) => {
   const [context, setWebContext] = useWebContext()
@@ -50,39 +50,24 @@ const DropdownRounds = ({ courseRoundList, language = 0, label = '', translation
                 {label.placeholder}
               </option>
               )
-              {courseRoundList.map(
-                (
-                  {
-                    round_short_name: roundShortName,
-                    round_funding_type: fundingType,
-                    round_category: roundCategory,
-                    round_application_code: roundApplicationCode,
-                    round_start_date: roundStartDate,
-                  },
-                  index
-                ) => {
-                  const isChosen = roundSelectedIndex - 1 === index
-                  const optionLabel = `${
-                    roundShortName !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language] ? `${roundShortName}` : ''
-                  },${
-                    fundingType === 'UPP' || fundingType === 'PER'
-                      ? translation.courseRoundInformation.round_type[fundingType]
-                      : translation.courseRoundInformation.round_category[roundCategory]
-                  }`
-                  // Key must be unique, otherwise it will not update course rounds list for some courses, ex.FLH3000
-                  const uniqueKey = `${optionLabel}${roundApplicationCode}${roundStartDate}`
-                  return (
-                    <option
-                      key={uniqueKey}
-                      id={dropdownID + '_' + index + '_0'}
-                      defaultValue={isChosen}
-                      value={optionLabel}
-                    >
-                      {optionLabel}
-                    </option>
-                  )
-                }
-              )}
+              {courseRoundList.map((round, index) => {
+                const isChosen = roundSelectedIndex - 1 === index
+                const optionLabel = createRoundLabel(language, round)
+
+                // Key must be unique, otherwise it will not update course rounds list for some courses, ex.FLH3000
+                const uniqueKey = `${optionLabel}${round.round_application_code}${round.round_start_date}`
+
+                return (
+                  <option
+                    key={uniqueKey}
+                    id={dropdownID + '_' + index + '_0'}
+                    defaultValue={isChosen}
+                    value={optionLabel}
+                  >
+                    {optionLabel}
+                  </option>
+                )
+              })}
             </select>
           </div>
         </div>

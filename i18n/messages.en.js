@@ -222,6 +222,7 @@ module.exports = {
       ORD: 'programme students',
       UPP: 'contract education',
       PER: 'course for KTH staff',
+      SAP: 'Study Abroad Programme',
     },
   },
   courseMainSubjects: {
