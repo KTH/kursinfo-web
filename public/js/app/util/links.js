@@ -3,8 +3,8 @@ const breadcrumbLinks = {
   student: { en: '/en/student', sv: '/student' },
   directory: {
     en: '/student/kurser/kurser-inom-program?l=en',
-    sv: '/student/kurser/kurser-inom-program'
-  }
+    sv: '/student/kurser/kurser-inom-program',
+  },
 }
 
 function aboutCourseLink(courseCode, language) {
@@ -14,5 +14,5 @@ function aboutCourseLink(courseCode, language) {
 
 module.exports = {
   breadcrumbLinks,
-  aboutCourseLink
+  aboutCourseLink,
 }

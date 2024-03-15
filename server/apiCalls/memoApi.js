@@ -18,6 +18,7 @@ async function getPrioritizedCourseMemos(courseCode) {
       courseCode,
       { err }
     )
+    return undefined
   }
 }
 

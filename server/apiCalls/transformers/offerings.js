@@ -1,6 +1,5 @@
 const { labelSeason, seasonConstants } = require('../../../domain/statistics/seasons')
 const { isCorrectSchool, SCHOOL_MAP } = require('./schools')
-const { formatTimeToLocaleDateSV } = require('./dates')
 
 /**
  * Creates string of programs in list.
@@ -66,11 +65,14 @@ function _sortOfferedSemesters(offeredSemesters) {
  */
 function _findCourseStartEndDates(courseOfferedSemesters) {
   const offeredSemesters = Array.isArray(courseOfferedSemesters) ? courseOfferedSemesters : []
-  const { length, 0: firstOffering = {}, [length - 1]: lastOffering = {} } = _sortOfferedSemesters(offeredSemesters)
+  const sortedArray = _sortOfferedSemesters(offeredSemesters)
+
+  const firstOffering = sortedArray.at(0) ?? {}
+  const lastOffering = sortedArray.at(-1) ?? {}
 
   const { start_date: courseStartDate = '' } = firstOffering
-
   const { semester: lastSemester = '', end_date: courseEndDate = '', end_week: courseEndWeek } = lastOffering
+
   return { endDate: courseEndDate, endWeek: courseEndWeek, lastSemester, startDate: courseStartDate }
 }
 

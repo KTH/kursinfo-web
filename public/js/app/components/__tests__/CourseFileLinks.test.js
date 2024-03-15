@@ -7,13 +7,7 @@ import CourseFileLinks from '../CourseFileLinks'
 import i18n from '../../../../../i18n'
 import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../../util/constants'
 
-const { getByText } = screen
-
 describe('Component <CourseFileLinks>', () => {
-  test('renders course file links', () => {
-    render(<CourseFileLinks />)
-  })
-
   test('renders course offering schedule correctly', () => {
     const language = 'en'
     const [translate] = i18n.messages // en
@@ -27,11 +21,11 @@ describe('Component <CourseFileLinks>', () => {
     }
 
     const { rerender } = render(<CourseFileLinks {...propsWithScheduleUrl} />)
-    const scheduleLink = getByText(translate.courseLabels.label_schedule)
+    const scheduleLink = screen.getByText(translate.courseLabels.label_schedule)
     expect(scheduleLink).toBeInTheDocument()
 
     rerender(<CourseFileLinks {...propsWithoutScheduleUrl} />)
-    const scheduleText = getByText(translate.courseLabels.no_schedule_published)
+    const scheduleText = screen.getByText(translate.courseLabels.no_schedule_published)
     expect(scheduleText).toBeInTheDocument()
   })
 
@@ -45,7 +39,7 @@ describe('Component <CourseFileLinks>', () => {
     }
 
     render(<CourseFileLinks {...propsWithMemoFile} />)
-    const memoLink = getByText(`${translate.courseLabels.label_link_course_memo}`)
+    const memoLink = screen.getByText(`${translate.courseLabels.label_link_course_memo}`)
     expect(memoLink).toBeInTheDocument()
     expect(memoLink.href).toBe('https://test.com/testedMemo')
   })
@@ -69,11 +63,11 @@ describe('Component <CourseFileLinks>', () => {
     }
 
     const { rerender } = render(<CourseFileLinks {...propsWithMemoFile} />)
-    const memoLink = getByText(`${translate.courseLabels.label_link_course_memo}`)
+    const memoLink = screen.getByText(`${translate.courseLabels.label_link_course_memo}`)
     expect(memoLink).toBeInTheDocument()
 
     rerender(<CourseFileLinks {...propsWithMemoWebPage} />)
-    const linkToMemoWebPage = getByText(translate.courseLabels.label_link_course_memo)
+    const linkToMemoWebPage = screen.getByText(translate.courseLabels.label_link_course_memo)
     expect(linkToMemoWebPage).toBeInTheDocument()
     expect(linkToMemoWebPage.href).toBe('http://localhost/kurs-pm/KIP1111/19701/7')
   })
@@ -92,8 +86,8 @@ describe('Component <CourseFileLinks>', () => {
       },
     }
 
-    const { rerender } = render(<CourseFileLinks {...propsWithMemoFileAndOtherInfo} />)
-    const memoLink = getByText(`${translate.courseLabels.label_link_course_memo}`)
+    render(<CourseFileLinks {...propsWithMemoFileAndOtherInfo} />)
+    const memoLink = screen.getByText(`${translate.courseLabels.label_link_course_memo}`)
     expect(memoLink).toBeInTheDocument()
   })
 })

@@ -3,18 +3,17 @@ jest.mock('../../api', () => {})
 
 const systemCtrl = require('../systemCtrl')
 
+const next = jest.fn()
+
 describe('Not found', () => {
-  test('Gets correct error code', (done) => {
+  test('Gets correct error code', () => {
     const req = { originalUrl: 'http://localhost' }
 
-    const next = (err) => {
-      expect(err).toBeInstanceOf(Error)
-      expect(err.status).toBeDefined()
-      expect(err.status).toEqual(404)
-      expect(err.message).toMatch('http://localhost')
-      done()
-    }
-
     systemCtrl.notFound(req, {}, next)
+
+    const expectedError = new Error('Not Found: http://localhost')
+    expectedError.status = 404
+
+    expect(next).toHaveBeenCalledWith(expectedError)
   })
 })

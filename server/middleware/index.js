@@ -1,5 +1,5 @@
 'use strict'
 
 module.exports = {
-  SyllabusPdf: require('./syllabusPdfProxy')
+  SyllabusPdf: require('./syllabusPdfProxy'),
 }

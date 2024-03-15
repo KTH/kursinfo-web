@@ -4,6 +4,7 @@ const { INFORM_IF_IMPORTANT_INFO_IS_MISSING } = require('../constants')
 function htmlStringToElement(html) {
   const template = document.createElement('template')
   template.innerHTML = html
+  // eslint-disable-next-line prefer-destructuring
   const htmlElement = template.content.children[0]
   return htmlElement
 }
@@ -28,9 +29,9 @@ describe('course department link utils', () => {
 
   test.each([undefined, { name: undefined }])('returns fallback text if department is %p', department => {
     const resultSv = buildCourseDepartmentLink(department, 'sv')
-    expect(resultSv).toBe(INFORM_IF_IMPORTANT_INFO_IS_MISSING['sv'])
+    expect(resultSv).toBe(INFORM_IF_IMPORTANT_INFO_IS_MISSING.sv)
 
     const resultEn = buildCourseDepartmentLink(department, 'en')
-    expect(resultEn).toBe(INFORM_IF_IMPORTANT_INFO_IS_MISSING['en'])
+    expect(resultEn).toBe(INFORM_IF_IMPORTANT_INFO_IS_MISSING.en)
   })
 })

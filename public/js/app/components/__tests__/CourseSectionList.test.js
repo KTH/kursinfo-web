@@ -8,15 +8,6 @@ import CourseSectionList from '../CourseSectionList'
 const INFORM_IF_IMPORTANT_INFO_IS_MISSING = ['No information inserted', 'Ingen information tillagd']
 
 describe('Component <CourseSectionList>', () => {
-  test('renders a course section list', () => {
-    const context = {}
-    render(
-      <WebContextProvider configIn={context}>
-        <CourseSectionList syllabusList={[]} />
-      </WebContextProvider>
-    )
-  })
-
   test('renders course literature correctly', () => {
     const language = 'en'
     const [courseLiteratureNoTitle] = INFORM_IF_IMPORTANT_INFO_IS_MISSING // en
@@ -65,7 +56,7 @@ describe('Component <CourseSectionList>', () => {
     const literatureText = screen.getByText(courseLiteratureTitle)
     expect(literatureText).toBeInTheDocument()
     let syllabusText = screen.queryByText(syllabusLiteratureTitle)
-    expect(syllabusText).toBeNull()
+    expect(syllabusText).not.toBeInTheDocument()
 
     // Course hasn't literature, syllabus does without comment – Show only literature (no comment) from syllabus
     rerender(
@@ -79,7 +70,7 @@ describe('Component <CourseSectionList>', () => {
     syllabusText = screen.getByText(syllabusLiteratureTitle, { exact: false })
     expect(syllabusText).toBeInTheDocument()
     syllabusText = screen.queryByText(syllabusLiteratureNoComment)
-    expect(syllabusText).toBeNull()
+    expect(syllabusText).not.toBeInTheDocument()
 
     // Course hasn't literature, syllabus does with comment – Show literature and literature comment from syllabus
     rerender(

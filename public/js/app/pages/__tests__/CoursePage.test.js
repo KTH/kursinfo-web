@@ -3,8 +3,7 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { faker } from '@faker-js/faker'
 import axios from 'axios'
-import { act } from 'react-dom/test-utils'
-import userEvent from '@testing-library/user-event'
+import { userEvent } from '@testing-library/user-event'
 import { WebContextProvider } from '../../context/WebContext'
 import CoursePage from '../CoursePage'
 
@@ -30,16 +29,8 @@ const context = {
 const [translate] = i18n.messages // en
 
 describe('Component <CoursePage>', () => {
-  test('renders a course page', () => {
-    render(
-      <WebContextProvider configIn={context}>
-        <CoursePage />
-      </WebContextProvider>
-    )
-  })
-
   test('renders course syllabus link correctly', () => {
-    const { rerender } = render(
+    render(
       <WebContextProvider configIn={context}>
         <CoursePage />
       </WebContextProvider>
@@ -399,12 +390,10 @@ describe('Component <CoursePage>', () => {
       },
     }
 
-    await act(async () =>
-      render(
-        <WebContextProvider configIn={contextToTest}>
-          <CoursePage />
-        </WebContextProvider>
-      )
+    render(
+      <WebContextProvider configIn={contextToTest}>
+        <CoursePage />
+      </WebContextProvider>
     )
     expect(screen.getByText('MF1016 Basic Electrical Engineering 9.0 credits')).toBeInTheDocument()
     expect(screen.getByText('Valid for')).toBeInTheDocument()

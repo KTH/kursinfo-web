@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { WebContextProvider } from '../../context/WebContext'
 import i18n from '../../../../../i18n'
@@ -20,7 +20,7 @@ describe('Comoponent <BankIdAlert>', () => {
       fundingType: 'LL',
       contextLang: 'en',
       roundSpecified: true,
-      translation: translation,
+      translation,
     }
     render(
       <WebContextProvider configIn={context}>
@@ -28,13 +28,13 @@ describe('Comoponent <BankIdAlert>', () => {
       </WebContextProvider>
     )
 
-    const alert = screen.getByText(
+    const expectedAlert = screen.getByText(
       new RegExp(
         `You could meet obstacles if you're required to pay fees or if you do not have a Swedish Mobile BankID.`,
         'i'
       )
     )
-    expect(alert).toBeInTheDocument()
+    expect(expectedAlert).toBeInTheDocument()
 
     const link = screen.getByRole('link', {
       name: 'Students not located in Sweden may have problems attending a course at KTH.',
@@ -50,7 +50,7 @@ describe('Comoponent <BankIdAlert>', () => {
       fundingType: 'LL',
       contextLang: 'sv',
       roundSpecified: true,
-      translation: translation,
+      translation,
     }
     render(
       <WebContextProvider configIn={context}>
@@ -58,10 +58,10 @@ describe('Comoponent <BankIdAlert>', () => {
       </WebContextProvider>
     )
 
-    const alert = screen.getByText(
+    const expectedAlert = screen.getByText(
       `Du behöver ett KTH-konto för att läsa en kurs på KTH, kontot aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.`
     )
-    expect(alert).toBeInTheDocument()
+    expect(expectedAlert).toBeInTheDocument()
   })
 
   test('does not render BankIdAlert for a Swedish non-distance course', () => {
@@ -72,7 +72,7 @@ describe('Comoponent <BankIdAlert>', () => {
       fundingType: 'LL',
       contextLang: 'sv',
       roundSpecified: true,
-      translation: translation,
+      translation,
     }
     render(
       <WebContextProvider configIn={context}>
@@ -80,10 +80,10 @@ describe('Comoponent <BankIdAlert>', () => {
       </WebContextProvider>
     )
 
-    const alert = screen.queryByText(
+    const expectedAlert = screen.queryByText(
       `Du behöver ett KTH-konto för att läsa en kurs på KTH, kontot aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.`
     )
-    expect(alert).not.toBeInTheDocument()
+    expect(expectedAlert).not.toBeInTheDocument()
   })
 
   test('does not render BankIdAlert without roundSpecified', () => {
@@ -94,7 +94,7 @@ describe('Comoponent <BankIdAlert>', () => {
       fundingType: 'LL',
       contextLang: 'sv',
       roundSpecified: false,
-      translation: translation,
+      translation,
     }
     render(
       <WebContextProvider configIn={context}>
@@ -102,10 +102,10 @@ describe('Comoponent <BankIdAlert>', () => {
       </WebContextProvider>
     )
 
-    const alert = screen.queryByText(
+    const expectedAlert = screen.queryByText(
       `Du behöver ett KTH-konto för att läsa en kurs på KTH, kontot aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.`
     )
-    expect(alert).not.toBeInTheDocument()
+    expect(expectedAlert).not.toBeInTheDocument()
   })
 
   test('does not render BankIdAlert with non LL fundingType', () => {
@@ -116,7 +116,7 @@ describe('Comoponent <BankIdAlert>', () => {
       fundingType: 'VV',
       contextLang: 'sv',
       roundSpecified: true,
-      translation: translation,
+      translation,
     }
     render(
       <WebContextProvider configIn={context}>
@@ -124,10 +124,10 @@ describe('Comoponent <BankIdAlert>', () => {
       </WebContextProvider>
     )
 
-    const alert = screen.queryByText(
+    const expectedAlert = screen.queryByText(
       `Du behöver ett KTH-konto för att läsa en kurs på KTH, kontot aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.`
     )
-    expect(alert).not.toBeInTheDocument()
+    expect(expectedAlert).not.toBeInTheDocument()
   })
   test('does not render BankIdAlert without contextLang', () => {
     const translation = i18n.messages[TRANSLATION_SWEDISH_INDEX]
@@ -137,7 +137,7 @@ describe('Comoponent <BankIdAlert>', () => {
       fundingType: 'LL',
       contextLang: undefined,
       roundSpecified: true,
-      translation: translation,
+      translation,
     }
 
     render(
@@ -146,9 +146,9 @@ describe('Comoponent <BankIdAlert>', () => {
       </WebContextProvider>
     )
 
-    const alert = screen.queryByText(
+    const expectedAlert = screen.queryByText(
       `Du behöver ett KTH-konto för att läsa en kurs på KTH, kontot aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.`
     )
-    expect(alert).not.toBeInTheDocument()
+    expect(expectedAlert).not.toBeInTheDocument()
   })
 })

@@ -1,5 +1,4 @@
 {
-  "extends": [
-    "@kth/eslint-config-kth"
-  ]
+  "root": true,
+  "extends": ["@kth/eslint-config-kth"],
 }

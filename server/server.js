@@ -1,13 +1,14 @@
+/* eslint-disable import/order */
 const server = require('@kth/server')
 
 // Now read the server config etc.
 const config = require('./configuration').server
 require('./api')
 const AppRouter = require('kth-node-express-routing').PageRouter
-const getPaths = require('kth-node-express-routing').getPaths
+const { getPaths } = require('kth-node-express-routing')
 
 if (config.appInsights && config.appInsights.instrumentationKey) {
-  let appInsights = require('applicationinsights')
+  const appInsights = require('applicationinsights')
   appInsights
     .setup(config.appInsights.instrumentationKey)
     .setAutoDependencyCorrelation(true)
@@ -31,7 +32,7 @@ module.exports.getPaths = () => getPaths()
 const log = require('@kth/log')
 const packageFile = require('../package.json')
 
-let logConfiguration = {
+const logConfiguration = {
   name: packageFile.name,
   app: packageFile.name,
   env: process.env.NODE_ENV,
@@ -70,6 +71,7 @@ require('./views/helpers')
  * ******************************
  */
 const accessLog = require('kth-node-access-log')
+
 server.use(accessLog(config.logging.accessLog))
 
 /* ****************************
@@ -79,14 +81,6 @@ server.use(accessLog(config.logging.accessLog))
 const browserConfig = require('./configuration').browser
 const browserConfigHandler = require('kth-node-configuration').getHandler(browserConfig, getPaths())
 const express = require('express')
-
-// helper
-function setCustomCacheControl(res, path) {
-  if (express.static.mime.lookup(path) === 'text/html') {
-    // Custom Cache-Control for HTML files
-    res.setHeader('Cache-Control', 'no-cache')
-  }
-}
 
 // Files/statics routes--
 // Map components HTML files as static content, but set custom cache control header, currently no-cache to force If-modified-since/Etag check.
@@ -105,8 +99,8 @@ server.use(config.proxyPrefixPath.uri + '/static/kth-style', express.static('./n
 // Map static content like images, css and js.
 server.use(config.proxyPrefixPath.uri + '/static', express.static('./dist'))
 // Return 404 if static file isn't found so we don't go through the rest of the pipeline
-server.use(config.proxyPrefixPath.uri + '/static', function (req, res, next) {
-  var error = new Error('File not found: ' + req.originalUrl)
+server.use(config.proxyPrefixPath.uri + '/static', (req, res, next) => {
+  const error = new Error('File not found: ' + req.originalUrl)
   error.statusCode = 404
   next(error)
 })
@@ -121,6 +115,7 @@ server.set('case sensitive routing', true)
  */
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
+
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: true }))
 server.use(cookieParser())
@@ -130,6 +125,7 @@ server.use(cookieParser())
  * ***********************
  */
 const session = require('@kth/session')
+
 const options = config.session
 options.sessionOptions.secret = config.sessionSecret
 server.use(session(options))
@@ -139,6 +135,7 @@ server.use(session(options))
  * ************************
  */
 const { languageHandler } = require('@kth/kth-node-web-common/lib/language')
+
 server.use(config.proxyPrefixPath.uri, languageHandler)
 
 /* ******************************
