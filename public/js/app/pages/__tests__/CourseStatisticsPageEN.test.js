@@ -1,16 +1,12 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import userEvent from '@testing-library/user-event'
+import { userEvent } from '@testing-library/user-event'
 import { WebContextProvider } from '../../context/WebContext'
 import CourseStatisticsPage from '../CourseStatisticsPage'
 
-// import i18n from '../../../../../../i18n'
-
 const language_en = 'en'
 const mockDate = new Date('2022-03-23 16:00')
-
-let submittedResults
 
 const context_en = {
   language: language_en,
@@ -20,7 +16,7 @@ const context_en = {
 function CourseStatisticsPageWithContext({ context }) {
   return (
     <WebContextProvider configIn={context}>
-      <CourseStatisticsPage onSubmit={props => (submittedResults = props)} />
+      <CourseStatisticsPage onSubmit={() => {}} />
     </WebContextProvider>
   )
 }

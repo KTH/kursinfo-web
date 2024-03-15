@@ -5,111 +5,102 @@ import InfoModal from '../InfoModal'
 
 import '@testing-library/jest-dom'
 
-const { queryByText, getByRole, getAllByRole } = screen
-
 describe('Component without data <InfoModal> 1I', () => {
-  test('renders an info modal', () => {
+  test('renders modal button', () => {
     render(<InfoModal />)
+    const modalBtn = screen.getByRole('button')
+    expect(modalBtn).toBeInTheDocument()
   })
 })
 
-describe('Component <InfoModal> with html text 2I', () => {
-  beforeEach(() =>
-    render(
-      <InfoModal
-        title="Valid for"
-        infoText="<p>• A course goes different course offerings. To see information about a specific course offering, choose semester and course offering.</p>"
-        type="html"
-        closeLabel="Close"
-        ariaLabel="Information about choosing semester and course offering"
-      />
-    )
+const renderInfoModal = () =>
+  render(
+    <InfoModal
+      title="Valid for"
+      infoText="<p>• A course goes different course offerings. To see information about a specific course offering, choose semester and course offering.</p>"
+      type="html"
+      closeLabel="Close"
+      ariaLabel="Information about choosing semester and course offering"
+    />
   )
 
-  test('renders modal button with aria label', done => {
-    const modalBtn = getByRole('button')
+describe('Component <InfoModal> with html text 2I', () => {
+  test('renders modal button with aria label', () => {
+    renderInfoModal()
+    const modalBtn = screen.getByRole('button')
     expect(modalBtn).toBeInTheDocument()
     expect(modalBtn).toHaveAttribute('aria-label', 'Information about choosing semester and course offering')
-
-    done()
   })
 
   test('renders modal 2 close buttons if modal is open', async () => {
-    const modalBtn = getByRole('button')
+    renderInfoModal()
+    const modalBtn = screen.getByRole('button')
 
     // Open modal
     fireEvent.click(modalBtn)
     await waitFor(() => {
-      const allBtns = getAllByRole('button')
+      const allBtns = screen.getAllByRole('button')
       expect(allBtns[1]).toHaveTextContent('×')
-      expect(allBtns[2]).toHaveTextContent('Close')
     })
+    const allBtns = screen.getAllByRole('button')
+    expect(allBtns[2]).toHaveTextContent('Close')
   })
 
   test('renders modal heading and text included as html if modal is open', async () => {
-    const modalBtn = getByRole('button')
+    renderInfoModal()
+    const modalBtn = screen.getByRole('button')
 
     // Open modal
     fireEvent.click(modalBtn)
     await waitFor(() => {
-      const heading = getByRole('heading', { level: 5 })
+      const heading = screen.getByRole('heading', { level: 5 })
       expect(heading).toHaveTextContent('Valid for')
-
-      const stringFromHtml = queryByText(
-        '• A course goes different course offerings. To see information about a specific course offering, choose semester and course offering.'
-      )
-      expect(stringFromHtml).toBeInTheDocument()
     })
+
+    const stringFromHtml = screen.queryByText(
+      '• A course goes different course offerings. To see information about a specific course offering, choose semester and course offering.'
+    )
+    expect(stringFromHtml).toBeInTheDocument()
   })
 })
 
 describe('Component <InfoModal> and its functionality 3I', () => {
-  beforeEach(() =>
-    render(
-      <InfoModal
-        title="Valid for"
-        infoText="<p>• A course goes different course offerings. To see information about a specific course offering, choose semester and course offering.</p>"
-        type="html"
-        closeLabel="Close"
-        ariaLabel="Information about choosing semester and course offering"
-      />
-    )
-  )
-
   test('open modal and close by clicking ×', async () => {
-    const modalBtn = getByRole('button')
+    renderInfoModal()
+    const modalBtn = screen.getByRole('button')
 
     // Open modal i
     fireEvent.click(modalBtn)
     await waitFor(() => {
-      expect(queryByText('Valid for')).toBeInTheDocument()
+      expect(screen.getByText('Valid for')).toBeInTheDocument()
     })
 
     // Close modal using ×
-    const modalCrossBtn = getByRole('button', { name: '×' })
+    const modalCrossBtn = screen.getByRole('button', { name: '×' })
     fireEvent.click(modalCrossBtn)
-    setTimeout(async () => waitForElementToBeRemoved(() => queryByText('Valid for')), 1000)
+    setTimeout(async () => waitForElementToBeRemoved(() => screen.queryByText('Valid for')), 1000)
   })
 
   test('open modal and close by clicking button "Close"', async () => {
-    const modalBtn = getByRole('button')
+    renderInfoModal()
+    const modalBtn = screen.getByRole('button')
 
     // Open modal i
     fireEvent.click(modalBtn)
     await waitFor(() => {
-      expect(queryByText('Valid for')).toBeInTheDocument()
+      expect(screen.getByText('Valid for')).toBeInTheDocument()
     })
 
     // Close modal using "Close"
-    const modalCloseBtn = getByRole('button', { name: /close/i })
+    const modalCloseBtn = screen.getByRole('button', { name: /close/i })
     fireEvent.click(modalCloseBtn)
 
-    setTimeout(async () => waitForElementToBeRemoved(() => queryByText('Valid for')), 1000)
+    setTimeout(async () => waitForElementToBeRemoved(() => screen.queryByText('Valid for')), 1000)
   })
 })
 
 describe('Component <InfoModal> with non-html text 4I', () => {
-  beforeEach(() =>
+  test('renders modal heading if modal is open', async () => {
     render(
       <InfoModal
         title="Valid for"
@@ -117,21 +108,18 @@ describe('Component <InfoModal> with non-html text 4I', () => {
         closeLabel="Close"
       />
     )
-  )
-
-  test('renders modal heading if modal is open', async () => {
-    const modalBtn = getByRole('button')
+    const modalBtn = screen.getByRole('button')
 
     // Open modal
     fireEvent.click(modalBtn)
     await waitFor(() => {
-      const heading = getByRole('heading', { level: 5 })
+      const heading = screen.getByRole('heading', { level: 5 })
       expect(heading).toHaveTextContent('Valid for')
-
-      const string = queryByText(
-        '• A course goes different course offerings. To see information about a specific course offering, choose semester and course offering.'
-      )
-      expect(string).toBeInTheDocument()
     })
+
+    const string = screen.queryByText(
+      '• A course goes different course offerings. To see information about a specific course offering, choose semester and course offering.'
+    )
+    expect(string).toBeInTheDocument()
   })
 })

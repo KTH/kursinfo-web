@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { WebContextProvider } from '../../context/WebContext'
 
@@ -10,13 +10,6 @@ const INFORM_IF_IMPORTANT_INFO_IS_MISSING = ['No information inserted', 'Ingen i
 const context = { browserConfig: {}, sellingText: { en: '', sv: '' }, imageFromAdmin: '' }
 
 describe('Component <RoundInformationOneCol>', () => {
-  test('renders a course information column', () => {
-    render(
-      <WebContextProvider configIn={context}>
-        <RoundInformationOneCol />
-      </WebContextProvider>
-    )
-  })
   test('renders study pace correctly', () => {
     const propsWithStudyPace = {
       language: 'en',
@@ -135,25 +128,27 @@ describe('Component <RoundInformationOneCol>', () => {
         <RoundInformationOneCol {...propsWithSeatsNum} />{' '}
       </WebContextProvider>
     )
+
     const label = screen.getByText('Number of places')
     expect(label).toBeInTheDocument()
-    expect(label.querySelector('button')).toBeInTheDocument()
+
+    const button = within(label).getByRole('button')
 
     const seatsNum = screen.getByText('Max: 10')
     expect(seatsNum).toBeInTheDocument()
 
-    label.querySelector('button').click()
+    button.click()
     await waitFor(() => {
       expect(
         screen.getByText(
           'Course offering may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made. The selection results are based on:'
         )
       ).toBeInTheDocument()
-      expect(screen.getByText('English. Spicy jalapeno bacon ipsum')).toBeInTheDocument()
     })
+    expect(screen.getByText('English. Spicy jalapeno bacon ipsum')).toBeInTheDocument()
   })
 
-  test('renders default text and hide info icon if a course offering number of places is not provided', done => {
+  test('renders default text and hide info icon if a course offering number of places is not provided', () => {
     const propsWithoutSeatsNum = {
       language: 'en',
       showRoundData: true,
@@ -175,12 +170,12 @@ describe('Component <RoundInformationOneCol>', () => {
 
     const label = screen.getByText('Number of places')
     expect(label).toBeInTheDocument()
-    expect(label.querySelector('button')).toBeFalsy()
+    const button = within(label).queryByRole('button')
+
+    expect(button).not.toBeInTheDocument()
 
     const seatsNum = screen.getByText('Places are not limited')
     expect(seatsNum).toBeInTheDocument()
-
-    done()
   })
 
   test('renders course offering number of places correctly and default text in modal if selection criteria is empty', async () => {
@@ -205,20 +200,22 @@ describe('Component <RoundInformationOneCol>', () => {
 
     const label = screen.getByText('Number of places')
     expect(label).toBeInTheDocument()
-    expect(label.querySelector('button')).toBeInTheDocument()
+    const button = within(label).getByRole('button')
+
+    expect(button).toBeInTheDocument()
 
     const seatsNum = screen.getByText('5-10')
     expect(seatsNum).toBeInTheDocument()
 
-    label.querySelector('button').click()
+    button.click()
     await waitFor(() => {
       expect(
         screen.getByText(
           'Course offering may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made.'
         )
       ).toBeInTheDocument()
-      const criteriaText = screen.queryByText('The selection results are based on:')
-      expect(criteriaText).not.toBeInTheDocument()
     })
+    const criteriaText = screen.queryByText('The selection results are based on:')
+    expect(criteriaText).not.toBeInTheDocument()
   })
 })

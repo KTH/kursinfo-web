@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, within } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import userEvent from '@testing-library/user-event'
+import { userEvent } from '@testing-library/user-event'
 
 import axios from 'axios'
 import { WebContextProvider } from '../../context/WebContext'
@@ -180,13 +180,13 @@ describe('Component <CourseStatisticsPage> show compilation data in for memos', 
     expect(axios.get).toHaveBeenCalledWith(url, paramsPeriod1)
     expect(
       screen.getByRole('heading', {
-        name: /sammanställning av antalet publicerade kurs\-pm/i,
+        name: /sammanställning av antalet publicerade kurs-pm/i,
       })
     ).toBeInTheDocument()
 
     expect(
       screen.getByRole('heading', {
-        name: /andel kurser som har publicerade kurs\-pm/i,
+        name: /andel kurser som har publicerade kurs-pm/i,
       })
     ).toBeInTheDocument()
     const periodsLabel = /Sommar, 1 HT, 2 HT, 3 VT, 4 VT/i

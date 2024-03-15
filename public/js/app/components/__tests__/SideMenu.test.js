@@ -6,18 +6,13 @@ import SideMenu from '../SideMenu'
 import i18n from '../../../../../i18n'
 import '@testing-library/jest-dom'
 
-const { getAllByRole, queryByText } = screen
 const [translationEN, translationSV] = i18n.messages
 
 describe('Component <SideMenu>', () => {
-  test('renders a side menu', () => {
-    render(<SideMenu />)
-  })
-
   test('renders a side menu for a course and with labels. English', () => {
     render(<SideMenu courseCode={'KIP1111'} labels={translationEN.courseLabels.sideMenu} language={'en'} />)
 
-    const links = getAllByRole('link')
+    const links = screen.getAllByRole('link')
     expect(links.length).toBe(5)
 
     expect(links[0].href).toBe('http://localhost/student/kurser/kurser-inom-program?l=en')
@@ -35,13 +30,13 @@ describe('Component <SideMenu>', () => {
     expect(links[4].href).toBe('http://localhost/kursutveckling/KIP1111/arkiv?l=en')
     expect(links[4].title).toBe('Archive')
 
-    expect(queryByText('About course KIP1111')).toBeInTheDocument()
+    expect(screen.getByText('About course KIP1111')).toBeInTheDocument()
   })
 
   test('renders a side menu for a course and with labels. Swedish', () => {
     render(<SideMenu courseCode={'KIP1111'} labels={translationSV.courseLabels.sideMenu} language={'sv'} />)
 
-    const links = getAllByRole('link')
+    const links = screen.getAllByRole('link')
     expect(links.length).toBe(5)
 
     expect(links[0].href).toBe('http://localhost/student/kurser/kurser-inom-program')
@@ -59,6 +54,6 @@ describe('Component <SideMenu>', () => {
     expect(links[4].href).toBe('http://localhost/kursutveckling/KIP1111/arkiv?l=sv')
     expect(links[4].title).toBe('Arkiv')
 
-    expect(queryByText('Om kursen KIP1111')).toBeInTheDocument()
+    expect(screen.getByText('Om kursen KIP1111')).toBeInTheDocument()
   })
 })

@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import userEvent from '@testing-library/user-event'
+import { userEvent } from '@testing-library/user-event'
 import { WebContextProvider } from '../../../context/WebContext'
 import StatisticsDataTable from '../StatisticsDataTable'
 
@@ -93,7 +93,7 @@ describe('Component <StatisticsDataTable> in english', () => {
     expect(screen.getByText('No statistics data found!')).toBeInTheDocument()
   })
 
-  test('Renders a table for a statistics page for course memo', () => {
+  test('Renders a table for a statistics page for course memo', async () => {
     render(<StatisticsDataTableWithContext context={context_en} statisticsResult={statisticsResultForMemo} />)
     expect(screen.getByText('A31REA')).toBeInTheDocument()
     expect(screen.getByText('CDE, Gru 1-2-3')).toBeInTheDocument()
@@ -102,13 +102,13 @@ describe('Component <StatisticsDataTable> in english', () => {
     expect(screen.getByText('26 Aug 2019')).toBeInTheDocument()
     const csvDownloadButton = screen.getByRole('button', { name: /Download table as csv file/i })
     expect(csvDownloadButton).toBeInTheDocument()
-    userEvent.click(csvDownloadButton)
+    await userEvent.click(csvDownloadButton)
     const excelDownloadButton = screen.getByRole('button', { name: /Download table as excel file/i })
     expect(excelDownloadButton).toBeInTheDocument()
-    userEvent.click(excelDownloadButton)
+    await userEvent.click(excelDownloadButton)
   })
 
-  test('Renders a table for a statistics page for course analysis', () => {
+  test('Renders a table for a statistics page for course analysis', async () => {
     render(<StatisticsDataTableWithContext context={context_en} statisticsResult={statisticsResultForAnalysis} />)
     expect(screen.getByText('A31REA')).toBeInTheDocument()
     expect(screen.getByText('CDE, Gru 1-2-3')).toBeInTheDocument()
@@ -117,9 +117,9 @@ describe('Component <StatisticsDataTable> in english', () => {
     expect(screen.getByText('14 Jan 2020')).toBeInTheDocument()
     const csvDownloadButton = screen.getByRole('button', { name: /Download table as csv file/i })
     expect(csvDownloadButton).toBeInTheDocument()
-    userEvent.click(csvDownloadButton)
+    await userEvent.click(csvDownloadButton)
     const excelDownloadButton = screen.getByRole('button', { name: /Download table as excel file/i })
     expect(excelDownloadButton).toBeInTheDocument()
-    userEvent.click(excelDownloadButton)
+    await userEvent.click(excelDownloadButton)
   })
 })

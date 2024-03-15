@@ -9,11 +9,7 @@ import '@testing-library/jest-dom'
 const [translationEN, translationSV] = i18n.messages
 
 describe('Component <CourseTitle>', () => {
-  test('renders a course title', () => {
-    render(<CourseTitle />)
-  })
-
-  test('renders a course title with data and use correct credit unit in English', done => {
+  test('renders a course title with data and use correct credit unit in English', () => {
     const courseTitleData = {
       course_code: 'KIP1111',
       course_title: 'Project in Plasma Physics',
@@ -41,11 +37,9 @@ describe('Component <CourseTitle>', () => {
 
     const adminLinkName = screen.queryByText('Administer About course')
     expect(adminLinkName).toBeInTheDocument()
-
-    done()
   })
 
-  test('renders a course title with data and use correct credit unit in Swedish', done => {
+  test('renders a course title with data and use correct credit unit in Swedish', () => {
     const courseTitleData = {
       course_code: 'KIP1111',
       course_title: 'Projekt i plasmafysik',
@@ -73,6 +67,5 @@ describe('Component <CourseTitle>', () => {
 
     const adminLinkName = screen.queryByText('Administrera Om kursen')
     expect(adminLinkName).toBeInTheDocument()
-    done()
   })
 })
