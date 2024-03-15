@@ -133,7 +133,7 @@ async function fetchMemoStatistics(req, res, next) {
     })
   } catch (error) {
     log.debug(` Exception`, { error })
-    next(error)
+    return next(error)
   }
 }
 /**
@@ -196,7 +196,7 @@ async function fetchAnalysisStatistics(req, res, next) {
     })
   } catch (error) {
     log.debug(` Exception`, { error })
-    next(error)
+    return next(error)
   }
 }
 

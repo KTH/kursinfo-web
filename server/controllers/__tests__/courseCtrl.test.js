@@ -58,7 +58,7 @@ jest.mock('../../apiCalls/koppsCourseData', () => ({ getKoppsCourseData: () => (
 jest.mock('../../apiCalls/ugRestApi', () => ({
   getCourseEmployees: jest.fn(() => ({ examiners: '<p>Examiner 1 </p>' })),
 }))
-let testResponse, errorResponse
+let testResponse
 
 jest.mock('../../utils/serverSideRendering', () => ({
   getServerSideFunctions: jest.fn(() => ({
@@ -76,7 +76,6 @@ const courseCtrl = require('../courseCtrl')
 let response
 beforeEach(() => {
   testResponse = {}
-  errorResponse = null
   response = { render: jest.fn().mockImplementation((name, values) => (testResponse = values)) }
 })
 
@@ -96,10 +95,9 @@ describe('Discontinued course to test', () => {
       },
       language: 'sv',
     })
-    const next = jest.fn().mockImplementation(error => (errorResponse = error))
+    const next = jest.fn()
 
     await courseCtrl.getIndex(req, response, next)
-    if (errorResponse) console.error('errorResponse', errorResponse)
 
     expect(response.render).toHaveBeenCalled()
     expect(testResponse.title).toBe(mockedDiscontinuedCourse.course.courseCode)

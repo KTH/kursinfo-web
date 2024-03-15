@@ -24,7 +24,7 @@ try {
 */
 registerHeaderContentHelper({
   proxyPrefixPath: config.proxyPrefixPath.uri,
-  version
+  version,
 })
 
 /**

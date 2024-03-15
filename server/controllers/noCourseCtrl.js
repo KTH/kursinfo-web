@@ -2,7 +2,7 @@
 
 const languageUtils = require('@kth/kth-node-web-common/lib/language')
 
-function getIndex(req, res, next) {
+function getIndex(req, res) {
   const lang = languageUtils.getLanguage(res) || 'sv'
   const html =
     lang === 'en'

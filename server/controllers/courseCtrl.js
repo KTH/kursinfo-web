@@ -39,13 +39,13 @@ function parceContactName(infoContactName, language) {
   return contact
 }
 
-async function getCourseEmployees(req, res, next) {
+async function getCourseEmployees(req, res) {
   const apiMemoData = req.body
   const courseEmployees = await ugRestApi.getCourseEmployees(apiMemoData)
   res.send(courseEmployees)
 }
 
-async function getKoppsCourseData(req, res, next) {
+async function getKoppsCourseData(req, res) {
   const { courseCode } = req.params
   const language = req.params.language || 'sv'
   log.debug('Get Kopps course data for: ', courseCode, language)
@@ -59,14 +59,14 @@ async function getKoppsCourseData(req, res, next) {
     log.debug('NOK response from Kopps API for: ', courseCode, language)
     res.status(statusCode)
     res.statusCode = statusCode
-    res.send(courseCode)
+    return res.send(courseCode)
   } catch (err) {
     return err
   }
 }
 
 function _parseCourseDefaultInformation(courseDetails, language) {
-  const { course, formattedGradeScales, mainSubjects, socialCoursePageUrl } = courseDetails
+  const { course, formattedGradeScales, mainSubjects } = courseDetails
   return {
     course_application_info: parseOrSetEmpty(course.applicationInfo, language, true),
     course_code: parseOrSetEmpty(course.courseCode),

@@ -61,7 +61,7 @@ function _getFriendlyErrorMessage(lang, statusCode) {
 }
 
 // this function must keep this signature for it to work properly
-function _final(err, req, res, next) {
+function _final(err, req, res) {
   const debugStatusCodes = [403, 404]
 
   let statusCode
