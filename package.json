@@ -57,7 +57,7 @@
     "react-router-dom": "^6.22.3",
     "reactstrap": "^9.2.2",
     "sanitize-html": "^2.12.1",
-    "victory": "^36.9.1",
+    "victory": "^36.9.2",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
