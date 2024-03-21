@@ -1,11 +1,11 @@
 /* eslint-disable react/no-danger */
 import React, { useEffect } from 'react'
 
-import { Row, Col, Alert, Breadcrumb, BreadcrumbItem } from 'reactstrap'
+import { Row, Col, Alert } from 'reactstrap'
 
 import i18n from '../../../../i18n'
 import { INFORM_IF_IMPORTANT_INFO_IS_MISSING, FORSKARUTB_URL, SYLLABUS_URL } from '../util/constants'
-import { breadcrumbLinks, aboutCourseLink } from '../util/links'
+import { aboutCourseLink } from '../util/links'
 
 import RoundInformationOneCol from '../components/RoundInformationOneCol'
 import CourseTitle from '../components/CourseTitle'
@@ -19,24 +19,6 @@ import BankIdAlert from '../components/BankIdAlert'
 
 const aboutCourseStr = (translate, courseCode = '') => `${translate.site_name} ${courseCode}`
 
-const Breadcrumbs = ({ translation, language, courseCode }) => (
-  <Breadcrumb lang={language} aria-label={translation.breadCrumbLabels.breadcrumbs} className="secondaryMenu">
-    <BreadcrumbItem>
-      <a href={`${breadcrumbLinks.university[language]}`}>{translation.breadCrumbLabels.university}</a>
-    </BreadcrumbItem>
-    <BreadcrumbItem>
-      <a href={`${breadcrumbLinks.student[language]}`}>{translation.breadCrumbLabels.student}</a>
-    </BreadcrumbItem>
-    <BreadcrumbItem>
-      <a href={`${breadcrumbLinks.directory[language]}`}>{translation.breadCrumbLabels.directory}</a>
-    </BreadcrumbItem>
-    <BreadcrumbItem>
-      <a
-        href={`${aboutCourseLink(courseCode, language)}`}
-      >{`${translation.breadCrumbLabels.aboutCourse} ${courseCode}`}</a>
-    </BreadcrumbItem>
-  </Breadcrumb>
-)
 function CoursePage() {
   const [context, setWebContext] = useWebContext()
   // const context = React.useMemo(() => webContext, [webContext])
@@ -129,9 +111,6 @@ function CoursePage() {
 
   return (
     <div key="kursinfo-container" className="col" id="kursinfo-main-page">
-      <Row>
-        <Breadcrumbs translation={translation} language={language} courseCode={courseCode} />
-      </Row>
       <Row id="pageContainer" key="pageContainer">
         <SideMenu courseCode={courseCode} labels={translation.courseLabels.sideMenu} language={language} />
         <main className="col" id="mainContent">
