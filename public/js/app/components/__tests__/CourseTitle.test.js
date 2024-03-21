@@ -5,11 +5,15 @@ import CourseTitle from '../CourseTitle'
 
 import i18n from '../../../../../i18n'
 import '@testing-library/jest-dom'
+jest.mock('../../context/WebContext')
+import { useWebContext } from '../../context/WebContext'
 
 const [translationEN, translationSV] = i18n.messages
 
 describe('Component <CourseTitle>', () => {
   test('renders a course title with data and use correct credit unit in English', () => {
+    useWebContext.mockReturnValue([{ lang: 'en' }])
+
     const courseTitleData = {
       course_code: 'KIP1111',
       course_title: 'Project in Plasma Physics',
@@ -20,7 +24,6 @@ describe('Component <CourseTitle>', () => {
       <CourseTitle
         key="title"
         courseTitleData={courseTitleData}
-        language={'en'}
         pageTitle={translationEN.courseLabels.sideMenu.page_before_course}
       />
     )
@@ -40,6 +43,8 @@ describe('Component <CourseTitle>', () => {
   })
 
   test('renders a course title with data and use correct credit unit in Swedish', () => {
+    useWebContext.mockReturnValue([{ lang: 'sv' }])
+
     const courseTitleData = {
       course_code: 'KIP1111',
       course_title: 'Projekt i plasmafysik',
@@ -50,7 +55,6 @@ describe('Component <CourseTitle>', () => {
       <CourseTitle
         key="title"
         courseTitleData={courseTitleData}
-        language={'sv'}
         pageTitle={translationSV.courseLabels.sideMenu.page_before_course}
       />
     )
