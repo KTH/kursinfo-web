@@ -37,14 +37,6 @@ module.exports = {
   },
   bankIdAlertText:
     'Du behöver ett KTH-konto för att läsa en kurs på KTH, kontot aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.',
-  breadCrumbLabels: {
-    breadcrumbs: 'Brödsmulor',
-    university: 'KTH',
-    student: 'Student på KTH',
-    directory: 'Kurs- och programkatalogen',
-    aboutCourse: 'Om kursen',
-    aboutCourseMemos: 'Om kurs-PM',
-  },
   courseLabels: {
     label_course_description: 'Introducerande beskrivning av kursen',
     label_course_information: 'Kursinformation inklusive kursplan',

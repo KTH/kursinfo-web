@@ -35,14 +35,6 @@ module.exports = {
     back_to_top_label: 'To page top',
   },
   bankIdAlertText: `Please note that <a href="https://www.kth.se/en/studies/freestanding-courses/applying-to-a-course-if-you-are-not-in-sweden-1.1275545" class="external-link" target="_blank" rel="noopener noreferrer">Students not located in Sweden may have problems attending a course at KTH.</a> <br/> You could meet obstacles if you're required to pay fees or if you do not have a Swedish Mobile BankID. `,
-  breadCrumbLabels: {
-    breadcrumbs: 'Breadcrumbs',
-    university: 'KTH',
-    student: 'Student at KTH',
-    directory: 'Course and programme directory',
-    aboutCourse: 'About course',
-    aboutCourseMemos: 'About course memo',
-  },
   courseLabels: {
     label_course_description: 'Introduction to course',
     label_course_information: 'Course information, including syllabus',

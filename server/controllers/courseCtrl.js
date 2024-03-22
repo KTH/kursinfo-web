@@ -12,6 +12,7 @@ const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const paths = require('../server').getPaths()
 const api = require('../api')
+const { createBreadcrumbs } = require('../utils/breadcrumbUtil')
 const { getServerSideFunctions } = require('../utils/serverSideRendering')
 const { createServerSideContext } = require('../ssr-context/createServerSideContext')
 
@@ -615,6 +616,8 @@ async function getIndex(req, res, next) {
       context: webContext,
     })
 
+    const breadcrumbsList = createBreadcrumbs(lang, courseCode)
+
     res.render('course/index', {
       compressedData,
       instrumentationKey: serverConfig?.appInsights?.instrumentationKey,
@@ -626,6 +629,7 @@ async function getIndex(req, res, next) {
           ? 'KTH kursinformation för ' + courseCode.toUpperCase()
           : 'KTH course information ' + courseCode.toUpperCase(),
       klaroAnalyticsConsentCookie,
+      breadcrumbsList,
     })
   } catch (err) {
     const excludedStatusCodes = [403, 404]

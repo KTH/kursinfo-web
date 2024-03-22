@@ -38,18 +38,18 @@ $red: #e01f28;
 }
 
 .container.articleNavigation {
-  padding: 15px 15px 0 !important;
+  padding: 0 15px 0 30px !important;
+
+  #breadcrumbs .breadcrumb {
+    padding-top: 15px;
+    padding-bottom: 24px;
+  }
 }
 
 @media (max-width: 991.98px) {
   nav.secondaryMenu {
     display: none;
   }
-}
-
-.breadcrumb {
-  background-color: transparent;
-  padding: 0.75rem 1rem;
 }
 
 .course-header {
