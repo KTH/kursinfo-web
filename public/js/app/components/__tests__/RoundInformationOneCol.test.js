@@ -7,12 +7,11 @@ import { WebContextProvider } from '../../context/WebContext'
 import RoundInformationOneCol from '../RoundInformationOneCol'
 
 const INFORM_IF_IMPORTANT_INFO_IS_MISSING = ['No information inserted', 'Ingen information tillagd']
-const context = { browserConfig: {}, sellingText: { en: '', sv: '' }, imageFromAdmin: '' }
+const context = { browserConfig: {}, sellingText: { en: '', sv: '' }, imageFromAdmin: '', lang: 'en' }
 
 describe('Component <RoundInformationOneCol>', () => {
   test('renders study pace correctly', () => {
     const propsWithStudyPace = {
-      language: 'en',
       showRoundData: true,
       courseHasRound: true,
       courseData: {},
@@ -41,7 +40,6 @@ describe('Component <RoundInformationOneCol>', () => {
     const responsiblesData = 'Responsibles’ data'
     const teachersData = 'Teachers’ data'
     const propsWithEmployees = {
-      language: 'en',
       showRoundData: true,
       courseHasRound: true,
       courseData: {},
@@ -67,7 +65,6 @@ describe('Component <RoundInformationOneCol>', () => {
 
   test('renders information about missing course empoyees in course offering because it contains empty string', () => {
     const propsWithEmptyEmployees = {
-      language: 'en',
       showRoundData: true,
       courseHasRound: true,
       courseData: {},
@@ -89,7 +86,6 @@ describe('Component <RoundInformationOneCol>', () => {
 
   test('renders information about missing course empoyees in course offering because no data about employees is provided', () => {
     const propsWithoutEmployees = {
-      language: 'en',
       showRoundData: true,
       courseHasRound: true,
       courseData: {},
@@ -107,7 +103,6 @@ describe('Component <RoundInformationOneCol>', () => {
 
   test('renders course offering number of places correctly if all data is available', async () => {
     const propsWithSeatsNum = {
-      language: 'en',
       showRoundData: true,
       courseHasRound: true,
       courseData: {},
@@ -150,7 +145,6 @@ describe('Component <RoundInformationOneCol>', () => {
 
   test('renders default text and hide info icon if a course offering number of places is not provided', () => {
     const propsWithoutSeatsNum = {
-      language: 'en',
       showRoundData: true,
       courseHasRound: true,
       courseData: {},
@@ -180,7 +174,6 @@ describe('Component <RoundInformationOneCol>', () => {
 
   test('renders course offering number of places correctly and default text in modal if selection criteria is empty', async () => {
     const propsWithEmptyCriteria = {
-      language: 'en',
       showRoundData: true,
       courseHasRound: true,
       courseData: {},

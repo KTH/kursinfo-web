@@ -3,23 +3,23 @@ import { useLanguage } from './useLanguage'
 import { useMissingInfo } from './useMissingInfo'
 
 export const useFormatCredits = () => {
-  const { currentLanguageIsEnglish } = useLanguage()
+  const { isLanguageEnglish } = useLanguage()
   const { isMissingInfoLabel } = useMissingInfo()
 
   const createLocaleCreditString = React.useCallback(
     credits => {
       const creditString = credits.toFixed(1)
 
-      const localeCredits = currentLanguageIsEnglish ? creditString : creditString.replace('.', ',')
+      const localeCredits = isLanguageEnglish ? creditString : creditString.replace('.', ',')
 
       return localeCredits
     },
-    [currentLanguageIsEnglish]
+    [isLanguageEnglish]
   )
 
   const createLocaleCreditUnit = React.useCallback(
-    creditUnitAbbr => (currentLanguageIsEnglish ? 'credits' : creditUnitAbbr),
-    [currentLanguageIsEnglish]
+    creditUnitAbbr => (isLanguageEnglish ? 'credits' : creditUnitAbbr),
+    [isLanguageEnglish]
   )
 
   const ensureCreditIsNumber = credits => +credits

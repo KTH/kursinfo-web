@@ -9,7 +9,7 @@ const INFORM_IF_IMPORTANT_INFO_IS_MISSING = ['No information inserted', 'Ingen i
 
 describe('Component <CourseSectionList>', () => {
   test('renders course literature correctly', () => {
-    const language = 'en'
+    const lang = 'en'
     const [courseLiteratureNoTitle] = INFORM_IF_IMPORTANT_INFO_IS_MISSING // en
     const courseInfoWithoutLiterature = { course_literature: `<i>${courseLiteratureNoTitle}</i>` }
 
@@ -35,7 +35,7 @@ describe('Component <CourseSectionList>', () => {
     }
 
     const context1 = {
-      courseData: { language },
+      lang,
     }
 
     // Course has no literature, and syllabus has no literature – Show 'No information inserted'

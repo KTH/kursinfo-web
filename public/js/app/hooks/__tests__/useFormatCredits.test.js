@@ -7,8 +7,8 @@ import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../../util/constants'
 describe('formatCredits', () => {
   beforeEach(() => {
     useLanguage.mockReturnValue({
-      currentLanguageIsEnglish: true,
-      currentLanguageIndex: 0,
+      isLanguageEnglish: true,
+      languageIndex: 0,
     })
   })
 
@@ -39,8 +39,8 @@ describe('formatCredits', () => {
   describe('swedish locale', () => {
     beforeEach(() => {
       useLanguage.mockReturnValue({
-        currentLanguageIsEnglish: false,
-        currentLanguageIndex: 1,
+        isLanguageEnglish: false,
+        languageIndex: 1,
       })
     })
     test.each([

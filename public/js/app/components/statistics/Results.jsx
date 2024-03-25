@@ -2,13 +2,11 @@ import React from 'react'
 
 import PropTypes from 'prop-types'
 
-import i18n from '../../../../../i18n'
 import { STATUS, ERROR_ASYNC } from '../../hooks/statisticsUseAsync'
 
-import { useWebContext } from '../../context/WebContext'
+import { useLanguage } from '../../hooks/useLanguage'
 
-const errorItalicParagraph = (error = {}, languageIndex) => {
-  const { statisticsLabels: labels } = i18n.messages[languageIndex]
+const errorItalicParagraph = (error = {}, labels) => {
   const { errorType, errorExtraText } = error
   const errorText = errorType ? labels[errorType].text : null
   if (!errorText)
@@ -31,7 +29,9 @@ const errorItalicParagraph = (error = {}, languageIndex) => {
 }
 
 function Results({ statisticsStatus, error = {}, children }) {
-  const [{ languageIndex }] = useWebContext()
+  const {
+    translation: { statisticsLabels },
+  } = useLanguage()
   const { errorType } = error
   if (statisticsStatus === STATUS.missingParameters) return null
 
@@ -41,19 +41,16 @@ function Results({ statisticsStatus, error = {}, children }) {
 
   if (statisticsStatus === STATUS.idle) return null
   if (statisticsStatus === STATUS.pending) {
-    const { searchLoading } = i18n.messages[languageIndex].statisticsLabels
-    return <p>{searchLoading}</p>
+    return <p>{statisticsLabels.searchLoading}</p>
   }
 
-  if (errorType) return errorItalicParagraph(error, languageIndex)
+  if (errorType) return errorItalicParagraph(error, statisticsLabels)
 
   return null
 }
 
 Results.propTypes = {
-  languageIndex: PropTypes.oneOf([0, 1]),
   statisticsStatus: PropTypes.oneOf([...Object.values(STATUS), null]),
-  // statisticsResult: PropTypes.shape(searchHitsPropsShape),
   error: PropTypes.shape({
     errorType: PropTypes.oneOf([...Object.values(ERROR_ASYNC), '']),
     errorExtraText: PropTypes.string,
@@ -61,9 +58,7 @@ Results.propTypes = {
 }
 
 Results.defaultProps = {
-  languageIndex: 0,
   error: {},
-  statisticsResult: {},
   statisticsStatus: null,
 }
 

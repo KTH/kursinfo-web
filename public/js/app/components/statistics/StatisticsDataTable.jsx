@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Col, Row, Button } from 'reactstrap'
 import * as xlsx from 'xlsx'
 import { useWebContext } from '../../context/WebContext'
-import i18n from '../../../../../i18n'
+import { useLanguage } from '../../hooks/useLanguage'
 import SortableDataTable from './SortableDataTable'
 
 function _getThisHost(thisHostBaseUrl) {
@@ -289,8 +289,11 @@ function FilterTable({ onFilter, placeholder, searchLabel }) {
 function StatisticsDataTable({ statisticsResult }) {
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false)
   const [context] = useWebContext()
-  const { languageIndex, browserConfig } = context
-  const { statisticsLabels } = i18n.messages[languageIndex]
+  const { browserConfig } = context
+  const {
+    translation: { statisticsLabels },
+    languageIndex,
+  } = useLanguage()
   const { sortableTable, exportLabels } = statisticsLabels
   const { statisticsDataColumns, courseMemo, courseAnalysis, semester: semesterTranslationObject } = sortableTable
 

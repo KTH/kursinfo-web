@@ -33,6 +33,7 @@ function TableContentRows({ cellNames, schools, getNumbersFn = () => [] }) {
     if (school !== 'allSchools') {
       return <TableRow key={school} cellNames={cellNames} cellsContent={[school, ...getNumbersFn(schoolNumbers)]} />
     }
+    return null
   })
 }
 

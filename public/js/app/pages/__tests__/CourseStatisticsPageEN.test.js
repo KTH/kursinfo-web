@@ -5,12 +5,10 @@ import { userEvent } from '@testing-library/user-event'
 import { WebContextProvider } from '../../context/WebContext'
 import CourseStatisticsPage from '../CourseStatisticsPage'
 
-const language_en = 'en'
 const mockDate = new Date('2022-03-23 16:00')
 
 const context_en = {
-  language: language_en,
-  languageIndex: language_en === 'en' ? 0 : 1,
+  lang: 'en',
 }
 
 function CourseStatisticsPageWithContext({ context }) {

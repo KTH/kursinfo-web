@@ -1,8 +1,7 @@
 import React, { useReducer } from 'react'
 import { Col, Row } from 'reactstrap'
 import PropTypes from 'prop-types'
-import i18n from '../../../../../i18n'
-import { useWebContext } from '../../context/WebContext'
+import { useLanguage } from '../../hooks/useLanguage'
 import { DOCS, studyLengthParamName } from './domain/formConfigurations'
 
 import { CheckboxOption, DropdownOption, RadioboxOption } from './index'
@@ -26,13 +25,13 @@ const paramsReducer = (state, action) => {
 }
 
 function StatisticsForm({ onSubmit }) {
-  const [context] = useWebContext()
   const [state, setState] = useReducer(paramsReducer, {})
   const [stateMode, setStateMode] = React.useState('init')
   const { documentType = null } = state
-  const { languageIndex } = context
   // labels are for headers and short texts
-  const { statisticsLabels: labels } = i18n.messages[languageIndex]
+  const {
+    translation: { statisticsLabels: labels },
+  } = useLanguage()
 
   function handleSubmit(e) {
     e.preventDefault()

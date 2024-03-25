@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Row } from 'reactstrap'
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryLabel, VictoryTheme } from 'victory'
-import i18n from '../../../../../i18n'
+import { useLanguage } from '../../hooks/useLanguage'
 import { schools as schoolsLib } from './domain'
 
 const colors = {
@@ -31,9 +31,7 @@ function splitIntoLines(label) {
   return newLabel
 }
 
-function getChartData(numberName, schools, languageIndex) {
-  const { allSchools } = i18n.messages[languageIndex].statisticsLabels
-
+function getChartData(numberName, schools, allSchoolsLabels) {
   const schoolCodes = Object.keys(schools)
 
   return schoolCodes.map(school => {
@@ -41,20 +39,21 @@ function getChartData(numberName, schools, languageIndex) {
     const { numberOfCourses } = schoolNumbers
     return {
       color: schoolsColors[school],
-      school: school === 'allSchools' ? splitIntoLines(allSchools) : school,
+      school: school === 'allSchools' ? splitIntoLines(allSchoolsLabels) : school,
       percentage: countPercentage(numberOfCourses, schoolNumbers[numberName]),
     }
   })
 }
 
-function Charts({ chartNames = [], languageIndex = 1, schools = {} }) {
-  const { chartsLabels: labels } = i18n.messages[languageIndex].statisticsLabels
+function Charts({ chartNames = [], schools = {} }) {
+  const { translation } = useLanguage()
+  const { chartsLabels: labels, allSchools: allSchoolsLabels } = translation.statisticsLabels
 
   return (
     <Row>
       {chartNames.map(numberName => (
         <Col key={numberName} xs="4" style={{ paddingRight: 0, paddingLeft: 0 }}>
-          <Chart data={getChartData(numberName, schools, languageIndex)} label={labels[numberName]} />
+          <Chart data={getChartData(numberName, schools, allSchoolsLabels)} label={labels[numberName]} />
         </Col>
       ))}
     </Row>

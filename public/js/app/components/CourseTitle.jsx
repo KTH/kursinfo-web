@@ -8,7 +8,7 @@ const adminLink = (courseCode, languageShortname) => `/kursinfoadmin/kurser/kurs
 
 const CourseTitle = ({ courseTitleData = '', pageTitle }) => {
   const title = courseTitleData
-  const { translation, currentLanguageShortname } = useLanguage()
+  const { translation, languageShortname } = useLanguage()
   const { formatCredits } = useFormatCredits()
   const adminLinkLabel = translation.courseLabels.label_edit
   return (
@@ -23,7 +23,7 @@ const CourseTitle = ({ courseTitleData = '', pageTitle }) => {
             {pageTitle}
           </p>
           <p id="page-sub-heading-admin-link" className="d-none d-sm-block">
-            <a title={adminLinkLabel} href={adminLink(title.course_code, currentLanguageShortname)}>
+            <a title={adminLinkLabel} href={adminLink(title.course_code, languageShortname)}>
               {adminLinkLabel}
             </a>
           </p>

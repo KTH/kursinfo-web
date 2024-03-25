@@ -1,11 +1,13 @@
 import React from 'react'
 import { useWebContext } from '../context/WebContext'
-import { createRoundLabel } from '../util/courseHeaderUtils'
+import { useRoundUtils } from '../hooks/useRoundUtils'
 
-const DropdownRounds = ({ courseRoundList, language = 0, label = '', translation }) => {
+const DropdownRounds = ({ courseRoundList, label = '' }) => {
   const [context, setWebContext] = useWebContext()
   const { roundDisabled } = context
   const [roundSelectedIndex, setRoundSelectIndex] = React.useState(0)
+
+  const { createRoundLabel } = useRoundUtils()
 
   const dropdownID = 'roundsDropdown'
 
@@ -52,7 +54,7 @@ const DropdownRounds = ({ courseRoundList, language = 0, label = '', translation
               )
               {courseRoundList.map((round, index) => {
                 const isChosen = roundSelectedIndex - 1 === index
-                const optionLabel = createRoundLabel(language, round)
+                const optionLabel = createRoundLabel(round)
 
                 // Key must be unique, otherwise it will not update course rounds list for some courses, ex.FLH3000
                 const uniqueKey = `${optionLabel}${round.round_application_code}${round.round_start_date}`

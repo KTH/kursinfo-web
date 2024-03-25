@@ -22,9 +22,9 @@ const context = {
       sellingText: { en: '', sv: '' },
       imageFromAdmin: '',
     },
-    language: 'en',
   },
   activeSemesters: [],
+  lang: 'en',
 }
 const [translate] = i18n.messages // en
 

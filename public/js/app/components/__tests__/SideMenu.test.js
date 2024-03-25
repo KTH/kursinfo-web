@@ -5,12 +5,17 @@ import SideMenu from '../SideMenu'
 
 import i18n from '../../../../../i18n'
 import '@testing-library/jest-dom'
+import { WebContextProvider } from '../../context/WebContext'
 
 const [translationEN, translationSV] = i18n.messages
 
 describe('Component <SideMenu>', () => {
   test('renders a side menu for a course and with labels. English', () => {
-    render(<SideMenu courseCode={'KIP1111'} labels={translationEN.courseLabels.sideMenu} language={'en'} />)
+    render(
+      <WebContextProvider configIn={{ lang: 'en' }}>
+        <SideMenu courseCode={'KIP1111'} labels={translationEN.courseLabels.sideMenu} />
+      </WebContextProvider>
+    )
 
     const links = screen.getAllByRole('link')
     expect(links.length).toBe(5)
@@ -34,7 +39,11 @@ describe('Component <SideMenu>', () => {
   })
 
   test('renders a side menu for a course and with labels. Swedish', () => {
-    render(<SideMenu courseCode={'KIP1111'} labels={translationSV.courseLabels.sideMenu} language={'sv'} />)
+    render(
+      <WebContextProvider configIn={{ lang: 'sv' }}>
+        <SideMenu courseCode={'KIP1111'} labels={translationSV.courseLabels.sideMenu} />
+      </WebContextProvider>
+    )
 
     const links = screen.getAllByRole('link')
     expect(links.length).toBe(5)

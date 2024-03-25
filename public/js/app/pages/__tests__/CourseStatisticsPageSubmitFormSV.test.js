@@ -11,11 +11,9 @@ import CourseStatisticsPage from '../CourseStatisticsPage'
 jest.mock('axios', () => ({
   get: jest.fn(),
 }))
-const language_sv = 'sv'
 
 const context_sv = {
-  language: language_sv,
-  languageIndex: language_sv === 'en' ? 0 : 1,
+  lang: 'sv',
 }
 
 function CourseStatisticsPageWithContext({ context }) {
