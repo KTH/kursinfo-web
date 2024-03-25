@@ -2,10 +2,10 @@ import React from 'react'
 import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../util/constants'
 import { useLanguage } from './useLanguage'
 
-export const useIsMissingInfo = () => {
+export const useMissingInfo = () => {
   const { currentLanguageIndex } = useLanguage()
 
-  const isMissingInfo = React.useCallback(
+  const isMissingInfoLabel = React.useCallback(
     possiblyMissingString => {
       const newLocal = INFORM_IF_IMPORTANT_INFO_IS_MISSING[currentLanguageIndex]
       return possiblyMissingString === newLocal
@@ -13,7 +13,13 @@ export const useIsMissingInfo = () => {
     [currentLanguageIndex]
   )
 
+  const missingInfoLabel = React.useMemo(
+    () => INFORM_IF_IMPORTANT_INFO_IS_MISSING[currentLanguageIndex],
+    [currentLanguageIndex]
+  )
+
   return {
-    isMissingInfo,
+    isMissingInfoLabel,
+    missingInfoLabel,
   }
 }

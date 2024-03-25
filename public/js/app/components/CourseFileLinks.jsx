@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row, Col } from 'reactstrap'
-import i18n from '../../../../i18n'
-import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../util/constants'
+import { useLanguage } from '../hooks/useLanguage'
+import { useMissingInfo } from '../hooks/useMissingInfo'
 
 const CourseMemoLink = ({ href, translate }) => (
   <a id="memoLink" href={href}>
@@ -9,8 +9,9 @@ const CourseMemoLink = ({ href, translate }) => (
   </a>
 )
 
-const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorageURI, language }) => {
-  const translate = i18n.messages[language === 'en' ? 0 : 1]
+const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorageURI }) => {
+  const { translation } = useLanguage()
+  const { isMissingInfoLabel } = useMissingInfo()
   const {
     round_memoFile: memoPdfFile,
     round_application_code: applicationCode,
@@ -21,10 +22,10 @@ const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorag
     <Row id="courseLinks">
       {/* ---LINK TO ROUND PM/MEMO IF ROUND HAS ONE-- */}
       <Col sm="12" xs="12">
-        <h3 className="t4">{translate.courseLabels.label_course_memo}</h3>
+        <h3 className="t4">{translation.courseLabels.label_course_memo}</h3>
         {memoPdfFile ? (
           <a id="memoLink" href={`${memoStorageURI}${memoPdfFile.fileName}`} target="_blank" rel="noreferrer">
-            {translate.courseLabels.label_link_course_memo}
+            {translation.courseLabels.label_link_course_memo}
           </a>
         ) : (
           courseRound &&
@@ -32,24 +33,24 @@ const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorag
           (hasPublishedMemo ? (
             <CourseMemoLink
               href={`/kurs-pm/${courseCode}/${yearAndTermArr.join('')}/${applicationCode}`}
-              translate={translate}
+              translate={translation}
             />
           ) : (
             <span>
-              <i>{translate.courseLabels.no_memo_published}</i>
+              <i>{translation.courseLabels.no_memo_published}</i>
             </span>
           ))
         )}
       </Col>
       {/* ---LINK TO ROUND SCHEDULE-- */}
       <Col sm="12" xs="12">
-        <h3 className="t4">{translate.courseLabels.label_schedule}</h3>
+        <h3 className="t4">{translation.courseLabels.label_schedule}</h3>
         <i className="icon-schedule" />
-        {scheduleUrl !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[language === 'en' ? 0 : 1] ? (
-          <a href={scheduleUrl}>{translate.courseLabels.label_link_schedule}</a>
+        {!isMissingInfoLabel(scheduleUrl) ? (
+          <a href={scheduleUrl}>{translation.courseLabels.label_link_schedule}</a>
         ) : (
           <span>
-            <i>{translate.courseLabels.no_schedule_published}</i>
+            <i>{translation.courseLabels.no_schedule_published}</i>
           </span>
         )}
       </Col>
