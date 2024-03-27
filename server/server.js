@@ -152,6 +152,7 @@ server.use(
     globalLink: config.blockApi.globalLink,
     addBlocks: config.blockApi.addBlocks,
     redisKey: config.cache.cortinaBlock.redisKey,
+    useStyle10: false,
     // globalLink: true ---> don't use it, because we use local site language link, not global kth link
   })
 )
