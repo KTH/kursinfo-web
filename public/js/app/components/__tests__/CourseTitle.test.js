@@ -5,6 +5,7 @@ import CourseTitle from '../CourseTitle'
 
 import i18n from '../../../../../i18n'
 import '@testing-library/jest-dom'
+
 jest.mock('../../context/WebContext')
 import { useWebContext } from '../../context/WebContext'
 

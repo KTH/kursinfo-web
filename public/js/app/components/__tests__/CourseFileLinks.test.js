@@ -6,6 +6,7 @@ import CourseFileLinks from '../CourseFileLinks'
 
 import i18n from '../../../../../i18n'
 import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../../util/constants'
+
 jest.mock('../../context/WebContext')
 import { useWebContext } from '../../context/WebContext'
 
