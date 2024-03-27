@@ -3,16 +3,16 @@ import { Alert } from 'reactstrap'
 import { useLanguage } from '../hooks/useLanguage'
 
 const BankIdAlert = ({ tutoringForm, fundingType, roundSpecified }) => {
-  const { isLanguageEnglish, translation } = useLanguage()
+  const { isEnglish, translation } = useLanguage()
   const distanceCourse = tutoringForm === 'DST'
 
   const standaloneCourse = fundingType === 'LL'
 
   // Svenska sidan + fristående kurser som ges på distans
-  const case1 = !isLanguageEnglish && distanceCourse && standaloneCourse && roundSpecified
+  const case1 = !isEnglish && distanceCourse && standaloneCourse && roundSpecified
 
   // Engelska sidan + fristående kurser
-  const case2 = isLanguageEnglish && standaloneCourse && roundSpecified
+  const case2 = isEnglish && standaloneCourse && roundSpecified
 
   const showAlert = case1 || case2
 

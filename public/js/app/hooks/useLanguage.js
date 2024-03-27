@@ -1,3 +1,5 @@
+// Be aware that this entire file, or most of it, is replicated in multiple apps, so changes here should probably be synced to the other apps.
+// See https://confluence.sys.kth.se/confluence/x/6wYJDQ for more information.
 import React from 'react'
 import i18n from '../../../../i18n'
 import { useWebContext } from '../context/WebContext'
@@ -7,13 +9,13 @@ export const useLanguage = () => {
 
   const translation = React.useMemo(() => i18n.getLanguageByShortname(lang), [lang])
 
-  const isLanguageEnglish = React.useMemo(() => lang === 'en', [lang])
+  const isEnglish = React.useMemo(() => lang === 'en', [lang])
 
-  const languageIndex = React.useMemo(() => (isLanguageEnglish ? 0 : 1), [isLanguageEnglish])
+  const languageIndex = React.useMemo(() => (isEnglish ? 0 : 1), [isEnglish])
 
   return {
     translation,
-    isLanguageEnglish,
+    isEnglish,
     languageIndex,
     languageShortname: lang,
   }

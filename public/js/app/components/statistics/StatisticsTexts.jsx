@@ -98,7 +98,7 @@ const swedishIntroTexts = {
       </>
     )}`,
 }
-const introductionTexts = isLanguageEnglish => (isLanguageEnglish ? englishIntroTexts : swedishIntroTexts)
+const introductionTexts = isEnglish => (isEnglish ? englishIntroTexts : swedishIntroTexts)
 
 const summaryTexts = (documentType, language = 'sv') =>
   documentType === DOCS.courseMemo

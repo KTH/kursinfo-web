@@ -3,8 +3,8 @@ import React from 'react'
 import { COURSE_MEMO_URL, SIDE_MENU_LINK_URL, COURSE_DEVELOPMENT_URL } from '../util/constants'
 import { useLanguage } from '../hooks/useLanguage'
 
-const createLinksWithOptionalLanguageParameter = (courseCode, isLanguageEnglish) => {
-  const languageParameter = isLanguageEnglish ? '?l=en' : ''
+const createLinksWithOptionalLanguageParameter = (courseCode, isEnglish) => {
+  const languageParameter = isEnglish ? '?l=en' : ''
 
   const aboutCourseLink = `/student/kurser/kurs/${courseCode}${languageParameter}`
   const courseMemoLink = `${COURSE_MEMO_URL}${courseCode}${languageParameter}`
@@ -33,9 +33,9 @@ const labelBeforeChoosingCourse = (courseCode, label) =>
   ) : null
 
 const SideMenu = ({ courseCode, labels = {} }) => {
-  const { languageShortname, isLanguageEnglish } = useLanguage()
+  const { languageShortname, isEnglish } = useLanguage()
 
-  const { aboutCourseLink, courseMemoLink } = createLinksWithOptionalLanguageParameter(courseCode, isLanguageEnglish)
+  const { aboutCourseLink, courseMemoLink } = createLinksWithOptionalLanguageParameter(courseCode, isEnglish)
 
   const { courseArchiveLink, courseDevelopmentLink } = createLinksWithLanguageParameter(courseCode, languageShortname)
 

@@ -35,10 +35,10 @@ function CourseStatisticsPage() {
   // labels are for headers and short texts
   const {
     translation: { statisticsLabels: labels },
-    isLanguageEnglish,
+    isEnglish,
   } = useLanguage()
   // texts are for big texts with several <p>, or dynamic
-  const texts = introductionTexts(isLanguageEnglish)
+  const texts = introductionTexts(isEnglish)
   // fetch props from url query in case it's presented
   const [params, setParams] = React.useState({
     /**
