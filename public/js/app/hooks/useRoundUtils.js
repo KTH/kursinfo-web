@@ -15,17 +15,20 @@ export const useRoundUtils = () => {
         } else {
           fundingType = translation.courseRoundInformation.round_category[round_category]
         }
-        return ` ${!isMissingInfoLabel(round_short_name) ? `${round_short_name}` : ''} ${fundingType}`
+        return `${!isMissingInfoLabel(round_short_name) ? `${round_short_name}` : ''} ${fundingType}`
       },
     [translation, isMissingInfoLabel]
   )
 
   const createRoundHeader = React.useMemo(
     () =>
-      ({ round_short_name, round_funding_type, round_category, round_course_term }, courseInfo) => {
+      ({ round_short_name, round_funding_type, round_category, round_course_term }) => {
         const roundLabel = createRoundLabel({ round_short_name, round_funding_type, round_category })
 
-        return `${courseInfo?.course_short_semester[round_course_term[1]] ?? ''} ${round_course_term[0]}` + roundLabel
+        const [roundYear, roundPeriod] = round_course_term
+        const semesterStringOrEmpty = translation.courseInformation.course_short_semester[roundPeriod] ?? ''
+
+        return `${semesterStringOrEmpty}${roundYear} ${roundLabel}`
       },
     [createRoundLabel]
   )
