@@ -3,16 +3,22 @@ import PropTypes from 'prop-types'
 import { Col, Row } from 'reactstrap'
 import { useWebContext } from '../../context/WebContext'
 import InfoModal from '../InfoModal'
-import i18n from '../../../../../i18n'
+import { useLanguage } from '../../hooks/useLanguage'
 import { getOptionsValues } from './domain/formConfigurations'
 import { frameIfEmpty } from './domain/validation'
 
 function DropdownOption({ paramName, onChange, showInfoBox = true }) {
   const [context] = useWebContext()
-  const { languageIndex } = context
   const [option, setOption] = React.useState(context[paramName])
-  const { courseLabels: labels } = i18n.messages[languageIndex]
-  const { formLabels } = i18n.messages[languageIndex].statisticsLabels
+
+  const {
+    translation: {
+      courseLabels: labels,
+      statisticsLabels: { formLabels },
+    },
+    languageIndex,
+  } = useLanguage()
+
   const headerLabel = formLabels.formSubHeaders[paramName]
   const shortIntro = formLabels.formShortIntro[paramName]
   const values = React.useMemo(() => getOptionsValues(paramName, languageIndex), [paramName, languageIndex])

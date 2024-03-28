@@ -61,14 +61,12 @@ const statisticsResultForAnalysis = {
     },
   ],
 }
-const language_en = 'en'
 
 const context_en = {
-  language: language_en,
-  languageIndex: language_en === 'en' ? 0 : 1,
   browserConfig: {
     hostUrl: 'http://localhost:3000',
   },
+  lang: 'en',
 }
 
 function StatisticsDataTableWithContext({ context, statisticsResult }) {

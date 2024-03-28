@@ -43,3 +43,9 @@ server/views/layouts/errorLayout.handlebars
 docker-compose.yml
 # yarn
 yarn.lock
+
+# Developer notes
+notes*
+
+# Files downloaded during unit test
+course-information-statistics-*

@@ -5,6 +5,7 @@ import i18n from '../../../../../i18n'
 import { ERROR_ASYNC } from '../../hooks/statisticsUseAsync'
 
 function StatisticsAlert({ alertType, languageIndex, children }) {
+  // We cannot use useLanguage or useWebContext here, as this component will be rendered outside of our component tree
   const { statisticsLabels } = i18n.messages[languageIndex]
   const { header = '', help = '', text = '' } = statisticsLabels[alertType] || {}
 

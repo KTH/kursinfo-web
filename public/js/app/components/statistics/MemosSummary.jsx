@@ -2,8 +2,8 @@ import React from 'react'
 
 import { Col, Row } from 'reactstrap'
 import { useWebContext } from '../../context/WebContext'
-import i18n from '../../../../../i18n'
 import { useStatisticsAsync } from '../../hooks/statisticsUseAsync'
+import { useLanguage } from '../../hooks/useLanguage'
 import { TableSummary } from './TableSummaryRows'
 import { Charts } from './Chart'
 import { periods as periodsLib } from './domain/index'
@@ -58,8 +58,13 @@ function addAllSchoolsData({
   return allSchools
 }
 
-function Captions({ year, periods, languageIndex }) {
-  const { formLabels } = i18n.messages[languageIndex].statisticsLabels
+function Captions({ year, periods }) {
+  const {
+    translation: {
+      statisticsLabels: { formLabels },
+    },
+    languageIndex,
+  } = useLanguage()
 
   const periodsLabels = periods.map(period => periodsLib.labelPeriod(period, languageIndex, false))
   const uniqquePeriodsLabels = [...new Set(periodsLabels)]
@@ -79,15 +84,18 @@ function Captions({ year, periods, languageIndex }) {
 }
 
 function MemosNumbersTable({ statisticsResult }) {
-  const [{ languageIndex }] = useWebContext()
-  const { summaryLabels } = i18n.messages[languageIndex].statisticsLabels
+  const {
+    translation: {
+      statisticsLabels: { summaryLabels },
+    },
+  } = useLanguage()
   const { memosNumbersTable } = summaryLabels
   const { combinedMemosPerSchool, year, periods } = statisticsResult
   const cellNames = getCellNames()
 
   return (
     <>
-      <Captions year={year} periods={periods} languageIndex={languageIndex} />
+      <Captions year={year} periods={periods} />
 
       <TableSummary
         docsPerSchool={combinedMemosPerSchool}
@@ -142,8 +150,11 @@ function MemosNumbersChartsYearAgo({ statisticsResult }) {
 }
 
 function MemosSummary({ statisticsResult }) {
-  const [{ languageIndex }] = useWebContext()
-  const { chartsLabels: labels } = i18n.messages[languageIndex].statisticsLabels
+  const {
+    translation: {
+      statisticsLabels: { chartsLabels: labels },
+    },
+  } = useLanguage()
   const [isOpen, setOpen] = React.useState(false)
 
   return (

@@ -1,41 +1,29 @@
 import React from 'react'
 import { Row } from 'reactstrap'
 
-import i18n from '../../../../i18n'
+import { useLanguage } from '../hooks/useLanguage'
+import { useFormatCredits } from '../hooks/useFormatCredits'
 
-import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../util/constants'
+const adminLink = (courseCode, languageShortname) => `/kursinfoadmin/kurser/kurs/${courseCode}?l=${languageShortname}`
 
-const formatCredits = (credits, creditUnitAbbr, languageIndex) => {
-  if (!credits) return <>&nbsp;</>
-  const cred =
-    credits !== INFORM_IF_IMPORTANT_INFO_IS_MISSING[languageIndex] && credits.toString().indexOf('.') < 0
-      ? credits + '.0'
-      : credits
-  const localeCredits = languageIndex === 0 ? cred : cred.toString().replace('.', ',')
-  const creditUnit = languageIndex === 0 ? 'credits' : creditUnitAbbr
-  return `${localeCredits} ${creditUnit}`
-}
-
-const adminLink = (courseCode, languageIndex) =>
-  `/kursinfoadmin/kurser/kurs/${courseCode}?l=${languageIndex === 0 ? 'en' : 'sv'}`
-
-const CourseTitle = ({ courseTitleData = '', language, pageTitle }) => {
+const CourseTitle = ({ courseTitleData = '', pageTitle }) => {
   const title = courseTitleData
-  const languageIndex = language === 'en' ? 0 : 1
-  const adminLinkLabel = i18n.messages[languageIndex].courseLabels.label_edit
+  const { translation, languageShortname } = useLanguage()
+  const { formatCredits } = useFormatCredits()
+  const adminLinkLabel = translation.courseLabels.label_edit
   return (
     <Row>
       <header className="col course-header">
         <h1 id="page-heading" aria-labelledby="page-heading page-sub-heading">
           {`${title.course_code} ${title.course_title} `}
-          {formatCredits(title.course_credits, title.course_credits_text, languageIndex)}
+          {formatCredits(title.course_credits, title.course_credits_text)}
         </h1>
         <div id="page-sub-heading-wrapper">
           <p id="page-sub-heading" aria-hidden="true">
             {pageTitle}
           </p>
           <p id="page-sub-heading-admin-link" className="d-none d-sm-block">
-            <a title={adminLinkLabel} href={adminLink(title.course_code, languageIndex)}>
+            <a title={adminLinkLabel} href={adminLink(title.course_code, languageShortname)}>
               {adminLinkLabel}
             </a>
           </p>

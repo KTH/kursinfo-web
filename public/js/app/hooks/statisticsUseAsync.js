@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { useWebContext } from '../context/WebContext'
 import { StatisticsAlert } from '../components/statistics/index'
 import fetchStatistics from './api/statisticsApi'
+import { useLanguage } from './useLanguage'
 
 const STATUS = {
   idle: 'idle',
@@ -88,8 +89,7 @@ function renderAlertToTop(error = {}, languageIndex) {
     alertContainerRoot.render(
       <StatisticsAlert alertType={errorType} languageIndex={languageIndex}>
         {errorExtraText}
-      </StatisticsAlert>,
-      alertContainer
+      </StatisticsAlert>
     )
   }
 }
@@ -104,7 +104,8 @@ function _getThisHost(thisHostBaseUrl) {
 }
 
 function useStatisticsAsync(chosenOptions, loadType = 'onChange') {
-  const [{ proxyPrefixPath, language, languageIndex }] = useWebContext()
+  const [{ proxyPrefixPath }] = useWebContext()
+  const { languageShortname, languageIndex } = useLanguage()
   const { documentType } = chosenOptions
   const dependenciesList = loadType === 'onChange' ? [chosenOptions] : []
   const asyncCallback = React.useCallback(() => {
@@ -112,7 +113,7 @@ function useStatisticsAsync(chosenOptions, loadType = 'onChange') {
 
     const proxyUrl = _getThisHost(proxyPrefixPath.uri)
     // eslint-disable-next-line consistent-return
-    return fetchStatistics(language, proxyUrl, chosenOptions)
+    return fetchStatistics(languageShortname, proxyUrl, chosenOptions)
   }, [...dependenciesList])
 
   const initialStatus = { status: STATUS.idle }

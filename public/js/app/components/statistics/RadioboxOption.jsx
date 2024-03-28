@@ -2,16 +2,21 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Col, Row } from 'reactstrap'
 import { useWebContext } from '../../context/WebContext'
-import i18n from '../../../../../i18n'
+import { useLanguage } from '../../hooks/useLanguage'
 import { frameIfEmpty } from './domain/validation'
 
 import { getOptionsValues, splitToBulks } from './domain/formConfigurations'
 
 function RadioboxOption({ paramName, onChange }) {
   const [context] = useWebContext()
-  const { languageIndex } = context
   const [option, setOption] = React.useState(context[paramName])
-  const { formLabels } = i18n.messages[languageIndex].statisticsLabels
+  const {
+    translation: {
+      statisticsLabels: { formLabels },
+    },
+    languageIndex,
+  } = useLanguage()
+
   const headerLabel = formLabels.formSubHeaders[paramName]
   const shortIntro = formLabels.formShortIntro[paramName]
   const valuesBulks = React.useMemo(

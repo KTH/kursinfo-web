@@ -3,11 +3,10 @@ import React from 'react'
 // import { CSVLink } from 'react-csv'
 import { Col, Row } from 'reactstrap'
 
-import { useWebContext } from '../context/WebContext'
 import { introductionTexts } from '../components/statistics/StatisticsTexts'
-import i18n from '../../../../i18n'
 import { StatisticsForm, StatisticsResults } from '../components/statistics/index'
 import { findMissingParametersKeys, hasValue } from '../components/statistics/domain/validation'
+import { useLanguage } from '../hooks/useLanguage'
 
 function _parseValues({ documentType, periods, school, seasons, year }) {
   // clean params
@@ -33,12 +32,13 @@ function _parseResultValues(props) {
 }
 
 function CourseStatisticsPage() {
-  const [context] = useWebContext()
-  const { language, languageIndex } = context
   // labels are for headers and short texts
-  const { statisticsLabels: labels } = i18n.messages[languageIndex]
+  const {
+    translation: { statisticsLabels: labels },
+    isEnglish,
+  } = useLanguage()
   // texts are for big texts with several <p>, or dynamic
-  const texts = introductionTexts(language)
+  const texts = introductionTexts(isEnglish)
   // fetch props from url query in case it's presented
   const [params, setParams] = React.useState({
     /**

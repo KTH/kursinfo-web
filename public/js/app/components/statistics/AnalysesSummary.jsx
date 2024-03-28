@@ -2,9 +2,8 @@ import React from 'react'
 
 import { Col, Row } from 'reactstrap'
 
-import i18n from '../../../../../i18n'
 import { useStatisticsAsync } from '../../hooks/statisticsUseAsync'
-import { useWebContext } from '../../context/WebContext'
+import { useLanguage } from '../../hooks/useLanguage'
 import { TableSummary } from './TableSummaryRows'
 import { seasons as seasonLib } from './domain/index'
 import { Charts } from './Chart'
@@ -26,18 +25,18 @@ function addAllSchoolsData({ totalCourses, totalUniqPublishedAnalyses }) {
   return allSchools
 }
 
-function Captions({ year, seasons, languageIndex }) {
-  const { formLabels } = i18n.messages[languageIndex].statisticsLabels
+function Captions({ year, seasons }) {
+  const { translation, languageIndex } = useLanguage()
 
   const seasonsStr = seasons.map(season => seasonLib.labelSeason(season, languageIndex)).join(', ')
   return (
     <Row>
       <Col xs="4" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
-        <label>{formLabels.formSubHeaders.year}</label>
+        <label>{translation.statisticsLabels.formLabels.formSubHeaders.year}</label>
         {`: ${year}`}
       </Col>
       <Col xs="4" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
-        <label>{formLabels.formSubHeaders.seasons}</label>
+        <label>{translation.statisticsLabels.formLabels.formSubHeaders.seasons}</label>
         {`: ${seasonsStr}`}
       </Col>
     </Row>
@@ -45,15 +44,14 @@ function Captions({ year, seasons, languageIndex }) {
 }
 
 function AnalysesNumbersTable({ statisticsResult }) {
-  const [{ languageIndex }] = useWebContext()
-  const { summaryLabels } = i18n.messages[languageIndex].statisticsLabels
-  const { analysesNumbersTable } = summaryLabels
+  const { translation } = useLanguage()
+  const { analysesNumbersTable } = translation.statisticsLabels.summaryLabels
   const { combinedAnalysesPerSchool, year, seasons } = statisticsResult
   const cellNames = ['totalCourses', 'totalUniqPublishedAnalyses']
 
   return (
     <>
-      <Captions year={year} seasons={seasons} languageIndex={languageIndex} />
+      <Captions year={year} seasons={seasons} />
 
       <TableSummary
         docsPerSchool={combinedAnalysesPerSchool}
@@ -70,16 +68,15 @@ function AnalysesNumbersCharts({ statisticsResult }) {
   const chartNames = ['numberOfUniqAnalyses']
   const { combinedAnalysesPerSchool: docsPerSchool, seasons, year, school } = statisticsResult
   const { schools = {} } = docsPerSchool
-  const [{ languageIndex }] = useWebContext()
   if (school === 'allSchools') {
     schools.allSchools = addAllSchoolsData(docsPerSchool)
   }
 
   return (
     <>
-      <Captions year={year} seasons={seasons} languageIndex={languageIndex} />
+      <Captions year={year} seasons={seasons} />
 
-      <Charts chartNames={chartNames} schools={schools} languageIndex={languageIndex} />
+      <Charts chartNames={chartNames} schools={schools} />
     </>
   )
 }
@@ -103,8 +100,8 @@ function AnalysesNumbersChartsYearAgo({ statisticsResult }) {
 }
 
 function AnalysesSummary({ statisticsResult }) {
-  const [{ languageIndex }] = useWebContext()
-  const { chartsLabels: labels } = i18n.messages[languageIndex].statisticsLabels
+  const { translation } = useLanguage()
+  const { chartsLabels: labels } = translation.statisticsLabels
   const [isOpen, setOpen] = React.useState(false)
 
   return (

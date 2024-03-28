@@ -1,16 +1,18 @@
 import React from 'react'
 import { Alert } from 'reactstrap'
+import { useLanguage } from '../hooks/useLanguage'
 
-const BankIdAlert = ({ tutoringForm, fundingType, contextLang, roundSpecified, translation }) => {
+const BankIdAlert = ({ tutoringForm, fundingType, roundSpecified }) => {
+  const { isEnglish, translation } = useLanguage()
   const distanceCourse = tutoringForm === 'DST'
 
   const standaloneCourse = fundingType === 'LL'
 
   // Svenska sidan + fristående kurser som ges på distans
-  const case1 = contextLang === 'sv' && distanceCourse && standaloneCourse && roundSpecified
+  const case1 = !isEnglish && distanceCourse && standaloneCourse && roundSpecified
 
   // Engelska sidan + fristående kurser
-  const case2 = contextLang === 'en' && standaloneCourse && roundSpecified
+  const case2 = isEnglish && standaloneCourse && roundSpecified
 
   const showAlert = case1 || case2
 

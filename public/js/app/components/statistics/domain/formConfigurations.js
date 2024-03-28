@@ -30,8 +30,6 @@ const paramsByDocumentType = documentType => [
 function parseData(values, langIndex, labelFn = null) {
   const { statisticsLabels: labels } = i18n.messages[langIndex]
 
-  // const valuesList = fn ? fn(values, langIndex) : values
-
   return values.map(value => {
     const id = value
     const label = labelFn ? labelFn(value, langIndex) : labels[value] || value

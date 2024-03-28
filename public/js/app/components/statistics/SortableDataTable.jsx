@@ -1,8 +1,7 @@
 import React from 'react'
 import DataTable from 'react-data-table-component'
 import { Col, Row } from 'reactstrap'
-import { useWebContext } from '../../context/WebContext'
-import i18n from '../../../../../i18n'
+import { useLanguage } from '../../hooks/useLanguage'
 
 const fontStyles = {
   fontFamily: 'Open Sans, Arial, Helvetica Neue, helvetica, sans-serif',
@@ -58,9 +57,9 @@ const NoDataMessage = ({ message }) => (
 )
 
 function SortableDataTable({ columns, data, resetPaginationToggle, emptyTableMessage }) {
-  const [context] = useWebContext()
-  const { languageIndex } = context
-  const { statisticsLabels } = i18n.messages[languageIndex]
+  const {
+    translation: { statisticsLabels },
+  } = useLanguage()
   const { sortableTable } = statisticsLabels
   const opts = {
     rowsPerPageText: sortableTable.rowsPerPageText,

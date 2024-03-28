@@ -1,21 +1,20 @@
 import React from 'react'
 import { Button } from 'reactstrap'
-import i18n from '../../../../i18n'
-import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../util/constants'
-
-const LABEL_MISSING_INFO = { en: INFORM_IF_IMPORTANT_INFO_IS_MISSING[0], sv: INFORM_IF_IMPORTANT_INFO_IS_MISSING[1] }
+import { useLanguage } from '../hooks/useLanguage'
+import { useMissingInfo } from '../hooks/useMissingInfo'
 
 const RoundApplicationInfo = ({
   roundHeader,
   selectedRoundHeader,
-  userLanguage,
-  userLanguageIndex,
   round,
   showRoundData,
   courseHasRound,
   fundingType,
 }) => {
-  const { courseRoundInformation, courseLabels } = i18n.messages[userLanguageIndex]
+  const {
+    translation: { courseRoundInformation, courseLabels },
+  } = useLanguage()
+  const { missingInfoLabel, isMissingInfoLabel } = useMissingInfo()
 
   const openApplicationLink = ev => {
     ev.preventDefault()
@@ -27,7 +26,7 @@ const RoundApplicationInfo = ({
     courseHasRound &&
     fundingType === 'LL' &&
     round &&
-    round.round_application_link !== LABEL_MISSING_INFO[userLanguage]
+    !isMissingInfoLabel(round.round_application_link)
 
   return (
     <span>
@@ -39,7 +38,7 @@ const RoundApplicationInfo = ({
       <p>{selectedRoundHeader}</p>
 
       <h3 className="t4">{courseRoundInformation.round_application_code}</h3>
-      <p>{round ? round.round_application_code : LABEL_MISSING_INFO[userLanguage]}</p>
+      <p>{round ? round.round_application_code : missingInfoLabel}</p>
       {showApplicationLink && (
         <Button
           name={courseRoundInformation.round_application_link}

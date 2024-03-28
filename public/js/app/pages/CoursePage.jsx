@@ -3,8 +3,7 @@ import React, { useEffect } from 'react'
 
 import { Row, Col, Alert } from 'reactstrap'
 
-import i18n from '../../../../i18n'
-import { INFORM_IF_IMPORTANT_INFO_IS_MISSING, FORSKARUTB_URL, SYLLABUS_URL } from '../util/constants'
+import { FORSKARUTB_URL, SYLLABUS_URL } from '../util/constants'
 import { aboutCourseLink } from '../util/links'
 
 import RoundInformationOneCol from '../components/RoundInformationOneCol'
@@ -16,12 +15,13 @@ import InfoModal from '../components/InfoModal'
 import SideMenu from '../components/SideMenu'
 import { useWebContext } from '../context/WebContext'
 import BankIdAlert from '../components/BankIdAlert'
+import { useLanguage } from '../hooks/useLanguage'
+import { useMissingInfo } from '../hooks/useMissingInfo'
 
 const aboutCourseStr = (translate, courseCode = '') => `${translate.site_name} ${courseCode}`
 
 function CoursePage() {
   const [context, setWebContext] = useWebContext()
-  // const context = React.useMemo(() => webContext, [webContext])
 
   const {
     activeRoundIndex,
@@ -41,15 +41,16 @@ function CoursePage() {
     showRoundData,
     syllabusInfoFade,
     useStartSemesterFromQuery,
-    lang,
   } = context
   // * * //
   const hasOnlyOneRound = activeSemester?.length > 0 && courseData.roundList[activeSemester].length === 1
   const hasToShowRoundsData = showRoundData || (useStartSemesterFromQuery && hasOnlyOneRound)
 
   const hasActiveSemesters = activeSemesters && activeSemesters.length > 0
-  const { courseInfo, language = 'sv' } = courseData
-  const translation = i18n.messages[language === 'en' ? 0 : 1]
+  const { courseInfo } = courseData
+  const { translation, languageShortname } = useLanguage()
+
+  const { isMissingInfoLabel } = useMissingInfo()
 
   const { sellingText, imageFromAdmin } = courseInfo
 
@@ -58,11 +59,8 @@ function CoursePage() {
     courseImage = imageFromAdmin
   } else {
     const cms = courseInfo.course_main_subject || ''
-    let mainSubjects = cms.split(',').map(s => s.trim())
-    if (mainSubjects && mainSubjects.length > 0 && language === 'en') {
-      mainSubjects = mainSubjects.map(subject => i18n.messages[0].courseMainSubjects[subject])
-    }
-    courseImage = i18n.messages[1].courseImage[mainSubjects.sort()[0]]
+    const mainSubjects = cms.split(',').map(s => s.trim())
+    courseImage = translation.courseImage[mainSubjects.sort()[0]]
     if (courseImage === undefined) {
       courseImage = translation.courseImage.default
     }
@@ -87,7 +85,7 @@ function CoursePage() {
       const siteNameElement = document.querySelector('.block.siteName a')
       if (siteNameElement) {
         siteNameElement.textContent = aboutCourseStr(translation.messages, courseCode)
-        siteNameElement.href = aboutCourseLink(courseCode, language)
+        siteNameElement.href = aboutCourseLink(courseCode, languageShortname)
       }
     }
     return () => (isMounted = false)
@@ -112,7 +110,7 @@ function CoursePage() {
   return (
     <div key="kursinfo-container" className="col" id="kursinfo-main-page">
       <Row id="pageContainer" key="pageContainer">
-        <SideMenu courseCode={courseCode} labels={translation.courseLabels.sideMenu} language={language} />
+        <SideMenu courseCode={courseCode} labels={translation.courseLabels.sideMenu} />
         <main className="col" id="mainContent">
           {/** ************************************************************************************************************ */}
           {/*                                                   INTRO                                                     */}
@@ -121,7 +119,7 @@ function CoursePage() {
           <CourseTitle
             key="title"
             courseTitleData={courseData.courseTitleData}
-            language={language}
+            language={languageShortname}
             pageTitle={translation.courseLabels.sideMenu.page_before_course}
           />
           {/* ---TEXT FOR CANCELLED COURSE --- */}
@@ -157,9 +155,7 @@ function CoursePage() {
               <BankIdAlert
                 tutoringForm={courseData.roundList[activeSemester][activeRoundIndex].round_tutoring_form}
                 fundingType={courseData.roundList[activeSemester][activeRoundIndex].round_funding_type}
-                contextLang={lang}
                 roundSpecified={activeSemesters.length > 0 && hasToShowRoundsData}
-                translation={translation}
               />
             )}
           </section>
@@ -192,7 +188,7 @@ function CoursePage() {
                           courseRoundList={courseData.roundList[activeSemester]}
                           year={activeSemesters[activeSemesterIndex][0]}
                           semester={activeSemesters[activeSemesterIndex][1]}
-                          language={language}
+                          language={languageShortname}
                           label={translation.courseLabels.label_semester_select}
                           translation={translation}
                           useStartSemesterFromQuery={useStartSemesterFromQuery}
@@ -204,9 +200,7 @@ function CoursePage() {
                           courseRoundList={courseData.roundList[activeSemester]}
                           year={activeSemesters[activeSemesterIndex][0]}
                           semester={activeSemesters[activeSemesterIndex][1]}
-                          language={language}
                           label={translation.courseLabels.label_round_select}
-                          translation={translation}
                         />
                       ) : (
                         hasToShowRoundsData && (
@@ -218,8 +212,7 @@ function CoursePage() {
                             }
                                 ${courseData.roundList[activeSemester][0].round_course_term[0]}  
                                 ${
-                                  courseData.roundList[activeSemester][0].round_short_name !==
-                                  INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
+                                  !isMissingInfoLabel(courseData.roundList[activeSemester][0].round_short_name)
                                     ? courseData.roundList[activeSemester][0].round_short_name
                                     : ''
                                 }     
@@ -279,7 +272,7 @@ function CoursePage() {
                   <RoundInformationOneCol
                     courseRound={courseData.roundList[activeSemester][activeRoundIndex]}
                     courseData={courseInformationToRounds}
-                    language={language}
+                    language={languageShortname}
                     courseHasRound={activeSemesters.length > 0}
                     fade={context.roundInfoFade}
                     showRoundData={hasToShowRoundsData}
@@ -304,7 +297,7 @@ function CoursePage() {
                       <a
                         href={`${SYLLABUS_URL}${courseCode}-${courseData.syllabusList[
                           activeSyllabusIndex
-                        ].course_valid_from.join('')}.pdf?lang=${language}`}
+                        ].course_valid_from.join('')}.pdf?lang=${languageShortname}`}
                         id={courseData.syllabusList[activeSyllabusIndex].course_valid_from.join('') + '_active'}
                         target="_blank"
                         rel="noreferrer"

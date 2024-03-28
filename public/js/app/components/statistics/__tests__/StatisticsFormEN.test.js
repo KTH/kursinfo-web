@@ -5,13 +5,10 @@ import { userEvent } from '@testing-library/user-event'
 import { WebContextProvider } from '../../../context/WebContext'
 import StatisticsForm from '../StatisticsForm'
 
-const language_en = 'en'
-
 let submittedResults
 
 const context_en = {
-  language: language_en,
-  languageIndex: language_en === 'en' ? 0 : 1,
+  lang: 'en',
 }
 
 function StatisticsFormWithContext({ context }) {

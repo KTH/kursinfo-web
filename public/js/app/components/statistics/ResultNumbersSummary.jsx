@@ -2,8 +2,7 @@ import React from 'react'
 
 import PropTypes from 'prop-types'
 
-import i18n from '../../../../../i18n'
-import { useWebContext } from '../../context/WebContext'
+import { useLanguage } from '../../hooks/useLanguage'
 import { summaryTexts } from './StatisticsTexts'
 
 import { DOCS, documentTypes } from './domain/formConfigurations'
@@ -11,15 +10,17 @@ import { schools } from './domain/index'
 import { AnalysesSummary, MemosSummary } from './index'
 
 function ResultNumbersSummary({ statisticsResult }) {
-  const [{ language, languageIndex }] = useWebContext()
-  const { documentsApiBasePath, documentType, koppsApiBasePath } = statisticsResult
+  const { documentType, koppsApiBasePath } = statisticsResult
   // labels are for headers and short texts
-  const { statisticsLabels: labels } = i18n.messages[languageIndex]
+  const {
+    translation: { statisticsLabels: labels },
+    languageShortname,
+  } = useLanguage()
   const { summaryLabels } = labels
   const header = labels[documentType]
 
   // texts are for big texts with several <p>, or dynamic
-  const texts = summaryTexts(documentType, language)
+  const texts = summaryTexts(documentType, languageShortname)
 
   return (
     <>

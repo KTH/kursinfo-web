@@ -28,7 +28,7 @@ const englishIntroTexts = {
           className="external-link"
           rel="noreferrer"
         >
-          KTH's guideline for course memos
+          KTH&apos;s guideline for course memos
         </a>
       </p>
       <p>On the statistics page you will find:</p>
@@ -98,7 +98,7 @@ const swedishIntroTexts = {
       </>
     )}`,
 }
-const introductionTexts = (language = 'sv') => (language === 'en' ? englishIntroTexts : swedishIntroTexts)
+const introductionTexts = isEnglish => (isEnglish ? englishIntroTexts : swedishIntroTexts)
 
 const summaryTexts = (documentType, language = 'sv') =>
   documentType === DOCS.courseMemo

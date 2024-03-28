@@ -7,16 +7,17 @@ import CourseFileLinks from '../CourseFileLinks'
 import i18n from '../../../../../i18n'
 import { INFORM_IF_IMPORTANT_INFO_IS_MISSING } from '../../util/constants'
 
+jest.mock('../../context/WebContext')
+import { useWebContext } from '../../context/WebContext'
+
 describe('Component <CourseFileLinks>', () => {
   test('renders course offering schedule correctly', () => {
-    const language = 'en'
+    useWebContext.mockReturnValue([{ lang: 'en' }])
     const [translate] = i18n.messages // en
     const propsWithScheduleUrl = {
-      language,
       scheduleUrl: 'https://test.com',
     }
     const propsWithoutScheduleUrl = {
-      language,
       scheduleUrl: INFORM_IF_IMPORTANT_INFO_IS_MISSING[0], // 'en'
     }
 
@@ -30,10 +31,9 @@ describe('Component <CourseFileLinks>', () => {
   })
 
   test('renders course offering memo link correctly if there is an available course memo as pdf', () => {
-    const language = 'en'
+    useWebContext.mockReturnValue([{ lang: 'en' }])
     const [translate] = i18n.messages // en
     const propsWithMemoFile = {
-      language,
       memoStorageURI: 'https://test.com/',
       courseRound: { round_memoFile: { fileName: 'testedMemo', fileDate: '1970-01-01' } },
     }
@@ -45,16 +45,14 @@ describe('Component <CourseFileLinks>', () => {
   })
 
   test('renders course offering memo link correctly to web-based course memos', () => {
-    const language = 'en'
+    useWebContext.mockReturnValue([{ lang: 'en' }])
     const [translate] = i18n.messages // en
     const propsWithMemoFile = {
-      language,
       memoStorageURI: 'https://test.com/',
       courseRound: { round_memoFile: { fileName: 'test', fileDate: '1970-01-01' } },
     }
     const propsWithMemoWebPage = {
       courseCode: 'KIP1111',
-      language,
       courseRound: {
         round_application_code: '7',
         round_course_term: ['1970', '1'],
@@ -73,11 +71,10 @@ describe('Component <CourseFileLinks>', () => {
   })
 
   test('renders course offering memo link to pdf if it exists among other data and correctly prioriterized', () => {
-    const language = 'en'
+    useWebContext.mockReturnValue([{ lang: 'en' }])
     const [translate] = i18n.messages // en
     const propsWithMemoFileAndOtherInfo = {
       courseCode: 'KIP1111',
-      language,
       memoStorageURI: 'https://test.com/',
       courseRound: {
         round_application_code: '7',

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Col, Row } from 'reactstrap'
 import { useWebContext } from '../../context/WebContext'
 import InfoModal from '../InfoModal'
-import i18n from '../../../../../i18n'
+import { useLanguage } from '../../hooks/useLanguage'
 import { frameIfEmpty } from './domain/validation'
 
 import { getOptionsValues, splitToBulks } from './domain/formConfigurations'
@@ -40,10 +40,12 @@ const optionsReducer = (state, action) => {
 function CheckboxOption({ paramName, onChange, stateMode }) {
   /* depends on type of document to dropdown */
   const [context] = useWebContext()
-  const { languageIndex } = context
 
   const [{ options }, setOptions] = React.useReducer(optionsReducer, { options: context[paramName] || [] }) // ???
-  const { statisticsLabels, courseLabels: labels } = i18n.messages[languageIndex]
+  const {
+    translation: { statisticsLabels, courseLabels: labels },
+    languageIndex,
+  } = useLanguage()
   const { formLabels } = statisticsLabels
 
   const headerLabel = formLabels.formSubHeaders[paramName]
