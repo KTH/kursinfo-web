@@ -5,6 +5,11 @@ const redis = require('kth-node-redis')
 const connections = require('@kth/api-call').Connections
 const i18n = require('../../i18n')
 const { server: config } = require('../configuration')
+const {
+  parseCourseDefaultInformation,
+  parseTitleData,
+  getListOfSyllabusesAndValidSyllabusSemesters,
+} = require('./koppsCourseUtils')
 
 const HTTP_CODE_404 = 404
 
@@ -49,6 +54,34 @@ async function getKoppsCourseData(courseCode, lang = 'sv') {
   const uri = `${config.koppsApi.basePath}course/${encodeURIComponent(courseCode)}/detailedinformation?l=${lang}`
   try {
     return callKoppsAndPossiblyHandle404(client, uri, lang, courseCode)
+  } catch (err) {
+    log.debug('Kopps is not available', err)
+    return err
+  }
+}
+
+async function getFilteredKoppsCourseData(courseCode, lang = 'sv') {
+  const { client } = api.koppsApi
+  const uri = `${config.koppsApi.basePath}course/${encodeURIComponent(courseCode)}/detailedinformation?l=${lang}`
+  try {
+    const { body: courseDetails } = await callKoppsAndPossiblyHandle404(client, uri, lang, courseCode)
+
+    const courseInfo = parseCourseDefaultInformation(courseDetails, lang)
+    const courseTitleData = parseTitleData(courseDetails)
+    const syllabusData = getListOfSyllabusesAndValidSyllabusSemesters(courseDetails, lang)
+
+    const courseStatus = {
+      isCancelled: courseDetails.course.cancelled,
+      isDeactivated: courseDetails.course.deactivated,
+    }
+
+    return {
+      roundInfos: courseDetails.roundInfos,
+      courseInfo,
+      courseTitleData,
+      syllabusData,
+      courseStatus,
+    }
   } catch (err) {
     log.debug('Kopps is not available', err)
     return err
@@ -103,4 +136,5 @@ module.exports = {
   getCoursesAndOfferings,
   getKoppsCourseData,
   getLadokRoundIdsFromApplicationCodes,
+  getFilteredKoppsCourseData,
 }

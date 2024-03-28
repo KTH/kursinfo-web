@@ -11,7 +11,19 @@ async function getPrioritizedCourseMemos(courseCode) {
     const uri = client.resolve(paths.getPrioritizedWebOrPdfMemosByCourseCode.uri, {
       courseCode,
     })
-    return client.getAsync({ uri, useCache: true })
+    const { body, statusCode } = client.getAsync({ uri, useCache: true })
+
+    if (statusCode !== 200) {
+      return {
+        apiError: true,
+        statusCode,
+        courseTitleData: {
+          courseCode: courseCode.toUpperCase(),
+        },
+      }
+    }
+
+    return { apiError: false, memoList: body }
   } catch (err) {
     log.error(
       'getPrioritizedCourseMemos is trying to connect with kurs-pm-api and failed for courseCode: ',
