@@ -93,7 +93,7 @@
     "prettier-2": "npm:prettier@^2",
     "prettier-eslint-cli": "^8.0.1",
     "react-error-boundary": "^4.0.13",
-    "sass": "^1.71.1",
+    "sass": "^1.74.1",
     "sass-loader": "^14.1.1",
     "terser-webpack-plugin": "^5.3.10",
     "webpack": "^5.90.3",
