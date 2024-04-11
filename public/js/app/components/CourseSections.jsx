@@ -18,10 +18,10 @@ const CourseSection = ({ sectionHeader: header = '', courseData = [], sectionId 
     {header.length ? <h2 id={`${sectionId}-header`}>{header}</h2> : null}
     {courseData.map(data =>
       data.text ? (
-        <span key={data.header || data.text} className="word-break">
+        <React.Fragment key={data.header || data.text}>
           {data.header && syllabusMarker(data, syllabusMarkerAriaLabel)}
-          <div dangerouslySetInnerHTML={{ __html: data.text }} />
-        </span>
+          <div className="course-section-content-wrapper" dangerouslySetInnerHTML={{ __html: data.text }} />
+        </React.Fragment>
       ) : null
     )}
   </div>

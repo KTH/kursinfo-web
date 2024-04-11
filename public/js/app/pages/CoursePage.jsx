@@ -147,7 +147,7 @@ function CoursePage() {
           aria-label={translation.courseLabels.label_course_description}
         >
           <Col>
-            <img className="float-md-start" src={courseImage} alt="" height="auto" width="300px" />
+            <img src={courseImage} alt="" height="auto" width="300px" />
             <div className="paragraphs" dangerouslySetInnerHTML={{ __html: sellingText }} />
           </Col>
           {courseData.roundList && activeSemesters.length > 0 && hasToShowRoundsData && (

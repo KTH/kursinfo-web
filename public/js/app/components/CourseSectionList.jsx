@@ -189,7 +189,7 @@ function CourseSectionList({
 
   return (
     <section
-      className="row"
+      className="row course-section-list"
       id={partToShow}
       aria-label={`${translation.courseLabels.label_course_information} ${syllabusName}`}
     >
