@@ -1,7 +1,5 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react'
-// import { CSVLink } from 'react-csv'
-import { Col, Row } from 'reactstrap'
 
 import { introductionTexts } from '../components/statistics/StatisticsTexts'
 import { StatisticsForm, StatisticsResults } from '../components/statistics/index'
@@ -65,25 +63,11 @@ function CourseStatisticsPage() {
   }
   return (
     <div id="kursstatistik-main-page" className={hasSubmittedEmptyValue ? 'error-missing-parameters-in-query' : ''}>
-      <Row>
-        <Col>
-          <h1>{labels.pageHeader}</h1>
-          {texts.pageDescription()}
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <h2>{labels.formLabels.formHeader}</h2>
-          <StatisticsForm onSubmit={handleSubmit} />
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          {/* Ex Sammanställning av antalet publicerade kurs-PM  */}
-          {/* Ex Tabell med kurser och kurs-PM  */}
-          <StatisticsResults chosenOptions={params} />
-        </Col>
-      </Row>
+      <h1>{labels.pageHeader}</h1>
+      {texts.pageDescription()}
+      <h2>{labels.formLabels.formHeader}</h2>
+      <StatisticsForm onSubmit={handleSubmit} />
+      <StatisticsResults chosenOptions={params} />
     </div>
   )
 }

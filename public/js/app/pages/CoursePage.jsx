@@ -153,7 +153,7 @@ function CoursePage() {
         >
           <Col>
             <img src={courseImage} alt="" height="auto" width="300px" />
-            <div className="paragraphs" dangerouslySetInnerHTML={{ __html: sellingText }} />
+            <div dangerouslySetInnerHTML={{ __html: sellingText }} />
           </Col>
         </section>
 

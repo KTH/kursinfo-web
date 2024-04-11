@@ -102,7 +102,7 @@ function StatisticsForm({ onSubmit }) {
       </Row>
       <Row>
         <Col>
-          <button className="btn btn-primary" type="submit" style={{ float: 'left' }}>
+          <button className="kth-button primary" type="submit">
             {labels.btnShowResults}
           </button>
         </Col>

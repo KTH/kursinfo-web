@@ -1,5 +1,4 @@
 import React from 'react'
-import { Button } from 'reactstrap'
 import { useLanguage } from '../hooks/useLanguage'
 import { useMissingInfo } from '../hooks/useMissingInfo'
 
@@ -38,14 +37,13 @@ const RoundApplicationInfo = ({
         <h3>{courseRoundInformation.round_application_code}</h3>
         <p>{round ? round.round_application_code : missingInfoLabel}</p>
         {showApplicationLink && (
-          <Button
+          <button
+            className="kth-button next"
             name={courseRoundInformation.round_application_link}
-            color="primary"
-            className="next"
             onClick={openApplicationLink}
           >
             {courseRoundInformation.round_application_link}
-          </Button>
+          </button>
         )}
       </div>
     </span>

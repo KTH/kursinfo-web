@@ -31,7 +31,7 @@ const englishMemosSummarySection = {
     </div>
   ),
   subPageDescription: () => (
-    <div className="paragraphs">
+    <div>
       <p>
         Here is a summary of the number of published course memos for the selected school, year and study period. The
         data used is taken from Kopps and About course.
@@ -96,7 +96,7 @@ const swedishMemosSummarySection = {
     </div>
   ),
   subPageDescription: () => (
-    <div className="paragraphs">
+    <div>
       <p>
         Här visas en sammanställning över antalet publicerade kurs-PM för vald skola, år och läsperiod. Den data som
         används hämtas från Kopps och Om kursen.
