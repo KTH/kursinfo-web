@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert } from 'reactstrap'
+import Alert from '../components-shared/Alert'
 import { useLanguage } from '../hooks/useLanguage'
 
 const BankIdAlert = ({ tutoringForm, fundingType, roundSpecified }) => {
@@ -19,7 +19,7 @@ const BankIdAlert = ({ tutoringForm, fundingType, roundSpecified }) => {
   return (
     showAlert && (
       <section className="bankIdAlert">
-        <Alert color="info">
+        <Alert type="info">
           <p dangerouslySetInnerHTML={{ __html: translation.bankIdAlertText }}></p>
         </Alert>
       </section>

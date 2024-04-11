@@ -68,11 +68,7 @@
     }
   }
 }
-#activeSyllabusContainer {
-  h2 {
-    padding-top: 20px;
-  }
-}
+
 #courseIntroText {
   @include prose.prose;
   padding-bottom: 10px;

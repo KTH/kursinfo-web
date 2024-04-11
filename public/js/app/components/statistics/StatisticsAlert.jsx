@@ -1,6 +1,6 @@
 import React from 'react'
-import { Alert } from 'reactstrap'
 import PropTypes from 'prop-types'
+import Alert from '../../components-shared/Alert'
 import i18n from '../../../../../i18n'
 import { ERROR_ASYNC } from '../../hooks/statisticsUseAsync'
 
@@ -10,8 +10,7 @@ function StatisticsAlert({ alertType, languageIndex, children }) {
   const { header = '', help = '', text = '' } = statisticsLabels[alertType] || {}
 
   return (
-    <Alert color={alertType === ERROR_ASYNC.missingParameters ? 'danger' : 'info'} aria-live="polite">
-      {header && <h5>{header}</h5>}
+    <Alert type={alertType === ERROR_ASYNC.missingParameters ? 'warning' : 'info'} aria-live="polite" header={header}>
       {text && <p>{text}</p>}
       {help && <p>{help}</p>}
       {children && <p>{children}</p>}

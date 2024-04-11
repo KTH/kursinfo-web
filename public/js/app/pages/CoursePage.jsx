@@ -1,10 +1,12 @@
 /* eslint-disable react/no-danger */
 import React, { useEffect } from 'react'
 
-import { Row, Col, Alert } from 'reactstrap'
+import { Row, Col } from 'reactstrap'
 
 import { FORSKARUTB_URL, SYLLABUS_URL } from '../util/constants'
 import { aboutCourseLink } from '../util/links'
+
+import Alert from '../components-shared/Alert'
 
 import RoundInformationOneCol from '../components/RoundInformationOneCol'
 import CourseTitle from '../components/CourseTitle'
@@ -124,8 +126,11 @@ function CoursePage() {
         {/* ---TEXT FOR CANCELLED COURSE --- */}
         {(isCancelled || isDeactivated) && (
           <div className="isCancelled">
-            <Alert color="info" aria-live="polite">
-              <h3>{`${translation.course_state_alert[courseInfo.course_state].header}`}</h3>
+            <Alert
+              color="info"
+              aria-live="polite"
+              header={translation.course_state_alert[courseInfo.course_state].header}
+            >
               <p>
                 {translation.course_state_alert[courseInfo.course_state].examination}
                 {translation.courseInformation.course_short_semester[courseInfo.course_last_exam[1]]}
@@ -150,14 +155,15 @@ function CoursePage() {
             <img src={courseImage} alt="" height="auto" width="300px" />
             <div className="paragraphs" dangerouslySetInnerHTML={{ __html: sellingText }} />
           </Col>
-          {courseData.roundList && activeSemesters.length > 0 && hasToShowRoundsData && (
-            <BankIdAlert
-              tutoringForm={courseData.roundList[activeSemester][activeRoundIndex].round_tutoring_form}
-              fundingType={courseData.roundList[activeSemester][activeRoundIndex].round_funding_type}
-              roundSpecified={activeSemesters.length > 0 && hasToShowRoundsData}
-            />
-          )}
         </section>
+
+        {courseData.roundList && activeSemesters.length > 0 && hasToShowRoundsData && (
+          <BankIdAlert
+            tutoringForm={courseData.roundList[activeSemester][activeRoundIndex].round_tutoring_form}
+            fundingType={courseData.roundList[activeSemester][activeRoundIndex].round_funding_type}
+            roundSpecified={activeSemesters.length > 0 && hasToShowRoundsData}
+          />
+        )}
         <Row id="columnContainer">
           {/** ************************************************************************************************************ */}
           {/*                                      RIGHT COLUMN - ROUND INFORMATION                                         */}
@@ -231,15 +237,12 @@ function CoursePage() {
                   {hasActiveSemesters &&
                   hasToShowRoundsData &&
                   courseData.roundList[activeSemester][activeRoundIndex].round_state !== 'APPROVED' ? (
-                    <Alert color="info" aria-live="polite">
-                      <h4>
-                        {`${
-                          translation.courseLabels.lable_round_state[
-                            courseData.roundList[activeSemester][activeRoundIndex].round_state
-                          ]
-                        }
-                            `}
-                      </h4>
+                    <Alert type="info" aria-live="polite">
+                      {
+                        translation.courseLabels.lable_round_state[
+                          courseData.roundList[activeSemester][activeRoundIndex].round_state
+                        ]
+                      }
                     </Alert>
                   ) : (
                     ''
@@ -250,15 +253,13 @@ function CoursePage() {
               hasActiveSemesters &&
               courseData.syllabusSemesterList &&
               courseData.syllabusSemesterList.length > 0 && (
-                <Alert color="info">
-                  <h4>{translation.courseLabels.header_no_rounds}</h4>
+                <Alert type="info" header={translation.courseLabels.header_no_rounds}>
                   {translation.courseLabels.lable_no_rounds}
                 </Alert>
               )
             )}
             {courseInfo.course_application_info.length > 0 && (
-              <Alert color="info">
-                <h4>{translation.courseInformation.course_application_info}</h4>
+              <Alert type="info" header={translation.courseInformation.course_application_info}>
                 <span dangerouslySetInnerHTML={{ __html: courseInfo.course_application_info }} />
               </Alert>
             )}
@@ -275,7 +276,7 @@ function CoursePage() {
                 memoStorageURI={browserConfig.memoStorageUri}
               />
             ) : (
-              <div>
+              <div className="info-box">
                 {hasActiveSemesters ? (
                   <p>{translation.courseLabels.no_round_selected}</p>
                 ) : (
@@ -329,16 +330,13 @@ function CoursePage() {
           {/** ************************************************************************************************************ */}
           <Col id="coreContent" md="8" xs="12">
             <div key="fade-2" className={` fade-container ${syllabusInfoFade === true ? ' fadeOutIn' : ''} `}>
-              <Row id="activeSyllabusContainer" key="activeSyllabusContainer">
-                <Col sm="12">
-                  {courseData.syllabusSemesterList.length === 0 && (
-                    <Alert color="info" aria-live="polite">
-                      <h4>{translation.courseLabels.header_no_syllabus}</h4>
-                      {translation.courseLabels.label_no_syllabus}
-                    </Alert>
-                  )}
-                </Col>
-              </Row>
+              <div id="activeSyllabusContainer" key="activeSyllabusContainer">
+                {courseData.syllabusSemesterList.length === 0 && (
+                  <Alert type="info" aria-live="polite" header={translation.courseLabels.header_no_syllabus}>
+                    {translation.courseLabels.label_no_syllabus}
+                  </Alert>
+                )}
+              </div>
 
               {/* --- COURSE INFORMATION CONTAINER---  */}
               <CourseSectionList
