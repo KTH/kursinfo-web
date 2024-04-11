@@ -100,6 +100,8 @@ server.use(config.proxyPrefixPath.uri + '/assets/js', express.static('./node_mod
 // server.use(config.proxyPrefixPath.uri + '/static/js/app.js', express.static('./dist/js/app.js'))
 // Map static content like images, css and js.
 server.use(config.proxyPrefixPath.uri + '/static', express.static('./dist'))
+server.use(config.proxyPrefixPath.uri + '/static/icon/favicon', express.static('./public/favicon.ico'))
+
 // Return 404 if static file isn't found so we don't go through the rest of the pipeline
 server.use(config.proxyPrefixPath.uri + '/static', (req, res, next) => {
   const error = new Error('File not found: ' + req.originalUrl)
