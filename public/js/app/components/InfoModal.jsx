@@ -52,11 +52,7 @@ function InfoModal(props) {
         <ModalHeader
           className="h-4"
           toggle={toggle}
-          close={
-            <button className="close" onClick={toggle}>
-              ×
-            </button>
-          }
+          close={<button className="kth-icon-button close" onClick={toggle} />}
         >
           {title || ''}
         </ModalHeader>
@@ -64,9 +60,9 @@ function InfoModal(props) {
           {type && type === 'html' ? <div dangerouslySetInnerHTML={{ __html: infoText }} /> : <p>{infoText}</p>}
         </ModalBody>
         <ModalFooter>
-          <Button color="secondary" onClick={toggle}>
+          <button className="kth-button secondary" onClick={toggle}>
             {closeLabel || 'Close'}
-          </Button>
+          </button>
         </ModalFooter>
       </Modal>
     </button>

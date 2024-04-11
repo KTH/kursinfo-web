@@ -15,6 +15,7 @@
 @use '~@kth/style/scss/components/menu-panel.scss';
 @use '~@kth/style/scss/components/content.scss';
 @use '~@kth/style/scss/components/local-navigation.scss';
+@use '~@kth/style/scss/tokens/typography.scss';
 
 @import 'shared';
 @import 'sidebar';
@@ -167,12 +168,25 @@ sup {
     animation-name: fadeOutIn;
     animation-duration: 800ms;
   }
-
 }
 
 ///******************** MODAL ****************************///
 .modal {
-  display: block;
+  .modal-title {
+    @include typography.font-heading-s;
+    margin: 0;
+  }
+  .modal-body {
+    div {
+      @include prose.prose;
+      & > :first-child {
+        margin-block-start: 0;
+      }
+      & > :last-child {
+        margin-block-end: 0;
+      }
+    }
+  }
 }
 
 .padding-bottom-1 {
@@ -185,10 +199,6 @@ sup {
 
 .margin-left-4 {
   margin-left: 4rem;
-}
-
-.float-right {
-  float: right;
 }
 
 div::-webkit-scrollbar {
