@@ -25,12 +25,26 @@ const createLinksWithLanguageParameter = (courseCode, languageShortname) => {
   }
 }
 
-const labelBeforeChoosingCourse = (courseCode, label) =>
-  courseCode ? (
-    <p>
-      <b>{`${label} ${courseCode}`}</b>
-    </p>
-  ) : null
+function SideMenuMobile() {
+  // TODO: kth-style-10: Mobile menu
+  const title = 'Mobile menu'
+
+  return (
+    <nav className="kth-local-navigation--mobile" aria-labelledby="kth-local-navigation-title--mobile">
+      <button className="kth-button menu" id="kth-local-navigation-title--mobile">
+        <span>{title}</span>
+      </button>
+      <dialog className="kth-mobile-menu left">
+        <div className="kth-mobile-menu__navigation">
+          <button className="kth-icon-button close">
+            <span className="kth-visually-hidden">Close</span>
+          </button>
+        </div>
+        <div className="mobile-menu__content"></div>
+      </dialog>
+    </nav>
+  )
+}
 
 const SideMenu = ({ courseCode, labels = {} }) => {
   const { languageShortname, isEnglish } = useLanguage()
@@ -40,55 +54,36 @@ const SideMenu = ({ courseCode, labels = {} }) => {
   const { courseArchiveLink, courseDevelopmentLink } = createLinksWithLanguageParameter(courseCode, languageShortname)
 
   return (
-    <nav
-      id="mainMenu"
-      className="col navbar navbar-expand-lg navbar-light"
-      lang={languageShortname}
-      aria-label={labels.aria_label}
-      style={{ paddingLeft: '15px' }}
-    >
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="nav">
-          <li className="parentLink">
-            <a href={SIDE_MENU_LINK_URL[languageShortname]} title={labels.page_catalog}>
-              {labels.page_catalog}
-            </a>
-          </li>
-        </ul>
-        <ul className="nav nav-ancestor">
+    <>
+      <SideMenuMobile />
+
+      <nav id="mainMenu" className="kth-local-navigation col" aria-labelledby="local-navigation-title">
+        <a href={SIDE_MENU_LINK_URL[languageShortname]} className="kth-button back">
+          {labels.page_catalog}
+        </a>
+
+        <h2 id="local-navigation-title">{courseCode && `${labels.page_about_course} ${courseCode}`}</h2>
+
+        <ul>
           <li>
-            <span className="nav-item ancestor">{labelBeforeChoosingCourse(courseCode, labels.page_about_course)}</span>
-          </li>
-        </ul>
-        <ul className="nav nav-list">
-          <li className="nav-item leaf selected">
-            <a className="nav-link" href={aboutCourseLink} title={labels.page_before_course}>
+            <a href={aboutCourseLink} aria-current="page">
               {labels.page_before_course}
             </a>
           </li>
-          <li className="nav-item node">
-            <a href={courseMemoLink} title={labels.page_memo} className="nav-link">
+          <li>
+            <a href={courseMemoLink} className="expandable">
               {labels.page_memo}
             </a>
           </li>
-          <li className="nav-item leaf">
-            <a
-              className="nav-link"
-              id="course-development-link"
-              title={labels.page_development}
-              href={courseDevelopmentLink}
-            >
-              {labels.page_development}
-            </a>
+          <li>
+            <a href={courseDevelopmentLink}>{labels.page_development}</a>
           </li>
-          <li className="nav-item leaf">
-            <a className="nav-link" id="course-archive-link" title={labels.page_archive} href={courseArchiveLink}>
-              {labels.page_archive}
-            </a>
+          <li>
+            <a href={courseArchiveLink}>{labels.page_archive}</a>
           </li>
         </ul>
-      </div>
-    </nav>
+      </nav>
+    </>
   )
 }
 

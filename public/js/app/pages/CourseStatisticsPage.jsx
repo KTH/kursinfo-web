@@ -64,11 +64,7 @@ function CourseStatisticsPage() {
     setHasSubmittedEmptyValue(missingParams.length > 0)
   }
   return (
-    <div
-      className={`container ${hasSubmittedEmptyValue ? 'error-missing-parameters-in-query' : ''}`}
-      id={`kursstatistik-main-page`}
-      style={{ paddingTop: '30px' }}
-    >
+    <div id="kursstatistik-main-page" className={hasSubmittedEmptyValue ? 'error-missing-parameters-in-query' : ''}>
       <Row>
         <Col>
           <h1>{labels.pageHeader}</h1>

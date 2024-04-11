@@ -22,17 +22,6 @@
 // Less code goes here...!
 $red: #e01f28;
 
-#app {
-  width: 100%;
-}
-
-#kursinfo-main-page,
-#kursstatistik-main-page {
-  margin-bottom: 20px;
-  padding-left: 30px;
-  width: 100%;
-  padding-right: 15px;
-}
 #kursstatistik-main-page {
   .paragraphs p {
     max-width: 100% !important;
@@ -47,8 +36,6 @@ $red: #e01f28;
       font-size: 1.125rem;
     }
   }
-  margin-right: auto;
-  margin-left: auto;
 }
 
 .error-missing-parameters-in-query {
@@ -104,9 +91,6 @@ $red: #e01f28;
   }
 }
 @media (max-width: 991.98px) {
-  #pageContainer {
-    padding-top: 2em;
-  }
   #page-sub-heading-wrapper {
     display: flex;
     flex-direction: column;
@@ -513,55 +497,4 @@ div::-webkit-scrollbar-thumb {
 
 .margin-top-1-5 {
   margin-top: 1.5rem;
-}
-
-.row > * {
-  padding-right: calc(var(--bs-gutter-x) * 0.625);
-  padding-left: calc(var(--bs-gutter-x) * 0.625);
-}
-
-.row {
-  margin-right: calc(-0.625 * var(--bs-gutter-x));
-  margin-left: calc(-0.625 * var(--bs-gutter-x));
-}
-
-#app {
-  padding: 0;
-}
-
-.secondaryMenu {
-  padding: 0;
-}
-
-// After upgrade to bootstrap 5
-
-@media (min-width: 576px) {
-  .container-sm,
-  .container {
-    max-width: 540px;
-  }
-}
-@media (min-width: 768px) {
-  .container-md,
-  .container-sm,
-  .container {
-    max-width: 720px;
-  }
-}
-@media (min-width: 992px) {
-  .container-lg,
-  .container-md,
-  .container-sm,
-  .container {
-    max-width: 960px;
-  }
-}
-@media (min-width: 1200px) {
-  .container-xl,
-  .container-lg,
-  .container-md,
-  .container-sm,
-  .container {
-    max-width: 1140px;
-  }
 }
