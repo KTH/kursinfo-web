@@ -49,6 +49,8 @@ async function getIndex(req, res, next) {
       lang,
       description: lang === 'sv' ? 'KTH kursinformationsstatistik' : 'KTH Course Information Statistics',
       paths: JSON.stringify(paths), // don't remove it, it's needed for handlebars
+      proxyPrefix,
+      theme: 'student-web',
     })
   } catch (err) {
     const excludedStatusCodes = [403, 404]
