@@ -1,0 +1,92 @@
+// This file containt style shared between the four public facing Om kursen apps (kopps-public-react-web, kursinfo-web, kurs-pm-web and kursutveckling-web)
+@use '~@kth/style/scss/tokens/typography.scss' as typography;
+
+#app {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  & > .row {
+    margin: 0;
+
+    &:has(> .kth-local-navigation--mobile) {
+      display: block;
+    }
+    @media (min-width: 992px) {
+      &:has(> .kth-local-navigation--mobile) {
+        display: flex;
+      }
+    }
+  }
+}
+
+#mainContent {
+  padding: 0;
+}
+
+#mainMenu + #mainContent {
+  @media (min-width: 992px) {
+    padding-left: 30px;
+  }
+}
+
+#mainMenu.kth-local-navigation {
+  padding: 0 20px 15px 0;
+
+  & > * {
+    max-width: 15rem;
+  }
+}
+
+.kth-content.articleNavigation {
+  #breadcrumbs {
+    margin-top: 15px;
+    ol {
+      margin: 0;
+    }
+
+    display: none;
+    @media (min-width: 992px) {
+      display: flex;
+    }
+  }
+}
+
+// TODO: KTH-style-10: Hur bör page-sub-heading, kanske ska ligga i _fix egentligen
+p {
+  &#page-sub-heading {
+    font-weight: 600;
+    line-height: 1.375;
+    margin-bottom: 14px;
+    margin-top: 0.325rem;
+
+    font-size: 1.25rem;
+
+    @media (max-width: 767.98px) {
+      font-size: 1rem;
+    }
+  }
+}
+
+.info-box {
+  $space-between: 14px;
+  padding: 20px;
+  margin-bottom: 30px;
+  background-color: var(--color-background-alt);
+  display: block;
+  word-wrap: break-word;
+
+  h2,
+  h3 {
+    @include typography.font-heading-s;
+    margin-top: 16px;
+    margin-bottom: 14px;
+  }
+  p {
+    margin-bottom: 14px;
+  }
+  & > :first-child {
+    margin-top: 0;
+  }
+  & > :last-child {
+    margin-bottom: 0;
+  }
+}

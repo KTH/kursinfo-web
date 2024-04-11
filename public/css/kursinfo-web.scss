@@ -17,6 +17,8 @@
 @use '~@kth/style/scss/components/content.scss';
 @use '~@kth/style/scss/components/local-navigation.scss';
 
+@import 'shared';
+
 // Less code goes here...!
 $red: #e01f28;
 
