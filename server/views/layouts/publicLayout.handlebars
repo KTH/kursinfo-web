@@ -29,12 +29,9 @@
   {{prefixScript '/static/browserConfig' 'head-scripts'}}
   {{prefixScript '/static/kth-style/js/backtotop.js' 'head-scripts'}}
 
-  {{#extend 'head-scripts'}}
-    <script src="//www.kth.se/social/toolbar/widget.js"></script>
-  {{/extend}}
-
   {{{render 'head-scripts'}}}
-
+  
+  <script src="{{toolbarUrl}}"></script>
   <script type="module">
     import { MenuPanel } from '{{proxyPrefix}}/assets/js/index.js'
     MenuPanel.initModal(
@@ -50,6 +47,9 @@
       document.querySelector(".kth-local-navigation--mobile .kth-mobile-menu"),
     );
   </script>
+  
+  <script src="{{toolbarUrl}}"></script>
+  
   {{#if instrumentationKey}}
     {{#if klaroAnalyticsConsentCookie}}
     <script type="text/javascript">

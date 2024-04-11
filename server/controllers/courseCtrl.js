@@ -629,6 +629,7 @@ async function getIndex(req, res, next) {
           ? 'KTH kursinformation för ' + courseCode.toUpperCase()
           : 'KTH course information ' + courseCode.toUpperCase(),
       klaroAnalyticsConsentCookie,
+      toolbarUrl: serverConfig.toolbar.url,
       proxyPrefix,
       theme: 'student-web',
       breadcrumbsList,

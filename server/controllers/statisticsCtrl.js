@@ -49,6 +49,7 @@ async function getIndex(req, res, next) {
       lang,
       description: lang === 'sv' ? 'KTH kursinformationsstatistik' : 'KTH Course Information Statistics',
       paths: JSON.stringify(paths), // don't remove it, it's needed for handlebars
+      toolbarUrl: serverConfig.toolbar.url,
       proxyPrefix,
       theme: 'student-web',
     })
