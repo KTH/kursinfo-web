@@ -30,25 +30,24 @@ const RoundApplicationInfo = ({
 
   return (
     <span>
-      <h2 id="applicationInformationHeader" className="right-column-header">
-        {courseLabels.header_select_course}
-      </h2>
+      <h2 id="applicationInformationHeader">{courseLabels.header_select_course}</h2>
+      <div className={`info-box ${courseHasRound && showRoundData ? '' : 'yellow'}`}>
+        <h3>{roundHeader}</h3>
+        <p>{selectedRoundHeader}</p>
 
-      <h3 className="t4">{roundHeader}</h3>
-      <p>{selectedRoundHeader}</p>
-
-      <h3 className="t4">{courseRoundInformation.round_application_code}</h3>
-      <p>{round ? round.round_application_code : missingInfoLabel}</p>
-      {showApplicationLink && (
-        <Button
-          name={courseRoundInformation.round_application_link}
-          color="primary"
-          className="next"
-          onClick={openApplicationLink}
-        >
-          {courseRoundInformation.round_application_link}
-        </Button>
-      )}
+        <h3>{courseRoundInformation.round_application_code}</h3>
+        <p>{round ? round.round_application_code : missingInfoLabel}</p>
+        {showApplicationLink && (
+          <Button
+            name={courseRoundInformation.round_application_link}
+            color="primary"
+            className="next"
+            onClick={openApplicationLink}
+          >
+            {courseRoundInformation.round_application_link}
+          </Button>
+        )}
+      </div>
     </span>
   )
 }

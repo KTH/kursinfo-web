@@ -1,5 +1,4 @@
 import React from 'react'
-import { Row, Col } from 'reactstrap'
 import { useLanguage } from '../hooks/useLanguage'
 import { useMissingInfo } from '../hooks/useMissingInfo'
 
@@ -19,10 +18,10 @@ const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorag
     has_round_published_memo: hasPublishedMemo,
   } = courseRound
   return (
-    <Row id="courseLinks">
+    <div id="courseLinks">
       {/* ---LINK TO ROUND PM/MEMO IF ROUND HAS ONE-- */}
-      <Col sm="12" xs="12">
-        <h3 className="t4">{translation.courseLabels.label_course_memo}</h3>
+      <div>
+        <h3>{translation.courseLabels.label_course_memo}</h3>
         {memoPdfFile ? (
           <a id="memoLink" href={`${memoStorageURI}${memoPdfFile.fileName}`} target="_blank" rel="noreferrer">
             {translation.courseLabels.label_link_course_memo}
@@ -41,10 +40,10 @@ const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorag
             </span>
           ))
         )}
-      </Col>
+      </div>
       {/* ---LINK TO ROUND SCHEDULE-- */}
-      <Col sm="12" xs="12">
-        <h3 className="t4">{translation.courseLabels.label_schedule}</h3>
+      <div>
+        <h3>{translation.courseLabels.label_schedule}</h3>
         <i className="icon-schedule" />
         {!isMissingInfoLabel(scheduleUrl) ? (
           <a href={scheduleUrl}>{translation.courseLabels.label_link_schedule}</a>
@@ -53,8 +52,8 @@ const CourseFileLinks = ({ courseCode, courseRound = {}, scheduleUrl, memoStorag
             <i>{translation.courseLabels.no_schedule_published}</i>
           </span>
         )}
-      </Col>
-    </Row>
+      </div>
+    </div>
   )
 }
 

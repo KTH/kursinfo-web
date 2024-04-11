@@ -202,7 +202,6 @@ function CourseSectionList({
       <CourseSection
         sectionHeader={translation.courseLabels.header_content}
         headerType="3"
-        className="first-header"
         courseData={getContent()}
         sectionId="Content"
         syllabusMarkerAriaLabel={translation.courseLabels.syllabus_marker_aria_label}

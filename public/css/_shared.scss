@@ -71,6 +71,7 @@ p {
 }
 
 .info-box {
+  $yellow: #fcf8e3;
   $space-between: 14px;
   padding: 20px;
   margin-bottom: 30px;
@@ -92,6 +93,17 @@ p {
   }
   & > :last-child {
     margin-bottom: 0;
+  }
+
+  &.yellow {
+    background-color: $yellow;
+  }
+}
+
+.person {
+  img {
+    vertical-align: middle;
+    margin-right: 6px;
   }
 }
 

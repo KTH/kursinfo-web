@@ -4,7 +4,7 @@ import { Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap'
 
 function InfoModal(props) {
   const [modal, setModal] = useState(false)
-  const { ariaLabel, buttonLabel, className, closeLabel, fadeModal, infoText, parentTag = 'h3', title, type } = props
+  const { ariaLabel, buttonLabel, className, closeLabel, fadeModal, infoText, title, type } = props
 
   function toggle() {
     setModal(!modal)
@@ -46,12 +46,7 @@ function InfoModal(props) {
   }
 
   return (
-    <button
-      type="button"
-      className={`info-modal ${parentTag === 'h2' ? 'info-modal-h2-top-fix' : ''}`}
-      onClick={toggle}
-      aria-label={ariaLabel}
-    >
+    <button type="button" className="info-modal" onClick={toggle} aria-label={ariaLabel}>
       {buttonLabel}
       <Modal isOpen={modal} toggle={toggle} onOpened={keepFocus} className={className} fade={fadeModal}>
         <ModalHeader

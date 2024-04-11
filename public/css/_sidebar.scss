@@ -1,0 +1,35 @@
+#roundInformationContainer {
+  h2 {
+    margin-bottom: 14px;
+  }
+}
+
+#roundInformationOneCol {
+  margin-top: 14px;
+}
+
+#roundDropdownMenuHeaderWrapper {
+  display: flex;
+  align-items: center;
+  h2 {
+    margin-bottom: 0;
+  }
+  .info-modal {
+    top: 0;
+    bottom: 0;
+  }
+}
+
+#courseLinks {
+  padding-top: 30px;
+}
+
+.round-header-info-box {
+  margin-bottom: 0;
+  padding-bottom: 0;
+
+  :last-child {
+    border-bottom: 1px solid white;
+    padding-bottom: 20px;
+  }
+}
