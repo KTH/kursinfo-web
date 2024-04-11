@@ -20,6 +20,10 @@
 
 #mainContent {
   padding: 0;
+
+  header {
+    margin-bottom: 1.5rem;
+  }
 }
 
 #mainMenu + #mainContent {
@@ -88,5 +92,33 @@ p {
   }
   & > :last-child {
     margin-bottom: 0;
+  }
+}
+
+// page-sub-heading kopierad from kursinfo-web - liknande i fanns i kurs-pm-web
+// TODO: kth-style-10: kolla övriga
+#page-sub-heading-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+#page-sub-heading-admin-link {
+  font-size: 1rem;
+  line-height: 1.375;
+  margin-bottom: 14px;
+  margin-top: 0.325rem;
+  text-align: right;
+}
+
+@media (max-width: 991.98px) {
+  #page-sub-heading-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: normal;
+  }
+  #page-sub-heading-admin-link {
+    text-align: left;
   }
 }

@@ -19,144 +19,24 @@
 
 @import 'shared';
 
-// Less code goes here...!
 $red: #e01f28;
 
 #kursstatistik-main-page {
   .paragraphs p {
     max-width: 100% !important;
   }
-  ul,
-  ol {
-    font-family: Georgia, 'garamond pro', garamond, 'times new roman', times, serif;
-  }
   @media (min-width: 768px) {
     .paragraphs ul,
     ol {
       font-size: 1.125rem;
     }
   }
-}
-
-.error-missing-parameters-in-query {
-  .empty-field {
-    outline: solid 1px $red !important;
-    outline-offset: 3px;
-  }
-}
-
-.container.articleNavigation {
-  padding: 0 15px 0 30px !important;
-
-  #breadcrumbs .breadcrumb {
-    padding-top: 15px;
-    padding-bottom: 24px;
-  }
-}
-
-@media (max-width: 991.98px) {
-  nav.secondaryMenu {
-    display: none;
-  }
-}
-
-.course-header {
-  margin-bottom: 16px;
-}
-
-#page-heading {
-  margin-left: -0.095em;
-}
-
-#page-sub-heading-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  a {
-    font-family: 'Open Sans', Arial, 'Helvetica Neue', helvetica, sans-serif;
-  }
-}
-
-#page-sub-heading-admin-link {
-  font-size: 1rem;
-  line-height: 1.375;
-  margin-bottom: 14px;
-  margin-top: 0.325rem;
-  text-align: right;
-}
-
-@media (max-width: 767.98px) {
-  #page-sub-heading {
-    font-size: 1rem !important;
-  }
-}
-@media (max-width: 991.98px) {
-  #page-sub-heading-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-    align-items: normal;
-  }
-  #page-sub-heading-admin-link {
-    text-align: left;
-  }
-}
-
-#course-title {
-  border-bottom: 0px;
-  margin: 0;
-  margin-top: 20px;
-  h1 {
-    margin-bottom: 0;
-  }
-}
-
-.course-header-admin-link {
-  display: block;
-  margin-top: 4px;
-  margin-bottom: 14px;
-  margin-right: 17px;
-}
-
-h4.secondTitle {
-  margin-top: 4px;
-}
-
-.paragraphs li {
-  p {
-    // Le sigh!
-    margin: 0 0 1rem 0;
-  }
-}
-
-main {
-  p,
-  ul,
-  ol {
-    font-family: Georgia, 'garamond pro', garamond, 'times new roman', times, serif;
-  }
-  @media (min-width: 768px) {
-    .paragraphs ul,
-    ol {
-      font-size: 1.125rem;
+  &.error-missing-parameters-in-query {
+    .empty-field {
+      outline: solid 1px $red !important;
+      outline-offset: 3px;
     }
   }
-}
-
-#roundInformationContainer {
-  p,
-  ul,
-  ol {
-    font-family: 'Open Sans', Arial, 'Helvetica Neue', helvetica, sans-serif;
-  }
-  @media (min-width: 768px) {
-    .paragraphs ul,
-    ol {
-      font-size: 1.125rem;
-    }
-  }
-  padding-right: calc(var(--bs-gutter-x) * 0.625);
-  padding-left: calc(var(--bs-gutter-x) * 0.625);
 }
 
 #activeSyllabusContainer {
@@ -268,9 +148,6 @@ main {
 
 .bankIdAlert {
   margin: 1rem 0 0 0;
-  p {
-    font-family: 'Open Sans', Arial, 'Helvetica Neue', helvetica, sans-serif;
-  }
 }
 #semesterButtonMenue,
 #roundDropdownMenu {
@@ -297,7 +174,6 @@ main {
     width: 100%;
   }
 }
-
 #roundInformationContainer {
   .key-info {
     padding: 0 20px 20px 20px;
@@ -339,9 +215,7 @@ main {
 }
 
 #coreContent {
-  padding-left: 0;
   padding-top: 40px;
-  // border-bottom: 1px solid #dee2e6;
   .first-header {
     margin-top: 40px;
   }

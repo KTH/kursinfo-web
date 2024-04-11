@@ -13,7 +13,7 @@ const CourseTitle = ({ courseTitleData = '', pageTitle }) => {
   const adminLinkLabel = translation.courseLabels.label_edit
   return (
     <Row>
-      <header className="col course-header">
+      <header className="col">
         <h1 id="page-heading" aria-labelledby="page-heading page-sub-heading">
           {`${title.course_code} ${title.course_title} `}
           {formatCredits(title.course_credits, title.course_credits_text)}
