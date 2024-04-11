@@ -13,7 +13,6 @@
 @use '~@kth/style/scss/components/visually-hidden.scss';
 @use '~@kth/style/scss/components/button.scss';
 @use '~@kth/style/scss/components/header.scss';
-@use '~@kth/style/scss/components/mobile-menu.scss';
 @use '~@kth/style/scss/components/menu-item.scss';
 @use '~@kth/style/scss/components/menu-panel.scss';
 @use '~@kth/style/scss/components/content.scss';
@@ -90,22 +89,6 @@
 
 .bankIdAlert {
   margin: 1rem 0 0 0;
-}
-
-.pdf-link-fix {
-  margin-left: 0;
-  &::before {
-    margin-top: 0.5em;
-    margin-bottom: 0.6em;
-    margin-left: 0;
-  }
-}
-
-.pdf-link-last-line {
-  &::before {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
 }
 
 .ul-no-padding {

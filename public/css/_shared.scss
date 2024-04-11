@@ -105,6 +105,13 @@ p {
   }
 }
 
+.pdf-link {
+  margin: 0;
+  &::before {
+    margin-right: 0;
+  }
+}
+
 .person {
   img {
     vertical-align: middle;
