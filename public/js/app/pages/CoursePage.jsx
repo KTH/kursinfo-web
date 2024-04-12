@@ -23,7 +23,7 @@ import { useMissingInfo } from '../hooks/useMissingInfo'
 const aboutCourseStr = (translate, courseCode = '') => `${translate.site_name} ${courseCode}`
 
 function CoursePage() {
-  const [context, setWebContext] = useWebContext()
+  const [context] = useWebContext()
 
   const {
     activeRoundIndex,
@@ -39,9 +39,7 @@ function CoursePage() {
     },
     isCancelled,
     isDeactivated,
-    roundInfoFade,
     showRoundData,
-    syllabusInfoFade,
     useStartSemesterFromQuery,
   } = context
   // * * //
@@ -92,22 +90,6 @@ function CoursePage() {
     }
     return () => (isMounted = false)
   }, [])
-
-  useEffect(() => {
-    let isMounted = true
-    if (isMounted) {
-      if (syllabusInfoFade) {
-        setTimeout(() => {
-          setWebContext({ ...context, roundInfoFade: false, syllabusInfoFade: false })
-        }, 800)
-      } else {
-        setTimeout(() => {
-          setWebContext({ ...context, roundInfoFade: false })
-        }, 500)
-      }
-    }
-    return () => (isMounted = false)
-  }, [roundInfoFade, syllabusInfoFade])
 
   return (
     <Row id="kursinfo-main-page">
@@ -270,7 +252,6 @@ function CoursePage() {
                 courseData={courseInformationToRounds}
                 language={languageShortname}
                 courseHasRound={activeSemesters.length > 0}
-                fade={context.roundInfoFade}
                 showRoundData={hasToShowRoundsData}
                 memoStorageURI={browserConfig.memoStorageUri}
               />
@@ -328,7 +309,7 @@ function CoursePage() {
           {/*                           LEFT COLUMN - SYLLABUS + OTHER COURSE INFORMATION                                 */}
           {/** ************************************************************************************************************ */}
           <Col id="coreContent" md="8" xs="12">
-            <div key="fade-2" className={` fade-container ${syllabusInfoFade === true ? ' fadeOutIn' : ''} `}>
+            <div>
               <div id="activeSyllabusContainer" key="activeSyllabusContainer">
                 {courseData.syllabusSemesterList.length === 0 && (
                   <Alert type="info" aria-live="polite" header={translation.courseLabels.header_no_syllabus}>

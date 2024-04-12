@@ -3,8 +3,7 @@ import { Col } from 'reactstrap'
 import { FaAsterisk } from 'react-icons/fa'
 
 const SyllabusInformation = ({ context = {}, syllabus = {}, syllabusSemesterList = {}, translation = {} }) => {
-  const { syllabusInfoFade, courseCode } = context
-  const classes = `fade-container ${syllabusInfoFade ? 'fadeOutIn' : ''}`
+  const { courseCode } = context
 
   const { courseLabels, courseInformation } = translation
   const {
@@ -23,7 +22,7 @@ const SyllabusInformation = ({ context = {}, syllabus = {}, syllabusSemesterList
 
   return (
     <Col sm="12">
-      <div key="fade-2" className={classes}>
+      <div>
         {syllabusSemesterList.length > 0 && (
           <span>
             {syllabusText}

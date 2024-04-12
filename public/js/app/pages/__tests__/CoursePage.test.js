@@ -365,11 +365,9 @@ describe('Component <CoursePage>', () => {
       activeSemestersIndexesWithValidSyllabusesIndexes: [0, 0, 0],
       activeSyllabusIndex: 0,
       roundDisabled: false,
-      roundInfoFade: false,
       roundSelectedIndex: 0,
       semesterSelectedIndex: 0,
       showRoundData: true,
-      syllabusInFade: false,
       lang: 'en',
       paths: {
         ug: {

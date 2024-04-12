@@ -31,8 +31,6 @@ function createServerSideContext() {
       roundsDropdown: false,
       semesterDropdown: false,
     },
-    roundInfoFade: false,
-    syllabusInfoFade: false,
     showRoundData: false,
     roundDisabled: false,
     semesterSelectedIndex: 0,

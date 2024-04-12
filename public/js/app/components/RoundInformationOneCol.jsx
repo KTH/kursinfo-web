@@ -10,7 +10,6 @@ import InfoModal from './InfoModal'
 import RoundApplicationInfo from './RoundApplicationInfo'
 
 function RoundInformationOneCol({
-  fade,
   courseHasRound,
   memoStorageURI,
   showRoundData,
@@ -66,7 +65,7 @@ function RoundInformationOneCol({
       {/*                                  Round information  - first part                                         */}
       {/** ************************************************************************************************************ */}
       <div id="roundFirstPart">
-        <div id="roundKeyInformation" className={` fade-container ${fade === true ? ' fadeOutIn' : ''}`} key="fadeDiv1">
+        <div id="roundKeyInformation">
           <>
             {courseHasRound && showRoundData ? (
               //* ---COURSE ROUND HEADER --- *//

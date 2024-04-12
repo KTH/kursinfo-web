@@ -254,7 +254,6 @@ describe('Discontinued course to test', () => {
             "uri": "/student/kurser/kurs",
           },
           "roundDisabled": false,
-          "roundInfoFade": false,
           "roundSelectedIndex": 0,
           "sellingText": {
             "en": "",
@@ -263,7 +262,6 @@ describe('Discontinued course to test', () => {
           "semesterSelectedIndex": 0,
           "setBrowserConfig": [Function],
           "showRoundData": false,
-          "syllabusInfoFade": false,
           "useStartSemesterFromQuery": false,
         },
         "location": undefined,
