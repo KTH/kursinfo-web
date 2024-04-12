@@ -39,6 +39,7 @@ jest.mock('../../configuration', () => ({
     proxyPrefixPath: { uri: '/student/kurser/kurs' },
     session: { sessionOptions: { secret: '' } },
     sessionSecret: 'xxx',
+    toolbar: { url: 'toolbarUrl' },
   },
   browser: { session: {}, sessionSecret: 'xxx' },
 }))

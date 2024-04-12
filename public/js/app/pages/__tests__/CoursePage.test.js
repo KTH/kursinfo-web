@@ -405,7 +405,8 @@ describe('Component <CoursePage>', () => {
     expect(screen.getByText('Application')).toBeInTheDocument()
     expect(screen.getByText('Application code')).toBeInTheDocument()
     expect(screen.getByText('60747')).toBeInTheDocument()
-    expect(screen.getByLabelText('Contact')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Contact', level: 2 })).toBeInTheDocument()
+
     expect(
       screen.getAllByText(
         `HT: ${courseContactName} (${courseContactEmail}) VT: ${courseContactName} (${courseContactEmail})`

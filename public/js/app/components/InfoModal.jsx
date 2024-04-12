@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import React, { useState } from 'react'
-import { Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap'
+import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap'
 
 function InfoModal(props) {
   const [modal, setModal] = useState(false)
@@ -52,7 +52,7 @@ function InfoModal(props) {
         <ModalHeader
           className="h-4"
           toggle={toggle}
-          close={<button className="kth-icon-button close" onClick={toggle} />}
+          close={<button className="kth-icon-button close" aria-label={closeLabel || 'Close'} onClick={toggle} />}
         >
           {title || ''}
         </ModalHeader>
