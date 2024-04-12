@@ -24,28 +24,12 @@
     {{prefixScript '/static/kth-style/js/klaro-no-css.js' 'head-scripts'}}
   {{/if}}
   
-  {{prefixModuleScript '/assets/js/index.js' 'head-scripts'}}
   {{prefixScript '/static/browserConfig' 'head-scripts'}}
   {{prefixScript '/static/kth-style/js/backtotop.js' 'head-scripts'}}
 
   {{{render 'head-scripts'}}}
   
   <script src="{{toolbarUrl}}"></script>
-  <script type="module">
-    import { MenuPanel } from '{{proxyPrefix}}/assets/js/index.js'
-    MenuPanel.initModal(
-      document.querySelector('.kth-menu-item.collapsable'),
-      document.querySelector('.kth-menu-panel--modal')
-    )
-    MenuPanel.initTranslationModal(
-      document.querySelector(".kth-menu-item.language"),
-      document.querySelector(".kth-translation")
-    )
-    MenuPanel.initModal(
-      document.querySelector(".kth-local-navigation--mobile .kth-button.menu"),
-      document.querySelector(".kth-local-navigation--mobile .kth-mobile-menu"),
-    );
-  </script>
   <script src="{{toolbarUrl}}"></script>
   
   {{#if instrumentationKey}}

@@ -60,25 +60,8 @@
   }
 }
 
-// TODO: KTH-style-10: Alerts hade tidigare en margin som default, bra att den är borttagen, men lägger till den tillfälligt för att in förstöra nuvarande gränssnitt.
 .kth-alert {
   margin-bottom: 30px;
-}
-
-// TODO: KTH-style-10: Hur bör page-sub-heading, kanske ska ligga i _fix egentligen
-p {
-  &#page-sub-heading {
-    font-weight: 600;
-    line-height: 1.375;
-    margin-bottom: 14px;
-    margin-top: 0.325rem;
-
-    font-size: 1.25rem;
-
-    @media (max-width: 767.98px) {
-      font-size: 1rem;
-    }
-  }
 }
 
 .info-box {
@@ -125,8 +108,21 @@ p {
   }
 }
 
-// page-sub-heading kopierad from kursinfo-web - liknande i fanns i kurs-pm-web
-// TODO: kth-style-10: kolla övriga
+p {
+  &#page-sub-heading {
+    font-weight: 600;
+    line-height: 1.375;
+    margin-bottom: 14px;
+    margin-top: 0.325rem;
+
+    font-size: 1.25rem;
+
+    @media (max-width: 767.98px) {
+      font-size: 1rem;
+    }
+  }
+}
+
 #page-sub-heading-wrapper {
   display: flex;
   justify-content: space-between;
