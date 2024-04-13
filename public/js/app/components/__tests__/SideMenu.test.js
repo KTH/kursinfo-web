@@ -35,7 +35,6 @@ describe('Component <SideMenu>', () => {
     expect(links[4].href).toBe('http://localhost/kursutveckling/KIP1111/arkiv?l=en')
     expect(links[4]).toHaveTextContent('Archive')
 
-    // const a screen.getAllByText('About course KIP1111')
     const navs = screen.getAllByRole('navigation')
     expect(navs.length).toBe(2)
     expect(navs[0]).toHaveAccessibleName('About course KIP1111')
