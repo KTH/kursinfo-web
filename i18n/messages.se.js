@@ -38,6 +38,7 @@ module.exports = {
     language_link_lang_en: 'English',
     menu_panel_search: 'Sök',
     menu_panel_close: 'Stäng',
+    menu_panel_menu: 'Meny',
   },
   bankIdAlertText:
     'Du behöver ett KTH-konto för att läsa en kurs på KTH, kontot aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.',
