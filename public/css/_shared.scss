@@ -35,6 +35,11 @@
 #mainMenu.kth-local-navigation {
   padding: 0 20px 15px 0;
 
+  .kth-button.back::before {
+    // do not shrink space for back arrow if nav title is long
+    flex-shrink: 0;
+  }
+
   & > * {
     max-width: 15rem;
   }
@@ -48,6 +53,7 @@
 
 .kth-content.articleNavigation {
   #breadcrumbs {
+    width: 100%;
     margin-top: 15px;
     ol {
       margin: 0;
@@ -147,4 +153,16 @@ p {
   #page-sub-heading-admin-link {
     text-align: left;
   }
+}
+
+// Old kth-style boostrap form overrides
+.select-wrapper::after {
+  background-color: var(--color-primary);
+}
+
+label:has(+ .form-group),
+label:has(+ input) {
+  @include typography.font-heading-xs;
+  display: block;
+  margin-bottom: 0.25rem;
 }
