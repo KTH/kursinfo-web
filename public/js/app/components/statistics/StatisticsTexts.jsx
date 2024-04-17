@@ -5,7 +5,7 @@ import { DOCS } from './domain/formConfigurations'
 const englishIntroTexts = {
   pageHeader: `Course Information Statistics`,
   pageDescription: () => (
-    <div className="paragraphs">
+    <div>
       <p>
         The Statistics page for course information is part of the Administer About course tool. All course memos and
         course analyses published via the tool form the basis for the statistics. Read more about{' '}
@@ -54,7 +54,7 @@ const englishIntroTexts = {
 }
 const swedishIntroTexts = {
   pageDescription: () => (
-    <div className="paragraphs">
+    <div>
       <p>
         Statistiksidan för kursinformation är en del av verktyget Administrera Om kursen. De kurs-PM och kursanalyser
         som publiceras via verktyget utgör underlaget för statistiken. Läs mer om{' '}

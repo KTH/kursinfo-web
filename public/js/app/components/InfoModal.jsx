@@ -1,10 +1,10 @@
 /* eslint-disable react/no-danger */
 import React, { useState } from 'react'
-import { Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap'
+import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap'
 
 function InfoModal(props) {
   const [modal, setModal] = useState(false)
-  const { ariaLabel, buttonLabel, className, closeLabel, fadeModal, infoText, parentTag = 'h3', title, type } = props
+  const { ariaLabel, buttonLabel, className, closeLabel, fadeModal, infoText, title, type } = props
 
   function toggle() {
     setModal(!modal)
@@ -46,22 +46,13 @@ function InfoModal(props) {
   }
 
   return (
-    <button
-      type="button"
-      className={`info-modal ${parentTag === 'h2' ? 'info-modal-h2-top-fix' : ''}`}
-      onClick={toggle}
-      aria-label={ariaLabel}
-    >
+    <button type="button" className="info-modal" onClick={toggle} aria-label={ariaLabel}>
       {buttonLabel}
       <Modal isOpen={modal} toggle={toggle} onOpened={keepFocus} className={className} fade={fadeModal}>
         <ModalHeader
           className="h-4"
           toggle={toggle}
-          close={
-            <button className="close" onClick={toggle}>
-              ×
-            </button>
-          }
+          close={<button className="kth-icon-button close" aria-label={closeLabel || 'Close'} onClick={toggle} />}
         >
           {title || ''}
         </ModalHeader>
@@ -69,9 +60,9 @@ function InfoModal(props) {
           {type && type === 'html' ? <div dangerouslySetInnerHTML={{ __html: infoText }} /> : <p>{infoText}</p>}
         </ModalBody>
         <ModalFooter>
-          <Button color="secondary" onClick={toggle}>
+          <button className="kth-button secondary" onClick={toggle}>
             {closeLabel || 'Close'}
-          </Button>
+          </button>
         </ModalFooter>
       </Modal>
     </button>

@@ -21,21 +21,24 @@ describe('Component <SideMenu>', () => {
     expect(links.length).toBe(5)
 
     expect(links[0].href).toBe('http://localhost/student/kurser/kurser-inom-program?l=en')
-    expect(links[0].title).toBe('Course and programme directory')
+    expect(links[0]).toHaveTextContent('Course and programme directory')
 
     expect(links[1].href).toBe('http://localhost/student/kurser/kurs/KIP1111?l=en')
-    expect(links[1].title).toBe('Before course selection')
+    expect(links[1]).toHaveTextContent('Before course selection')
 
     expect(links[2].href).toBe('http://localhost/kurs-pm/KIP1111?l=en')
-    expect(links[2].title).toBe('Prepare and take course')
+    expect(links[2]).toHaveTextContent('Prepare and take course')
 
     expect(links[3].href).toBe('http://localhost/kursutveckling/KIP1111?l=en')
-    expect(links[3].title).toBe('Course development')
+    expect(links[3]).toHaveTextContent('Course development')
 
     expect(links[4].href).toBe('http://localhost/kursutveckling/KIP1111/arkiv?l=en')
-    expect(links[4].title).toBe('Archive')
+    expect(links[4]).toHaveTextContent('Archive')
 
-    expect(screen.getByText('About course KIP1111')).toBeInTheDocument()
+    const navs = screen.getAllByRole('navigation')
+    expect(navs.length).toBe(2)
+    expect(navs[0]).toHaveAccessibleName('About course KIP1111')
+    expect(navs[1]).toHaveAccessibleName('About course KIP1111')
   })
 
   test('renders a side menu for a course and with labels. Swedish', () => {
@@ -49,20 +52,23 @@ describe('Component <SideMenu>', () => {
     expect(links.length).toBe(5)
 
     expect(links[0].href).toBe('http://localhost/student/kurser/kurser-inom-program')
-    expect(links[0].title).toBe('Kurs- och programkatalogen')
+    expect(links[0]).toHaveTextContent('Kurs- och programkatalogen')
 
     expect(links[1].href).toBe('http://localhost/student/kurser/kurs/KIP1111')
-    expect(links[1].title).toBe('Inför kursval')
+    expect(links[1]).toHaveTextContent('Inför kursval')
 
     expect(links[2].href).toBe('http://localhost/kurs-pm/KIP1111')
-    expect(links[2].title).toBe('Förbereda och gå kurs')
+    expect(links[2]).toHaveTextContent('Förbereda och gå kurs')
 
     expect(links[3].href).toBe('http://localhost/kursutveckling/KIP1111?l=sv')
-    expect(links[3].title).toBe('Kursens utveckling')
+    expect(links[3]).toHaveTextContent('Kursens utveckling')
 
     expect(links[4].href).toBe('http://localhost/kursutveckling/KIP1111/arkiv?l=sv')
-    expect(links[4].title).toBe('Arkiv')
+    expect(links[4]).toHaveTextContent('Arkiv')
 
-    expect(screen.getByText('Om kursen KIP1111')).toBeInTheDocument()
+    const navs = screen.getAllByRole('navigation')
+    expect(navs.length).toBe(2)
+    expect(navs[0]).toHaveAccessibleName('Om kursen KIP1111')
+    expect(navs[1]).toHaveAccessibleName('Om kursen KIP1111')
   })
 })

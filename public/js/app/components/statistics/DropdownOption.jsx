@@ -42,7 +42,6 @@ function DropdownOption({ paramName, onChange, showInfoBox = true }) {
         {headerLabel}
         {paramName === 'year' && showInfoBox && (
           <InfoModal
-            parentTag="h3"
             closeLabel={labels.label_close}
             infoText={labels.study_year_info}
             title={headerLabel}

@@ -2,6 +2,7 @@ import React from 'react'
 
 import { COURSE_MEMO_URL, SIDE_MENU_LINK_URL, COURSE_DEVELOPMENT_URL } from '../util/constants'
 import { useLanguage } from '../hooks/useLanguage'
+import { MainMenu } from '../components-shared/MainMenu'
 
 const createLinksWithOptionalLanguageParameter = (courseCode, isEnglish) => {
   const languageParameter = isEnglish ? '?l=en' : ''
@@ -25,70 +26,38 @@ const createLinksWithLanguageParameter = (courseCode, languageShortname) => {
   }
 }
 
-const labelBeforeChoosingCourse = (courseCode, label) =>
-  courseCode ? (
-    <p>
-      <b>{`${label} ${courseCode}`}</b>
-    </p>
-  ) : null
-
 const SideMenu = ({ courseCode, labels = {} }) => {
   const { languageShortname, isEnglish } = useLanguage()
-
   const { aboutCourseLink, courseMemoLink } = createLinksWithOptionalLanguageParameter(courseCode, isEnglish)
-
   const { courseArchiveLink, courseDevelopmentLink } = createLinksWithLanguageParameter(courseCode, languageShortname)
 
+  const title = courseCode && `${labels.page_about_course} ${courseCode}`
+  const ancestorItem = {
+    label: labels.page_catalog,
+    href: SIDE_MENU_LINK_URL[languageShortname],
+  }
+
   return (
-    <nav
-      id="mainMenu"
-      className="col navbar navbar-expand-lg navbar-light"
-      lang={languageShortname}
-      aria-label={labels.aria_label}
-      style={{ paddingLeft: '15px' }}
-    >
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="nav">
-          <li className="parentLink">
-            <a href={SIDE_MENU_LINK_URL[languageShortname]} title={labels.page_catalog}>
-              {labels.page_catalog}
-            </a>
-          </li>
-        </ul>
-        <ul className="nav nav-ancestor">
-          <li>
-            <span className="nav-item ancestor">{labelBeforeChoosingCourse(courseCode, labels.page_about_course)}</span>
-          </li>
-        </ul>
-        <ul className="nav nav-list">
-          <li className="nav-item leaf selected">
-            <a className="nav-link" href={aboutCourseLink} title={labels.page_before_course}>
-              {labels.page_before_course}
-            </a>
-          </li>
-          <li className="nav-item node">
-            <a href={courseMemoLink} title={labels.page_memo} className="nav-link">
-              {labels.page_memo}
-            </a>
-          </li>
-          <li className="nav-item leaf">
-            <a
-              className="nav-link"
-              id="course-development-link"
-              title={labels.page_development}
-              href={courseDevelopmentLink}
-            >
-              {labels.page_development}
-            </a>
-          </li>
-          <li className="nav-item leaf">
-            <a className="nav-link" id="course-archive-link" title={labels.page_archive} href={courseArchiveLink}>
-              {labels.page_archive}
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <MainMenu title={title} ancestorItem={ancestorItem}>
+      <ul>
+        <li>
+          <a href={aboutCourseLink} aria-current="page">
+            {labels.page_before_course}
+          </a>
+        </li>
+        <li>
+          <a href={courseMemoLink} className="expandable">
+            {labels.page_memo}
+          </a>
+        </li>
+        <li>
+          <a href={courseDevelopmentLink}>{labels.page_development}</a>
+        </li>
+        <li>
+          <a href={courseArchiveLink}>{labels.page_archive}</a>
+        </li>
+      </ul>
+    </MainMenu>
   )
 }
 

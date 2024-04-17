@@ -3,7 +3,7 @@ import React from 'react'
 const englishAnalysisSummarySection = {
   courseDataApiDescription: koppsApiUrl => (
     // change texts
-    <div className="paragraphs">
+    <div>
       <p>Example of how data is retrieved for a semester (Spring 2022, school ABE is used as an example):</p>
       <p>
         Course data is retrieved from the KOPPS API for courses, endpoint /api/kopps/v2/courses/offerings. To retrieve
@@ -28,7 +28,7 @@ const englishAnalysisSummarySection = {
     </div>
   ),
   subPageDescription: () => (
-    <div className="paragraphs">
+    <div>
       <p>
         Here is a summary of the number of published course analyses for the selected school, year and semester. The
         data used is taken from Kopps and About course.
@@ -71,7 +71,7 @@ const englishAnalysisSummarySection = {
 // https://api.kth.se/api/kopps/v2/courses/offerings?from=20221&skip_coordinator_info=true.
 const swedishAnalysisSummarySection = {
   courseDataApiDescription: koppsApiUrl => (
-    <div className="paragraphs">
+    <div>
       <p>Exempel för hur data hämtas för en termin (som exempel används VT 2022):</p>
       <p>
         Kursdata hämtas från KOPPS API för kurser, endpoint /api/kopps/v2/courses/offerings. För att hämta data för VT
@@ -94,7 +94,7 @@ const swedishAnalysisSummarySection = {
     </div>
   ),
   subPageDescription: () => (
-    <div className="paragraphs">
+    <div>
       <p>
         Här visas en sammanställning över antalet publicerade kursanalyser för vald skola, år och termin. Den data som
         används hämtas från Kopps och Om kursen.

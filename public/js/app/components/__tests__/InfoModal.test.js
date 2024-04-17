@@ -38,11 +38,8 @@ describe('Component <InfoModal> with html text 2I', () => {
 
     // Open modal
     fireEvent.click(modalBtn)
-    await waitFor(() => {
-      const allBtns = screen.getAllByRole('button')
-      expect(allBtns[1]).toHaveTextContent('×')
-    })
     const allBtns = screen.getAllByRole('button')
+    expect(allBtns[1]).toHaveAccessibleName('Close')
     expect(allBtns[2]).toHaveTextContent('Close')
   })
 
@@ -65,7 +62,7 @@ describe('Component <InfoModal> with html text 2I', () => {
 })
 
 describe('Component <InfoModal> and its functionality 3I', () => {
-  test('open modal and close by clicking ×', async () => {
+  test('open modal and close by clicking icon button', async () => {
     renderInfoModal()
     const modalBtn = screen.getByRole('button')
 
@@ -75,8 +72,10 @@ describe('Component <InfoModal> and its functionality 3I', () => {
       expect(screen.getByText('Valid for')).toBeInTheDocument()
     })
 
-    // Close modal using ×
-    const modalCrossBtn = screen.getByRole('button', { name: '×' })
+    // Close modal using icon button
+    const modalButtons = screen.getAllByRole('button', { name: 'Close' })
+    const modalCrossBtn = modalButtons.find(x => x.className.includes('kth-icon-button'))
+    expect(modalCrossBtn).toBeDefined()
     fireEvent.click(modalCrossBtn)
     setTimeout(async () => waitForElementToBeRemoved(() => screen.queryByText('Valid for')), 1000)
   })
@@ -92,7 +91,9 @@ describe('Component <InfoModal> and its functionality 3I', () => {
     })
 
     // Close modal using "Close"
-    const modalCloseBtn = screen.getByRole('button', { name: /close/i })
+    const modalButtons = screen.getAllByRole('button', { name: 'Close' })
+    const modalCloseBtn = modalButtons.find(x => !x.className.includes('kth-icon-button'))
+    expect(modalCloseBtn).toBeDefined()
     fireEvent.click(modalCloseBtn)
 
     setTimeout(async () => waitForElementToBeRemoved(() => screen.queryByText('Valid for')), 1000)

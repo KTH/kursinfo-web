@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Col, Row, Button } from 'reactstrap'
+import { Col, Row } from 'reactstrap'
 import * as xlsx from 'xlsx'
 import { useWebContext } from '../../context/WebContext'
 import { useLanguage } from '../../hooks/useLanguage'
@@ -264,14 +264,14 @@ function StatisticsExport({
   return (
     <>
       <Col lg="4" md="4" xs="12" className={languageIndex === 0 ? 'margin-left-5' : 'margin-left-4'}>
-        <Button color="btn btn-secondary margin-top-1-5" onClick={() => exportDataTable('csv')} className="float-end">
+        <button className="kth-button secondary margin-top-1-5 float-end" onClick={() => exportDataTable('csv')}>
           {exportLabels.csv}
-        </Button>
+        </button>
       </Col>
       <Col>
-        <Button color="btn btn-secondary margin-top-1-5" onClick={() => exportDataTable('xlsx')}>
+        <button className="kth-button secondary margin-top-1-5" onClick={() => exportDataTable('xlsx')}>
           {exportLabels.excel}
-        </Button>
+        </button>
       </Col>
     </>
   )

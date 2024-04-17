@@ -33,7 +33,7 @@ const DropdownRounds = ({ courseRoundList, label = '' }) => {
     return ''
   }
   return (
-    <div className="col-12 semester-dropdowns">
+    <div className="semester-dropdowns">
       <form>
         <label className="form-control-label" htmlFor={dropdownID}>
           {label.label_dropdown}

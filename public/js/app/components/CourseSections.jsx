@@ -13,25 +13,15 @@ const syllabusMarker = (data, syllabusMarkerAriaLabel) => (
   </h3>
 )
 
-const CourseSection = ({
-  sectionHeader: header = '',
-  courseData = [],
-  sectionId = '',
-  class: style,
-  syllabusMarkerAriaLabel,
-}) => (
-  <div className="col-12" id={sectionId} aria-labelledby={`${sectionId}-header`}>
-    {header.length ? (
-      <h2 id={`${sectionId}-header`} className={style}>
-        {header}
-      </h2>
-    ) : null}
+const CourseSection = ({ sectionHeader: header = '', courseData = [], sectionId = '', syllabusMarkerAriaLabel }) => (
+  <div id={sectionId} aria-labelledby={`${sectionId}-header`}>
+    {header.length ? <h2 id={`${sectionId}-header`}>{header}</h2> : null}
     {courseData.map(data =>
       data.text ? (
-        <span key={data.header || data.text} className="word-break">
+        <React.Fragment key={data.header || data.text}>
           {data.header && syllabusMarker(data, syllabusMarkerAriaLabel)}
-          <div dangerouslySetInnerHTML={{ __html: data.text }} />
-        </span>
+          <div className="course-section-content-wrapper" dangerouslySetInnerHTML={{ __html: data.text }} />
+        </React.Fragment>
       ) : null
     )}
   </div>

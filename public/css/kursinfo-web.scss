@@ -1,171 +1,81 @@
-// Less code goes here...!
-$red: #e01f28;
+@use '~@kth/style/scss/utils/layers.scss';
+@use '~@kth/style/scss/utils/reset.scss';
+@use '~@kth/style/scss/utils/mixins.scss';
+@use '~@kth/style/scss/utils/prose.scss';
 
-#app {
-  width: 100%;
+@use '~@kth/style/scss/tokens/typography.scss';
+@use '~@kth/style/scss/tokens/colors.scss';
+
+@use '~@kth/style/scss/components/logotype.scss';
+@use '~@kth/style/scss/components/search.scss';
+@use '~@kth/style/scss/components/alert.scss';
+@use '~@kth/style/scss/components/footer.scss';
+@use '~@kth/style/scss/components/mega-menu.scss';
+@use '~@kth/style/scss/components/visually-hidden.scss';
+@use '~@kth/style/scss/components/button.scss';
+@use '~@kth/style/scss/components/header.scss';
+@use '~@kth/style/scss/components/mobile-menu.scss';
+@use '~@kth/style/scss/components/menu-item.scss';
+@use '~@kth/style/scss/components/menu-panel.scss';
+@use '~@kth/style/scss/components/content.scss';
+@use '~@kth/style/scss/components/local-navigation.scss';
+
+@import 'shared';
+@import 'sidebar';
+
+#kursinfo-main-page {
+  #columnContainer {
+    // Side panel first in mobile...
+    flex-direction: row;
+    @media (min-width: 768px) {
+      // ...but to the right (reverse order) on desktop
+      flex-direction: row-reverse;
+    }
+  }
 }
 
-#kursinfo-main-page,
+.course-section-list {
+  @include prose.prose;
+
+  // make sure margin reset from prose is applied even when we need to wrap contnet/paragaphs in divs
+  h1 + .course-section-content-wrapper > :first-child,
+  h2 + .course-section-content-wrapper > :first-child,
+  h3 + .course-section-content-wrapper > :first-child {
+    margin-block-start: 0;
+  }
+
+  .course-section-content-wrapper {
+    p,
+    li,
+    i {
+      word-break: break-word;
+    }
+  }
+}
+
 #kursstatistik-main-page {
-  margin-bottom: 20px;
-  padding-left: 30px;
-  width: 100%;
-  padding-right: 15px;
-}
-#kursstatistik-main-page {
-  .paragraphs p {
-    max-width: 100% !important;
-  }
-  ul,
-  ol {
-    font-family: Georgia, 'garamond pro', garamond, 'times new roman', times, serif;
-  }
-  @media (min-width: 768px) {
-    .paragraphs ul,
-    ol {
-      font-size: 1.125rem;
-    }
-  }
-  margin-right: auto;
-  margin-left: auto;
-}
+  @include prose.prose;
 
-.error-missing-parameters-in-query {
-  .empty-field {
-    outline: solid 1px $red !important;
-    outline-offset: 3px;
+  fieldset {
+    padding: 0;
+    margin: 0;
+    border: 0;
   }
-}
-
-.container.articleNavigation {
-  padding: 0 15px 0 30px !important;
-
-  #breadcrumbs .breadcrumb {
-    padding-top: 15px;
-    padding-bottom: 24px;
+  .kth-alert {
+    margin-top: 30px;
   }
-}
 
-@media (max-width: 991.98px) {
-  nav.secondaryMenu {
-    display: none;
-  }
-}
-
-.course-header {
-  margin-bottom: 16px;
-}
-
-#page-heading {
-  margin-left: -0.095em;
-}
-
-#page-sub-heading-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  a {
-    font-family: 'Open Sans', Arial, 'Helvetica Neue', helvetica, sans-serif;
-  }
-}
-
-#page-sub-heading-admin-link {
-  font-size: 1rem;
-  line-height: 1.375;
-  margin-bottom: 14px;
-  margin-top: 0.325rem;
-  text-align: right;
-}
-
-@media (max-width: 767.98px) {
-  #page-sub-heading {
-    font-size: 1rem !important;
-  }
-}
-@media (max-width: 991.98px) {
-  #pageContainer {
-    padding-top: 2em;
-  }
-  #page-sub-heading-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-    align-items: normal;
-  }
-  #page-sub-heading-admin-link {
-    text-align: left;
-  }
-}
-
-#course-title {
-  border-bottom: 0px;
-  margin: 0;
-  margin-top: 20px;
-  h1 {
-    margin-bottom: 0;
-  }
-}
-
-.course-header-admin-link {
-  display: block;
-  margin-top: 4px;
-  margin-bottom: 14px;
-  margin-right: 17px;
-}
-
-h4.secondTitle {
-  margin-top: 4px;
-}
-
-.paragraphs li {
-  p {
-    // Le sigh!
-    margin: 0 0 1rem 0;
-  }
-}
-
-main {
-  p,
-  ul,
-  ol {
-    font-family: Georgia, 'garamond pro', garamond, 'times new roman', times, serif;
-  }
-  @media (min-width: 768px) {
-    .paragraphs ul,
-    ol {
-      font-size: 1.125rem;
+  &.error-missing-parameters-in-query {
+    .empty-field {
+      outline: solid 1px var(--color-error);
+      outline-offset: 3px;
     }
   }
 }
 
-#roundInformationContainer {
-  p,
-  ul,
-  ol {
-    font-family: 'Open Sans', Arial, 'Helvetica Neue', helvetica, sans-serif;
-  }
-  @media (min-width: 768px) {
-    .paragraphs ul,
-    ol {
-      font-size: 1.125rem;
-    }
-  }
-  padding-right: calc(var(--bs-gutter-x) * 0.625);
-  padding-left: calc(var(--bs-gutter-x) * 0.625);
-}
-
-#activeSyllabusContainer {
-  #courseInfoHeader {
-    border-bottom: 1px solid #dee2e6;
-    padding-bottom: 10px;
-  }
-  h2 {
-    padding-top: 20px;
-  }
-}
 #courseIntroText {
+  @include prose.prose;
   padding-bottom: 10px;
-  margin-right: 2px;
   img {
     float: left;
     margin: 0 50px 50px 0;
@@ -173,211 +83,14 @@ main {
     max-width: 400px;
   }
   p {
-    margin-top: -8px;
-  }
-}
+    margin-top: 0px;
 
-#activeSyllabusContainer {
-  #courseInfoHeader {
-    border-bottom: 1px solid #dee2e6;
-    padding-bottom: 10px;
+    max-width: 730px;
   }
-  h2 {
-    padding-top: 20px;
-  }
-}
-
-.select-round {
-  width: 100%;
-  & > .btn {
-    background-color: #f6f6f6;
-    border: 1px solid #d4d4d4;
-    display: flex;
-    justify-content: space-between;
-    padding: 0;
-    width: 100%;
-    & > span:first-child {
-      margin: 6px;
-      max-height: 28px;
-      overflow-y: hidden;
-      min-width: 85%;
-      text-align: left;
-      font-weight: 500;
-    }
-    .caretholder {
-      background-color: #007fae;
-      width: 36px;
-      height: 36px;
-      margin: 0;
-      position: absolute;
-      right: 0px;
-
-      &:after {
-        display: inline-block;
-        // background: url("../kth-style/img/kth-style/icons/arrow-white-down.svg") no-repeat 0;
-        background-size: 14px auto;
-        content: '';
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 11px;
-      }
-    }
-  }
-  .dropdown-menu {
-    min-width: 100%;
-
-    .dropdown-item {
-      border-top: 1px dotted #dee2e6;
-      padding: 10px;
-    }
-
-    .dropdown-item:first-child {
-      border: 0;
-    }
-  }
-}
-
-.word-break {
-  p,
-  li,
-  i {
-    word-break: break-word;
-  }
-}
-
-#roundDropdownMenu {
-  .btn {
-    margin-bottom: 10px;
-  }
-  p {
-    margin-left: 15px;
-  }
-}
-
-#roundDropdownMenuHeaderWrapper {
-  display: flex;
-  align-items: center;
 }
 
 .bankIdAlert {
   margin: 1rem 0 0 0;
-  p {
-    font-family: 'Open Sans', Arial, 'Helvetica Neue', helvetica, sans-serif;
-  }
-}
-#semesterButtonMenue,
-#roundDropdownMenu {
-  & > .button-clean {
-    border: none;
-    margin: 2px;
-    padding: 2px;
-    font-size: 18px;
-    font-weight: 400;
-    border-radius: 0 !important;
-    background-color: #fff !important;
-    &:hover,
-    &:focus,
-    &:active,
-    &.is-active {
-      background-color: #fff;
-      border-radius: 0;
-      border: none;
-      border-bottom: 5px solid #006cb7 !important;
-    }
-  }
-  .alert-info {
-    margin: 10px 15px 0 15px;
-    width: 100%;
-  }
-}
-
-#roundInformationContainer {
-  .key-info {
-    padding: 0 20px 20px 20px;
-    background: #f6f6f6;
-  }
-  .info-modal-h2-top-fix {
-    top: -0.3em;
-  }
-}
-
-#syllabusContainer {
-  margin-top: 30px;
-  padding: 0.5px 20px 20px 20px;
-  background: #f6f6f6;
-}
-
-.key-info {
-  p,
-  a {
-    font-size: 1rem;
-  }
-  div {
-    div > h4,
-    div > span.text-center2 > h4 {
-      margin: 0 0 0.5rem 0;
-    }
-  }
-  span {
-    h4 {
-      margin: 1rem 0 0.5rem 0;
-    }
-  }
-
-  span:last-of-type {
-    :last-child {
-      margin-bottom: 0;
-    }
-  }
-}
-
-#coreContent {
-  padding-left: 0;
-  padding-top: 40px;
-  // border-bottom: 1px solid #dee2e6;
-  .first-header {
-    margin-top: 40px;
-  }
-  @media (min-width: 768px) {
-    padding-top: 0px;
-  }
-}
-
-#historyContent {
-  padding-left: 0;
-  h2 {
-    padding-top: 20px;
-  }
-}
-
-.person {
-  margin-bottom: 0.3rem;
-}
-
-.profile-picture {
-  margin-right: 6px;
-}
-
-#courseLinks {
-  padding-top: 30px;
-}
-
-.pdf-link-fix {
-  margin-left: 0;
-  &::before {
-    margin-top: 0.5em;
-    margin-bottom: 0.6em;
-    margin-left: 0;
-  }
-}
-
-.pdf-link-last-line {
-  &::before {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
 }
 
 .ul-no-padding {
@@ -442,21 +155,25 @@ sup {
     animation-name: fadeOutIn;
     animation-duration: 800ms;
   }
-
-  .right-column-header {
-    background: #fff;
-    margin: 20px -20px;
-    padding: 20px 15px 20px 0;
-  }
-
-  .clear-margin-bottom {
-    margin-bottom: 0;
-  }
 }
 
 ///******************** MODAL ****************************///
 .modal {
-  display: block;
+  .modal-title {
+    @include typography.font-heading-s;
+    margin: 0;
+  }
+  .modal-body {
+    div {
+      @include prose.prose;
+      & > :first-child {
+        margin-block-start: 0;
+      }
+      & > :last-child {
+        margin-block-end: 0;
+      }
+    }
+  }
 }
 
 .padding-bottom-1 {
@@ -471,17 +188,13 @@ sup {
   margin-left: 4rem;
 }
 
-.float-right {
-  float: right;
-}
-
 div::-webkit-scrollbar {
   width: 4px;
 }
 
 div::-webkit-scrollbar-thumb {
   border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: colors.$color-gray-medium;
   box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
@@ -492,55 +205,4 @@ div::-webkit-scrollbar-thumb {
 
 .margin-top-1-5 {
   margin-top: 1.5rem;
-}
-
-.row > * {
-  padding-right: calc(var(--bs-gutter-x) * 0.625);
-  padding-left: calc(var(--bs-gutter-x) * 0.625);
-}
-
-.row {
-  margin-right: calc(-0.625 * var(--bs-gutter-x));
-  margin-left: calc(-0.625 * var(--bs-gutter-x));
-}
-
-#app {
-  padding: 0;
-}
-
-.secondaryMenu {
-  padding: 0;
-}
-
-// After upgrade to bootstrap 5
-
-@media (min-width: 576px) {
-  .container-sm,
-  .container {
-    max-width: 540px;
-  }
-}
-@media (min-width: 768px) {
-  .container-md,
-  .container-sm,
-  .container {
-    max-width: 720px;
-  }
-}
-@media (min-width: 992px) {
-  .container-lg,
-  .container-md,
-  .container-sm,
-  .container {
-    max-width: 960px;
-  }
-}
-@media (min-width: 1200px) {
-  .container-xl,
-  .container-lg,
-  .container-md,
-  .container-sm,
-  .container {
-    max-width: 1140px;
-  }
 }

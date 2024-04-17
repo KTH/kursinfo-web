@@ -189,7 +189,7 @@ function CourseSectionList({
 
   return (
     <section
-      className="row"
+      className="row course-section-list"
       id={partToShow}
       aria-label={`${translation.courseLabels.label_course_information} ${syllabusName}`}
     >
@@ -202,7 +202,6 @@ function CourseSectionList({
       <CourseSection
         sectionHeader={translation.courseLabels.header_content}
         headerType="3"
-        className="first-header"
         courseData={getContent()}
         sectionId="Content"
         syllabusMarkerAriaLabel={translation.courseLabels.syllabus_marker_aria_label}

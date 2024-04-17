@@ -94,10 +94,13 @@ server.use(config.proxyPrefixPath.uri + '/static/browserConfig', browserConfigHa
 // server.use(config.proxyPrefixPath.uri + '/static/bootstrap', express.static('./node_modules/bootstrap/dist'))
 // Map kth-style.
 server.use(config.proxyPrefixPath.uri + '/static/kth-style', express.static('./node_modules/kth-style/dist'))
+server.use(config.proxyPrefixPath.uri + '/assets', express.static('./node_modules/@kth/style/assets'))
 
 // server.use(config.proxyPrefixPath.uri + '/static/js/app.js', express.static('./dist/js/app.js'))
 // Map static content like images, css and js.
 server.use(config.proxyPrefixPath.uri + '/static', express.static('./dist'))
+server.use(config.proxyPrefixPath.uri + '/static/icon/favicon', express.static('./public/favicon.ico'))
+
 // Return 404 if static file isn't found so we don't go through the rest of the pipeline
 server.use(config.proxyPrefixPath.uri + '/static', (req, res, next) => {
   const error = new Error('File not found: ' + req.originalUrl)
@@ -152,7 +155,7 @@ server.use(
     globalLink: config.blockApi.globalLink,
     addBlocks: config.blockApi.addBlocks,
     redisKey: config.cache.cortinaBlock.redisKey,
-    useStyle10: false,
+    useStyle10: true,
     // globalLink: true ---> don't use it, because we use local site language link, not global kth link
   })
 )

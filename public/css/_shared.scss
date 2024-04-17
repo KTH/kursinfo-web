@@ -1,0 +1,168 @@
+// This file contains style shared between the four public facing Om kursen apps (kopps-public-react-web, kursinfo-web, kurs-pm-web and kursutveckling-web)
+@use '~@kth/style/scss/tokens/typography.scss' as typography;
+
+#app {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  & > .row {
+    margin: 0;
+
+    &:has(> .kth-local-navigation--mobile) {
+      display: block;
+    }
+    @media (min-width: 992px) {
+      &:has(> .kth-local-navigation--mobile) {
+        display: flex;
+      }
+    }
+  }
+}
+
+#mainContent {
+  padding: 0;
+
+  header {
+    margin-bottom: 1.5rem;
+  }
+}
+
+#mainMenu + #mainContent {
+  @media (min-width: 992px) {
+    padding-left: 30px;
+  }
+}
+
+#mainMenu.kth-local-navigation {
+  padding: 0 20px 15px 0;
+
+  .kth-button.back::before {
+    // do not shrink space for back arrow if nav title is long
+    flex-shrink: 0;
+  }
+
+  & > * {
+    max-width: 15rem;
+  }
+}
+
+.kth-local-navigation--mobile {
+  h2 {
+    margin-inline-start: 1rem;
+  }
+}
+
+.kth-content.articleNavigation {
+  #breadcrumbs {
+    width: 100%;
+    margin-top: 15px;
+    ol {
+      margin: 0;
+    }
+
+    display: none;
+    @media (min-width: 992px) {
+      display: flex;
+    }
+  }
+}
+
+.kth-alert {
+  margin-bottom: 30px;
+}
+
+.info-box {
+  $yellow: #fcf8e3;
+  $space-between: 14px;
+  padding: 20px;
+  margin-bottom: 30px;
+  background-color: var(--color-background-alt);
+  display: block;
+  word-wrap: break-word;
+
+  h2,
+  h3 {
+    @include typography.font-heading-s;
+    margin-top: 16px;
+    margin-bottom: 14px;
+  }
+  p {
+    margin-bottom: 14px;
+  }
+  & > :first-child {
+    margin-top: 0;
+  }
+  & > :last-child {
+    margin-bottom: 0;
+  }
+
+  &.yellow {
+    background-color: $yellow;
+  }
+}
+
+.pdf-link {
+  margin: 0;
+  &::before {
+    margin-right: 0;
+  }
+}
+
+.person {
+  img {
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+}
+
+p {
+  &#page-sub-heading {
+    font-weight: 600;
+    line-height: 1.375;
+    margin-bottom: 14px;
+    margin-top: 0.325rem;
+
+    font-size: 1.25rem;
+
+    @media (max-width: 767.98px) {
+      font-size: 1rem;
+    }
+  }
+}
+
+#page-sub-heading-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+#page-sub-heading-admin-link {
+  font-size: 1rem;
+  line-height: 1.375;
+  margin-bottom: 14px;
+  margin-top: 0.325rem;
+  text-align: right;
+}
+
+@media (max-width: 991.98px) {
+  #page-sub-heading-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: normal;
+  }
+  #page-sub-heading-admin-link {
+    text-align: left;
+  }
+}
+
+// Old kth-style boostrap form overrides
+.select-wrapper::after {
+  background-color: var(--color-primary);
+}
+
+label:has(+ .form-group),
+label:has(+ input) {
+  @include typography.font-heading-xs;
+  display: block;
+  margin-bottom: 0.25rem;
+}
