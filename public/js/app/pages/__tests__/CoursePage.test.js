@@ -12,10 +12,8 @@ import i18n from '../../../../../i18n'
 jest.mock('axios')
 const context = {
   browserConfig: {},
-  activeSyllabusIndex: 0,
   courseData: {
     syllabusList: [{ course_valid_from: [], course_valid_to: [] }],
-    syllabusSemesterList: [],
     courseInfo: {
       course_recruitment_text: '',
       course_application_info: '',
@@ -63,9 +61,8 @@ describe('Component <CoursePage>', () => {
       })
     const contextToTest = {
       browserConfig: {},
-      activeSemester: '20231',
-      activeRoundIndex: 0,
-      activeSemesterIndex: 0,
+      selectedSemester: '20231',
+      selectedRoundIndex: 0,
       activeSemesters: [
         ['2022', '1', '20221', 0],
         ['2022', '2', '20222', 0],
@@ -208,10 +205,8 @@ describe('Component <CoursePage>', () => {
             course_content:
               '<p>Electrical circuits: DC, AC and transients. Analogy between electrical and mechanical quantities.</p><p>Electrical measurements and analog circuits: Measuring with multimeter and oscilloscope. Use of LabVIEW. The OP-amplifier model and how it is used in amplifier circuits and as a comarator. Use of filters to pass or block diferent frequency ranges.</p><p>Digital electronics and microcontrollers: Transistors in switched applications. Analysis and synthesis of combinatorical and sequence cirquits. The functionality of a microprocessor and a microcontroller. Use of microcontrollers in simple applications. Analog cirquits for signalcondition of sensorsignals before ADC (analog to digital conversion). Examples of sensors such as encoders and strain gauges.</p><p>Electrical motordrives: Single- and three- phase systems. Theory and properties of DC machines and PM synchronous machines. Principles for speedcontrol of electrical machines. Mechanical and thermal transients in electrical machines. Choice of machine size for time varying mechanical loads. Power electronics and drive units for machines. calculation of the required voltage and current for a motordrive.</p><p>Sustainable development: Electric and hybrid cars. Calculation of quantities such as e.g. energy, power, force, velocity, acceleration, current and voltage in different parts of a electric or hybrid car under different conditions such as acceleration or regenerative braking. Dimension of energystorages such as batteries and capacitors (ultracap).</p>',
             course_decision_to_discontinue: '<i>No information inserted</i>',
-            course_disposition: '<i>No information inserted</i>',
             course_eligibility:
               '<p>SF1624 Algebra and Geometry, SF1625 Calculus in One Variable and SF1626 Calculus in Several Variable</p>',
-            course_establishment: 'Course syllabus for MF1016 valid from Autumn 2019',
             course_ethical:
               '<ul><li>All members of a group are responsible for the groups work.</li><li>In any assessment, every student shall honestly disclose any help received and sources used.</li><li>In an oral assessment, every student shall be able to present and answer questions about the entire assignment and solution.</li></ul>',
             course_examination: `<ul class='ul-no-padding' ><li>INL1 - \n                        Assignments,\n                        3.0  credits,  \n                        grading scale: P, F              \n                        </li><li>LAB1 - \n                        Laboratory Work,\n                        3.0  credits,  \n                        grading scale: P, F              \n                        </li><li>TEN1 - \n                        Written examination,\n                        3.0  credits,  \n                        grading scale: A, B, C, D, E, FX, F              \n                        </li></ul>`,
@@ -232,10 +227,8 @@ describe('Component <CoursePage>', () => {
             course_content:
               '<p>Electrical circuits: DC, AC and transients. Analogy between electrical and mechanical quantities.</p><p>Electrical measurements and analog circuits: Measuring with multimeter and oscilloscope. Use of LabVIEW. The OP-amplifier model and how it is used in amplifier circuits and as a comarator. Use of filters to pass or block diferent frequency ranges.</p><p>Digital electronics and microcontrollers: Transistors in switched applications. Analysis and synthesis of combinatorical and sequence cirquits. The functionality of a microprocessor and a microcontroller. Use of microcontrollers in simple applications. Analog cirquits for signalcondition of sensorsignals before ADC (analog to digital conversion). Examples of sensors such as encoders and strain gauges.</p><p>Electrical motordrives: Single- and three- phase systems. Theory and properties of DC machines and PM synchronous machines. Principles for speedcontrol of electrical machines. Mechanical and thermal transients in electrical machines. Choice of machine size for time varying mechanical loads. Power electronics and drive units for machines. calculation of the required voltage and current for a motordrive.</p><p>Sustainable development: Electric and hybrid cars. Calculation of quantities such as e.g. energy, power, force, velocity, acceleration, current and voltage in different parts of a electric or hybrid car under different conditions such as acceleration or regenerative braking. Dimension of energystorages such as batteries and capacitors (ultracap).</p>',
             course_decision_to_discontinue: '<i>No information inserted</i>',
-            course_disposition: '<i>No information inserted</i>',
             course_eligibility:
               '<p>SF1624 Algebra and Geometry, SF1625 Calculus in One Variable and SF1626 Calculus in Several Variable</p>',
-            course_establishment: 'Course syllabus for MF1016 valid from Autumn 2019',
             course_ethical:
               '<ul><li>All members of a group are responsible for the groups work.</li><li>In any assessment, every student shall honestly disclose any help received and sources used.</li><li>In an oral assessment, every student shall be able to present and answer questions about the entire assignment and solution.</li></ul>',
             course_examination: `<ul class='ul-no-padding' ><li>INL1 - \n                        Assignments,\n                        3.0  credits,  \n                        grading scale: P, F              \n                        </li><li>LAB1 - \n                        Laboratory Work,\n                        3.0  credits,  \n                        grading scale: P, F              \n                        </li><li>TEN1 - \n                        Written examination,\n                        3.0  credits,  \n                        grading scale: A, B, C, D, E, FX, F              \n                        </li></ul>`,
@@ -256,10 +249,8 @@ describe('Component <CoursePage>', () => {
             course_content:
               '<p>Electrical circuits: DC, AC and transients. Analogy between electrical and mechanical quantities.</p><p>Electrical measurements and analog circuits: Measuring with multimeter and oscilloscope. Use of LabVIEW. The OP-amplifier model and how it is used in amplifier circuits and as a comarator. Use of filters to pass or block diferent frequency ranges.</p><p>Digital electronics and microcontrollers: Transistors in switched applications. Analysis and synthesis of combinatorical and sequence cirquits. The functionality of a microprocessor and a microcontroller. Use of microcontrollers in simple applications. Analog cirquits for signalcondition of sensorsignals before ADC (analog to digital conversion). Examples of sensors such as encoders and strain gauges.</p><p>Electrical motordrives: Single- and three- phase systems. Theory and properties of DC machines and PM synchronous machines. Principles for speedcontrol of electrical machines. Mechanical and thermal transients in electrical machines. Choice of machine size for time varying mechanical loads. Power electronics and drive units for machines. calculation of the required voltage and current for a motordrive.</p><p>Sustainable development: Electric and hybrid cars. Calculation of quantities such as e.g. energy, power, force, velocity, acceleration, current and voltage in different parts of a electric or hybrid car under different conditions such as acceleration or regenerative braking. Dimension of energystorages such as batteries and capacitors (ultracap).</p>',
             course_decision_to_discontinue: '<i>No information inserted</i>',
-            course_disposition: '<i>No information inserted</i>',
             course_eligibility:
               '<p>SF1624 Algebra and Geometry, SF1625 Calculus in One Variable and SF1626 Calculus in Several Variable</p>',
-            course_establishment: 'Course syllabus for MF1016 valid from Autumn 2019',
             course_ethical:
               '<ul><li>All members of a group are responsible for the groups work.</li><li>In any assessment, every student shall honestly disclose any help received and sources used.</li><li>In an oral assessment, every student shall be able to present and answer questions about the entire assignment and solution.</li></ul>',
             course_examination: `<ul class='ul-no-padding' ><li>INL1 - \n                        Assignments,\n                        3.0  credits,  \n                        grading scale: P, F              \n                        </li><li>LAB1 - \n                        Laboratory Work,\n                        3.0  credits,  \n                        grading scale: P, F              \n                        </li><li>TEN1 - \n                        Written examination,\n                        3.0  credits,  \n                        grading scale: A, B, C, D, E, FX, F              \n                        </li></ul>`,
@@ -280,10 +271,8 @@ describe('Component <CoursePage>', () => {
             course_content:
               '<p>Electrical circuits: DC, AC and transients. Analogy between electrical and mechanical quantities.</p><p>Electrical measurements and analog circuits: Measuring with multimeter and oscilloscope. Use of LabVIEW. The OP-amplifier model and how it is used in amplifier circuits and as a comarator. Use of filters to pass or block diferent frequency ranges.</p><p>Digital electronics and microcontrollers: Transistors in switched applications. Analysis and synthesis of combinatorical and sequence cirquits. The functionality of a microprocessor and a microcontroller. Use of microcontrollers in simple applications. Analog cirquits for signalcondition of sensorsignals before ADC (analog to digital conversion). Examples of sensors such as encoders and strain gauges.</p><p>Electrical motordrives: Single- and three- phase systems. Theory and properties of DC machines and PM synchronous machines. Principles for speedcontrol of electrical machines. Mechanical and thermal transients in electrical machines. Choice of machine size for time varying mechanical loads. Power electronics and drive units for machines. calculation of the required voltage and current for a motordrive.</p><p>Sustainable development: Electric and hybrid cars. Calculation of quantities such as e.g. energy, power, force, velocity, acceleration, current and voltage in different parts of a electric or hybrid car under different conditions such as acceleration or regenerative braking. Dimension of energystorages such as batteries and capacitors (ultracap).</p>',
             course_decision_to_discontinue: '<i>No information inserted</i>',
-            course_disposition: '<i>No information inserted</i>',
             course_eligibility:
               '<p>SF1624 Algebra and Geometry, SF1625 Calculus in One Variable and SF1626 Calculus in Several Variable</p>',
-            course_establishment: 'Course syllabus for MF1016 valid from Autumn 2019',
             course_ethical:
               '<ul><li>All members of a group are responsible for the groups work.</li><li>In any assessment, every student shall honestly disclose any help received and sources used.</li><li>In an oral assessment, every student shall be able to present and answer questions about the entire assignment and solution.</li></ul>',
             course_examination: `<ul class='ul-no-padding' ><li>INL1 - \n                        Assignments,\n                        3.0  credits,  \n                        grading scale: P, F              \n                        </li><li>LAB1 - \n                        Laboratory Work,\n                        3.0  credits,  \n                        grading scale: P, F              \n                        </li><li>TEN1 - \n                        Written examination,\n                        3.0  credits,  \n                        grading scale: A, B, C, D, E, FX, F              \n                        </li></ul>`,
@@ -304,10 +293,8 @@ describe('Component <CoursePage>', () => {
             course_content:
               '<p>Electrical circuits: DC, AC and transients. Analogy between electrical and mechanical quantities.</p><p>Electrical measurements and analog circuits: Measuring with multimeter and oscilloscope. Use of LabVIEW. The OP-amplifier model and how it is used in amplifier circuits and as a comarator. Use of filters to pass or block diferent frequency ranges.</p><p>Digital electronics and microcontrollers: Transistors in switched applications. Analysis and synthesis of combinatorical and sequence cirquits. The functionality of a microprocessor and a microcontroller. Use of microcontrollers in simple applications. Analog cirquits for signalcondition of sensorsignals before ADC (analog to digital conversion). Examples of sensors such as encoders and strain gauges.</p><p>Electrical motordrives: Single- and three- phase systems. Theory and properties of DC machines and PM synchronous machines. Principles for speedcontrol of electrical machines. Mechanical and thermal transients in electrical machines. Choice of machine size for time varying mechanical loads. Power electronics and drive units for machines. calculation of the required voltage and current for a motordrive.</p><p>Sustainable development: Electric and hybrid cars. Calculation of quantities such as e.g. energy, power, force, velocity, acceleration, current and voltage in different parts of a electric or hybrid car under different conditions such as acceleration or regenerative braking. Dimension of energystorages such as batteries and capacitors (ultracap).</p>',
             course_decision_to_discontinue: '<i>No information inserted</i>',
-            course_disposition: '<i>No information inserted</i>',
             course_eligibility:
               '<p>SF1624 Algebra and Geometry, SF1625 Calculus in One Variable and SF1626 Calculus in Several Variable</p>',
-            course_establishment: 'Course syllabus for MF1016 valid from Autumn 2019',
             course_ethical:
               '<ul><li>All members of a group are responsible for the groups work.</li><li>In any assessment, every student shall honestly disclose any help received and sources used.</li><li>In an oral assessment, every student shall be able to present and answer questions about the entire assignment and solution.</li></ul>',
             course_examination: `<ul class='ul-no-padding' ><li>INL1 - \n                        Assignments,\n                        3.0  credits,  \n                        grading scale: P, F              \n                        </li><li>LAB1 - \n                        Laboratory Work,\n                        3.0  credits,  \n                        grading scale: P, F              \n                        </li><li>TEN1 - \n                        Written examination,\n                        3.0  credits,  \n                        grading scale: A, B, C, D, E, FX, F              \n                        </li></ul>`,
@@ -328,10 +315,8 @@ describe('Component <CoursePage>', () => {
             course_content:
               '<p>Electrical circuits: DC, AC and transients. Analogy between electrical and mechanical quantities.</p><p>Electrical measurements and analog circuits: Measuring with multimeter and oscilloscope. Use of LabVIEW. The OP-amplifier model and how it is used in amplifier circuits and as a comarator. Use of filters to pass or block diferent frequency ranges.</p><p>Digital electronics and microcontrollers: Transistors in switched applications. Analysis and synthesis of combinatorical and sequence cirquits. The functionality of a microprocessor and a microcontroller. Use of microcontrollers in simple applications. Analog cirquits for signalcondition of sensorsignals before ADC (analog to digital conversion). Examples of sensors such as encoders and strain gauges.</p><p>Electrical motordrives: Single- and three- phase systems. Theory and properties of DC machines and PM synchronous machines. Principles for speedcontrol of electrical machines. Mechanical and thermal transients in electrical machines. Choice of machine size for time varying mechanical loads. Power electronics and drive units for machines. calculation of the required voltage and current for a motordrive.</p><p>Sustainable development: Electric and hybrid cars. Calculation of quantities such as e.g. energy, power, force, velocity, acceleration, current and voltage in different parts of a electric or hybrid car under different conditions such as acceleration or regenerative braking. Dimension of energystorages such as batteries and capacitors (ultracap).</p>',
             course_decision_to_discontinue: '<i>No information inserted</i>',
-            course_disposition: '<i>No information inserted</i>',
             course_eligibility:
               '<p>SF1624 Algebra and Geometry, SF1625 Calculus in One Variable and SF1626 Calculus in Several Variable</p>',
-            course_establishment: 'Course syllabus for MF1016 valid from Autumn 2019',
             course_ethical:
               '<ul><li>All members of a group are responsible for the groups work.</li><li>In any assessment, every student shall honestly disclose any help received and sources used.</li><li>In an oral assessment, every student shall be able to present and answer questions about the entire assignment and solution.</li></ul>',
             course_examination: `<ul class='ul-no-padding' ><li>INL1 - \n                        Assignments,\n                        3.0  credits,  \n                        grading scale: P, F              \n                        </li><li>LAB1 - \n                        Laboratory Work,\n                        3.0  credits,  \n                        grading scale: P, F              \n                        </li><li>TEN1 - \n                        Written examination,\n                        3.0  credits,  \n                        grading scale: A, B, C, D, E, FX, F              \n                        </li></ul>`,
@@ -348,25 +333,7 @@ describe('Component <CoursePage>', () => {
             course_valid_to: [2010, '1'],
           },
         ],
-        syllabusSemesterList: [
-          [20192, ''],
-          [20151, 20191],
-          [20122, 20142],
-          [20121, 20121],
-          [20102, 20112],
-          [20091, 20101],
-        ],
-        defaultIndex: 2,
       },
-      dropdownsOpen: {
-        roundsDropdown: false,
-        semesterDropdown: false,
-      },
-      activeSemestersIndexesWithValidSyllabusesIndexes: [0, 0, 0],
-      activeSyllabusIndex: 0,
-      roundDisabled: false,
-      roundSelectedIndex: 0,
-      semesterSelectedIndex: 0,
       showRoundData: true,
       lang: 'en',
       paths: {

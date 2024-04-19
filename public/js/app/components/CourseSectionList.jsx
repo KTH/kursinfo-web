@@ -7,13 +7,7 @@ import { useMissingInfo } from '../hooks/useMissingInfo'
 import CourseSection from './CourseSections'
 import SyllabusInformation from './SyllabusInformation'
 
-function CourseSectionList({
-  courseInfo = {},
-  partToShow,
-  syllabusList: syllabus = {},
-  syllabusName,
-  syllabusSemesterList,
-}) {
+function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabusName, hasSyllabus }) {
   const [context] = useWebContext()
   const { translation } = useLanguage()
   const { isMissingInfoLabel, missingInfoLabel } = useMissingInfo()
@@ -193,12 +187,7 @@ function CourseSectionList({
       id={partToShow}
       aria-label={`${translation.courseLabels.label_course_information} ${syllabusName}`}
     >
-      <SyllabusInformation
-        context={context}
-        syllabus={syllabus}
-        syllabusSemesterList={syllabusSemesterList}
-        translation={translation}
-      />
+      <SyllabusInformation context={context} syllabus={syllabus} hasSyllabus={hasSyllabus} translation={translation} />
       <CourseSection
         sectionHeader={translation.courseLabels.header_content}
         headerType="3"

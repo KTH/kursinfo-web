@@ -12,8 +12,6 @@ jest.mock('../../hooks/usePlannedModules')
 const INFORM_IF_IMPORTANT_INFO_IS_MISSING = ['No information inserted', 'Ingen information tillagd']
 const context = {
   browserConfig: {},
-  sellingText: { en: '', sv: '' },
-  imageFromAdmin: '',
   lang: 'en',
   paths: {
     api: {

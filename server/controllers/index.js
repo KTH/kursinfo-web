@@ -11,4 +11,6 @@ module.exports = {
   noCourse: require('./noCourseCtrl'),
   StatisticsCtrl: require('./statisticsCtrl'),
   TimeTableApi: require('./timeTableApiCtrl'),
+  Kopps: require('./koppsCourseCtrl'),
+  Employees: require('./employeesCtrl'),
 }

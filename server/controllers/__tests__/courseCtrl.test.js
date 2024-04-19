@@ -116,12 +116,9 @@ describe('Discontinued course to test', () => {
         "applicationStore": {},
         "basename": "/student/kurser/kurs",
         "context": {
-          "activeRoundIndex": 0,
-          "activeSemester": null,
-          "activeSemesterIndex": 0,
+          "selectedRoundIndex": 0,
+          "selectedSemester": null,
           "activeSemesters": [],
-          "activeSemestersIndexesWithValidSyllabusesIndexes": [],
-          "activeSyllabusIndex": 0,
           "browserConfig": {
             "session": {},
             "sessionSecret": "xxx",
@@ -170,9 +167,7 @@ describe('Discontinued course to test', () => {
                 "course_additional_regulations": "",
                 "course_content": "<p>Glykovetenskap &#228;r ett tv&#228;rvetenskapligt forskningsomr&#229;de som fokuserar p&#229; att f&#246;rst&#229; strukturer och funktionella roller f&#246;r glykaner (kolhydrater) i biologiska system. Det t&#228;cker &#228;mnesomr&#229;den som biologi, biokemi, kemi, medicin, materialvetenskap, nanoteknologi och ber&#228;kningsvetenskap. Kursens m&#229;l &#228;r att ge en &#246;versikt &#246;ver aktuell kunskap och teknik inom glykovetenskap, utmaningar och m&#246;jligheter f&#246;r bred till&#228;mpning av kolhydratteknik inom h&#228;lsa, energi och materialvetenskap, samt god teoretisk insikt och praktiska f&#228;rdigheter i hur kolhydratteknik kan bidra till h&#229;llbar utveckling inom energi- och materialvetenskap.</p><p>&#196;mnen som avhandlas omfattar kolhydratteknik inom h&#228;lsa, energi och materialvetenskap, glykaners funktioner, kolhydratanalys av komplexa kolhydrater, glykaner och glykokonjugat, uppbyggnaden av v&#228;xters cellv&#228;gg, kolhydrataktiva enzymer, enzymatisk nedbrytning av v&#228;xtbiomassa och modifiering av v&#228;xtbaserade fibrer, biosyntes och av cellulosa och kitin, skapande av nya kompositer genom bioteknologisk modifiering av v&#228;xtcellv&#228;ggen, modifiering av glykaner genom att f&#246;r&#228;ndra syntesv&#228;gar, omvandling av v&#228;xtbiomassa till finkemikalier och r&#229;material, polymera material och nanomaterial, anv&#228;ndande av biomassabaserade nanomaterial f&#246;r nya material och till&#228;mpningar.</p>",
                 "course_decision_to_discontinue": "<i>Ingen information tillagd</i>",
-                "course_disposition": "<i>Ingen information tillagd</i>",
                 "course_eligibility": "<p>Beh&#246;rig till studier p&#229; forskarniv&#229;. Goda kunskaper i engelska.</p>",
-                "course_establishment": "<p>Skolchef vid CBH-skolan har 2019-10-23 beslutat att fastst&#228;lla denna kursplan att g&#228;lla fr&#229;n och med HT2019 (diarienummer C-2019-2209).</p>",
                 "course_ethical": "<ul><li>Vid grupparbete har alla i gruppen ansvar för gruppens arbete.</li><li>Vid examination ska varje student ärligt redovisa hjälp som erhållits och källor som använts.</li><li>Vid muntlig examination ska varje student kunna redogöra för hela uppgiften och hela lösningen.</li></ul>",
                 "course_examination": "<ul class='ul-no-padding' ><li>INL1 - 
                               Inlämningsuppgift,
@@ -201,21 +196,8 @@ describe('Discontinued course to test', () => {
                 "course_valid_to": [],
               },
             ],
-            "syllabusSemesterList": [
-              [
-                20192,
-                "",
-              ],
-            ],
           },
-          "defaultIndex": 0,
-          "dropdownsOpen": {
-            "roundsDropdown": false,
-            "semesterDropdown": false,
-          },
-          "hasStartPeriodFromQuery": false,
           "hostUrl": undefined,
-          "imageFromAdmin": "",
           "isCancelled": false,
           "isDeactivated": false,
           "keyList": {
@@ -253,13 +235,6 @@ describe('Discontinued course to test', () => {
           "proxyPrefixPath": {
             "uri": "/student/kurser/kurs",
           },
-          "roundDisabled": false,
-          "roundSelectedIndex": 0,
-          "sellingText": {
-            "en": "",
-            "sv": "",
-          },
-          "semesterSelectedIndex": 0,
           "setBrowserConfig": [Function],
           "showRoundData": false,
           "useStartSemesterFromQuery": false,

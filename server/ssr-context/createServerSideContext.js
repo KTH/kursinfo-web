@@ -8,39 +8,8 @@ function setBrowserConfig(config, paths, hostUrl) {
 
 function createServerSideContext() {
   const context = {
-    courseCode: '',
-    useStartSemesterFromQuery: false,
-    hasStartPeriodFromQuery: false,
-    sellingText: { en: '', sv: '' },
-    imageFromAdmin: '',
-    memoList: {},
-    isCancelled: false,
-    isDeactivated: false,
-    keyList: {
-      teachers: [],
-      responsibles: [],
-    },
-    activeSemesters: [],
-    activeSemestersIndexesWithValidSyllabusesIndexes: [],
-    defaultIndex: 0,
-    activeRoundIndex: 0,
-    activeSemesterIndex: 0,
-    activeSemester: 0,
-    activeSyllabusIndex: 0,
-    dropdownsOpen: {
-      roundsDropdown: false,
-      semesterDropdown: false,
-    },
-    showRoundData: false,
-    roundDisabled: false,
-    semesterSelectedIndex: 0,
-    roundSelectedIndex: 0,
-    courseData: {
-      courseInfo: {
-        course_application_info: [],
-      },
-      syllabusSemesterList: [],
-    },
+    isCancelledOrDeactivated: false, // Done
+    initiallySelectedRoundIndex: undefined, // Source // Done
     setBrowserConfig,
   }
   return context

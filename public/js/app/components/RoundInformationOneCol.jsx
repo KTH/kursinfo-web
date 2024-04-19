@@ -12,16 +12,16 @@ import RoundApplicationInfo from './RoundApplicationInfo'
 function RoundInformationOneCol({
   courseHasRound,
   memoStorageURI,
-  showRoundData,
+  semesterRoundState,
   courseRound: round = { round_course_term: [] },
   courseData: course,
-  testEmployees = null, // used for test
+  testEmployees = null, // used for test // TODO Benni get rid of this
 }) {
   const [context] = useWebContext()
 
   const [courseRoundEmployees, setCourseRoundEmployees] = React.useState({})
 
-  const { roundSelectedIndex, activeSemester = '' } = context
+  const { showRoundData, selectedRoundIndex, selectedSemester } = semesterRoundState
   const { translation } = useLanguage()
   const { missingInfoLabel } = useMissingInfo()
   const { createRoundHeader } = useRoundUtils()
@@ -30,17 +30,18 @@ function RoundInformationOneCol({
 
   const selectedRoundHeader = createRoundHeader(round)
 
+  // TODO Benni refactor and research
   React.useEffect(() => {
     const posibleTestEmployees = async () => {
       if (testEmployees) {
         setCourseRoundEmployees(testEmployees)
       } else {
-        const employyes = showRoundData ? await context.getCourseEmployees() : null
+        const employyes = showRoundData ? await context.getCourseEmployees(selectedSemester, selectedRoundIndex) : null
         if (employyes) setCourseRoundEmployees(employyes)
       }
     }
     posibleTestEmployees()
-  }, [showRoundData, roundSelectedIndex, activeSemester])
+  }, [showRoundData, selectedRoundIndex, selectedSemester])
 
   const { plannedModules } = usePlannedModules({
     courseCode: context.courseCode,

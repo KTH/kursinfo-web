@@ -1,4 +1,4 @@
 {
   "root": true,
-  "extends": ["@kth/eslint-config-kth"],
+  "extends": ["plugin:react-hooks/recommended", "@kth/eslint-config-kth"],
 }

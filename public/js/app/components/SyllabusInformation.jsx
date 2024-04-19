@@ -2,7 +2,7 @@ import React from 'react'
 import { Col } from 'reactstrap'
 import { FaAsterisk } from 'react-icons/fa'
 
-const SyllabusInformation = ({ context = {}, syllabus = {}, syllabusSemesterList = {}, translation = {} }) => {
+const SyllabusInformation = ({ context = {}, syllabus = {}, hasSyllabus, translation = {} }) => {
   const { courseCode } = context
 
   const { courseLabels, courseInformation } = translation
@@ -23,7 +23,7 @@ const SyllabusInformation = ({ context = {}, syllabus = {}, syllabusSemesterList
   return (
     <Col sm="12">
       <div>
-        {syllabusSemesterList.length > 0 && (
+        {hasSyllabus && (
           <span>
             {syllabusText}
             {' ( '}

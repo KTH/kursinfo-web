@@ -95,6 +95,7 @@ function renderAlertToTop(error = {}, languageIndex) {
 }
 function dismountTopAlert() {
   const alertContainer = document.getElementById('alert-placeholder')
+  // TODO React complains that this should use the containerRoot from above
   const alertContainerRoot = createRoot(alertContainer)
   if (alertContainer) alertContainerRoot.unmount()
 }
