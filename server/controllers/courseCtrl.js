@@ -435,17 +435,6 @@ function _getSemesterIndexToShow(externalSemesterNumber, activeSemesters) {
   return returnIndex > -1 ? returnIndex : yearMatch
 }
 
-function reorder(option, key, arr) {
-  const newArray = arr.slice()
-  newArray.sort(o => (o[key] !== option ? 1 : -1)) // put in first
-  return newArray
-}
-
-function reorderRoundListAfterSingleCourseStudents(activeSemester, initContext) {
-  const singleCourseStrudentsRoundCategory = 'VU' // single course students
-  return reorder(singleCourseStrudentsRoundCategory, 'round_category', initContext.courseData.roundList[activeSemester])
-}
-
 async function _chooseSemesterAndSyllabusFromActiveSemesters(externalSemester, useStartSemesterFromQuery, webContext) {
   const { activeSemesters } = webContext
 
@@ -583,15 +572,8 @@ async function getIndex(req, res, next) {
         syllabusSemesterList,
         language: lang,
       }
-
-      if (webContext.useStartSemesterFromQuery) {
-        // init roundList with reordered roundList after single course students
-        const contextWithReorderedRoundList = reorderRoundListAfterSingleCourseStudents(
-          webContext.activeSemester,
-          webContext
-        )
-        webContext.courseData.roundList[webContext.activeSemester] = contextWithReorderedRoundList
-      }
+      // TODO Benni useStartSemesterFromQuery does not exist anymore. Why do we need this?
+      // Fråga Nina
     }
 
     const apiMemoData = {
