@@ -26,6 +26,7 @@ const {
 const { buildCourseDepartmentLink } = require('../util/courseDepartmentUtils')
 const { formatVersionDate, getDateFormat } = require('../util/dates')
 const i18n = require('../../i18n')
+const { getReservationsByCourseCodeAndSemester } = require('../apiCalls/timeTableApi')
 
 function parseOrSetEmpty(value, language, setEmpty = false) {
   const emptyText = setEmpty ? '' : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
@@ -608,6 +609,8 @@ async function getIndex(req, res, next) {
     const compressedData = getCompressedData(webContext)
 
     const { uri: proxyPrefix } = serverConfig.proxyPrefixPath
+
+    const foo = await getReservationsByCourseCodeAndSemester(courseCode, 20242)
 
     const view = renderStaticPage({
       applicationStore: {},

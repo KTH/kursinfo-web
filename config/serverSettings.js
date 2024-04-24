@@ -57,6 +57,8 @@ module.exports = {
 
   koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
 
+  // timeTableApi: getEnv()
+
   // Cortina
   blockApi: {
     blockUrl: getEnv('CM_HOST_URL', devDefaults('https://www-r.referens.sys.kth.se/cm/')), // Block API base URL
