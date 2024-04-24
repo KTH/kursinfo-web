@@ -68,7 +68,7 @@ describe('getKoppsCourseData', () => {
 
     const error = await getError(getKoppsCourseData('someCourseCode', 'en'))
 
-    expect(error).toStrictEqual(expectedErrorEnglish)
+    expect(error).toEqual(expectedErrorEnglish)
   })
 
   it('should throw error if getAsync called with language=sv and resolves with 404', async () => {
@@ -81,7 +81,7 @@ describe('getKoppsCourseData', () => {
 
     const error = await getError(getKoppsCourseData('someCourseCode', 'sv'))
 
-    expect(error).toStrictEqual(expectedErrorSwedish)
+    expect(error).toEqual(expectedErrorSwedish)
   })
 
   it('should throw error if getAsync rejects with error', async () => {

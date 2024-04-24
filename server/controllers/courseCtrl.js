@@ -635,7 +635,7 @@ async function getIndex(req, res, next) {
       breadcrumbsList,
     })
   } catch (err) {
-    const excludedStatusCodes = [403, 404]
+    const errorCodesThatShouldNotBeLogged = [403, 404]
     let statusCode
     if (err.response) {
       statusCode = err.response.status
@@ -643,7 +643,7 @@ async function getIndex(req, res, next) {
       statusCode = err.status || err.statusCode || 500
     }
 
-    if (!excludedStatusCodes.includes(statusCode)) {
+    if (!errorCodesThatShouldNotBeLogged.includes(statusCode)) {
       if (err.code === 'ECONNABORTED' && err.config) {
         log.error(err.config.url, 'Timeout error')
       }

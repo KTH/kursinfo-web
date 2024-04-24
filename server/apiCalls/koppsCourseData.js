@@ -5,6 +5,7 @@ const redis = require('kth-node-redis')
 const connections = require('@kth/api-call').Connections
 const i18n = require('../../i18n')
 const { server: config } = require('../configuration')
+const { HttpError } = require('../HttpError')
 
 const HTTP_CODE_404 = 404
 
@@ -30,8 +31,7 @@ const api = connections.setup(koppsConfig, koppsConfig, koppsOpts)
 
 function createInvalidCourseCodeError(lang) {
   const errorMessage = i18n.message('error_not_found', lang)
-  const error = new Error(errorMessage)
-  error.statusCode = HTTP_CODE_404
+  const error = new HttpError(HTTP_CODE_404, errorMessage)
   return error
 }
 
