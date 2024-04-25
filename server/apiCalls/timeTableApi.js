@@ -10,6 +10,8 @@ const options = {
   useApiKey: false,
 }
 
+// TODO Benni, dont forget to experiment with redis
+
 // https://api-r.referens.sys.kth.se/api/timetable/v1/
 
 const config = {
