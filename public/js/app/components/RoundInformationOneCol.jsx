@@ -7,6 +7,7 @@ import { useRoundUtils } from '../hooks/useRoundUtils'
 import CourseFileLinks from './CourseFileLinks'
 import InfoModal from './InfoModal'
 import RoundApplicationInfo from './RoundApplicationInfo'
+import { usePlannedModules } from '../hooks/usePlannedModules'
 
 function RoundInformationOneCol({
   fade,
@@ -41,6 +42,10 @@ function RoundInformationOneCol({
     }
     posibleTestEmployees()
   }, [showRoundData, roundSelectedIndex, activeSemester])
+
+  const { plannedModules } = usePlannedModules({ courseCode: 'SH2702', semester: 20241, applicationCode: 1 })
+
+  console.log(plannedModules)
 
   return (
     <section
@@ -128,7 +133,7 @@ function RoundInformationOneCol({
 
               <h3>{translation.courseRoundInformation.round_time_slots}</h3>
               <span dangerouslySetInnerHTML={{ __html: round.round_time_slots }} />
-              <span dangerouslySetInnerHTML={{ __html: round.round_comment }} />
+              {/* <span dangerouslySetInnerHTML={{ __html: round.round_comment }} /> */}
               <CourseFileLinks
                 courseHasRound={courseHasRound}
                 courseCode={course.course_code}

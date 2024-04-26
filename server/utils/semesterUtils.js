@@ -18,28 +18,81 @@ const parseTermIntoYearTerm = term => {
   }
 }
 
+const SPRING_MONTHS = [0, 1, 2, 3, 4, 5]
+
+const getTermNumberByMonth = month => {
+  if (SPRING_MONTHS.includes(month)) {
+    return 1
+  }
+  return 2
+}
+
+const isAFiveDigitNumber = semester => semester.toString().length === 5
+
+const getCurrentYearAndTermNumber = () => {
+  const now = new Date()
+  const termNumber = getTermNumberByMonth(now.getMonth())
+
+  return {
+    year: now.getFullYear(),
+    termNumber,
+  }
+}
+
+const getMonthDateStringForSpring = year => ({
+  start: `${year}-01-01T00:00:00`,
+  end: `${year}-06-30T23:59:59`,
+})
+
+const getMonthDateStringForFall = year => ({
+  start: `${year}-07-01T00:00:00`,
+  end: `${year + 1}-01-31T23:59:59`,
+})
+
+const getStartEndByYearTerm = ({ year, termNumber }) => {
+  if (termNumber === 1) {
+    return getMonthDateStringForSpring(year)
+  }
+
+  return getMonthDateStringForFall(year)
+}
+
+const convertToYearTermOrGetCurrent = semester => {
+  if (!isAFiveDigitNumber(semester)) {
+    return getCurrentYearAndTermNumber()
+  }
+
+  return parseTermIntoYearTerm(semester)
+}
+
 /**
  *
  * @param {Number} semester
  */
-const convertSemesterIntoFromToDates = semester => {
-  console.log(Number.isNaN(''))
-  if (Number.isNaN(semester)) {
-    const year = 2023
-    return {
-      start: `${year}-01-01T00:00:00`,
-      end: `${year}-06-30T23:59:59`,
-    }
-  }
+const convertSemesterIntoStartEndDates = semester => {
+  const yearTerm = convertToYearTermOrGetCurrent(semester)
 
-  const { year } = parseTermIntoYearTerm(semester)
+  return getStartEndByYearTerm(yearTerm)
+}
 
-  return {
-    start: `${year}-01-01T00:00:00`,
-    end: `${year}-06-30T23:59:59`,
-  }
+const extractTwoDigitYear = year => {
+  const [, twoDigitYearString] = year.toString().match(/.{1,2}/g)
+
+  return Number(twoDigitYearString)
+}
+
+const seasonString = {
+  1: 'VT',
+  2: 'HT',
+}
+
+const convertSemesterToSeasonString = semester => {
+  const { year, termNumber } = parseTermIntoYearTerm(semester)
+
+  return `${seasonString[termNumber]}${extractTwoDigitYear(year)}`
 }
 
 module.exports = {
-  convertSemesterIntoFromToDates,
+  convertSemesterIntoStartEndDates,
+  convertSemesterToSeasonString,
 }
