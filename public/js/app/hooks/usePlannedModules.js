@@ -1,31 +1,36 @@
 import { useEffect, useState } from 'react'
 import { useWebContext } from '../context/WebContext'
-import { getPlannedModules } from './api/getPlannedModules'
+import { getPlannedModules, STATUS } from './api/getPlannedModules'
+import { useMissingInfo } from './useMissingInfo'
 
+// anropa API:et
+// returnera värdet
+// loading
+// default-value
+// error-state
+// nollställa gamla datat
 export const usePlannedModules = ({ courseCode, semester, applicationCode }) => {
-  // anropa API:et
-  // returnera värdet
-  // loading
-  // default-value
-  // error-state
-  // nollställa gamla datat
-  // const [context] = useWebContext()
-  // const basePath = context.paths.api.plannedSchemaModules.uri
-  // const [plannedModules, setPlannedModules] = useState(null)
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     setPlannedModules(null)
-  //     const result = await getPlannedModules({
-  //       basePath,
-  //       courseCode,
-  //       semester,
-  //       applicationCode,
-  //     })
-  //     setPlannedModules(result.plannedModules)
-  //   }
-  //   fetchData()
-  // }, [applicationCode, basePath, courseCode, semester])
-  // return {
-  //   plannedModules,
-  // }
+  const [context] = useWebContext()
+  const { missingInfoLabel } = useMissingInfo()
+
+  const [plannedModules, setPlannedModules] = useState(null)
+  const [isError, setIsError] = useState(false)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setPlannedModules(null)
+      setIsError(false)
+
+      const basePath = context.paths.api.plannedSchemaModules.uri
+      const result = await getPlannedModules({ basePath, courseCode, semester, applicationCode })
+      setPlannedModules(result.plannedModules || '')
+      setIsError(result.status === STATUS.ERROR)
+    }
+    fetchData()
+  }, [applicationCode, context, courseCode, semester])
+
+  return {
+    plannedModules: plannedModules === '' ? missingInfoLabel : plannedModules,
+    isError,
+  }
 }

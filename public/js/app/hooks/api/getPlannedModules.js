@@ -1,3 +1,8 @@
+export const STATUS = {
+  OK: 'OK',
+  ERROR: 'ERROR',
+}
+
 export const getPlannedModules = async ({ basePath, courseCode, semester, applicationCode }) => {
   try {
     const uri = basePath
@@ -9,7 +14,7 @@ export const getPlannedModules = async ({ basePath, courseCode, semester, applic
 
     if (!result.ok) {
       return {
-        status: 'ERROR',
+        status: STATUS.ERROR,
         plannedModules: null,
       }
     }
@@ -17,12 +22,12 @@ export const getPlannedModules = async ({ basePath, courseCode, semester, applic
     const { plannedModules } = await result.json()
 
     return {
-      status: 'OK',
+      status: STATUS.OK,
       plannedModules,
     }
   } catch (error) {
     return {
-      status: 'ERROR',
+      status: STATUS.ERROR,
       plannedModules: null,
     }
   }
