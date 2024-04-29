@@ -380,6 +380,11 @@ describe('Component <CoursePage>', () => {
             },
           },
         },
+        api: {
+          plannedSchemaModules: {
+            uri: '/:courseCode/:semester/:applicationCode',
+          },
+        },
       },
       getCourseEmployees() {
         return {
