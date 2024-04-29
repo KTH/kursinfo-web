@@ -4,6 +4,7 @@ import { useWebContext } from '../context/WebContext'
 import { useLanguage } from '../hooks/useLanguage'
 import { useMissingInfo } from '../hooks/useMissingInfo'
 import { useRoundUtils } from '../hooks/useRoundUtils'
+import { usePlannedModules } from '../hooks/usePlannedModules'
 import CourseFileLinks from './CourseFileLinks'
 import InfoModal from './InfoModal'
 import RoundApplicationInfo from './RoundApplicationInfo'
@@ -41,6 +42,13 @@ function RoundInformationOneCol({
     }
     posibleTestEmployees()
   }, [showRoundData, roundSelectedIndex, activeSemester])
+
+  const { plannedModules } = usePlannedModules({
+    courseCode: context.courseCode,
+    semester: Number(activeSemester),
+    applicationCode: round.round_application_code,
+    showRoundData,
+  })
 
   return (
     <section
@@ -127,8 +135,7 @@ function RoundInformationOneCol({
               {round && <p> {round.round_seats || translation.courseRoundInformation.round_no_seats_limit} </p>}
 
               <h3>{translation.courseRoundInformation.round_time_slots}</h3>
-              <span dangerouslySetInnerHTML={{ __html: round.round_time_slots }} />
-              <span dangerouslySetInnerHTML={{ __html: round.round_comment }} />
+              <span dangerouslySetInnerHTML={{ __html: plannedModules }} />
               <CourseFileLinks
                 courseHasRound={courseHasRound}
                 courseCode={course.course_code}

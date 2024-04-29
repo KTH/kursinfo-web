@@ -271,12 +271,11 @@ function _parseRoundSeatsMsg(max, min) {
 }
 
 function _getRound(roundObject = {}, language = 'sv') {
-  const { admissionLinkUrl, commentsToStudents, round = {}, schemaUrl, timeslots, usage } = roundObject
+  const { admissionLinkUrl, commentsToStudents, round = {}, schemaUrl, usage } = roundObject
   const { applicationCodes } = round
   const hasApplicationCodes = applicationCodes.length > 0
   const [latestApplicationCode] = applicationCodes
   const courseRoundModel = {
-    round_time_slots: parseOrSetEmpty(timeslots, language),
     round_start_date: getDateFormat(parseOrSetEmpty(round.firstTuitionDate, language), language),
     round_end_date: getDateFormat(parseOrSetEmpty(round.lastTuitionDate, language), language),
     round_target_group: parseOrSetEmpty(round.targetGroup, language),
@@ -635,7 +634,7 @@ async function getIndex(req, res, next) {
       breadcrumbsList,
     })
   } catch (err) {
-    const excludedStatusCodes = [403, 404]
+    const errorCodesThatShouldNotBeLogged = [403, 404]
     let statusCode
     if (err.response) {
       statusCode = err.response.status
@@ -643,7 +642,7 @@ async function getIndex(req, res, next) {
       statusCode = err.status || err.statusCode || 500
     }
 
-    if (!excludedStatusCodes.includes(statusCode)) {
+    if (!errorCodesThatShouldNotBeLogged.includes(statusCode)) {
       if (err.code === 'ECONNABORTED' && err.config) {
         log.error(err.config.url, 'Timeout error')
       }
