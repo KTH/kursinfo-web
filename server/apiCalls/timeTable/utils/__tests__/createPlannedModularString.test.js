@@ -1,7 +1,5 @@
 const { createPlannedModularString } = require('../createPlannedModularString')
 
-// const modules = ['module_p3_A2', 'module_p3_I1', 'module_p3_I2']
-
 describe('createPlannedModularString', () => {
   test('returns empty string if empty modules', () => {
     expect(createPlannedModularString([])).toStrictEqual('')

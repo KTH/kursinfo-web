@@ -5,7 +5,7 @@ import { useMissingInfo } from './useMissingInfo'
 
 const MISSING_INFO = ''
 
-export const usePlannedModules = ({ courseCode, semester, applicationCode }) => {
+export const usePlannedModules = ({ courseCode, semester, applicationCode, showRoundData }) => {
   const [context] = useWebContext()
   const { missingInfoLabel } = useMissingInfo()
 
@@ -16,6 +16,11 @@ export const usePlannedModules = ({ courseCode, semester, applicationCode }) => 
     const fetchData = async () => {
       setPlannedModules(null)
       setIsError(false)
+
+      if (!showRoundData) {
+        return
+      }
+
       if (!courseCode || !semester || !applicationCode) {
         setPlannedModules(MISSING_INFO)
       } else {
@@ -26,7 +31,7 @@ export const usePlannedModules = ({ courseCode, semester, applicationCode }) => 
       }
     }
     fetchData()
-  }, [applicationCode, context, courseCode, semester])
+  }, [applicationCode, context, courseCode, semester, showRoundData])
 
   return {
     plannedModules: plannedModules === MISSING_INFO ? missingInfoLabel : plannedModules,

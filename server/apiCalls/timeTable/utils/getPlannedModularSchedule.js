@@ -1,4 +1,4 @@
-const { getOfferingsWithModules: getOfferingsWithModules } = require('../apiCalls/timeTableApi')
+const { getOfferingsWithModules: getOfferingsWithModules } = require('../timeTableApi')
 const { createPlannedModularString } = require('./createPlannedModularString')
 const { findOffering } = require('./findOffering')
 

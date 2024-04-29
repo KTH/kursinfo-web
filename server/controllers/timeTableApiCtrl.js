@@ -1,4 +1,4 @@
-const { getPlannedModularSchedule } = require('../utils/getPlannedModularSchedule')
+const { getPlannedModularSchedule } = require('../apiCalls/timeTable/utils/getPlannedModularSchedule')
 
 const getPlannedSchemaModules = async (req, res, next) => {
   const { courseCode, semester, applicationCode } = req.params

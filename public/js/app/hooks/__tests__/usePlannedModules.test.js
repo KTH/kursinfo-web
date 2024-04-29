@@ -19,8 +19,9 @@ const mockContext = {
   },
 }
 
-const defaultParams = { courseCode: 'SF1624', semester: 20241, applicationCode: 12345 }
-const defaultParamsWithPath = { ...defaultParams, basePath: mockContext.paths.api.plannedSchemaModules.uri }
+const baseParams = { courseCode: 'SF1624', semester: 20241, applicationCode: 12345 }
+const defaultParams = { ...baseParams, showRoundData: true }
+const baseParamsWithPath = { ...baseParams, basePath: mockContext.paths.api.plannedSchemaModules.uri }
 
 describe('usePlannedModules', () => {
   beforeAll(() => {
@@ -42,9 +43,7 @@ describe('usePlannedModules', () => {
   test.each([undefined, null, ''])(
     'if courseCode is "%s", should return INFORM_IF_IMPORTANT_INFO_IS_MISSING',
     invalidInput => {
-      const { result } = renderHook(() =>
-        usePlannedModules({ courseCode: invalidInput, semester: 20241, applicationCode: 12345 })
-      )
+      const { result } = renderHook(() => usePlannedModules({ ...defaultParams, courseCode: invalidInput }))
 
       expect(getPlannedModules).not.toHaveBeenCalled()
 
@@ -55,9 +54,7 @@ describe('usePlannedModules', () => {
   test.each([undefined, null, ''])(
     'if semester is "%s", should return INFORM_IF_IMPORTANT_INFO_IS_MISSING',
     invalidInput => {
-      const { result } = renderHook(() =>
-        usePlannedModules({ courseCode: 'SF1624', semester: invalidInput, applicationCode: 12345 })
-      )
+      const { result } = renderHook(() => usePlannedModules({ ...defaultParams, semester: invalidInput }))
 
       expect(getPlannedModules).not.toHaveBeenCalled()
 
@@ -68,9 +65,7 @@ describe('usePlannedModules', () => {
   test.each([undefined, null, ''])(
     'if applicationCode is "%s", should return INFORM_IF_IMPORTANT_INFO_IS_MISSING',
     invalidInput => {
-      const { result } = renderHook(() =>
-        usePlannedModules({ courseCode: 'SF1624', semester: 20241, applicationCode: invalidInput })
-      )
+      const { result } = renderHook(() => usePlannedModules({ ...defaultParams, applicationCode: invalidInput }))
 
       expect(getPlannedModules).not.toHaveBeenCalled()
 
@@ -78,9 +73,17 @@ describe('usePlannedModules', () => {
     }
   )
 
+  test('if showRoundData is not true, should return null', () => {
+    const { result } = renderHook(() => usePlannedModules({ ...defaultParams, showRoundData: false }))
+
+    expect(getPlannedModules).not.toHaveBeenCalled()
+
+    expect(result.current.plannedModules).toStrictEqual(null)
+  })
+
   test('calls getPlannedModules with correct parameters', async () => {
     const { result } = renderHook(() => usePlannedModules(defaultParams))
-    expect(getPlannedModules).toHaveBeenCalledWith(defaultParamsWithPath)
+    expect(getPlannedModules).toHaveBeenCalledWith(baseParamsWithPath)
 
     // We have to await a state change to `plannedModules`, because testing-library/react will  complain about it otherwise
     await waitFor(() => expect(result.current.plannedModules).toStrictEqual('somePlannedModules'))

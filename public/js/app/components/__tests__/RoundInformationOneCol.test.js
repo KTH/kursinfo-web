@@ -5,6 +5,9 @@ import '@testing-library/jest-dom'
 import { WebContextProvider } from '../../context/WebContext'
 
 import RoundInformationOneCol from '../RoundInformationOneCol'
+import { usePlannedModules } from '../../hooks/usePlannedModules'
+
+jest.mock('../../hooks/usePlannedModules')
 
 const INFORM_IF_IMPORTANT_INFO_IS_MISSING = ['No information inserted', 'Ingen information tillagd']
 const context = {
@@ -22,6 +25,12 @@ const context = {
 }
 
 describe('Component <RoundInformationOneCol>', () => {
+  beforeAll(() => {
+    usePlannedModules.mockReturnValue({
+      plannedModules: 'somePlannedModules',
+    })
+  })
+
   test('renders study pace correctly', () => {
     const propsWithStudyPace = {
       showRoundData: true,
@@ -75,7 +84,7 @@ describe('Component <RoundInformationOneCol>', () => {
     expect(teachers).toBeInTheDocument()
   })
 
-  test('renders information about missing course empoyees in course offering because it contains empty string', () => {
+  test('renders information about missing course employees in course offering because it contains empty string', () => {
     const propsWithEmptyEmployees = {
       showRoundData: true,
       courseHasRound: true,
@@ -96,7 +105,7 @@ describe('Component <RoundInformationOneCol>', () => {
     expect(emptyEmployees.length).toBe(3)
   })
 
-  test('renders information about missing course empoyees in course offering because no data about employees is provided', () => {
+  test('renders information about missing course employees in course offering because no data about employees is provided', () => {
     const propsWithoutEmployees = {
       showRoundData: true,
       courseHasRound: true,

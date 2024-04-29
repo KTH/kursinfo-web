@@ -26,8 +26,6 @@ const {
 const { buildCourseDepartmentLink } = require('../util/courseDepartmentUtils')
 const { formatVersionDate, getDateFormat } = require('../util/dates')
 const i18n = require('../../i18n')
-const { getOfferingsWithModules: getOfferingsWithModules } = require('../apiCalls/timeTableApi')
-const { getPlannedModularSchedule } = require('../utils/getPlannedModularSchedule')
 
 function parseOrSetEmpty(value, language, setEmpty = false) {
   const emptyText = setEmpty ? '' : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
@@ -610,29 +608,6 @@ async function getIndex(req, res, next) {
     const compressedData = getCompressedData(webContext)
 
     const { uri: proxyPrefix } = serverConfig.proxyPrefixPath
-
-    // const reservationsWithOfferingsWithModules = await getOfferingsWithModules(
-    //   courseCode,
-    //   // webContext.activeSemester
-    //   20241
-    // )
-
-    // const filtered = reservationsWithOfferingsWithModules.map(({ offerings }) => ({
-    //   offerings,
-    // }))
-
-    // const plannedModules = await getPlannedModularSchedule({
-    //   courseCode,
-    //   applicationCode: 1,
-    //   semester: 20241,
-    // })
-
-    /**
-     * TODO Benni
-     * - plocka fram semester
-     * - plocka fram applicationCode
-     * - plocka fram round
-     */
 
     const view = renderStaticPage({
       applicationStore: {},

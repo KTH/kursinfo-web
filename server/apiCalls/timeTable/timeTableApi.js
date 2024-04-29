@@ -2,10 +2,10 @@ const log = require('@kth/log')
 const redis = require('kth-node-redis')
 const connections = require('@kth/api-call').Connections
 
-const { convertSemesterIntoStartEndDates } = require('../utils/semesterUtils')
-const { extractOfferingsFromReservation } = require('../utils/extractOfferingsFromReservation')
-
-const { server: config } = require('../configuration')
+const { convertSemesterIntoStartEndDates } = require('../../utils/semesterUtils')
+const { server: config } = require('../../configuration')
+const { callApiAndPossiblyHandle404 } = require('../errorUtils')
+const { extractOfferingsFromReservation } = require('./utils/extractOfferingsFromReservation')
 
 const options = {
   log,
@@ -29,6 +29,7 @@ const api = connections.setup(timeTableConfig, timeTableConfig, options)
  *
  * @param {string} courseCode for which to fetch reservations
  * @param {Number} semester for which to fetch reservations
+ * @param {string} lang 2-letter language code
  * @returns
  */
 const getOfferingsWithModules = async (courseCode, semester) => {
@@ -39,7 +40,7 @@ const getOfferingsWithModules = async (courseCode, semester) => {
   const uri = `${config.timeTableApi.basePath}reservations/search?course_list=${encodeURIComponent(courseCode)}&start=${start}&end=${end}`
 
   try {
-    const result = await client.getAsync({ uri })
+    const result = await callApiAndPossiblyHandle404({ client, uri })
 
     const { body } = result
 
@@ -48,7 +49,7 @@ const getOfferingsWithModules = async (courseCode, semester) => {
     return offeringsWithModules
   } catch (error) {
     log.error(error)
-    return error
+    throw error
   }
 }
 
