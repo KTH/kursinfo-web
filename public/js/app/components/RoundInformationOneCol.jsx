@@ -47,6 +47,7 @@ function RoundInformationOneCol({
     courseCode: context.courseCode,
     semester: Number(activeSemester),
     applicationCode: round.round_application_code,
+    showRoundData,
   })
 
   return (
