@@ -3,7 +3,9 @@ const { getKoppsCourseData } = require('../koppsCourseData')
 jest.mock('../../configuration', () => ({
   server: {
     cache: '',
-    koppsApi: {},
+    koppsApi: {
+      basePath: 'basePath/',
+    },
   },
 }))
 
@@ -33,7 +35,7 @@ describe('getKoppsCourseData', () => {
     getKoppsCourseData(courseCode, language)
 
     expect(mockGetAsync).toHaveBeenCalledWith({
-      uri: `undefinedcourse/${courseCode}/detailedinformation?l=${language}`,
+      uri: `basePath/course/${courseCode}/detailedinformation?l=${language}`,
       useCache: true,
     })
 
@@ -43,7 +45,7 @@ describe('getKoppsCourseData', () => {
     getKoppsCourseData(courseCode, language)
 
     expect(mockGetAsync).toHaveBeenCalledWith({
-      uri: `undefinedcourse/${courseCode}/detailedinformation?l=${language}`,
+      uri: `basePath/course/${courseCode}/detailedinformation?l=${language}`,
       useCache: true,
     })
   })
@@ -61,7 +63,9 @@ describe('getKoppsCourseData', () => {
   it('should throw error if getAsync called with language=en and resolves with 404', async () => {
     const { mockGetAsync } = require('../mocks/mockedKthApiCall')
 
-    const expectedErrorEnglish = new Error(`Sorry, we can't find your requested page`)
+    const expectedErrorEnglish = new Error(
+      `Sorry, we can't find your requested page: basePath/course/someCourseCode/detailedinformation?l=en`
+    )
     mockGetAsync.mockResolvedValueOnce({
       statusCode: 404,
     })
@@ -74,7 +78,9 @@ describe('getKoppsCourseData', () => {
   it('should throw error if getAsync called with language=sv and resolves with 404', async () => {
     const { mockGetAsync } = require('../mocks/mockedKthApiCall')
 
-    const expectedErrorSwedish = new Error(`Tyvärr kunde vi inte hitta sidan du efterfrågade`)
+    const expectedErrorSwedish = new Error(
+      `Tyvärr kunde vi inte hitta sidan du efterfrågade: basePath/course/someCourseCode/detailedinformation?l=sv`
+    )
     mockGetAsync.mockResolvedValueOnce({
       statusCode: 404,
     })
