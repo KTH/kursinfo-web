@@ -24,6 +24,7 @@ const devKursplanApi = devDefaults('http://localhost:3001/api/kursplan?defaultTi
 const devKoppsApi = devDefaults('https://api-r.referens.sys.kth.se/api/kopps/v2/?defaultTimeout=10000')
 const devKursPmDataApi = devDefaults('http://localhost:3001/api/kurs-pm-data?defaultTimeout=10000')
 const devKursutvecklingApi = devDefaults('http://localhost:3001/api/kursutveckling?defaultTimeout=10000') // required=true&
+const devTimeTableApiUri = devDefaults('https://api-r.referens.sys.kth.se/api/timetable/v1/?defaultTimeout=10000')
 const devSessionKey = devDefaults('kursinfo-web.sid')
 const devSessionUseRedis = devDefaults(true)
 const devRedis = devDefaults('redis://localhost:6379/')
@@ -45,7 +46,6 @@ module.exports = {
     kursplanApi: getEnv('KURSPLAN_API_KEY', devDefaults('5678')),
     kursPmDataApi: getEnv('KURS_PM_DATA_API_KEY', devDefaults('9876')),
     kursutvecklingApi: getEnv('KURSUTVECKLING_API_KEY', devDefaults('1234')),
-    // koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi)
   },
 
   nodeApi: {
@@ -57,7 +57,8 @@ module.exports = {
 
   koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
 
-  // timeTableApi: getEnv()
+  // TimeTableApi is not Kopps, but the unpacking works nevertheless
+  timeTableApi: unpackKOPPSConfig('TIME_TABLE_API_URI', devTimeTableApiUri),
 
   // Cortina
   blockApi: {

@@ -3,6 +3,8 @@ import { useWebContext } from '../context/WebContext'
 import { getPlannedModules, STATUS } from './api/getPlannedModules'
 import { useMissingInfo } from './useMissingInfo'
 
+const MISSING_INFO = ''
+
 export const usePlannedModules = ({ courseCode, semester, applicationCode }) => {
   const [context] = useWebContext()
   const { missingInfoLabel } = useMissingInfo()
@@ -14,17 +16,20 @@ export const usePlannedModules = ({ courseCode, semester, applicationCode }) => 
     const fetchData = async () => {
       setPlannedModules(null)
       setIsError(false)
-
-      const basePath = context.paths.api.plannedSchemaModules.uri
-      const result = await getPlannedModules({ basePath, courseCode, semester, applicationCode })
-      setPlannedModules(result.plannedModules || '')
-      setIsError(result.status === STATUS.ERROR)
+      if (!courseCode || !semester || !applicationCode) {
+        setPlannedModules(MISSING_INFO)
+      } else {
+        const basePath = context.paths.api.plannedSchemaModules.uri
+        const result = await getPlannedModules({ basePath, courseCode, semester, applicationCode })
+        setPlannedModules(result.plannedModules || MISSING_INFO)
+        setIsError(result.status === STATUS.ERROR)
+      }
     }
     fetchData()
   }, [applicationCode, context, courseCode, semester])
 
   return {
-    plannedModules: plannedModules === '' ? missingInfoLabel : plannedModules,
+    plannedModules: plannedModules === MISSING_INFO ? missingInfoLabel : plannedModules,
     isError,
   }
 }

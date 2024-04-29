@@ -1,16 +1,6 @@
 const { getOfferingsWithModules: getOfferingsWithModules } = require('../apiCalls/timeTableApi')
 const { createPlannedModularString } = require('./createPlannedModularString')
-const { findOffering: filterOfferings } = require('./findOffering')
-
-const getFirstMatchingOffering = ({ offerings, courseCode, semester, applicationCode }) => {
-  const filteredOfferings = filterOfferings({ offerings, courseCode, semester, applicationCode })
-
-  if (filteredOfferings.length === 0) {
-    return undefined
-  }
-
-  return filteredOfferings[0]
-}
+const { findOffering } = require('./findOffering')
 
 const getPlannedModularOrEmptyString = matchingOffering => {
   if (!matchingOffering) {
@@ -31,7 +21,7 @@ const getOfferingsOrEmpty = async (courseCode, semester) => {
 }
 
 const extractPlannedModularSchedule = ({ offerings, courseCode, semester, applicationCode }) => {
-  const firstMatchingOffering = getFirstMatchingOffering({ offerings, courseCode, semester, applicationCode })
+  const firstMatchingOffering = findOffering({ offerings, courseCode, semester, applicationCode })
 
   return getPlannedModularOrEmptyString(firstMatchingOffering)
 }

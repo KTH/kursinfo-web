@@ -1,42 +1,29 @@
 const log = require('@kth/log')
+const redis = require('kth-node-redis')
 const connections = require('@kth/api-call').Connections
+
 const { convertSemesterIntoStartEndDates } = require('../utils/semesterUtils')
 const { extractOfferingsFromReservation } = require('../utils/extractOfferingsFromReservation')
+
+const { server: config } = require('../configuration')
 
 const options = {
   log,
   https: true,
+  redis,
   timeout: 5000,
   retryOnESOCKETTIMEDOUT: true,
   useApiKey: false,
 }
 
-// https://api-r.referens.sys.kth.se/api/timetable/v1/
+config.timeTableApi.doNotCallPathsEndpoint = true
+config.timeTableApi.connected = true
 
-const config = {
-  timeTableApi: {
-    https: true,
-    host: 'api-r.referens.sys.kth.se',
-    basePath: '/api/timetable/v1/',
-    defaultTimeout: 60000,
-    doNotCallPathsEndpoint: true,
-    connected: true,
-  },
+const timeTableConfig = {
+  timeTableApi: config.timeTableApi,
 }
 
-const api = connections.setup(config, config, options)
-
-/**
- * TODO Benni
- * - put config into serverSettings an .env file
- * - calculate from/to for semester DONE
- * - figure out which reservations to look at DONE
- * - dont forget to experiment with redis
- */
-
-// modules: ['module_p2_A1', 'module_p2_C2', 'module_p2_E1']
-
-// Questions
+const api = connections.setup(timeTableConfig, timeTableConfig, options)
 
 /**
  *
@@ -55,17 +42,6 @@ const getOfferingsWithModules = async (courseCode, semester) => {
     const result = await client.getAsync({ uri })
 
     const { body } = result
-
-    // const onlyReservationWithOfferings = body.map(({ offerings }) => ({
-    //   offerings,
-    // }))
-
-    // const offeringsWithModules = body
-    //   .filter(
-    //     ({ offerings }) =>
-    //       offerings && offerings.length > 0 && offerings.some(({ modules }) => modules && modules.length > 0)
-    //   )
-    //   .map(({ offerings }) => offerings)
 
     const offeringsWithModules = extractOfferingsFromReservation(body)
 

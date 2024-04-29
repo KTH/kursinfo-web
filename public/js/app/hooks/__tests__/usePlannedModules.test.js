@@ -39,11 +39,50 @@ describe('usePlannedModules', () => {
     jest.clearAllMocks()
   })
 
+  test.each([undefined, null, ''])(
+    'if courseCode is "%s", should return INFORM_IF_IMPORTANT_INFO_IS_MISSING',
+    invalidInput => {
+      const { result } = renderHook(() =>
+        usePlannedModules({ courseCode: invalidInput, semester: 20241, applicationCode: 12345 })
+      )
+
+      expect(getPlannedModules).not.toHaveBeenCalled()
+
+      expect(result.current.plannedModules).toStrictEqual(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0])
+    }
+  )
+
+  test.each([undefined, null, ''])(
+    'if semester is "%s", should return INFORM_IF_IMPORTANT_INFO_IS_MISSING',
+    invalidInput => {
+      const { result } = renderHook(() =>
+        usePlannedModules({ courseCode: 'SF1624', semester: invalidInput, applicationCode: 12345 })
+      )
+
+      expect(getPlannedModules).not.toHaveBeenCalled()
+
+      expect(result.current.plannedModules).toStrictEqual(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0])
+    }
+  )
+
+  test.each([undefined, null, ''])(
+    'if applicationCode is "%s", should return INFORM_IF_IMPORTANT_INFO_IS_MISSING',
+    invalidInput => {
+      const { result } = renderHook(() =>
+        usePlannedModules({ courseCode: 'SF1624', semester: 20241, applicationCode: invalidInput })
+      )
+
+      expect(getPlannedModules).not.toHaveBeenCalled()
+
+      expect(result.current.plannedModules).toStrictEqual(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0])
+    }
+  )
+
   test('calls getPlannedModules with correct parameters', async () => {
     const { result } = renderHook(() => usePlannedModules(defaultParams))
     expect(getPlannedModules).toHaveBeenCalledWith(defaultParamsWithPath)
 
-    // We have to await a state change to `plannedModules`, because tl/r will  complain about it otherwise
+    // We have to await a state change to `plannedModules`, because testing-library/react will  complain about it otherwise
     await waitFor(() => expect(result.current.plannedModules).toStrictEqual('somePlannedModules'))
   })
 
