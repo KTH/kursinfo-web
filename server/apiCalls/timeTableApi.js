@@ -1,8 +1,7 @@
 const log = require('@kth/log')
+const connections = require('@kth/api-call').Connections
 const { convertSemesterIntoStartEndDates } = require('../utils/semesterUtils')
 const { extractOfferingsFromReservation } = require('../utils/extractOfferingsFromReservation')
-
-const connections = require('@kth/api-call').Connections
 
 const options = {
   log,

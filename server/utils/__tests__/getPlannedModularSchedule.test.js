@@ -1,13 +1,13 @@
 const { getOfferingsWithModules: getOfferingsWithModules } = require('../../apiCalls/timeTableApi')
 const { createPlannedModularString } = require('../createPlannedModularString')
-const { filterOfferings } = require('../filterOfferings')
+const { findOffering } = require('../findOffering')
 const { getPlannedModularSchedule } = require('../getPlannedModularSchedule')
 
 jest.mock('../../apiCalls/timeTableApi')
-jest.mock('../filterOfferings')
+jest.mock('../findOffering')
 jest.mock('../createPlannedModularString')
 
-const defaultModules = [{ id: 'someId' }, { id: 'someOtherId' }]
+const defaultOfferings = [{ id: 'someId' }, { id: 'someOtherId' }]
 
 const defaultFiltered = [
   {
@@ -28,7 +28,7 @@ const defaultParams = {
 
 describe('getPlannedModularSchedule', () => {
   beforeAll(() => {
-    filterOfferings.mockReturnValue(defaultFiltered)
+    findOffering.mockReturnValue(defaultFiltered)
   })
   afterEach(() => {
     jest.clearAllMocks()
@@ -47,12 +47,12 @@ describe('getPlannedModularSchedule', () => {
   test.each([
     [{ id: 'someId' }, { id: 'someOtherId' }],
     [{ id: 'anotherId' }, { id: 'andAnotherId' }],
-  ])('calls filterOfferings with response from getOfferingsWithModules', async offerings => {
+  ])('calls findOffering with response from getOfferingsWithModules', async offerings => {
     getOfferingsWithModules.mockResolvedValueOnce(offerings)
     const { courseCode, semester, applicationCode } = defaultParams
     await getPlannedModularSchedule({ courseCode, semester, applicationCode })
 
-    expect(filterOfferings).toHaveBeenCalledWith(offerings, courseCode, semester, applicationCode)
+    expect(findOffering).toHaveBeenCalledWith({ offerings, courseCode, semester, applicationCode })
   })
 
   test.each([
@@ -60,37 +60,42 @@ describe('getPlannedModularSchedule', () => {
     ['SF1625', 19902, 54321],
     ['SH2702', 20221, 22222],
   ])(
-    'calls filterOfferings with courseCode %s, semester %s and applicationCode %s',
+    'calls findOffering with courseCode %s, semester %s and applicationCode %s',
     async (courseCode, semester, applicationCode) => {
-      getOfferingsWithModules.mockResolvedValueOnce(defaultModules)
+      getOfferingsWithModules.mockResolvedValueOnce(defaultOfferings)
 
       await getPlannedModularSchedule({ courseCode, semester, applicationCode })
 
-      expect(filterOfferings).toHaveBeenCalledWith(defaultModules, courseCode, semester, applicationCode)
+      expect(findOffering).toHaveBeenCalledWith({
+        offerings: defaultOfferings,
+        courseCode,
+        semester,
+        applicationCode,
+      })
     }
   )
 
-  test('if filterOfferings returns empty array, returns empty string', async () => {
-    filterOfferings.mockReturnValueOnce([])
+  test('if findOffering returns empty array, returns empty string', async () => {
+    findOffering.mockReturnValueOnce([])
 
     const result = await getPlannedModularSchedule(defaultParams)
 
     expect(result).toStrictEqual('')
   })
 
-  test('if filterOfferings returns empty array, does not call createPlannedModularString', async () => {
-    filterOfferings.mockReturnValueOnce([])
+  test('if findOffering returns empty array, does not call createPlannedModularString', async () => {
+    findOffering.mockReturnValueOnce([])
 
     await getPlannedModularSchedule(defaultParams)
 
     expect(createPlannedModularString).not.toHaveBeenCalled()
   })
 
-  test('calls createPlannedModularString with first result of filterOfferings', async () => {
+  test('calls createPlannedModularString with first result of findOffering', async () => {
     await getPlannedModularSchedule(defaultParams)
 
     expect(createPlannedModularString).toHaveBeenCalledTimes(1)
-    expect(createPlannedModularString).toHaveBeenCalledWith(defaultFiltered[0])
+    expect(createPlannedModularString).toHaveBeenCalledWith(defaultFiltered[0].modules)
 
     const filtered = [
       {
@@ -103,11 +108,11 @@ describe('getPlannedModularSchedule', () => {
       },
     ]
 
-    filterOfferings.mockReturnValueOnce(filtered)
+    findOffering.mockReturnValueOnce(filtered)
 
     await getPlannedModularSchedule(defaultParams)
 
-    expect(createPlannedModularString).toHaveBeenCalledWith(filtered[0])
+    expect(createPlannedModularString).toHaveBeenCalledWith(filtered[0].modules)
   })
 
   test.each(['P3: A2.', 'P2: C1, I2.'])(
@@ -123,7 +128,7 @@ describe('getPlannedModularSchedule', () => {
 
   test('if getOfferingsWithModules rejects, return empty string', async () => {
     getOfferingsWithModules.mockRejectedValueOnce(new Error('some Error'))
-    filterOfferings.mockReturnValueOnce([])
+    findOffering.mockReturnValueOnce([])
 
     const result = await getPlannedModularSchedule(defaultParams)
 

@@ -7,7 +7,19 @@ import { WebContextProvider } from '../../context/WebContext'
 import RoundInformationOneCol from '../RoundInformationOneCol'
 
 const INFORM_IF_IMPORTANT_INFO_IS_MISSING = ['No information inserted', 'Ingen information tillagd']
-const context = { browserConfig: {}, sellingText: { en: '', sv: '' }, imageFromAdmin: '', lang: 'en' }
+const context = {
+  browserConfig: {},
+  sellingText: { en: '', sv: '' },
+  imageFromAdmin: '',
+  lang: 'en',
+  paths: {
+    api: {
+      plannedSchemaModules: {
+        uri: '/:courseCode/:semester/:applicationCode',
+      },
+    },
+  },
+}
 
 describe('Component <RoundInformationOneCol>', () => {
   test('renders study pace correctly', () => {

@@ -39,10 +39,12 @@ describe('usePlannedModules', () => {
     jest.clearAllMocks()
   })
 
-  test('calls getPlannedModules with correct parameters', () => {
-    renderHook(() => usePlannedModules(defaultParams))
-
+  test('calls getPlannedModules with correct parameters', async () => {
+    const { result } = renderHook(() => usePlannedModules(defaultParams))
     expect(getPlannedModules).toHaveBeenCalledWith(defaultParamsWithPath)
+
+    // We have to await a state change to `plannedModules`, because tl/r will  complain about it otherwise
+    await waitFor(() => expect(result.current.plannedModules).toStrictEqual('somePlannedModules'))
   })
 
   test('returns plannedModules from getPlannedModules', async () => {
@@ -79,14 +81,34 @@ describe('usePlannedModules', () => {
     await waitFor(() => expect(result.current.isError).toStrictEqual(false))
   })
 
-  test.skip('if all goes well, but plannedModules is an empty string, should return INFORM_IF_IMPORTANT_INFO_IS_MISSING', async () => {
+  test('if all goes well, but plannedModules is an empty string, should return INFORM_IF_IMPORTANT_INFO_IS_MISSING', async () => {
     getPlannedModules.mockResolvedValueOnce({
       status: STATUS.OK,
       plannedModules: '',
     })
     const { result } = renderHook(() => usePlannedModules(defaultParams))
 
-    await waitFor(() => expect(result.current.plannedModules).toStrictEqual('somePlannedModules'))
+    await waitFor(() => expect(result.current.plannedModules).toStrictEqual(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0]))
+  })
+
+  test('if all goes well, but plannedModules is an empty string, should return INFORM_IF_IMPORTANT_INFO_IS_MISSING also in swedish', async () => {
+    getPlannedModules.mockResolvedValueOnce({
+      status: STATUS.OK,
+      plannedModules: '',
+    })
+
+    // Apparently useLanguage is called twice here, so we have to mock the non-default value twice.
+    useLanguage.mockReturnValueOnce({
+      isEnglish: false,
+      languageIndex: 1,
+    })
+    useLanguage.mockReturnValueOnce({
+      isEnglish: false,
+      languageIndex: 1,
+    })
+    const { result } = renderHook(() => usePlannedModules(defaultParams))
+
+    await waitFor(() => expect(result.current.plannedModules).toStrictEqual(INFORM_IF_IMPORTANT_INFO_IS_MISSING[1]))
   })
 
   describe('if getPlannedModules returns status: ERROR', () => {
@@ -139,17 +161,22 @@ describe('usePlannedModules', () => {
         status: STATUS.ERROR,
         plannedModules: null,
       })
+
+      // Apparently useLanguage is called twice here, so we have to mock the non-default value twice.
       useLanguage.mockReturnValueOnce({
         isEnglish: false,
         languageIndex: 1,
       })
+      useLanguage.mockReturnValueOnce({
+        isEnglish: false,
+        languageIndex: 1,
+      })
+
       const { result } = renderHook(() => usePlannedModules(defaultParams))
 
       expect(getPlannedModules).toHaveBeenCalledTimes(1)
 
       await waitFor(() => expect(result.current.plannedModules).toStrictEqual(INFORM_IF_IMPORTANT_INFO_IS_MISSING[1]))
     })
-
-    // TODO Benni: fix this!
   })
 })

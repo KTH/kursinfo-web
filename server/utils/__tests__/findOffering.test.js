@@ -1,11 +1,13 @@
-const { filterOfferings } = require('../filterOfferings')
+const { findOffering: findOffering } = require('../findOffering')
 
-describe('filterOfferings', () => {
-  test('returns empty array if called with empty offerings', () => {
-    expect(filterOfferings([], 'SF1624', 12345, 20241)).toStrictEqual([])
+describe('findOffering', () => {
+  test('returns undefined if called with empty offerings', () => {
+    expect(
+      findOffering({ offerings: [], courseCode: 'SF1624', applicationCode: 12345, semester: 20241 })
+    ).toStrictEqual(undefined)
   })
 
-  test('returns empty array if no matching offerings', () => {
+  test('returns undefined if no matching offerings', () => {
     const offerings = [
       {
         id: 'someNonMatchingId',
@@ -14,7 +16,9 @@ describe('filterOfferings', () => {
         id: 'someOtherNonMatchingId',
       },
     ]
-    expect(filterOfferings(offerings, 'SF1624', 12345, 20241)).toStrictEqual([])
+    expect(findOffering({ offerings, courseCode: 'SF1624', applicationCode: 12345, semester: 20241 })).toStrictEqual(
+      undefined
+    )
   })
 
   test.each([12345, 54321, 12345])('returns array with matching ids changing applicationCode', applicationCode => {
@@ -30,10 +34,9 @@ describe('filterOfferings', () => {
       },
     ]
 
-    const filtered = filterOfferings(offerings, 'SF1624', applicationCode, 20242)
+    const filtered = findOffering({ offerings, courseCode: 'SF1624', applicationCode, semester: 20242 })
 
-    expect(filtered).toHaveLength(1)
-    expect(filtered[0].id).toStrictEqual(`SF1624-${applicationCode} (HT24)`)
+    expect(filtered.id).toStrictEqual(`SF1624-${applicationCode} (HT24)`)
   })
 
   test.each(['SF1624', 'SF1625', 'SF1626'])('returns array with matching ids, changing courseCode', courseCode => {
@@ -49,10 +52,9 @@ describe('filterOfferings', () => {
       },
     ]
 
-    const filtered = filterOfferings(offerings, courseCode, '12345', 20242)
+    const filtered = findOffering({ offerings, courseCode, applicationCode: '12345', semester: 20242 })
 
-    expect(filtered).toHaveLength(1)
-    expect(filtered[0].id).toStrictEqual(`${courseCode}-12345 (HT24)`)
+    expect(filtered.id).toStrictEqual(`${courseCode}-12345 (HT24)`)
   })
 
   test.each([
@@ -84,9 +86,8 @@ describe('filterOfferings', () => {
       },
     ]
 
-    const filtered = filterOfferings(offerings, 'SF1624', '12345', semester)
+    const filtered = findOffering({ offerings, courseCode: 'SF1624', applicationCode: '12345', semester })
 
-    expect(filtered).toHaveLength(1)
-    expect(filtered[0].id).toStrictEqual(`SF1624-12345 (${expectedSeason})`)
+    expect(filtered.id).toStrictEqual(`SF1624-12345 (${expectedSeason})`)
   })
 })

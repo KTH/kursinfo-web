@@ -1,6 +1,6 @@
 const { getOfferingsWithModules: getOfferingsWithModules } = require('../apiCalls/timeTableApi')
 const { createPlannedModularString } = require('./createPlannedModularString')
-const { filterOfferings } = require('./filterOfferings')
+const { findOffering: filterOfferings } = require('./findOffering')
 
 const getFirstMatchingOffering = ({ offerings, courseCode, semester, applicationCode }) => {
   const filteredOfferings = filterOfferings({ offerings, courseCode, semester, applicationCode })

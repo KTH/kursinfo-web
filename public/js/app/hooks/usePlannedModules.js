@@ -3,12 +3,6 @@ import { useWebContext } from '../context/WebContext'
 import { getPlannedModules, STATUS } from './api/getPlannedModules'
 import { useMissingInfo } from './useMissingInfo'
 
-// anropa API:et
-// returnera värdet
-// loading
-// default-value
-// error-state
-// nollställa gamla datat
 export const usePlannedModules = ({ courseCode, semester, applicationCode }) => {
   const [context] = useWebContext()
   const { missingInfoLabel } = useMissingInfo()
