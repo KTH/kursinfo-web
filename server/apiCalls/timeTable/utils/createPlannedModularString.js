@@ -20,6 +20,13 @@ const addKeyIfNonexistent = (obj, key) => {
   }
 }
 
+const sortModulesByDigitAndLetter = (a, b) => {
+  const [letterA, digitA] = a
+  const [letterB, digitB] = b
+
+  return Number(digitA) - Number(digitB) || letterA.localeCompare(letterB)
+}
+
 const createPeriodSchemaMapping = modules => {
   const mapping = {}
   modules.forEach(moduleString => {
@@ -36,7 +43,9 @@ const createPeriodSchemaStrings = modules => {
   const mapping = createPeriodSchemaMapping(modules)
 
   return Object.keys(mapping).map(period => {
-    const schemaString = mapping[period].join(', ')
+    const sortedModules = mapping[period].sort(sortModulesByDigitAndLetter)
+
+    const schemaString = sortedModules.join(', ')
 
     return `${period}: ${schemaString}.`
   })

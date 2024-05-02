@@ -1,5 +1,16 @@
 const { createPlannedModularString } = require('../createPlannedModularString')
 
+const alphabeticallySortedModules = [
+  'module_p1_G2',
+  'module_p1_B2',
+  'module_p1_J2',
+  'module_p1_B1',
+  'module_p1_D1',
+  'module_p1_E2',
+  'module_p1_G1',
+  'module_p1_I1',
+]
+
 describe('createPlannedModularString', () => {
   test('returns empty string if empty modules', () => {
     expect(createPlannedModularString([])).toStrictEqual('')
@@ -30,5 +41,9 @@ describe('createPlannedModularString', () => {
     ['P2: C1, C2. P1: C3.', ['module_p2_C1', 'module_p1_C3', 'module_p2_C2']],
   ])('combines several schemas for different periods', (expected, modules) => {
     expect(createPlannedModularString(modules)).toStrictEqual(expected)
+  })
+
+  test('sorts modules first by digit, then letter', () => {
+    expect(createPlannedModularString(alphabeticallySortedModules)).toStrictEqual('P1: B1, D1, G1, I1, B2, E2, G2, J2.')
   })
 })
