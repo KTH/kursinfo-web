@@ -61,12 +61,12 @@ describe('Component <CoursePage>', () => {
       })
     const contextToTest = {
       browserConfig: {},
-      selectedSemester: '20231',
-      selectedRoundIndex: 0,
+      initiallySelectedSemester: 20222,
+      initiallySelectedRoundIndex: undefined,
       activeSemesters: [
-        ['2022', '1', '20221', 0],
-        ['2022', '2', '20222', 0],
-        ['2023', '1', '20231', 0],
+        { year: 2022, termNumber: 1, semester: 20221 },
+        { year: 2022, termNumber: 2, semester: 20222 },
+        { year: 2023, termNumber: 1, semester: 20231 },
       ],
       courseCode: 'MF1016',
       courseData: {
@@ -219,7 +219,10 @@ describe('Component <CoursePage>', () => {
             course_required_equipment: '<i>No information inserted</i>',
             course_requirments_for_final_grade: '',
             course_transitional_reg: '',
-            course_valid_from: ['2019', '2'],
+            course_valid_from: {
+              year: 2019,
+              termNumber: 2,
+            },
             course_valid_to: [],
           },
           {
@@ -241,7 +244,7 @@ describe('Component <CoursePage>', () => {
             course_required_equipment: '<i>No information inserted</i>',
             course_requirments_for_final_grade: '',
             course_transitional_reg: '',
-            course_valid_from: ['2015', '1'],
+            course_valid_from: { year: 2015, termNumber: 1 },
             course_valid_to: [2019, '1'],
           },
           {
@@ -263,7 +266,10 @@ describe('Component <CoursePage>', () => {
             course_required_equipment: '<i>No information inserted</i>',
             course_requirments_for_final_grade: '',
             course_transitional_reg: '',
-            course_valid_from: ['2012', '2'],
+            course_valid_from: {
+              year: 2012,
+              termNumber: 2,
+            },
             course_valid_to: [2014, '2'],
           },
           {
@@ -285,7 +291,7 @@ describe('Component <CoursePage>', () => {
             course_required_equipment: '<i>No information inserted</i>',
             course_requirments_for_final_grade: '',
             course_transitional_reg: '',
-            course_valid_from: ['2012', '1'],
+            course_valid_from: { year: 2012, termNumber: 1 },
             course_valid_to: [2012, '1'],
           },
           {
@@ -307,7 +313,7 @@ describe('Component <CoursePage>', () => {
             course_required_equipment: '<i>No information inserted</i>',
             course_requirments_for_final_grade: '',
             course_transitional_reg: '',
-            course_valid_from: ['2010', '2'],
+            course_valid_from: { year: 2010, termNumber: 2 },
             course_valid_to: [2011, '2'],
           },
           {
@@ -329,12 +335,11 @@ describe('Component <CoursePage>', () => {
             course_required_equipment: '<i>No information inserted</i>',
             course_requirments_for_final_grade: '',
             course_transitional_reg: '',
-            course_valid_from: ['2009', '1'],
+            course_valid_from: { year: 2009, termNumber: 1 },
             course_valid_to: [2010, '1'],
           },
         ],
       },
-      showRoundData: true,
       lang: 'en',
       paths: {
         ug: {
@@ -388,7 +393,7 @@ describe('Component <CoursePage>', () => {
     expect(screen.getAllByText('No information inserted')[0]).toBeInTheDocument()
     expect(screen.getAllByText('Teachers')[0]).toBeInTheDocument()
     expect(screen.getAllByText('No information inserted')[0]).toBeInTheDocument()
-    await userEvent.click(screen.getByDisplayValue('Choose semester'))
+    await userEvent.click(screen.getByLabelText('Semester'))
     await userEvent.click(screen.getByText('Spring 2023'))
     expect(screen.getByText('Spring 2023')).toBeInTheDocument()
     expect(screen.getAllByText('Contact')[0]).toBeInTheDocument()

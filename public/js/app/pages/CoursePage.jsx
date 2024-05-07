@@ -42,7 +42,7 @@ function CoursePage() {
   // * * //
 
   const semesterRoundState = useActiveRounds({
-    initialActiveRoundIndex: initiallySelectedRoundIndex,
+    initiallySelectedRoundIndex,
     initiallySelectedSemester,
     roundList: courseData.roundList,
     syllabusList: courseData.syllabusList,
@@ -79,17 +79,17 @@ function CoursePage() {
   }
   courseImage = `${browserConfig.imageStorageUri}${courseImage}`
 
-  if (!courseData.syllabusList) courseData.syllabusList = [{}]
+  const decisionToDiscontinue = hasSyllabus ? activeSyllabus.course_decision_to_discontinue : ''
+  const course_valid_from = hasSyllabus ? activeSyllabus.course_valid_from : ''
+
   const courseInformationToRounds = {
     course_code: courseCode,
     course_examiners: courseInfo.course_examiners,
     course_contact_name: courseInfo.course_contact_name,
     course_main_subject: courseInfo.course_main_subject,
     course_level_code: courseInfo.course_level_code,
-    course_valid_from: activeSyllabus.course_valid_from,
+    course_valid_from,
   }
-
-  const { course_decision_to_discontinue: decisionToDiscontinue = '' } = activeSyllabus
 
   useEffect(() => {
     let isMounted = true
@@ -244,7 +244,6 @@ function CoursePage() {
                 courseRound={activeRound}
                 courseData={courseInformationToRounds}
                 language={languageShortname}
-                courseHasRound={activeSemesters.length > 0}
                 semesterRoundState={semesterRoundState}
                 memoStorageURI={browserConfig.memoStorageUri}
               />

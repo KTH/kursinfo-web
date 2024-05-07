@@ -317,7 +317,7 @@ describe('useSemesterRoundsLogic', () => {
     await waitFor(() => expect(result.current.activeRound).toEqual({}))
   })
 
-  test('if a semester with only one round is selected, showRoundData and activeSemesterOnlyHasOneRound should be true', async () => {
+  test('if a semester with only one round is selected, that round should be selected', async () => {
     const { result } = renderHook(() =>
       useActiveRounds({
         initiallySelectedRoundIndex: undefined,
@@ -330,10 +330,23 @@ describe('useSemesterRoundsLogic', () => {
     expect(result.current.activeSemesterOnlyHasOneRound).toBe(true)
     expect(result.current.showRoundData).toBe(true)
 
-    // TODO Benni, can we skip the logic above, if we just set the values below to the only available round?
-    expect(result.current.selectedRoundIndex).toBe(undefined)
-    expect(result.current.isSetSelectedRoundIndex).toBe(false)
-    expect(result.current.activeRound).toEqual({})
+    expect(result.current.selectedRoundIndex).toBe(0)
+    expect(result.current.isSetSelectedRoundIndex).toBe(true)
+    expect(result.current.activeRound).toEqual(roundList[20222][0])
+  })
+
+  test('if initiallySelectedSemester is a string, converts it to number', async () => {
+    const { result } = renderHook(() =>
+      useActiveRounds({
+        initiallySelectedRoundIndex: undefined,
+        initiallySelectedSemester: '20222',
+        roundList,
+        syllabusList,
+        activeSemesters,
+      })
+    )
+
+    expect(result.current.selectedSemester).toStrictEqual(20222)
   })
 
   test.each([[], undefined])(
@@ -372,6 +385,36 @@ describe('useSemesterRoundsLogic', () => {
 
     expect(result.current.activeSyllabus).toBe(syllabusList[1])
     expect(result.current.hasSyllabus).toBe(true)
+  })
+
+  test('if no syllabuses are, sets activeSyllabus to undefined and hasSyllabus to false', async () => {
+    const { result } = renderHook(() =>
+      useActiveRounds({
+        initiallySelectedRoundIndex: undefined,
+        initiallySelectedSemester: 20182,
+        roundList,
+        syllabusList: [],
+        activeSemesters,
+      })
+    )
+
+    expect(result.current.activeSyllabus).toEqual(undefined)
+    expect(result.current.hasSyllabus).toBe(false)
+  })
+
+  test('if no valid syllabus is given, sets activeSyllabus to undefined and hasSyllabus to false', async () => {
+    const { result } = renderHook(() =>
+      useActiveRounds({
+        initiallySelectedRoundIndex: undefined,
+        initiallySelectedSemester: 20182,
+        roundList,
+        syllabusList: [{ course_valid_from: [], course_valid_to: [] }],
+        activeSemesters,
+      })
+    )
+
+    expect(result.current.activeSyllabus).toEqual(undefined)
+    expect(result.current.hasSyllabus).toBe(false)
   })
 
   test('calling resetSelectedRoundIndex resets round values', async () => {

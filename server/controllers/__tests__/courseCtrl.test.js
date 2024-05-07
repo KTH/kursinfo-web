@@ -116,8 +116,6 @@ describe('Discontinued course to test', () => {
         "applicationStore": {},
         "basename": "/student/kurser/kurs",
         "context": {
-          "selectedRoundIndex": 0,
-          "selectedSemester": null,
           "activeSemesters": [],
           "browserConfig": {
             "session": {},
@@ -170,18 +168,18 @@ describe('Discontinued course to test', () => {
                 "course_eligibility": "<p>Beh&#246;rig till studier p&#229; forskarniv&#229;. Goda kunskaper i engelska.</p>",
                 "course_ethical": "<ul><li>Vid grupparbete har alla i gruppen ansvar för gruppens arbete.</li><li>Vid examination ska varje student ärligt redovisa hjälp som erhållits och källor som använts.</li><li>Vid muntlig examination ska varje student kunna redogöra för hela uppgiften och hela lösningen.</li></ul>",
                 "course_examination": "<ul class='ul-no-padding' ><li>INL1 - 
-                              Inlämningsuppgift,
-                              2,0 hp,  
-                              betygsskala: P, F              
-                              </li><li>LAB1 - 
-                              Laborationer,
-                              4,0 hp,  
-                              betygsskala: P, F              
-                              </li><li>TEN1 - 
-                              Skriftlig tentamen,
-                              1,5 hp,  
-                              betygsskala: P, F              
-                              </li></ul>",
+                                Inlämningsuppgift,
+                                2,0 hp,  
+                                betygsskala: P, F              
+                                </li><li>LAB1 - 
+                                Laborationer,
+                                4,0 hp,  
+                                betygsskala: P, F              
+                                </li><li>TEN1 - 
+                                Skriftlig tentamen,
+                                1,5 hp,  
+                                betygsskala: P, F              
+                                </li></ul>",
                 "course_examination_comments": "Examinator beslutar, baserat på rekommendation från KTH:s samordnare för funktionsnedsättning, om eventuell anpassad examination för studenter med dokumenterad, varaktig funktionsnedsättning. <br><br>Examinator får medge annan examinationsform vid omexamination av enstaka studenter.<p>Betygskriterier redovisas i kurs-PM.</p>",
                 "course_goals": "<p>Efter fullf&#246;ljande av kursen f&#246;rv&#228;ntas studenten kunna</p><ul><li>Visa kunskap om kolhydraters m&#229;ngfald, dess betydelse f&#246;r biologiska system, samt hur de kan f&#246;r&#228;ndra struktur och funktion hos andra biologiska molekyler.</li><li>Visa kunskap om cellv&#228;ggens struktur och funktion hos vedbildande v&#228;xter, samt &#246;vergripande f&#246;rst&#229;else f&#246;r hur dess sammans&#228;ttning kan f&#246;r&#228;ndras f&#246;r att m&#246;jligg&#246;ra nya till&#228;mpningar, t.ex. f&#246;r att underl&#228;tta bearbetning f&#246;r energi- och biomaterialproduktion.</li><li>Visa f&#246;rm&#229;ga att redog&#246;ra och reflektera &#246;ver koncept och metoder som anv&#228;nds f&#246;r att producera byggstenar fr&#229;n v&#228;xtbiomassa, och hur de kan s&#228;ttas ihop till nya material med skr&#228;ddarsydda egenskaper och funktionaliteter.</li><li>Visa f&#246;rm&#229;ga att planera och utf&#246;ra praktiska experiment inom kolhydratteknik, samt att analysera och redog&#246;ra resultaten i form av skriftliga rapporter.</li><li>Visa f&#246;rm&#229;ga att identifiera och diskutera hur kolhydratteknik kan bidra till en h&#229;llbar samh&#228;llsutveckling inom konsumtion, produktion och material, t.ex. genom att &#229;teranv&#228;nda redan existerande produkter, eller tillverkning av nya resurssmarta och f&#246;rnyelsebara material.</li></ul>",
                 "course_literature": "<i>Ingen information tillagd</i>",
@@ -189,39 +187,23 @@ describe('Discontinued course to test', () => {
                 "course_required_equipment": "<i>Ingen information tillagd</i>",
                 "course_requirments_for_final_grade": "<p>Godk&#228;nd skriftlig tentamen, godk&#228;nda inl&#228;mningsuppgifter kopplade till f&#246;rel&#228;sningarna, 100% n&#228;rvaro p&#229; laborationer och slutf&#246;rande av laborationer, samt godk&#228;nda laborationsrapporter.</p>",
                 "course_transitional_reg": "",
-                "course_valid_from": [
-                  "2019",
-                  "2",
-                ],
+                "course_valid_from": {
+                  "termNumber": 2,
+                  "year": 2019,
+                },
                 "course_valid_to": [],
               },
             ],
           },
           "hostUrl": undefined,
-          "isCancelled": false,
-          "isDeactivated": false,
+          "initiallySelectedRoundIndex": undefined,
+          "initiallySelectedSemester": null,
+          "isCancelledOrDeactivated": false,
           "keyList": {
             "responsibles": [],
             "teachers": [],
           },
           "lang": "sv",
-          "memoList": {
-            "20232": {
-              "1": {
-                "applicationCodes": [
-                  "1",
-                ],
-                "courseCode": "FCK3305",
-                "isPdf": false,
-                "lastChangeDate": "Fri Aug 26 2022 14:42:34 GMT+0200 (Central European Summer Time)",
-                "memoCommonLangAbbr": "en",
-                "memoEndPoint": "FCK330520232-1",
-                "memoName": "Autumn 2023-1 (Start date 30/10/2023, English)",
-                "semester": "20232",
-                "version": 1,
-              },
-            },
-          },
           "paths": {
             "system": {
               "monitor": {
@@ -235,9 +217,6 @@ describe('Discontinued course to test', () => {
           "proxyPrefixPath": {
             "uri": "/student/kurser/kurs",
           },
-          "setBrowserConfig": [Function],
-          "showRoundData": false,
-          "useStartSemesterFromQuery": false,
         },
         "location": undefined,
       }

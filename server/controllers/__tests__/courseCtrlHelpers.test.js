@@ -1,19 +1,19 @@
-import { calculateActiveSemester, generateSelectedSemesterBasedOnDate } from '../courseCtrlHelpers'
+import { calculateInitiallySelectedSemester, generateSelectedSemesterBasedOnDate } from '../courseCtrlHelpers'
 
 const activeSemesters = [
   {
     year: '2023',
-    term: '2',
+    termNumber: '2',
     semester: '20232',
   },
   {
     year: '2024',
-    term: '2',
+    termNumber: '2',
     semester: '20242',
   },
   {
     year: '2025',
-    term: '1',
+    termNumber: '1',
     semester: '20251',
   },
 ]
@@ -21,57 +21,61 @@ const activeSemesters = [
 const activeSemestersEverySemester = [
   {
     year: '2023',
-    term: '1',
+    termNumber: '1',
     semester: '20231',
   },
   {
     year: '2023',
-    term: '2',
+    termNumber: '2',
     semester: '20232',
   },
   {
     year: '2024',
-    term: '1',
+    termNumber: '1',
     semester: '20241',
   },
   {
     year: '2024',
-    term: '2',
+    termNumber: '2',
     semester: '20242',
   },
   {
     year: '2025',
-    term: '1',
+    termNumber: '1',
     semester: '20251',
   },
   {
     year: '2025',
-    term: '2',
+    termNumber: '2',
     semester: '20252',
   },
 ]
 
 describe('courseCtrlHelpers', () => {
-  describe('calculateActiveSemester', () => {
+  describe('calculateInitiallySelectedSemester', () => {
     test('should return null if activeSemesters is undefined', () => {
-      expect(calculateActiveSemester(undefined, '')).toBe(null)
+      expect(calculateInitiallySelectedSemester(undefined, '')).toBe(null)
     })
 
     test('should return null if activeSemesters is empty', () => {
-      expect(calculateActiveSemester([], '')).toBe(null)
+      expect(calculateInitiallySelectedSemester([], '')).toBe(null)
     })
 
     test.each(['20232', '20242', '20251'])(
       'should return startSemesterFromQuery if it exists in array',
       startSemesterFromQuery => {
-        expect(calculateActiveSemester(activeSemesters, startSemesterFromQuery)).toBe(startSemesterFromQuery)
+        expect(calculateInitiallySelectedSemester(activeSemesters, startSemesterFromQuery)).toBe(
+          Number(startSemesterFromQuery)
+        )
       }
     )
 
     test.each(['20202', '20212', '20221'])(
       'should NOT return startSemesterFromQuery if it does not exist in array',
       startSemesterFromQuery => {
-        expect(calculateActiveSemester(activeSemesters, startSemesterFromQuery)).not.toBe(startSemesterFromQuery)
+        expect(calculateInitiallySelectedSemester(activeSemesters, startSemesterFromQuery)).not.toBe(
+          startSemesterFromQuery
+        )
       }
     )
 
@@ -82,14 +86,14 @@ describe('courseCtrlHelpers', () => {
         })
 
         test.each([
-          ['2022-09-04', '20231'],
-          ['2023-03-04', '20232'],
-          ['2023-12-30', '20241'],
-          ['2024-07-04', '20242'],
+          ['2022-09-04', 20231],
+          ['2023-03-04', 20232],
+          ['2023-12-30', 20241],
+          ['2024-07-04', 20242],
         ])('should match the date %s to the active semester %s', (currentDate, expectedTerm) => {
           jest.setSystemTime(new Date(currentDate))
 
-          expect(calculateActiveSemester(activeSemestersEverySemester, '')).toBe(expectedTerm)
+          expect(calculateInitiallySelectedSemester(activeSemestersEverySemester, '')).toBe(expectedTerm)
         })
 
         afterAll(() => {
@@ -107,7 +111,9 @@ describe('courseCtrlHelpers', () => {
           currentDate => {
             jest.setSystemTime(new Date(currentDate))
 
-            expect(calculateActiveSemester(activeSemesters, '')).toBe(activeSemesters.at(-1))
+            expect(calculateInitiallySelectedSemester(activeSemesters, '')).toBe(
+              Number(activeSemesters.at(-1).semester)
+            )
           }
         )
 

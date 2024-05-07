@@ -18,13 +18,25 @@ const useActiveRounds = ({
   activeSemesters,
 }) => {
   const [selectedRoundIndex, setSelectedRoundIndex] = useState(initiallySelectedRoundIndex)
-  const [selectedSemester, setSelectedSemester] = useState(initiallySelectedSemester)
+  const [selectedSemester, setSelectedSemester] = useState(Number(initiallySelectedSemester))
 
   const isSetSelectedRoundIndex = useMemo(() => selectedRoundIndex !== UNSET_VALUE, [selectedRoundIndex])
 
   const resetSelectedRoundIndex = useCallback(() => setSelectedRoundIndex(UNSET_VALUE), [setSelectedRoundIndex])
 
-  useEffect(() => resetSelectedRoundIndex(), [resetSelectedRoundIndex, roundList])
+  const semesterOnlyHasOneRound = (rounds, semester) =>
+    rounds !== undefined &&
+    Object.hasOwnProperty.call(rounds, semester) &&
+    rounds[semester] &&
+    rounds[semester].length === 1
+
+  useEffect(() => {
+    if (semesterOnlyHasOneRound(roundList, selectedSemester)) {
+      setSelectedRoundIndex(0)
+    } else {
+      resetSelectedRoundIndex()
+    }
+  }, [resetSelectedRoundIndex, roundList, selectedSemester])
 
   const activeSemesterOnlyHasOneRound = useMemo(
     () =>
@@ -68,15 +80,14 @@ const useActiveRounds = ({
     [syllabusList, selectedSemester]
   )
 
-  const hasSyllabus = useMemo(() => syllabusList && syllabusList.length > 0, [syllabusList])
-
-  const setSelectedSemesterAsNumber = useCallback(
-    newActiveSemester => {
-      setSelectedSemester(Number(newActiveSemester))
-      resetSelectedRoundIndex()
-    },
-    [resetSelectedRoundIndex]
+  const hasSyllabus = useMemo(
+    () => syllabusList && syllabusList.length > 0 && activeSyllabus !== undefined,
+    [activeSyllabus, syllabusList]
   )
+
+  const setSelectedSemesterAsNumber = useCallback(newActiveSemester => {
+    setSelectedSemester(Number(newActiveSemester))
+  }, [])
 
   return {
     selectedRoundIndex,

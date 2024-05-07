@@ -22,6 +22,12 @@ const context = {
   },
 }
 
+const defaultSemesterRoundState = {
+  showRoundData: true,
+  selectedRoundIndex: 0,
+  selectedSemester: 20231,
+}
+
 describe('Component <RoundInformationOneCol>', () => {
   beforeAll(() => {
     usePlannedModules.mockReturnValue({
@@ -31,8 +37,8 @@ describe('Component <RoundInformationOneCol>', () => {
 
   test('renders study pace correctly', () => {
     const propsWithStudyPace = {
-      showRoundData: true,
-      courseHasRound: true,
+      memoStorageUri: '',
+      semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseRound: {
         round_course_term: ['2018', '1'],
@@ -59,8 +65,8 @@ describe('Component <RoundInformationOneCol>', () => {
     const responsiblesData = 'Responsibles’ data'
     const teachersData = 'Teachers’ data'
     const propsWithEmployees = {
-      showRoundData: true,
-      courseHasRound: true,
+      memoStorageUri: '',
+      semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       testEmployees: {
         examiners: `<span>${examinersData}</span>'`,
@@ -84,8 +90,8 @@ describe('Component <RoundInformationOneCol>', () => {
 
   test('renders information about missing course employees in course offering because it contains empty string', () => {
     const propsWithEmptyEmployees = {
-      showRoundData: true,
-      courseHasRound: true,
+      memoStorageUri: '',
+      semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       testEmployees: {
         examiners: '',
@@ -105,8 +111,8 @@ describe('Component <RoundInformationOneCol>', () => {
 
   test('renders information about missing course employees in course offering because no data about employees is provided', () => {
     const propsWithoutEmployees = {
-      showRoundData: true,
-      courseHasRound: true,
+      memoStorageUri: '',
+      semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       testEmployees: {},
     }
@@ -122,8 +128,8 @@ describe('Component <RoundInformationOneCol>', () => {
 
   test('renders course offering number of places correctly if all data is available', async () => {
     const propsWithSeatsNum = {
-      showRoundData: true,
-      courseHasRound: true,
+      memoStorageUri: '',
+      semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseRound: {
         round_course_term: ['2018', '1'],
@@ -164,8 +170,8 @@ describe('Component <RoundInformationOneCol>', () => {
 
   test('renders default text and hide info icon if a course offering number of places is not provided', () => {
     const propsWithoutSeatsNum = {
-      showRoundData: true,
-      courseHasRound: true,
+      memoStorageUri: '',
+      semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseRound: {
         round_course_term: ['2018', '1'],
@@ -193,8 +199,8 @@ describe('Component <RoundInformationOneCol>', () => {
 
   test('renders course offering number of places correctly and default text in modal if selection criteria is empty', async () => {
     const propsWithEmptyCriteria = {
-      showRoundData: true,
-      courseHasRound: true,
+      memoStorageUri: '',
+      semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseRound: {
         round_course_term: ['2018', '1'],

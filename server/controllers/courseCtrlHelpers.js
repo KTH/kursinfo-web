@@ -49,43 +49,12 @@ const calculateInitiallySelectedSemester = (activeSemesters, startSemesterFromQu
   return parseYearTermIntoTerm(activeSemesters.at(-1))
 }
 
-// function isSyllabusValidForThisSemester(syllabusStartSemester, semester) {
-//   return syllabusStartSemester <= semester
-// }
-
-// function getValidSyllabusIndexForSemester(publicSyllabusVersions, semester) {
-//   const latestSyllabusIndex = 0
-//   for (let syllabusIndex = latestSyllabusIndex; syllabusIndex < publicSyllabusVersions.length; syllabusIndex++) {
-//     const prevSyllabusStartSemester = parseYearTermIntoTerm(publicSyllabusVersions[syllabusIndex].course_valid_from)
-
-//     const isPrevSyllabusValidForThisSemester = isSyllabusValidForThisSemester(prevSyllabusStartSemester, semester)
-
-//     if (isPrevSyllabusValidForThisSemester) {
-//       return syllabusIndex
-//     }
-//   }
-
-//   return latestSyllabusIndex
-// }
-
-// const createSemestersAndSyllabusConnection = (publicSyllabusVersions, activeSemesters) => {
-//   const semesterToSyllabus = {}
-//   activeSemesters.forEach(({ semester }) => {
-//     const semesterInt = Number(semester)
-
-//     semesterToSyllabus[semester] = getValidSyllabusIndexForSemester(publicSyllabusVersions, semesterInt)
-//   })
-
-//   return semesterToSyllabus // {20232: 0, 20242: 1}
-// }
-
 const parseOrSetEmpty = (value, language, setEmpty = false) => {
   const emptyText = setEmpty ? '' : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
   return value ? value : emptyText
 }
 
 module.exports = {
-  // createSemestersAndSyllabusConnection,
   calculateInitiallySelectedSemester,
   generateSelectedSemesterBasedOnDate,
   parseOrSetEmpty,
