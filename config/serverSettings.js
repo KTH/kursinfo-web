@@ -144,8 +144,4 @@ module.exports = {
   toolbar: {
     url: getEnv('TOOLBAR_URL', devDefaults('https://www-r.referens.sys.kth.se/social/toolbar/widget.js')),
   },
-
-  appInsights: {
-    instrumentationKey: getEnv('APPINSIGHTS_INSTRUMENTATIONKEY', ''),
-  },
 }

@@ -619,7 +619,6 @@ async function getIndex(req, res, next) {
 
     res.render('course/index', {
       compressedData,
-      instrumentationKey: serverConfig?.appInsights?.instrumentationKey,
       html: view,
       title: courseCode.toUpperCase(),
       lang,
