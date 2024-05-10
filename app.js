@@ -2,6 +2,10 @@
 
 require('dotenv').config()
 
+// eslint-disable-next-line import/newline-after-import
+const { KthAppinsights } = require('@kth/appinsights')
+KthAppinsights.init({ name: 'kursinfo-web' })
+
 const log = require('@kth/log')
 const config = require('./server/configuration').server
 const server = require('./server/server')
