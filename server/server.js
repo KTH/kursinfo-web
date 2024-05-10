@@ -209,6 +209,13 @@ appRoute.get(
   config.proxyPrefixPath.uri + '/api/kursinfo/getKoppsCourseDataByCourse/:courseCode/:language',
   Kopps.getKoppsCourseData
 )
+
+appRoute.get(
+  'api.plannedSchemaModules',
+  config.proxyPrefixPath.uri + '/api/kursinfo/plannedschemamodules/:courseCode/:semester/:applicationCode',
+  TimeTableApi.getPlannedSchemaModules
+)
+
 appRoute.post('ug.rest.api', config.proxyPrefixPath.uri + '/ug/rest', Employees.getCourseEmployees)
 
 server.use('/', appRoute.getRouter())

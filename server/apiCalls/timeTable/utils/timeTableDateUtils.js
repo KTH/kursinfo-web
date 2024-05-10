@@ -1,43 +1,4 @@
-/**
- *
- * @param {number} term
- * @returns
- */
-const parseTermIntoYearTermArray = term => {
-  const yearTermArrayStrings = term.toString().match(/.{1,4}/g)
-
-  return yearTermArrayStrings.map(str => Number(str))
-}
-
-const parseTermIntoYearTerm = term => {
-  const [year, termNumber] = parseTermIntoYearTermArray(term)
-
-  return {
-    year,
-    termNumber,
-  }
-}
-
-const SPRING_MONTHS = [0, 1, 2, 3, 4, 5]
-
-const getTermNumberByMonth = month => {
-  if (SPRING_MONTHS.includes(month)) {
-    return 1
-  }
-  return 2
-}
-
-const isAFiveDigitNumber = semester => semester.toString().length === 5
-
-const getCurrentYearAndTermNumber = () => {
-  const now = new Date()
-  const termNumber = getTermNumberByMonth(now.getMonth())
-
-  return {
-    year: now.getFullYear(),
-    termNumber,
-  }
-}
+const { convertToYearTermOrGetCurrent, parseTermIntoYearTerm } = require('../../../util/semesterUtils')
 
 const getMonthDateStringForSpring = year => ({
   start: `${year}-01-01T00:00:00`,
@@ -55,14 +16,6 @@ const getStartEndByYearTerm = ({ year, termNumber }) => {
   }
 
   return getMonthDateStringForFall(year)
-}
-
-const convertToYearTermOrGetCurrent = semester => {
-  if (!isAFiveDigitNumber(semester)) {
-    return getCurrentYearAndTermNumber()
-  }
-
-  return parseTermIntoYearTerm(semester)
 }
 
 /**

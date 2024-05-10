@@ -8,6 +8,7 @@ const {
 const { buildCourseDepartmentLink } = require('../util/courseDepartmentUtils')
 const { getDateFormat, formatVersionDate } = require('../util/dates')
 const i18n = require('../../i18n')
+const { parseTermIntoYearTerm, parseTermIntoYearTermArray } = require('../util/semesterUtils')
 const koppsCourseData = require('./koppsCourseData')
 const courseApi = require('./kursinfoApi')
 
@@ -31,7 +32,7 @@ function _parseCourseDefaultInformation(courseDetails, language) {
     course_education_type_id: course.educationalTypeId || null,
     course_examiners: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_grade_scale: parseOrSetEmpty(formattedGradeScales[course.gradeScaleCode], language),
-    course_last_exam: course.lastExamTerm ? course.lastExamTerm.term.toString().match(/.{1,4}/g) : [], // TODO Benni: använd parseTermIntoYearTermArray
+    course_last_exam: course.lastExamTerm ? parseTermIntoYearTermArray(course.lastExamTerm.term) : [],
     course_level_code: parseOrSetEmpty(course.educationalLevelCode),
     course_literature: parseOrSetEmpty(course.courseLiterature, language),
     course_main_subject:
@@ -68,18 +69,19 @@ function _getRoundPeriodes(courseRoundTerms, language = 'sv') {
   let periodeString = ''
   if (courseRoundTerms) {
     if (courseRoundTerms.length > 1) {
-      courseRoundTerms.map(
-        periode =>
-          (periodeString += `<p class="periode-list">
+      courseRoundTerms.forEach(periode => {
+        const yearTerm = parseTermIntoYearTerm(periode.term.term)
+
+        periodeString += `<p class="periode-list">
                                 ${
                                   i18n.messages[language === 'en' ? 0 : 1].courseInformation.course_short_semester[
-                                    periode.term.term.toString().match(/.{1,4}/g)[1] // TODO Benni: använd parseTermIntoYearTermArray
+                                    yearTerm.termNumber
                                   ]
                                 } 
-                                ${periode.term.term.toString().match(/.{1,4}/g)[0]}:  // TODO Benni: använd parseTermIntoYearTermArray
+                                ${yearTerm.year}: 
                                 ${periode.formattedPeriodsAndCredits}
-                                </p>`)
-      )
+                                </p>`
+      })
       return periodeString
     } else {
       return courseRoundTerms[0].formattedPeriodsAndCredits
@@ -139,7 +141,7 @@ function _getRound(roundObject = {}, language = 'sv') {
     round_study_pace: parseOrSetEmpty(round.studyPace, language),
     round_course_term:
       parseOrSetEmpty(round.startTerm.term, language).toString().length > 0
-        ? round.startTerm.term.toString().match(/.{1,4}/g) // TODO Benni: använd parseTermIntoYearTermArray
+        ? parseTermIntoYearTermArray(round.startTerm.term)
         : [],
     round_periods: _getRoundPeriodes(round.courseRoundTerms, language),
     round_seats:
@@ -275,8 +277,8 @@ const getFilteredData = async ({ courseCode, lang, memoList, startSemesterFromQu
 
   return {
     isCancelledOrDeactivated,
-    activeSemesters,
-    keyList,
+    activeSemesters, // TODO Benni rename activeSemesters to availableSemesters
+    keyList, // TODO Benni rename keyList
     initiallySelectedSemester,
     courseData,
   }

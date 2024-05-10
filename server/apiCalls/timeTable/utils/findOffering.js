@@ -1,4 +1,4 @@
-const { convertSemesterToSeasonString } = require('../../../utils/semesterUtils')
+const { convertSemesterToSeasonString } = require('./timeTableDateUtils')
 
 const createId = (courseCode, applicationCode, semester) =>
   `${courseCode}-${applicationCode} (${convertSemesterToSeasonString(semester)})`

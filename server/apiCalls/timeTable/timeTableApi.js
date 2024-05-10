@@ -2,10 +2,10 @@ const log = require('@kth/log')
 const redis = require('kth-node-redis')
 const connections = require('@kth/api-call').Connections
 
-const { convertSemesterIntoStartEndDates } = require('../../utils/semesterUtils')
 const { server: config } = require('../../configuration')
 const { callApiAndPossiblyHandle404 } = require('../errorUtils')
 const { extractOfferingsFromReservation } = require('./utils/extractOfferingsFromReservation')
+const { convertSemesterIntoStartEndDates } = require('./utils/timeTableDateUtils')
 
 const options = {
   log,

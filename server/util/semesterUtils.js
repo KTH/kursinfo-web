@@ -61,4 +61,39 @@ const parseTermIntoYearTerm = term => {
 
 const parseYearTermIntoTerm = ({ year, termNumber }) => Number(`${year}${termNumber}`)
 
-module.exports = { calcPreviousSemester, parseTermIntoYearTermArray, parseTermIntoYearTerm, parseYearTermIntoTerm }
+const SPRING_MONTHS = [0, 1, 2, 3, 4, 5]
+
+const getTermNumberByMonth = month => {
+  if (SPRING_MONTHS.includes(month)) {
+    return 1
+  }
+  return 2
+}
+
+const getCurrentYearAndTermNumber = () => {
+  const now = new Date()
+  const termNumber = getTermNumberByMonth(now.getMonth())
+
+  return {
+    year: now.getFullYear(),
+    termNumber,
+  }
+}
+
+const isAFiveDigitNumber = semester => semester.toString().length === 5
+
+const convertToYearTermOrGetCurrent = semester => {
+  if (!isAFiveDigitNumber(semester)) {
+    return getCurrentYearAndTermNumber()
+  }
+
+  return parseTermIntoYearTerm(semester)
+}
+
+module.exports = {
+  calcPreviousSemester,
+  parseTermIntoYearTermArray,
+  parseTermIntoYearTerm,
+  parseYearTermIntoTerm,
+  convertToYearTermOrGetCurrent,
+}
