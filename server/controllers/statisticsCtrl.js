@@ -43,7 +43,6 @@ async function getIndex(req, res, next) {
     })
     res.render('course/index', {
       compressedData,
-      instrumentationKey: serverConfig?.appInsights?.instrumentationKey,
       html: view,
       title: lang === 'sv' ? 'KTH kursinformationsstatistik' : 'KTH Course Information Statistics',
       lang,
