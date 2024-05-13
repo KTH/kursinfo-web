@@ -79,7 +79,7 @@ const getLanguageOrDefault = res => languageUtils.getLanguage(res) || 'sv'
 /* ****************************************************************************** */
 async function getIndex(req, res, next) {
   const courseCode = extractUpperCaseCourseCodeOrThrow(req)
-  const lang = getLanguageOrDefault(res)
+  const language = getLanguageOrDefault(res)
 
   const klaroAnalyticsConsentCookie = extractKlaroAnalyticsCookie(req)
 
@@ -90,15 +90,15 @@ async function getIndex(req, res, next) {
 
     const memoList = await getMemoList(courseCode)
 
-    const filteredData = await getFilteredData({ courseCode, lang, memoList, startSemesterFromQuery })
+    const filteredData = await getFilteredData({ courseCode, language, memoList, startSemesterFromQuery })
 
     const ugRestApiResponse = await getUgRestApiResponse(courseCode)
 
-    const examiners = ugRestApiResponse.examiners || INFORM_IF_IMPORTANT_INFO_IS_MISSING[lang]
+    const examiners = ugRestApiResponse.examiners || INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
 
     const webContext = createCourseWebContext({
       courseCode,
-      lang,
+      language,
       filteredData,
       examiners,
     })
@@ -114,15 +114,15 @@ async function getIndex(req, res, next) {
       context: webContext,
     })
 
-    const breadcrumbsList = createBreadcrumbs(lang, courseCode)
+    const breadcrumbsList = createBreadcrumbs(language, courseCode)
 
     res.render('course/index', {
       compressedData,
       html: view,
       title: courseCode.toUpperCase(),
-      lang,
+      lang: language,
       description:
-        lang === 'sv'
+        language === 'sv'
           ? 'KTH kursinformation för ' + courseCode.toUpperCase()
           : 'KTH course information ' + courseCode.toUpperCase(),
       klaroAnalyticsConsentCookie,

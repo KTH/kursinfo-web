@@ -51,8 +51,8 @@ function _parseCourseDefaultInformation(courseDetails, language) {
   }
 }
 
-function resolveText(text = {}, lang) {
-  return text[lang] ?? ''
+function resolveText(text = {}, language) {
+  return text[language] ?? ''
 }
 
 function _parseTitleData({ course }) {
@@ -179,7 +179,7 @@ function _getRound(roundObject = {}, language = 'sv') {
 function _parseRounds({ roundInfos, courseCode, language, memoList }) {
   const activeSemesterArray = []
   const tempList = []
-  const keyList = {
+  const employees = {
     teachers: [],
     responsibles: [],
   }
@@ -211,22 +211,22 @@ function _parseRounds({ roundInfos, courseCode, language, memoList }) {
     // TODO: This will be removed. Because UG Rest Api is still using ladokRoundId. So once it get replaced by application code then this will be removed.
     const { round = {} } = roundInfo
     const { ladokRoundId } = round
-    keyList.teachers.push(`${courseCode}.${semester}.${ladokRoundId}.teachers`)
-    keyList.responsibles.push(`${courseCode}.${semester}.${ladokRoundId}.courseresponsible`)
+    employees.teachers.push(`${courseCode}.${semester}.${ladokRoundId}.teachers`)
+    employees.responsibles.push(`${courseCode}.${semester}.${ladokRoundId}.courseresponsible`)
   }
-  keyList.teachers.sort()
-  keyList.responsibles.sort()
+  employees.teachers.sort()
+  employees.responsibles.sort()
 
   activeSemesterArray.sort()
 
   const activeSemesters = activeSemesterArray.map(([year, termNumber, semester]) => ({ year, termNumber, semester }))
 
-  return { courseRoundList, activeSemesters, keyList }
+  return { courseRoundList, activeSemesters, employees }
 }
 
 // TODO Benni get rid of memoList and startSemesterFromQuery
-const getFilteredData = async ({ courseCode, lang, memoList, startSemesterFromQuery }) => {
-  const { body: courseDetails } = await koppsCourseData.getKoppsCourseData(courseCode, lang)
+const getFilteredData = async ({ courseCode, language, memoList, startSemesterFromQuery }) => {
+  const { body: courseDetails } = await koppsCourseData.getKoppsCourseData(courseCode, language)
 
   if (!courseDetails) {
     return {}
@@ -235,33 +235,33 @@ const getFilteredData = async ({ courseCode, lang, memoList, startSemesterFromQu
   const isCancelledOrDeactivated = courseDetails.course.cancelled || courseDetails.course.deactivated
 
   //* **** Coruse information that is static on the course side *****//
-  const courseDefaultInformation = _parseCourseDefaultInformation(courseDetails, lang)
+  const courseDefaultInformation = _parseCourseDefaultInformation(courseDetails, language)
 
   const { sellingText, courseDisposition, supplementaryInfo, imageInfo } = await courseApi.getCourseInfo(courseCode)
 
   const courseInfo = {
     ...courseDefaultInformation,
-    sellingText: resolveText(sellingText, lang),
+    sellingText: resolveText(sellingText, language),
     imageFromAdmin: imageInfo,
-    course_disposition: resolveText(courseDisposition, lang),
-    course_supplemental_information: resolveText(supplementaryInfo, lang),
+    course_disposition: resolveText(courseDisposition, language),
+    course_supplemental_information: resolveText(supplementaryInfo, language),
   }
 
   //* **** Course title data  *****//
   const courseTitleData = _parseTitleData(courseDetails)
 
   //* **** Get list of syllabuses and valid syllabus semesters *****//
-  const { syllabusList } = createSyllabusList(courseDetails, lang)
+  const { syllabusList } = createSyllabusList(courseDetails, language)
 
   //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from UG Rest API *****//
   const {
     courseRoundList: roundList,
     activeSemesters,
-    keyList,
+    employees,
   } = _parseRounds({
     roundInfos: courseDetails.roundInfos,
     courseCode,
-    language: lang,
+    language,
     memoList,
   })
 
@@ -272,13 +272,13 @@ const getFilteredData = async ({ courseCode, lang, memoList, startSemesterFromQu
     courseInfo,
     roundList,
     courseTitleData,
-    language: lang,
+    language,
   }
 
   return {
     isCancelledOrDeactivated,
     activeSemesters, // TODO Benni rename activeSemesters to availableSemesters
-    keyList, // TODO Benni rename keyList
+    employees,
     initiallySelectedSemester,
     courseData,
   }

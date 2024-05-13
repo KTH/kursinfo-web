@@ -195,14 +195,14 @@ describe('Discontinued course to test', () => {
               },
             ],
           },
+          "employees": {
+            "responsibles": [],
+            "teachers": [],
+          },
           "hostUrl": undefined,
           "initiallySelectedRoundIndex": undefined,
           "initiallySelectedSemester": null,
           "isCancelledOrDeactivated": false,
-          "keyList": {
-            "responsibles": [],
-            "teachers": [],
-          },
           "lang": "sv",
           "paths": {
             "system": {

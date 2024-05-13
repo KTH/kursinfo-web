@@ -4,8 +4,8 @@ const paths = require('../server').getPaths()
 const serverConfig = require('../configuration').server
 
 const addBaseData = (context, args) => {
-  const { lang } = args
-  context.lang = lang
+  const { language } = args
+  context.lang = language
   context.proxyPrefixPath = serverConfig.proxyPrefixPath
   context.isCancelledOrDeactivated = false
   context.initiallySelectedRoundIndex = undefined // Source
