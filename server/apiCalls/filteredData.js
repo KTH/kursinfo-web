@@ -1,4 +1,4 @@
-const { parseOrSetEmpty, calculateInitiallySelectedSemester } = require('../controllers/courseCtrlHelpers')
+const { parseOrSetEmpty } = require('../controllers/courseCtrlHelpers')
 const { createSyllabusList } = require('../controllers/createSyllabusList')
 const {
   INFORM_IF_IMPORTANT_INFO_IS_MISSING,
@@ -224,8 +224,7 @@ function _parseRounds({ roundInfos, courseCode, language, memoList }) {
   return { courseRoundList, activeSemesters, employees }
 }
 
-// TODO Benni get rid of memoList and startSemesterFromQuery
-const getFilteredData = async ({ courseCode, language, memoList, startSemesterFromQuery }) => {
+const getFilteredData = async ({ courseCode, language, memoList }) => {
   const { body: courseDetails } = await koppsCourseData.getKoppsCourseData(courseCode, language)
 
   if (!courseDetails) {
@@ -234,7 +233,7 @@ const getFilteredData = async ({ courseCode, language, memoList, startSemesterFr
 
   const isCancelledOrDeactivated = courseDetails.course.cancelled || courseDetails.course.deactivated
 
-  //* **** Coruse information that is static on the course side *****//
+  //* **** Course information that is static on the course side *****//
   const courseDefaultInformation = _parseCourseDefaultInformation(courseDetails, language)
 
   const { sellingText, courseDisposition, supplementaryInfo, imageInfo } = await courseApi.getCourseInfo(courseCode)
@@ -265,8 +264,6 @@ const getFilteredData = async ({ courseCode, language, memoList, startSemesterFr
     memoList,
   })
 
-  const initiallySelectedSemester = calculateInitiallySelectedSemester(activeSemesters, startSemesterFromQuery)
-
   const courseData = {
     syllabusList,
     courseInfo,
@@ -279,7 +276,6 @@ const getFilteredData = async ({ courseCode, language, memoList, startSemesterFr
     isCancelledOrDeactivated,
     activeSemesters, // TODO Benni rename activeSemesters to availableSemesters
     employees,
-    initiallySelectedSemester,
     courseData,
   }
 }

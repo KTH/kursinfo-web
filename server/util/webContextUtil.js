@@ -13,21 +13,21 @@ const addBaseData = (context, language) => {
   context.hostUrl = serverConfig.hostUrl
 }
 
-const addCourseData = (context, filteredData, examiners) => {
+const addCourseData = (context, { filteredData, examiners, initiallySelectedSemester }) => {
   context.isCancelledOrDeactivated = filteredData.isCancelledOrDeactivated
   context.activeSemesters = filteredData.activeSemesters
   context.employees = filteredData.employees
-  context.initiallySelectedSemester = filteredData.initiallySelectedSemester
+  context.initiallySelectedSemester = initiallySelectedSemester
   context.courseData = filteredData.courseData
 
   context.courseData.courseInfo.course_examiners = examiners
 }
 
-const createCourseWebContext = ({ filteredData, courseCode, language, examiners }) => {
+const createCourseWebContext = ({ filteredData, courseCode, language, examiners, initiallySelectedSemester }) => {
   const context = {}
 
   addBaseData(context, language)
-  addCourseData(context, filteredData, examiners)
+  addCourseData(context, { filteredData, examiners, initiallySelectedSemester })
 
   context.courseCode = courseCode
 

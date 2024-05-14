@@ -14,6 +14,7 @@ const { getServerSideFunctions } = require('../utils/serverSideRendering')
 const { INFORM_IF_IMPORTANT_INFO_IS_MISSING } = require('../util/constants')
 const { getFilteredData: getFilteredData } = require('../apiCalls/filteredData')
 const { createCourseWebContext } = require('../util/webContextUtil')
+const { calculateInitiallySelectedSemester } = require('./courseCtrlHelpers')
 
 const extractUpperCaseCourseCodeOrThrow = req => {
   const { courseCode } = req.params
@@ -95,6 +96,11 @@ async function getIndex(req, res, next) {
 
     const filteredData = await getFilteredData({ courseCode, language, memoList, startSemesterFromQuery })
 
+    const initiallySelectedSemester = calculateInitiallySelectedSemester(
+      filteredData.activeSemesters,
+      startSemesterFromQuery
+    )
+
     const possibleExaminers = await getExaminersForCourseCode(courseCode)
 
     const examiners = possibleExaminers || INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
@@ -104,6 +110,7 @@ async function getIndex(req, res, next) {
       language,
       filteredData,
       examiners,
+      initiallySelectedSemester,
     })
 
     const compressedData = getCompressedData(webContext)
