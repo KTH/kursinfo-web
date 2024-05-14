@@ -54,16 +54,19 @@ const getMemoList = async courseCode => {
   return {}
 }
 
-const getUgRestApiResponse = async courseCode => {
-  const apiMemoData = {
-    courseCode,
-    semester: '',
-    applicationCodes: [],
-  }
-  // TODO Benni if UG answers with 500, this breaks our page
-  const ugRestApiResponse = await ugRestApi.getCourseEmployees(apiMemoData)
+const getExaminersForCourseCode = async courseCode => {
+  try {
+    const ugRestApiResponse = await ugRestApi.getCourseEmployees({
+      courseCode,
+      semester: '',
+      applicationCodes: [],
+    })
 
-  return ugRestApiResponse
+    return ugRestApiResponse.examiners
+  } catch (error) {
+    // Error is already logged further down. Here we just want to make sure our page still renders.
+    return ''
+  }
 }
 
 const extractStartSemesterFromQuery = req => {
@@ -92,9 +95,9 @@ async function getIndex(req, res, next) {
 
     const filteredData = await getFilteredData({ courseCode, language, memoList, startSemesterFromQuery })
 
-    const ugRestApiResponse = await getUgRestApiResponse(courseCode)
+    const possibleExaminers = await getExaminersForCourseCode(courseCode)
 
-    const examiners = ugRestApiResponse.examiners || INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
+    const examiners = possibleExaminers || INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
 
     const webContext = createCourseWebContext({
       courseCode,
