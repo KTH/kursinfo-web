@@ -3,31 +3,36 @@ const paths = require('../server').getPaths()
 
 const serverConfig = require('../configuration').server
 
-const addBaseData = (context, args) => {
-  const { language } = args
+const addBaseData = (context, language) => {
   context.lang = language
   context.proxyPrefixPath = serverConfig.proxyPrefixPath
   context.isCancelledOrDeactivated = false
-  context.initiallySelectedRoundIndex = undefined // Source
+  context.initiallySelectedRoundIndex = undefined
   context.browserConfig = browserConfig
   context.paths = paths
   context.hostUrl = serverConfig.hostUrl
 }
 
-const createCourseWebContext = args => {
-  const context = { ...args.filteredData }
+const addCourseData = (context, filteredData, examiners) => {
+  context.isCancelledOrDeactivated = filteredData.isCancelledOrDeactivated
+  context.activeSemesters = filteredData.activeSemesters
+  context.employees = filteredData.employees
+  context.initiallySelectedSemester = filteredData.initiallySelectedSemester
+  context.courseData = filteredData.courseData
 
-  addBaseData(context, args)
+  context.courseData.courseInfo.course_examiners = examiners
+}
 
-  context.courseCode = args.courseCode
-  context.courseData.courseInfo.course_examiners = args.examiners
+const createCourseWebContext = ({ filteredData, courseCode, language, examiners }) => {
+  const context = {}
+
+  addBaseData(context, language)
+  addCourseData(context, filteredData, examiners)
+
+  context.courseCode = courseCode
 
   return context
 }
-
-// TODO Benni fortsätt här imorgon
-// filteredData
-// look more at how Karl structured stuff, reg routeData
 
 module.exports = {
   createCourseWebContext,
