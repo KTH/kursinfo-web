@@ -216,7 +216,7 @@ appRoute.get(
   TimeTableApi.getPlannedSchemaModules
 )
 
-appRoute.post('ug.rest.api', config.proxyPrefixPath.uri + '/ug/rest', Employees.getCourseEmployees)
+appRoute.post('api.employees', config.proxyPrefixPath.uri + '/api/kursinfo/employees', Employees.getCourseEmployees)
 
 server.use('/', appRoute.getRouter())
 
