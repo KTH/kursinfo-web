@@ -25,7 +25,7 @@ import { parseYearTermIntoTerm } from '../../../../server/util/semesterUtils'
 const aboutCourseStr = (translate, courseCode = '') => `${translate.site_name} ${courseCode}`
 
 function CoursePage() {
-  const [context] = useWebContext()
+  const context = useWebContext()
 
   const {
     initiallySelectedRoundIndex,

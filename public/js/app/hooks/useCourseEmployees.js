@@ -4,7 +4,7 @@ import { useApi } from './useApi'
 import { getCourseEmployees } from './api/getCourseEmployees'
 
 export const useCourseEmployees = ({ courseCode, selectedSemester, applicationCode }) => {
-  const [context] = useWebContext()
+  const context = useWebContext()
 
   const { uri } = context.paths.ug.rest.api
 

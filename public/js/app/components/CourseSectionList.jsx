@@ -8,7 +8,7 @@ import CourseSection from './CourseSections'
 import SyllabusInformation from './SyllabusInformation'
 
 function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabusName, hasSyllabus }) {
-  const [context] = useWebContext()
+  const context = useWebContext()
   const { translation } = useLanguage()
   const { isMissingInfoLabel, missingInfoLabel } = useMissingInfo()
 

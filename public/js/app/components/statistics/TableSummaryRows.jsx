@@ -46,7 +46,7 @@ function TableFooterRow({ cellNames, cellsContent }) {
 }
 
 function TableSummary({ cellNames = [], docsPerSchool = {}, getNumbersFn = () => [], labels = {}, totalNumbers = [] }) {
-  const [{ languageIndex }] = useWebContext()
+  const { languageIndex } = useWebContext()
 
   const { schools = {} } = docsPerSchool
 

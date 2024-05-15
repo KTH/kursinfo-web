@@ -26,7 +26,7 @@ export const WebContextProvider = props => {
     }
   }
 
-  const value = [{ ...config }]
+  const value = { ...config }
   // eslint-disable-next-line react/jsx-props-no-spreading
   return <WebContext.Provider value={value} {...props} />
 }

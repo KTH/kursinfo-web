@@ -288,7 +288,7 @@ function FilterTable({ onFilter, placeholder, searchLabel }) {
 
 function StatisticsDataTable({ statisticsResult }) {
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false)
-  const [context] = useWebContext()
+  const context = useWebContext()
   const { browserConfig } = context
   const {
     translation: { statisticsLabels },

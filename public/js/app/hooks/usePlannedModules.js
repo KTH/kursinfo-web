@@ -7,7 +7,7 @@ import { useMissingInfo } from './useMissingInfo'
 const MISSING_INFO = ''
 
 export const usePlannedModules = ({ courseCode, semester, applicationCode, showRoundData }) => {
-  const [context] = useWebContext()
+  const context = useWebContext()
   const { missingInfoLabel } = useMissingInfo()
 
   const basePath = context.paths.api.plannedSchemaModules.uri

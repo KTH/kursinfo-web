@@ -8,7 +8,7 @@ import { getOptionsValues } from './domain/formConfigurations'
 import { frameIfEmpty } from './domain/validation'
 
 function DropdownOption({ paramName, onChange, showInfoBox = true }) {
-  const [context] = useWebContext()
+  const context = useWebContext()
   const [option, setOption] = React.useState(context[paramName])
 
   const {

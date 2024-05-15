@@ -5,7 +5,7 @@ import i18n from '../../../../i18n'
 import { useWebContext } from '../context/WebContext'
 
 export const useLanguage = () => {
-  const [{ lang }] = useWebContext()
+  const { lang } = useWebContext()
 
   const translation = React.useMemo(() => i18n.getLanguageByShortname(lang), [lang])
 

@@ -13,7 +13,7 @@ const [translationEN, translationSV] = i18n.messages
 
 describe('Component <CourseTitle>', () => {
   test('renders a course title with data and use correct credit unit in English', () => {
-    useWebContext.mockReturnValue([{ lang: 'en' }])
+    useWebContext.mockReturnValue({ lang: 'en' })
 
     const courseTitleData = {
       course_code: 'KIP1111',
@@ -44,7 +44,7 @@ describe('Component <CourseTitle>', () => {
   })
 
   test('renders a course title with data and use correct credit unit in Swedish', () => {
-    useWebContext.mockReturnValue([{ lang: 'sv' }])
+    useWebContext.mockReturnValue({ lang: 'sv' })
 
     const courseTitleData = {
       course_code: 'KIP1111',

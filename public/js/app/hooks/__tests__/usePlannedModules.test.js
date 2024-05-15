@@ -25,7 +25,7 @@ const defaultParams = { ...baseParams, showRoundData: true }
 
 describe('usePlannedModules', () => {
   beforeEach(() => {
-    useWebContext.mockReturnValue([mockContext])
+    useWebContext.mockReturnValue(mockContext)
     getPlannedModules.mockResolvedValue({
       status: STATUS.OK,
       data: 'somePlannedModules',

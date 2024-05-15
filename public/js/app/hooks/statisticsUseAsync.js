@@ -105,7 +105,7 @@ function _getThisHost(thisHostBaseUrl) {
 }
 
 function useStatisticsAsync(chosenOptions, loadType = 'onChange') {
-  const [{ proxyPrefixPath }] = useWebContext()
+  const { proxyPrefixPath } = useWebContext()
   const { languageShortname, languageIndex } = useLanguage()
   const { documentType } = chosenOptions
   const dependenciesList = loadType === 'onChange' ? [chosenOptions] : []

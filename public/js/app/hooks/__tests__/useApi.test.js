@@ -23,7 +23,7 @@ const defaultParams = { courseCode: 'SF1624', semester: 20241, applicationCode: 
 
 describe('useApi', () => {
   beforeAll(() => {
-    useWebContext.mockReturnValue([mockContext])
+    useWebContext.mockReturnValue(mockContext)
     apiToCall.mockResolvedValue({
       status: STATUS.OK,
       data: 'somePlannedModules',

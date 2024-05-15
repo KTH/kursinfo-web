@@ -39,7 +39,7 @@ const optionsReducer = (state, action) => {
 
 function CheckboxOption({ paramName, onChange, stateMode }) {
   /* depends on type of document to dropdown */
-  const [context] = useWebContext()
+  const context = useWebContext()
 
   const [{ options }, setOptions] = React.useReducer(optionsReducer, { options: context[paramName] || [] }) // ???
   const {

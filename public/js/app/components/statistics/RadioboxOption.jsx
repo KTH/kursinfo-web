@@ -8,7 +8,7 @@ import { frameIfEmpty } from './domain/validation'
 import { getOptionsValues, splitToBulks } from './domain/formConfigurations'
 
 function RadioboxOption({ paramName, onChange }) {
-  const [context] = useWebContext()
+  const context = useWebContext()
   const [option, setOption] = React.useState(context[paramName])
   const {
     translation: {
