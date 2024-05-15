@@ -1,10 +1,10 @@
-const { parseYearTermIntoTerm } = require('../../../../server/util/semesterUtils')
+const { convertYearSemesterNumberIntoSemester } = require('../../../../server/util/semesterUtils')
 
 const isSyllabusValidForThisSemester = (syllabusStartSemester, semester) => syllabusStartSemester <= semester
 
 const getValidSyllabusForSemester = (publicSyllabusVersions, semester) =>
   publicSyllabusVersions.find(syllabus => {
-    const prevSyllabusStartSemester = parseYearTermIntoTerm(syllabus.course_valid_from)
+    const prevSyllabusStartSemester = convertYearSemesterNumberIntoSemester(syllabus.course_valid_from)
 
     return isSyllabusValidForThisSemester(prevSyllabusStartSemester, semester)
   })

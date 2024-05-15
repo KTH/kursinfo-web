@@ -1,5 +1,5 @@
 const { INFORM_IF_IMPORTANT_INFO_IS_MISSING } = require('../util/constants')
-const { calcPreviousSemester, parseTermIntoYearTerm } = require('../util/semesterUtils')
+const { calcPreviousSemester, parseSemesterIntoYearSemesterNumber } = require('../util/semesterUtils')
 const { parseOrSetEmpty } = require('./courseCtrlHelpers')
 
 const _parseExamObject = (exams, grades, language = 0, semester = '', creditUnitAbbr) => {
@@ -74,7 +74,7 @@ const _parseSyllabusData = (courseDetails, semesterIndex = 0, language) => {
     ),
     course_literature: parseOrSetEmpty(semesterSyllabus.courseSyllabus.literature, language),
     course_literature_comment: parseOrSetEmpty(semesterSyllabus.courseSyllabus.literatureComment, language),
-    course_valid_from: parseTermIntoYearTerm(parseOrSetEmpty(semesterSyllabus.validFromTerm.term)),
+    course_valid_from: parseSemesterIntoYearSemesterNumber(parseOrSetEmpty(semesterSyllabus.validFromTerm.term)),
     course_valid_to: [],
     course_required_equipment: parseOrSetEmpty(semesterSyllabus.courseSyllabus.requiredEquipment, language),
     course_examination:

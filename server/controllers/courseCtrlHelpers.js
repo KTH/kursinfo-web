@@ -1,5 +1,5 @@
 const { INFORM_IF_IMPORTANT_INFO_IS_MISSING } = require('../util/constants')
-const { parseYearTermIntoTerm } = require('../util/semesterUtils')
+const { convertYearSemesterNumberIntoSemester } = require('../util/semesterUtils')
 
 /**
  * Generates a semester-string based on the current year and month.
@@ -46,7 +46,7 @@ const calculateInitiallySelectedSemester = (activeSemesters, startSemesterFromQu
     return Number(semesterBasedOnDate)
   }
 
-  return parseYearTermIntoTerm(activeSemesters.at(-1))
+  return convertYearSemesterNumberIntoSemester(activeSemesters.at(-1))
 }
 
 const parseOrSetEmpty = (value, language, setEmpty = false) => {

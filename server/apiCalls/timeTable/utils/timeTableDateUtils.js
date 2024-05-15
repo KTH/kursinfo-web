@@ -1,4 +1,7 @@
-const { convertToYearTermOrGetCurrent, parseTermIntoYearTerm } = require('../../../util/semesterUtils')
+const {
+  convertToYearSemesterNumberOrGetCurrent,
+  parseSemesterIntoYearSemesterNumber,
+} = require('../../../util/semesterUtils')
 
 const getMonthDateStringForSpring = year => ({
   start: `${year}-01-01T00:00:00`,
@@ -10,8 +13,8 @@ const getMonthDateStringForFall = year => ({
   end: `${year + 1}-01-31T23:59:59`,
 })
 
-const getStartEndByYearTerm = ({ year, termNumber }) => {
-  if (termNumber === 1) {
+const getStartEndByYearTerm = ({ year, semesterNumber }) => {
+  if (semesterNumber === 1) {
     return getMonthDateStringForSpring(year)
   }
 
@@ -23,7 +26,7 @@ const getStartEndByYearTerm = ({ year, termNumber }) => {
  * @param {Number} semester
  */
 const convertSemesterIntoStartEndDates = semester => {
-  const yearTerm = convertToYearTermOrGetCurrent(semester)
+  const yearTerm = convertToYearSemesterNumberOrGetCurrent(semester)
 
   return getStartEndByYearTerm(yearTerm)
 }
@@ -40,9 +43,9 @@ const seasonString = {
 }
 
 const convertSemesterToSeasonString = semester => {
-  const { year, termNumber } = parseTermIntoYearTerm(semester)
+  const { year, semesterNumber } = parseSemesterIntoYearSemesterNumber(semester)
 
-  return `${seasonString[termNumber]}${extractTwoDigitYear(year)}`
+  return `${seasonString[semesterNumber]}${extractTwoDigitYear(year)}`
 }
 
 module.exports = {

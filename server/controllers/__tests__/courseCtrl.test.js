@@ -188,7 +188,7 @@ describe('Discontinued course to test', () => {
                 "course_requirments_for_final_grade": "<p>Godk&#228;nd skriftlig tentamen, godk&#228;nda inl&#228;mningsuppgifter kopplade till f&#246;rel&#228;sningarna, 100% n&#228;rvaro p&#229; laborationer och slutf&#246;rande av laborationer, samt godk&#228;nda laborationsrapporter.</p>",
                 "course_transitional_reg": "",
                 "course_valid_from": {
-                  "termNumber": 2,
+                  "semesterNumber": 2,
                   "year": 2019,
                 },
                 "course_valid_to": [],

@@ -8,7 +8,10 @@ const {
 const { buildCourseDepartmentLink } = require('../util/courseDepartmentUtils')
 const { getDateFormat, formatVersionDate } = require('../util/dates')
 const i18n = require('../../i18n')
-const { parseTermIntoYearTerm, parseTermIntoYearTermArray } = require('../util/semesterUtils')
+const {
+  parseSemesterIntoYearSemesterNumber,
+  parseSemesterIntoYearSemesterNumberArray,
+} = require('../util/semesterUtils')
 const koppsCourseData = require('./koppsCourseData')
 const courseApi = require('./kursinfoApi')
 
@@ -32,7 +35,7 @@ function _parseCourseDefaultInformation(courseDetails, language) {
     course_education_type_id: course.educationalTypeId || null,
     course_examiners: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_grade_scale: parseOrSetEmpty(formattedGradeScales[course.gradeScaleCode], language),
-    course_last_exam: course.lastExamTerm ? parseTermIntoYearTermArray(course.lastExamTerm.term) : [],
+    course_last_exam: course.lastExamTerm ? parseSemesterIntoYearSemesterNumberArray(course.lastExamTerm.term) : [],
     course_level_code: parseOrSetEmpty(course.educationalLevelCode),
     course_literature: parseOrSetEmpty(course.courseLiterature, language),
     course_main_subject:
@@ -70,12 +73,12 @@ function _getRoundPeriodes(courseRoundTerms, language = 'sv') {
   if (courseRoundTerms) {
     if (courseRoundTerms.length > 1) {
       courseRoundTerms.forEach(periode => {
-        const yearTerm = parseTermIntoYearTerm(periode.term.term)
+        const yearTerm = parseSemesterIntoYearSemesterNumber(periode.term.term)
 
         periodeString += `<p class="periode-list">
                                 ${
                                   i18n.messages[language === 'en' ? 0 : 1].courseInformation.course_short_semester[
-                                    yearTerm.termNumber
+                                    yearTerm.semesterNumber
                                   ]
                                 } 
                                 ${yearTerm.year}: 
@@ -141,7 +144,7 @@ function _getRound(roundObject = {}, language = 'sv') {
     round_study_pace: parseOrSetEmpty(round.studyPace, language),
     round_course_term:
       parseOrSetEmpty(round.startTerm.term, language).toString().length > 0
-        ? parseTermIntoYearTermArray(round.startTerm.term)
+        ? parseSemesterIntoYearSemesterNumberArray(round.startTerm.term)
         : [],
     round_periods: _getRoundPeriodes(round.courseRoundTerms, language),
     round_seats:
@@ -219,7 +222,11 @@ function _parseRounds({ roundInfos, courseCode, language, memoList }) {
 
   activeSemesterArray.sort()
 
-  const activeSemesters = activeSemesterArray.map(([year, termNumber, semester]) => ({ year, termNumber, semester }))
+  const activeSemesters = activeSemesterArray.map(([year, semesterNumber, semester]) => ({
+    year,
+    semesterNumber,
+    semester,
+  }))
 
   return { courseRoundList, activeSemesters, employees }
 }
@@ -274,7 +281,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
 
   return {
     isCancelledOrDeactivated,
-    activeSemesters, // TODO Benni rename activeSemesters to availableSemesters
+    activeSemesters,
     employees,
     courseData,
   }

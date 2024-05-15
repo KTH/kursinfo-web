@@ -3,17 +3,17 @@ import { calculateInitiallySelectedSemester, generateSelectedSemesterBasedOnDate
 const activeSemesters = [
   {
     year: '2023',
-    termNumber: '2',
+    semesterNumber: '2',
     semester: '20232',
   },
   {
     year: '2024',
-    termNumber: '2',
+    semesterNumber: '2',
     semester: '20242',
   },
   {
     year: '2025',
-    termNumber: '1',
+    semesterNumber: '1',
     semester: '20251',
   },
 ]
@@ -21,32 +21,32 @@ const activeSemesters = [
 const activeSemestersEverySemester = [
   {
     year: '2023',
-    termNumber: '1',
+    semesterNumber: '1',
     semester: '20231',
   },
   {
     year: '2023',
-    termNumber: '2',
+    semesterNumber: '2',
     semester: '20232',
   },
   {
     year: '2024',
-    termNumber: '1',
+    semesterNumber: '1',
     semester: '20241',
   },
   {
     year: '2024',
-    termNumber: '2',
+    semesterNumber: '2',
     semester: '20242',
   },
   {
     year: '2025',
-    termNumber: '1',
+    semesterNumber: '1',
     semester: '20251',
   },
   {
     year: '2025',
-    termNumber: '2',
+    semesterNumber: '2',
     semester: '20252',
   },
 ]

@@ -4,7 +4,7 @@ import { useLanguage } from '../hooks/useLanguage'
 const DROPDOWN_ID = 'semesterDropdown'
 
 const formatLongSemesterName = (semesterItem, translation) =>
-  `${translation.courseInformation.course_short_semester[semesterItem.termNumber]}${semesterItem.year}`
+  `${translation.courseInformation.course_short_semester[semesterItem.semesterNumber]}${semesterItem.year}`
 
 const DropdownSemesters = ({ semesterList, semesterRoundState }) => {
   const { translation } = useLanguage()

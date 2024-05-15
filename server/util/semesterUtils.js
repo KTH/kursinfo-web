@@ -1,102 +1,80 @@
 /**
+ * Takes a yearSemesterNumber and returns a yearSemesterNumber representing the semester previous to the given semester
  *
- * TODO Benni: Dubbelkolla och fyll på här.
- *
- * In this file following terms are used:
- * - year = 2024
- * - termNumber/semesterNumber = 2
- * - term/semester = 20242
- * - yearTermArray = [2024, 2]
- * - yearTerm = {year: 2024, termNumber: 2}
- */
-
-// TODO Benni: unit tests?
-// TODO Benni: choose term or semester and stick with that
-// semesterNumber
-// TODO Benni REMOVE TERM KILL IT WITH FIRE
-
-/**
- * 1. vi kör på yearTerm som default
- * 2. vi lägger till omformateringsfunktioner som behövs här (gäller i första hand course_valid_to/course_valid_from)
- *
- */
-
-/**
- * Takes a yearTerm and returns a yearTerm representing the term previous to the given term
- *
- * @param {Object} yearTerm
+ * @param {Object} yearSemesterNumber
  * @returns
  */
-const calcPreviousSemester = ({ year, termNumber }) => {
-  if (termNumber === 2) {
+const calcPreviousSemester = ({ year, semesterNumber }) => {
+  if (semesterNumber === 2) {
     return {
       year,
-      termNumber: 1,
+      semesterNumber: 1,
     }
   }
 
   return {
     year: year - 1,
-    termNumber: 2,
+    semesterNumber: 2,
   }
 }
 
 /**
  *
- * @param {number} term
+ * @param {number} semester
  * @returns
  */
-// TODO Benni parseSemesterIntoYearSemesterNumberArray
-const parseTermIntoYearTermArray = term => {
-  const yearTermArrayStrings = term.toString().match(/.{1,4}/g)
+const parseSemesterIntoYearSemesterNumberArray = semester => {
+  const yearSemesterNumberArrayStrings = semester.toString().match(/.{1,4}/g)
 
-  return yearTermArrayStrings.map(str => Number(str))
+  return yearSemesterNumberArrayStrings.map(str => Number(str))
 }
 
-const parseTermIntoYearTerm = term => {
-  const [year, termNumber] = parseTermIntoYearTermArray(term)
+const parseSemesterIntoYearSemesterNumber = semester => {
+  const [year, semesterNumber] = parseSemesterIntoYearSemesterNumberArray(semester)
 
   return {
     year,
-    termNumber,
+    semesterNumber,
   }
 }
 
-const parseYearTermIntoTerm = ({ year, termNumber }) => Number(`${year}${termNumber}`)
+const convertYearSemesterNumberIntoSemester = ({ year, semesterNumber }) => Number(`${year}${semesterNumber}`)
 
 const SPRING_MONTHS = [0, 1, 2, 3, 4, 5]
 
-const getTermNumberByMonth = month => {
+const getSemesterNumberByMonth = month => {
   if (SPRING_MONTHS.includes(month)) {
     return 1
   }
   return 2
 }
 
-const getCurrentYearAndTermNumber = () => {
+const getCurrentYearAndSemesterNumber = () => {
   const now = new Date()
-  const termNumber = getTermNumberByMonth(now.getMonth())
+  const semesterNumber = getSemesterNumberByMonth(now.getMonth())
 
   return {
     year: now.getFullYear(),
-    termNumber,
+    semesterNumber,
   }
 }
 
-const isAFiveDigitNumber = semester => semester.toString().length === 5
+// I want global isNaN
+// eslint-disable-next-line no-restricted-globals
+const isFiveDigitNumber = semester => semester.toString().length === 5 && !isNaN(semester)
 
-const convertToYearTermOrGetCurrent = semester => {
-  if (!isAFiveDigitNumber(semester)) {
-    return getCurrentYearAndTermNumber()
+const convertToYearSemesterNumberOrGetCurrent = semester => {
+  if (!isFiveDigitNumber(semester)) {
+    return getCurrentYearAndSemesterNumber()
   }
 
-  return parseTermIntoYearTerm(semester)
+  return parseSemesterIntoYearSemesterNumber(semester)
 }
 
 module.exports = {
   calcPreviousSemester,
-  parseTermIntoYearTermArray,
-  parseTermIntoYearTerm,
-  parseYearTermIntoTerm,
-  convertToYearTermOrGetCurrent,
+  parseSemesterIntoYearSemesterNumberArray,
+  parseSemesterIntoYearSemesterNumber,
+  convertYearSemesterNumberIntoSemester,
+  convertToYearSemesterNumberOrGetCurrent,
 }

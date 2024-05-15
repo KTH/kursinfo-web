@@ -20,7 +20,7 @@ import BankIdAlert from '../components/BankIdAlert'
 import { useLanguage } from '../hooks/useLanguage'
 import { useMissingInfo } from '../hooks/useMissingInfo'
 import { useActiveRounds } from '../hooks/useActiveRounds'
-import { parseYearTermIntoTerm } from '../../../../server/util/semesterUtils'
+import { convertYearSemesterNumberIntoSemester } from '../../../../server/util/semesterUtils'
 
 const aboutCourseStr = (translate, courseCode = '') => `${translate.site_name} ${courseCode}`
 
@@ -266,14 +266,16 @@ function CoursePage() {
                 <>
                   <p>{translation.courseLabels.label_syllabus_pdf_info}</p>
                   <a
-                    href={`${SYLLABUS_URL}${courseCode}-${parseYearTermIntoTerm(activeSyllabus.course_valid_from)}.pdf?lang=${languageShortname}`}
-                    id={parseYearTermIntoTerm(activeSyllabus.course_valid_from) + '_active'}
+                    href={`${SYLLABUS_URL}${courseCode}-${convertYearSemesterNumberIntoSemester(activeSyllabus.course_valid_from)}.pdf?lang=${languageShortname}`}
+                    id={convertYearSemesterNumberIntoSemester(activeSyllabus.course_valid_from) + '_active'}
                     target="_blank"
                     rel="noreferrer"
                     className="pdf-link pdf-link-fix pdf-link-last-line"
                   >
                     {`${translation.courseLabels.label_syllabus_link} ${courseCode}${` (${
-                      translation.courseInformation.course_short_semester[activeSyllabus.course_valid_from.termNumber]
+                      translation.courseInformation.course_short_semester[
+                        activeSyllabus.course_valid_from.semesterNumber
+                      ]
                     }${activeSyllabus.course_valid_from.year}–${
                       activeSyllabus.course_valid_to.length > 0
                         ? translation.courseInformation.course_short_semester[activeSyllabus.course_valid_to[1]] +
@@ -314,7 +316,9 @@ function CoursePage() {
                 syllabusName={
                   hasSyllabus
                     ? `${courseCode}${` (${
-                        translation.courseInformation.course_short_semester[activeSyllabus.course_valid_from.termNumber]
+                        translation.courseInformation.course_short_semester[
+                          activeSyllabus.course_valid_from.semesterNumber
+                        ]
                       }${
                         activeSyllabus && activeSyllabus.course_valid_from ? activeSyllabus.course_valid_from.year : ''
                       }–${

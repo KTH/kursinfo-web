@@ -155,7 +155,7 @@ const syllabusList = [
       '<p>Announced no later than 4 weeks before the start of the course on the course web page.</p>',
     course_valid_from: {
       year: 2019,
-      termNumber: 2,
+      semesterNumber: 2,
     },
     course_valid_to: [],
     course_required_equipment: '<i>No information inserted</i>',
@@ -181,11 +181,11 @@ const syllabusList = [
     course_literature_comment: '<i>No information inserted</i>',
     course_valid_from: {
       year: 2010,
-      termNumber: 2,
+      semesterNumber: 2,
     },
     course_valid_to: {
       year: 2019,
-      termNumber: 1,
+      semesterNumber: 1,
     },
     course_required_equipment: '<i>No information inserted</i>',
     course_examination:
@@ -203,12 +203,12 @@ const syllabusList = [
 const activeSemesters = [
   {
     year: '2023',
-    termNumber: '2',
+    semesterNumber: '2',
     semester: '20232',
   },
   {
     year: '2024',
-    termNumber: '2',
+    semesterNumber: '2',
     semester: '20242',
   },
 ]

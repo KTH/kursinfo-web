@@ -74,9 +74,9 @@ describe('Component <CoursePage>', () => {
       initiallySelectedSemester: 20222,
       initiallySelectedRoundIndex: undefined,
       activeSemesters: [
-        { year: 2022, termNumber: 1, semester: 20221 },
-        { year: 2022, termNumber: 2, semester: 20222 },
-        { year: 2023, termNumber: 1, semester: 20231 },
+        { year: 2022, semesterNumber: 1, semester: 20221 },
+        { year: 2022, semesterNumber: 2, semester: 20222 },
+        { year: 2023, semesterNumber: 1, semester: 20231 },
       ],
       courseCode: 'MF1016',
       courseData: {
@@ -231,7 +231,7 @@ describe('Component <CoursePage>', () => {
             course_transitional_reg: '',
             course_valid_from: {
               year: 2019,
-              termNumber: 2,
+              semesterNumber: 2,
             },
             course_valid_to: [],
           },
@@ -254,7 +254,7 @@ describe('Component <CoursePage>', () => {
             course_required_equipment: '<i>No information inserted</i>',
             course_requirments_for_final_grade: '',
             course_transitional_reg: '',
-            course_valid_from: { year: 2015, termNumber: 1 },
+            course_valid_from: { year: 2015, semesterNumber: 1 },
             course_valid_to: [2019, '1'],
           },
           {
@@ -278,7 +278,7 @@ describe('Component <CoursePage>', () => {
             course_transitional_reg: '',
             course_valid_from: {
               year: 2012,
-              termNumber: 2,
+              semesterNumber: 2,
             },
             course_valid_to: [2014, '2'],
           },
@@ -301,7 +301,7 @@ describe('Component <CoursePage>', () => {
             course_required_equipment: '<i>No information inserted</i>',
             course_requirments_for_final_grade: '',
             course_transitional_reg: '',
-            course_valid_from: { year: 2012, termNumber: 1 },
+            course_valid_from: { year: 2012, semesterNumber: 1 },
             course_valid_to: [2012, '1'],
           },
           {
@@ -323,7 +323,7 @@ describe('Component <CoursePage>', () => {
             course_required_equipment: '<i>No information inserted</i>',
             course_requirments_for_final_grade: '',
             course_transitional_reg: '',
-            course_valid_from: { year: 2010, termNumber: 2 },
+            course_valid_from: { year: 2010, semesterNumber: 2 },
             course_valid_to: [2011, '2'],
           },
           {
@@ -345,7 +345,7 @@ describe('Component <CoursePage>', () => {
             course_required_equipment: '<i>No information inserted</i>',
             course_requirments_for_final_grade: '',
             course_transitional_reg: '',
-            course_valid_from: { year: 2009, termNumber: 1 },
+            course_valid_from: { year: 2009, semesterNumber: 1 },
             course_valid_to: [2010, '1'],
           },
         ],
