@@ -12,6 +12,8 @@
 
 // TODO Benni: unit tests?
 // TODO Benni: choose term or semester and stick with that
+// semesterNumber
+// TODO Benni REMOVE TERM KILL IT WITH FIRE
 
 /**
  * 1. vi kör på yearTerm som default
@@ -44,6 +46,7 @@ const calcPreviousSemester = ({ year, termNumber }) => {
  * @param {number} term
  * @returns
  */
+// TODO Benni parseSemesterIntoYearSemesterNumberArray
 const parseTermIntoYearTermArray = term => {
   const yearTermArrayStrings = term.toString().match(/.{1,4}/g)
 

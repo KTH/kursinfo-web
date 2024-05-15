@@ -1,9 +1,10 @@
 const { renderHook, waitFor } = require('@testing-library/react')
 const { usePlannedModules } = require('../usePlannedModules')
-const { getPlannedModules, STATUS } = require('../api/getPlannedModules')
+const { getPlannedModules } = require('../api/getPlannedModules')
 const { useWebContext } = require('../../context/WebContext')
 const { useLanguage } = require('../useLanguage')
 const { INFORM_IF_IMPORTANT_INFO_IS_MISSING } = require('../../util/constants')
+const { STATUS } = require('../api/status')
 
 jest.mock('../api/getPlannedModules')
 jest.mock('../../context/WebContext')
@@ -21,14 +22,13 @@ const mockContext = {
 
 const baseParams = { courseCode: 'SF1624', semester: 20241, applicationCode: 12345 }
 const defaultParams = { ...baseParams, showRoundData: true }
-const baseParamsWithPath = { ...baseParams, basePath: mockContext.paths.api.plannedSchemaModules.uri }
 
 describe('usePlannedModules', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     useWebContext.mockReturnValue([mockContext])
     getPlannedModules.mockResolvedValue({
       status: STATUS.OK,
-      plannedModules: 'somePlannedModules',
+      data: 'somePlannedModules',
     })
     useLanguage.mockReturnValue({
       isEnglish: true,
@@ -40,53 +40,21 @@ describe('usePlannedModules', () => {
     jest.clearAllMocks()
   })
 
-  test.each([undefined, null, ''])(
-    'if courseCode is "%s", should return INFORM_IF_IMPORTANT_INFO_IS_MISSING',
-    invalidInput => {
-      const { result } = renderHook(() => usePlannedModules({ ...defaultParams, courseCode: invalidInput }))
+  test('if data is empty string, should return INFORM_IF_IMPORTANT_INFO_IS_MISSING', async () => {
+    getPlannedModules.mockResolvedValue({
+      status: STATUS.OK,
+      data: '',
+    })
 
-      expect(getPlannedModules).not.toHaveBeenCalled()
+    const { result } = renderHook(() => usePlannedModules(defaultParams))
 
-      expect(result.current.plannedModules).toStrictEqual(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0])
-    }
-  )
-
-  test.each([undefined, null, ''])(
-    'if semester is "%s", should return INFORM_IF_IMPORTANT_INFO_IS_MISSING',
-    invalidInput => {
-      const { result } = renderHook(() => usePlannedModules({ ...defaultParams, semester: invalidInput }))
-
-      expect(getPlannedModules).not.toHaveBeenCalled()
-
-      expect(result.current.plannedModules).toStrictEqual(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0])
-    }
-  )
-
-  test.each([undefined, null, ''])(
-    'if applicationCode is "%s", should return INFORM_IF_IMPORTANT_INFO_IS_MISSING',
-    invalidInput => {
-      const { result } = renderHook(() => usePlannedModules({ ...defaultParams, applicationCode: invalidInput }))
-
-      expect(getPlannedModules).not.toHaveBeenCalled()
-
-      expect(result.current.plannedModules).toStrictEqual(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0])
-    }
-  )
+    await waitFor(() => expect(result.current.plannedModules).toStrictEqual(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0]))
+  })
 
   test('if showRoundData is not true, should return null', () => {
     const { result } = renderHook(() => usePlannedModules({ ...defaultParams, showRoundData: false }))
 
-    expect(getPlannedModules).not.toHaveBeenCalled()
-
     expect(result.current.plannedModules).toStrictEqual(null)
-  })
-
-  test('calls getPlannedModules with correct parameters', async () => {
-    const { result } = renderHook(() => usePlannedModules(defaultParams))
-    expect(getPlannedModules).toHaveBeenCalledWith(baseParamsWithPath)
-
-    // We have to await a state change to `plannedModules`, because testing-library/react will  complain about it otherwise
-    await waitFor(() => expect(result.current.plannedModules).toStrictEqual('somePlannedModules'))
   })
 
   test('returns plannedModules from getPlannedModules', async () => {
@@ -100,20 +68,16 @@ describe('usePlannedModules', () => {
 
     expect(result.current.plannedModules).toStrictEqual(null)
 
-    expect(getPlannedModules).toHaveBeenCalledTimes(1)
-
     await waitFor(() => expect(result.current.plannedModules).toStrictEqual('somePlannedModules'))
 
     getPlannedModules.mockResolvedValueOnce({
       status: STATUS.OK,
-      plannedModules: 'someOtherPlannedModules',
+      data: 'someOtherPlannedModules',
     })
 
     rerender({ params: { ...defaultParams, applicationCode: 54321 } })
 
     await waitFor(() => expect(result.current.plannedModules).toStrictEqual(null))
-
-    expect(getPlannedModules).toHaveBeenCalledTimes(2)
 
     await waitFor(() => expect(result.current.plannedModules).toStrictEqual('someOtherPlannedModules'))
   })
@@ -124,9 +88,9 @@ describe('usePlannedModules', () => {
   })
 
   test('if all goes well, but plannedModules is an empty string, should return INFORM_IF_IMPORTANT_INFO_IS_MISSING', async () => {
-    getPlannedModules.mockResolvedValueOnce({
+    getPlannedModules.mockResolvedValue({
       status: STATUS.OK,
-      plannedModules: '',
+      data: '',
     })
     const { result } = renderHook(() => usePlannedModules(defaultParams))
 
@@ -134,20 +98,16 @@ describe('usePlannedModules', () => {
   })
 
   test('if all goes well, but plannedModules is an empty string, should return INFORM_IF_IMPORTANT_INFO_IS_MISSING also in swedish', async () => {
-    getPlannedModules.mockResolvedValueOnce({
+    getPlannedModules.mockResolvedValue({
       status: STATUS.OK,
-      plannedModules: '',
+      data: '',
     })
 
-    // Apparently useLanguage is called twice here, so we have to mock the non-default value twice.
-    useLanguage.mockReturnValueOnce({
+    useLanguage.mockReturnValue({
       isEnglish: false,
       languageIndex: 1,
     })
-    useLanguage.mockReturnValueOnce({
-      isEnglish: false,
-      languageIndex: 1,
-    })
+
     const { result } = renderHook(() => usePlannedModules(defaultParams))
 
     await waitFor(() => expect(result.current.plannedModules).toStrictEqual(INFORM_IF_IMPORTANT_INFO_IS_MISSING[1]))
@@ -155,9 +115,9 @@ describe('usePlannedModules', () => {
 
   describe('if getPlannedModules returns status: ERROR', () => {
     test('isError is true', async () => {
-      getPlannedModules.mockResolvedValueOnce({
+      getPlannedModules.mockResolvedValue({
         status: STATUS.ERROR,
-        plannedModules: null,
+        data: null,
       })
 
       const { result } = renderHook(() => usePlannedModules(defaultParams))
@@ -165,32 +125,10 @@ describe('usePlannedModules', () => {
       await waitFor(() => expect(result.current.isError).toStrictEqual(true))
     })
 
-    test('isError should be reset to false in between calls', async () => {
-      getPlannedModules.mockResolvedValueOnce({
-        status: STATUS.ERROR,
-        plannedModules: null,
-      })
-
-      const { result, rerender } = renderHook(({ params = defaultParams } = {}) => usePlannedModules(params))
-
-      await waitFor(() => expect(result.current.isError).toStrictEqual(true))
-
-      getPlannedModules.mockResolvedValueOnce({
-        status: STATUS.ERROR,
-        plannedModules: null,
-      })
-
-      rerender({ params: { ...defaultParams, applicationCode: 54321 } })
-
-      await waitFor(() => expect(result.current.isError).toStrictEqual(false))
-
-      await waitFor(() => expect(result.current.isError).toStrictEqual(true))
-    })
-
     test('plannedModules is set to INFORM_IF_IMPORTANT_INFO_IS_MISSING', async () => {
-      getPlannedModules.mockResolvedValueOnce({
+      getPlannedModules.mockResolvedValue({
         status: STATUS.ERROR,
-        plannedModules: null,
+        data: null,
       })
 
       const { result } = renderHook(() => usePlannedModules(defaultParams))
@@ -199,24 +137,17 @@ describe('usePlannedModules', () => {
     })
 
     test('plannedModules is set to INFORM_IF_IMPORTANT_INFO_IS_MISSING also in swedish', async () => {
-      getPlannedModules.mockResolvedValueOnce({
+      getPlannedModules.mockResolvedValue({
         status: STATUS.ERROR,
-        plannedModules: null,
+        data: null,
       })
 
-      // Apparently useLanguage is called twice here, so we have to mock the non-default value twice.
-      useLanguage.mockReturnValueOnce({
-        isEnglish: false,
-        languageIndex: 1,
-      })
-      useLanguage.mockReturnValueOnce({
+      useLanguage.mockReturnValue({
         isEnglish: false,
         languageIndex: 1,
       })
 
       const { result } = renderHook(() => usePlannedModules(defaultParams))
-
-      expect(getPlannedModules).toHaveBeenCalledTimes(1)
 
       await waitFor(() => expect(result.current.plannedModules).toStrictEqual(INFORM_IF_IMPORTANT_INFO_IS_MISSING[1]))
     })

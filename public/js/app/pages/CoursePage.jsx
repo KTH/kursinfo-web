@@ -101,7 +101,7 @@ function CoursePage() {
       }
     }
     return () => (isMounted = false)
-  }, [])
+  })
 
   return (
     <Row id="kursinfo-main-page">
@@ -241,11 +241,11 @@ function CoursePage() {
             {/* ---COURSE ROUND INFORMATION--- */}
             {hasActiveSemesters && isSetSelectedRoundIndex ? (
               <RoundInformationOneCol
+                memoStorageURI={browserConfig.memoStorageUri}
+                semesterRoundState={semesterRoundState}
                 courseRound={activeRound}
                 courseData={courseInformationToRounds}
-                language={languageShortname}
-                semesterRoundState={semesterRoundState}
-                memoStorageURI={browserConfig.memoStorageUri}
+                courseCode={courseCode}
               />
             ) : (
               <div className="info-box">

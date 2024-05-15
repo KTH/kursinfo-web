@@ -6,20 +6,14 @@ import { WebContextProvider } from '../../context/WebContext'
 
 import RoundInformationOneCol from '../RoundInformationOneCol'
 import { usePlannedModules } from '../../hooks/usePlannedModules'
+import { useCourseEmployees } from '../../hooks/useCourseEmployees'
 
 jest.mock('../../hooks/usePlannedModules')
+jest.mock('../../hooks/useCourseEmployees')
 
 const INFORM_IF_IMPORTANT_INFO_IS_MISSING = ['No information inserted', 'Ingen information tillagd']
 const context = {
-  browserConfig: {},
   lang: 'en',
-  paths: {
-    api: {
-      plannedSchemaModules: {
-        uri: '/:courseCode/:semester/:applicationCode',
-      },
-    },
-  },
 }
 
 const defaultSemesterRoundState = {
@@ -33,22 +27,25 @@ describe('Component <RoundInformationOneCol>', () => {
     usePlannedModules.mockReturnValue({
       plannedModules: 'somePlannedModules',
     })
+    useCourseEmployees.mockReturnValue({
+      courseRoundEmployees: {
+        examiners: '',
+        responsibles: '',
+        teachers: '',
+      },
+    })
   })
 
   test('renders study pace correctly', () => {
     const propsWithStudyPace = {
-      memoStorageUri: '',
+      memoStorageURI: '',
       semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseRound: {
         round_course_term: ['2018', '1'],
         round_study_pace: '25',
       },
-      testEmployees: {
-        examiners: '',
-        responsibles: '',
-        teachers: '',
-      },
+      courseCode: 'SF1624',
     }
     render(
       <WebContextProvider configIn={context}>
@@ -65,15 +62,19 @@ describe('Component <RoundInformationOneCol>', () => {
     const responsiblesData = 'Responsibles’ data'
     const teachersData = 'Teachers’ data'
     const propsWithEmployees = {
-      memoStorageUri: '',
+      memoStorageURI: '',
       semesterRoundState: defaultSemesterRoundState,
       courseData: {},
-      testEmployees: {
+      courseCode: 'SF1624',
+    }
+
+    useCourseEmployees.mockReturnValueOnce({
+      courseRoundEmployees: {
         examiners: `<span>${examinersData}</span>'`,
         responsibles: `<span>${responsiblesData}</span>`,
         teachers: `<span>${teachersData}</span>`,
       },
-    }
+    })
 
     render(
       <WebContextProvider configIn={context}>
@@ -90,14 +91,10 @@ describe('Component <RoundInformationOneCol>', () => {
 
   test('renders information about missing course employees in course offering because it contains empty string', () => {
     const propsWithEmptyEmployees = {
-      memoStorageUri: '',
+      memoStorageURI: '',
       semesterRoundState: defaultSemesterRoundState,
       courseData: {},
-      testEmployees: {
-        examiners: '',
-        responsibles: '',
-        teachers: '',
-      },
+      courseCode: 'SF1624',
     }
 
     render(
@@ -111,10 +108,10 @@ describe('Component <RoundInformationOneCol>', () => {
 
   test('renders information about missing course employees in course offering because no data about employees is provided', () => {
     const propsWithoutEmployees = {
-      memoStorageUri: '',
+      memoStorageURI: '',
       semesterRoundState: defaultSemesterRoundState,
       courseData: {},
-      testEmployees: {},
+      courseCode: 'SF1624',
     }
 
     render(
@@ -128,7 +125,7 @@ describe('Component <RoundInformationOneCol>', () => {
 
   test('renders course offering number of places correctly if all data is available', async () => {
     const propsWithSeatsNum = {
-      memoStorageUri: '',
+      memoStorageURI: '',
       semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseRound: {
@@ -136,11 +133,7 @@ describe('Component <RoundInformationOneCol>', () => {
         round_selection_criteria: '<p>English. Spicy jalapeno bacon ipsum</p>',
         round_seats: 'Max: 10',
       },
-      testEmployees: {
-        examiners: '',
-        responsibles: '',
-        teachers: '',
-      },
+      courseCode: 'SF1624',
     }
 
     render(
@@ -170,7 +163,7 @@ describe('Component <RoundInformationOneCol>', () => {
 
   test('renders default text and hide info icon if a course offering number of places is not provided', () => {
     const propsWithoutSeatsNum = {
-      memoStorageUri: '',
+      memoStorageURI: '',
       semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseRound: {
@@ -178,7 +171,7 @@ describe('Component <RoundInformationOneCol>', () => {
         round_selection_criteria: '<p>English. Spicy jalapeno bacon ipsum</p>',
         round_seats: '',
       },
-      testEmployees: {},
+      courseCode: 'SF1624',
     }
 
     render(
@@ -199,7 +192,7 @@ describe('Component <RoundInformationOneCol>', () => {
 
   test('renders course offering number of places correctly and default text in modal if selection criteria is empty', async () => {
     const propsWithEmptyCriteria = {
-      memoStorageUri: '',
+      memoStorageURI: '',
       semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseRound: {
@@ -207,7 +200,7 @@ describe('Component <RoundInformationOneCol>', () => {
         round_selection_criteria: '<p></p>',
         round_seats: '5-10',
       },
-      testEmployees: {},
+      courseCode: 'SF1624',
     }
 
     render(

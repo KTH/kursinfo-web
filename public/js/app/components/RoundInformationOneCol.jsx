@@ -1,10 +1,10 @@
 /* eslint-disable react/no-danger */
 import React from 'react'
-import { useWebContext } from '../context/WebContext'
 import { useLanguage } from '../hooks/useLanguage'
 import { useMissingInfo } from '../hooks/useMissingInfo'
 import { useRoundUtils } from '../hooks/useRoundUtils'
 import { usePlannedModules } from '../hooks/usePlannedModules'
+import { useCourseEmployees } from '../hooks/useCourseEmployees'
 import CourseFileLinks from './CourseFileLinks'
 import InfoModal from './InfoModal'
 import RoundApplicationInfo from './RoundApplicationInfo'
@@ -14,13 +14,9 @@ function RoundInformationOneCol({
   semesterRoundState,
   courseRound = { round_course_term: [] },
   courseData: course,
-  testEmployees = null, // used for test // TODO Benni get rid of this
+  courseCode,
 }) {
-  const [context] = useWebContext()
-
-  const [courseRoundEmployees, setCourseRoundEmployees] = React.useState({})
-
-  const { showRoundData, selectedRoundIndex, selectedSemester } = semesterRoundState
+  const { showRoundData, selectedSemester } = semesterRoundState
   const { translation } = useLanguage()
   const { missingInfoLabel } = useMissingInfo()
   const { createRoundHeader } = useRoundUtils()
@@ -29,21 +25,14 @@ function RoundInformationOneCol({
 
   const selectedRoundHeader = createRoundHeader(courseRound)
 
-  // TODO Benni refactor and research
-  React.useEffect(() => {
-    const posibleTestEmployees = async () => {
-      if (testEmployees) {
-        setCourseRoundEmployees(testEmployees)
-      } else {
-        const employyes = showRoundData ? await context.getCourseEmployees(selectedSemester, selectedRoundIndex) : null
-        if (employyes) setCourseRoundEmployees(employyes)
-      }
-    }
-    posibleTestEmployees()
-  }, [showRoundData, selectedRoundIndex, selectedSemester])
+  const { courseRoundEmployees } = useCourseEmployees({
+    courseCode,
+    selectedSemester,
+    applicationCode: courseRound?.round_application_code,
+  })
 
   const { plannedModules } = usePlannedModules({
-    courseCode: context.courseCode,
+    courseCode,
     semester: selectedSemester,
     applicationCode: courseRound.round_application_code,
     showRoundData,

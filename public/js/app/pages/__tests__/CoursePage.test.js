@@ -2,14 +2,14 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { faker } from '@faker-js/faker'
-import axios from 'axios'
 import { userEvent } from '@testing-library/user-event'
 import { WebContextProvider } from '../../context/WebContext'
 import CoursePage from '../CoursePage'
 
 import i18n from '../../../../../i18n'
+import { useCourseEmployees } from '../../hooks/useCourseEmployees'
 
-jest.mock('axios')
+jest.mock('../../hooks/useCourseEmployees')
 const context = {
   browserConfig: {},
   courseData: {
@@ -25,6 +25,14 @@ const context = {
   lang: 'en',
 }
 const [translate] = i18n.messages // en
+
+useCourseEmployees.mockReturnValue({
+  courseRoundEmployees: {
+    examiners: '',
+    responsibles: '',
+    teachers: '',
+  },
+})
 
 describe('Component <CoursePage>', () => {
   test('renders course syllabus link correctly', () => {
@@ -46,21 +54,23 @@ describe('Component <CoursePage>', () => {
     const examiners = `<p class = "person">\n      <img class="profile-picture" src="" alt="Profile picture" width="31" height="31">\n      <a href="#" property="teach:teacher">\n          ${examinerName} \n      </a> \n    </p>  <p class = "person">\n      <img class="profile-picture" src="" alt="Profile picture" width="31" height="31">\n      <a href="#" property="teach:teacher">\n          ${examinerName} \n      </a> \n    </p`
     const responsibles = `<p class = "person">\n      <img class="profile-picture" src="" alt="Profile picture" width="31" height="31">\n      <a href="#" property="teach:teacher">\n          ${responsibleName} \n      </a> \n    </p>  <p class = "person">\n      <img class="profile-picture" src="" alt="Profile picture" width="31" height="31">\n      <a href="#" property="teach:teacher">\n          ${responsibleName} \n      </a> \n    </p>`
     const teachers = `<p class = "person">\n      <img class="profile-picture" src="" alt="Profile picture" width="31" height="31">\n      <a href="#" property="teach:teacher">\n          ${teacherName} \n      </a> \n    </p>`
-    axios.post
-      .mockResolvedValue({
-        data: {
+    useCourseEmployees
+      .mockReturnValue({
+        courseRoundEmployees: {
           examiners,
         },
       })
-      .mockResolvedValue({
-        data: {
+      .mockReturnValue({
+        courseRoundEmployees: {
           examiners,
           responsibles,
           teachers,
         },
       })
     const contextToTest = {
-      browserConfig: {},
+      browserConfig: {
+        memoStorageUri: '',
+      },
       initiallySelectedSemester: 20222,
       initiallySelectedRoundIndex: undefined,
       activeSemesters: [
@@ -408,12 +418,7 @@ describe('Component <CoursePage>', () => {
     expect(screen.getAllByText(responsibleName)[0]).toBeInTheDocument()
     expect(screen.getAllByText('Teachers')[0]).toBeInTheDocument()
     expect(screen.getAllByText(teacherName)[0]).toBeInTheDocument()
-    axios.post.mockResolvedValue({
-      data: {
-        examiners,
-        teachers,
-      },
-    })
+
     await userEvent.click(screen.getByText('Spring 2023'))
     await userEvent.click(screen.getByText('Spring 2022'))
     expect(screen.getByText('Spring 2022')).toBeInTheDocument()

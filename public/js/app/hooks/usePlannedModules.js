@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useWebContext } from '../context/WebContext'
-import { getPlannedModules, STATUS } from './api/getPlannedModules'
+import { getPlannedModules } from './api/getPlannedModules'
+import { useApi } from './useApi'
 import { useMissingInfo } from './useMissingInfo'
 
 const MISSING_INFO = ''
@@ -9,32 +10,27 @@ export const usePlannedModules = ({ courseCode, semester, applicationCode, showR
   const [context] = useWebContext()
   const { missingInfoLabel } = useMissingInfo()
 
-  const [plannedModules, setPlannedModules] = useState(null)
-  const [isError, setIsError] = useState(false)
+  const basePath = context.paths.api.plannedSchemaModules.uri
+
+  const { data, isError, setApiParams } = useApi(
+    getPlannedModules,
+    { basePath, courseCode, semester, applicationCode },
+    null,
+    MISSING_INFO
+  )
 
   useEffect(() => {
-    const fetchData = async () => {
-      setPlannedModules(null)
-      setIsError(false)
+    setApiParams({ basePath, courseCode, semester, applicationCode })
+  }, [applicationCode, basePath, courseCode, semester, setApiParams])
 
-      if (!showRoundData) {
-        return
-      }
-
-      if (!courseCode || !semester || !applicationCode) {
-        setPlannedModules(MISSING_INFO)
-      } else {
-        const basePath = context.paths.api.plannedSchemaModules.uri
-        const result = await getPlannedModules({ basePath, courseCode, semester, applicationCode })
-        setPlannedModules(result.plannedModules || MISSING_INFO)
-        setIsError(result.status === STATUS.ERROR)
-      }
-    }
-    fetchData()
-  }, [applicationCode, context, courseCode, semester, showRoundData])
+  const plannedModules = useMemo(() => {
+    if (!showRoundData) return null
+    const pla = data === MISSING_INFO ? missingInfoLabel : data
+    return pla
+  }, [data, missingInfoLabel, showRoundData])
 
   return {
-    plannedModules: plannedModules === MISSING_INFO ? missingInfoLabel : plannedModules,
+    plannedModules,
     isError,
   }
 }

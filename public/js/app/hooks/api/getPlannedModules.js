@@ -1,9 +1,13 @@
-export const STATUS = {
-  OK: 'OK',
-  ERROR: 'ERROR',
-}
+import { STATUS } from './status'
 
 export const getPlannedModules = async ({ basePath, courseCode, semester, applicationCode }) => {
+  if (!basePath || !courseCode || !semester || !applicationCode) {
+    return {
+      status: STATUS.OK,
+      data: null,
+    }
+  }
+
   try {
     const uri = basePath
       .replace(':courseCode', courseCode)
@@ -15,7 +19,7 @@ export const getPlannedModules = async ({ basePath, courseCode, semester, applic
     if (!result.ok) {
       return {
         status: STATUS.ERROR,
-        plannedModules: null,
+        data: null,
       }
     }
 
@@ -23,12 +27,12 @@ export const getPlannedModules = async ({ basePath, courseCode, semester, applic
 
     return {
       status: STATUS.OK,
-      plannedModules,
+      data: plannedModules,
     }
   } catch (error) {
     return {
       status: STATUS.ERROR,
-      plannedModules: null,
+      data: null,
     }
   }
 }

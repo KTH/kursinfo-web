@@ -2,6 +2,9 @@
 
 import axios from 'axios'
 
+// TODO Benni remove this
+// TODO Benni maybe we can remove axios as well?
+
 async function getCourseEmployees(selectedSemester, selectedRoundIndex) {
   const roundsInSemester = this.courseData.roundList[selectedSemester]
   const ladokRound = roundsInSemester[selectedRoundIndex]
