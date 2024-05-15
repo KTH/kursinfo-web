@@ -1,5 +1,4 @@
 import React from 'react'
-import { addClientFunctionsToWebContext } from '../client-context/addClientFunctionsToWebContext'
 
 const WebContext = React.createContext()
 
@@ -28,7 +27,7 @@ export const WebContextProvider = props => {
   }
 
   // OBS! deviation from NODE-WEB to make functions working
-  const [currentConfig, setConfig] = React.useState({ ...config, ...addClientFunctionsToWebContext() })
+  const [currentConfig, setConfig] = React.useState({ ...config })
 
   const updateConfig = React.useCallback(updatedFields => {
     setConfig(existingConfig => ({ ...existingConfig, ...updatedFields }))
