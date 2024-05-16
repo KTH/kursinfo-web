@@ -54,8 +54,19 @@ const parseOrSetEmpty = (value, language, setEmpty = false) => {
   return value ? value : emptyText
 }
 
+const VALID_COURSE_CODE_LENGTHS = [6, 7]
+
+/**
+ *
+ *
+ * @param {string} courseCode
+ * @returns true if the given courseCode has a length of 6 or 7 characters
+ */
+const isValidCourseCode = courseCode => !!courseCode && VALID_COURSE_CODE_LENGTHS.includes(courseCode.toString().length)
+
 module.exports = {
   calculateInitiallySelectedSemester,
   generateSelectedSemesterBasedOnDate,
   parseOrSetEmpty,
+  isValidCourseCode,
 }

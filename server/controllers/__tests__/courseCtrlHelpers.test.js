@@ -1,4 +1,8 @@
-import { calculateInitiallySelectedSemester, generateSelectedSemesterBasedOnDate } from '../courseCtrlHelpers'
+import {
+  calculateInitiallySelectedSemester,
+  generateSelectedSemesterBasedOnDate,
+  isValidCourseCode,
+} from '../courseCtrlHelpers'
 
 const activeSemesters = [
   {
@@ -148,5 +152,31 @@ describe('courseCtrlHelpers', () => {
       expect(generateSelectedSemesterBasedOnDate(new Date('2024-11-01'))).toBe(expectedSemester)
       expect(generateSelectedSemesterBasedOnDate(new Date('2024-12-01'))).toBe(expectedSemester)
     })
+  })
+
+  describe('isValidCourseCode', () => {
+    test.each([null, undefined])('returns false if given courseCode is %s', courseCode => {
+      expect(isValidCourseCode(courseCode)).toBe(false)
+    })
+    test.each(['', '1', '12', 123, '1234', 'asdfg'])(
+      'returns false if given courseCode is shorter than 6 characters: %s',
+      courseCode => {
+        expect(isValidCourseCode(courseCode)).toBe(false)
+      }
+    )
+
+    test.each(['12345678', 'SF1523423490234'])(
+      'returns false if given courseCode is longer than 7 characters: %s',
+      courseCode => {
+        expect(isValidCourseCode(courseCode)).toBe(false)
+      }
+    )
+
+    test.each(['123456', 123456, '1234567', 1234567])(
+      'returns true if given courseCode has length of 6 or 7 characters: %s',
+      courseCode => {
+        expect(isValidCourseCode(courseCode)).toBe(true)
+      }
+    )
   })
 })

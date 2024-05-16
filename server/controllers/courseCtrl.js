@@ -14,11 +14,13 @@ const { getServerSideFunctions } = require('../utils/serverSideRendering')
 const { INFORM_IF_IMPORTANT_INFO_IS_MISSING } = require('../util/constants')
 const { getFilteredData: getFilteredData } = require('../apiCalls/filteredData')
 const { createCourseWebContext } = require('../util/webContextUtil')
-const { calculateInitiallySelectedSemester } = require('./courseCtrlHelpers')
+const { HttpError } = require('../HttpError')
+const { calculateInitiallySelectedSemester, isValidCourseCode } = require('./courseCtrlHelpers')
 
 const extractUpperCaseCourseCodeOrThrow = req => {
   const { courseCode } = req.params
-  if (!courseCode) throw new Error('Missing parameter courseCode')
+  if (!courseCode) throw new HttpError(400, 'Missing parameter courseCode')
+  if (!isValidCourseCode(courseCode)) throw new HttpError(400, `Invalid course code: ${courseCode}`)
   return courseCode.toUpperCase()
 }
 
@@ -82,14 +84,14 @@ const getLanguageOrDefault = res => languageUtils.getLanguage(res) || 'sv'
 /*                    COURSE PAGE SETTINGS AND RENDERING                          */
 /* ****************************************************************************** */
 async function getIndex(req, res, next) {
-  const courseCode = extractUpperCaseCourseCodeOrThrow(req)
-  const language = getLanguageOrDefault(res)
-
-  const klaroAnalyticsConsentCookie = extractKlaroAnalyticsCookie(req)
-
-  const { getCompressedData, renderStaticPage } = getServerSideFunctions()
-
   try {
+    const courseCode = extractUpperCaseCourseCodeOrThrow(req)
+    const language = getLanguageOrDefault(res)
+
+    const klaroAnalyticsConsentCookie = extractKlaroAnalyticsCookie(req)
+
+    const { getCompressedData, renderStaticPage } = getServerSideFunctions()
+
     const startSemesterFromQuery = extractStartSemesterFromQuery(req)
 
     const memoList = await getMemoList(courseCode)
@@ -142,7 +144,7 @@ async function getIndex(req, res, next) {
       breadcrumbsList,
     })
   } catch (err) {
-    const errorCodesThatShouldNotBeLogged = [403, 404]
+    const errorCodesThatShouldNotBeLogged = [400, 403, 404]
     let statusCode
     if (err.response) {
       statusCode = err.response.status
