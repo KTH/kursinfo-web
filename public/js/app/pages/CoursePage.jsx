@@ -19,7 +19,7 @@ import { useWebContext } from '../context/WebContext'
 import BankIdAlert from '../components/BankIdAlert'
 import { useLanguage } from '../hooks/useLanguage'
 import { useMissingInfo } from '../hooks/useMissingInfo'
-import { useActiveRounds } from '../hooks/useActiveRounds'
+import { useSemesterRoundState } from '../hooks/useSemesterRoundState'
 import { convertYearSemesterNumberIntoSemester } from '../../../../server/util/semesterUtils'
 
 const aboutCourseStr = (translate, courseCode = '') => `${translate.site_name} ${courseCode}`
@@ -41,7 +41,7 @@ function CoursePage() {
   } = context
   // * * //
 
-  const semesterRoundState = useActiveRounds({
+  const semesterRoundState = useSemesterRoundState({
     initiallySelectedRoundIndex,
     initiallySelectedSemester,
     roundList: courseData.roundList,
@@ -50,7 +50,6 @@ function CoursePage() {
   })
   const {
     selectedSemester,
-    isSetSelectedRoundIndex,
     firstRoundInActiveSemester,
     activeRound,
     showRoundData,
@@ -150,7 +149,7 @@ function CoursePage() {
             <div className="paragraphs" dangerouslySetInnerHTML={{ __html: sellingText }} />
           </Col>
         </section>
-        {courseData.roundList && hasActiveSemesters && showRoundData && isSetSelectedRoundIndex && (
+        {showRoundData && (
           <BankIdAlert
             tutoringForm={activeRound.round_tutoring_form}
             fundingType={activeRound.round_funding_type}
@@ -214,7 +213,7 @@ function CoursePage() {
                   )}
 
                   {/* ---ROUND CANCELLED OR FULL --- */}
-                  {showRoundData && isSetSelectedRoundIndex && activeRound.round_state !== 'APPROVED' ? (
+                  {showRoundData && activeRound.round_state !== 'APPROVED' ? (
                     <Alert type="info" aria-live="polite">
                       {`${translation.courseLabels.lable_round_state[activeRound.round_state]}
                             `}
@@ -239,7 +238,7 @@ function CoursePage() {
             )}
 
             {/* ---COURSE ROUND INFORMATION--- */}
-            {hasActiveSemesters && isSetSelectedRoundIndex ? (
+            {showRoundData ? (
               <RoundInformationOneCol
                 memoStorageURI={browserConfig.memoStorageUri}
                 semesterRoundState={semesterRoundState}
