@@ -242,7 +242,7 @@ describe('Component <CoursePage>', () => {
           course_requirments_for_final_grade: '',
           course_transitional_reg: '',
           course_valid_from: { year: 2015, semesterNumber: 1 },
-          course_valid_to: [2019, '1'],
+          course_valid_to: { year: 2019, semesterNumber: 1 },
         },
         {
           course_additional_regulations: '',
@@ -267,7 +267,7 @@ describe('Component <CoursePage>', () => {
             year: 2012,
             semesterNumber: 2,
           },
-          course_valid_to: [2014, '2'],
+          course_valid_to: { year: 2014, semesterNumber: 2 },
         },
         {
           course_additional_regulations: '',
@@ -289,7 +289,7 @@ describe('Component <CoursePage>', () => {
           course_requirments_for_final_grade: '',
           course_transitional_reg: '',
           course_valid_from: { year: 2012, semesterNumber: 1 },
-          course_valid_to: [2012, '1'],
+          course_valid_to: { year: 2012, semesterNumber: 1 },
         },
         {
           course_additional_regulations: '',
@@ -311,7 +311,7 @@ describe('Component <CoursePage>', () => {
           course_requirments_for_final_grade: '',
           course_transitional_reg: '',
           course_valid_from: { year: 2010, semesterNumber: 2 },
-          course_valid_to: [2011, '2'],
+          course_valid_to: { year: 2011, semesterNumber: 2 },
         },
         {
           course_additional_regulations: '',
@@ -333,7 +333,7 @@ describe('Component <CoursePage>', () => {
           course_requirments_for_final_grade: '',
           course_transitional_reg: '',
           course_valid_from: { year: 2009, semesterNumber: 1 },
-          course_valid_to: [2010, '1'],
+          course_valid_to: { year: 2010, semesterNumber: 1 },
         },
       ],
     },
