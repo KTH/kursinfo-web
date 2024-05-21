@@ -24,18 +24,14 @@ const useSemesterRoundState = ({
 
   const resetSelectedRoundIndex = useCallback(() => setSelectedRoundIndex(() => UNSET_VALUE), [setSelectedRoundIndex])
 
-  const semesterOnlyHasOneRound = (rounds, semester) =>
+  const determineSemesterOnlyHasOneRound = (rounds, semester) =>
     rounds !== undefined &&
     Object.hasOwnProperty.call(rounds, semester) &&
     rounds[semester] &&
     rounds[semester].length === 1
 
   const activeSemesterOnlyHasOneRound = useMemo(
-    () =>
-      roundList !== undefined &&
-      Object.hasOwnProperty.call(roundList, selectedSemester) &&
-      roundList[selectedSemester] &&
-      roundList[selectedSemester].length === 1,
+    () => determineSemesterOnlyHasOneRound(roundList, selectedSemester),
     [roundList, selectedSemester]
   )
 
@@ -81,7 +77,7 @@ const useSemesterRoundState = ({
   const setSelectedSemesterAsNumber = useCallback(
     newActiveSemester => {
       setSelectedSemester(() => Number(newActiveSemester))
-      if (semesterOnlyHasOneRound(roundList, selectedSemester)) {
+      if (determineSemesterOnlyHasOneRound(roundList, selectedSemester)) {
         setSelectedRoundIndex(0)
       } else {
         resetSelectedRoundIndex()
