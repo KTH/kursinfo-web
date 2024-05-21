@@ -30,7 +30,7 @@ export const useRoundUtils = () => {
 
         return `${semesterStringOrEmpty}${roundYear} ${roundLabel}`
       },
-    [createRoundLabel]
+    [createRoundLabel, translation.courseInformation.course_short_semester]
   )
 
   return {

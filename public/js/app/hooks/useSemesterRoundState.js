@@ -1,0 +1,107 @@
+const { useState, useMemo, useCallback } = require('react')
+const { getValidSyllabusForSemester } = require('./getValidSyllabusForSemester')
+
+const UNSET_VALUE = undefined
+
+const getElementOrEmpty = (arr, index) => {
+  if (!arr || arr.length === 0 || index === undefined || index >= arr.length) {
+    return {}
+  }
+  return arr[index]
+}
+
+const useSemesterRoundState = ({
+  initiallySelectedRoundIndex,
+  initiallySelectedSemester,
+  roundsBySemester,
+  syllabusList,
+  activeSemesters,
+}) => {
+  const [selectedRoundIndex, setSelectedRoundIndex] = useState(initiallySelectedRoundIndex)
+  const [selectedSemester, setSelectedSemester] = useState(Number(initiallySelectedSemester))
+
+  const isSetSelectedRoundIndex = useMemo(() => selectedRoundIndex !== UNSET_VALUE, [selectedRoundIndex])
+
+  const resetSelectedRoundIndex = useCallback(() => setSelectedRoundIndex(() => UNSET_VALUE), [setSelectedRoundIndex])
+
+  const determineSemesterOnlyHasOneRound = (rounds, semester) =>
+    rounds !== undefined &&
+    Object.hasOwnProperty.call(rounds, semester) &&
+    rounds[semester] &&
+    rounds[semester].length === 1
+
+  const activeSemesterOnlyHasOneRound = useMemo(
+    () => determineSemesterOnlyHasOneRound(roundsBySemester, selectedSemester),
+    [roundsBySemester, selectedSemester]
+  )
+
+  const showRoundData = useMemo(() => {
+    if (isSetSelectedRoundIndex || activeSemesterOnlyHasOneRound) {
+      return true
+    }
+
+    return false
+  }, [isSetSelectedRoundIndex, activeSemesterOnlyHasOneRound])
+
+  const roundsForActiveSemester = useMemo(() => {
+    if (!roundsBySemester) {
+      return []
+    }
+
+    return roundsBySemester[selectedSemester]
+  }, [roundsBySemester, selectedSemester])
+
+  const firstRoundInActiveSemester = useMemo(
+    () => getElementOrEmpty(roundsForActiveSemester, 0),
+    [roundsForActiveSemester]
+  )
+
+  const activeRound = useMemo(() => {
+    const index = activeSemesterOnlyHasOneRound ? 0 : selectedRoundIndex
+
+    return getElementOrEmpty(roundsForActiveSemester, index)
+  }, [activeSemesterOnlyHasOneRound, roundsForActiveSemester, selectedRoundIndex])
+
+  const hasActiveSemesters = useMemo(() => activeSemesters && activeSemesters.length > 0, [activeSemesters])
+
+  const activeSyllabus = useMemo(
+    () => getValidSyllabusForSemester(syllabusList, selectedSemester),
+    [syllabusList, selectedSemester]
+  )
+
+  const hasSyllabus = useMemo(
+    () => syllabusList && syllabusList.length > 0 && activeSyllabus !== undefined,
+    [activeSyllabus, syllabusList]
+  )
+
+  const setSelectedSemesterAsNumber = useCallback(
+    newActiveSemester => {
+      setSelectedSemester(() => Number(newActiveSemester))
+      if (determineSemesterOnlyHasOneRound(roundsBySemester, selectedSemester)) {
+        setSelectedRoundIndex(0)
+      } else {
+        resetSelectedRoundIndex()
+      }
+    },
+    [resetSelectedRoundIndex, roundsBySemester, selectedSemester]
+  )
+
+  return {
+    selectedRoundIndex,
+    activeRound,
+    selectedSemester,
+    showRoundData,
+    activeSemesterOnlyHasOneRound,
+    firstRoundInActiveSemester,
+    hasActiveSemesters,
+    activeSyllabus,
+    setSelectedRoundIndex,
+    resetSelectedRoundIndex,
+    setSelectedSemester: setSelectedSemesterAsNumber,
+    hasSyllabus,
+  }
+}
+
+module.exports = {
+  useSemesterRoundState,
+}

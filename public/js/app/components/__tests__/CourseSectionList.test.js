@@ -17,20 +17,20 @@ describe('Component <CourseSectionList>', () => {
     const courseInfoWithLiterature = { course_literature: courseLiteratureTitle }
 
     const [syllabusLiteratureNoTitle] = INFORM_IF_IMPORTANT_INFO_IS_MISSING // en
-    const syllabusListWithoutLiterature = { course_literature: `<i>${syllabusLiteratureNoTitle}</i>` }
+    const syllabusWithoutLiterature = { course_literature: `<i>${syllabusLiteratureNoTitle}</i>` }
 
     const syllabusLiteratureTitle = 'Syllabus Literature (1970)'
     const syllabusLiteratureComment = 'Please read this book.'
     const [syllabusLiteratureNoComment] = INFORM_IF_IMPORTANT_INFO_IS_MISSING // en
-    const syllabusListWithLiteratureAndComment = {
+    const syllabusWithLiteratureAndComment = {
       course_literature: syllabusLiteratureTitle,
       course_literature_comment: syllabusLiteratureComment,
     }
-    const syllabusListWithLiteratureNoComment = {
+    const syllabusWithLiteratureNoComment = {
       course_literature: syllabusLiteratureTitle,
       course_literature_comment: `<i>${syllabusLiteratureNoComment}</i>`,
     }
-    const syllabusListWithNoLiteratureAndComment = {
+    const syllabusWithNoLiteratureAndComment = {
       course_literature_comment: syllabusLiteratureComment,
     }
 
@@ -41,7 +41,7 @@ describe('Component <CourseSectionList>', () => {
     // Course has no literature, and syllabus has no literature – Show 'No information inserted'
     const { rerender } = render(
       <WebContextProvider configIn={context1}>
-        <CourseSectionList courseInfo={courseInfoWithoutLiterature} syllabusList={syllabusListWithoutLiterature} />
+        <CourseSectionList courseInfo={courseInfoWithoutLiterature} syllabus={syllabusWithoutLiterature} />
       </WebContextProvider>
     )
     const noliteratureText = screen.getByText(courseLiteratureNoTitle)
@@ -50,7 +50,7 @@ describe('Component <CourseSectionList>', () => {
     // Course has literature – Show only literature from course
     rerender(
       <WebContextProvider configIn={context1}>
-        <CourseSectionList courseInfo={courseInfoWithLiterature} syllabusList={syllabusListWithLiteratureAndComment} />
+        <CourseSectionList courseInfo={courseInfoWithLiterature} syllabus={syllabusWithLiteratureAndComment} />
       </WebContextProvider>
     )
     const literatureText = screen.getByText(courseLiteratureTitle)
@@ -61,10 +61,7 @@ describe('Component <CourseSectionList>', () => {
     // Course hasn't literature, syllabus does without comment – Show only literature (no comment) from syllabus
     rerender(
       <WebContextProvider configIn={context1}>
-        <CourseSectionList
-          courseInfo={courseInfoWithoutLiterature}
-          syllabusList={syllabusListWithLiteratureNoComment}
-        />
+        <CourseSectionList courseInfo={courseInfoWithoutLiterature} syllabus={syllabusWithLiteratureNoComment} />
       </WebContextProvider>
     )
     syllabusText = screen.getByText(syllabusLiteratureTitle, { exact: false })
@@ -75,10 +72,7 @@ describe('Component <CourseSectionList>', () => {
     // Course hasn't literature, syllabus does with comment – Show literature and literature comment from syllabus
     rerender(
       <WebContextProvider configIn={context1}>
-        <CourseSectionList
-          courseInfo={courseInfoWithoutLiterature}
-          syllabusList={syllabusListWithLiteratureAndComment}
-        />
+        <CourseSectionList courseInfo={courseInfoWithoutLiterature} syllabus={syllabusWithLiteratureAndComment} />
       </WebContextProvider>
     )
     syllabusText = screen.getByText(syllabusLiteratureTitle, { exact: false })
@@ -89,10 +83,7 @@ describe('Component <CourseSectionList>', () => {
     // Course hasn't literature, syllabus only has comment – Show literature comment from syllabus
     rerender(
       <WebContextProvider configIn={context1}>
-        <CourseSectionList
-          courseInfo={courseInfoWithoutLiterature}
-          syllabusList={syllabusListWithNoLiteratureAndComment}
-        />
+        <CourseSectionList courseInfo={courseInfoWithoutLiterature} syllabus={syllabusWithNoLiteratureAndComment} />
       </WebContextProvider>
     )
     syllabusText = screen.getByText(syllabusLiteratureComment, { exact: false })

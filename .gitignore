@@ -49,3 +49,6 @@ notes*
 
 # Files downloaded during unit test
 course-information-statistics-*
+
+# Jest coverage
+coverage

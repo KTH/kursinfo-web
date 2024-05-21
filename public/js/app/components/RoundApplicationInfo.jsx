@@ -2,14 +2,7 @@ import React from 'react'
 import { useLanguage } from '../hooks/useLanguage'
 import { useMissingInfo } from '../hooks/useMissingInfo'
 
-const RoundApplicationInfo = ({
-  roundHeader,
-  selectedRoundHeader,
-  round,
-  showRoundData,
-  courseHasRound,
-  fundingType,
-}) => {
+const RoundApplicationInfo = ({ roundHeader, selectedRoundHeader, round, showRoundData, fundingType }) => {
   const {
     translation: { courseRoundInformation, courseLabels },
   } = useLanguage()
@@ -21,16 +14,12 @@ const RoundApplicationInfo = ({
   }
 
   const showApplicationLink =
-    showRoundData &&
-    courseHasRound &&
-    fundingType === 'LL' &&
-    round &&
-    !isMissingInfoLabel(round.round_application_link)
+    showRoundData && fundingType === 'LL' && round && !isMissingInfoLabel(round.round_application_link)
 
   return (
     <span>
       <h2 id="applicationInformationHeader">{courseLabels.header_select_course}</h2>
-      <div className={`info-box ${courseHasRound && showRoundData ? '' : 'yellow'}`}>
+      <div className={`info-box ${showRoundData ? '' : 'yellow'}`}>
         <h3>{roundHeader}</h3>
         <p>{selectedRoundHeader}</p>
 

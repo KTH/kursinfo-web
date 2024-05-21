@@ -193,8 +193,7 @@ async function _getAllGroupsAlongWithMembersRelatedToCourse(
 }
 
 // ------- EXAMINATOR AND RESPONSIBLES FROM UG-REST_API: ------- /
-async function _getCourseEmployees(apiMemoData) {
-  const { courseCode, semester, applicationCodes = [] } = apiMemoData
+async function getCourseEmployees({ courseCode, semester, applicationCodes = [] }) {
   try {
     // TODO: This will be removed. Because UG Rest Api is still using ladokRoundId. So once it get replaced by application code then this will be removed.
     const ladokRoundIds = await getLadokRoundIdsFromApplicationCodes(courseCode, semester, new Array(applicationCodes))
@@ -229,6 +228,6 @@ async function _getCourseEmployees(apiMemoData) {
 }
 
 module.exports = {
-  getCourseEmployees: _getCourseEmployees,
+  getCourseEmployees,
   getMembersFromGroups: _getMembersFromGroups,
 }

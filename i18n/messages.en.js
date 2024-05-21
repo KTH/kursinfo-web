@@ -144,7 +144,6 @@ module.exports = {
     course_language: 'Language of instruction',
     course_required_equipment: 'Equipment',
     course_level_code: 'Education cycle',
-    course_establishment: 'Fastställande',
     course_decision_to_discontinue: 'Avvecklingsbeslut',
     course_transitional_reg: 'Transitional regulations',
     course_ethical: 'Ethical approach',

@@ -134,30 +134,6 @@ sup {
   }
 }
 
-/************************************************/
-
-/* Animation */
-#roundInformationOneCol,
-#roundKeyInformation,
-#coreContent {
-  @keyframes fadeOutIn {
-    0% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
-  .fadeOutIn {
-    animation-name: fadeOutIn;
-    animation-duration: 800ms;
-  }
-}
-
 ///******************** MODAL ****************************///
 .modal {
   .modal-title {

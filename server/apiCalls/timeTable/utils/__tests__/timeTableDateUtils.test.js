@@ -1,4 +1,4 @@
-const { convertSemesterIntoStartEndDates, convertSemesterToSeasonString } = require('../semesterUtils')
+const { convertSemesterIntoStartEndDates, convertSemesterToSeasonString } = require('../timeTableDateUtils')
 
 describe('semesterUtils', () => {
   describe('convertSemesterIntoStartEndDates', () => {
@@ -72,7 +72,7 @@ describe('semesterUtils', () => {
     })
   })
 
-  describe('convertSemesterToTermString', () => {
+  describe('convertSemesterToSeasonString', () => {
     test.each([
       ['HT24', 20242],
       ['HT23', 20232],

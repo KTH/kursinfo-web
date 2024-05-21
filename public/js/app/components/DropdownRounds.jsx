@@ -1,75 +1,80 @@
-import React from 'react'
-import { useWebContext } from '../context/WebContext'
+import React, { useEffect } from 'react'
 import { useRoundUtils } from '../hooks/useRoundUtils'
+import { useLanguage } from '../hooks/useLanguage'
 
-const DropdownRounds = ({ courseRoundList, label = '' }) => {
-  const [context, setWebContext] = useWebContext()
-  const { roundDisabled } = context
-  const [roundSelectedIndex, setRoundSelectIndex] = React.useState(0)
+const DROPDOWN_ID = 'roundsDropdown'
+const EMPTY_OPTION = -1
 
+const RoundOptions = ({ roundsForSelectedSemester }) => {
   const { createRoundLabel } = useRoundUtils()
 
-  const dropdownID = 'roundsDropdown'
+  return roundsForSelectedSemester.map((round, roundIndex) => {
+    const optionLabel = createRoundLabel(round)
 
-  async function handleDropdownSelect(e) {
-    e.preventDefault()
+    const uniqueKey = `${optionLabel}${round.round_application_code}${round.round_start_date}`
 
-    const eTarget = e.target
-    const selectedOption = eTarget[eTarget.selectedIndex]
+    return (
+      <option key={uniqueKey} value={roundIndex}>
+        {optionLabel}
+      </option>
+    )
+  })
+}
 
-    const selectInfo = selectedOption.id.split('_')
+const DropdownRounds = ({ roundsForSelectedSemester, semesterRoundState }) => {
+  const { setSelectedRoundIndex, resetSelectedRoundIndex } = semesterRoundState
 
-    const newContext = {
-      activeRoundIndex: eTarget.selectedIndex === 0 ? 0 : selectInfo[1],
-      showRoundData: eTarget.selectedIndex !== 0,
-      roundSelectedIndex: eTarget.selectedIndex,
-    }
-    setWebContext({ ...context, ...newContext })
+  const { translation } = useLanguage()
+  const label = translation.courseLabels.label_round_select
 
-    setRoundSelectIndex(eTarget.selectedIndex)
+  const [selectedOptionIndex, setSelectedOptionIndex] = React.useState(EMPTY_OPTION)
+
+  useEffect(() => {
+    setSelectedOptionIndex(EMPTY_OPTION)
+  }, [roundsForSelectedSemester])
+
+  const handleDropdownSelect = React.useCallback(
+    ({ target }) => {
+      const { value } = target
+
+      const selectedOption = parseInt(value)
+
+      const isEmptyOption = selectedOption === EMPTY_OPTION
+
+      const newActiveRoundIndex = isEmptyOption ? 0 : selectedOption
+
+      if (isEmptyOption) {
+        resetSelectedRoundIndex()
+      } else {
+        setSelectedRoundIndex(newActiveRoundIndex)
+      }
+
+      setSelectedOptionIndex(selectedOption)
+    },
+    [setSelectedRoundIndex, resetSelectedRoundIndex, setSelectedOptionIndex]
+  )
+
+  if (!roundsForSelectedSemester || roundsForSelectedSemester.length < 2) {
+    return null
   }
 
-  if (courseRoundList && courseRoundList.length < 2) {
-    return ''
-  }
   return (
     <div className="semester-dropdowns">
       <form>
-        <label className="form-control-label" htmlFor={dropdownID}>
+        <label className="form-control-label" htmlFor={DROPDOWN_ID}>
           {label.label_dropdown}
         </label>
         <div className="form-group">
           <div className="select-wrapper">
             <select
               className="form-select"
-              id={dropdownID}
-              aria-label=""
+              id={DROPDOWN_ID}
               onChange={handleDropdownSelect}
-              disabled={roundDisabled}
+              value={selectedOptionIndex}
             >
-              (
-              <option id={dropdownID + '_-1_0'} defaultValue={roundSelectedIndex === 0} value={label.placeholder}>
-                {label.placeholder}
-              </option>
+              (<option value={EMPTY_OPTION}>{label.placeholder}</option>
               )
-              {courseRoundList.map((round, index) => {
-                const isChosen = roundSelectedIndex - 1 === index
-                const optionLabel = createRoundLabel(round)
-
-                // Key must be unique, otherwise it will not update course rounds list for some courses, ex.FLH3000
-                const uniqueKey = `${optionLabel}${round.round_application_code}${round.round_start_date}`
-
-                return (
-                  <option
-                    key={uniqueKey}
-                    id={dropdownID + '_' + index + '_0'}
-                    defaultValue={isChosen}
-                    value={optionLabel}
-                  >
-                    {optionLabel}
-                  </option>
-                )
-              })}
+              <RoundOptions roundsForSelectedSemester={roundsForSelectedSemester} />
             </select>
           </div>
         </div>

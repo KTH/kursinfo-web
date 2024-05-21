@@ -12,7 +12,7 @@ import { useWebContext } from '../../context/WebContext'
 
 describe('Component <CourseFileLinks>', () => {
   test('renders course offering schedule correctly', () => {
-    useWebContext.mockReturnValue([{ lang: 'en' }])
+    useWebContext.mockReturnValue({ lang: 'en' })
     const [translate] = i18n.messages // en
     const propsWithScheduleUrl = {
       scheduleUrl: 'https://test.com',
@@ -31,7 +31,7 @@ describe('Component <CourseFileLinks>', () => {
   })
 
   test('renders course offering memo link correctly if there is an available course memo as pdf', () => {
-    useWebContext.mockReturnValue([{ lang: 'en' }])
+    useWebContext.mockReturnValue({ lang: 'en' })
     const [translate] = i18n.messages // en
     const propsWithMemoFile = {
       memoStorageURI: 'https://test.com/',
@@ -45,7 +45,7 @@ describe('Component <CourseFileLinks>', () => {
   })
 
   test('renders course offering memo link correctly to web-based course memos', () => {
-    useWebContext.mockReturnValue([{ lang: 'en' }])
+    useWebContext.mockReturnValue({ lang: 'en' })
     const [translate] = i18n.messages // en
     const propsWithMemoFile = {
       memoStorageURI: 'https://test.com/',
@@ -71,7 +71,7 @@ describe('Component <CourseFileLinks>', () => {
   })
 
   test('renders course offering memo link to pdf if it exists among other data and correctly prioriterized', () => {
-    useWebContext.mockReturnValue([{ lang: 'en' }])
+    useWebContext.mockReturnValue({ lang: 'en' })
     const [translate] = i18n.messages // en
     const propsWithMemoFileAndOtherInfo = {
       courseCode: 'KIP1111',

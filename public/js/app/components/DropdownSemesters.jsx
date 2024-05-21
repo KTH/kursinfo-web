@@ -1,89 +1,63 @@
 import React from 'react'
-import { useWebContext } from '../context/WebContext'
+import { useLanguage } from '../hooks/useLanguage'
+
+const DROPDOWN_ID = 'semesterDropdown'
 
 const formatLongSemesterName = (semesterItem, translation) =>
-  `${translation.courseInformation.course_short_semester[semesterItem[1]]}${semesterItem[0]}`
+  `${translation.courseInformation.course_short_semester[semesterItem.semesterNumber]}${semesterItem.year}`
 
-const DropdownSemesters = ({ semesterList, label = '', translation, useStartSemesterFromQuery }) => {
-  const [context, setWebContext] = useWebContext()
+const DropdownSemesters = ({ semesterList, semesterRoundState }) => {
+  const { translation } = useLanguage()
 
-  const dropdownID = 'semesterDropdown'
-  const { hasStartPeriodFromQuery, semesterSelectedIndex } = context
+  const label = translation.courseLabels.label_semester_select
 
-  const showSelectPlaceholder = (!hasStartPeriodFromQuery && !useStartSemesterFromQuery) || !useStartSemesterFromQuery
+  const { selectedSemester, setSelectedSemester } = semesterRoundState
 
-  if (semesterList && semesterList.length < 1) {
+  if (!semesterList || (semesterList && semesterList.length < 1)) {
     return ''
   }
 
-  const selectedSemester = !showSelectPlaceholder ? semesterList[semesterSelectedIndex] : null
+  function handleSemesterDropdownSelect({ target }) {
+    const { value } = target
 
-  const selectedOptionValue = selectedSemester
-    ? formatLongSemesterName(selectedSemester, translation)
-    : label.placeholder
-
-  async function handleSemesterDropdownSelect(e) {
-    e.preventDefault()
-    const { activeSemesters } = context
-    const eventTarget = e.target
-    const selectedOption = eventTarget[eventTarget.selectedIndex]
-
-    const selectInfo = selectedOption.id.split('_')
-    const newIndex = Number(selectInfo[1])
-    const activeSemester = activeSemesters[newIndex] ? activeSemesters[newIndex][2].toString() : ''
-    const showRoundData =
-      context.courseData.roundList[activeSemester] && context.courseData.roundList[activeSemester].length === 1
-
-    const newContext = {
-      syllabusInfoFade:
-        context.activeSyllabusIndex !== context.activeSemestersIndexesWithValidSyllabusesIndexes[newIndex],
-      activeRoundIndex: 0,
-      activeSemesterIndex: newIndex >= 0 ? newIndex : context.defaultIndex,
-      activeSemester: activeSemester || (activeSemesters.length > 0 ? activeSemesters[context.defaultIndex][2] : 0),
-      activeSyllabusIndex: context.activeSemestersIndexesWithValidSyllabusesIndexes[newIndex] || 0,
-      roundInfoFade: true,
-      showRoundData,
-      roundDisabled: newIndex === -1,
-      semesterSelectedIndex: eventTarget.selectedIndex,
-      roundSelectedIndex: 0,
-    }
-    setWebContext({ ...context, ...newContext })
+    setSelectedSemester(value)
   }
 
   return (
     <div className="semester-dropdowns">
       <form>
-        <label className="form-control-label" htmlFor={dropdownID}>
+        <label className="form-control-label" htmlFor={DROPDOWN_ID}>
           {label.label_dropdown}
         </label>
         <div className="form-group">
           <div className="select-wrapper">
             <select
               className="form-select"
-              id={dropdownID}
+              id={DROPDOWN_ID}
               aria-label={label.placeholder}
               onChange={handleSemesterDropdownSelect}
-              defaultValue={selectedOptionValue} // selects value
+              value={selectedSemester}
             >
-              {showSelectPlaceholder && (
-                <option id={dropdownID + '_-1_0'} value={label.placeholder}>
-                  {label.placeholder}
-                </option>
-              )}
-              {semesterList.map((semesterItem, index) => {
-                const longSemesterName = formatLongSemesterName(semesterItem, translation)
-                return (
-                  <option key={longSemesterName} id={dropdownID + '_' + index + '_0'} value={longSemesterName}>
-                    {longSemesterName}
-                  </option>
-                )
-              })}
+              <SemesterOptions semesterList={semesterList} />
             </select>
           </div>
         </div>
       </form>
     </div>
   )
+}
+
+const SemesterOptions = ({ semesterList }) => {
+  const { translation } = useLanguage()
+
+  return semesterList.map(semesterItem => {
+    const longSemesterName = formatLongSemesterName(semesterItem, translation)
+    return (
+      <option key={longSemesterName} value={semesterItem.semester}>
+        {longSemesterName}
+      </option>
+    )
+  })
 }
 
 export default DropdownSemesters

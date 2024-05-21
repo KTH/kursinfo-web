@@ -164,7 +164,7 @@ server.use(
  * ******* APPLICATION ROUTES *******
  * **********************************
  */
-const { System, Course, noCourse, StatisticsCtrl, TimeTableApi } = require('./controllers')
+const { System, Course, noCourse, StatisticsCtrl, TimeTableApi, Kopps, Employees } = require('./controllers')
 const { SyllabusPdf } = require('./middleware')
 
 // System routes
@@ -207,14 +207,16 @@ appRoute.get('system.home', config.proxyPrefixPath.uri + '/', noCourse.getIndex)
 appRoute.get(
   'api.koppsCourseData',
   config.proxyPrefixPath.uri + '/api/kursinfo/getKoppsCourseDataByCourse/:courseCode/:language',
-  Course.getKoppsCourseData
+  Kopps.getKoppsCourseData
 )
+
 appRoute.get(
   'api.plannedSchemaModules',
   config.proxyPrefixPath.uri + '/api/kursinfo/plannedschemamodules/:courseCode/:semester/:applicationCode',
   TimeTableApi.getPlannedSchemaModules
 )
-appRoute.post('ug.rest.api', config.proxyPrefixPath.uri + '/ug/rest', Course.getCourseEmployees)
+
+appRoute.post('api.employees', config.proxyPrefixPath.uri + '/api/kursinfo/employees', Employees.getCourseEmployees)
 
 server.use('/', appRoute.getRouter())
 

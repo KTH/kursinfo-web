@@ -95,6 +95,7 @@ function renderAlertToTop(error = {}, languageIndex) {
 }
 function dismountTopAlert() {
   const alertContainer = document.getElementById('alert-placeholder')
+  // TODO React complains that this should use the containerRoot from above
   const alertContainerRoot = createRoot(alertContainer)
   if (alertContainer) alertContainerRoot.unmount()
 }
@@ -104,7 +105,7 @@ function _getThisHost(thisHostBaseUrl) {
 }
 
 function useStatisticsAsync(chosenOptions, loadType = 'onChange') {
-  const [{ proxyPrefixPath }] = useWebContext()
+  const { proxyPrefixPath } = useWebContext()
   const { languageShortname, languageIndex } = useLanguage()
   const { documentType } = chosenOptions
   const dependenciesList = loadType === 'onChange' ? [chosenOptions] : []

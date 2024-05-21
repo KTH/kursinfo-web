@@ -1,5 +1,4 @@
 import React from 'react'
-import { addClientFunctionsToWebContext } from '../client-context/addClientFunctionsToWebContext'
 
 const WebContext = React.createContext()
 
@@ -27,9 +26,7 @@ export const WebContextProvider = props => {
     }
   }
 
-  // OBS! deviation from NODE-WEB to make functions working
-  const [currentConfig, setConfig] = React.useState({ ...config, ...addClientFunctionsToWebContext() })
-  const value = [currentConfig, setConfig]
+  const value = { ...config }
   // eslint-disable-next-line react/jsx-props-no-spreading
   return <WebContext.Provider value={value} {...props} />
 }

@@ -146,7 +146,6 @@ module.exports = {
     course_language: 'Undervisningsspråk',
     course_required_equipment: 'Utrustning',
     course_level_code: 'Utbildningsnivå',
-    course_establishment: 'Fastställande',
     course_decision_to_discontinue: 'Avvecklingsbeslut',
     course_transitional_reg: 'Övergångsbestämmelser',
     course_ethical: 'Etiskt förhållningssätt',

@@ -116,7 +116,7 @@ function MemosNumbersCharts({ statisticsResult }) {
   ]
   const { combinedMemosPerSchool: docsPerSchool, periods, year, school } = statisticsResult
   const { schools = {} } = docsPerSchool
-  const [{ languageIndex }] = useWebContext()
+  const { languageIndex } = useWebContext()
   if (school === 'allSchools') {
     schools.allSchools = addAllSchoolsData(docsPerSchool)
   }
