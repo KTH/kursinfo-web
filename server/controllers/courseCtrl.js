@@ -12,7 +12,7 @@ const { createBreadcrumbs } = require('../utils/breadcrumbUtil')
 const { getServerSideFunctions } = require('../utils/serverSideRendering')
 
 const { INFORM_IF_IMPORTANT_INFO_IS_MISSING } = require('../util/constants')
-const { getFilteredData: getFilteredData } = require('../apiCalls/filteredData')
+const { getFilteredData } = require('../apiCalls/getFilteredData')
 const { createCourseWebContext } = require('../util/webContextUtil')
 const { HttpError } = require('../HttpError')
 const { calculateInitiallySelectedSemester, isValidCourseCode } = require('./courseCtrlHelpers')
