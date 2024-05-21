@@ -104,7 +104,7 @@ describe('Component <CoursePage>', () => {
         course_title: 'Basic Electrical Engineering',
       },
       language: 'en',
-      roundList: {
+      roundsBySemester: {
         20221: [
           {
             has_round_published_memo: true,

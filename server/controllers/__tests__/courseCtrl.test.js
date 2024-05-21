@@ -159,7 +159,7 @@ describe('Discontinued course to test', () => {
               "course_title": "Kolhydratteknik inom glykovetenskap",
             },
             "language": "sv",
-            "roundList": {},
+            "roundsBySemester": {},
             "syllabusList": [
               {
                 "course_additional_regulations": "",

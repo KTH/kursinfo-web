@@ -44,7 +44,7 @@ function CoursePage() {
   const semesterRoundState = useSemesterRoundState({
     initiallySelectedRoundIndex,
     initiallySelectedSemester,
-    roundList: courseData.roundList,
+    roundsBySemester: courseData.roundsBySemester,
     syllabusList: courseData.syllabusList,
     activeSemesters,
   })
@@ -178,9 +178,10 @@ function CoursePage() {
                   {hasActiveSemesters && (
                     <DropdownSemesters semesterList={activeSemesters} semesterRoundState={semesterRoundState} />
                   )}
-                  {courseData.roundList[selectedSemester] && courseData.roundList[selectedSemester].length > 1 ? (
+                  {courseData.roundsBySemester[selectedSemester] &&
+                  courseData.roundsBySemester[selectedSemester].length > 1 ? (
                     <DropdownRounds
-                      courseRoundList={courseData.roundList[selectedSemester]}
+                      roundsForSelectedSemester={courseData.roundsBySemester[selectedSemester]}
                       semesterRoundState={semesterRoundState}
                     />
                   ) : (

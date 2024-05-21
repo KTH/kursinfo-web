@@ -5,10 +5,10 @@ import { useLanguage } from '../hooks/useLanguage'
 const DROPDOWN_ID = 'roundsDropdown'
 const EMPTY_OPTION = -1
 
-const RoundOptions = ({ courseRoundList }) => {
+const RoundOptions = ({ roundsForSelectedSemester }) => {
   const { createRoundLabel } = useRoundUtils()
 
-  return courseRoundList.map((round, roundIndex) => {
+  return roundsForSelectedSemester.map((round, roundIndex) => {
     const optionLabel = createRoundLabel(round)
 
     const uniqueKey = `${optionLabel}${round.round_application_code}${round.round_start_date}`
@@ -21,7 +21,7 @@ const RoundOptions = ({ courseRoundList }) => {
   })
 }
 
-const DropdownRounds = ({ courseRoundList, semesterRoundState }) => {
+const DropdownRounds = ({ roundsForSelectedSemester, semesterRoundState }) => {
   const { setSelectedRoundIndex, resetSelectedRoundIndex } = semesterRoundState
 
   const { translation } = useLanguage()
@@ -31,7 +31,7 @@ const DropdownRounds = ({ courseRoundList, semesterRoundState }) => {
 
   useEffect(() => {
     setSelectedOptionIndex(EMPTY_OPTION)
-  }, [courseRoundList])
+  }, [roundsForSelectedSemester])
 
   const handleDropdownSelect = React.useCallback(
     ({ target }) => {
@@ -54,7 +54,7 @@ const DropdownRounds = ({ courseRoundList, semesterRoundState }) => {
     [setSelectedRoundIndex, resetSelectedRoundIndex, setSelectedOptionIndex]
   )
 
-  if (!courseRoundList || courseRoundList.length < 2) {
+  if (!roundsForSelectedSemester || roundsForSelectedSemester.length < 2) {
     return null
   }
 
@@ -74,7 +74,7 @@ const DropdownRounds = ({ courseRoundList, semesterRoundState }) => {
             >
               (<option value={EMPTY_OPTION}>{label.placeholder}</option>
               )
-              <RoundOptions courseRoundList={courseRoundList} />
+              <RoundOptions roundsForSelectedSemester={roundsForSelectedSemester} />
             </select>
           </div>
         </div>

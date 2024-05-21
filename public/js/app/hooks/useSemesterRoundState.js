@@ -13,7 +13,7 @@ const getElementOrEmpty = (arr, index) => {
 const useSemesterRoundState = ({
   initiallySelectedRoundIndex,
   initiallySelectedSemester,
-  roundList,
+  roundsBySemester,
   syllabusList,
   activeSemesters,
 }) => {
@@ -31,8 +31,8 @@ const useSemesterRoundState = ({
     rounds[semester].length === 1
 
   const activeSemesterOnlyHasOneRound = useMemo(
-    () => determineSemesterOnlyHasOneRound(roundList, selectedSemester),
-    [roundList, selectedSemester]
+    () => determineSemesterOnlyHasOneRound(roundsBySemester, selectedSemester),
+    [roundsBySemester, selectedSemester]
   )
 
   const showRoundData = useMemo(() => {
@@ -44,12 +44,12 @@ const useSemesterRoundState = ({
   }, [isSetSelectedRoundIndex, activeSemesterOnlyHasOneRound])
 
   const roundsForActiveSemester = useMemo(() => {
-    if (!roundList) {
+    if (!roundsBySemester) {
       return []
     }
 
-    return roundList[selectedSemester]
-  }, [roundList, selectedSemester])
+    return roundsBySemester[selectedSemester]
+  }, [roundsBySemester, selectedSemester])
 
   const firstRoundInActiveSemester = useMemo(
     () => getElementOrEmpty(roundsForActiveSemester, 0),
@@ -77,13 +77,13 @@ const useSemesterRoundState = ({
   const setSelectedSemesterAsNumber = useCallback(
     newActiveSemester => {
       setSelectedSemester(() => Number(newActiveSemester))
-      if (determineSemesterOnlyHasOneRound(roundList, selectedSemester)) {
+      if (determineSemesterOnlyHasOneRound(roundsBySemester, selectedSemester)) {
         setSelectedRoundIndex(0)
       } else {
         resetSelectedRoundIndex()
       }
     },
-    [resetSelectedRoundIndex, roundList, selectedSemester]
+    [resetSelectedRoundIndex, roundsBySemester, selectedSemester]
   )
 
   return {

@@ -187,7 +187,7 @@ function _parseRounds({ roundInfos, courseCode, language, memoList }) {
     responsibles: [],
   }
 
-  const courseRoundList = {}
+  const roundsBySemester = {}
   for (const roundInfo of roundInfos) {
     const courseRound = _getRound(roundInfo, language)
     const { round_course_term: yearAndTermArr, round_application_code: applicationCode } = courseRound
@@ -196,7 +196,7 @@ function _parseRounds({ roundInfos, courseCode, language, memoList }) {
     if (yearAndTermArr && tempList.indexOf(semester) < 0) {
       tempList.push(semester)
       activeSemesterArray.push([...yearAndTermArr, semester])
-      courseRoundList[semester] = []
+      roundsBySemester[semester] = []
     }
 
     const hasMemoForThisRound = !!(memoList[semester] && memoList[semester][applicationCode])
@@ -210,7 +210,7 @@ function _parseRounds({ roundInfos, courseCode, language, memoList }) {
       }
       courseRound.has_round_published_memo = true
     }
-    courseRoundList[semester].push(courseRound)
+    roundsBySemester[semester].push(courseRound)
     // TODO: This will be removed. Because UG Rest Api is still using ladokRoundId. So once it get replaced by application code then this will be removed.
     const { round = {} } = roundInfo
     const { ladokRoundId } = round
@@ -228,7 +228,7 @@ function _parseRounds({ roundInfos, courseCode, language, memoList }) {
     semester,
   }))
 
-  return { courseRoundList, activeSemesters, employees }
+  return { roundsBySemester, activeSemesters, employees }
 }
 
 const getFilteredData = async ({ courseCode, language, memoList }) => {
@@ -260,11 +260,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   const { syllabusList } = createSyllabusList(courseDetails, language)
 
   //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from UG Rest API *****//
-  const {
-    courseRoundList: roundList,
-    activeSemesters,
-    employees,
-  } = _parseRounds({
+  const { roundsBySemester, activeSemesters, employees } = _parseRounds({
     roundInfos: courseDetails.roundInfos,
     courseCode,
     language,
@@ -274,7 +270,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   const courseData = {
     syllabusList,
     courseInfo,
-    roundList,
+    roundsBySemester,
     courseTitleData,
     language,
   }
