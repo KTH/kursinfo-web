@@ -1,19 +1,24 @@
 // Logic is based on old Breadcrumb component in kth-reactstrap: https://github.com/KTH/kth-reactstrap/blob/master/src/components/utbildningsinfo/Breadcrumbs.js
 // Be aware that this entire file is replicated in multiple apps, so changes here should probably be synced to the other apps.
 // See https://confluence.sys.kth.se/confluence/x/6wYJDQ for more information.
-const baseItems = {
-  university: {
-    en: { url: '/en', label: 'KTH' },
-    sv: { url: '/', label: 'KTH' },
-  },
-  student: {
-    en: { url: '/en/student', label: 'Student at KTH' },
-    sv: { url: '/student', label: 'Student på KTH' },
-  },
-  directory: {
-    en: { url: '/student/kurser/kurser-inom-program?l=en', label: 'Course and programme directory' },
-    sv: { url: '/student/kurser/kurser-inom-program', label: 'Kurs- och programkatalogen' },
-  },
+const i18n = require('../../i18n')
+const baseItems = language => {
+  const langIndex = language === 'en' ? 0 : 1
+  const { breadCrumbs } = i18n.messages[langIndex]
+  return {
+    student: {
+      url: `${language === 'en' ? '/en' : ''}/student`,
+      label: breadCrumbs.student,
+    },
+    studies: {
+      url: `${language === 'en' ? '/en' : ''}/studier`,
+      label: breadCrumbs.studies,
+    },
+    directory: {
+      url: `/student/kurser/kurser-inom-program${language === 'en' ? '?l=en' : ''}`,
+      label: breadCrumbs.directory,
+    },
+  }
 }
 
 function createAboutCourseItem(language, courseCode) {
@@ -25,7 +30,7 @@ function createAboutCourseItem(language, courseCode) {
 }
 
 function createBreadcrumbs(language, courseCode) {
-  const items = [baseItems.university[language], baseItems.student[language], baseItems.directory[language]]
+  const items = [baseItems(language).student, baseItems(language).studies, baseItems(language).directory]
   if (courseCode) {
     items.push(createAboutCourseItem(language, courseCode))
   }

@@ -372,4 +372,9 @@ module.exports = {
     },
     earlierYearThan2019: { text: 'Det finns inga data tidigare än 2019' },
   },
+  breadCrumbs: {
+    student: 'Studentwebb',
+    studies: 'Studier',
+    directory: 'Kurs- och programkatalogen',
+  },
 }
