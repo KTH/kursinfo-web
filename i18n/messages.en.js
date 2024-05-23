@@ -398,4 +398,9 @@ module.exports = {
     },
     earlierYearThan2019: { text: 'There is no data earlier than 2019' },
   },
+  breadCrumbs: {
+    student: 'Student web',
+    studies: 'Studies',
+    directory: 'Course and programme directory',
+  },
 }
