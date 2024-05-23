@@ -46,9 +46,7 @@ Kursinfo-web fetches data from:
 
 ### Secrets for Development
 
-Secrets during local development are stored in a `.env` file in the root of your project. This file should be in `.gitignore`. Template for `.env` with all needed environment variables are available in the `env.in` file.
-
-Secrets (names, passwords, keys, and uri:s) for dev and prod are stored in the the course information project’s Azure key vault.
+Secrets during local development are stored in a gitignored `.env` file (`env.in` can be used as template for your `.env` file). More details about environment variable setup and secrets can be found in [confluence](https://confluence.sys.kth.se/confluence/x/OYKBDQ).
 
 ## For Development
 
