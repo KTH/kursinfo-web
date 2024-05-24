@@ -42,7 +42,7 @@ module.exports = {
 
   // API keys
   apiKey: {
-    kursinfoApi: getEnv('API_KEY', devDefaults('123489')),
+    kursinfoApi: getEnv('KURSINFO_API_KEY', devDefaults('123489')),
     kursplanApi: getEnv('KURSPLAN_API_KEY', devDefaults('5678')),
     kursPmDataApi: getEnv('KURS_PM_DATA_API_KEY', devDefaults('9876')),
     kursutvecklingApi: getEnv('KURSUTVECKLING_API_KEY', devDefaults('1234')),
