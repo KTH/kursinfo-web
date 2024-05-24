@@ -2,7 +2,7 @@
 // Be aware that this entire file is replicated in multiple apps, so changes here should probably be synced to the other apps.
 // See https://confluence.sys.kth.se/confluence/x/6wYJDQ for more information.
 const i18n = require('../../i18n')
-const baseItems = language => {
+const createBaseItems = language => {
   const langIndex = language === 'en' ? 0 : 1
   const { breadCrumbs } = i18n.messages[langIndex]
   return {
@@ -30,7 +30,8 @@ function createAboutCourseItem(language, courseCode) {
 }
 
 function createBreadcrumbs(language, courseCode) {
-  const items = [baseItems(language).student, baseItems(language).studies, baseItems(language).directory]
+  const baseItems = createBaseItems(language)
+  const items = [baseItems.student, baseItems.studies, baseItems.directory]
   if (courseCode) {
     items.push(createAboutCourseItem(language, courseCode))
   }
