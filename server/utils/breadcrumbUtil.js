@@ -11,7 +11,7 @@ const createBaseItems = language => {
       label: breadCrumbs.student,
     },
     studies: {
-      url: `${language === 'en' ? '/en' : ''}/studier`,
+      url: `${language === 'en' ? '/en' : ''}/student/studier`,
       label: breadCrumbs.studies,
     },
     directory: {
