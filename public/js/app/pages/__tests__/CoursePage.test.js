@@ -11,9 +11,12 @@ import { useCourseEmployees } from '../../hooks/useCourseEmployees'
 
 jest.mock('../../hooks/useCourseEmployees')
 const context = {
+  courseCode: 'SF1624',
   browserConfig: {},
+  initiallySelectedSemester: 20222,
+  initiallySelectedRoundIndex: undefined,
   courseData: {
-    syllabusList: [{ course_valid_from: [], course_valid_to: [] }],
+    syllabusList: [],
     courseInfo: {
       course_recruitment_text: '',
       course_application_info: '',
@@ -220,7 +223,6 @@ describe('Component <CoursePage>', () => {
             year: 2019,
             semesterNumber: 2,
           },
-          course_valid_to: [],
         },
         {
           course_additional_regulations: '',
