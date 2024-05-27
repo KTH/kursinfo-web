@@ -1,14 +1,11 @@
 import React from 'react'
 
-import { useWebContext } from '../context/WebContext'
-
 import { useLanguage } from '../hooks/useLanguage'
 import { useMissingInfo } from '../hooks/useMissingInfo'
 import CourseSection from './CourseSections'
-import SyllabusInformation from './SyllabusInformation'
+import { SyllabusInformation } from './SyllabusInformation'
 
-function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabusName, hasSyllabus }) {
-  const context = useWebContext()
+function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabusName }) {
   const { translation } = useLanguage()
   const { isMissingInfoLabel, missingInfoLabel } = useMissingInfo()
 
@@ -187,7 +184,7 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
       id={partToShow}
       aria-label={`${translation.courseLabels.label_course_information} ${syllabusName}`}
     >
-      <SyllabusInformation context={context} syllabus={syllabus} hasSyllabus={hasSyllabus} translation={translation} />
+      <SyllabusInformation syllabusName={syllabusName} />
       <CourseSection
         sectionHeader={translation.courseLabels.header_content}
         headerType="3"

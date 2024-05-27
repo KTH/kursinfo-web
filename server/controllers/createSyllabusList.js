@@ -42,8 +42,8 @@ const _createEmptySyllabusData = language => ({
   course_requirments_for_final_grade: '',
   course_literature: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
   course_literature_comment: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-  course_valid_from: [],
-  course_valid_to: [],
+  course_valid_from: undefined,
+  course_valid_to: undefined,
   course_required_equipment: '',
   course_examination: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
   course_examination_comments: '',
@@ -75,7 +75,7 @@ const _parseSyllabusData = (courseDetails, semesterIndex = 0, language) => {
     course_literature: parseOrSetEmpty(semesterSyllabus.courseSyllabus.literature, language),
     course_literature_comment: parseOrSetEmpty(semesterSyllabus.courseSyllabus.literatureComment, language),
     course_valid_from: parseSemesterIntoYearSemesterNumber(parseOrSetEmpty(semesterSyllabus.validFromTerm.term)),
-    course_valid_to: [],
+    course_valid_to: undefined,
     course_required_equipment: parseOrSetEmpty(semesterSyllabus.courseSyllabus.requiredEquipment, language),
     course_examination:
       examinationSets && Object.keys(examinationSets).length > 0

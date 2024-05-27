@@ -1,4 +1,13 @@
 /**
+ * semester: 20242 (Number) -> Autumn 2024
+ * yearSemesterNubmer: {
+ *    year: number
+ *    semesterNumber: number
+ * }
+ *
+ */
+
+/**
  * Takes a yearSemesterNumber and returns a yearSemesterNumber representing the semester previous to the given semester
  *
  * @param {Object} yearSemesterNumber

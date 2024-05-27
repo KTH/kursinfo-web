@@ -102,6 +102,23 @@ function CoursePage() {
     return () => (isMounted = false)
   })
 
+  const createValidToString = () => {
+    if (!activeSyllabus.course_valid_to) return ''
+    return `${translation.courseInformation.course_short_semester[activeSyllabus.course_valid_to.semesterNumber]}${activeSyllabus.course_valid_to.year}`
+  }
+
+  const createValidFromString = () =>
+    `${
+      translation.courseInformation.course_short_semester[activeSyllabus.course_valid_from.semesterNumber]
+    }${activeSyllabus.course_valid_from.year}`
+
+  const createSyllabusName = () => {
+    if (!hasSyllabus) return ''
+    return `${courseCode}${` (${createValidFromString()}\u2013${createValidToString()})`}`
+  }
+
+  const syllabusName = createSyllabusName()
+
   return (
     <Row id="kursinfo-main-page">
       <SideMenu courseCode={courseCode} labels={translation.courseLabels.sideMenu} />
@@ -262,7 +279,7 @@ function CoursePage() {
               aria-label={translation.courseLabels.label_syllabus_pdf_header}
             >
               <h3 className="t4">{translation.courseLabels.label_syllabus_pdf_header}</h3>
-              {activeSyllabus && activeSyllabus.course_valid_from && activeSyllabus.course_valid_from.year ? (
+              {hasSyllabus && activeSyllabus.course_valid_from && activeSyllabus.course_valid_from.year ? (
                 <>
                   <p>{translation.courseLabels.label_syllabus_pdf_info}</p>
                   <a
@@ -272,17 +289,7 @@ function CoursePage() {
                     rel="noreferrer"
                     className="pdf-link pdf-link-fix pdf-link-last-line"
                   >
-                    {`${translation.courseLabels.label_syllabus_link} ${courseCode}${` (${
-                      translation.courseInformation.course_short_semester[
-                        activeSyllabus.course_valid_from.semesterNumber
-                      ]
-                    }${activeSyllabus.course_valid_from.year}–${
-                      activeSyllabus.course_valid_to.length > 0
-                        ? translation.courseInformation.course_short_semester[activeSyllabus.course_valid_to[1]] +
-                          '' +
-                          activeSyllabus.course_valid_to[0]
-                        : ''
-                    })`}`}
+                    {`${translation.courseLabels.label_syllabus_link} ${syllabusName}`}
                   </a>
                 </>
               ) : (
@@ -313,23 +320,7 @@ function CoursePage() {
                 syllabus={activeSyllabus}
                 hasSyllabus={hasSyllabus}
                 partToShow="courseContentBlock"
-                syllabusName={
-                  hasSyllabus
-                    ? `${courseCode}${` (${
-                        translation.courseInformation.course_short_semester[
-                          activeSyllabus.course_valid_from.semesterNumber
-                        ]
-                      }${
-                        activeSyllabus && activeSyllabus.course_valid_from ? activeSyllabus.course_valid_from.year : ''
-                      }–${
-                        activeSyllabus.course_valid_to.length > 0
-                          ? translation.courseInformation.course_short_semester[activeSyllabus.course_valid_to[1]] +
-                            '' +
-                            activeSyllabus.course_valid_to[0]
-                          : ''
-                      })`}`
-                    : ''
-                }
+                syllabusName={hasSyllabus ? syllabusName : ''}
               />
 
               {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}

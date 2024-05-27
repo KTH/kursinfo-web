@@ -191,7 +191,7 @@ describe('Discontinued course to test', () => {
                   "semesterNumber": 2,
                   "year": 2019,
                 },
-                "course_valid_to": [],
+                "course_valid_to": undefined,
               },
             ],
           },

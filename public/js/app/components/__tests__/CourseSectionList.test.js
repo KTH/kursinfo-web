@@ -17,20 +17,26 @@ describe('Component <CourseSectionList>', () => {
     const courseInfoWithLiterature = { course_literature: courseLiteratureTitle }
 
     const [syllabusLiteratureNoTitle] = INFORM_IF_IMPORTANT_INFO_IS_MISSING // en
-    const syllabusWithoutLiterature = { course_literature: `<i>${syllabusLiteratureNoTitle}</i>` }
+    const syllabusWithoutLiterature = {
+      course_valid_from: { year: 2020, semesterNumber: 2 },
+      course_literature: `<i>${syllabusLiteratureNoTitle}</i>`,
+    }
 
     const syllabusLiteratureTitle = 'Syllabus Literature (1970)'
     const syllabusLiteratureComment = 'Please read this book.'
     const [syllabusLiteratureNoComment] = INFORM_IF_IMPORTANT_INFO_IS_MISSING // en
     const syllabusWithLiteratureAndComment = {
+      course_valid_from: { year: 2020, semesterNumber: 2 },
       course_literature: syllabusLiteratureTitle,
       course_literature_comment: syllabusLiteratureComment,
     }
     const syllabusWithLiteratureNoComment = {
+      course_valid_from: { year: 2020, semesterNumber: 2 },
       course_literature: syllabusLiteratureTitle,
       course_literature_comment: `<i>${syllabusLiteratureNoComment}</i>`,
     }
     const syllabusWithNoLiteratureAndComment = {
+      course_valid_from: { year: 2020, semesterNumber: 2 },
       course_literature_comment: syllabusLiteratureComment,
     }
 
@@ -100,7 +106,10 @@ describe('Component <CourseSectionList>', () => {
     }
     const { rerender } = render(
       <WebContextProvider configIn={{ courseInfo: courseInfoWithLink }}>
-        <CourseSectionList courseInfo={courseInfoWithLink} />
+        <CourseSectionList
+          courseInfo={courseInfoWithLink}
+          syllabus={{ course_valid_from: { year: 2020, semesterNumber: 2 } }}
+        />
       </WebContextProvider>
     )
     const linkText1 = screen.queryByText(courseDepartmentLinkText)
@@ -114,7 +123,10 @@ describe('Component <CourseSectionList>', () => {
     }
     rerender(
       <WebContextProvider configIn={{ courseInfo: courseInfoWithoutLink }}>
-        <CourseSectionList courseInfo={courseInfoWithoutLink} />
+        <CourseSectionList
+          courseInfo={courseInfoWithoutLink}
+          syllabus={{ course_valid_from: { year: 2020, semesterNumber: 2 } }}
+        />
       </WebContextProvider>
     )
     const linkText2 = screen.queryByText(courseDepartmentLinkText)
