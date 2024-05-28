@@ -408,6 +408,20 @@ describe('useSemesterRoundsLogic', () => {
     expect(result.current.hasSyllabus).toBe(false)
   })
 
+  test('if selectedSemester is undefined, sets the latest syllabus as activeSyllabus', () => {
+    const { result } = renderHook(() =>
+      useSemesterRoundState({
+        initiallySelectedRoundIndex: undefined,
+        initiallySelectedSemester: undefined,
+        roundsBySemester,
+        syllabusList,
+        activeSemesters,
+      })
+    )
+
+    expect(result.current.activeSyllabus).toEqual(syllabusList[0])
+  })
+
   test('calling resetSelectedRoundIndex resets round values', async () => {
     const { result } = renderHook(() =>
       useSemesterRoundState({

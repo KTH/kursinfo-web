@@ -64,10 +64,11 @@ const useSemesterRoundState = ({
 
   const hasActiveSemesters = useMemo(() => activeSemesters && activeSemesters.length > 0, [activeSemesters])
 
-  const activeSyllabus = useMemo(
-    () => getValidSyllabusForSemester(syllabusList, selectedSemester),
-    [syllabusList, selectedSemester]
-  )
+  const activeSyllabus = useMemo(() => {
+    if (!selectedSemester) return getElementOrEmpty(syllabusList, 0)
+
+    return getValidSyllabusForSemester(syllabusList, selectedSemester)
+  }, [syllabusList, selectedSemester])
 
   const hasSyllabus = useMemo(
     () => syllabusList && syllabusList.length > 0 && activeSyllabus !== undefined,
