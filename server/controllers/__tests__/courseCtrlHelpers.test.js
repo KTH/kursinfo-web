@@ -90,8 +90,8 @@ describe('courseCtrlHelpers', () => {
         })
 
         test.each([
-          ['2022-09-04', 20231],
-          ['2023-03-04', 20232],
+          ['2022-10-20', 20231],
+          ['2023-04-22', 20232],
           ['2023-12-30', 20241],
           ['2024-07-04', 20242],
         ])('should match the date %s to the active semester %s', (currentDate, expectedTerm) => {
@@ -129,26 +129,54 @@ describe('courseCtrlHelpers', () => {
   })
 
   describe('generateSemesterBasedOnDate', () => {
-    test('January through February result in period 1 of the same year', () => {
+    test('January through March result in period 1 of the same year', () => {
       const expectedSemester = '20241'
       expect(generateSelectedSemesterBasedOnDate(new Date('2024-01-01'))).toBe(expectedSemester)
       expect(generateSelectedSemesterBasedOnDate(new Date('2024-02-29'))).toBe(expectedSemester)
+      expect(generateSelectedSemesterBasedOnDate(new Date('2024-03-01'))).toBe(expectedSemester)
     })
 
-    test('March through August result in period 2 of the same year', () => {
+    test('April 1st through April 19th result in period 1 of the same year', () => {
+      const expectedSemester = '20241'
+      expect(generateSelectedSemesterBasedOnDate(new Date('2024-04-01'))).toBe(expectedSemester)
+      expect(generateSelectedSemesterBasedOnDate(new Date('2024-04-10'))).toBe(expectedSemester)
+      expect(generateSelectedSemesterBasedOnDate(new Date('2024-04-19'))).toBe(expectedSemester)
+    })
+
+    test('April 20th through April 30th result in period 2 of the same year', () => {
       const expectedSemester = '20242'
-      expect(generateSelectedSemesterBasedOnDate(new Date('2024-03-01'))).toBe(expectedSemester)
-      expect(generateSelectedSemesterBasedOnDate(new Date('2024-04-29'))).toBe(expectedSemester)
+      expect(generateSelectedSemesterBasedOnDate(new Date('2024-04-20'))).toBe(expectedSemester)
+      expect(generateSelectedSemesterBasedOnDate(new Date('2024-04-25'))).toBe(expectedSemester)
+      expect(generateSelectedSemesterBasedOnDate(new Date('2024-04-30'))).toBe(expectedSemester)
+    })
+
+    test('May through September result in period 2 of the same year', () => {
+      const expectedSemester = '20242'
+      expect(generateSelectedSemesterBasedOnDate(new Date('2024-05-01'))).toBe(expectedSemester)
       expect(generateSelectedSemesterBasedOnDate(new Date('2024-05-29'))).toBe(expectedSemester)
       expect(generateSelectedSemesterBasedOnDate(new Date('2024-06-29'))).toBe(expectedSemester)
       expect(generateSelectedSemesterBasedOnDate(new Date('2024-07-29'))).toBe(expectedSemester)
       expect(generateSelectedSemesterBasedOnDate(new Date('2024-08-29'))).toBe(expectedSemester)
+      expect(generateSelectedSemesterBasedOnDate(new Date('2024-09-01'))).toBe(expectedSemester)
+      expect(generateSelectedSemesterBasedOnDate(new Date('2024-09-30'))).toBe(expectedSemester)
     })
 
-    test('September through december result in period 1 of the next year', () => {
-      const expectedSemester = '20251'
-      expect(generateSelectedSemesterBasedOnDate(new Date('2024-09-01'))).toBe(expectedSemester)
+    test('October 1st through October 19th result in period 1 of the same year', () => {
+      const expectedSemester = '20242'
       expect(generateSelectedSemesterBasedOnDate(new Date('2024-10-01'))).toBe(expectedSemester)
+      expect(generateSelectedSemesterBasedOnDate(new Date('2024-10-10'))).toBe(expectedSemester)
+      expect(generateSelectedSemesterBasedOnDate(new Date('2024-10-19'))).toBe(expectedSemester)
+    })
+
+    test('October 20th through October 30th result in period 1 of the next year', () => {
+      const expectedSemester = '20251'
+      expect(generateSelectedSemesterBasedOnDate(new Date('2024-10-20'))).toBe(expectedSemester)
+      expect(generateSelectedSemesterBasedOnDate(new Date('2024-10-25'))).toBe(expectedSemester)
+      expect(generateSelectedSemesterBasedOnDate(new Date('2024-10-30'))).toBe(expectedSemester)
+    })
+
+    test('November through December result in period 1 of the next year', () => {
+      const expectedSemester = '20251'
       expect(generateSelectedSemesterBasedOnDate(new Date('2024-11-01'))).toBe(expectedSemester)
       expect(generateSelectedSemesterBasedOnDate(new Date('2024-12-01'))).toBe(expectedSemester)
     })

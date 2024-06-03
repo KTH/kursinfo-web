@@ -1,32 +1,32 @@
+const { isBefore } = require('date-fns')
 const { INFORM_IF_IMPORTANT_INFO_IS_MISSING } = require('../util/constants')
-const { convertYearSemesterNumberIntoSemester } = require('../util/semesterUtils')
+const { convertYearSemesterNumberIntoSemester, SEMESTER_NUMBER } = require('../util/semesterUtils')
+
+const DATE_OF_MONTH_ON_WHICH_TO_SWITCH_TO_NEXT_SEMESTER = 20
+const SPRING_BREAK_MONTH = 4
+const AUTUMN_BREAK_MONTH = 10
+
+const createSpringBreakDateForYear = year =>
+  new Date(`${year}-${SPRING_BREAK_MONTH}-${DATE_OF_MONTH_ON_WHICH_TO_SWITCH_TO_NEXT_SEMESTER}`)
+const createAutumnBreakDateForYear = year =>
+  new Date(`${year}-${AUTUMN_BREAK_MONTH}-${DATE_OF_MONTH_ON_WHICH_TO_SWITCH_TO_NEXT_SEMESTER}`)
 
 /**
  * Generates a semester-string based on the current year and month.
  * E.g. if its May 2024, the semester string would be `20242`
  *
  */
-function generateSelectedSemesterBasedOnDate(thisDate) {
-  const currentYear = thisDate.getFullYear()
-  switch (thisDate.getMonth()) {
-    case 0: // January
-    case 1: // February
-      return `${currentYear}1`
-    case 2: // March
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7: // August
-      return `${currentYear}2`
-    case 8: // September
-    case 9:
-    case 10:
-    case 11: // December
-      return `${currentYear + 1}1`
-    default:
-      return ''
-  }
+function generateSelectedSemesterBasedOnDate(date) {
+  const year = date.getFullYear()
+
+  const springBreakDate = createSpringBreakDateForYear(year)
+  const autumnBreakDate = createAutumnBreakDateForYear(year)
+
+  if (isBefore(date, springBreakDate)) return `${year}${SEMESTER_NUMBER.SPRING}`
+
+  if (isBefore(date, autumnBreakDate)) return `${year}${SEMESTER_NUMBER.AUTUMN}`
+
+  return `${year + 1}${SEMESTER_NUMBER.SPRING}`
 }
 
 const semesterExistsInArray = (needle, haystack) => haystack.some(({ semester }) => semester === needle)
