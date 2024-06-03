@@ -242,12 +242,21 @@ const formattedGradeScales = {
 }
 
 describe('createSyllabusList', () => {
-  test('exists', () => {
+  test('creates syllabus list', () => {
     const { syllabusList } = createSyllabusList(
       { publicSyllabusVersions: syllabuses, course, examinationSets, formattedGradeScales },
       'en'
     )
 
     expect(syllabusList).toEqual(expectedSyllabusList)
+  })
+
+  test('if empty publicSyllabusVersions, returns empty array', () => {
+    const { syllabusList } = createSyllabusList(
+      { publicSyllabusVersions: [], course, examinationSets, formattedGradeScales },
+      'en'
+    )
+
+    expect(syllabusList).toEqual([])
   })
 })

@@ -104,7 +104,7 @@ const createSyllabusList = (courseDetails, lang) => {
 
   if (publicSyllabusVersions.length === 0) {
     return {
-      syllabusList: [_createEmptySyllabusData()],
+      syllabusList: [],
     }
   }
 
