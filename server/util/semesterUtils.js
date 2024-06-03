@@ -7,6 +7,11 @@
  *
  */
 
+const SEMESTER_NUMBER = {
+  SPRING: 1,
+  AUTUMN: 2,
+}
+
 /**
  * Takes a yearSemesterNumber and returns a yearSemesterNumber representing the semester previous to the given semester
  *
@@ -86,4 +91,5 @@ module.exports = {
   parseSemesterIntoYearSemesterNumber,
   convertYearSemesterNumberIntoSemester,
   convertToYearSemesterNumberOrGetCurrent,
+  SEMESTER_NUMBER,
 }
