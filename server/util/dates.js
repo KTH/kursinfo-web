@@ -1,4 +1,4 @@
-const { utcToZonedTime, format } = require('date-fns-tz')
+const { toZonedTime, format } = require('date-fns-tz')
 const { sv, en } = require('date-fns/locale')
 const { INFORM_IF_IMPORTANT_INFO_IS_MISSING } = require('./constants')
 
@@ -25,7 +25,7 @@ function formatVersionDate(language = 'sv', date) {
   const unixTime = Date.parse(date)
   if (unixTime) {
     const timeZone = 'Europe/Berlin'
-    const zonedDate = utcToZonedTime(new Date(unixTime), timeZone)
+    const zonedDate = toZonedTime(new Date(unixTime), timeZone)
     return format(zonedDate, 'Ppp', { locale: locales[language] })
   }
   return null
