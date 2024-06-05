@@ -70,6 +70,9 @@ const useSemesterRoundState = ({
     return getValidSyllabusForSemester(syllabusList, selectedSemester)
   }, [syllabusList, selectedSemester])
 
+  /**
+   * Is true if the course has a non-empty syllabus
+   */
   const hasSyllabus = useMemo(
     () => syllabusList && syllabusList.length > 0 && activeSyllabus !== undefined,
     [activeSyllabus, syllabusList]

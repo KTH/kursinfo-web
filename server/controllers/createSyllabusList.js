@@ -101,10 +101,12 @@ const _parseSyllabusData = (courseDetails, semesterIndex = 0, language) => {
 
 const createSyllabusList = (courseDetails, lang) => {
   const { publicSyllabusVersions } = courseDetails
+  const emptySyllabusData = _createEmptySyllabusData(lang)
 
   if (publicSyllabusVersions.length === 0) {
     return {
       syllabusList: [],
+      emptySyllabusData,
     }
   }
 
@@ -123,6 +125,7 @@ const createSyllabusList = (courseDetails, lang) => {
 
   return {
     syllabusList,
+    emptySyllabusData,
   }
 }
 

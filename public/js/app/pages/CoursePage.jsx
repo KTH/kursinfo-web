@@ -58,7 +58,7 @@ function CoursePage() {
     hasSyllabus,
   } = semesterRoundState
 
-  const { courseInfo } = courseData
+  const { courseInfo, emptySyllabusData } = courseData
   const { translation, languageShortname } = useLanguage()
 
   const { isMissingInfoLabel } = useMissingInfo()
@@ -317,10 +317,10 @@ function CoursePage() {
               {/* --- COURSE INFORMATION CONTAINER---  */}
               <CourseSectionList
                 courseInfo={courseInfo}
-                syllabus={activeSyllabus}
-                hasSyllabus={hasSyllabus}
+                // if there is no syllabus, we still want to display empty syllabus data
+                syllabus={hasSyllabus ? activeSyllabus : emptySyllabusData}
                 partToShow="courseContentBlock"
-                syllabusName={hasSyllabus ? syllabusName : ''}
+                syllabusName={syllabusName}
               />
 
               {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}

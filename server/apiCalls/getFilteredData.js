@@ -257,7 +257,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   const courseTitleData = _parseTitleData(courseDetails)
 
   //* **** Get list of syllabuses and valid syllabus semesters *****//
-  const { syllabusList } = createSyllabusList(courseDetails, language)
+  const { syllabusList, emptySyllabusData } = createSyllabusList(courseDetails, language)
 
   //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from UG Rest API *****//
   const { roundsBySemester, activeSemesters, employees } = _parseRounds({
@@ -273,6 +273,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
     roundsBySemester,
     courseTitleData,
     language,
+    emptySyllabusData,
   }
 
   return {
