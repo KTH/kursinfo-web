@@ -334,6 +334,7 @@ function CoursePage() {
             </div>
           </Col>
         </Row>
+        <pre style={{ display: 'none' }}>{context.debugHeadersJson}</pre>
       </main>
     </Row>
   )

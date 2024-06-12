@@ -115,6 +115,9 @@ async function getIndex(req, res, next) {
       initiallySelectedSemester,
     })
 
+    const headers = JSON.stringify(req.headers, null, 2)
+    webContext.debugHeadersJson = headers
+
     const compressedData = getCompressedData(webContext)
 
     const { uri: proxyPrefix } = serverConfig.proxyPrefixPath

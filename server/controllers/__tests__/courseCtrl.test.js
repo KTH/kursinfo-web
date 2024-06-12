@@ -212,6 +212,9 @@ describe('Discontinued course to test', () => {
               },
             ],
           },
+          "debugHeadersJson": "{
+        "accept": "application/json"
+      }",
           "employees": {
             "responsibles": [],
             "teachers": [],
