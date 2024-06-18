@@ -12,6 +12,7 @@ import RoundInformationOneCol from '../components/RoundInformationOneCol'
 import CourseTitle from '../components/CourseTitle'
 import CourseSectionList from '../components/CourseSectionList'
 import DropdownRounds from '../components/DropdownRounds'
+import { SingleRoundLabel } from '../components/SingleRoundLabel'
 import DropdownSemesters from '../components/DropdownSemesters'
 import InfoModal from '../components/InfoModal'
 import SideMenu from '../components/SideMenu'
@@ -120,6 +121,11 @@ function CoursePage() {
 
   const syllabusName = createSyllabusName()
 
+  const showRoundDropdown =
+    courseData.roundsBySemester &&
+    courseData.roundsBySemester[selectedSemester] &&
+    courseData.roundsBySemester[selectedSemester].length > 1
+
   return (
     <Row id="kursinfo-main-page">
       <SideMenu courseCode={courseCode} labels={translation.courseLabels.sideMenu} />
@@ -185,6 +191,14 @@ function CoursePage() {
               title={`${translation.courseInformation.course_short_semester[semesterItem.semesterNumber]}${semesterItem.year}`}
             >
               {semesterItem.semester}
+              {showRoundDropdown ? (
+                <DropdownRounds
+                  roundsForSelectedSemester={courseData.roundsBySemester[selectedSemester]}
+                  semesterRoundState={semesterRoundState}
+                />
+              ) : (
+                showRoundData && <SingleRoundLabel round={firstRoundInActiveSemester} />
+              )}
             </Tab>
           ))}
         </Tabs>
