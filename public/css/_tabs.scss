@@ -1,0 +1,20 @@
+@use '~@kth/style/scss/components/button.scss';
+
+.tabs {
+  [role='tablist'] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+
+    button {
+      @extend .kth-button;
+      &[aria-selected='false'] {
+        @extend .secondary;
+      }
+      &[aria-selected='true'] {
+        @extend .primary;
+      }
+    }
+  }
+}
