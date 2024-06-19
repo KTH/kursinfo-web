@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 
 import { Row, Col } from 'reactstrap'
 
-import { FORSKARUTB_URL, SYLLABUS_URL } from '../util/constants'
+import { FORSKARUTB_URL } from '../util/constants'
 import { aboutCourseLink } from '../util/links'
 
 import Alert from '../components-shared/Alert'
@@ -17,13 +17,13 @@ import { SingleRoundLabel } from '../components/SingleRoundLabel'
 import DropdownSemesters from '../components/DropdownSemesters'
 import InfoModal from '../components/InfoModal'
 import SideMenu from '../components/SideMenu'
+import { SyllabusContainer } from '../components/SyllabusContainer'
 import { Tabs, Tab } from '../components/Tabs/Tabs'
 import { useWebContext } from '../context/WebContext'
 import BankIdAlert from '../components/BankIdAlert'
 import { useLanguage } from '../hooks/useLanguage'
 import { useMissingInfo } from '../hooks/useMissingInfo'
 import { useSemesterRoundState } from '../hooks/useSemesterRoundState'
-import { convertYearSemesterNumberIntoSemester } from '../../../../server/util/semesterUtils'
 
 const aboutCourseStr = (translate, courseCode = '') => `${translate.site_name} ${courseCode}`
 
@@ -202,6 +202,12 @@ function CoursePage() {
               )}
 
               {showRoundData && <RoundInformation courseRound={activeRound} />}
+
+              <SyllabusContainer
+                courseCode={courseCode}
+                syllabusName={syllabusName}
+                semesterRoundState={semesterRoundState}
+              />
             </Tab>
           ))}
         </Tabs>
@@ -305,29 +311,6 @@ function CoursePage() {
                 )}
               </div>
             )}
-            <aside
-              id="syllabusContainer"
-              className="info-box"
-              aria-label={translation.courseLabels.label_syllabus_pdf_header}
-            >
-              <h3 className="t4">{translation.courseLabels.label_syllabus_pdf_header}</h3>
-              {hasSyllabus && activeSyllabus.course_valid_from && activeSyllabus.course_valid_from.year ? (
-                <>
-                  <p>{translation.courseLabels.label_syllabus_pdf_info}</p>
-                  <a
-                    href={`${SYLLABUS_URL}${courseCode}-${convertYearSemesterNumberIntoSemester(activeSyllabus.course_valid_from)}.pdf?lang=${languageShortname}`}
-                    id={convertYearSemesterNumberIntoSemester(activeSyllabus.course_valid_from) + '_active'}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="pdf-link pdf-link-fix pdf-link-last-line"
-                  >
-                    {`${translation.courseLabels.label_syllabus_link} ${syllabusName}`}
-                  </a>
-                </>
-              ) : (
-                <>{translation.courseLabels.label_syllabus_missing}</>
-              )}
-            </aside>
           </Col>
 
           {/** ************************************************************************************************************ */}
