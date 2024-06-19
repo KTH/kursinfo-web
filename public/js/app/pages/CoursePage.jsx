@@ -9,6 +9,7 @@ import { aboutCourseLink } from '../util/links'
 import Alert from '../components-shared/Alert'
 
 import RoundInformationOneCol from '../components/RoundInformationOneCol'
+import { RoundInformation } from '../components/RoundInformation'
 import CourseTitle from '../components/CourseTitle'
 import CourseSectionList from '../components/CourseSectionList'
 import DropdownRounds from '../components/DropdownRounds'
@@ -199,6 +200,8 @@ function CoursePage() {
               ) : (
                 showRoundData && <SingleRoundLabel round={firstRoundInActiveSemester} />
               )}
+
+              {showRoundData && <RoundInformation courseRound={activeRound} />}
             </Tab>
           ))}
         </Tabs>

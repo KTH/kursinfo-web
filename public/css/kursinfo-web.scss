@@ -36,6 +36,16 @@
   }
 }
 
+.roundInformation {
+  @extend .info-box;
+
+  .roundInformation__infoGrid {
+  }
+
+  .roundInformation__contacts {
+  }
+}
+
 .course-section-list {
   @include prose.prose;
 
