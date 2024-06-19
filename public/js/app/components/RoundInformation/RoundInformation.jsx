@@ -14,7 +14,7 @@ function RoundInformation({ courseCode, courseData, courseRound, semesterRoundSt
   return (
     <div className="roundInformation">
       <h3>{selectedRoundHeader}</h3>
-      <RoundInformationInfoGrid />
+      <RoundInformationInfoGrid courseRound={courseRound} />
 
       <h3>{translation.courseLabels.header_contact}</h3>
       <RoundInformationContacts

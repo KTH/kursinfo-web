@@ -65,37 +65,6 @@ function RoundInformationOneCol({
           {/* ---COURSE ROUND INFORMATION--- */}
           {showRoundData && (
             <div className="info-box">
-              <h3>{translation.courseRoundInformation.round_target_group}</h3>
-              <span dangerouslySetInnerHTML={{ __html: courseRound.round_target_group }} />
-
-              <h3>{translation.courseRoundInformation.round_part_of_programme}</h3>
-              <span dangerouslySetInnerHTML={{ __html: courseRound.round_part_of_programme }} />
-
-              <h3>{translation.courseRoundInformation.round_periods}</h3>
-              <span dangerouslySetInnerHTML={{ __html: courseRound.round_periods }} />
-
-              <h3>{translation.courseRoundInformation.round_start_date}</h3>
-              <div>
-                <div>{courseRound ? courseRound.round_start_date : missingInfoLabel}</div>
-                <div>{courseRound ? courseRound.round_end_date : missingInfoLabel}</div>
-              </div>
-
-              <h3>{translation.courseRoundInformation.round_pace_of_study}</h3>
-              <p>{courseRound ? ` ${courseRound.round_study_pace}%` : missingInfoLabel}</p>
-
-              <h3>{translation.courseRoundInformation.round_tutoring_form}</h3>
-              <p>
-                {`${courseRound ? translation.courseRoundInformation.round_tutoring_form_label[courseRound.round_tutoring_form] : missingInfoLabel} ${
-                  courseRound
-                    ? translation.courseRoundInformation.round_tutoring_time_label[courseRound.round_tutoring_time]
-                    : missingInfoLabel
-                }`}
-              </p>
-
-              <h3>{translation.courseRoundInformation.round_tutoring_language}</h3>
-              <p>{courseRound ? courseRound.round_tutoring_language : missingInfoLabel}</p>
-              <h3>{translation.courseRoundInformation.round_course_place}</h3>
-              <p>{courseRound ? courseRound.round_course_place : missingInfoLabel}</p>
               <h3>
                 {translation.courseRoundInformation.round_max_seats}
                 {courseRound && courseRound.round_seats && (
