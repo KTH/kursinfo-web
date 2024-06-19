@@ -1,7 +1,6 @@
 import React from 'react'
 import { useLanguage } from '../hooks/useLanguage'
 import { useRoundUtils } from '../hooks/useRoundUtils'
-import InfoModal from './InfoModal'
 
 function RoundInformationOneCol({ semesterRoundState, courseRound = { round_course_term: [] } }) {
   const { showRoundData } = semesterRoundState
@@ -42,30 +41,6 @@ function RoundInformationOneCol({ semesterRoundState, courseRound = { round_cour
               </div>
             )}
           </>
-
-          {/* ---COURSE ROUND INFORMATION--- */}
-          {showRoundData && (
-            <div className="info-box">
-              <h3>
-                {translation.courseRoundInformation.round_max_seats}
-                {courseRound && courseRound.round_seats && (
-                  <InfoModal
-                    closeLabel={translation.courseLabels.label_close}
-                    infoText={`<p>${translation.courseLabels.round_seats_default_info} ${
-                      courseRound.round_selection_criteria !== '<p></p>' && courseRound.round_selection_criteria !== ''
-                        ? `${translation.courseLabels.round_seats_info}</p>${courseRound.round_selection_criteria}`
-                        : '</p>'
-                    }`}
-                    title={translation.courseRoundInformation.round_max_seats}
-                    type="html"
-                  />
-                )}
-              </h3>
-              {courseRound && (
-                <p> {courseRound.round_seats || translation.courseRoundInformation.round_no_seats_limit} </p>
-              )}
-            </div>
-          )}
         </div>
       </div>
     </section>

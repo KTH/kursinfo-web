@@ -1,16 +1,32 @@
 import React from 'react'
 import { useLanguage } from '../../hooks/useLanguage'
 import { useMissingInfo } from '../../hooks/useMissingInfo'
+import InfoModal from '../InfoModal'
 import { CourseMemoLink } from './CourseMemoLink'
 import { CourseScheduleLink } from './CourseScheduleLink'
 import { PlannedModules } from './PlannedModules'
 
-const Item = ({ children, title }) => (
-  <div>
-    <h4>{title}</h4>
-    {children}
-  </div>
-)
+const Item = ({ children, title, infoModalContent }) => {
+  const { translation } = useLanguage()
+
+  return (
+    <div>
+      <h4>
+        {title}
+
+        {infoModalContent && (
+          <InfoModal
+            infoText={infoModalContent}
+            title={title}
+            type="html"
+            closeLabel={translation.courseLabels.label_close}
+          />
+        )}
+      </h4>
+      {children}
+    </div>
+  )
+}
 
 function RoundInformationInfoGrid({ courseCode, courseRound, selectedSemester }) {
   const { translation } = useLanguage()
@@ -31,7 +47,7 @@ function RoundInformationInfoGrid({ courseCode, courseRound, selectedSemester })
         <p>{courseRound ? ` ${courseRound.round_study_pace}%` : missingInfoLabel}</p>
       </Item>
       <Item title={translation.courseRoundInformation.round_application_code}>
-        <p>{courseRound ? ` ${courseRound.round_application_code}` : missingInfoLabel}</p>
+        <p>{courseRound ? courseRound.round_application_code : missingInfoLabel}</p>
       </Item>
       <Item title={translation.courseRoundInformation.round_tutoring_form}>
         <p>
@@ -48,7 +64,19 @@ function RoundInformationInfoGrid({ courseCode, courseRound, selectedSemester })
       <Item title={translation.courseLabels.label_course_memo}>
         <CourseMemoLink courseCode={courseCode} courseRound={courseRound} />
       </Item>
-      <Item title={translation.courseRoundInformation.round_max_seats}>TODO: round_max_seats</Item>
+      <Item
+        title={translation.courseRoundInformation.round_max_seats}
+        infoModalContent={
+          courseRound.round_seats &&
+          `<p>${translation.courseLabels.round_seats_default_info} ${
+            courseRound.round_selection_criteria !== '<p></p>' && courseRound.round_selection_criteria !== ''
+              ? `${translation.courseLabels.round_seats_info}</p>${courseRound.round_selection_criteria}`
+              : '</p>'
+          }`
+        }
+      >
+        <p>{courseRound.round_seats || translation.courseRoundInformation.round_no_seats_limit}</p>
+      </Item>
       <Item title={translation.courseRoundInformation.round_part_of_programme}>
         <span dangerouslySetInnerHTML={{ __html: courseRound.round_part_of_programme }} />
       </Item>
