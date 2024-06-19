@@ -4,7 +4,6 @@ import { useLanguage } from '../hooks/useLanguage'
 import { useMissingInfo } from '../hooks/useMissingInfo'
 import { useRoundUtils } from '../hooks/useRoundUtils'
 import { usePlannedModules } from '../hooks/usePlannedModules'
-import { useCourseEmployees } from '../hooks/useCourseEmployees'
 import CourseFileLinks from './CourseFileLinks'
 import InfoModal from './InfoModal'
 import RoundApplicationInfo from './RoundApplicationInfo'
@@ -24,12 +23,6 @@ function RoundInformationOneCol({
   const roundHeader = translation.courseRoundInformation.round_header
 
   const selectedRoundHeader = createRoundHeader(courseRound)
-
-  const { courseRoundEmployees } = useCourseEmployees({
-    courseCode,
-    selectedSemester,
-    applicationCode: courseRound?.round_application_code,
-  })
 
   const { plannedModules } = usePlannedModules({
     courseCode,
@@ -147,42 +140,6 @@ function RoundInformationOneCol({
           fundingType={courseRound.round_funding_type}
         />
       </div>
-
-      {/** ************************************************************************************************************ */}
-      {/*                                     Round - contact information                                               */}
-      {/** ************************************************************************************************************ */}
-      {showRoundData && (
-        <div id="roundContact">
-          <h2>{translation.courseLabels.header_contact}</h2>
-
-          <div className="info-box">
-            <span>
-              <h3>{roundHeader}</h3>
-              <p>{selectedRoundHeader}</p>
-            </span>
-
-            {course.course_contact_name !== missingInfoLabel && (
-              <span>
-                <h3>{translation.courseInformation.course_contact_name}</h3>
-                <p>{course.course_contact_name}</p>
-              </span>
-            )}
-
-            <h3>{translation.courseInformation.course_examiners}</h3>
-            <span dangerouslySetInnerHTML={{ __html: courseRoundEmployees.examiners || missingInfoLabel }} />
-
-            <h3>{translation.courseRoundInformation.round_responsibles}</h3>
-            <span
-              dangerouslySetInnerHTML={{
-                __html: courseRoundEmployees.responsibles || missingInfoLabel,
-              }}
-            />
-
-            <h3>{translation.courseRoundInformation.round_teacher}</h3>
-            <span dangerouslySetInnerHTML={{ __html: courseRoundEmployees.teachers || missingInfoLabel }} />
-          </div>
-        </div>
-      )}
     </section>
   )
 }

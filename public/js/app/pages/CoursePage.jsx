@@ -201,7 +201,14 @@ function CoursePage() {
                 showRoundData && <SingleRoundLabel round={firstRoundInActiveSemester} />
               )}
 
-              {showRoundData && <RoundInformation courseRound={activeRound} />}
+              {showRoundData && (
+                <RoundInformation
+                  courseCode={courseCode}
+                  courseData={courseInformationToRounds}
+                  courseRound={activeRound}
+                  semesterRoundState={semesterRoundState}
+                />
+              )}
 
               <SyllabusContainer
                 courseCode={courseCode}
