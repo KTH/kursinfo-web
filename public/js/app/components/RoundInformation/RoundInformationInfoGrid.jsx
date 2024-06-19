@@ -3,6 +3,7 @@ import { useLanguage } from '../../hooks/useLanguage'
 import { useMissingInfo } from '../../hooks/useMissingInfo'
 import { CourseMemoLink } from './CourseMemoLink'
 import { CourseScheduleLink } from './CourseScheduleLink'
+import { PlannedModules } from './PlannedModules'
 
 const Item = ({ children, title }) => (
   <div>
@@ -11,7 +12,7 @@ const Item = ({ children, title }) => (
   </div>
 )
 
-function RoundInformationInfoGrid({ courseCode, courseRound }) {
+function RoundInformationInfoGrid({ courseCode, courseRound, selectedSemester }) {
   const { translation } = useLanguage()
   const { missingInfoLabel } = useMissingInfo()
   return (
@@ -54,7 +55,14 @@ function RoundInformationInfoGrid({ courseCode, courseRound }) {
       <Item title={translation.courseRoundInformation.round_target_group}>
         <span dangerouslySetInnerHTML={{ __html: courseRound.round_target_group }} />
       </Item>
-      <Item title={translation.courseRoundInformation.round_time_slots}>TODO: sround_time_slots</Item>
+      <Item title={translation.courseRoundInformation.round_time_slots}>
+        <PlannedModules
+          showRoundData={true}
+          courseCode={courseCode}
+          courseRound={courseRound}
+          selectedSemester={selectedSemester}
+        />
+      </Item>
       <Item title={translation.courseLabels.label_schedule}>
         <CourseScheduleLink courseRound={courseRound} />
       </Item>

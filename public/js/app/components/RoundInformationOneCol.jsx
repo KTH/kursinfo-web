@@ -1,26 +1,17 @@
-/* eslint-disable react/no-danger */
 import React from 'react'
 import { useLanguage } from '../hooks/useLanguage'
 import { useRoundUtils } from '../hooks/useRoundUtils'
-import { usePlannedModules } from '../hooks/usePlannedModules'
 import InfoModal from './InfoModal'
 import RoundApplicationInfo from './RoundApplicationInfo'
 
-function RoundInformationOneCol({ semesterRoundState, courseRound = { round_course_term: [] }, courseCode }) {
-  const { showRoundData, selectedSemester } = semesterRoundState
+function RoundInformationOneCol({ semesterRoundState, courseRound = { round_course_term: [] } }) {
+  const { showRoundData } = semesterRoundState
   const { translation } = useLanguage()
   const { createRoundHeader } = useRoundUtils()
 
   const roundHeader = translation.courseRoundInformation.round_header
 
   const selectedRoundHeader = createRoundHeader(courseRound)
-
-  const { plannedModules } = usePlannedModules({
-    courseCode,
-    semester: selectedSemester,
-    applicationCode: courseRound.round_application_code,
-    showRoundData,
-  })
 
   return (
     <section
@@ -74,9 +65,6 @@ function RoundInformationOneCol({ semesterRoundState, courseRound = { round_cour
               {courseRound && (
                 <p> {courseRound.round_seats || translation.courseRoundInformation.round_no_seats_limit} </p>
               )}
-
-              <h3>{translation.courseRoundInformation.round_time_slots}</h3>
-              <span dangerouslySetInnerHTML={{ __html: plannedModules }} />
             </div>
           )}
         </div>
