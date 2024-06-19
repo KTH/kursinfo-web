@@ -173,9 +173,7 @@ module.exports = {
     course_application_info: 'Information for research students about course offerings',
   },
   courseRoundInformation: {
-    header_round: 'About course offering',
-    round_information_aria_label: 'Information about course offering',
-    round_header: 'For course offering',
+    round_header: 'Information for',
     round_application_code: 'Application code',
     round_max_seats: 'Number of places',
     round_no_seats_limit: 'Places are not limited',

@@ -8,22 +8,18 @@ import { aboutCourseLink } from '../util/links'
 
 import Alert from '../components-shared/Alert'
 
-import RoundInformationOneCol from '../components/RoundInformationOneCol'
 import { RoundInformation } from '../components/RoundInformation'
 import { RoundApplicationButton } from '../components/RoundApplicationButton'
 import CourseTitle from '../components/CourseTitle'
 import CourseSectionList from '../components/CourseSectionList'
 import DropdownRounds from '../components/DropdownRounds'
 import { SingleRoundLabel } from '../components/SingleRoundLabel'
-import DropdownSemesters from '../components/DropdownSemesters'
-import InfoModal from '../components/InfoModal'
 import SideMenu from '../components/SideMenu'
 import { SyllabusContainer } from '../components/SyllabusContainer'
 import { Tabs, Tab } from '../components/Tabs/Tabs'
 import { useWebContext } from '../context/WebContext'
 import BankIdAlert from '../components/BankIdAlert'
 import { useLanguage } from '../hooks/useLanguage'
-import { useMissingInfo } from '../hooks/useMissingInfo'
 import { useSemesterRoundState } from '../hooks/useSemesterRoundState'
 
 const aboutCourseStr = (translate, courseCode = '') => `${translate.site_name} ${courseCode}`
@@ -64,8 +60,6 @@ function CoursePage() {
 
   const { courseInfo, emptySyllabusData } = courseData
   const { translation, languageShortname } = useLanguage()
-
-  const { isMissingInfoLabel } = useMissingInfo()
 
   const { sellingText, imageFromAdmin } = courseInfo
 
@@ -182,6 +176,8 @@ function CoursePage() {
             roundSpecified={hasActiveSemesters && showRoundData}
           />
         )}
+
+        {/* TODO(karl): Visning av tabbarna om hasActiveSemesters=false */}
         <Tabs
           selectedTabKey={semesterRoundState.selectedSemester}
           onSelectedTabChange={tabKey => semesterRoundState.setSelectedSemester(tabKey)}
@@ -214,73 +210,33 @@ function CoursePage() {
                 />
               )}
 
-              <SyllabusContainer
-                courseCode={courseCode}
-                syllabusName={syllabusName}
-                semesterRoundState={semesterRoundState}
-              />
-            </Tab>
-          ))}
-        </Tabs>
-        <Row id="columnContainer">
-          {/** ************************************************************************************************************ */}
-          {/*                                      RIGHT COLUMN - ROUND INFORMATION                                         */}
-          {/** ************************************************************************************************************ */}
-          <Col id="roundInformationContainer" md="4" xs="12" className="float-md-end">
-            {/* ---COURSE  DROPDOWN MENU--- */}
-            {hasActiveSemesters ? (
-              <nav id="roundDropdownMenu" aria-label={translation.courseLabels.header_dropdown_menu_navigation}>
-                <span id="roundDropdownMenuHeaderWrapper">
-                  <h2 id="roundDropdownMenuHeader">{translation.courseLabels.header_dropdown_menue}</h2>
-                  <InfoModal
-                    title={translation.courseLabels.header_dropdown_menue}
-                    infoText={translation.courseLabels.syllabus_info}
-                    type="html"
-                    closeLabel={translation.courseLabels.label_close}
-                    ariaLabel={translation.courseLabels.header_dropdown_menu_aria_label}
-                  />
-                </span>
-                <div id="roundDropdowns">
-                  {hasActiveSemesters && (
-                    <DropdownSemesters semesterList={activeSemesters} semesterRoundState={semesterRoundState} />
-                  )}
-                  {courseData.roundsBySemester[selectedSemester] &&
-                  courseData.roundsBySemester[selectedSemester].length > 1 ? (
-                    <DropdownRounds
-                      roundsForSelectedSemester={courseData.roundsBySemester[selectedSemester]}
-                      semesterRoundState={semesterRoundState}
-                    />
-                  ) : (
-                    showRoundData && (
-                      <p>
-                        {`${
-                          translation.courseInformation.course_short_semester[
-                            firstRoundInActiveSemester.round_course_term[1]
-                          ]
-                        }
-                                ${firstRoundInActiveSemester.round_course_term[0]}  
-                                ${
-                                  !isMissingInfoLabel(firstRoundInActiveSemester.round_short_name)
-                                    ? firstRoundInActiveSemester.round_short_name
-                                    : ''
-                                }     
-                                ${
-                                  firstRoundInActiveSemester.round_funding_type === 'UPP' ||
-                                  firstRoundInActiveSemester.round_funding_type === 'PER'
-                                    ? translation.courseRoundInformation.round_type[
-                                        firstRoundInActiveSemester.round_funding_type
-                                      ]
-                                    : translation.courseRoundInformation.round_category[
-                                        firstRoundInActiveSemester.round_category
-                                      ]
-                                }
-                              `}
-                      </p>
-                    )
-                  )}
+              {/* TODO(karl): Några delar som blivit kvar i uppstädning. Ska de bort eller in på nåt nytt ställe? Om de ska bort, kolla om messages ska rensas med
+              
+              Fanns tidigare i RoundinformationOneCol:
+              <div className="info-box yellow">
+                <h3>{translation.courseLabels.header_no_round_selected}</h3>
+                <p>{translation.courseLabels.no_round_selected}</p>
+              </div>
+              nästan samma utanför:
+                <div className="info-box">
+                {hasActiveSemesters ? (
+                  <p>{translation.courseLabels.no_round_selected}</p>
+                ) : (
+                  <i>{translation.courseLabels.lable_no_rounds}</i>
+                )}
+              </div>
 
-                  {/* ---ROUND CANCELLED OR FULL --- */}
-                  {showRoundData && activeRound.round_state !== 'APPROVED' ? (
+              Infomodal för rubriken till höger tidigare...
+              <InfoModal
+                  title={translation.courseLabels.header_dropdown_menue}
+                  infoText={translation.courseLabels.syllabus_info}
+                  type="html"
+                  closeLabel={translation.courseLabels.label_close}
+                  ariaLabel={translation.courseLabels.header_dropdown_menu_aria_label}
+                />
+
+                Inte beslutad
+                 {showRoundData && activeRound.round_state !== 'APPROVED' ? (
                     <Alert type="info" aria-live="polite">
                       {`${translation.courseLabels.lable_round_state[activeRound.round_state]}
                             `}
@@ -288,59 +244,43 @@ function CoursePage() {
                   ) : (
                     ''
                   )}
-                </div>
-              </nav>
-            ) : (
-              hasActiveSemesters &&
-              hasSyllabus && (
-                <Alert type="info" header={translation.courseLabels.header_no_rounds}>
+              
+
+                  I grå ruta till höger: 
+                  header_dropdown_menu_navigation - Välj termin och kursomgång för innehållet på sidan
+
+                Alert som troligen inte visades tidigare:
+                  <Alert type="info" header={translation.courseLabels.header_no_rounds}>
                   {translation.courseLabels.lable_no_rounds}
                 </Alert>
-              )
-            )}
-            {courseInfo.course_application_info.length > 0 && (
+
+
+                application info? Hur testar jag denna och var ska den in nu?
+                  {courseInfo.course_application_info.length > 0 && (
               <Alert type="info" header={translation.courseInformation.course_application_info}>
                 <span dangerouslySetInnerHTML={{ __html: courseInfo.course_application_info }} />
               </Alert>
             )}
 
-            {/* ---COURSE ROUND INFORMATION--- */}
-            {showRoundData ? (
-              <RoundInformationOneCol
-                memoStorageURI={browserConfig.memoStorageUri}
-                semesterRoundState={semesterRoundState}
-                courseRound={activeRound}
-                courseData={courseInformationToRounds}
+              */}
+
+              {/* TODO(karl): Vad är SyllabusContainer i förhållande till activeSyllabusContainer nedanför? */}
+
+              <SyllabusContainer
                 courseCode={courseCode}
+                syllabusName={syllabusName}
+                semesterRoundState={semesterRoundState}
               />
-            ) : (
-              <div className="info-box">
-                {hasActiveSemesters ? (
-                  <p>{translation.courseLabels.no_round_selected}</p>
-                ) : (
-                  <i>{translation.courseLabels.lable_no_rounds}</i>
+
+              <div id="activeSyllabusContainer" key="activeSyllabusContainer">
+                {!hasSyllabus && (
+                  <Alert color="info" aria-live="polite">
+                    <h4>{translation.courseLabels.header_no_syllabus}</h4>
+                    {translation.courseLabels.label_no_syllabus}
+                  </Alert>
                 )}
               </div>
-            )}
-          </Col>
 
-          {/** ************************************************************************************************************ */}
-          {/*                           LEFT COLUMN - SYLLABUS + OTHER COURSE INFORMATION                                 */}
-          {/** ************************************************************************************************************ */}
-          <Col id="coreContent" md="8" xs="12" className="pe-3 float-md-start paragraphs">
-            <div>
-              <Row id="activeSyllabusContainer" key="activeSyllabusContainer">
-                <Col sm="12">
-                  {!hasSyllabus && (
-                    <Alert color="info" aria-live="polite">
-                      <h4>{translation.courseLabels.header_no_syllabus}</h4>
-                      {translation.courseLabels.label_no_syllabus}
-                    </Alert>
-                  )}
-                </Col>
-              </Row>
-
-              {/* --- COURSE INFORMATION CONTAINER---  */}
               <CourseSectionList
                 courseInfo={courseInfo}
                 // if there is no syllabus, we still want to display empty syllabus data
@@ -357,9 +297,9 @@ function CoursePage() {
                   <a href={`${FORSKARUTB_URL}${courseInfo.course_department_code}`}>{courseInfo.course_department}</a>
                 </span>
               )}
-            </div>
-          </Col>
-        </Row>
+            </Tab>
+          ))}
+        </Tabs>
       </main>
     </Row>
   )

@@ -175,9 +175,7 @@ module.exports = {
     course_application_info: 'Information för forskarstuderande om när kursen ges',
   },
   courseRoundInformation: {
-    header_round: 'Om kursomgång',
-    round_information_aria_label: 'Information för kursomgång',
-    round_header: 'Gäller för kursomgång',
+    round_header: 'Information för',
     round_application_code: 'Anmälningskod',
     round_max_seats: 'Antal platser',
     round_no_seats_limit: 'Ingen platsbegränsning',
