@@ -1,23 +1,14 @@
 /* eslint-disable react/no-danger */
 import React from 'react'
 import { useLanguage } from '../hooks/useLanguage'
-import { useMissingInfo } from '../hooks/useMissingInfo'
 import { useRoundUtils } from '../hooks/useRoundUtils'
 import { usePlannedModules } from '../hooks/usePlannedModules'
-import CourseFileLinks from './CourseFileLinks'
 import InfoModal from './InfoModal'
 import RoundApplicationInfo from './RoundApplicationInfo'
 
-function RoundInformationOneCol({
-  memoStorageURI,
-  semesterRoundState,
-  courseRound = { round_course_term: [] },
-  courseData: course,
-  courseCode,
-}) {
+function RoundInformationOneCol({ semesterRoundState, courseRound = { round_course_term: [] }, courseCode }) {
   const { showRoundData, selectedSemester } = semesterRoundState
   const { translation } = useLanguage()
-  const { missingInfoLabel } = useMissingInfo()
   const { createRoundHeader } = useRoundUtils()
 
   const roundHeader = translation.courseRoundInformation.round_header
@@ -86,12 +77,6 @@ function RoundInformationOneCol({
 
               <h3>{translation.courseRoundInformation.round_time_slots}</h3>
               <span dangerouslySetInnerHTML={{ __html: plannedModules }} />
-              <CourseFileLinks
-                courseCode={course.course_code}
-                scheduleUrl={courseRound ? courseRound.round_schedule : missingInfoLabel}
-                courseRound={courseRound}
-                memoStorageURI={memoStorageURI}
-              />
             </div>
           )}
         </div>

@@ -1,6 +1,8 @@
 import React from 'react'
 import { useLanguage } from '../../hooks/useLanguage'
 import { useMissingInfo } from '../../hooks/useMissingInfo'
+import { CourseMemoLink } from './CourseMemoLink'
+import { CourseScheduleLink } from './CourseScheduleLink'
 
 const Item = ({ children, title }) => (
   <div>
@@ -9,7 +11,7 @@ const Item = ({ children, title }) => (
   </div>
 )
 
-function RoundInformationInfoGrid({ courseRound }) {
+function RoundInformationInfoGrid({ courseCode, courseRound }) {
   const { translation } = useLanguage()
   const { missingInfoLabel } = useMissingInfo()
   return (
@@ -42,7 +44,9 @@ function RoundInformationInfoGrid({ courseRound }) {
       <Item title={translation.courseRoundInformation.round_tutoring_language}>
         <p>{courseRound ? courseRound.round_tutoring_language : missingInfoLabel}</p>
       </Item>
-      <Item title={translation.courseLabels.label_course_memo}>TODO: label_course_memo</Item>
+      <Item title={translation.courseLabels.label_course_memo}>
+        <CourseMemoLink courseCode={courseCode} courseRound={courseRound} />
+      </Item>
       <Item title={translation.courseRoundInformation.round_max_seats}>TODO: round_max_seats</Item>
       <Item title={translation.courseRoundInformation.round_part_of_programme}>
         <span dangerouslySetInnerHTML={{ __html: courseRound.round_part_of_programme }} />
@@ -51,7 +55,9 @@ function RoundInformationInfoGrid({ courseRound }) {
         <span dangerouslySetInnerHTML={{ __html: courseRound.round_target_group }} />
       </Item>
       <Item title={translation.courseRoundInformation.round_time_slots}>TODO: sround_time_slots</Item>
-      <Item title={translation.courseLabels.label_schedule}>TODO: label_schedule</Item>
+      <Item title={translation.courseLabels.label_schedule}>
+        <CourseScheduleLink courseRound={courseRound} />
+      </Item>
     </div>
   )
 }
