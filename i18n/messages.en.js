@@ -92,7 +92,6 @@ module.exports = {
     header_statistics: 'Course statistics',
     header_syllabuses: 'Course syllabuses archive',
     header_further: 'Further information',
-    header_select_course: 'Application',
     header_postgraduate_course: 'Postgraduate course ',
     no_schedule: 'No schedule',
     no_schedule_published: 'Schedule is not published',

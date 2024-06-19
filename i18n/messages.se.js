@@ -94,7 +94,6 @@ module.exports = {
     header_examination: 'Examination och slutförande',
     header_contact: 'Kontakt',
     header_further: 'Ytterligare information',
-    header_select_course: 'Kursval',
     header_postgraduate_course: 'Forskarkurs ',
     no_memo_published: 'Kurs-PM är inte publicerat',
     no_schedule: 'Schema saknas',

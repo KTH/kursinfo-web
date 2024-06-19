@@ -10,6 +10,7 @@ import Alert from '../components-shared/Alert'
 
 import RoundInformationOneCol from '../components/RoundInformationOneCol'
 import { RoundInformation } from '../components/RoundInformation'
+import { RoundApplicationButton } from '../components/RoundApplicationButton'
 import CourseTitle from '../components/CourseTitle'
 import CourseSectionList from '../components/CourseSectionList'
 import DropdownRounds from '../components/DropdownRounds'
@@ -200,6 +201,9 @@ function CoursePage() {
               ) : (
                 showRoundData && <SingleRoundLabel round={firstRoundInActiveSemester} />
               )}
+
+              {/* TODO(karl): denna ska visas bredvid DropdownRounds */}
+              <RoundApplicationButton courseRound={activeRound} showRoundData={showRoundData} />
 
               {showRoundData && (
                 <RoundInformation

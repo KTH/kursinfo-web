@@ -2,7 +2,6 @@ import React from 'react'
 import { useLanguage } from '../hooks/useLanguage'
 import { useRoundUtils } from '../hooks/useRoundUtils'
 import InfoModal from './InfoModal'
-import RoundApplicationInfo from './RoundApplicationInfo'
 
 function RoundInformationOneCol({ semesterRoundState, courseRound = { round_course_term: [] } }) {
   const { showRoundData } = semesterRoundState
@@ -68,19 +67,6 @@ function RoundInformationOneCol({ semesterRoundState, courseRound = { round_cour
             </div>
           )}
         </div>
-      </div>
-
-      {/** ************************************************************************************************************ */}
-      {/*                                     Round - application information                                           */}
-      {/** ************************************************************************************************************ */}
-      <div id="roundApply">
-        <RoundApplicationInfo
-          roundHeader={roundHeader}
-          selectedRoundHeader={selectedRoundHeader}
-          round={courseRound}
-          showRoundData={showRoundData}
-          fundingType={courseRound.round_funding_type}
-        />
       </div>
     </section>
   )
