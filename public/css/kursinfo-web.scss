@@ -40,6 +40,9 @@
   @extend .info-box;
 
   .roundInformation__infoGrid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .roundInformation__contacts {
