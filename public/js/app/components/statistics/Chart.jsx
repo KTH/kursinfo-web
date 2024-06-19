@@ -32,7 +32,11 @@ function splitIntoLines(label) {
 }
 
 function getChartData(numberName, schools, allSchoolsLabels) {
-  const schoolCodes = Object.keys(schools)
+  const orderedSchools = schoolsLib.orderedSchoolsFormOptions()
+
+  let schoolCodes = Object.keys(schools)
+
+  schoolCodes = schoolCodes.sort((a, b) => orderedSchools.indexOf(a) - orderedSchools.indexOf(b))
 
   return schoolCodes.map(school => {
     const schoolNumbers = schools[school]
@@ -67,16 +71,11 @@ function Chart({ data = [], label = '' }) {
   return (
     <VictoryChart height={405} width={405} theme={VictoryTheme.material} domainPadding={20} style={styles.font}>
       <VictoryLabel x={4} y={24} text={label} style={styles.font} />
-      {data.length > 1 ? (
-        <VictoryAxis
-          tickValues={schoolsLib.orderedSchoolsFormOptions}
-          style={{
-            tickLabels: styles.font,
-          }}
-        />
-      ) : (
-        <VictoryAxis />
-      )}
+      <VictoryAxis
+        style={{
+          tickLabels: styles.font,
+        }}
+      />
       <VictoryAxis
         dependentAxis
         tickValues={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
