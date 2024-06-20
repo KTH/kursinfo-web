@@ -3,19 +3,17 @@ import React, { useEffect } from 'react'
 
 import { Row, Col } from 'reactstrap'
 
-import { FORSKARUTB_URL } from '../util/constants'
 import { aboutCourseLink } from '../util/links'
 
 import Alert from '../components-shared/Alert'
 
+import { MainCourseInformation } from '../components/MainCourseInformation'
 import { RoundInformation } from '../components/RoundInformation'
 import { RoundApplicationButton } from '../components/RoundApplicationButton'
 import CourseTitle from '../components/CourseTitle'
-import CourseSectionList from '../components/CourseSectionList'
 import DropdownRounds from '../components/DropdownRounds'
 import { SingleRoundLabel } from '../components/SingleRoundLabel'
 import SideMenu from '../components/SideMenu'
-import { SyllabusContainer } from '../components/SyllabusContainer'
 import { Tabs, Tab } from '../components/Tabs/Tabs'
 import { useWebContext } from '../context/WebContext'
 import BankIdAlert from '../components/BankIdAlert'
@@ -60,7 +58,7 @@ function CoursePage() {
     hasSyllabus,
   } = semesterRoundState
 
-  const { courseInfo, emptySyllabusData } = courseData
+  const { courseInfo } = courseData
   const { translation, languageShortname } = useLanguage()
 
   const { sellingText, imageFromAdmin } = courseInfo
@@ -101,23 +99,6 @@ function CoursePage() {
     }
     return () => (isMounted = false)
   })
-
-  const createValidToString = () => {
-    if (!activeSyllabus.course_valid_to) return ''
-    return `${translation.courseInformation.course_short_semester[activeSyllabus.course_valid_to.semesterNumber]}${activeSyllabus.course_valid_to.year}`
-  }
-
-  const createValidFromString = () =>
-    `${
-      translation.courseInformation.course_short_semester[activeSyllabus.course_valid_from.semesterNumber]
-    }${activeSyllabus.course_valid_from.year}`
-
-  const createSyllabusName = () => {
-    if (!hasSyllabus) return ''
-    return `${courseCode}${` (${createValidFromString()}\u2013${createValidToString()})`}`
-  }
-
-  const syllabusName = createSyllabusName()
 
   const showRoundDropdown =
     courseData.roundsBySemester &&
@@ -180,6 +161,8 @@ function CoursePage() {
         )}
 
         {/* TODO(karl): Visning av tabbarna om hasActiveSemesters=false */}
+        {/* <i>{translation.courseLabels.lable_no_rounds}</i> */}
+
         <Tabs
           selectedTabKey={semesterRoundState.selectedSemester}
           onSelectedTabChange={tabKey => semesterRoundState.setSelectedSemester(tabKey)}
@@ -224,6 +207,12 @@ function CoursePage() {
                 />
               )}
 
+              <MainCourseInformation
+                courseCode={courseCode}
+                courseData={courseData}
+                semesterRoundState={semesterRoundState}
+              />
+
               {/* TODO(karl): Några delar som blivit kvar i uppstädning. Ska de bort eller in på nåt nytt ställe? Om de ska bort, kolla om messages ska rensas med
               
               Fanns tidigare i RoundinformationOneCol:
@@ -249,14 +238,7 @@ function CoursePage() {
                   ) : (
                     ''
                   )}
-              
-
      
-                Alert som troligen inte visades tidigare:
-                  <Alert type="info" header={translation.courseLabels.header_no_rounds}>
-                  {translation.courseLabels.lable_no_rounds}
-                </Alert>
-
 
                 application info? Hur testar jag denna och var ska den in nu?
                   {courseInfo.course_application_info.length > 0 && (
@@ -266,40 +248,6 @@ function CoursePage() {
             )}
 
               */}
-
-              {/* TODO(karl): Vad är SyllabusContainer i förhållande till activeSyllabusContainer nedanför? */}
-
-              <SyllabusContainer
-                courseCode={courseCode}
-                syllabusName={syllabusName}
-                semesterRoundState={semesterRoundState}
-              />
-
-              <div id="activeSyllabusContainer" key="activeSyllabusContainer">
-                {!hasSyllabus && (
-                  <Alert color="info" aria-live="polite">
-                    <h4>{translation.courseLabels.header_no_syllabus}</h4>
-                    {translation.courseLabels.label_no_syllabus}
-                  </Alert>
-                )}
-              </div>
-
-              <CourseSectionList
-                courseInfo={courseInfo}
-                // if there is no syllabus, we still want to display empty syllabus data
-                syllabus={hasSyllabus ? activeSyllabus : emptySyllabusData}
-                partToShow="courseContentBlock"
-                syllabusName={syllabusName}
-              />
-
-              {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
-              {courseInfo.course_level_code === 'RESEARCH' && (
-                <span>
-                  <h3>{translation.courseLabels.header_postgraduate_course}</h3>
-                  {translation.courseLabels.label_postgraduate_course}
-                  <a href={`${FORSKARUTB_URL}${courseInfo.course_department_code}`}>{courseInfo.course_department}</a>
-                </span>
-              )}
             </Tab>
           ))}
         </Tabs>
