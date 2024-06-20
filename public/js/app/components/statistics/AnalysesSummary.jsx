@@ -25,18 +25,30 @@ function addAllSchoolsData({ totalCourses, totalUniqPublishedAnalyses }) {
   return allSchools
 }
 
-function Captions({ year, seasons }) {
-  const { translation, languageIndex } = useLanguage()
+function Captions({ school, year, seasons }) {
+  const {
+    languageIndex,
+    translation: {
+      statisticsLabels,
+      statisticsLabels: {
+        formLabels: { formSubHeaders },
+      },
+    },
+  } = useLanguage()
 
   const seasonsStr = seasons.map(season => seasonLib.labelSeason(season, languageIndex)).join(', ')
   return (
     <Row>
       <Col xs="4" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
-        <label>{translation.statisticsLabels.formLabels.formSubHeaders.year}</label>
+        <label>{formSubHeaders.school}</label>
+        {`: ${school === 'allSchools' ? statisticsLabels[school] : school}`}
+      </Col>
+      <Col xs="4" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
+        <label>{formSubHeaders.year}</label>
         {`: ${year}`}
       </Col>
       <Col xs="4" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
-        <label>{translation.statisticsLabels.formLabels.formSubHeaders.seasons}</label>
+        <label>{formSubHeaders.seasons}</label>
         {`: ${seasonsStr}`}
       </Col>
     </Row>
@@ -46,12 +58,12 @@ function Captions({ year, seasons }) {
 function AnalysesNumbersTable({ statisticsResult }) {
   const { translation } = useLanguage()
   const { analysesNumbersTable } = translation.statisticsLabels.summaryLabels
-  const { combinedAnalysesPerSchool, year, seasons } = statisticsResult
+  const { combinedAnalysesPerSchool, year, seasons, school } = statisticsResult
   const cellNames = ['totalCourses', 'totalUniqPublishedAnalyses']
 
   return (
     <>
-      <Captions year={year} seasons={seasons} />
+      <Captions school={school} year={year} seasons={seasons} />
 
       <TableSummary
         docsPerSchool={combinedAnalysesPerSchool}
@@ -74,7 +86,7 @@ function AnalysesNumbersCharts({ statisticsResult }) {
 
   return (
     <>
-      <Captions year={year} seasons={seasons} />
+      <Captions school={school} year={year} seasons={seasons} />
 
       <Charts chartNames={chartNames} schools={schools} />
     </>
