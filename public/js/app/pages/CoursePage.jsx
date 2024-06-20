@@ -230,17 +230,6 @@ function CoursePage() {
                   courseData={courseData}
                   semesterRoundState={semesterRoundState}
                 />
-
-                {/* TODO(karl): Några delar som blivit kvar i uppstädning. Ska de bort eller in på nåt nytt ställe? Om de ska bort, kolla om messages ska rensas med
-
-                application info? Hur testar jag denna och var ska den in nu?
-                  {courseInfo.course_application_info.length > 0 && (
-              <Alert type="info" header={translation.courseInformation.course_application_info}>
-                <span dangerouslySetInnerHTML={{ __html: courseInfo.course_application_info }} />
-              </Alert>
-            )}
-
-              */}
               </Tab>
             ))}
           </Tabs>

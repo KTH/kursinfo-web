@@ -32,8 +32,13 @@ const MainCourseInformation = ({ courseCode, courseData, semesterRoundState }) =
   const syllabusName = createSyllabusName()
   return (
     <>
-      {/* TODO(karl): Vad är SyllabusContainer i förhållande till activeSyllabusContainer nedanför? */}
+      {courseInfo.course_application_info.length > 0 && (
+        <Alert type="info" header={translation.courseInformation.course_application_info}>
+          <span dangerouslySetInnerHTML={{ __html: courseInfo.course_application_info }} />
+        </Alert>
+      )}
 
+      {/* TODO(karl): Vad är SyllabusContainer i förhållande till activeSyllabusContainer nedanför? */}
       <SyllabusContainer courseCode={courseCode} syllabusName={syllabusName} semesterRoundState={semesterRoundState} />
 
       <div id="activeSyllabusContainer" key="activeSyllabusContainer">
