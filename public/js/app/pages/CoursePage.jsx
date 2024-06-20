@@ -19,6 +19,8 @@ import { SyllabusContainer } from '../components/SyllabusContainer'
 import { Tabs, Tab } from '../components/Tabs/Tabs'
 import { useWebContext } from '../context/WebContext'
 import BankIdAlert from '../components/BankIdAlert'
+import InfoModal from '../components/InfoModal'
+
 import { useLanguage } from '../hooks/useLanguage'
 import { useSemesterRoundState } from '../hooks/useSemesterRoundState'
 
@@ -188,18 +190,30 @@ function CoursePage() {
               tabKey={semesterItem.semester}
               title={`${translation.courseInformation.course_short_semester[semesterItem.semesterNumber]}${semesterItem.year}`}
             >
-              {semesterItem.semester}
-              {showRoundDropdown ? (
-                <DropdownRounds
-                  roundsForSelectedSemester={courseData.roundsBySemester[selectedSemester]}
-                  semesterRoundState={semesterRoundState}
-                />
-              ) : (
-                showRoundData && <SingleRoundLabel round={firstRoundInActiveSemester} />
-              )}
+              <div>
+                <h2>
+                  {translation.courseLabels.header_dropdown_menue}
+                  <InfoModal
+                    title={translation.courseLabels.header_dropdown_menue}
+                    infoText={translation.courseLabels.syllabus_info}
+                    type="html"
+                    closeLabel={translation.courseLabels.label_close}
+                    ariaLabel={translation.courseLabels.header_dropdown_menu_aria_label}
+                  />
+                </h2>
+                <p>{translation.courseLabels.header_dropdown_menu_navigation} </p>
 
-              {/* TODO(karl): denna ska visas bredvid DropdownRounds */}
-              <RoundApplicationButton courseRound={activeRound} showRoundData={showRoundData} />
+                {showRoundDropdown ? (
+                  <DropdownRounds
+                    roundsForSelectedSemester={courseData.roundsBySemester[selectedSemester]}
+                    semesterRoundState={semesterRoundState}
+                  />
+                ) : (
+                  showRoundData && <SingleRoundLabel round={firstRoundInActiveSemester} />
+                )}
+                {/* TODO(karl): denna ska visas bredvid DropdownRounds */}
+                <RoundApplicationButton courseRound={activeRound} showRoundData={showRoundData} />
+              </div>
 
               {showRoundData && (
                 <RoundInformation
@@ -226,15 +240,6 @@ function CoursePage() {
                 )}
               </div>
 
-              Infomodal för rubriken till höger tidigare...
-              <InfoModal
-                  title={translation.courseLabels.header_dropdown_menue}
-                  infoText={translation.courseLabels.syllabus_info}
-                  type="html"
-                  closeLabel={translation.courseLabels.label_close}
-                  ariaLabel={translation.courseLabels.header_dropdown_menu_aria_label}
-                />
-
                 Inte beslutad
                  {showRoundData && activeRound.round_state !== 'APPROVED' ? (
                     <Alert type="info" aria-live="polite">
@@ -246,9 +251,7 @@ function CoursePage() {
                   )}
               
 
-                  I grå ruta till höger: 
-                  header_dropdown_menu_navigation - Välj termin och kursomgång för innehållet på sidan
-
+     
                 Alert som troligen inte visades tidigare:
                   <Alert type="info" header={translation.courseLabels.header_no_rounds}>
                   {translation.courseLabels.lable_no_rounds}
