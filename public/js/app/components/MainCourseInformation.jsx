@@ -6,7 +6,7 @@ import { FORSKARUTB_URL } from '../util/constants'
 import { useLanguage } from '../hooks/useLanguage'
 
 import CourseSectionList from './CourseSectionList'
-import { SyllabusContainer } from './SyllabusContainer'
+import { SyllabusPdfInformation } from './SyllabusPdfInformation'
 
 const MainCourseInformation = ({ courseCode, courseData, semesterRoundState }) => {
   const { translation } = useLanguage()
@@ -32,23 +32,25 @@ const MainCourseInformation = ({ courseCode, courseData, semesterRoundState }) =
   const syllabusName = createSyllabusName()
   return (
     <>
+      {/* TODO(karl): Ska verkligen SyllabusPdfInformation-kortet visas ifall !hasSyllabus. Hur förhåller det sig till alerten med label_no_syllabus under */}
+
+      <SyllabusPdfInformation
+        courseCode={courseCode}
+        syllabusName={syllabusName}
+        semesterRoundState={semesterRoundState}
+      />
+
+      {!hasSyllabus && (
+        <Alert type="info" header={translation.courseLabels.header_no_syllabus}>
+          {translation.courseLabels.label_no_syllabus}
+        </Alert>
+      )}
+
       {courseInfo.course_application_info.length > 0 && (
         <Alert type="info" header={translation.courseInformation.course_application_info}>
           <span dangerouslySetInnerHTML={{ __html: courseInfo.course_application_info }} />
         </Alert>
       )}
-
-      {/* TODO(karl): Vad är SyllabusContainer i förhållande till activeSyllabusContainer nedanför? */}
-      <SyllabusContainer courseCode={courseCode} syllabusName={syllabusName} semesterRoundState={semesterRoundState} />
-
-      <div id="activeSyllabusContainer" key="activeSyllabusContainer">
-        {!hasSyllabus && (
-          <Alert color="info" aria-live="polite">
-            <h4>{translation.courseLabels.header_no_syllabus}</h4>
-            {translation.courseLabels.label_no_syllabus}
-          </Alert>
-        )}
-      </div>
 
       <CourseSectionList
         courseInfo={courseInfo}
