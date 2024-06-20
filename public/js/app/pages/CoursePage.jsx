@@ -1,4 +1,3 @@
-/* eslint-disable react/no-danger */
 import React, { useEffect } from 'react'
 
 import { Row, Col } from 'reactstrap'
@@ -39,7 +38,6 @@ function CoursePage() {
     },
     isCancelledOrDeactivated,
   } = context
-  // * * //
 
   const semesterRoundState = useSemesterRoundState({
     initiallySelectedRoundIndex,
@@ -119,6 +117,7 @@ function CoursePage() {
           language={languageShortname}
           pageTitle={translation.courseLabels.sideMenu.page_before_course}
         />
+
         {/* ---TEXT FOR CANCELLED COURSE --- */}
         {isCancelledOrDeactivated && (
           <div className="isCancelled">
@@ -160,85 +159,79 @@ function CoursePage() {
           />
         )}
 
-        {/* TODO(karl): Visning av tabbarna om hasActiveSemesters=false */}
-        {/* <i>{translation.courseLabels.lable_no_rounds}</i> */}
+        {!hasActiveSemesters ? (
+          <>
+            <h2>
+              {translation.courseLabels.header_dropdown_menue}
+              <InfoModal
+                title={translation.courseLabels.header_dropdown_menue}
+                infoText={translation.courseLabels.syllabus_info}
+                type="html"
+                closeLabel={translation.courseLabels.label_close}
+                ariaLabel={translation.courseLabels.header_dropdown_menu_aria_label}
+              />
+            </h2>
+            <p>
+              <i>{translation.courseLabels.lable_no_rounds}</i>
+            </p>
+            <MainCourseInformation
+              courseCode={courseCode}
+              courseData={courseData}
+              semesterRoundState={semesterRoundState}
+            />
+          </>
+        ) : (
+          <Tabs
+            selectedTabKey={semesterRoundState.selectedSemester}
+            onSelectedTabChange={tabKey => semesterRoundState.setSelectedSemester(tabKey)}
+          >
+            {activeSemesters.map((semesterItem, index) => (
+              <Tab
+                key={index}
+                tabKey={semesterItem.semester}
+                title={`${translation.courseInformation.course_short_semester[semesterItem.semesterNumber]}${semesterItem.year}`}
+              >
+                <div>
+                  <h2>
+                    {translation.courseLabels.header_dropdown_menue}
+                    <InfoModal
+                      title={translation.courseLabels.header_dropdown_menue}
+                      infoText={translation.courseLabels.syllabus_info}
+                      type="html"
+                      closeLabel={translation.courseLabels.label_close}
+                      ariaLabel={translation.courseLabels.header_dropdown_menu_aria_label}
+                    />
+                  </h2>
+                  <p>{translation.courseLabels.header_dropdown_menu_navigation} </p>
 
-        <Tabs
-          selectedTabKey={semesterRoundState.selectedSemester}
-          onSelectedTabChange={tabKey => semesterRoundState.setSelectedSemester(tabKey)}
-        >
-          {activeSemesters.map((semesterItem, index) => (
-            <Tab
-              key={index}
-              tabKey={semesterItem.semester}
-              title={`${translation.courseInformation.course_short_semester[semesterItem.semesterNumber]}${semesterItem.year}`}
-            >
-              <div>
-                <h2>
-                  {translation.courseLabels.header_dropdown_menue}
-                  <InfoModal
-                    title={translation.courseLabels.header_dropdown_menue}
-                    infoText={translation.courseLabels.syllabus_info}
-                    type="html"
-                    closeLabel={translation.courseLabels.label_close}
-                    ariaLabel={translation.courseLabels.header_dropdown_menu_aria_label}
-                  />
-                </h2>
-                <p>{translation.courseLabels.header_dropdown_menu_navigation} </p>
+                  {showRoundDropdown ? (
+                    <DropdownRounds
+                      roundsForSelectedSemester={courseData.roundsBySemester[selectedSemester]}
+                      semesterRoundState={semesterRoundState}
+                    />
+                  ) : (
+                    showRoundData && <SingleRoundLabel round={firstRoundInActiveSemester} />
+                  )}
+                  {/* TODO(karl): denna ska visas bredvid DropdownRounds */}
+                  <RoundApplicationButton courseRound={activeRound} showRoundData={showRoundData} />
+                </div>
 
-                {showRoundDropdown ? (
-                  <DropdownRounds
-                    roundsForSelectedSemester={courseData.roundsBySemester[selectedSemester]}
+                {showRoundData && (
+                  <RoundInformation
+                    courseCode={courseCode}
+                    courseData={courseInformationToRounds}
+                    courseRound={activeRound}
                     semesterRoundState={semesterRoundState}
                   />
-                ) : (
-                  showRoundData && <SingleRoundLabel round={firstRoundInActiveSemester} />
                 )}
-                {/* TODO(karl): denna ska visas bredvid DropdownRounds */}
-                <RoundApplicationButton courseRound={activeRound} showRoundData={showRoundData} />
-              </div>
 
-              {showRoundData && (
-                <RoundInformation
+                <MainCourseInformation
                   courseCode={courseCode}
-                  courseData={courseInformationToRounds}
-                  courseRound={activeRound}
+                  courseData={courseData}
                   semesterRoundState={semesterRoundState}
                 />
-              )}
 
-              <MainCourseInformation
-                courseCode={courseCode}
-                courseData={courseData}
-                semesterRoundState={semesterRoundState}
-              />
-
-              {/* TODO(karl): Några delar som blivit kvar i uppstädning. Ska de bort eller in på nåt nytt ställe? Om de ska bort, kolla om messages ska rensas med
-              
-              Fanns tidigare i RoundinformationOneCol:
-              <div className="info-box yellow">
-                <h3>{translation.courseLabels.header_no_round_selected}</h3>
-                <p>{translation.courseLabels.no_round_selected}</p>
-              </div>
-              nästan samma utanför:
-                <div className="info-box">
-                {hasActiveSemesters ? (
-                  <p>{translation.courseLabels.no_round_selected}</p>
-                ) : (
-                  <i>{translation.courseLabels.lable_no_rounds}</i>
-                )}
-              </div>
-
-                Inte beslutad
-                 {showRoundData && activeRound.round_state !== 'APPROVED' ? (
-                    <Alert type="info" aria-live="polite">
-                      {`${translation.courseLabels.lable_round_state[activeRound.round_state]}
-                            `}
-                    </Alert>
-                  ) : (
-                    ''
-                  )}
-     
+                {/* TODO(karl): Några delar som blivit kvar i uppstädning. Ska de bort eller in på nåt nytt ställe? Om de ska bort, kolla om messages ska rensas med
 
                 application info? Hur testar jag denna och var ska den in nu?
                   {courseInfo.course_application_info.length > 0 && (
@@ -248,9 +241,10 @@ function CoursePage() {
             )}
 
               */}
-            </Tab>
-          ))}
-        </Tabs>
+              </Tab>
+            ))}
+          </Tabs>
+        )}
       </main>
     </Row>
   )

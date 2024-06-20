@@ -38,6 +38,10 @@
     gap: 16px;
     grid-template-columns: repeat(3, 1fr);
   }
+
+  .kth-alert {
+    background-color: var(--color-background);
+  }
 }
 
 .course-section-list {

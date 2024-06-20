@@ -64,7 +64,6 @@ module.exports = {
     label_edit: 'Administrera Om kursen',
     label_course_memo: 'Kurs-PM',
     label_link_course_memo: 'Länk till kurs-PM',
-    header_no_rounds: 'Kursomgångar saknas',
     lable_no_rounds: 'Kursomgångar saknas för aktuella eller kommande terminer.',
     label_schedule: 'Schema',
     label_link_schedule: 'Länk till Schema',
@@ -100,9 +99,6 @@ module.exports = {
     no_schedule: 'Schema saknas',
     no_schedule_published: 'Schema är inte publicerat',
     no_memo_connection: 'Kurs-pm kan inte visas',
-    header_no_round_selected: 'Välj termin och kursomgång',
-    no_round_selected:
-      'Välj termin och kursomgång för att se aktuell information och mer om kursen, såsom kursplan, studieperiod och anmälningsinformation.',
     round_seats_default_info:
       'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
     round_seats_info: 'Urvalet sker baserat på:',
