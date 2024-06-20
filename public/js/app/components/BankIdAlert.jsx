@@ -2,17 +2,17 @@ import React from 'react'
 import Alert from '../components-shared/Alert'
 import { useLanguage } from '../hooks/useLanguage'
 
-const BankIdAlert = ({ tutoringForm, fundingType, roundSpecified }) => {
+const BankIdAlert = ({ tutoringForm, fundingType }) => {
   const { isEnglish, translation } = useLanguage()
   const distanceCourse = tutoringForm === 'DST'
 
   const standaloneCourse = fundingType === 'LL'
 
   // Svenska sidan + fristående kurser som ges på distans
-  const case1 = !isEnglish && distanceCourse && standaloneCourse && roundSpecified
+  const case1 = !isEnglish && distanceCourse && standaloneCourse
 
   // Engelska sidan + fristående kurser
-  const case2 = isEnglish && standaloneCourse && roundSpecified
+  const case2 = isEnglish && standaloneCourse
 
   const showAlert = case1 || case2
 

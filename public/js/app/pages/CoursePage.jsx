@@ -15,7 +15,6 @@ import { SingleRoundLabel } from '../components/SingleRoundLabel'
 import SideMenu from '../components/SideMenu'
 import { Tabs, Tab } from '../components/Tabs/Tabs'
 import { useWebContext } from '../context/WebContext'
-import BankIdAlert from '../components/BankIdAlert'
 import InfoModal from '../components/InfoModal'
 
 import { useLanguage } from '../hooks/useLanguage'
@@ -151,13 +150,6 @@ function CoursePage() {
             <div className="paragraphs" dangerouslySetInnerHTML={{ __html: sellingText }} />
           </Col>
         </section>
-        {showRoundData && (
-          <BankIdAlert
-            tutoringForm={activeRound.round_tutoring_form}
-            fundingType={activeRound.round_funding_type}
-            roundSpecified={hasActiveSemesters && showRoundData}
-          />
-        )}
 
         {!hasActiveSemesters ? (
           <>
@@ -203,7 +195,7 @@ function CoursePage() {
                     />
                   </h2>
                   <p>{translation.courseLabels.header_dropdown_menu_navigation} </p>
-
+                  {/* TODO(karl): vi vill att vald round ska behållas när man byter tab och sen byter tillbaka... */}
                   {showRoundDropdown ? (
                     <DropdownRounds
                       roundsForSelectedSemester={courseData.roundsBySemester[selectedSemester]}
@@ -212,7 +204,7 @@ function CoursePage() {
                   ) : (
                     showRoundData && <SingleRoundLabel round={firstRoundInActiveSemester} />
                   )}
-                  {/* TODO(karl): denna ska visas bredvid DropdownRounds */}
+                  {/* TODO(karl): denna ska visas bredvid DropdownRounds, hur testa? */}
                   <RoundApplicationButton courseRound={activeRound} showRoundData={showRoundData} />
                 </div>
 
