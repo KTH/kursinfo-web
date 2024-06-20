@@ -31,10 +31,12 @@ const Item = ({ children, title, infoModalContent }) => {
 function RoundInformationInfoGrid({ courseCode, courseRound, selectedSemester }) {
   const { translation } = useLanguage()
   const { missingInfoLabel } = useMissingInfo()
+
   return (
     <div className="roundInformation__infoGrid">
       <Item title={translation.courseRoundInformation.round_course_place}>
-        <p>{courseRound ? courseRound.round_course_place : missingInfoLabel}</p>
+        <p>{courseRound.round_course_place}</p>
+        {/* TODO: JA! Du kan ta bort courseRound ? ... Gör det på övriga nedanför. */}
       </Item>
       <Item title={translation.courseRoundInformation.round_start_date}>
         <div>{courseRound ? courseRound.round_start_date : missingInfoLabel}</div>
@@ -84,12 +86,7 @@ function RoundInformationInfoGrid({ courseCode, courseRound, selectedSemester })
         <span dangerouslySetInnerHTML={{ __html: courseRound.round_target_group }} />
       </Item>
       <Item title={translation.courseRoundInformation.round_time_slots}>
-        <PlannedModules
-          showRoundData={true}
-          courseCode={courseCode}
-          courseRound={courseRound}
-          selectedSemester={selectedSemester}
-        />
+        <PlannedModules courseCode={courseCode} courseRound={courseRound} selectedSemester={selectedSemester} />
       </Item>
       <Item title={translation.courseLabels.label_schedule}>
         <CourseScheduleLink courseRound={courseRound} />

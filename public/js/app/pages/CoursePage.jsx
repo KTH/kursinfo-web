@@ -204,7 +204,7 @@ function CoursePage() {
                   ) : (
                     showRoundData && <SingleRoundLabel round={firstRoundInActiveSemester} />
                   )}
-                  {/* TODO(karl): denna ska visas bredvid DropdownRounds, hur testa? */}
+                  {/* TODO(karl): denna ska visas bredvid DropdownRounds, hur testa? Hittade en med öppen anmälan: CK2310 */}
                   <RoundApplicationButton courseRound={activeRound} showRoundData={showRoundData} />
                 </div>
 

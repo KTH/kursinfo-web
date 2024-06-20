@@ -4,8 +4,8 @@
   [role='tablist'] {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
-    margin-bottom: 8px;
+    gap: 8px;
+    margin-bottom: 16px;
 
     button {
       @extend .kth-button;
@@ -15,6 +15,12 @@
       &[aria-selected='true'] {
         @extend .primary;
       }
+    }
+  }
+
+  [role='tabpanel'] {
+    &:focus {
+      outline: none;
     }
   }
 }

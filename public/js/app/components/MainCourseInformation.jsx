@@ -32,15 +32,13 @@ const MainCourseInformation = ({ courseCode, courseData, semesterRoundState }) =
   const syllabusName = createSyllabusName()
   return (
     <>
-      {/* TODO(karl): Ska verkligen SyllabusPdfInformation-kortet visas ifall !hasSyllabus. Hur förhåller det sig till alerten med label_no_syllabus under */}
-
-      <SyllabusPdfInformation
-        courseCode={courseCode}
-        syllabusName={syllabusName}
-        semesterRoundState={semesterRoundState}
-      />
-
-      {!hasSyllabus && (
+      {hasSyllabus ? (
+        <SyllabusPdfInformation
+          courseCode={courseCode}
+          syllabusName={syllabusName}
+          semesterRoundState={semesterRoundState}
+        />
+      ) : (
         <Alert type="info" header={translation.courseLabels.header_no_syllabus}>
           {translation.courseLabels.label_no_syllabus}
         </Alert>

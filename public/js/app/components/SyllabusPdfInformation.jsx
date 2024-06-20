@@ -5,11 +5,12 @@ import { convertYearSemesterNumberIntoSemester } from '../../../../server/util/s
 
 export const SyllabusPdfInformation = ({ courseCode, syllabusName, semesterRoundState }) => {
   const { translation, languageShortname } = useLanguage()
-  const { activeSyllabus, hasSyllabus } = semesterRoundState
+  const { activeSyllabus } = semesterRoundState
   return (
     <div className="info-box">
       <h3>{translation.courseLabels.label_syllabus_pdf_header}</h3>
-      {hasSyllabus && activeSyllabus.course_valid_from && activeSyllabus.course_valid_from.year ? (
+      {/* TODO(karl): activeSyllabus.course_valid_from.year borde alltid finnas? fundera om det är okej att det blir tomt om year saknas, jag tror det är okej  */}
+      {activeSyllabus.course_valid_from && activeSyllabus.course_valid_from.year && (
         <>
           <p>{translation.courseLabels.label_syllabus_pdf_info}</p>
           <a
@@ -22,8 +23,6 @@ export const SyllabusPdfInformation = ({ courseCode, syllabusName, semesterRound
             {`${translation.courseLabels.label_syllabus_link} ${syllabusName}`}
           </a>
         </>
-      ) : (
-        <>{translation.courseLabels.label_syllabus_missing}</>
       )}
     </div>
   )
