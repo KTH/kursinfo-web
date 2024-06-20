@@ -58,10 +58,13 @@ function addAllSchoolsData({
   return allSchools
 }
 
-function Captions({ year, periods }) {
+function Captions({ school, year, periods }) {
   const {
     translation: {
-      statisticsLabels: { formLabels },
+      statisticsLabels,
+      statisticsLabels: {
+        formLabels: { formSubHeaders },
+      },
     },
     languageIndex,
   } = useLanguage()
@@ -71,12 +74,16 @@ function Captions({ year, periods }) {
   const periodsStr = uniqquePeriodsLabels.join(', ')
   return (
     <Row>
-      <Col xs="2" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
-        <label>{formLabels.formSubHeaders.year}</label>
+      <Col xs="4" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
+        <label>{formSubHeaders.school}</label>
+        {`: ${school === 'allSchools' ? statisticsLabels[school] : school}`}
+      </Col>
+      <Col xs="4" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
+        <label>{formSubHeaders.year}</label>
         {`: ${year}`}
       </Col>
       <Col xs="4" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
-        <label>{formLabels.formSubHeaders.periods}</label>
+        <label>{formSubHeaders.periods}</label>
         {`: ${periodsStr}`}
       </Col>
     </Row>
@@ -90,12 +97,12 @@ function MemosNumbersTable({ statisticsResult }) {
     },
   } = useLanguage()
   const { memosNumbersTable } = summaryLabels
-  const { combinedMemosPerSchool, year, periods } = statisticsResult
+  const { combinedMemosPerSchool, year, periods, school } = statisticsResult
   const cellNames = getCellNames()
 
   return (
     <>
-      <Captions year={year} periods={periods} />
+      <Captions school={school} year={year} periods={periods} />
 
       <TableSummary
         docsPerSchool={combinedMemosPerSchool}
@@ -123,7 +130,7 @@ function MemosNumbersCharts({ statisticsResult }) {
 
   return (
     <>
-      <Captions year={year} periods={periods} languageIndex={languageIndex} />
+      <Captions school={school} year={year} periods={periods} languageIndex={languageIndex} />
 
       <Charts chartNames={chartNames} schools={schools} languageIndex={languageIndex} />
     </>
