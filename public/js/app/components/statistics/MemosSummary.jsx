@@ -69,6 +69,11 @@ function Captions({ school, year, periods }) {
     languageIndex,
   } = useLanguage()
 
+  function getSchoolName(schoolName) {
+    if (schoolName === 'allSchools') return statisticsLabels[schoolName]
+    return schoolName
+  }
+
   const periodsLabels = periods.map(period => periodsLib.labelPeriod(period, languageIndex, false))
   const uniqquePeriodsLabels = [...new Set(periodsLabels)]
   const periodsStr = uniqquePeriodsLabels.join(', ')
@@ -76,7 +81,7 @@ function Captions({ school, year, periods }) {
     <Row>
       <Col xs="4" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
         <label>{formSubHeaders.school}</label>
-        {`: ${school === 'allSchools' ? statisticsLabels[school] : school}`}
+        {`: ${getSchoolName(school)}`}
       </Col>
       <Col xs="4" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
         <label>{formSubHeaders.year}</label>
