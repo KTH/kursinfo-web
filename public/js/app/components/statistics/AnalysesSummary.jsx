@@ -36,12 +36,17 @@ function Captions({ school, year, seasons }) {
     },
   } = useLanguage()
 
+  function getSchoolName(schoolName) {
+    if (schoolName === 'allSchools') return statisticsLabels[schoolName]
+    return schoolName
+  }
+
   const seasonsStr = seasons.map(season => seasonLib.labelSeason(season, languageIndex)).join(', ')
   return (
     <Row>
       <Col xs="4" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
         <label>{formSubHeaders.school}</label>
-        {`: ${school === 'allSchools' ? statisticsLabels[school] : school}`}
+        {`: ${getSchoolName(school)}`}
       </Col>
       <Col xs="4" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
         <label>{formSubHeaders.year}</label>
