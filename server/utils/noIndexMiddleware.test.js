@@ -17,7 +17,7 @@ describe('noIndexMiddleware', () => {
     noIndexMiddleware(req, res, next)
 
     expect(res.getHeader('X-Robots-Tag')).toBeUndefined()
-    expect(next).toHaveBeenCalledTimes(1)
+    expect(next).toHaveBeenCalledOnce()
   })
 
   it('should not set "X-Robots-Tag" header if "X-Forwarded-Host" match SERVER_HOST_URL', () => {
@@ -31,7 +31,7 @@ describe('noIndexMiddleware', () => {
     noIndexMiddleware(req, res, next)
 
     expect(res.getHeader('X-Robots-Tag')).toBeUndefined()
-    expect(next).toHaveBeenCalledTimes(1)
+    expect(next).toHaveBeenCalledOnce()
   })
 
   it('should set "X-Robots-Tag" header if "X-Forwarded-Host" does not match SERVER_HOST_URL', () => {
@@ -45,6 +45,6 @@ describe('noIndexMiddleware', () => {
     noIndexMiddleware(req, res, next)
 
     expect(res.getHeader('X-Robots-Tag')).toBe('noindex')
-    expect(next).toHaveBeenCalledTimes(1)
+    expect(next).toHaveBeenCalledOnce()
   })
 })
