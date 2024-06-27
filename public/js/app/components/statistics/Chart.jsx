@@ -32,7 +32,7 @@ function splitIntoLines(label) {
 }
 
 function getChartData(numberName, schools, allSchoolsLabels) {
-  const orderedSchools = schoolsLib.orderedSchoolsFormOptions()
+  const orderedSchools = schoolsLib.orderedSchoolsOptions()
 
   let schoolCodes = Object.keys(schools)
 
