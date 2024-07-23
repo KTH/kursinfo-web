@@ -18,14 +18,14 @@ export const useFormatCredits = () => {
   )
 
   const createLocaleCreditUnit = React.useCallback(
-    (creditUnitAbbr, preparatory) => (isEnglish && !preparatory ? 'credits' : creditUnitAbbr),
+    (creditUnitAbbr, isPreparatory) => (isEnglish && !isPreparatory ? 'credits' : creditUnitAbbr),
     [isEnglish]
   )
 
   const ensureCreditIsNumber = credits => +credits
 
   const formatCredits = React.useCallback(
-    (credits, creditUnitAbbr, preparatory) => {
+    (credits, creditUnitAbbr, isPreparatory) => {
       // I want to use global isNaN as it works differently
       // eslint-disable-next-line no-restricted-globals
       if (!credits || isMissingInfoLabel(credits) || isNaN(credits)) return ''
@@ -33,7 +33,7 @@ export const useFormatCredits = () => {
       const creditAsNumber = ensureCreditIsNumber(credits)
 
       const localeCredits = createLocaleCreditString(creditAsNumber)
-      const localeCreditUnit = createLocaleCreditUnit(creditUnitAbbr, preparatory)
+      const localeCreditUnit = createLocaleCreditUnit(creditUnitAbbr, isPreparatory)
 
       return `${localeCredits} ${localeCreditUnit}`
     },

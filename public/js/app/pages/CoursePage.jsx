@@ -128,7 +128,8 @@ function CoursePage() {
         {/* ---COURSE TITEL--- */}
         <CourseTitle
           key="title"
-          courseData={courseData}
+          courseTitleData={courseData.courseTitleData}
+          preparatory={courseData.courseInfo.course_level_code}
           language={languageShortname}
           pageTitle={translation.courseLabels.sideMenu.page_before_course}
         />
