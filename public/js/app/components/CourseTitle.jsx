@@ -6,10 +6,10 @@ import { useFormatCredits } from '../hooks/useFormatCredits'
 
 const adminLink = (courseCode, languageShortname) => `/kursinfoadmin/kurser/kurs/${courseCode}?l=${languageShortname}`
 
-const CourseTitle = ({ courseData = '', pageTitle }) => {
-  const title = courseData.courseTitleData
+const CourseTitle = ({ courseTitleData = '', pageTitle, preparatory }) => {
+  const title = courseTitleData
   // const preparatory = courseData.courseInfo.course_level_code
-  const preparatory = courseData.courseInfo.course_level_code == 'PREPARATORY' ? true : false
+  const isPreparatory = preparatory == 'PREPARATORY' ? true : false
   const { translation, languageShortname } = useLanguage()
   const { formatCredits } = useFormatCredits()
   const adminLinkLabel = translation.courseLabels.label_edit
@@ -18,7 +18,7 @@ const CourseTitle = ({ courseData = '', pageTitle }) => {
       <header className="col">
         <h1 id="page-heading" aria-labelledby="page-heading page-sub-heading">
           {`${title.course_code} ${title.course_title} `}
-          {formatCredits(title.course_credits, title.course_credits_text, preparatory)}
+          {formatCredits(title.course_credits, title.course_credits_text, isPreparatory)}
         </h1>
         <div id="page-sub-heading-wrapper">
           <p id="page-sub-heading" aria-hidden="true">
