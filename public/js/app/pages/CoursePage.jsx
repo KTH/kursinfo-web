@@ -26,7 +26,6 @@ const aboutCourseStr = (translate, courseCode = '') => `${translate.site_name} $
 
 function CoursePage() {
   const context = useWebContext()
-
   const {
     initiallySelectedRoundIndex,
     initiallySelectedSemester,
@@ -129,7 +128,7 @@ function CoursePage() {
         {/* ---COURSE TITEL--- */}
         <CourseTitle
           key="title"
-          courseTitleData={courseData.courseTitleData}
+          courseData={courseData}
           language={languageShortname}
           pageTitle={translation.courseLabels.sideMenu.page_before_course}
         />
