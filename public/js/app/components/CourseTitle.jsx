@@ -6,10 +6,9 @@ import { useFormatCredits } from '../hooks/useFormatCredits'
 
 const adminLink = (courseCode, languageShortname) => `/kursinfoadmin/kurser/kurs/${courseCode}?l=${languageShortname}`
 
-const CourseTitle = ({ courseTitleData = '', pageTitle, preparatory }) => {
+const CourseTitle = ({ courseTitleData = '', pageTitle, courseLevelCode }) => {
   const title = courseTitleData
-  // const preparatory = courseData.courseInfo.course_level_code
-  const isPreparatory = preparatory == 'PREPARATORY' ? true : false
+  const isPreparatory = courseLevelCode === 'PREPARATORY'
   const { translation, languageShortname } = useLanguage()
   const { formatCredits } = useFormatCredits()
   const adminLinkLabel = translation.courseLabels.label_edit
