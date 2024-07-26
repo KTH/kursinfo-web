@@ -22,19 +22,7 @@
 @use '~@kth/style/scss/components/kpm.scss';
 
 @import 'shared';
-@import 'sidebar';
 @import 'tabs';
-
-#kursinfo-main-page {
-  #columnContainer {
-    // Side panel first in mobile...
-    flex-direction: row;
-    @media (min-width: 768px) {
-      // ...but to the right (reverse order) on desktop
-      flex-direction: row-reverse;
-    }
-  }
-}
 
 .roundDropdownAndApplicationButton {
   display: flex;

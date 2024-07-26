@@ -51,11 +51,6 @@ const useSemesterRoundState = ({
     return roundsBySemester[selectedSemester]
   }, [roundsBySemester, selectedSemester])
 
-  const firstRoundInActiveSemester = useMemo(
-    () => getElementOrEmpty(roundsForActiveSemester, 0),
-    [roundsForActiveSemester]
-  )
-
   const activeRound = useMemo(() => {
     const index = activeSemesterOnlyHasOneRound ? 0 : selectedRoundIndex
 
@@ -99,7 +94,6 @@ const useSemesterRoundState = ({
     selectedSemester,
     showRoundData,
     activeSemesterOnlyHasOneRound,
-    firstRoundInActiveSemester,
     hasActiveSemesters,
     activeSyllabus,
     setSelectedRoundIndex,

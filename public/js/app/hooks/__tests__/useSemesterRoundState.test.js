@@ -233,7 +233,6 @@ describe('useSemesterRoundsLogic', () => {
     expect(result.current.selectedSemester).toBe(20242)
     expect(result.current.showRoundData).toBe(false)
     expect(result.current.activeSemesterOnlyHasOneRound).toBe(false)
-    expect(result.current.firstRoundInActiveSemester).toEqual(roundsBySemester[20242][0])
     expect(result.current.hasActiveSemesters).toBe(true)
     expect(result.current.activeSyllabus).toBe(syllabusList[0])
     expect(result.current.hasSyllabus).toBe(true)
@@ -262,7 +261,7 @@ describe('useSemesterRoundsLogic', () => {
     await waitFor(() => expect(result.current.activeRound).toEqual(roundsBySemester[20242][0]))
   })
 
-  test('updates selectedSemester, firstRoundInActiveSemester, when setSelectedSemester is called', async () => {
+  test('updates selectedSemester, when setSelectedSemester is called', async () => {
     const { result } = renderHook(() =>
       useSemesterRoundState({
         initiallySelectedRoundIndex: undefined,
@@ -278,7 +277,6 @@ describe('useSemesterRoundsLogic', () => {
     })
 
     await waitFor(() => expect(result.current.selectedSemester).toBe(20232))
-    await waitFor(() => expect(result.current.firstRoundInActiveSemester).toBe(roundsBySemester[20232][0]))
   })
 
   test('if selectedRoundIndex is set and setSelectedSemester is called, reset selectedRoundIndex, activeRound and showRoundData', async () => {
@@ -384,7 +382,6 @@ describe('useSemesterRoundsLogic', () => {
 
       expect(result.current.activeSemesterOnlyHasOneRound).toBe(false)
       expect(result.current.showRoundData).toBe(false)
-      expect(result.current.firstRoundInActiveSemester).toEqual({})
 
       expect(result.current.selectedRoundIndex).toBe(undefined)
       expect(result.current.activeRound).toEqual({})
