@@ -56,6 +56,36 @@
   padding: 20px;
   margin-bottom: 30px;
   background-color: var(--color-background-alt);
+
+  h3 {
+    margin-block-end: 1rem;
+  }
+
+  .roundInformation__infoGrid,
+  .roundInformation__contacts {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+
+    dt {
+      @include typography.font-heading-s-fluid;
+      margin-block-end: 0.25rem;
+    }
+    dd {
+      p + p {
+        margin-top: 0.25rem;
+      }
+    }
+  }
+
+  .kth-alert,
+  .roundInformation__infoGrid {
+    margin-bottom: 1.5rem;
+  }
+
+  .kth-alert {
+    background-color: var(--color-background);
+  }
 }
 
 .course-section-list {
@@ -111,10 +141,6 @@
 
     max-width: 730px;
   }
-}
-
-.bankIdAlert {
-  margin: 1rem 0 0 0;
 }
 
 .ul-no-padding {

@@ -9,6 +9,7 @@ import { aboutCourseLink } from '../util/links'
 import Alert from '../components-shared/Alert'
 
 import RoundInformationOneCol from '../components/RoundInformationOneCol'
+import { RoundInformation } from '../components/RoundInformation'
 import CourseTitle from '../components/CourseTitle'
 import CourseSectionList from '../components/CourseSectionList'
 import DropdownRounds from '../components/DropdownRounds'
@@ -17,7 +18,6 @@ import InfoModal from '../components/InfoModal'
 import SideMenu from '../components/SideMenu'
 import { Tabs, Tab } from '../components/Tabs/Tabs'
 import { useWebContext } from '../context/WebContext'
-import BankIdAlert from '../components/BankIdAlert'
 import { useLanguage } from '../hooks/useLanguage'
 import { useMissingInfo } from '../hooks/useMissingInfo'
 import { useSemesterRoundState } from '../hooks/useSemesterRoundState'
@@ -171,13 +171,6 @@ function CoursePage() {
             <div className="paragraphs" dangerouslySetInnerHTML={{ __html: sellingText }} />
           </Col>
         </section>
-        {showRoundData && (
-          <BankIdAlert
-            tutoringForm={activeRound.round_tutoring_form}
-            fundingType={activeRound.round_funding_type}
-            roundSpecified={hasActiveSemesters && showRoundData}
-          />
-        )}
 
         <Tabs
           selectedTabKey={semesterRoundState.selectedSemester}
@@ -217,7 +210,12 @@ function CoursePage() {
                 <button>TODO: application button</button>
               </div>
               {showRoundData && (
-                <div className="roundInformation">TODO: show round information for {activeRound.round_short_name}</div>
+                <RoundInformation
+                  courseCode={courseCode}
+                  courseData={courseInformationToRounds}
+                  courseRound={activeRound}
+                  semesterRoundState={semesterRoundState}
+                />
               )}
               <div>TODO: move main course info here</div>
             </Tab>
