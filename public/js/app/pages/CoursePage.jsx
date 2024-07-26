@@ -118,6 +118,10 @@ function CoursePage() {
   }
 
   const syllabusName = createSyllabusName()
+  const showRoundDropdown =
+    courseData.roundsBySemester &&
+    courseData.roundsBySemester[selectedSemester] &&
+    courseData.roundsBySemester[selectedSemester].length > 1
 
   return (
     <Row id="kursinfo-main-page">
@@ -174,6 +178,7 @@ function CoursePage() {
             roundSpecified={hasActiveSemesters && showRoundData}
           />
         )}
+
         <Tabs
           selectedTabKey={semesterRoundState.selectedSemester}
           onSelectedTabChange={tabKey => semesterRoundState.setSelectedSemester(tabKey)}
@@ -184,10 +189,44 @@ function CoursePage() {
               tabKey={semesterItem.semester}
               title={`${translation.courseInformation.course_short_semester[semesterItem.semesterNumber]}${semesterItem.year}`}
             >
-              Tab demo {semesterItem.semester}
+              {showRoundDropdown && (
+                <div>
+                  <h2>
+                    {translation.courseLabels.header_dropdown_menue}
+                    <InfoModal
+                      title={translation.courseLabels.header_dropdown_menue}
+                      infoText={translation.courseLabels.syllabus_info}
+                      type="html"
+                      closeLabel={translation.courseLabels.label_close}
+                      ariaLabel={translation.courseLabels.header_dropdown_menu_aria_label}
+                    />
+                  </h2>
+                  <p>{translation.courseLabels.header_dropdown_menu_navigation} </p>
+                </div>
+              )}
+              <div className="roundDropdownAndApplicationButton">
+                <div>
+                  {showRoundDropdown && (
+                    <DropdownRounds
+                      roundsForSelectedSemester={courseData.roundsBySemester[selectedSemester]}
+                      semesterRoundState={semesterRoundState}
+                    />
+                  )}
+                </div>
+
+                <button>TODO: application button</button>
+              </div>
+              {showRoundData && (
+                <div className="roundInformation">TODO: show round information for {activeRound.round_short_name}</div>
+              )}
+              <div>TODO: move main course info here</div>
             </Tab>
           ))}
         </Tabs>
+        <br />
+        <br />
+        <br />
+        <br />
         <Row id="columnContainer">
           {/** ************************************************************************************************************ */}
           {/*                                      RIGHT COLUMN - ROUND INFORMATION                                         */}

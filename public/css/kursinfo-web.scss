@@ -36,6 +36,28 @@
   }
 }
 
+.roundDropdownAndApplicationButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  .semester-dropdowns .form-group {
+    margin-bottom: 0;
+
+    .form-select {
+      width: 300px;
+    }
+  }
+}
+
+.roundInformation {
+  padding: 20px;
+  margin-bottom: 30px;
+  background-color: var(--color-background-alt);
+}
+
 .course-section-list {
   @include prose.prose;
 
