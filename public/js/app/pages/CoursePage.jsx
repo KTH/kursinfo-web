@@ -15,6 +15,7 @@ import DropdownRounds from '../components/DropdownRounds'
 import DropdownSemesters from '../components/DropdownSemesters'
 import InfoModal from '../components/InfoModal'
 import SideMenu from '../components/SideMenu'
+import { Tabs, Tab } from '../components/Tabs/Tabs'
 import { useWebContext } from '../context/WebContext'
 import BankIdAlert from '../components/BankIdAlert'
 import { useLanguage } from '../hooks/useLanguage'
@@ -173,6 +174,20 @@ function CoursePage() {
             roundSpecified={hasActiveSemesters && showRoundData}
           />
         )}
+        <Tabs
+          selectedTabKey={semesterRoundState.selectedSemester}
+          onSelectedTabChange={tabKey => semesterRoundState.setSelectedSemester(tabKey)}
+        >
+          {activeSemesters.map((semesterItem, index) => (
+            <Tab
+              key={index}
+              tabKey={semesterItem.semester}
+              title={`${translation.courseInformation.course_short_semester[semesterItem.semesterNumber]}${semesterItem.year}`}
+            >
+              Tab demo {semesterItem.semester}
+            </Tab>
+          ))}
+        </Tabs>
         <Row id="columnContainer">
           {/** ************************************************************************************************************ */}
           {/*                                      RIGHT COLUMN - ROUND INFORMATION                                         */}
