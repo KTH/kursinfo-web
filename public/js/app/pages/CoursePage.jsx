@@ -10,6 +10,7 @@ import Alert from '../components-shared/Alert'
 
 import RoundInformationOneCol from '../components/RoundInformationOneCol'
 import { RoundInformation } from '../components/RoundInformation'
+import { RoundApplicationButton } from '../components/RoundApplicationButton'
 import CourseTitle from '../components/CourseTitle'
 import CourseSectionList from '../components/CourseSectionList'
 import DropdownRounds from '../components/DropdownRounds'
@@ -203,7 +204,7 @@ function CoursePage() {
                   {hasCurrentSemesterMultipleRounds && <DropdownRounds semesterRoundState={semesterRoundState} />}
                 </div>
 
-                <button>TODO: application button</button>
+                <RoundApplicationButton courseRound={activeRound} showRoundData={showRoundData} />
               </div>
               {showRoundData && (
                 <RoundInformation

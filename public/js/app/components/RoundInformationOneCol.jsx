@@ -7,7 +7,6 @@ import { usePlannedModules } from '../hooks/usePlannedModules'
 import { useCourseEmployees } from '../hooks/useCourseEmployees'
 import CourseFileLinks from './CourseFileLinks'
 import InfoModal from './InfoModal'
-import RoundApplicationInfo from './RoundApplicationInfo'
 
 function RoundInformationOneCol({
   memoStorageURI,
@@ -133,19 +132,6 @@ function RoundInformationOneCol({
             </div>
           )}
         </div>
-      </div>
-
-      {/** ************************************************************************************************************ */}
-      {/*                                     Round - application information                                           */}
-      {/** ************************************************************************************************************ */}
-      <div id="roundApply">
-        <RoundApplicationInfo
-          roundHeader={roundHeader}
-          selectedRoundHeader={selectedRoundHeader}
-          round={courseRound}
-          showRoundData={showRoundData}
-          fundingType={courseRound.round_funding_type}
-        />
       </div>
 
       {/** ************************************************************************************************************ */}
