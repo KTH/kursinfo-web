@@ -1,5 +1,4 @@
 import React from 'react'
-import { Col } from 'reactstrap'
 import { FaAsterisk } from 'react-icons/fa'
 import { useLanguage } from '../hooks/useLanguage'
 
@@ -13,16 +12,12 @@ const ActualSyllabusInformation = ({ syllabusName }) => {
   } = translation.courseLabels
 
   return (
-    <Col sm="12">
-      <div>
-        <span>
-          {`${labelCourseSyllabusSource} ${syllabusName} ${labelCourseSyllabusDenoted}`}
-          {' ( '}
-          <FaAsterisk className="syllabus-marker-icon-small" aria-label={labelCourseSyllabusAsterisk} />
-          {' )'}
-        </span>
-      </div>
-    </Col>
+    <div>
+      {`${labelCourseSyllabusSource} ${syllabusName} ${labelCourseSyllabusDenoted}`}
+      {' ( '}
+      <FaAsterisk className="syllabus-marker-icon-small" aria-label={labelCourseSyllabusAsterisk} />
+      {' )'}
+    </div>
   )
 }
 

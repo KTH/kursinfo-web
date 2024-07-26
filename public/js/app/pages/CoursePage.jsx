@@ -1,28 +1,27 @@
 /* eslint-disable react/no-danger */
 import React, { useEffect } from 'react'
 
-import { Row, Col } from 'reactstrap'
+import { Col, Row } from 'reactstrap'
 
-import { FORSKARUTB_URL, SYLLABUS_URL } from '../util/constants'
-import { aboutCourseLink } from '../util/links'
-
-import Alert from '../components-shared/Alert'
-
-import RoundInformationOneCol from '../components/RoundInformationOneCol'
-import { RoundInformation } from '../components/RoundInformation'
-import { RoundApplicationButton } from '../components/RoundApplicationButton'
-import CourseTitle from '../components/CourseTitle'
-import CourseSectionList from '../components/CourseSectionList'
-import DropdownRounds from '../components/DropdownRounds'
-import DropdownSemesters from '../components/DropdownSemesters'
-import InfoModal from '../components/InfoModal'
-import SideMenu from '../components/SideMenu'
-import { Tabs, Tab } from '../components/Tabs/Tabs'
 import { useWebContext } from '../context/WebContext'
 import { useLanguage } from '../hooks/useLanguage'
 import { useMissingInfo } from '../hooks/useMissingInfo'
 import { useSemesterRoundState } from '../hooks/useSemesterRoundState'
-import { convertYearSemesterNumberIntoSemester } from '../../../../server/util/semesterUtils'
+import { FORSKARUTB_URL } from '../util/constants'
+import { aboutCourseLink } from '../util/links'
+
+import Alert from '../components-shared/Alert'
+import CourseSectionList from '../components/CourseSectionList'
+import CourseTitle from '../components/CourseTitle'
+import DropdownRounds from '../components/DropdownRounds'
+import DropdownSemesters from '../components/DropdownSemesters'
+import InfoModal from '../components/InfoModal'
+import { RoundApplicationButton } from '../components/RoundApplicationButton'
+import { RoundInformation } from '../components/RoundInformation'
+import RoundInformationOneCol from '../components/RoundInformationOneCol'
+import SideMenu from '../components/SideMenu'
+import { SyllabusPdfInformation } from '../components/SyllabusPdfInformation'
+import { Tab, Tabs } from '../components/Tabs/Tabs'
 
 const aboutCourseStr = (translate, courseCode = '') => `${translate.site_name} ${courseCode}`
 
@@ -319,29 +318,6 @@ function CoursePage() {
                 )}
               </div>
             )}
-            <aside
-              id="syllabusContainer"
-              className="info-box"
-              aria-label={translation.courseLabels.label_syllabus_pdf_header}
-            >
-              <h3 className="t4">{translation.courseLabels.label_syllabus_pdf_header}</h3>
-              {hasSyllabus && activeSyllabus.course_valid_from && activeSyllabus.course_valid_from.year ? (
-                <>
-                  <p>{translation.courseLabels.label_syllabus_pdf_info}</p>
-                  <a
-                    href={`${SYLLABUS_URL}${courseCode}-${convertYearSemesterNumberIntoSemester(activeSyllabus.course_valid_from)}.pdf?lang=${languageShortname}`}
-                    id={convertYearSemesterNumberIntoSemester(activeSyllabus.course_valid_from) + '_active'}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="pdf-link pdf-link-fix pdf-link-last-line"
-                  >
-                    {`${translation.courseLabels.label_syllabus_link} ${syllabusName}`}
-                  </a>
-                </>
-              ) : (
-                <>{translation.courseLabels.label_syllabus_missing}</>
-              )}
-            </aside>
           </Col>
 
           {/** ************************************************************************************************************ */}
@@ -349,16 +325,17 @@ function CoursePage() {
           {/** ************************************************************************************************************ */}
           <Col id="coreContent" md="8" xs="12" className="pe-3 float-md-start paragraphs">
             <div>
-              <Row id="activeSyllabusContainer" key="activeSyllabusContainer">
-                <Col sm="12">
-                  {!hasSyllabus && (
-                    <Alert color="info" aria-live="polite">
-                      <h4>{translation.courseLabels.header_no_syllabus}</h4>
-                      {translation.courseLabels.label_no_syllabus}
-                    </Alert>
-                  )}
-                </Col>
-              </Row>
+              {hasSyllabus ? (
+                <SyllabusPdfInformation
+                  courseCode={courseCode}
+                  syllabusName={syllabusName}
+                  syllabus={semesterRoundState.activeSyllabus}
+                />
+              ) : (
+                <Alert type="info" header={translation.courseLabels.header_no_syllabus}>
+                  {translation.courseLabels.label_no_syllabus}
+                </Alert>
+              )}
 
               {/* --- COURSE INFORMATION CONTAINER---  */}
               <CourseSectionList
