@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useRoundUtils } from '../hooks/useRoundUtils'
 import { useLanguage } from '../hooks/useLanguage'
 
@@ -21,42 +21,28 @@ const RoundOptions = ({ roundsForSelectedSemester }) => {
   })
 }
 
-const DropdownRounds = ({ roundsForSelectedSemester, semesterRoundState }) => {
-  const { setSelectedRoundIndex, resetSelectedRoundIndex } = semesterRoundState
-
+const DropdownRounds = ({ semesterRoundState }) => {
+  const { setSelectedRoundIndex, resetSelectedRoundIndex, selectedRoundIndex, roundsForSelectedSemester } =
+    semesterRoundState
   const { translation } = useLanguage()
   const label = translation.courseLabels.label_round_select
 
-  const [selectedOptionIndex, setSelectedOptionIndex] = React.useState(EMPTY_OPTION)
-
-  useEffect(() => {
-    setSelectedOptionIndex(EMPTY_OPTION)
-  }, [roundsForSelectedSemester])
+  const selectOptionValue = selectedRoundIndex ?? EMPTY_OPTION
 
   const handleDropdownSelect = React.useCallback(
     ({ target }) => {
       const { value } = target
-
       const selectedOption = parseInt(value)
-
       const isEmptyOption = selectedOption === EMPTY_OPTION
-
-      const newActiveRoundIndex = isEmptyOption ? 0 : selectedOption
 
       if (isEmptyOption) {
         resetSelectedRoundIndex()
       } else {
-        setSelectedRoundIndex(newActiveRoundIndex)
+        setSelectedRoundIndex(selectedOption)
       }
-
-      setSelectedOptionIndex(selectedOption)
     },
-    [setSelectedRoundIndex, resetSelectedRoundIndex, setSelectedOptionIndex]
+    [setSelectedRoundIndex, resetSelectedRoundIndex]
   )
-
-  if (!roundsForSelectedSemester || roundsForSelectedSemester.length < 2) {
-    return null
-  }
 
   return (
     <div className="semester-dropdowns">
@@ -66,14 +52,8 @@ const DropdownRounds = ({ roundsForSelectedSemester, semesterRoundState }) => {
         </label>
         <div className="form-group">
           <div className="select-wrapper">
-            <select
-              className="form-select"
-              id={DROPDOWN_ID}
-              onChange={handleDropdownSelect}
-              value={selectedOptionIndex}
-            >
-              (<option value={EMPTY_OPTION}>{label.placeholder}</option>
-              )
+            <select className="form-select" id={DROPDOWN_ID} onChange={handleDropdownSelect} value={selectOptionValue}>
+              <option value={EMPTY_OPTION}>{label.placeholder}</option>
               <RoundOptions roundsForSelectedSemester={roundsForSelectedSemester} />
             </select>
           </div>

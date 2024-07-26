@@ -311,6 +311,34 @@ describe('useSemesterRoundsLogic', () => {
     await waitFor(() => expect(result.current.activeRound).toEqual({}))
   })
 
+  test('update and and resets selectedRoundIndex, showRoundData and activeRound when semester is changed', async () => {
+    const { result } = renderHook(() =>
+      useSemesterRoundState({
+        initiallySelectedRoundIndex: undefined,
+        initiallySelectedSemester: 20242,
+        roundsBySemester: {
+          20232: [roundsBySemester['20232'][0]], // only keep one round for in this test case 20232
+          20242: roundsBySemester['20242'],
+        },
+        syllabusList,
+        activeSemesters,
+      })
+    )
+    expect(result.current.selectedRoundIndex).toBe(undefined)
+    expect(result.current.showRoundData).toBe(false)
+    expect(result.current.activeRound).toEqual({})
+
+    act(() => result.current.setSelectedSemester(20232))
+    await waitFor(() => expect(result.current.activeRound).toEqual(roundsBySemester[20232][0]))
+    expect(result.current.selectedRoundIndex).toBe(0)
+    expect(result.current.showRoundData).toBe(true)
+
+    act(() => result.current.setSelectedSemester(20242))
+    await waitFor(() => expect(result.current.activeRound).toEqual({}))
+    expect(result.current.selectedRoundIndex).toBe(undefined)
+    expect(result.current.showRoundData).toBe(false)
+  })
+
   test('if a semester with only one round is selected, that round should be selected', async () => {
     const { result } = renderHook(() =>
       useSemesterRoundState({

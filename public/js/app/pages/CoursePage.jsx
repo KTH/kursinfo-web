@@ -118,7 +118,8 @@ function CoursePage() {
   }
 
   const syllabusName = createSyllabusName()
-  const showRoundDropdown =
+
+  const hasCurrentSemesterMultipleRounds =
     courseData.roundsBySemester &&
     courseData.roundsBySemester[selectedSemester] &&
     courseData.roundsBySemester[selectedSemester].length > 1
@@ -182,7 +183,7 @@ function CoursePage() {
               tabKey={semesterItem.semester}
               title={`${translation.courseInformation.course_short_semester[semesterItem.semesterNumber]}${semesterItem.year}`}
             >
-              {showRoundDropdown && (
+              {hasCurrentSemesterMultipleRounds && (
                 <div>
                   <h2>
                     {translation.courseLabels.header_dropdown_menue}
@@ -199,12 +200,7 @@ function CoursePage() {
               )}
               <div className="roundDropdownAndApplicationButton">
                 <div>
-                  {showRoundDropdown && (
-                    <DropdownRounds
-                      roundsForSelectedSemester={courseData.roundsBySemester[selectedSemester]}
-                      semesterRoundState={semesterRoundState}
-                    />
-                  )}
+                  {hasCurrentSemesterMultipleRounds && <DropdownRounds semesterRoundState={semesterRoundState} />}
                 </div>
 
                 <button>TODO: application button</button>
@@ -249,10 +245,7 @@ function CoursePage() {
                   )}
                   {courseData.roundsBySemester[selectedSemester] &&
                   courseData.roundsBySemester[selectedSemester].length > 1 ? (
-                    <DropdownRounds
-                      roundsForSelectedSemester={courseData.roundsBySemester[selectedSemester]}
-                      semesterRoundState={semesterRoundState}
-                    />
+                    <DropdownRounds semesterRoundState={semesterRoundState} />
                   ) : (
                     showRoundData && (
                       <p>
