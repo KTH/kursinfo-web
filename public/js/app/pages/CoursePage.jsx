@@ -1,4 +1,3 @@
-/* eslint-disable react/no-danger */
 import React, { useEffect } from 'react'
 
 import { Col, Row } from 'reactstrap'
@@ -6,18 +5,16 @@ import { Col, Row } from 'reactstrap'
 import { useWebContext } from '../context/WebContext'
 import { useLanguage } from '../hooks/useLanguage'
 import { useSemesterRoundState } from '../hooks/useSemesterRoundState'
-import { FORSKARUTB_URL } from '../util/constants'
 import { aboutCourseLink } from '../util/links'
 
 import Alert from '../components-shared/Alert'
-import CourseSectionList from '../components/CourseSectionList'
 import CourseTitle from '../components/CourseTitle'
 import DropdownRounds from '../components/DropdownRounds'
 import InfoModal from '../components/InfoModal'
+import { MainCourseInformation } from '../components/MainCourseInformation'
 import { RoundApplicationButton } from '../components/RoundApplicationButton'
 import { RoundInformation } from '../components/RoundInformation'
 import SideMenu from '../components/SideMenu'
-import { SyllabusPdfInformation } from '../components/SyllabusPdfInformation'
 import { Tab, Tabs } from '../components/Tabs/Tabs'
 
 const aboutCourseStr = (translate, courseCode = '') => `${translate.site_name} ${courseCode}`
@@ -36,7 +33,6 @@ function CoursePage() {
     },
     isCancelledOrDeactivated,
   } = context
-  // * * //
 
   const semesterRoundState = useSemesterRoundState({
     initiallySelectedRoundIndex,
@@ -45,12 +41,13 @@ function CoursePage() {
     syllabusList: courseData.syllabusList,
     activeSemesters,
   })
-  const { selectedSemester, activeRound, showRoundData, activeSyllabus, hasSyllabus } = semesterRoundState
+  const { selectedSemester, activeRound, showRoundData, hasActiveSemesters, activeSyllabus, hasSyllabus } =
+    semesterRoundState
 
-  const { courseInfo, emptySyllabusData } = courseData
+  const { courseInfo } = courseData
   const { translation, languageShortname } = useLanguage()
 
-  const { sellingText, imageFromAdmin } = courseInfo
+  const { sellingText, imageFromAdmin = '' } = courseInfo
 
   let courseImage = ''
   if (imageFromAdmin.length > 4) {
@@ -89,24 +86,7 @@ function CoursePage() {
     return () => (isMounted = false)
   })
 
-  const createValidToString = () => {
-    if (!activeSyllabus.course_valid_to) return ''
-    return `${translation.courseInformation.course_short_semester[activeSyllabus.course_valid_to.semesterNumber]}${activeSyllabus.course_valid_to.year}`
-  }
-
-  const createValidFromString = () =>
-    `${
-      translation.courseInformation.course_short_semester[activeSyllabus.course_valid_from.semesterNumber]
-    }${activeSyllabus.course_valid_from.year}`
-
-  const createSyllabusName = () => {
-    if (!hasSyllabus) return ''
-    return `${courseCode}${` (${createValidFromString()}\u2013${createValidToString()})`}`
-  }
-
-  const syllabusName = createSyllabusName()
-
-  const hasCurrentSemesterMultipleRounds =
+  const hasSelectedSemesterMultipleRounds =
     courseData.roundsBySemester &&
     courseData.roundsBySemester[selectedSemester] &&
     courseData.roundsBySemester[selectedSemester].length > 1
@@ -154,86 +134,85 @@ function CoursePage() {
             <div className="paragraphs" dangerouslySetInnerHTML={{ __html: sellingText }} />
           </Col>
         </section>
+        {!hasActiveSemesters ? (
+          <>
+            <h2>
+              {translation.courseLabels.header_dropdown_menue}
+              <InfoModal
+                title={translation.courseLabels.header_dropdown_menue}
+                infoText={translation.courseLabels.syllabus_info}
+                type="html"
+                closeLabel={translation.courseLabels.label_close}
+                ariaLabel={translation.courseLabels.header_dropdown_menu_aria_label}
+              />
+            </h2>
+            <p>
+              <i>{translation.courseLabels.lable_no_rounds}</i>
+            </p>
+            <MainCourseInformation
+              courseCode={courseCode}
+              courseData={courseData}
+              semesterRoundState={semesterRoundState}
+            />
+          </>
+        ) : (
+          <Tabs
+            selectedTabKey={semesterRoundState.selectedSemester}
+            onSelectedTabChange={tabKey => semesterRoundState.setSelectedSemester(tabKey)}
+          >
+            {activeSemesters.map((semesterItem, index) => (
+              <Tab
+                key={index}
+                tabKey={semesterItem.semester}
+                title={`${translation.courseInformation.course_short_semester[semesterItem.semesterNumber]}${semesterItem.year}`}
+              >
+                {hasSelectedSemesterMultipleRounds && (
+                  <div>
+                    <h2>
+                      {translation.courseLabels.header_dropdown_menue}
+                      <InfoModal
+                        title={translation.courseLabels.header_dropdown_menue}
+                        infoText={translation.courseLabels.syllabus_info}
+                        type="html"
+                        closeLabel={translation.courseLabels.label_close}
+                        ariaLabel={translation.courseLabels.header_dropdown_menu_aria_label}
+                      />
+                    </h2>
+                    <p>{translation.courseLabels.header_dropdown_menu_navigation} </p>
+                  </div>
+                )}
 
-        <Tabs
-          selectedTabKey={semesterRoundState.selectedSemester}
-          onSelectedTabChange={tabKey => semesterRoundState.setSelectedSemester(tabKey)}
-        >
-          {activeSemesters.map((semesterItem, index) => (
-            <Tab
-              key={index}
-              tabKey={semesterItem.semester}
-              title={`${translation.courseInformation.course_short_semester[semesterItem.semesterNumber]}${semesterItem.year}`}
-            >
-              {hasCurrentSemesterMultipleRounds && (
-                <div>
-                  <h2>
-                    {translation.courseLabels.header_dropdown_menue}
-                    <InfoModal
-                      title={translation.courseLabels.header_dropdown_menue}
-                      infoText={translation.courseLabels.syllabus_info}
-                      type="html"
-                      closeLabel={translation.courseLabels.label_close}
-                      ariaLabel={translation.courseLabels.header_dropdown_menu_aria_label}
-                    />
-                  </h2>
-                  <p>{translation.courseLabels.header_dropdown_menu_navigation} </p>
-                </div>
-              )}
-              <div className="roundDropdownAndApplicationButton">
-                <div>
-                  {hasCurrentSemesterMultipleRounds && <DropdownRounds semesterRoundState={semesterRoundState} />}
+                <div className="roundDropdownAndApplicationButton">
+                  <div>
+                    {hasSelectedSemesterMultipleRounds && (
+                      <DropdownRounds
+                        roundsForSelectedSemester={courseData.roundsBySemester[selectedSemester]}
+                        semesterRoundState={semesterRoundState}
+                      />
+                    )}
+                  </div>
+
+                  <RoundApplicationButton courseRound={activeRound} showRoundData={showRoundData} />
                 </div>
 
-                <RoundApplicationButton courseRound={activeRound} showRoundData={showRoundData} />
-              </div>
-              {showRoundData && (
-                <RoundInformation
+                {showRoundData && (
+                  <RoundInformation
+                    courseCode={courseCode}
+                    courseData={courseInformationToRounds}
+                    courseRound={activeRound}
+                    semesterRoundState={semesterRoundState}
+                  />
+                )}
+
+                <MainCourseInformation
                   courseCode={courseCode}
-                  courseData={courseInformationToRounds}
-                  courseRound={activeRound}
+                  courseData={courseData}
                   semesterRoundState={semesterRoundState}
                 />
-              )}
-              <div>TODO: move main course info here</div>
-            </Tab>
-          ))}
-        </Tabs>
-        <br />
-        <br />
-        <br />
-        <br />
-        <div>
-          {hasSyllabus ? (
-            <SyllabusPdfInformation
-              courseCode={courseCode}
-              syllabusName={syllabusName}
-              syllabus={semesterRoundState.activeSyllabus}
-            />
-          ) : (
-            <Alert type="info" header={translation.courseLabels.header_no_syllabus}>
-              {translation.courseLabels.label_no_syllabus}
-            </Alert>
-          )}
-
-          {/* --- COURSE INFORMATION CONTAINER---  */}
-          <CourseSectionList
-            courseInfo={courseInfo}
-            // if there is no syllabus, we still want to display empty syllabus data
-            syllabus={hasSyllabus ? activeSyllabus : emptySyllabusData}
-            partToShow="courseContentBlock"
-            syllabusName={syllabusName}
-          />
-
-          {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
-          {courseInfo.course_level_code === 'RESEARCH' && (
-            <span>
-              <h3>{translation.courseLabels.header_postgraduate_course}</h3>
-              {translation.courseLabels.label_postgraduate_course}
-              <a href={`${FORSKARUTB_URL}${courseInfo.course_department_code}`}>{courseInfo.course_department}</a>
-            </span>
-          )}
-        </div>
+              </Tab>
+            ))}
+          </Tabs>
+        )}
       </main>
     </Row>
   )
