@@ -9,13 +9,10 @@ import { aboutCourseLink } from '../util/links'
 
 import Alert from '../components-shared/Alert'
 import CourseTitle from '../components/CourseTitle'
-import DropdownRounds from '../components/DropdownRounds'
-import InfoModal from '../components/InfoModal'
 import { MainCourseInformation } from '../components/MainCourseInformation'
-import { RoundApplicationButton } from '../components/RoundApplicationButton'
 import { RoundInformation } from '../components/RoundInformation'
+import { RoundSelector } from '../components/RoundSelector'
 import SideMenu from '../components/SideMenu'
-import { Tab, Tabs } from '../components/Tabs/Tabs'
 
 const aboutCourseStr = (translate, courseCode = '') => `${translate.site_name} ${courseCode}`
 
@@ -41,8 +38,7 @@ function CoursePage() {
     syllabusList: courseData.syllabusList,
     activeSemesters,
   })
-  const { selectedSemester, activeRound, showRoundData, hasActiveSemesters, activeSyllabus, hasSyllabus } =
-    semesterRoundState
+  const { activeRound, showRoundData, activeSyllabus, hasSyllabus } = semesterRoundState
 
   const { courseInfo } = courseData
   const { translation, languageShortname } = useLanguage()
@@ -85,11 +81,6 @@ function CoursePage() {
     }
     return () => (isMounted = false)
   })
-
-  const hasSelectedSemesterMultipleRounds =
-    courseData.roundsBySemester &&
-    courseData.roundsBySemester[selectedSemester] &&
-    courseData.roundsBySemester[selectedSemester].length > 1
 
   return (
     <Row id="kursinfo-main-page">
@@ -134,85 +125,23 @@ function CoursePage() {
             <div className="paragraphs" dangerouslySetInnerHTML={{ __html: sellingText }} />
           </Col>
         </section>
-        {!hasActiveSemesters ? (
-          <>
-            <h2>
-              {translation.courseLabels.header_dropdown_menue}
-              <InfoModal
-                title={translation.courseLabels.header_dropdown_menue}
-                infoText={translation.courseLabels.syllabus_info}
-                type="html"
-                closeLabel={translation.courseLabels.label_close}
-                ariaLabel={translation.courseLabels.header_dropdown_menu_aria_label}
-              />
-            </h2>
-            <p>
-              <i>{translation.courseLabels.lable_no_rounds}</i>
-            </p>
-            <MainCourseInformation
-              courseCode={courseCode}
-              courseData={courseData}
-              semesterRoundState={semesterRoundState}
-            />
-          </>
-        ) : (
-          <Tabs
-            selectedTabKey={semesterRoundState.selectedSemester}
-            onSelectedTabChange={tabKey => semesterRoundState.setSelectedSemester(tabKey)}
-          >
-            {activeSemesters.map((semesterItem, index) => (
-              <Tab
-                key={index}
-                tabKey={semesterItem.semester}
-                title={`${translation.courseInformation.course_short_semester[semesterItem.semesterNumber]}${semesterItem.year}`}
-              >
-                {hasSelectedSemesterMultipleRounds && (
-                  <div>
-                    <h2>
-                      {translation.courseLabels.header_dropdown_menue}
-                      <InfoModal
-                        title={translation.courseLabels.header_dropdown_menue}
-                        infoText={translation.courseLabels.syllabus_info}
-                        type="html"
-                        closeLabel={translation.courseLabels.label_close}
-                        ariaLabel={translation.courseLabels.header_dropdown_menu_aria_label}
-                      />
-                    </h2>
-                    <p>{translation.courseLabels.header_dropdown_menu_navigation} </p>
-                  </div>
-                )}
 
-                <div className="roundDropdownAndApplicationButton">
-                  <div>
-                    {hasSelectedSemesterMultipleRounds && (
-                      <DropdownRounds
-                        roundsForSelectedSemester={courseData.roundsBySemester[selectedSemester]}
-                        semesterRoundState={semesterRoundState}
-                      />
-                    )}
-                  </div>
+        <RoundSelector activeSemesters={activeSemesters} semesterRoundState={semesterRoundState} />
 
-                  <RoundApplicationButton courseRound={activeRound} showRoundData={showRoundData} />
-                </div>
-
-                {showRoundData && (
-                  <RoundInformation
-                    courseCode={courseCode}
-                    courseData={courseInformationToRounds}
-                    courseRound={activeRound}
-                    semesterRoundState={semesterRoundState}
-                  />
-                )}
-
-                <MainCourseInformation
-                  courseCode={courseCode}
-                  courseData={courseData}
-                  semesterRoundState={semesterRoundState}
-                />
-              </Tab>
-            ))}
-          </Tabs>
+        {showRoundData && (
+          <RoundInformation
+            courseCode={courseCode}
+            courseData={courseInformationToRounds}
+            courseRound={activeRound}
+            semesterRoundState={semesterRoundState}
+          />
         )}
+
+        <MainCourseInformation
+          courseCode={courseCode}
+          courseData={courseData}
+          semesterRoundState={semesterRoundState}
+        />
       </main>
     </Row>
   )

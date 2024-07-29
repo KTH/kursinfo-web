@@ -24,18 +24,55 @@
 @import 'shared';
 @import 'tabs';
 
-.roundDropdownAndApplicationButton {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+.roundSelector {
+  fieldset legend,
+  label:has(+ .select-wrapper) {
+    margin-top: 1rem;
+    margin-bottom: 0.25rem;
+    display: block;
+    @include typography.font-heading-xs;
+  }
 
-  .semester-dropdowns .form-group {
-    margin-bottom: 0;
+  fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
 
-    .form-select {
-      width: 300px;
+    input[type='radio'] {
+      opacity: 0;
+      position: absolute;
+    }
+
+    input[type='radio'] + label {
+      @extend .kth-button;
+    }
+    input[type='radio']:not(:checked) + label {
+      @extend .secondary;
+    }
+    input[type='radio']:checked + label {
+      @extend .primary;
+    }
+    div {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+  }
+
+  .roundSelector__selectAndApplicationButton {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+
+    flex-direction: column;
+    align-items: flex-start;
+
+    @media (min-width: 992px) {
+      flex-direction: row;
+      align-items: flex-end;
     }
   }
 }
@@ -53,7 +90,10 @@
   .roundInformation__contacts {
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
+    @media (min-width: 992px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
 
     dt {
       @include typography.font-heading-s-fluid;

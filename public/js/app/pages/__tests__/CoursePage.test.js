@@ -183,13 +183,13 @@ describe('Component <CoursePage>', () => {
     )
     expect(screen.getByText('MF1016 Basic Electrical Engineering 9.0 credits')).toBeInTheDocument()
 
-    const tabSpring2022 = screen.getByRole('tab', { name: 'Spring 2022' })
-    const tabAutumn2022 = screen.getByRole('tab', { name: 'Autumn 2022' })
-    const tabSpring2023 = screen.getByRole('tab', { name: 'Spring 2023' })
+    const spring2022 = screen.getByLabelText('Spring 2022')
+    const autumn2022 = screen.getByLabelText('Autumn 2022')
+    const spring2023 = screen.getByLabelText('Spring 2023')
 
-    expect(tabSpring2022).toHaveAttribute('aria-selected', 'false')
-    expect(tabAutumn2022).toHaveAttribute('aria-selected', 'true')
-    expect(tabSpring2023).toHaveAttribute('aria-selected', 'false')
+    expect(spring2022).not.toBeChecked()
+    expect(autumn2022).toBeChecked()
+    expect(spring2023).not.toBeChecked()
 
     screen.getByText('Course content in syllabus v2')
     expect(screen.getByRole('link', { name: /^Course syllabus/ })).toHaveTextContent(
@@ -201,11 +201,11 @@ describe('Component <CoursePage>', () => {
     expect(screen.queryByLabelText('Course offering')).not.toBeInTheDocument()
 
     // Change tab
-    await user.click(tabSpring2022)
+    await user.click(spring2022)
 
-    expect(tabSpring2022).toHaveAttribute('aria-selected', 'true')
-    expect(tabAutumn2022).toHaveAttribute('aria-selected', 'false')
-    expect(tabSpring2023).toHaveAttribute('aria-selected', 'false')
+    expect(spring2022).toBeChecked()
+    expect(autumn2022).not.toBeChecked()
+    expect(spring2023).not.toBeChecked()
 
     screen.getByText('Course content in syllabus v1')
     expect(screen.getByRole('link', { name: /^Course syllabus/ })).toHaveTextContent(

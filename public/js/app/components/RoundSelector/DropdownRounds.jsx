@@ -1,6 +1,6 @@
 import React from 'react'
-import { useRoundUtils } from '../hooks/useRoundUtils'
-import { useLanguage } from '../hooks/useLanguage'
+import { useRoundUtils } from '../../hooks/useRoundUtils'
+import { useLanguage } from '../../hooks/useLanguage'
 
 const DROPDOWN_ID = 'roundsDropdown'
 const EMPTY_OPTION = -1
@@ -45,21 +45,15 @@ const DropdownRounds = ({ semesterRoundState }) => {
   )
 
   return (
-    <div className="semester-dropdowns">
-      <form>
-        <label className="form-control-label" htmlFor={DROPDOWN_ID}>
-          {label.label_dropdown}
-        </label>
-        <div className="form-group">
-          <div className="select-wrapper">
-            <select className="form-select" id={DROPDOWN_ID} onChange={handleDropdownSelect} value={selectOptionValue}>
-              <option value={EMPTY_OPTION}>{label.placeholder}</option>
-              <RoundOptions roundsForSelectedSemester={roundsForSelectedSemester} />
-            </select>
-          </div>
-        </div>
-      </form>
-    </div>
+    <>
+      <label htmlFor={DROPDOWN_ID}>{label.label_dropdown}</label>
+      <div className="select-wrapper">
+        <select className="form-select" id={DROPDOWN_ID} onChange={handleDropdownSelect} value={selectOptionValue}>
+          <option value={EMPTY_OPTION}>{label.placeholder}</option>
+          <RoundOptions roundsForSelectedSemester={roundsForSelectedSemester} />
+        </select>
+      </div>
+    </>
   )
 }
 export default DropdownRounds

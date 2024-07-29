@@ -1,6 +1,6 @@
 import React from 'react'
-import { useLanguage } from '../hooks/useLanguage'
-import { useMissingInfo } from '../hooks/useMissingInfo'
+import { useLanguage } from '../../hooks/useLanguage'
+import { useMissingInfo } from '../../hooks/useMissingInfo'
 
 const RoundApplicationButton = ({ courseRound, showRoundData }) => {
   const {
