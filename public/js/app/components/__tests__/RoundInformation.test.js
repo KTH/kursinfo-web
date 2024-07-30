@@ -1,10 +1,9 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { WebContextProvider } from '../../context/WebContext'
 
-import RoundInformationOneCol from '../RoundInformationOneCol'
+import { RoundInformation } from '../RoundInformation/RoundInformation'
 import { usePlannedModules } from '../../hooks/usePlannedModules'
 import { useCourseEmployees } from '../../hooks/useCourseEmployees'
 
@@ -15,6 +14,9 @@ const INFORM_IF_IMPORTANT_INFO_IS_MISSING = ['No information inserted', 'Ingen i
 const context = {
   lang: 'en',
 }
+const mockCourseRound = {
+  round_course_term: ['2018', '1'],
+}
 
 const defaultSemesterRoundState = {
   showRoundData: true,
@@ -22,7 +24,7 @@ const defaultSemesterRoundState = {
   selectedSemester: 20231,
 }
 
-describe('Component <RoundInformationOneCol>', () => {
+describe('Component <RoundInformation>', () => {
   beforeAll(() => {
     usePlannedModules.mockReturnValue({
       plannedModules: 'somePlannedModules',
@@ -49,7 +51,7 @@ describe('Component <RoundInformationOneCol>', () => {
     }
     render(
       <WebContextProvider configIn={context}>
-        <RoundInformationOneCol {...propsWithStudyPace} />{' '}
+        <RoundInformation {...propsWithStudyPace} />{' '}
       </WebContextProvider>
     )
     const label = screen.getByText('Pace of study')
@@ -57,6 +59,7 @@ describe('Component <RoundInformationOneCol>', () => {
     const studyPace = screen.getByText('25%')
     expect(studyPace).toBeInTheDocument()
   })
+
   test('renders course offering employees correctly', () => {
     const examinersData = 'Examiners’ data'
     const responsiblesData = 'Responsibles’ data'
@@ -66,6 +69,7 @@ describe('Component <RoundInformationOneCol>', () => {
       semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseCode: 'SF1624',
+      courseRound: mockCourseRound,
     }
 
     useCourseEmployees.mockReturnValueOnce({
@@ -78,7 +82,7 @@ describe('Component <RoundInformationOneCol>', () => {
 
     render(
       <WebContextProvider configIn={context}>
-        <RoundInformationOneCol {...propsWithEmployees} />{' '}
+        <RoundInformation {...propsWithEmployees} />{' '}
       </WebContextProvider>
     )
     const examiners = screen.getByText(examinersData)
@@ -95,11 +99,12 @@ describe('Component <RoundInformationOneCol>', () => {
       semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseCode: 'SF1624',
+      courseRound: mockCourseRound,
     }
 
     render(
       <WebContextProvider configIn={context}>
-        <RoundInformationOneCol {...propsWithEmptyEmployees} />{' '}
+        <RoundInformation {...propsWithEmptyEmployees} />{' '}
       </WebContextProvider>
     )
     const emptyEmployees = screen.getAllByText(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0]) // en
@@ -112,11 +117,12 @@ describe('Component <RoundInformationOneCol>', () => {
       semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseCode: 'SF1624',
+      courseRound: mockCourseRound,
     }
 
     render(
       <WebContextProvider configIn={context}>
-        <RoundInformationOneCol {...propsWithoutEmployees} />
+        <RoundInformation {...propsWithoutEmployees} />
       </WebContextProvider>
     )
     const noEmployees = screen.getAllByText(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0]) // en
@@ -138,7 +144,7 @@ describe('Component <RoundInformationOneCol>', () => {
 
     render(
       <WebContextProvider configIn={context}>
-        <RoundInformationOneCol {...propsWithSeatsNum} />{' '}
+        <RoundInformation {...propsWithSeatsNum} />{' '}
       </WebContextProvider>
     )
 
@@ -176,7 +182,7 @@ describe('Component <RoundInformationOneCol>', () => {
 
     render(
       <WebContextProvider configIn={context}>
-        <RoundInformationOneCol {...propsWithoutSeatsNum} />{' '}
+        <RoundInformation {...propsWithoutSeatsNum} />{' '}
       </WebContextProvider>
     )
 
@@ -205,7 +211,7 @@ describe('Component <RoundInformationOneCol>', () => {
 
     render(
       <WebContextProvider configIn={context}>
-        <RoundInformationOneCol {...propsWithEmptyCriteria} />
+        <RoundInformation {...propsWithEmptyCriteria} />
       </WebContextProvider>
     )
 

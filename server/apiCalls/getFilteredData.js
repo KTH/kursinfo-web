@@ -26,7 +26,7 @@ function parceContactName(infoContactName, language) {
 function _parseCourseDefaultInformation(courseDetails, language) {
   const { course, formattedGradeScales, mainSubjects } = courseDetails
   return {
-    course_application_info: parseOrSetEmpty(course.applicationInfo, language, true),
+    course_application_info: parseOrSetEmpty(course.applicationInfo, language, true), // applicationInfo is info for research students (Label in Kopps: "Information for research students about course offerings")
     course_code: parseOrSetEmpty(course.courseCode),
     course_contact_name: parceContactName(course.infoContactName, language),
     course_department: parseOrSetEmpty(course.department.name, language),

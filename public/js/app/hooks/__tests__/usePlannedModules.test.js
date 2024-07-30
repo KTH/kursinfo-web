@@ -20,8 +20,7 @@ const mockContext = {
   },
 }
 
-const baseParams = { courseCode: 'SF1624', semester: 20241, applicationCode: 12345 }
-const defaultParams = { ...baseParams, showRoundData: true }
+const defaultParams = { courseCode: 'SF1624', semester: 20241, applicationCode: 12345 }
 
 describe('usePlannedModules', () => {
   beforeEach(() => {
@@ -49,12 +48,6 @@ describe('usePlannedModules', () => {
     const { result } = renderHook(() => usePlannedModules(defaultParams))
 
     await waitFor(() => expect(result.current.plannedModules).toStrictEqual(INFORM_IF_IMPORTANT_INFO_IS_MISSING[0]))
-  })
-
-  test('if showRoundData is not true, should return null', () => {
-    const { result } = renderHook(() => usePlannedModules({ ...defaultParams, showRoundData: false }))
-
-    expect(result.current.plannedModules).toStrictEqual(null)
   })
 
   test('returns plannedModules from getPlannedModules', async () => {
