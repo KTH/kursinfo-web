@@ -19,11 +19,10 @@ const _parseExamObject = (exams, grades, language = 0, semester = '', creditUnit
       } else {
         exam.credits = '-'
       }
-
       examString += `<li>${exam.examCode} - 
                           ${exam.title},
                           ${language === 'en' ? exam.credits : exam.credits.toString().replace('.', ',')} ${
-                            language === 'en' ? ' credits' : creditUnitAbbr
+                            language === 'en' && creditUnitAbbr != 'fup' ? ' credits' : creditUnitAbbr
                           },  
                           ${language === 'en' ? 'grading scale' : 'betygsskala'}: ${
                             grades[exam.gradeScaleCode]
