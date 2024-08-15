@@ -26,9 +26,10 @@
 .roundSelector {
   fieldset legend,
   label:has(+ .select-wrapper) {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     margin-bottom: 0.25rem;
     display: block;
+    padding: 0;
     @include typography.font-heading-xs;
   }
 
@@ -44,24 +45,49 @@
     }
 
     input[type='radio'] + label {
-      @extend .kth-button;
+      color: var(--color-primary);
+      cursor: pointer;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
     }
+
+    input[type='radio']:focus-visible + label,
+    input[type='radio']:hover + label {
+      &:hover {
+        color: var(--color-primary-hover);
+        text-decoration: underline;
+        text-decoration-thickness: 0.25rem;
+        text-underline-offset: 0.5rem;
+      }
+    }
+
+    input[type='radio']:focus-visible + label {
+      outline: 5px auto Highlight;
+      outline: 5px auto -webkit-focus-ring-color;
+      outline-offset: 3px;
+    }
+
     input[type='radio']:not(:checked) + label {
-      @extend .secondary;
+      @include typography.font-default;
     }
+
     input[type='radio']:checked + label {
-      @extend .primary;
+      @include typography.font-heading-xs;
+      text-decoration: underline;
+      text-decoration-thickness: 0.25rem;
+      text-underline-offset: 0.5rem;
     }
+
     div {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 1.5rem;
     }
   }
 
   .roundSelector__selectAndApplicationButton {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
     display: flex;
     justify-content: space-between;
     gap: 1rem;
