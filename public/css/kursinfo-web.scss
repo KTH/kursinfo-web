@@ -22,16 +22,126 @@
 @use '~@kth/style/scss/components/kpm.scss';
 
 @import 'shared';
-@import 'sidebar';
 
-#kursinfo-main-page {
-  #columnContainer {
-    // Side panel first in mobile...
-    flex-direction: row;
-    @media (min-width: 768px) {
-      // ...but to the right (reverse order) on desktop
-      flex-direction: row-reverse;
+.roundSelector {
+  fieldset legend,
+  label:has(+ .select-wrapper) {
+    margin-top: 1.5rem;
+    margin-bottom: 0.25rem;
+    display: block;
+    padding: 0;
+    @include typography.font-heading-xs;
+  }
+
+  fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+
+    input[type='radio'] {
+      opacity: 0;
+      position: absolute;
     }
+
+    input[type='radio'] + label {
+      color: var(--color-primary);
+      cursor: pointer;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    input[type='radio']:focus-visible + label,
+    input[type='radio']:hover + label {
+      &:hover {
+        color: var(--color-primary-hover);
+        text-decoration: underline;
+        text-decoration-thickness: 0.25rem;
+        text-underline-offset: 0.5rem;
+      }
+    }
+
+    input[type='radio']:focus-visible + label {
+      outline: 5px auto Highlight;
+      outline: 5px auto -webkit-focus-ring-color;
+      outline-offset: 3px;
+    }
+
+    input[type='radio']:not(:checked) + label {
+      @include typography.font-default;
+    }
+
+    input[type='radio']:checked + label {
+      @include typography.font-heading-xs;
+      text-decoration: underline;
+      text-decoration-thickness: 0.25rem;
+      text-underline-offset: 0.5rem;
+    }
+
+    div {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+  }
+
+  .roundSelector__selectAndApplicationButton {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+
+    flex-direction: column;
+    align-items: flex-start;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      align-items: flex-end;
+    }
+  }
+}
+
+.roundInformation {
+  padding: 20px;
+  margin-bottom: 30px;
+  background-color: var(--color-background-alt);
+
+  h3 {
+    margin-block-end: 1rem;
+  }
+
+  .roundInformation__infoGrid,
+  .roundInformation__contacts {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (min-width: 1200px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    dt {
+      @include typography.font-heading-s-fluid;
+      margin-block-end: 0.25rem;
+    }
+    dd {
+      p + p {
+        margin-top: 0.25rem;
+      }
+    }
+  }
+
+  .kth-alert,
+  .roundInformation__infoGrid {
+    margin-bottom: 1.5rem;
+  }
+
+  .kth-alert {
+    background-color: var(--color-background);
   }
 }
 
@@ -88,10 +198,6 @@
 
     max-width: 730px;
   }
-}
-
-.bankIdAlert {
-  margin: 1rem 0 0 0;
 }
 
 .ul-no-padding {

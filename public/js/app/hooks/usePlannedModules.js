@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
 import { useWebContext } from '../context/WebContext'
 import { getPlannedModules } from './api/getPlannedModules'
 import { useApi } from './useApi'
@@ -6,7 +6,7 @@ import { useMissingInfo } from './useMissingInfo'
 
 const MISSING_INFO = ''
 
-export const usePlannedModules = ({ courseCode, semester, applicationCode, showRoundData }) => {
+export const usePlannedModules = ({ courseCode, semester, applicationCode }) => {
   const context = useWebContext()
   const { missingInfoLabel } = useMissingInfo()
 
@@ -23,11 +23,7 @@ export const usePlannedModules = ({ courseCode, semester, applicationCode, showR
     setApiParams({ basePath, courseCode, semester, applicationCode })
   }, [applicationCode, basePath, courseCode, semester, setApiParams])
 
-  const plannedModules = useMemo(() => {
-    if (!showRoundData) return null
-    const pla = data === MISSING_INFO ? missingInfoLabel : data
-    return pla
-  }, [data, missingInfoLabel, showRoundData])
+  const plannedModules = data === MISSING_INFO ? missingInfoLabel : data
 
   return {
     plannedModules,
