@@ -13,30 +13,37 @@ const {
   parseSemesterIntoYearSemesterNumberArray,
 } = require('../util/semesterUtils')
 const koppsCourseData = require('./koppsCourseData')
+const ladokCourseDataApi = require('./ladokCourseDataApi')
 const courseApi = require('./kursinfoApi')
 
-function _parseCourseDefaultInformation(courseDetails, language) {
-  const { course, formattedGradeScales, mainSubjects } = courseDetails
+function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, language) {
+  const {
+    course: koppsCourse,
+    formattedGradeScales: koppsFormattedGradeScales,
+    mainSubjects: koppsMainSubjects,
+  } = koppsCourseDetails
   return {
-    course_code: parseOrSetEmpty(course.courseCode),
+    course_code: parseOrSetEmpty(koppsCourse.courseCode),
 
-    course_department: parseOrSetEmpty(course.department.name, language),
-    course_department_code: parseOrSetEmpty(course.department.code, language),
-    course_department_link: buildCourseDepartmentLink(course.department, language),
-    course_education_type_id: course.educationalTypeId || null,
+    course_department: parseOrSetEmpty(koppsCourse.department.name, language),
+    course_department_code: parseOrSetEmpty(koppsCourse.department.code, language),
+    course_department_link: buildCourseDepartmentLink(koppsCourse.department, language),
+    course_education_type_id: koppsCourse.educationalTypeId || null,
     course_examiners: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_grade_scale: parseOrSetEmpty(formattedGradeScales[course.gradeScaleCode], language),
-    course_last_exam: course.lastExamTerm ? parseSemesterIntoYearSemesterNumberArray(course.lastExamTerm.term) : [],
-    course_level_code: parseOrSetEmpty(course.educationalLevelCode),
-    course_literature: parseOrSetEmpty(course.courseLiterature, language),
+    course_grade_scale: parseOrSetEmpty(koppsFormattedGradeScales[koppsCourse.gradeScaleCode], language),
+    course_last_exam: koppsCourse.lastExamTerm
+      ? parseSemesterIntoYearSemesterNumberArray(koppsCourse.lastExamTerm.term)
+      : [],
+    course_level_code: parseOrSetEmpty(koppsCourse.educationalLevelCode),
+    course_literature: parseOrSetEmpty(koppsCourse.courseLiterature, language),
     course_main_subject:
-      mainSubjects && mainSubjects.length > 0
-        ? mainSubjects.join(', ')
+      koppsMainSubjects && koppsMainSubjects.length > 0
+        ? koppsMainSubjects.join(', ')
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
-    course_recruitment_text: parseOrSetEmpty(course.recruitmentText, language, true),
-    course_supplemental_information_url: parseOrSetEmpty(course.supplementaryInfoUrl, language),
-    course_supplemental_information_url_text: parseOrSetEmpty(course.supplementaryInfoUrlName, language),
-    course_state: parseOrSetEmpty(course.state, language, true),
+    course_recruitment_text: parseOrSetEmpty(koppsCourse.recruitmentText, language, true),
+    course_supplemental_information_url: parseOrSetEmpty(koppsCourse.supplementaryInfoUrl, language),
+    course_supplemental_information_url_text: parseOrSetEmpty(koppsCourse.supplementaryInfoUrlName, language),
+    course_state: parseOrSetEmpty(koppsCourse.state, language, true),
 
     // Following should be removed (KUI-1387) set to emport for now
     course_contact_name: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
@@ -55,13 +62,13 @@ function resolveText(text = {}, language) {
   return text[language] ?? ''
 }
 
-function _parseTitleData({ course }) {
+function _parseTitleData({ course: koppsCourse }) {
   return {
-    course_code: parseOrSetEmpty(course.courseCode),
-    course_title: parseOrSetEmpty(course.title),
-    course_other_title: parseOrSetEmpty(course.titleOther),
-    course_credits: parseOrSetEmpty(course.credits),
-    course_credits_text: parseOrSetEmpty(course.creditUnitAbbr),
+    course_code: parseOrSetEmpty(koppsCourse.courseCode),
+    course_title: parseOrSetEmpty(koppsCourse.title),
+    course_other_title: parseOrSetEmpty(koppsCourse.titleOther),
+    course_credits: parseOrSetEmpty(koppsCourse.credits),
+    course_credits_text: parseOrSetEmpty(koppsCourse.creditUnitAbbr),
   }
 }
 
@@ -229,16 +236,18 @@ function _parseRounds({ roundInfos, courseCode, language, memoList }) {
 }
 
 const getFilteredData = async ({ courseCode, language, memoList }) => {
-  const { body: courseDetails } = await koppsCourseData.getKoppsCourseData(courseCode, language)
+  const { body: koppsCourseDetails } = await koppsCourseData.getKoppsCourseData(courseCode, language)
+  const ladokCourse = await ladokCourseDataApi.getLadokCourseData(courseCode, language)
 
-  if (!courseDetails) {
+  if (!koppsCourseDetails || !ladokCourse) {
+    // TODO(Ladok-POC): What to do if we find course in only in Ladok or only in Kopps?
     return {}
   }
 
-  const isCancelledOrDeactivated = courseDetails.course.cancelled || courseDetails.course.deactivated
+  const isCancelledOrDeactivated = koppsCourseDetails.course.cancelled || koppsCourseDetails.course.deactivated
 
   //* **** Course information that is static on the course side *****//
-  const courseDefaultInformation = _parseCourseDefaultInformation(courseDetails, language)
+  const courseDefaultInformation = _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, language)
 
   const { sellingText, courseDisposition, supplementaryInfo, imageInfo } = await courseApi.getCourseInfo(courseCode)
 
@@ -251,14 +260,14 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   }
 
   //* **** Course title data  *****//
-  const courseTitleData = _parseTitleData(courseDetails)
+  const courseTitleData = _parseTitleData(koppsCourseDetails)
 
   //* **** Get list of syllabuses and valid syllabus semesters *****//
-  const { syllabusList, emptySyllabusData } = createSyllabusList(courseDetails, language)
+  const { syllabusList, emptySyllabusData } = createSyllabusList(koppsCourseDetails, language)
 
   //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from UG Rest API *****//
   const { roundsBySemester, activeSemesters, employees } = _parseRounds({
-    roundInfos: courseDetails.roundInfos,
+    roundInfos: koppsCourseDetails.roundInfos,
     courseCode,
     language,
     memoList,

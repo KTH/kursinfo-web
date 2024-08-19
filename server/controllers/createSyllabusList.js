@@ -98,8 +98,8 @@ const _parseSyllabusData = (courseDetails, semesterIndex = 0, language) => {
   }
 }
 
-const createSyllabusList = (courseDetails, lang) => {
-  const { publicSyllabusVersions } = courseDetails
+const createSyllabusList = (koppsCourseDetails, lang) => {
+  const { publicSyllabusVersions } = koppsCourseDetails
   const emptySyllabusData = _createEmptySyllabusData(lang)
 
   if (publicSyllabusVersions.length === 0) {
@@ -113,7 +113,7 @@ const createSyllabusList = (courseDetails, lang) => {
 
   for (let index = 0; index < publicSyllabusVersions.length; index++) {
     const previousSyllabus = index > 0 ? syllabusList[index - 1] : undefined
-    const syllabus = _parseSyllabusData(courseDetails, index, lang)
+    const syllabus = _parseSyllabusData(koppsCourseDetails, index, lang)
 
     if (previousSyllabus) {
       syllabus.course_valid_to = calcPreviousSemester(previousSyllabus.course_valid_from)
