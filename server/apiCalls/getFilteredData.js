@@ -15,20 +15,11 @@ const {
 const koppsCourseData = require('./koppsCourseData')
 const courseApi = require('./kursinfoApi')
 
-function parceContactName(infoContactName, language) {
-  const courseContactName = parseOrSetEmpty(infoContactName, language)
-  if (courseContactName === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) return courseContactName
-  const emailBracketsRexEx = /<|>/gi
-  const contact = courseContactName.replace(emailBracketsRexEx, '')
-  return contact
-}
-
 function _parseCourseDefaultInformation(courseDetails, language) {
   const { course, formattedGradeScales, mainSubjects } = courseDetails
   return {
-    course_application_info: parseOrSetEmpty(course.applicationInfo, language, true), // applicationInfo is info for research students (Label in Kopps: "Information for research students about course offerings")
     course_code: parseOrSetEmpty(course.courseCode),
-    course_contact_name: parceContactName(course.infoContactName, language),
+
     course_department: parseOrSetEmpty(course.department.name, language),
     course_department_code: parseOrSetEmpty(course.department.code, language),
     course_department_link: buildCourseDepartmentLink(course.department, language),
@@ -42,15 +33,21 @@ function _parseCourseDefaultInformation(courseDetails, language) {
       mainSubjects && mainSubjects.length > 0
         ? mainSubjects.join(', ')
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
-    course_possibility_to_addition: parseOrSetEmpty(course.possibilityToAddition, language),
-    course_possibility_to_completions: parseOrSetEmpty(course.possibilityToCompletion, language),
-    course_prerequisites: parseOrSetEmpty(course.prerequisites, language),
     course_recruitment_text: parseOrSetEmpty(course.recruitmentText, language, true),
-    course_required_equipment: parseOrSetEmpty(course.requiredEquipment, language),
-    course_suggested_addon_studies: parseOrSetEmpty(course.addOn, language),
     course_supplemental_information_url: parseOrSetEmpty(course.supplementaryInfoUrl, language),
     course_supplemental_information_url_text: parseOrSetEmpty(course.supplementaryInfoUrlName, language),
     course_state: parseOrSetEmpty(course.state, language, true),
+
+    // Following should be removed (KUI-1387) set to emport for now
+    course_contact_name: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    course_suggested_addon_studies: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    course_application_info: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    course_possibility_to_addition: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    course_possibility_to_completions: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    course_required_equipment: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+
+    // Will be replaced with field from Om kursen-admin
+    course_prerequisites: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
   }
 }
 
