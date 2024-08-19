@@ -14,6 +14,7 @@ async function _getCourseInfo(courseCode) {
       imageInfo: '',
       supplementaryInfo: { sv: '', en: '' },
       courseDisposition: { sv: '', en: '' },
+      recommendedPrerequisites: { sv: '', en: '' },
     }
 
     if (res.statusCode === 200 && res.body) {
@@ -21,6 +22,7 @@ async function _getCourseInfo(courseCode) {
       return {
         sellingText: body.sellingText ?? defaultValues.sellingText,
         courseDisposition: body.courseDisposition ?? defaultValues.courseDisposition,
+        recommendedPrerequisites: body.recommendedPrerequisites ?? defaultValues.recommendedPrerequisites,
         supplementaryInfo: body.supplementaryInfo ?? defaultValues.supplementaryInfo,
         imageInfo: body.imageInfo ?? defaultValues.imageInfo,
       }

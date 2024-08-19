@@ -61,7 +61,10 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
 
     const during = [
       ...eligibility,
-      { header: translation.courseInformation.course_prerequisites, text: courseInfo.course_prerequisites },
+      {
+        header: translation.courseInformation.course_prerequisites,
+        text: courseInfo.course_recommended_prerequisites,
+      },
       { header: translation.courseInformation.course_required_equipment, text: courseRequiredEquipment },
       { header: translation.courseInformation.course_literature, text: literatureText },
     ]

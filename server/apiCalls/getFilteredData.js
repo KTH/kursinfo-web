@@ -44,7 +44,6 @@ function _parseCourseDefaultInformation(courseDetails, language) {
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
     course_possibility_to_addition: parseOrSetEmpty(course.possibilityToAddition, language),
     course_possibility_to_completions: parseOrSetEmpty(course.possibilityToCompletion, language),
-    course_prerequisites: parseOrSetEmpty(course.prerequisites, language),
     course_recruitment_text: parseOrSetEmpty(course.recruitmentText, language, true),
     course_required_equipment: parseOrSetEmpty(course.requiredEquipment, language),
     course_suggested_addon_studies: parseOrSetEmpty(course.addOn, language),
@@ -243,13 +242,15 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   //* **** Course information that is static on the course side *****//
   const courseDefaultInformation = _parseCourseDefaultInformation(courseDetails, language)
 
-  const { sellingText, courseDisposition, supplementaryInfo, imageInfo } = await courseApi.getCourseInfo(courseCode)
+  const { sellingText, courseDisposition, recommendedPrerequisites, supplementaryInfo, imageInfo } =
+    await courseApi.getCourseInfo(courseCode)
 
   const courseInfo = {
     ...courseDefaultInformation,
     sellingText: resolveText(sellingText, language),
     imageFromAdmin: imageInfo,
     course_disposition: resolveText(courseDisposition, language),
+    course_recommended_prerequisites: resolveText(recommendedPrerequisites, language),
     course_supplemental_information: resolveText(supplementaryInfo, language),
   }
 
