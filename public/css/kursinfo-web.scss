@@ -140,6 +140,42 @@
     margin-bottom: 1.5rem;
   }
 
+  .roundInformation__infoGridItem {
+    display: flex;
+    flex-direction: column;
+
+    .roundInformation__infoGridItemContent {
+      position: relative;
+      overflow: hidden;
+      max-height: 96px;
+      transition: max-height 200ms ease-in;
+
+      &.hidden::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        height: 24px;
+        width: 100%;
+        background: linear-gradient(to bottom, transparent, var(--color-background-alt));
+        display: block;
+      }
+    }
+
+    .roundInformation__infoGridItemShowMoreButton {
+      background-color: transparent;
+      border: none;
+      padding: 0;
+      margin-top: 4px;
+      color: var(--color-tertiary);
+      cursor: pointer;
+      align-self: flex-end;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
   .kth-alert {
     background-color: var(--color-background);
   }

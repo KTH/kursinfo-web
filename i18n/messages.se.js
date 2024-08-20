@@ -40,6 +40,10 @@ module.exports = {
     menu_panel_close: 'Stäng',
     menu_panel_menu: 'Meny',
   },
+  showMoreContent: {
+    show: 'Visa mer',
+    hide: 'Dölj',
+  },
   bankIdAlertText:
     'Du behöver ett KTH-konto för att läsa en kurs på KTH, kontot aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.',
   courseLabels: {
