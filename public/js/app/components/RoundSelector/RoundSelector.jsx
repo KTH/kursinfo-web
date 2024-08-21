@@ -14,6 +14,7 @@ export const RoundSelector = ({ activeSemesters, semesterRoundState }) => {
     showRoundData,
     selectedSemester,
     activeSemesterOnlyHasOneRound,
+    hasOnlyOneRound,
     roundsForSelectedSemester,
     activeRound,
   } = semesterRoundState
@@ -34,13 +35,13 @@ export const RoundSelector = ({ activeSemesters, semesterRoundState }) => {
             ariaLabel={translation.courseLabels.header_dropdown_menu_aria_label}
           />
         </h2>
-        <p>
-          {hasActiveSemesters ? (
-            translation.courseLabels.header_dropdown_menu_navigation
-          ) : (
+        {hasActiveSemesters ? (
+          !hasOnlyOneRound && <p>{translation.courseLabels.header_dropdown_menu_navigation}</p>
+        ) : (
+          <p>
             <i>{translation.courseLabels.lable_no_rounds}</i>
-          )}
-        </p>
+          </p>
+        )}
       </div>
 
       <div className="roundSelector__selectAndApplicationButton">
