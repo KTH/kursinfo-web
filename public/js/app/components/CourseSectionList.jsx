@@ -61,7 +61,15 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
 
     const during = [
       ...eligibility,
-      { header: translation.courseInformation.course_prerequisites, text: courseInfo.course_prerequisites },
+      {
+        header: translation.courseInformation.course_prerequisites,
+        text: courseInfo.course_prerequisites,
+        infoModal: {
+          description: translation.courseInformation.course_prerequisites_description,
+          closeLabel: translation.courseLabels.label_close,
+          ariaLabel: translation.courseInformation.course_prerequisites_menu_aria_label,
+        },
+      },
       { header: translation.courseInformation.course_required_equipment, text: courseRequiredEquipment },
       { header: translation.courseInformation.course_literature, text: literatureText },
     ]
@@ -192,6 +200,7 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
         sectionId="Content"
         syllabusMarkerAriaLabel={translation.courseLabels.syllabus_marker_aria_label}
       />
+      <p>Here comes the course execution</p>
       <CourseSection
         sectionHeader={translation.courseLabels.header_execution}
         headerType="3"
@@ -199,6 +208,7 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
         sectionId="Execution"
         syllabusMarkerAriaLabel={translation.courseLabels.syllabus_marker_aria_label}
       />
+      <p>Here ends the course execution</p>
       <CourseSection
         sectionHeader={translation.courseLabels.header_examination}
         headerType="3"
