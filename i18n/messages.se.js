@@ -87,7 +87,7 @@ module.exports = {
     },
     header_dropdown_menu_navigation:
       'Välj termin och kursomgång för att se aktuell information och mer om kursen, såsom kursplan, studieperiod och anmälningsinformation.',
-    header_dropdown_menue: 'Information per kursomgång',
+    header_dropdown_menu: 'Information per kursomgång',
     header_dropdown_menu_aria_label: 'Information om val av termin och kursomgång',
     header_course_info: 'Kursinformation',
     header_content: 'Innehåll och lärandemål',

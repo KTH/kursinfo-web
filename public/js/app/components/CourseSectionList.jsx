@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useLanguage } from '../hooks/useLanguage'
 import { useMissingInfo } from '../hooks/useMissingInfo'
-import CourseSection from './CourseSections'
+import CourseSection from './CourseSection'
 import { SyllabusInformation } from './SyllabusInformation'
 
 function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabusName }) {

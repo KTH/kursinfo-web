@@ -3,7 +3,7 @@ import React from 'react'
 
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import CourseSections from '../CourseSections'
+import CourseSections from '../CourseSection'
 import i18n from '../../../../../i18n'
 
 const [translationEN] = i18n.messages

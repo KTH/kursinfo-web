@@ -85,7 +85,7 @@ module.exports = {
     },
     header_dropdown_menu_navigation:
       'Choose semester and course offering to see current information and more about the course, such as course syllabus, study period, and application information.',
-    header_dropdown_menue: 'Information per course offering',
+    header_dropdown_menu: 'Information per course offering',
     header_dropdown_menu_aria_label: 'Information about choosing semester and course offering',
     header_course_info: 'Course information',
     header_content: 'Content and learning outcomes',
