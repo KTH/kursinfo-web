@@ -200,7 +200,6 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
         sectionId="Content"
         syllabusMarkerAriaLabel={translation.courseLabels.syllabus_marker_aria_label}
       />
-      <p>Here comes the course execution</p>
       <CourseSection
         sectionHeader={translation.courseLabels.header_execution}
         headerType="3"
@@ -208,7 +207,6 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
         sectionId="Execution"
         syllabusMarkerAriaLabel={translation.courseLabels.syllabus_marker_aria_label}
       />
-      <p>Here ends the course execution</p>
       <CourseSection
         sectionHeader={translation.courseLabels.header_examination}
         headerType="3"
