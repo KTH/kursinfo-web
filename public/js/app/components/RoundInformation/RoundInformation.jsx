@@ -18,13 +18,13 @@ function RoundInformation({ courseCode, courseData, courseRound, semesterRoundSt
 
   const [pending, setPending] = useState(true)
 
-  const { courseRoundEmployees } = useCourseEmployees({
+  const { courseRoundEmployees, isError: courseEmployeesError } = useCourseEmployees({
     courseCode,
     selectedSemester,
     applicationCode: courseRound?.round_application_code,
   })
 
-  const { plannedModules } = usePlannedModules({
+  const { plannedModules, isError: plannedModulesError } = usePlannedModules({
     courseCode,
     semester: selectedSemester,
     applicationCode: courseRound.round_application_code,
@@ -35,10 +35,10 @@ function RoundInformation({ courseCode, courseData, courseRound, semesterRoundSt
   }, [courseRound])
 
   useEffect(() => {
-    if (courseRoundEmployees && plannedModules) {
+    if ((courseRoundEmployees && plannedModules) || plannedModulesError || courseEmployeesError) {
       setPending(false)
     }
-  }, [courseRoundEmployees, plannedModules])
+  }, [courseRoundEmployees, plannedModules, plannedModulesError, courseEmployeesError])
 
   return (
     <div className={`roundInformation ${pending ? 'shimmer-effect' : 'fadeIn'}`}>

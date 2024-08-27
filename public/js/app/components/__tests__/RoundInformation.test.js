@@ -25,7 +25,7 @@ const defaultSemesterRoundState = {
 }
 
 describe('Component <RoundInformation>', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     usePlannedModules.mockReturnValue({
       plannedModules: 'somePlannedModules',
     })
@@ -72,7 +72,7 @@ describe('Component <RoundInformation>', () => {
       courseRound: mockCourseRound,
     }
 
-    useCourseEmployees.mockReturnValueOnce({
+    useCourseEmployees.mockReturnValue({
       courseRoundEmployees: {
         examiners: `<span>${examinersData}</span>'`,
         responsibles: `<span>${responsiblesData}</span>`,
