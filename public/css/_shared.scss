@@ -16,6 +16,12 @@
       }
     }
   }
+  label:has(+ .form-group),
+  label:has(+ input) {
+    @include typography.font-heading-xs;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
 }
 
 #mainContent {
@@ -158,11 +164,4 @@ p {
 // Old kth-style boostrap form overrides
 .select-wrapper::after {
   background-color: var(--color-primary);
-}
-
-label:has(+ .form-group),
-label:has(+ input) {
-  @include typography.font-heading-xs;
-  display: block;
-  margin-bottom: 0.25rem;
 }
