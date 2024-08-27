@@ -22,14 +22,7 @@ const withinNextSibling = element => within(nextSibling(element))
 describe('Component <RoundInformationContacts>', () => {
   describe('examiners, responsibles and teachers', () => {
     test('shoud show headers with "missing info" text when data is missing', () => {
-      render(
-        <RoundInformationContacts
-          courseCode={'ABC123'}
-          courseData={{ course_contact_name: undefined }}
-          courseRound={{}}
-          selectedSemester={''}
-        />
-      )
+      render(<RoundInformationContacts courseData={{}} courseRoundEmployees={{}} />)
       const examinerLabel = screen.getByText('Examiner')
       expect(nextSibling(examinerLabel)).toHaveTextContent('No information inserted')
 
@@ -41,19 +34,14 @@ describe('Component <RoundInformationContacts>', () => {
     })
 
     test('shoud show headers with data inserted as html', () => {
-      useCourseEmployees.mockReturnValue({
-        courseRoundEmployees: {
-          examiners: '<p class="person"><a href="/profile/testexaminers/">Test examiners</a></p>',
-          responsibles: '<p class="person"><a href="/profile/testresponsibles/">Test responsibles</a></p>',
-          teachers: '<p class="person"><a href="/profile/testteachers/">Test teachers</a></p>',
-        },
-      })
       render(
         <RoundInformationContacts
-          courseCode={'ABC123'}
           courseData={{ courseInfo: { course_contact_name: undefined } }}
-          courseRound={{}}
-          selectedSemester={''}
+          courseRoundEmployees={{
+            examiners: '<p class="person"><a href="/profile/testexaminers/">Test examiners</a></p>',
+            responsibles: '<p class="person"><a href="/profile/testresponsibles/">Test responsibles</a></p>',
+            teachers: '<p class="person"><a href="/profile/testteachers/">Test teachers</a></p>',
+          }}
         />
       )
       const examinerLabel = screen.getByText('Examiner')
@@ -71,58 +59,12 @@ describe('Component <RoundInformationContacts>', () => {
       expect(teacherLink).toHaveTextContent('Test teachers')
       expect(teacherLink).toHaveAttribute('href', '/profile/testteachers/')
     })
-
-    test('should update data when prop changes', () => {
-      useCourseEmployees.mockImplementation(({ applicationCode }) =>
-        applicationCode === '1111'
-          ? { courseRoundEmployees: { examiners: 'Examiner for 1111' } }
-          : applicationCode === '3333'
-            ? { courseRoundEmployees: { examiners: 'Examiner for 3333' } }
-            : { courseRoundEmployees: { examiners: '' } }
-      )
-
-      const { rerender } = render(
-        <RoundInformationContacts
-          courseCode={'ABC123'}
-          courseData={{ courseInfo: { course_contact_name: undefined } }}
-          courseRound={{ round_application_code: '1111' }}
-          selectedSemester={''}
-        />
-      )
-
-      expect(nextSibling(screen.getByText('Examiner'))).toHaveTextContent('Examiner for 1111')
-
-      rerender(
-        <RoundInformationContacts
-          courseCode={'ABC123'}
-          courseData={{ courseInfo: { course_contact_name: undefined } }}
-          courseRound={{ round_application_code: '2222' }}
-          selectedSemester={''}
-        />
-      )
-      expect(nextSibling(screen.getByText('Examiner'))).toHaveTextContent('No information inserted')
-
-      rerender(
-        <RoundInformationContacts
-          courseCode={'ABC123'}
-          courseData={{ courseInfo: { course_contact_name: undefined } }}
-          courseRound={{ round_application_code: '3333' }}
-          selectedSemester={''}
-        />
-      )
-      expect(nextSibling(screen.getByText('Examiner'))).toHaveTextContent('Examiner for 3333')
-    })
   })
 
   describe('cource contact', () => {
     test('should show header and content for course contact name', () => {
       render(
-        <RoundInformationContacts
-          courseCode={'ABC123'}
-          courseData={{ course_contact_name: 'Contact name' }}
-          courseRound={{}}
-          selectedSemester={''}
-        />
+        <RoundInformationContacts courseData={{ course_contact_name: 'Contact name' }} courseRoundEmployees={{}} />
       )
       const contactLabel = screen.getByText('Contact')
       expect(contactLabel).toBeInTheDocument()
@@ -131,12 +73,7 @@ describe('Component <RoundInformationContacts>', () => {
       "shoud NOT show header if contact name is '%s'",
       contactNameArg => {
         render(
-          <RoundInformationContacts
-            courseCode={'ABC123'}
-            courseData={{ course_contact_name: contactNameArg }}
-            courseRound={{}}
-            selectedSemester={''}
-          />
+          <RoundInformationContacts courseData={{ course_contact_name: contactNameArg }} courseRoundEmployees={{}} />
         )
         const contactLabel = screen.queryByText('Contact')
         expect(contactLabel).not.toBeInTheDocument()
