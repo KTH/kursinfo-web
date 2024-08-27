@@ -70,7 +70,7 @@ const Item = ({ children, html, title, infoModalContent }) => {
   )
 }
 
-function RoundInformationInfoGrid({ courseCode, courseRound, selectedSemester }) {
+function RoundInformationInfoGrid({ courseCode, courseRound, plannedModules }) {
   const { translation } = useLanguage()
 
   return (
@@ -118,7 +118,7 @@ function RoundInformationInfoGrid({ courseCode, courseRound, selectedSemester })
       </Item>
       <Item title={translation.courseRoundInformation.round_target_group} html={courseRound.round_target_group} />
       <Item title={translation.courseRoundInformation.round_time_slots}>
-        <PlannedModules courseCode={courseCode} courseRound={courseRound} selectedSemester={selectedSemester} />
+        <PlannedModules plannedModules={plannedModules} />
       </Item>
       <Item title={translation.courseLabels.label_schedule}>
         <CourseScheduleLink courseRound={courseRound} />

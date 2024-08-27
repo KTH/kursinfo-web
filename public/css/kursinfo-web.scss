@@ -110,6 +110,7 @@
 }
 
 .roundInformation {
+  position: relative;
   padding: 20px;
   margin-bottom: 30px;
   background-color: var(--color-background-alt);
@@ -185,6 +186,38 @@
 
   .kth-alert {
     background-color: var(--color-background);
+  }
+}
+.shimmer-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(-45deg, #eee 40%, #fafafa 50%, #eee 60%);
+  background-size: 300%;
+  background-position-x: 100%;
+  animation: shimmer 1s infinite linear;
+  z-index: 10;
+  pointer-events: none;
+}
+.fadeIn {
+  animation: fadeIn .5s ease forwards;
+}
+
+@keyframes shimmer {
+  to {
+    background-position-x: 0%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: .2;
+  }
+  to {
+    opacity: 1;
   }
 }
 

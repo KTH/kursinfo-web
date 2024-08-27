@@ -1,16 +1,10 @@
 import React from 'react'
 import { useLanguage } from '../../hooks/useLanguage'
 import { useMissingInfo } from '../../hooks/useMissingInfo'
-import { useCourseEmployees } from '../../hooks/useCourseEmployees'
 
-function RoundInformationContacts({ courseCode, courseData, courseRound, selectedSemester }) {
+function RoundInformationContacts({ courseData, courseRoundEmployees }) {
   const { translation } = useLanguage()
   const { missingInfoLabel } = useMissingInfo()
-  const { courseRoundEmployees } = useCourseEmployees({
-    courseCode,
-    selectedSemester,
-    applicationCode: courseRound?.round_application_code,
-  })
 
   return (
     <div className="roundInformation__contacts">
