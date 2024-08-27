@@ -4,6 +4,15 @@
 #app {
   padding-top: 30px;
   padding-bottom: 30px;
+  .kth-local-navigation--mobile {
+    display: block;
+    width: auto;
+    padding: 0;
+
+    @media (min-width: 992px) {
+      display: none;
+    }
+  }
   & > .row {
     margin: 0;
 
