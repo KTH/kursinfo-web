@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useWebContext } from '../context/WebContext'
 import { getPlannedModules } from './api/getPlannedModules'
 import { useApi } from './useApi'
@@ -11,12 +12,17 @@ export const usePlannedModules = ({ courseCode, semester, applicationCode }) => 
 
   const basePath = context.paths.api.plannedSchemaModules.uri
 
-  const { data, isError, isLoading } = useApi(
-    getPlannedModules,
-    { basePath, courseCode, semester, applicationCode },
-    null,
-    MISSING_INFO
+  const requestData = useMemo(
+    () => ({
+      basePath,
+      courseCode,
+      semester,
+      applicationCode,
+    }),
+    [basePath, courseCode, semester, applicationCode]
   )
+
+  const { data, isError, isLoading } = useApi(getPlannedModules, requestData, null, MISSING_INFO)
 
   const plannedModules = data === MISSING_INFO ? missingInfoLabel : data
 
