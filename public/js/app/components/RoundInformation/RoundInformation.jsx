@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 
 import Alert from '../../components-shared/Alert'
 import BankIdAlert from '../../components/BankIdAlert'
@@ -16,32 +16,34 @@ function RoundInformation({ courseCode, courseData, courseRound, semesterRoundSt
   const selectedRoundHeader = createRoundHeader(courseRound)
   const { selectedSemester } = semesterRoundState
 
-  const [pending, setPending] = useState(true)
+  const memoizedCourseRound = useMemo(() => courseRound, [courseRound])
 
-  const { courseRoundEmployees, isError: courseEmployeesError } = useCourseEmployees({
-    courseCode,
-    selectedSemester,
-    applicationCode: courseRound?.round_application_code,
-  })
+  const memoizedParams = useMemo(
+    () => ({
+      courseCode,
+      selectedSemester,
+      applicationCode: memoizedCourseRound?.round_application_code,
+    }),
+    [courseCode, selectedSemester, memoizedCourseRound?.round_application_code]
+  )
 
-  const { plannedModules, isError: plannedModulesError } = usePlannedModules({
-    courseCode,
-    semester: selectedSemester,
-    applicationCode: courseRound.round_application_code,
-  })
+  const {
+    courseRoundEmployees,
+    isError: courseEmployeesError,
+    isLoading: courseEmployeesLoading,
+  } = useCourseEmployees(memoizedParams)
 
-  useEffect(() => {
-    setPending(true)
-  }, [courseRound])
+  const {
+    plannedModules,
+    isError: plannedModulesError,
+    isLoading: plannedModulesIsLoading,
+  } = usePlannedModules(memoizedParams)
 
-  useEffect(() => {
-    if ((courseRoundEmployees && plannedModules) || plannedModulesError || courseEmployeesError) {
-      setPending(false)
-    }
-  }, [courseRoundEmployees, plannedModules, plannedModulesError, courseEmployeesError])
+  const isLoading = courseEmployeesLoading || plannedModulesIsLoading
+  const isError = courseEmployeesError || plannedModulesError
 
   return (
-    <div className={`roundInformation ${pending ? 'shimmer-effect' : 'fadeIn'}`}>
+    <div className={`roundInformation ${!isError && isLoading ? 'shimmer-effect' : 'fadeIn'}`}>
       <h3>
         {translation.courseRoundInformation.round_header} {selectedRoundHeader}
       </h3>
