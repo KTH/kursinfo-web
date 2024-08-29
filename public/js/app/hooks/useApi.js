@@ -28,7 +28,7 @@ export const useApi = (apiToCall, apiParams, defaultValue, defaulValueIfNullResp
     // we do not want to react on defaultValue and defaulValueIfNullResponse, because otherwise
     // we cannot use empty objects
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apiToCall, JSON.stringify(apiParams)])
+  }, [apiToCall, apiParams])
 
   return {
     data,
