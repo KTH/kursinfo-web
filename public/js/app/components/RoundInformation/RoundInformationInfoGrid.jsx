@@ -3,7 +3,6 @@ import { useLanguage } from '../../hooks/useLanguage'
 import InfoModal from '../InfoModal'
 import { CourseMemoLink } from './CourseMemoLink'
 import { CourseScheduleLink } from './CourseScheduleLink'
-import { PlannedModules } from './PlannedModules'
 
 // Calculates if a "Show more" button should be displayed, and creates props for content and button elements.
 const useShowMoreContent = content => {
@@ -117,9 +116,7 @@ function RoundInformationInfoGrid({ courseCode, courseRound, plannedModules }) {
         <p>{courseRound.round_seats || translation.courseRoundInformation.round_no_seats_limit}</p>
       </Item>
       <Item title={translation.courseRoundInformation.round_target_group} html={courseRound.round_target_group} />
-      <Item title={translation.courseRoundInformation.round_time_slots}>
-        <PlannedModules plannedModules={plannedModules} />
-      </Item>
+      <Item title={translation.courseRoundInformation.round_time_slots} html={plannedModules} />
       <Item title={translation.courseLabels.label_schedule}>
         <CourseScheduleLink courseRound={courseRound} />
       </Item>

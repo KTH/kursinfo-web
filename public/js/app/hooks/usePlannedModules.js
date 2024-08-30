@@ -6,7 +6,7 @@ import { useMissingInfo } from './useMissingInfo'
 
 const MISSING_INFO = ''
 
-export const usePlannedModules = ({ courseCode, semester, applicationCode }) => {
+export const usePlannedModules = ({ courseCode, selectedSemester, applicationCode }) => {
   const context = useWebContext()
   const { missingInfoLabel } = useMissingInfo()
 
@@ -16,10 +16,10 @@ export const usePlannedModules = ({ courseCode, semester, applicationCode }) => 
     () => ({
       basePath,
       courseCode,
-      semester,
+      selectedSemester,
       applicationCode,
     }),
-    [basePath, courseCode, semester, applicationCode]
+    [basePath, courseCode, selectedSemester, applicationCode]
   )
 
   const { data, isError, isLoading } = useApi(getPlannedModules, requestData, null, MISSING_INFO)
