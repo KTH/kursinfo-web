@@ -16,7 +16,7 @@ export const usePlannedModules = ({ courseCode, selectedSemester, applicationCod
     () => ({
       basePath,
       courseCode,
-      selectedSemester,
+      semester: selectedSemester,
       applicationCode,
     }),
     [basePath, courseCode, selectedSemester, applicationCode]
