@@ -62,13 +62,12 @@ function resolveText(text = {}, language) {
   return text[language] ?? ''
 }
 
-function _parseTitleData({ course: koppsCourse }) {
+function _parseTitleData(ladokCourse, language = 'sv') {
   return {
-    course_code: parseOrSetEmpty(koppsCourse.courseCode),
-    course_title: parseOrSetEmpty(koppsCourse.title),
-    course_other_title: parseOrSetEmpty(koppsCourse.titleOther),
-    course_credits: parseOrSetEmpty(koppsCourse.credits),
-    course_credits_text: parseOrSetEmpty(koppsCourse.creditUnitAbbr),
+    course_code: parseOrSetEmpty(ladokCourse.kod),
+    course_title: parseOrSetEmpty(ladokCourse.benamning[language]),
+    course_credits: parseOrSetEmpty(ladokCourse.omfattning),
+    course_credits_text: parseOrSetEmpty(ladokCourse.utbildningstyp.creditsUnitCode.toLowerCase()),
   }
 }
 
@@ -260,7 +259,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   }
 
   //* **** Course title data  *****//
-  const courseTitleData = _parseTitleData(koppsCourseDetails)
+  const courseTitleData = _parseTitleData(ladokCourse, language)
 
   //* **** Get list of syllabuses and valid syllabus semesters *****//
   const { syllabusList, emptySyllabusData } = createSyllabusList(koppsCourseDetails, language)

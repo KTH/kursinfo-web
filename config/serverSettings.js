@@ -55,6 +55,19 @@ module.exports = {
     kursutvecklingApi: unpackNodeApiConfig('KURSUTVECKLING_API_URI', devKursutvecklingApi),
   },
 
+  // TODO: Replace devDefaults and add values to ref/prod.parameters.json when final mellanlager is deployed
+  ladokMellanlagerApi: {
+    clientId: getEnv('LADOK_AUTH_CLIENT_ID', devDefaults('fc1c0e6e-c17b-4b1c-9e34-003ca528740f')),
+    clientSecret: getEnv('LADOK_AUTH_CLIENT_SECRET', null),
+    tokenUrl: getEnv(
+      'LADOK_AUTH_TOKEN_URL',
+      devDefaults('https://login.microsoftonline.com/acd7f330-d613-48d9-85f2-258b1ac4a015/oauth2/v2.0/token')
+    ),
+    scope: getEnv('LADOK_AUTH_SCOPE', devDefaults('api://97fe6696-a7b2-4f7f-adce-726426e35c1c/.default')),
+    baseUrl: getEnv('LADOK_BASE_URL', devDefaults('https://apim-mellanlagring2.azure-api.net')),
+    ocpApimSupscriptionKey: getEnv('LADOK_OCP_APIM_SUBSCRIPTION_KEY', null),
+  },
+
   koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
 
   // TimeTableApi is not Kopps, but the unpacking works nevertheless
