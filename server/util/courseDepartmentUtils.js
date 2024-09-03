@@ -5,7 +5,8 @@ function isDepartmentStockholmUniversity(courseDepartment) {
 }
 
 function buildCourseDepartmentLink(courseDepartment, language) {
-  if (!courseDepartment?.name) {
+  const name = courseDepartment[language]
+  if (!name) {
     return INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
   }
 
@@ -13,8 +14,8 @@ function buildCourseDepartmentLink(courseDepartment, language) {
     return undefined
   }
 
-  const departmentLinkPart = courseDepartment.name.split('/')[0].toLowerCase()
-  return `<a href="/${departmentLinkPart}/" target="blank">${courseDepartment.name}</a>`
+  const departmentLinkPart = name.split('/')[0].toLowerCase()
+  return `<a href="/${departmentLinkPart}/" target="blank">${name}</a>`
 }
 
 module.exports = {

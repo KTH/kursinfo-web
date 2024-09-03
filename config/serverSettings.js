@@ -55,7 +55,7 @@ module.exports = {
     kursutvecklingApi: unpackNodeApiConfig('KURSUTVECKLING_API_URI', devKursutvecklingApi),
   },
 
-  // TODO: Replace devDefaults and add values to ref/prod.parameters.json when final mellanlager is deployed
+  // TODO(Ladok-POC): Replace devDefaults and add values to ref/prod.parameters.json when final mellanlager is deployed
   ladokMellanlagerApi: {
     clientId: getEnv('LADOK_AUTH_CLIENT_ID', devDefaults('fc1c0e6e-c17b-4b1c-9e34-003ca528740f')),
     clientSecret: getEnv('LADOK_AUTH_CLIENT_SECRET', null),
