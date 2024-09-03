@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 
 import Alert from '../../components-shared/Alert'
 import BankIdAlert from '../../components/BankIdAlert'
@@ -42,8 +42,22 @@ function RoundInformation({ courseCode, courseData, courseRound, semesterRoundSt
   const isLoading = courseEmployeesLoading || plannedModulesIsLoading
   const isError = courseEmployeesError || plannedModulesError
 
+  const [isLoaderVisible, setIsLoaderVisible] = useState(false)
+
+  useEffect(() => {
+    let timer
+    if (isLoading) {
+      setIsLoaderVisible(true)
+    } else {
+      timer = setTimeout(() => {
+        setIsLoaderVisible(false)
+      }, 300)
+    }
+    return () => clearTimeout(timer)
+  }, [isLoading])
+
   return (
-    <div className={`roundInformation ${!isError && isLoading ? 'shimmer-effect' : 'fadeIn'}`}>
+    <div className={`roundInformation ${!isError && isLoaderVisible ? 'shimmer-effect' : 'fadeIn'}`}>
       <h3>
         {translation.courseRoundInformation.round_header} {selectedRoundHeader}
       </h3>
