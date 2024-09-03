@@ -11,17 +11,17 @@ function htmlStringToElement(html) {
 
 describe('course department link utils', () => {
   test('returns department link', () => {
-    const department = { code: 'JH', name: 'EECS/Datavetenskap' }
+    const department = { code: 'JH', sv: 'EECS/Datavetenskap', en: 'EECS/Computer Science' }
     const result = buildCourseDepartmentLink(department, 'en')
     expect(result).toBeDefined()
 
     const element = htmlStringToElement(result)
     expect(element.href).toBe('/eecs/')
-    expect(element.innerHTML).toBe('EECS/Datavetenskap')
+    expect(element.innerHTML).toBe('EECS/Computer Science')
   })
 
   test('returns undefined for Stockholm university as department', () => {
-    const department = { code: 'UL', name: 'Stockholms universitet' }
+    const department = { code: 'UL', sv: 'Stockholms universitet', en: 'Stockholm University' }
 
     const result = buildCourseDepartmentLink(department, 'en')
     expect(result).not.toBeDefined()
