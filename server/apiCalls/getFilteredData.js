@@ -7,45 +7,45 @@ const {
 } = require('../util/constants')
 const { buildCourseDepartmentLink } = require('../util/courseDepartmentUtils')
 const { getDateFormat, formatVersionDate } = require('../util/dates')
+const { getNameInLanguage, getNameInLanguageOrSetEmpty } = require('../util/languageUtil')
 const i18n = require('../../i18n')
 const {
   parseSemesterIntoYearSemesterNumber,
   parseSemesterIntoYearSemesterNumberArray,
+  parseLadokStartPeriodIntoYearSemesterNumberArray,
 } = require('../util/semesterUtils')
 const koppsCourseData = require('./koppsCourseData')
-const ladokCourseDataApi = require('./ladokCourseDataApi')
+const ladokApi = require('./ladokApi')
 const courseApi = require('./kursinfoApi')
 
 function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, language) {
-  const {
-    course: koppsCourse,
-    formattedGradeScales: koppsFormattedGradeScales,
-    mainSubjects: koppsMainSubjects,
-  } = koppsCourseDetails
-  return {
-    course_code: parseOrSetEmpty(koppsCourse.courseCode),
+  const { course: koppsCourse, formattedGradeScales: koppsFormattedGradeScales } = koppsCourseDetails
 
-    course_department: parseOrSetEmpty(koppsCourse.department.name, language),
-    course_department_code: parseOrSetEmpty(koppsCourse.department.code, language),
-    course_department_link: buildCourseDepartmentLink(koppsCourse.department, language),
-    course_education_type_id: koppsCourse.educationalTypeId || null,
-    course_examiners: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_grade_scale: parseOrSetEmpty(koppsFormattedGradeScales[koppsCourse.gradeScaleCode], language),
+  const mainSubjects = ladokCourse.huvudomraden?.map(x => getNameInLanguage(x, language))
+
+  return {
+    course_code: parseOrSetEmpty(ladokCourse.code),
+    course_department: getNameInLanguageOrSetEmpty(ladokCourse.organisation, language),
+    course_department_code: parseOrSetEmpty(ladokCourse.organisation.code, language),
+    course_department_link: buildCourseDepartmentLink(ladokCourse.organisation, language),
+    course_education_type_id: ladokCourse.utbildningstyp.id,
+    course_level_code: parseOrSetEmpty(ladokCourse.utbildningstyp.level.code),
+    course_main_subject:
+      mainSubjects && mainSubjects.length > 0
+        ? mainSubjects.join(', ')
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
+
+    // From Kopps for now
+    course_grade_scale: parseOrSetEmpty(koppsFormattedGradeScales[ladokCourse.betygsskala.code], language),
     course_last_exam: koppsCourse.lastExamTerm
       ? parseSemesterIntoYearSemesterNumberArray(koppsCourse.lastExamTerm.term)
       : [],
-    course_level_code: parseOrSetEmpty(koppsCourse.educationalLevelCode),
     course_literature: parseOrSetEmpty(koppsCourse.courseLiterature, language),
-    course_main_subject:
-      koppsMainSubjects && koppsMainSubjects.length > 0
-        ? koppsMainSubjects.join(', ')
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
-    course_recruitment_text: parseOrSetEmpty(koppsCourse.recruitmentText, language, true),
     course_supplemental_information_url: parseOrSetEmpty(koppsCourse.supplementaryInfoUrl, language),
     course_supplemental_information_url_text: parseOrSetEmpty(koppsCourse.supplementaryInfoUrlName, language),
     course_state: parseOrSetEmpty(koppsCourse.state, language, true),
 
-    // Following should be removed (KUI-1387) set to emport for now
+    // TODO(Ladok-POC): Following should be removed (KUI-1387) set to emport for now
     course_contact_name: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_suggested_addon_studies: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_application_info: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
@@ -53,8 +53,11 @@ function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, languag
     course_possibility_to_completions: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_required_equipment: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
 
-    // Will be replaced with field from Om kursen-admin
+    // TODO(Ladok-POC): Will be replaced with field from Om kursen-admin
     course_prerequisites: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+
+    // TODO(Ladok-POC): Do we need to set course_examiners to empty here?
+    course_examiners: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
   }
 }
 
@@ -62,10 +65,10 @@ function resolveText(text = {}, language) {
   return text[language] ?? ''
 }
 
-function _parseTitleData(ladokCourse, language = 'sv') {
+function _parseTitleData(ladokCourse, language) {
   return {
     course_code: parseOrSetEmpty(ladokCourse.kod),
-    course_title: parseOrSetEmpty(ladokCourse.benamning[language]),
+    course_title: getNameInLanguageOrSetEmpty(ladokCourse.benamning, language),
     course_credits: parseOrSetEmpty(ladokCourse.omfattning),
     course_credits_text: parseOrSetEmpty(ladokCourse.utbildningstyp.creditsUnitCode.toLowerCase()),
   }
@@ -126,53 +129,54 @@ function _getRoundProgramme(programmes, language = 0) {
   return programmeString
 }
 
-function _getRound(roundObject = {}, language = 'sv') {
-  const { admissionLinkUrl, commentsToStudents, round = {}, schemaUrl, timeslots, usage } = roundObject
-  const { applicationCodes } = round
+function _getRound(koppsRoundObject = {}, ladokRound, language = 'sv') {
+  const {
+    admissionLinkUrl: koppsAdmissionLinkUrl,
+    round: koppsRound = {},
+    schemaUrl: koppsSchemaUrl,
+    usage: koppsUsage,
+  } = koppsRoundObject
+  const { applicationCodes = [] } = koppsRound
   const hasApplicationCodes = applicationCodes.length > 0
-  const [latestApplicationCode] = applicationCodes
+  const [koppsLatestApplicationCode] = applicationCodes
+
   const courseRoundModel = {
-    round_time_slots: parseOrSetEmpty(timeslots, language),
-    round_start_date: getDateFormat(parseOrSetEmpty(round.firstTuitionDate, language), language),
-    round_end_date: getDateFormat(parseOrSetEmpty(round.lastTuitionDate, language), language),
-    round_target_group: parseOrSetEmpty(round.targetGroup, language),
-    round_tutoring_form: parseOrSetEmpty(round.tutoringForm.name, language),
-    round_tutoring_time: parseOrSetEmpty(round.tutoringTimeOfDay.name, language),
-    round_tutoring_language: parseOrSetEmpty(round.language, language),
-    round_course_place: parseOrSetEmpty(round.campus.label, language),
-    round_campus: parseOrSetEmpty(round.campus.name, language),
-    round_short_name: parseOrSetEmpty(round.shortName, language),
-    round_application_code: parseOrSetEmpty(round.applicationCodes[0].applicationCode, language),
-    round_schedule: parseOrSetEmpty(schemaUrl, language),
-    round_study_pace: parseOrSetEmpty(round.studyPace, language),
-    round_course_term:
-      parseOrSetEmpty(round.startTerm.term, language).toString().length > 0
-        ? parseSemesterIntoYearSemesterNumberArray(round.startTerm.term)
-        : [],
-    round_periods: _getRoundPeriodes(round.courseRoundTerms, language),
+    round_start_date: getDateFormat(parseOrSetEmpty(ladokRound.forstaUndervisningsdatum, language), language),
+    round_end_date: getDateFormat(parseOrSetEmpty(ladokRound.sistaUndervisningsdatum, language), language),
+    round_target_group: getNameInLanguageOrSetEmpty(ladokRound.malgrupp, language),
+    round_tutoring_form: ladokRound.undervisningsform.code,
+    round_tutoring_time: ladokRound.undervisningstid.code,
+    round_tutoring_language: getNameInLanguageOrSetEmpty(ladokRound.undervisningssprak, language),
+    round_course_place: getNameInLanguageOrSetEmpty(ladokRound.studieort, language),
+    round_short_name: getNameInLanguageOrSetEmpty(ladokRound.kortnamn, language),
+    round_application_code: parseOrSetEmpty(ladokRound.tillfalleskod, language),
+    round_study_pace: parseOrSetEmpty(ladokRound.studietakt.takt, language),
+    round_course_term: parseLadokStartPeriodIntoYearSemesterNumberArray(ladokRound.startperiod),
+    round_funding_type: parseOrSetEmpty(ladokRound.finansieringsform.code, language),
     round_seats:
       _parseRoundSeatsMsg(
-        parseOrSetEmpty(round.maxSeats, language, true),
-        parseOrSetEmpty(round.minSeats, language, true)
+        parseOrSetEmpty(ladokRound.utbildningsplatser, language, true),
+        parseOrSetEmpty(ladokRound.minantalplatser, language, true)
       ) || '',
+
+    round_schedule: parseOrSetEmpty(koppsSchemaUrl, language),
+    round_periods: koppsRound.courseRoundTerms ? _getRoundPeriodes(koppsRound.courseRoundTerms, language) : [],
     round_selection_criteria: parseOrSetEmpty(
-      round[language === 'en' ? 'selectionCriteriaEn' : 'selectionCriteriaSv'],
+      koppsRound[language === 'en' ? 'selectionCriteriaEn' : 'selectionCriteriaSv'],
       language,
       true
     ),
     round_type: hasApplicationCodes
-      ? parseOrSetEmpty(latestApplicationCode.courseRoundType.name, language)
+      ? parseOrSetEmpty(koppsLatestApplicationCode.courseRoundType.name, language)
       : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    round_funding_type: hasApplicationCodes
-      ? parseOrSetEmpty(latestApplicationCode.courseRoundType.code, language)
-      : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    round_application_link: parseOrSetEmpty(admissionLinkUrl, language),
+    round_application_link: parseOrSetEmpty(koppsAdmissionLinkUrl, language),
     round_part_of_programme:
-      usage.length > 0 ? _getRoundProgramme(usage, language) : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    round_state: parseOrSetEmpty(round.state, language),
-    round_comment: parseOrSetEmpty(commentsToStudents, language, true),
+      koppsUsage && koppsUsage.length > 0
+        ? _getRoundProgramme(koppsUsage, language)
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    round_state: parseOrSetEmpty(koppsRound.state, language),
     round_category: hasApplicationCodes
-      ? parseOrSetEmpty(latestApplicationCode.courseRoundType.category, language)
+      ? parseOrSetEmpty(koppsLatestApplicationCode.courseRoundType.category, language)
       : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
   }
   if (courseRoundModel.round_short_name === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) {
@@ -182,7 +186,7 @@ function _getRound(roundObject = {}, language = 'sv') {
   return courseRoundModel
 }
 
-function _parseRounds({ roundInfos, courseCode, language, memoList }) {
+function _parseRounds({ roundInfos: koppsRoundInfos, courseCode, language, memoList, ladokRounds }) {
   const activeSemesterArray = []
   const tempList = []
   const employees = {
@@ -191,8 +195,9 @@ function _parseRounds({ roundInfos, courseCode, language, memoList }) {
   }
 
   const roundsBySemester = {}
-  for (const roundInfo of roundInfos) {
-    const courseRound = _getRound(roundInfo, language)
+  for (const ladokRound of ladokRounds) {
+    const koppsRoundInfo = koppsRoundInfos.find(x => x.round.ladokUID === ladokRound.uid) ?? {}
+    const courseRound = _getRound(koppsRoundInfo, ladokRound, language)
     const { round_course_term: yearAndTermArr, round_application_code: applicationCode } = courseRound
     const semester = yearAndTermArr.join('')
 
@@ -215,7 +220,7 @@ function _parseRounds({ roundInfos, courseCode, language, memoList }) {
     }
     roundsBySemester[semester].push(courseRound)
     // TODO: This will be removed. Because UG Rest Api is still using ladokRoundId. So once it get replaced by application code then this will be removed.
-    const { round = {} } = roundInfo
+    const { round = {} } = koppsRoundInfo
     const { ladokRoundId } = round
     employees.teachers.push(`${courseCode}.${semester}.${ladokRoundId}.teachers`)
     employees.responsibles.push(`${courseCode}.${semester}.${ladokRoundId}.courseresponsible`)
@@ -236,7 +241,7 @@ function _parseRounds({ roundInfos, courseCode, language, memoList }) {
 
 const getFilteredData = async ({ courseCode, language, memoList }) => {
   const { body: koppsCourseDetails } = await koppsCourseData.getKoppsCourseData(courseCode, language)
-  const ladokCourse = await ladokCourseDataApi.getLadokCourseData(courseCode, language)
+  const { course: ladokCourse, rounds: ladokRounds } = await ladokApi.getCourseAndActiveRounds(courseCode, language)
 
   if (!koppsCourseDetails || !ladokCourse) {
     // TODO(Ladok-POC): What to do if we find course in only in Ladok or only in Kopps?
@@ -266,6 +271,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
 
   //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from UG Rest API *****//
   const { roundsBySemester, activeSemesters, employees } = _parseRounds({
+    ladokRounds,
     roundInfos: koppsCourseDetails.roundInfos,
     courseCode,
     language,

@@ -154,11 +154,19 @@ module.exports = {
       1: 'VT ',
       2: 'HT ',
     },
+    // course_level_code_label: {
+    //   PREPARATORY: 'Förberedande nivå',
+    //   BASIC: 'Grundnivå',
+    //   ADVANCED: 'Avancerad nivå',
+    //   RESEARCH: 'Forskarnivå',
+    // },
+    // TODO(Ladok-POC): Use nameSv/nameEn from utbildningstyp.niva.inom.studieordning instead?
+    // TODO(Ladok-POC): level code doesn't work for PREPARATORY, look into ladok data more
     course_level_code_label: {
-      PREPARATORY: 'Förberedande nivå',
-      BASIC: 'Grundnivå',
-      ADVANCED: 'Avancerad nivå',
-      RESEARCH: 'Forskarnivå',
+      // PREPARATORY: 'Förberedande nivå',
+      1: 'Grundnivå',
+      2: 'Avancerad nivå',
+      3: 'Forskarnivå',
     },
     course_department: 'Ges av',
     course_contact_name: 'Kontaktperson',

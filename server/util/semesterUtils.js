@@ -43,6 +43,13 @@ const parseSemesterIntoYearSemesterNumberArray = semester => {
   return yearSemesterNumberArrayStrings.map(str => Number(str))
 }
 
+const parseLadokStartPeriodIntoYearSemesterNumberArray = period => {
+  const semester = period.substring(0, 2)
+  const semesterNumber = { VT: 1, HT: 2 }[semester]
+  const year = period.substring(2, 6)
+  return [year, semesterNumber]
+}
+
 const parseSemesterIntoYearSemesterNumber = semester => {
   const [year, semesterNumber] = parseSemesterIntoYearSemesterNumberArray(semester)
 
@@ -88,6 +95,7 @@ const convertToYearSemesterNumberOrGetCurrent = semester => {
 module.exports = {
   calcPreviousSemester,
   parseSemesterIntoYearSemesterNumberArray,
+  parseLadokStartPeriodIntoYearSemesterNumberArray,
   parseSemesterIntoYearSemesterNumber,
   convertYearSemesterNumberIntoSemester,
   convertToYearSemesterNumberOrGetCurrent,
