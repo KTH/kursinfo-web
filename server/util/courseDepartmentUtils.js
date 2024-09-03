@@ -5,7 +5,7 @@ function isDepartmentStockholmUniversity(courseDepartment) {
 }
 
 function buildCourseDepartmentLink(courseDepartment, language) {
-  const name = courseDepartment[language]
+  const name = courseDepartment && courseDepartment[language]
   if (!name) {
     return INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
   }
