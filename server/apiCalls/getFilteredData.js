@@ -24,11 +24,11 @@ function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, languag
   const mainSubjects = ladokCourse.huvudomraden?.map(x => getNameInLanguage(x, language))
 
   return {
-    course_code: parseOrSetEmpty(ladokCourse.code),
+    course_code: parseOrSetEmpty(ladokCourse.kod),
     course_department: getNameInLanguageOrSetEmpty(ladokCourse.organisation, language),
     course_department_code: parseOrSetEmpty(ladokCourse.organisation.code, language),
     course_department_link: buildCourseDepartmentLink(ladokCourse.organisation, language),
-    course_education_type_id: ladokCourse.utbildningstyp.id,
+    course_education_type_id: ladokCourse.utbildningstyp?.id,
     course_level_code: parseOrSetEmpty(ladokCourse.utbildningstyp.level.code),
     course_main_subject:
       mainSubjects && mainSubjects.length > 0

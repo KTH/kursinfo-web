@@ -1,6 +1,7 @@
 'use strict'
 
 import { mockedCourseMemosForDiscontinuedCourse, mockedDiscontinuedCourse } from '../mocks/mockedDiscontinuedCourse'
+import { mockedLadokData } from '../mocks/mockedLadokData'
 
 const applicationPaths = {
   system: {
@@ -31,6 +32,12 @@ jest.mock('@kth/kth-node-web-common/lib/language', () => ({
 }))
 jest.mock('kth-node-express-routing', () => ({
   getPaths: jest.fn(() => applicationPaths),
+}))
+jest.mock('om-kursen-ladok-client', () => ({
+  createApiClient: () => ({
+    getLatestCourseVersion: () => mockedLadokData.mockedLadokCourseVersion,
+    getActiveCourseRounds: () => mockedLadokData.mockedLadokRounds,
+  }),
 }))
 // jest.mock('@kth/kth-node-response')
 jest.mock('../../configuration', () => ({
@@ -72,8 +79,7 @@ function buildReq(overrides) {
   return req
 }
 
-// const courseCtrl = require('../courseCtrl')
-const courseCtrl = {}
+const courseCtrl = require('../courseCtrl')
 
 let response
 beforeEach(() => {
@@ -85,8 +91,7 @@ afterEach(() => {
   response = {}
 })
 
-// TODO(karl): fix
-describe.skip('Discontinued course to test', () => {
+describe('Discontinued course to test', () => {
   test('Gets correct data', async () => {
     const req = buildReq({
       params: { courseCode: mockedDiscontinuedCourse.course.courseCode },
@@ -105,13 +110,7 @@ describe.skip('Discontinued course to test', () => {
     expect(response.render).toHaveBeenCalled()
     expect(testResponse.title).toBe(mockedDiscontinuedCourse.course.courseCode)
     expect(testResponse.compressedData.courseCode).toBe(mockedDiscontinuedCourse.course.courseCode)
-    expect(testResponse.compressedData.courseData.courseInfo.course_application_info).toBe(
-      mockedDiscontinuedCourse.course.applicationInfo
-    )
     expect(testResponse.html.context.courseCode).toBe(mockedDiscontinuedCourse.course.courseCode)
-    expect(testResponse.html.context.courseData.courseInfo.course_application_info).toBe(
-      mockedDiscontinuedCourse.course.applicationInfo
-    )
 
     expect(testResponse.html).toMatchInlineSnapshot(`
       {
@@ -126,24 +125,23 @@ describe.skip('Discontinued course to test', () => {
           "courseCode": "FCK3305",
           "courseData": {
             "courseInfo": {
-              "course_application_info": "<p>Kursen ges inte l&#228;s&#229;ret 22/23.</p><p>Kontakta examinator / kursansvarig f&#246;r information.</p>",
+              "course_application_info": "<i>Ingen information tillagd</i>",
               "course_code": "FCK3305",
               "course_contact_name": "<i>Ingen information tillagd</i>",
               "course_department": "CBH/Kemi",
               "course_department_code": "CE",
               "course_department_link": "<a href="/cbh/" target="blank">CBH/Kemi</a>",
               "course_disposition": "<p>Kursupplägg på svenska</p>",
-              "course_education_type_id": null,
+              "course_education_type_id": undefined,
               "course_examiners": "<p>Examiner 1 </p>",
               "course_grade_scale": "P, F",
               "course_last_exam": [],
-              "course_level_code": "RESEARCH",
+              "course_level_code": "3",
               "course_literature": "<p>Litteratur anvisas vid kursstart.</p>",
               "course_main_subject": "Denna kurs tillhör inget huvudområde.",
               "course_possibility_to_addition": "<i>Ingen information tillagd</i>",
               "course_possibility_to_completions": "<i>Ingen information tillagd</i>",
               "course_prerequisites": "<i>Ingen information tillagd</i>",
-              "course_recruitment_text": "<p>Teori och metoder inom glykovetenskap.</p>",
               "course_required_equipment": "<i>Ingen information tillagd</i>",
               "course_state": "ESTABLISHED",
               "course_suggested_addon_studies": "<i>Ingen information tillagd</i>",
@@ -157,7 +155,6 @@ describe.skip('Discontinued course to test', () => {
               "course_code": "FCK3305",
               "course_credits": 7.5,
               "course_credits_text": "hp",
-              "course_other_title": "Carbohydrate Technologies in Glycoscience",
               "course_title": "Kolhydratteknik inom glykovetenskap",
             },
             "emptySyllabusData": {
