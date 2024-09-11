@@ -125,7 +125,7 @@ describe('Discontinued course to test', () => {
           "courseCode": "FCK3305",
           "courseData": {
             "courseInfo": {
-              "course_application_info": "<i>Ingen information tillagd</i>",
+              "course_application_info": "",
               "course_code": "FCK3305",
               "course_contact_name": "<i>Ingen information tillagd</i>",
               "course_department": "CBH/Kemi",

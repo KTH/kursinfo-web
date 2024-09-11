@@ -1,18 +1,16 @@
 const mockedLadokCourseVersion = {
   kod: 'FCK3305',
-  benamning: { sv: 'Kolhydratteknik inom glykovetenskap', en: 'Carbohydrate Technologies in Glycoscience' },
+  benamning: 'Kolhydratteknik inom glykovetenskap',
   omfattning: 7.5,
   organisation: {
     code: 'CE',
-    sv: 'CBH/Kemi',
-    en: 'CBH/Kemi',
+    name: 'CBH/Kemi',
   },
   utbildningstyp: {
     creditsUnitCode: 'HP',
     level: {
       code: '3',
-      sv: 'Grundnivå',
-      en: 'First cycle',
+      name: 'Grundnivå',
     },
   },
   betygsskala: {

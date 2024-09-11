@@ -7,7 +7,6 @@ const {
 } = require('../util/constants')
 const { buildCourseDepartmentLink } = require('../util/courseDepartmentUtils')
 const { getDateFormat, formatVersionDate } = require('../util/dates')
-const { getNameInLanguage, getNameInLanguageOrSetEmpty } = require('../util/languageUtil')
 const i18n = require('../../i18n')
 const {
   parseSemesterIntoYearSemesterNumber,
@@ -21,11 +20,11 @@ const courseApi = require('./kursinfoApi')
 function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, language) {
   const { course: koppsCourse, formattedGradeScales: koppsFormattedGradeScales } = koppsCourseDetails
 
-  const mainSubjects = ladokCourse.huvudomraden?.map(x => getNameInLanguage(x, language))
+  const mainSubjects = ladokCourse.huvudomraden?.map(x => x.name)
 
   return {
     course_code: parseOrSetEmpty(ladokCourse.kod),
-    course_department: getNameInLanguageOrSetEmpty(ladokCourse.organisation, language),
+    course_department: parseOrSetEmpty(ladokCourse.organisation.name, language),
     course_department_code: parseOrSetEmpty(ladokCourse.organisation.code, language),
     course_department_link: buildCourseDepartmentLink(ladokCourse.organisation, language),
     course_education_type_id: ladokCourse.utbildningstyp?.id,
@@ -48,7 +47,7 @@ function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, languag
     // TODO(Ladok-POC): Following should be removed (KUI-1387) set to emport for now
     course_contact_name: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_suggested_addon_studies: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_application_info: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    course_application_info: '',
     course_possibility_to_addition: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_possibility_to_completions: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_required_equipment: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
@@ -68,7 +67,7 @@ function resolveText(text = {}, language) {
 function _parseTitleData(ladokCourse, language) {
   return {
     course_code: parseOrSetEmpty(ladokCourse.kod),
-    course_title: getNameInLanguageOrSetEmpty(ladokCourse.benamning, language),
+    course_title: parseOrSetEmpty(ladokCourse.benamning, language),
     course_credits: parseOrSetEmpty(ladokCourse.omfattning),
     course_credits_text: parseOrSetEmpty(ladokCourse.utbildningstyp.creditsUnitCode.toLowerCase()),
   }
@@ -143,12 +142,12 @@ function _getRound(koppsRoundObject = {}, ladokRound, language = 'sv') {
   const courseRoundModel = {
     round_start_date: getDateFormat(parseOrSetEmpty(ladokRound.forstaUndervisningsdatum, language), language),
     round_end_date: getDateFormat(parseOrSetEmpty(ladokRound.sistaUndervisningsdatum, language), language),
-    round_target_group: getNameInLanguageOrSetEmpty(ladokRound.malgrupp, language),
+    round_target_group: parseOrSetEmpty(ladokRound.malgrupp, language),
     round_tutoring_form: ladokRound.undervisningsform.code,
     round_tutoring_time: ladokRound.undervisningstid.code,
-    round_tutoring_language: getNameInLanguageOrSetEmpty(ladokRound.undervisningssprak, language),
-    round_course_place: getNameInLanguageOrSetEmpty(ladokRound.studieort, language),
-    round_short_name: getNameInLanguageOrSetEmpty(ladokRound.kortnamn, language),
+    round_tutoring_language: parseOrSetEmpty(ladokRound.undervisningssprak.name, language),
+    round_course_place: parseOrSetEmpty(ladokRound.studieort.name, language),
+    round_short_name: parseOrSetEmpty(ladokRound.kortnamn, language),
     round_application_code: parseOrSetEmpty(ladokRound.tillfalleskod, language),
     round_study_pace: parseOrSetEmpty(ladokRound.studietakt.takt, language),
     round_course_term: parseLadokStartPeriodIntoYearSemesterNumberArray(ladokRound.startperiod),
