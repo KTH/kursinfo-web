@@ -7,7 +7,7 @@ const mockedLadokCourseVersion = {
     name: 'CBH/Kemi',
   },
   utbildningstyp: {
-    creditsUnitCode: 'HP',
+    creditsUnit: { code: 'HP' },
     level: {
       code: '3',
       name: 'Grundnivå',
