@@ -11,7 +11,6 @@ const i18n = require('../../i18n')
 const {
   parseSemesterIntoYearSemesterNumber,
   parseSemesterIntoYearSemesterNumberArray,
-  parseLadokStartPeriodIntoYearSemesterNumberArray,
 } = require('../util/semesterUtils')
 const koppsCourseData = require('./koppsCourseData')
 const ladokApi = require('./ladokApi')
@@ -64,12 +63,12 @@ function resolveText(text = {}, language) {
   return text[language] ?? ''
 }
 
-function _parseTitleData(ladokCourse, language) {
+function _parseTitleData(ladokCourse) {
   return {
     course_code: parseOrSetEmpty(ladokCourse.kod),
-    course_title: parseOrSetEmpty(ladokCourse.benamning, language),
+    course_title: parseOrSetEmpty(ladokCourse.benamning),
     course_credits: parseOrSetEmpty(ladokCourse.omfattning),
-    course_credits_text: parseOrSetEmpty(ladokCourse.utbildningstyp.creditsUnitCode.toLowerCase()),
+    course_credits_text: parseOrSetEmpty(ladokCourse.utbildningstyp.creditsUnit.code.toLowerCase()),
   }
 }
 
@@ -140,17 +139,17 @@ function _getRound(koppsRoundObject = {}, ladokRound, language = 'sv') {
   const [koppsLatestApplicationCode] = applicationCodes
 
   const courseRoundModel = {
-    round_start_date: getDateFormat(parseOrSetEmpty(ladokRound.forstaUndervisningsdatum, language), language),
-    round_end_date: getDateFormat(parseOrSetEmpty(ladokRound.sistaUndervisningsdatum, language), language),
+    round_start_date: getDateFormat(parseOrSetEmpty(ladokRound.forstaUndervisningsdatum.date, language), language),
+    round_end_date: getDateFormat(parseOrSetEmpty(ladokRound.sistaUndervisningsdatum.date, language), language),
     round_target_group: parseOrSetEmpty(ladokRound.malgrupp, language),
     round_tutoring_form: ladokRound.undervisningsform.code,
     round_tutoring_time: ladokRound.undervisningstid.code,
-    round_tutoring_language: parseOrSetEmpty(ladokRound.undervisningssprak.name, language),
+    round_tutoring_language: parseOrSetEmpty(ladokRound.undervisningssprak?.name, language),
     round_course_place: parseOrSetEmpty(ladokRound.studieort.name, language),
     round_short_name: parseOrSetEmpty(ladokRound.kortnamn, language),
     round_application_code: parseOrSetEmpty(ladokRound.tillfalleskod, language),
     round_study_pace: parseOrSetEmpty(ladokRound.studietakt.takt, language),
-    round_course_term: parseLadokStartPeriodIntoYearSemesterNumberArray(ladokRound.startperiod),
+    round_course_term: parseSemesterIntoYearSemesterNumberArray(ladokRound.startperiod.inDigits),
     round_funding_type: parseOrSetEmpty(ladokRound.finansieringsform.code, language),
     round_seats:
       _parseRoundSeatsMsg(
