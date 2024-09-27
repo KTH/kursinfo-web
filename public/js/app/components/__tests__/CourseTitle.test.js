@@ -18,8 +18,7 @@ describe('Component <CourseTitle>', () => {
     const courseTitleData = {
       course_code: 'KIP1111',
       course_title: 'Project in Plasma Physics',
-      course_credits: '9',
-      course_credits_text: 'hp',
+      course_credits_label: '9.0 credits',
     }
     render(
       <CourseTitle
@@ -49,8 +48,7 @@ describe('Component <CourseTitle>', () => {
     const courseTitleData = {
       course_code: 'KIP1111',
       course_title: 'Projekt i plasmafysik',
-      course_credits: '9',
-      course_credits_text: 'hp',
+      course_credits_label: '9,0 hp',
     }
     render(
       <CourseTitle

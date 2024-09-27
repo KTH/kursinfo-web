@@ -89,7 +89,6 @@ function CoursePage() {
         <CourseTitle
           key="title"
           courseTitleData={courseData.courseTitleData}
-          courseLevelCode={courseData.courseInfo.course_level_code}
           language={languageShortname}
           pageTitle={translation.courseLabels.sideMenu.page_before_course}
         />

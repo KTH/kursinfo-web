@@ -2,22 +2,18 @@ import React from 'react'
 import { Row } from 'reactstrap'
 
 import { useLanguage } from '../hooks/useLanguage'
-import { useFormatCredits } from '../hooks/useFormatCredits'
 
 const adminLink = (courseCode, languageShortname) => `/kursinfoadmin/kurser/kurs/${courseCode}?l=${languageShortname}`
 
-const CourseTitle = ({ courseTitleData = '', pageTitle, courseLevelCode }) => {
+const CourseTitle = ({ courseTitleData = '', pageTitle }) => {
   const title = courseTitleData
-  const isPreparatory = courseLevelCode === 'PREPARATORY'
   const { translation, languageShortname } = useLanguage()
-  const { formatCredits } = useFormatCredits()
   const adminLinkLabel = translation.courseLabels.label_edit
   return (
     <Row>
       <header className="col">
         <h1 id="page-heading" aria-labelledby="page-heading page-sub-heading">
-          {`${title.course_code} ${title.course_title} `}
-          {formatCredits(title.course_credits, title.course_credits_text, isPreparatory)}
+          {`${title.course_code} ${title.course_title} ${title.course_credits_label}`}
         </h1>
         <div id="page-sub-heading-wrapper">
           <p id="page-sub-heading" aria-hidden="true">
