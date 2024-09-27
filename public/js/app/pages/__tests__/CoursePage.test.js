@@ -34,9 +34,7 @@ describe('Component <CoursePage>', () => {
       },
       courseTitleData: {
         course_code: 'MF1016',
-        course_credits: 9,
-        course_credits_text: 'hp',
-        course_other_title: 'Elektroteknik',
+        course_credits_label: '9.0 credits',
         course_title: 'Basic Electrical Engineering',
       },
       roundsBySemester: {

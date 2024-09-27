@@ -127,7 +127,6 @@ module.exports = {
     course_title: 'Benämning svenska',
     course_other_title: 'Benämning engelska',
     course_code: 'Kurskod',
-    course_credits: 'Högskolepoäng',
     course_grade_scale: 'Betygsskala',
     course_goals: 'Lärandemål',
     course_content: 'Kursinnehåll',

@@ -153,8 +153,7 @@ describe('Discontinued course to test', () => {
             },
             "courseTitleData": {
               "course_code": "FCK3305",
-              "course_credits": 7.5,
-              "course_credits_text": "hp",
+              "course_credits_label": "7,5 hp",
               "course_title": "Kolhydratteknik inom glykovetenskap",
             },
             "emptySyllabusData": {

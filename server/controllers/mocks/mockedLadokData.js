@@ -1,7 +1,7 @@
 const mockedLadokCourseVersion = {
   kod: 'FCK3305',
   benamning: 'Kolhydratteknik inom glykovetenskap',
-  omfattning: 7.5,
+  omfattning: { number: '7.5', formattedWithUnit: '7,5 hp' },
   organisation: {
     code: 'CE',
     name: 'CBH/Kemi',

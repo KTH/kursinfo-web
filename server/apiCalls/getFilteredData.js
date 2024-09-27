@@ -67,8 +67,7 @@ function _parseTitleData(ladokCourse) {
   return {
     course_code: parseOrSetEmpty(ladokCourse.kod),
     course_title: parseOrSetEmpty(ladokCourse.benamning),
-    course_credits: parseOrSetEmpty(ladokCourse.omfattning),
-    course_credits_text: parseOrSetEmpty(ladokCourse.utbildningstyp.creditsUnit.code.toLowerCase()),
+    course_credits_label: parseOrSetEmpty(ladokCourse.omfattning.formattedWithUnit),
   }
 }
 

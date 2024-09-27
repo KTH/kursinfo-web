@@ -125,7 +125,6 @@ module.exports = {
     course_title: 'Title english',
     course_other_title: 'Title swedish',
     course_code: 'Course code',
-    course_credits: 'Credits',
     course_grade_scale: 'Grading scale',
     course_goals: 'Intended learning outcomes',
     course_content: 'Course contents',
