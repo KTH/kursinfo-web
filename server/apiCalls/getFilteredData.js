@@ -48,8 +48,6 @@ function _parseCourseDefaultInformation(courseDetails, language) {
     course_recruitment_text: parseOrSetEmpty(course.recruitmentText, language, true),
     course_required_equipment: parseOrSetEmpty(course.requiredEquipment, language),
     course_suggested_addon_studies: parseOrSetEmpty(course.addOn, language),
-    course_supplemental_information_url: parseOrSetEmpty(course.supplementaryInfoUrl, language),
-    course_supplemental_information_url_text: parseOrSetEmpty(course.supplementaryInfoUrlName, language),
     course_state: parseOrSetEmpty(course.state, language, true),
   }
 }
