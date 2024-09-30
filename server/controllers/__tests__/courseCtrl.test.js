@@ -48,7 +48,6 @@ jest.mock('../../apiCalls/kursinfoApi', () => ({
   getCourseInfo: () => ({
     sellingText: { sv: '<p>Fantastisk kurs</p>', en: '<p>This course is awesome</p>' },
     courseDisposition: { sv: '<p>Kursupplägg på svenska</p>', en: '<p>Course Disposition in english</p>' },
-    supplementaryInfo: { sv: '<p>Övrig info</p>', en: '<p>Extra info</p>' },
     imageInfo: 'own_image',
   }),
 }))
