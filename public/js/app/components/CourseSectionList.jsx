@@ -157,16 +157,6 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
         header: translation.courseInformation.course_supplemental_information,
         text: courseInfo.course_supplemental_information,
       })
-    if (!isMissingInfoLabel(courseInfo.course_supplemental_information_url))
-      prepare.push({
-        header: translation.courseInformation.course_supplemental_information_url,
-        text: courseInfo.course_supplemental_information_url,
-      })
-    if (!isMissingInfoLabel(courseInfo.course_supplemental_information_url_text))
-      prepare.push({
-        header: translation.courseInformation.course_supplemental_information_url_text,
-        text: courseInfo.course_supplemental_information_url_text,
-      })
 
     if (!isContractEducation() && syllabus.course_additional_regulations !== '')
       prepare.push({
