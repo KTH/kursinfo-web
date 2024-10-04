@@ -85,7 +85,7 @@ module.exports = {
     },
     header_dropdown_menu_navigation:
       'Choose semester and course offering to see current information and more about the course, such as course syllabus, study period, and application information.',
-    header_dropdown_menue: 'Information per course offering',
+    header_dropdown_menu: 'Information per course offering',
     header_dropdown_menu_aria_label: 'Information about choosing semester and course offering',
     header_course_info: 'Course information',
     header_content: 'Content and learning outcomes',
@@ -161,6 +161,9 @@ module.exports = {
     course_department: 'Offered by',
     course_contact_name: 'Contact ',
     course_prerequisites: 'Recommended prerequisites',
+    course_prerequisites_description:
+      'Describes the knowledge and skills (in addition to the eligibility requirements) that you need to be able to take the course.',
+    course_prerequisites_menu_aria_label: 'Information about recommended prerequisites',
     course_suggested_addon_studies: 'Add-on studies',
     course_supplemental_information_url: 'Supplementary information link',
     course_supplemental_information_url_text: 'Supplementary information link text',

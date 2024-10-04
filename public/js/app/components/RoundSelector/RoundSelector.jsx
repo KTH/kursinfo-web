@@ -26,9 +26,9 @@ export const RoundSelector = ({ activeSemesters, semesterRoundState }) => {
     <div className="roundSelector">
       <div>
         <h2>
-          {translation.courseLabels.header_dropdown_menue}
+          {translation.courseLabels.header_dropdown_menu}
           <InfoModal
-            title={translation.courseLabels.header_dropdown_menue}
+            title={translation.courseLabels.header_dropdown_menu}
             infoText={translation.courseLabels.syllabus_info}
             type="html"
             closeLabel={translation.courseLabels.label_close}

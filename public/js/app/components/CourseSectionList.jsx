@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useLanguage } from '../hooks/useLanguage'
 import { useMissingInfo } from '../hooks/useMissingInfo'
-import CourseSection from './CourseSections'
+import CourseSection from './CourseSection'
 import { SyllabusInformation } from './SyllabusInformation'
 
 function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabusName }) {
@@ -59,17 +59,17 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
 
     const eligibility = getEligibility()
 
-    const recommendedPrerequisitesSection =
-      courseInfo.course_recommended_prerequisites != ''
-        ? {
-            header: translation.courseInformation.course_prerequisites,
-            text: courseInfo.course_recommended_prerequisites,
-          }
-        : {}
-
     const during = [
       ...eligibility,
-      recommendedPrerequisitesSection,
+      {
+        header: translation.courseInformation.course_prerequisites,
+        text: courseInfo.course_recommended_prerequisites,
+        infoModal: {
+          description: translation.courseInformation.course_prerequisites_description,
+          closeLabel: translation.courseLabels.label_close,
+          ariaLabel: translation.courseInformation.course_prerequisites_menu_aria_label,
+        },
+      },
       { header: translation.courseInformation.course_required_equipment, text: courseRequiredEquipment },
       { header: translation.courseInformation.course_literature, text: literatureText },
     ]
@@ -164,6 +164,16 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
       prepare.push({
         header: translation.courseInformation.course_supplemental_information,
         text: courseInfo.course_supplemental_information,
+      })
+    if (!isMissingInfoLabel(courseInfo.course_supplemental_information_url))
+      prepare.push({
+        header: translation.courseInformation.course_supplemental_information_url,
+        text: courseInfo.course_supplemental_information_url,
+      })
+    if (!isMissingInfoLabel(courseInfo.course_supplemental_information_url_text))
+      prepare.push({
+        header: translation.courseInformation.course_supplemental_information_url_text,
+        text: courseInfo.course_supplemental_information_url_text,
       })
 
     if (!isContractEducation() && syllabus.course_additional_regulations !== '')
