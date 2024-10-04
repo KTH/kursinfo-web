@@ -1,5 +1,5 @@
 'use strict'
-
+const handlebars = require('handlebars')
 const registerHeaderContentHelper = require('@kth/kth-node-web-common/lib/handlebars/helpers/headerContent')
 const { registerBreadcrumbHelper } = require('@kth/kth-node-web-common/lib/handlebars/helpers/breadcrumbs')
 const { registerLanguageLinkHelper } = require('@kth/kth-node-web-common/lib/handlebars/helpers/languageLink')
@@ -41,3 +41,5 @@ require('@kth/kth-node-web-common/lib/handlebars/helpers/contentedit')
 const i18n = require('../../../i18n')
 require('@kth/kth-node-web-common/lib/handlebars/helpers/createI18nHelper')(i18n)
 require('@kth/kth-node-web-common/lib/handlebars/helpers/safe')
+
+handlebars.registerHelper('eq', (var1, var2) => var1.toString() === var2.toString())

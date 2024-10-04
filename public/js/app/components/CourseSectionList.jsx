@@ -63,7 +63,7 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
       ...eligibility,
       {
         header: translation.courseInformation.course_prerequisites,
-        text: courseInfo.course_prerequisites,
+        text: courseInfo.course_recommended_prerequisites,
         infoModal: {
           description: translation.courseInformation.course_prerequisites_description,
           closeLabel: translation.courseLabels.label_close,
