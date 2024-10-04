@@ -48,7 +48,6 @@ jest.mock('../../apiCalls/kursinfoApi', () => ({
   getCourseInfo: () => ({
     sellingText: { sv: '<p>Fantastisk kurs</p>', en: '<p>This course is awesome</p>' },
     courseDisposition: { sv: '<p>Kursupplägg på svenska</p>', en: '<p>Course Disposition in english</p>' },
-    supplementaryInfo: { sv: '<p>Övrig info</p>', en: '<p>Extra info</p>' },
     imageInfo: 'own_image',
   }),
 }))
@@ -145,9 +144,7 @@ describe('Discontinued course to test', () => {
         "course_required_equipment": "<i>Ingen information tillagd</i>",
         "course_state": "ESTABLISHED",
         "course_suggested_addon_studies": "<i>Ingen information tillagd</i>",
-        "course_supplemental_information": "<p>Övrig info</p>",
-        "course_supplemental_information_url": "<i>Ingen information tillagd</i>",
-        "course_supplemental_information_url_text": "<i>Ingen information tillagd</i>",
+        "course_supplemental_information": "",
         "imageFromAdmin": "own_image",
         "sellingText": "<p>Fantastisk kurs</p>",
       },

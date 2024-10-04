@@ -1,12 +1,48 @@
-import React from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useLanguage } from '../../hooks/useLanguage'
 import InfoModal from '../InfoModal'
 import { CourseMemoLink } from './CourseMemoLink'
 import { CourseScheduleLink } from './CourseScheduleLink'
-import { PlannedModules } from './PlannedModules'
+
+// Calculates if a "Show more" button should be displayed, and creates props for content and button elements.
+const useShowMoreContent = content => {
+  const ref = useRef(null)
+  const [hasMoreContent, setHasMoreContent] = useState(false)
+  const [contentHeight, setHeight] = useState(undefined)
+  const { translation } = useLanguage()
+
+  const showMoreContent = hasMoreContent && !!contentHeight
+  const hideMoreContent = hasMoreContent && !showMoreContent
+  useEffect(() => {
+    if (ref.current) {
+      const el = ref.current
+      const isOverflowing = el.clientHeight < el.scrollHeight
+      setHasMoreContent(isOverflowing)
+    }
+  }, [content])
+
+  const contentProps = {
+    ref,
+    style: { maxHeight: contentHeight }, // set max height for animation from the max value specified in css to actual content height
+    className: `roundInformation__infoGridItemContent ${hideMoreContent ? 'hidden' : ''}`,
+  }
+
+  const showMoreButtonProps = hasMoreContent
+    ? {
+        onClick: () => {
+          setHeight(showMoreContent ? undefined : ref.current.scrollHeight)
+        },
+        children: showMoreContent ? translation.showMoreContent.hide : translation.showMoreContent.show,
+        className: 'roundInformation__infoGridItemShowMoreButton',
+      }
+    : undefined
+
+  return { contentProps, showMoreButtonProps }
+}
 
 const Item = ({ children, html, title, infoModalContent }) => {
   const { translation } = useLanguage()
+  const { contentProps, showMoreButtonProps } = useShowMoreContent(html ?? children)
 
   return (
     <div>
@@ -21,12 +57,19 @@ const Item = ({ children, html, title, infoModalContent }) => {
           />
         )}
       </dt>
-      {html ? <dd dangerouslySetInnerHTML={{ __html: html }} /> : <dd>{children}</dd>}
+      <dd className="roundInformation__infoGridItem">
+        {html ? (
+          <div {...contentProps} dangerouslySetInnerHTML={{ __html: html }} />
+        ) : (
+          <div {...contentProps}>{children}</div>
+        )}
+        {showMoreButtonProps && <button {...showMoreButtonProps} />}
+      </dd>
     </div>
   )
 }
 
-function RoundInformationInfoGrid({ courseCode, courseRound, selectedSemester }) {
+function RoundInformationInfoGrid({ courseCode, courseRound, plannedModules }) {
   const { translation } = useLanguage()
 
   return (
@@ -73,9 +116,7 @@ function RoundInformationInfoGrid({ courseCode, courseRound, selectedSemester })
         <p>{courseRound.round_seats || translation.courseRoundInformation.round_no_seats_limit}</p>
       </Item>
       <Item title={translation.courseRoundInformation.round_target_group} html={courseRound.round_target_group} />
-      <Item title={translation.courseRoundInformation.round_time_slots}>
-        <PlannedModules courseCode={courseCode} courseRound={courseRound} selectedSemester={selectedSemester} />
-      </Item>
+      <Item title={translation.courseRoundInformation.round_time_slots} html={plannedModules} />
       <Item title={translation.courseLabels.label_schedule}>
         <CourseScheduleLink courseRound={courseRound} />
       </Item>

@@ -39,9 +39,10 @@ describe('useApi', () => {
   })
 
   test('calls apiToCall with given parameters', async () => {
-    const { result } = renderHook(() => useApi(apiToCall, { one: 'one', two: 2 }, null, null))
+    const apiParams1 = { one: 'one', two: 2 }
+    const { result } = renderHook(() => useApi(apiToCall, apiParams1, null, null))
 
-    expect(apiToCall).toHaveBeenLastCalledWith({ one: 'one', two: 2 })
+    expect(apiToCall).toHaveBeenLastCalledWith(apiParams1)
 
     await waitFor(() => expect(result.current.data).toStrictEqual('somePlannedModules'))
 
@@ -50,15 +51,18 @@ describe('useApi', () => {
       data: 'someData',
     })
 
-    const { result: result2 } = renderHook(() => useApi(anotherApiToCall, { two: 'two', three: 3 }, null, null))
+    const apiParams2 = { two: 'two', three: 3 }
 
-    expect(anotherApiToCall).toHaveBeenLastCalledWith({ two: 'two', three: 3 })
+    const { result: result2 } = renderHook(() => useApi(anotherApiToCall, apiParams2, null, null))
+
+    expect(anotherApiToCall).toHaveBeenLastCalledWith(apiParams2)
 
     await waitFor(() => expect(result2.current.data).toStrictEqual('someData'))
   })
 
   test('returns data from apiToCall', async () => {
-    const { result } = renderHook(() => useApi(apiToCall, {}, null, null))
+    const params = {}
+    const { result } = renderHook(() => useApi(apiToCall, params, null, null))
 
     await waitFor(() => expect(result.current.data).toStrictEqual('somePlannedModules'))
   })
@@ -90,28 +94,28 @@ describe('useApi', () => {
         })
     )
 
-    const { result } = renderHook(() => useApi(apiToCall, defaultParams, defaultValue, null))
+    const { result: firstResult } = renderHook(() => useApi(apiToCall, defaultParams, defaultValue, null))
 
-    expect(result.current.data).toStrictEqual(defaultValue)
-    expect(result.current.isError).toStrictEqual(false)
+    expect(firstResult.current.data).toStrictEqual(defaultValue)
+    expect(firstResult.current.isError).toStrictEqual(false)
 
     jest.advanceTimersByTime(100)
     expect(apiToCall).toHaveBeenCalledTimes(1)
 
-    await waitFor(() => expect(result.current.data).toStrictEqual('someNewPlannedModules'))
-    await waitFor(() => expect(result.current.isError).toStrictEqual(false))
+    await waitFor(() => expect(firstResult.current.data).toStrictEqual('someNewPlannedModules'))
+    await waitFor(() => expect(firstResult.current.isError).toStrictEqual(false))
 
-    result.current.setApiParams({ other: 'params' })
+    const { result: secodResult } = renderHook(() => useApi(apiToCall, defaultParams, defaultValue, null))
 
-    await waitFor(() => expect(result.current.data).toStrictEqual(defaultValue))
-    await waitFor(() => expect(result.current.isError).toStrictEqual(false))
+    await waitFor(() => expect(secodResult.current.data).toStrictEqual(defaultValue))
+    await waitFor(() => expect(secodResult.current.isError).toStrictEqual(false))
 
     jest.advanceTimersByTime(100)
 
     expect(apiToCall).toHaveBeenCalledTimes(2)
 
-    await waitFor(() => expect(result.current.data).toStrictEqual('someOtherPlannedModules'))
-    await waitFor(() => expect(result.current.isError).toStrictEqual(false))
+    await waitFor(() => expect(secodResult.current.data).toStrictEqual('someOtherPlannedModules'))
+    await waitFor(() => expect(secodResult.current.isError).toStrictEqual(false))
 
     jest.useRealTimers()
   })
@@ -186,18 +190,19 @@ describe('useApi', () => {
           })
       )
 
-      const { result } = renderHook(() => useApi(apiToCall, defaultParams, null, null))
+      const { result: firstResult } = renderHook(() => useApi(apiToCall, defaultParams, null, null))
 
       jest.advanceTimersByTime(100)
 
-      await waitFor(() => expect(result.current.isError).toStrictEqual(true))
+      await waitFor(() => expect(firstResult.current.isError).toStrictEqual(true))
 
-      result.current.setApiParams({ ...defaultParams, applicationCode: 54321 })
+      const newParams = { ...defaultParams, applicationCode: 54321 }
+      const { result: secodResult } = renderHook(() => useApi(apiToCall, newParams, null, null))
 
-      await waitFor(() => expect(result.current.isError).toStrictEqual(false))
+      await waitFor(() => expect(secodResult.current.isError).toStrictEqual(false))
       jest.advanceTimersByTime(100)
 
-      await waitFor(() => expect(result.current.isError).toStrictEqual(true))
+      await waitFor(() => expect(secodResult.current.isError).toStrictEqual(true))
 
       jest.useRealTimers()
     })

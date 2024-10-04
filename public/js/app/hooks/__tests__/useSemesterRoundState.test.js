@@ -477,4 +477,59 @@ describe('useSemesterRoundsLogic', () => {
     await waitFor(() => expect(result.current.showRoundData).toBe(false))
     await waitFor(() => expect(result.current.activeRound).toEqual({}))
   })
+
+  describe('set hasOnlyOneRound and activeSemesterOnlyHasOneRound correctly', () => {
+    test('one semester with one round', async () => {
+      const { result } = renderHook(() =>
+        useSemesterRoundState({
+          initiallySelectedRoundIndex: undefined,
+          initiallySelectedSemester: 20222,
+          roundsBySemester: { 20222: roundsBySemester[20222] },
+          syllabusList,
+          activeSemesters: [{ year: '2022', semesterNumber: '2', semester: '20222' }],
+        })
+      )
+      expect(result.current.activeSemesterOnlyHasOneRound).toBe(true)
+      expect(result.current.hasOnlyOneRound).toBe(true)
+    })
+    test('one semester with multiple rounds', async () => {
+      const { result } = renderHook(() =>
+        useSemesterRoundState({
+          initiallySelectedRoundIndex: undefined,
+          initiallySelectedSemester: 20232,
+          roundsBySemester: { 20232: roundsBySemester[20232] },
+          syllabusList,
+          activeSemesters: [{ year: '2023', semesterNumber: '2', semester: '20232' }],
+        })
+      )
+      expect(result.current.activeSemesterOnlyHasOneRound).toBe(false)
+      expect(result.current.hasOnlyOneRound).toBe(false)
+    })
+    test('multiple semesters - selected has multiple rounds', async () => {
+      const { result } = renderHook(() =>
+        useSemesterRoundState({
+          initiallySelectedRoundIndex: undefined,
+          initiallySelectedSemester: 20232,
+          roundsBySemester,
+          syllabusList,
+          activeSemesters,
+        })
+      )
+      expect(result.current.activeSemesterOnlyHasOneRound).toBe(false)
+      expect(result.current.hasOnlyOneRound).toBe(false)
+    })
+    test('multiple semesters - selected has one round', async () => {
+      const { result } = renderHook(() =>
+        useSemesterRoundState({
+          initiallySelectedRoundIndex: undefined,
+          initiallySelectedSemester: 20222,
+          roundsBySemester,
+          syllabusList,
+          activeSemesters,
+        })
+      )
+      expect(result.current.activeSemesterOnlyHasOneRound).toBe(true)
+      expect(result.current.hasOnlyOneRound).toBe(false)
+    })
+  })
 })

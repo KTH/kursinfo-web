@@ -34,6 +34,10 @@ const useSemesterRoundState = ({
     () => determineSemesterOnlyHasOneRound(roundsBySemester, selectedSemester),
     [roundsBySemester, selectedSemester]
   )
+  const hasOnlyOneRound = useMemo(() => {
+    if (activeSemesters.length !== 1) return false
+    return activeSemesterOnlyHasOneRound
+  }, [activeSemesterOnlyHasOneRound, activeSemesters.length])
 
   const showRoundData = useMemo(() => {
     if (isSetSelectedRoundIndex || activeSemesterOnlyHasOneRound) {
@@ -93,6 +97,7 @@ const useSemesterRoundState = ({
     roundsForSelectedSemester,
     selectedSemester,
     showRoundData,
+    hasOnlyOneRound,
     activeSemesterOnlyHasOneRound,
     hasActiveSemesters,
     activeSyllabus,

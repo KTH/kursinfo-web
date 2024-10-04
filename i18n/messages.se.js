@@ -40,6 +40,10 @@ module.exports = {
     menu_panel_close: 'Stäng',
     menu_panel_menu: 'Meny',
   },
+  showMoreContent: {
+    show: 'Visa mer',
+    hide: 'Dölj',
+  },
   bankIdAlertText:
     'Du behöver ett KTH-konto för att läsa en kurs på KTH, kontot aktiveras med Mobilt BankID eller genom att besöka KTH:s campus. Det enda sättet att starta en kurs utan att besöka campus, är om du har Mobilt BankID.',
   courseLabels: {
@@ -102,7 +106,7 @@ module.exports = {
       'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
     round_seats_info: 'Urvalet sker baserat på:',
     syllabus_info:
-      '<p>• En kurs undervisas i olika kursomgångar. För att se information om en specifik kursomgång behöver du välja termin och kursomgång. Information från kursplan kommer att uppdateras beroende på vald termin. Information från kursplan är markerad med *.</p><p>• Observera: bestämmelser i kursplaner är regler som är generellt tillämpbara och bindande för såväl anställda som studenter.</p><p>• Har du inte valt termin och kursomgång ser du kursinformation från nuvarande eller kommande kursplan. På sidan anges den period som information från kursplan gäller för.</p>',
+      '<p>En kurs undervisas i olika kursomgångar. För att se information om en specifik kursomgång behöver du välja termin och kursomgång. Information från kursplan kommer att uppdateras beroende på vald termin. Information från kursplan är markerad med *</p>',
     sideMenu: {
       aria_label: 'Undermeny',
       page_about_course: 'Om kursen ',
