@@ -40,7 +40,7 @@ describe('Component <RoundInformation>', () => {
 
   test('renders study pace correctly', () => {
     const propsWithStudyPace = {
-      memoStorageURI: '',
+      memoStorageUri: '',
       semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseRound: {
@@ -65,7 +65,7 @@ describe('Component <RoundInformation>', () => {
     const responsiblesData = 'Responsibles’ data'
     const teachersData = 'Teachers’ data'
     const propsWithEmployees = {
-      memoStorageURI: '',
+      memoStorageUri: '',
       semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseCode: 'SF1624',
@@ -95,7 +95,7 @@ describe('Component <RoundInformation>', () => {
 
   test('renders information about missing course employees in course offering because it contains empty string', () => {
     const propsWithEmptyEmployees = {
-      memoStorageURI: '',
+      memoStorageUri: '',
       semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseCode: 'SF1624',
@@ -113,7 +113,7 @@ describe('Component <RoundInformation>', () => {
 
   test('renders information about missing course employees in course offering because no data about employees is provided', () => {
     const propsWithoutEmployees = {
-      memoStorageURI: '',
+      memoStorageUri: '',
       semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseCode: 'SF1624',
@@ -131,7 +131,7 @@ describe('Component <RoundInformation>', () => {
 
   test('renders course offering number of places correctly if all data is available', async () => {
     const propsWithSeatsNum = {
-      memoStorageURI: '',
+      memoStorageUri: '',
       semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseRound: {
@@ -169,7 +169,7 @@ describe('Component <RoundInformation>', () => {
 
   test('renders default text and hide info icon if a course offering number of places is not provided', () => {
     const propsWithoutSeatsNum = {
-      memoStorageURI: '',
+      memoStorageUri: '',
       semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseRound: {
@@ -198,7 +198,7 @@ describe('Component <RoundInformation>', () => {
 
   test('renders course offering number of places correctly and default text in modal if selection criteria is empty', async () => {
     const propsWithEmptyCriteria = {
-      memoStorageURI: '',
+      memoStorageUri: '',
       semesterRoundState: defaultSemesterRoundState,
       courseData: {},
       courseRound: {

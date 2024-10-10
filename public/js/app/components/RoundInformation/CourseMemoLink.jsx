@@ -10,7 +10,7 @@ export const CourseMemoLink = ({ courseCode, courseRound }) => {
   return (
     <div>
       {round_memoFile ? (
-        <a href={`${browserConfig.memoStorageURI}${round_memoFile.fileName}`} target="_blank" rel="noreferrer">
+        <a href={`${browserConfig.memoStorageUri}${round_memoFile.fileName}`} target="_blank" rel="noreferrer">
           {translation.courseLabels.label_link_course_memo}
         </a>
       ) : (

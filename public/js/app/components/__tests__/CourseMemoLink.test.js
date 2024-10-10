@@ -11,7 +11,7 @@ import { useWebContext } from '../../context/WebContext'
 
 describe('Component <CourseMemoLink>', () => {
   test('renders course offering memo link correctly if there is an available course memo as pdf', () => {
-    useWebContext.mockReturnValue({ lang: 'en', browserConfig: { memoStorageURI: 'https://test.com/' } })
+    useWebContext.mockReturnValue({ lang: 'en', browserConfig: { memoStorageUri: 'https://test.com/' } })
     const [translate] = i18n.messages // en
 
     const propsWithMemoFile = {
@@ -26,11 +26,11 @@ describe('Component <CourseMemoLink>', () => {
   })
 
   test('renders course offering memo link correctly to web-based course memos', () => {
-    useWebContext.mockReturnValue({ lang: 'en', browserConfig: { memoStorageURI: 'https://test.com/' } })
+    useWebContext.mockReturnValue({ lang: 'en', browserConfig: { memoStorageUri: 'https://test.com/' } })
     const [translate] = i18n.messages // en
     const propsWithMemoFile = {
       courseCode: 'ABC123',
-      memoStorageURI: 'https://test.com/',
+      memoStorageUri: 'https://test.com/',
       courseRound: { round_memoFile: { fileName: 'test', fileDate: '1970-01-01' } },
     }
     const propsWithMemoWebPage = {
@@ -53,7 +53,7 @@ describe('Component <CourseMemoLink>', () => {
   })
 
   test('renders course offering memo link to pdf if it exists among other data and correctly prioriterized', () => {
-    useWebContext.mockReturnValue({ lang: 'en', browserConfig: { memoStorageURI: 'https://test.com/' } })
+    useWebContext.mockReturnValue({ lang: 'en', browserConfig: { memoStorageUri: 'https://test.com/' } })
     const [translate] = i18n.messages // en
     const propsWithMemoFileAndOtherInfo = {
       courseCode: 'KIP1111',
