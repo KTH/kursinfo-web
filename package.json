@@ -59,7 +59,7 @@
     "reactstrap": "^9.2.2",
     "sanitize-html": "^2.13.0",
     "victory": "^36.9.2",
-    "xlsx": "^0.18.5"
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
   },
   "devDependencies": {
     "@babel/cli": "^7.24.6",
