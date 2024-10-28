@@ -58,7 +58,7 @@
     "react-router-dom": "^6.23.1",
     "reactstrap": "^9.2.2",
     "sanitize-html": "^2.13.0",
-    "victory": "^36.9.2",
+    "victory": "^37.3.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
   },
   "devDependencies": {
