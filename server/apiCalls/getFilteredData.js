@@ -39,8 +39,6 @@ function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, languag
       ? parseSemesterIntoYearSemesterNumberArray(koppsCourse.lastExamTerm.term)
       : [],
     course_literature: parseOrSetEmpty(koppsCourse.courseLiterature, language),
-    course_supplemental_information_url: parseOrSetEmpty(koppsCourse.supplementaryInfoUrl, language),
-    course_supplemental_information_url_text: parseOrSetEmpty(koppsCourse.supplementaryInfoUrlName, language),
     course_state: parseOrSetEmpty(koppsCourse.state, language, true),
 
     // TODO(Ladok-POC): Following should be removed (KUI-1387) set to emport for now
@@ -250,13 +248,15 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   //* **** Course information that is static on the course side *****//
   const courseDefaultInformation = _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, language)
 
-  const { sellingText, courseDisposition, supplementaryInfo, imageInfo } = await courseApi.getCourseInfo(courseCode)
+  const { sellingText, courseDisposition, recommendedPrerequisites, supplementaryInfo, imageInfo } =
+    await courseApi.getCourseInfo(courseCode)
 
   const courseInfo = {
     ...courseDefaultInformation,
     sellingText: resolveText(sellingText, language),
     imageFromAdmin: imageInfo,
     course_disposition: resolveText(courseDisposition, language),
+    course_recommended_prerequisites: resolveText(recommendedPrerequisites, language),
     course_supplemental_information: resolveText(supplementaryInfo, language),
   }
 

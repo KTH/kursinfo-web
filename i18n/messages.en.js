@@ -85,7 +85,7 @@ module.exports = {
     },
     header_dropdown_menu_navigation:
       'Choose semester and course offering to see current information and more about the course, such as course syllabus, study period, and application information.',
-    header_dropdown_menue: 'Information per course offering',
+    header_dropdown_menu: 'Information per course offering',
     header_dropdown_menu_aria_label: 'Information about choosing semester and course offering',
     header_course_info: 'Course information',
     header_content: 'Content and learning outcomes',
@@ -104,7 +104,7 @@ module.exports = {
       'Course offering may be cancelled if number of admitted are less than minimum of places. If there are more applicants than number of places selection will be made.',
     round_seats_info: 'The selection results are based on:',
     syllabus_info:
-      '<p>• A course goes different course offerings. To see information about a specific course offering, choose semester and course offering. The course syllabus information will be updated depending on the chosen semester. Information from the course syllabus is marked with *.</p><p>• Please note: regulations in course syllabus are rules that are generally applicable and binding for both employees and students.</p><p>• If you have not chosen semester and course offering, you will see course information from the current or future course syllabus. The valid period of the course syllabus is stated on the page.</p>',
+      '<p>A course goes different course offerings. To see information about a specific course offering, choose semester and course offering. The course syllabus information will be updated depending on the chosen semester. Information from the course syllabus is marked with *</p>',
     sideMenu: {
       aria_label: 'Sub menu',
       page_about_course: 'About course',
@@ -166,6 +166,9 @@ module.exports = {
     course_department: 'Offered by',
     course_contact_name: 'Contact ',
     course_prerequisites: 'Recommended prerequisites',
+    course_prerequisites_description:
+      'Describes the knowledge and skills (in addition to the eligibility requirements) that you need to be able to take the course.',
+    course_prerequisites_menu_aria_label: 'Information about recommended prerequisites',
     course_suggested_addon_studies: 'Add-on studies',
     course_supplemental_information_url: 'Supplementary information link',
     course_supplemental_information_url_text: 'Supplementary information link text',
