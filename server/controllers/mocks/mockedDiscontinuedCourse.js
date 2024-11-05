@@ -11,7 +11,6 @@ const mockedDiscontinuedCourse = {
     },
     educationalLevelCode: 'RESEARCH',
     gradeScaleCode: 'PF',
-    supplementaryInfo: '<p>Ers&#228;tter kurs FBB3640.</p>',
     title: 'Kolhydratteknik inom glykovetenskap',
     titleOther: 'Carbohydrate Technologies in Glycoscience',
     cancelled: false,

@@ -87,7 +87,7 @@ module.exports = {
     },
     header_dropdown_menu_navigation:
       'Välj termin och kursomgång för att se aktuell information och mer om kursen, såsom kursplan, studieperiod och anmälningsinformation.',
-    header_dropdown_menue: 'Information per kursomgång',
+    header_dropdown_menu: 'Information per kursomgång',
     header_dropdown_menu_aria_label: 'Information om val av termin och kursomgång',
     header_course_info: 'Kursinformation',
     header_content: 'Innehåll och lärandemål',
@@ -106,7 +106,7 @@ module.exports = {
       'Kursomgången kan komma att ställas in om antalet antagna understiger minimiantalet platser. Vid fler sökande än platser kommer urval att ske.',
     round_seats_info: 'Urvalet sker baserat på:',
     syllabus_info:
-      '<p>• En kurs undervisas i olika kursomgångar. För att se information om en specifik kursomgång behöver du välja termin och kursomgång. Information från kursplan kommer att uppdateras beroende på vald termin. Information från kursplan är markerad med *.</p><p>• Observera: bestämmelser i kursplaner är regler som är generellt tillämpbara och bindande för såväl anställda som studenter.</p><p>• Har du inte valt termin och kursomgång ser du kursinformation från nuvarande eller kommande kursplan. På sidan anges den period som information från kursplan gäller för.</p>',
+      '<p>En kurs undervisas i olika kursomgångar. För att se information om en specifik kursomgång behöver du välja termin och kursomgång. Information från kursplan kommer att uppdateras beroende på vald termin. Information från kursplan är markerad med *</p>',
     sideMenu: {
       aria_label: 'Undermeny',
       page_about_course: 'Om kursen ',
@@ -170,6 +170,9 @@ module.exports = {
     course_department: 'Ges av',
     course_contact_name: 'Kontaktperson',
     course_prerequisites: 'Rekommenderade förkunskaper',
+    course_prerequisites_description:
+      'Beskriver vilka kunskaper och färdigheter (utöver behörighetskraven) som du behöver för att kunna ta till dig kursen.',
+    course_prerequisites_menu_aria_label: 'Information om rekommenderade förkunskaper',
     course_suggested_addon_studies: 'Påbyggnad',
     course_supplemental_information_url: 'Övrig information - länk',
     course_supplemental_information_url_text: 'Övrig information - länk text',

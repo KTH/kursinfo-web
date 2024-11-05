@@ -3,16 +3,16 @@ import React from 'react'
 
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import CourseSections from '../CourseSections'
+import CourseSection from '../CourseSection'
 import i18n from '../../../../../i18n'
 
 const [translationEN] = i18n.messages
 
-describe('Component <CourseSections>', () => {
+describe('Component <CourseSection>', () => {
   test('render text with a syllabus marker correctly', () => {
     const mockData = [{ header: 'First test header', text: 'Text for test from test syllabus', syllabusMarker: true }]
     render(
-      <CourseSections
+      <CourseSection
         sectionHeader={'Section with all test headers and texts'}
         headerType="3"
         courseData={mockData}
@@ -33,7 +33,7 @@ describe('Component <CourseSections>', () => {
   test('render text without a syllabus marker correctly', () => {
     const mockData = [{ header: 'Test header chosen by user', text: 'Text for test not from syllabys' }]
     render(
-      <CourseSections
+      <CourseSection
         sectionHeader={'Section with all test headers and texts'}
         headerType="3"
         courseData={mockData}
@@ -49,13 +49,40 @@ describe('Component <CourseSections>', () => {
     expect(header.querySelector('sup')).toBeNull()
   })
 
+  test('render an info button correctly', () => {
+    const mockData = [
+      {
+        header: 'First test header',
+        text: 'Text for test from test syllabus',
+        syllabusMarker: true,
+        infoModal: {
+          description: translationEN.courseInformation.course_prerequisites_description,
+          closeLabel: translationEN.courseLabels.label_close,
+          ariaLabel: translationEN.courseInformation.course_prerequisites_menu_aria_label,
+        },
+      },
+    ]
+    render(
+      <CourseSection
+        sectionHeader={'Section with all test headers and texts'}
+        headerType="3"
+        courseData={mockData}
+        sectionId="firstSection"
+        syllabusMarkerAriaLabel={translationEN.courseLabels.syllabus_marker_aria_label}
+      />
+    )
+
+    const modal = screen.getByLabelText(mockData[0].infoModal.ariaLabel)
+    expect(modal).toBeInTheDocument()
+  })
+
   test('render array of several headers with text correctly', () => {
     const mockData = [
       { header: 'First test header', text: 'Text for test from test syllabus', syllabusMarker: true },
       { header: 'Second test header', text: 'Text for test not from syllabys' },
     ]
     render(
-      <CourseSections
+      <CourseSection
         sectionHeader={'Section with all test headers and texts'}
         headerType="3"
         courseData={mockData}

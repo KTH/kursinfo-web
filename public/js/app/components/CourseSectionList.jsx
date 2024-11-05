@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useLanguage } from '../hooks/useLanguage'
 import { useMissingInfo } from '../hooks/useMissingInfo'
-import CourseSection from './CourseSections'
+import CourseSection from './CourseSection'
 import { SyllabusInformation } from './SyllabusInformation'
 
 function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabusName }) {
@@ -61,7 +61,15 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
 
     const during = [
       ...eligibility,
-      { header: translation.courseInformation.course_prerequisites, text: courseInfo.course_prerequisites },
+      {
+        header: translation.courseInformation.course_prerequisites,
+        text: courseInfo.course_recommended_prerequisites,
+        infoModal: {
+          description: translation.courseInformation.course_prerequisites_description,
+          closeLabel: translation.courseLabels.label_close,
+          ariaLabel: translation.courseInformation.course_prerequisites_menu_aria_label,
+        },
+      },
       { header: translation.courseInformation.course_required_equipment, text: courseRequiredEquipment },
       { header: translation.courseInformation.course_literature, text: literatureText },
     ]
