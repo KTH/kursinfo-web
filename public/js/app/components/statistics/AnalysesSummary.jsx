@@ -7,7 +7,7 @@ import { useLanguage } from '../../hooks/useLanguage'
 import { TableSummary } from './TableSummaryRows'
 import { seasons as seasonLib } from './domain/index'
 import { Charts } from './Chart'
-import { Results } from './index'
+import { Results, StatisticsAlert } from './index'
 
 function getSchoolNumbers(school) {
   const { numberOfCourses, numberOfUniqAnalyses } = school
@@ -100,7 +100,6 @@ function AnalysesNumbersCharts({ statisticsResult }) {
 function AnalysesNumbersChartsYearAgo({ statisticsResult }) {
   const { school, documentType, seasons, year } = statisticsResult
 
-  if (!documentType) return null
   const oneYearAgo = Number(year) - 1
 
   const state = useStatisticsAsync({ seasons, year: oneYearAgo, documentType, school }, 'once')
@@ -109,6 +108,7 @@ function AnalysesNumbersChartsYearAgo({ statisticsResult }) {
 
   return (
     <>
+      {error?.errorType && <StatisticsAlert alertType={error.errorType}>{error.errorExtraText}</StatisticsAlert>}
       <Results statisticsStatus={statisticsStatus} error={error}>
         <AnalysesNumbersCharts statisticsResult={statisticsResultYearAgo} />
       </Results>

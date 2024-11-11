@@ -2,8 +2,9 @@
 import React from 'react'
 
 import { introductionTexts } from '../components/statistics/StatisticsTexts'
-import { StatisticsForm, StatisticsResults } from '../components/statistics/index'
 import { findMissingParametersKeys, hasValue } from '../components/statistics/domain/validation'
+import { StatisticsForm, StatisticsResults } from '../components/statistics/index'
+import { useStatisticsAsync } from '../hooks/statisticsUseAsync'
 import { useLanguage } from '../hooks/useLanguage'
 
 function _parseValues({ documentType, periods, school, seasons, year }) {
@@ -61,13 +62,16 @@ function CourseStatisticsPage() {
     const missingParams = findMissingParametersKeys(finalSearchParams)
     setHasSubmittedEmptyValue(missingParams.length > 0)
   }
+
+  const resultState = useStatisticsAsync(params, 'onChange')
+
   return (
     <div id="kursstatistik-main-page" className={hasSubmittedEmptyValue ? 'error-missing-parameters-in-query' : ''}>
       <h1>{labels.pageHeader}</h1>
       {texts.pageDescription()}
       <h2>{labels.formLabels.formHeader}</h2>
-      <StatisticsForm onSubmit={handleSubmit} />
-      <StatisticsResults chosenOptions={params} />
+      <StatisticsForm onSubmit={handleSubmit} resultError={resultState.error} />
+      <StatisticsResults result={resultState} />
     </div>
   )
 }

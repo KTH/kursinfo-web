@@ -1,10 +1,10 @@
+import PropTypes from 'prop-types'
 import React, { useReducer } from 'react'
 import { Col, Row } from 'reactstrap'
-import PropTypes from 'prop-types'
 import { useLanguage } from '../../hooks/useLanguage'
 import { DOCS, studyLengthParamName } from './domain/formConfigurations'
 
-import { CheckboxOption, DropdownOption, RadioboxOption } from './index'
+import { CheckboxOption, DropdownOption, RadioboxOption, StatisticsAlert } from './index'
 
 const paramsReducer = (state, action) => {
   const { value, type } = action
@@ -24,7 +24,7 @@ const paramsReducer = (state, action) => {
   }
 }
 
-function StatisticsForm({ onSubmit }) {
+function StatisticsForm({ onSubmit, resultError }) {
   const [state, setState] = useReducer(paramsReducer, {})
   const [stateMode, setStateMode] = React.useState('init')
   const { documentType = null } = state
@@ -97,7 +97,9 @@ function StatisticsForm({ onSubmit }) {
       )}
       <Row>
         <Col>
-          <div id="alert-placeholder" />
+          {resultError?.errorType && (
+            <StatisticsAlert alertType={resultError.errorType}>{resultError.errorExtraText}</StatisticsAlert>
+          )}
         </Col>
       </Row>
       <Row>
@@ -113,6 +115,7 @@ function StatisticsForm({ onSubmit }) {
 
 StatisticsForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  resultError: PropTypes.object,
 }
 
 export default StatisticsForm
