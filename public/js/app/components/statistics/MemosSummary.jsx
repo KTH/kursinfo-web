@@ -183,5 +183,4 @@ function MemosSummary({ statisticsResult }) {
   )
 }
 
-MemosSummary.defaultProps = {}
 export default MemosSummary
