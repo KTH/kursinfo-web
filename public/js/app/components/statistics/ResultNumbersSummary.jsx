@@ -56,5 +56,4 @@ ResultNumbersSummary.propTypes = {
   ]),
 }
 
-ResultNumbersSummary.defaultProps = {}
 export default ResultNumbersSummary

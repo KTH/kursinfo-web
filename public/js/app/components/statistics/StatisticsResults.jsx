@@ -8,7 +8,7 @@ import { ERROR_ASYNC, STATUS } from '../../hooks/statisticsUseAsync'
 import { documentTypes } from './domain/formConfigurations'
 import { ResultNumbersSummary, Results, StatisticsDataTable } from './index'
 
-function SortableCoursesAndDocuments({ statisticsStatus, error = {}, statisticsResult }) {
+function SortableCoursesAndDocuments({ statisticsStatus = null, error = {}, statisticsResult }) {
   return (
     <Results statisticsStatus={statisticsStatus} error={error}>
       <Row>
@@ -39,13 +39,6 @@ SortableCoursesAndDocuments.propTypes = {
     errorType: PropTypes.oneOf([...Object.values(ERROR_ASYNC), '']),
     errorExtraText: PropTypes.string,
   }),
-}
-
-SortableCoursesAndDocuments.defaultProps = {
-  languageIndex: 0,
-  error: {},
-  statisticsResult: {},
-  statisticsStatus: null,
 }
 
 function StatisticsResults({ result }) {
