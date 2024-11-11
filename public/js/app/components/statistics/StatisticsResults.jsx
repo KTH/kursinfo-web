@@ -3,9 +3,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Col, Row } from 'reactstrap'
 
-import { STATUS, ERROR_ASYNC, useStatisticsAsync } from '../../hooks/statisticsUseAsync'
+import { ERROR_ASYNC, STATUS } from '../../hooks/statisticsUseAsync'
 
-import { periods, schools, seasons } from './domain/index'
 import { documentTypes } from './domain/formConfigurations'
 import { ResultNumbersSummary, Results, StatisticsDataTable } from './index'
 
@@ -49,11 +48,8 @@ SortableCoursesAndDocuments.defaultProps = {
   statisticsStatus: null,
 }
 
-function StatisticsResults({ chosenOptions }) {
-  const state = useStatisticsAsync(chosenOptions, 'onChange')
-
-  const { data: statisticsResult, status: statisticsStatus, error = {} } = state || {}
-
+function StatisticsResults({ result }) {
+  const { data: statisticsResult, status: statisticsStatus, error = {} } = result || {}
   return (
     <Row style={{ marginTop: '22px' }}>
       <Col>
@@ -68,17 +64,7 @@ function StatisticsResults({ chosenOptions }) {
 }
 
 StatisticsResults.propTypes = {
-  chosenOptions: PropTypes.shape({
-    documentType: PropTypes.oneOf(documentTypes()),
-    year: PropTypes.number,
-    periods: PropTypes.arrayOf(PropTypes.oneOf(periods.orderedPeriods())),
-    school: PropTypes.oneOf(schools.orderedSchoolsFormOptions()),
-    seasons: PropTypes.arrayOf(PropTypes.oneOf(seasons.orderedSeasons())),
-  }),
-}
-
-StatisticsResults.defaultProps = {
-  chosenOptions: {},
+  result: PropTypes.object,
 }
 
 export default StatisticsResults

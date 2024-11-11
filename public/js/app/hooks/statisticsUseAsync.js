@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
-import { createRoot } from 'react-dom/client'
 import { useWebContext } from '../context/WebContext'
-import { StatisticsAlert } from '../components/statistics/index'
 import fetchStatistics from './api/statisticsApi'
 import { useLanguage } from './useLanguage'
 
@@ -81,32 +79,13 @@ function useAsync(asyncCallback, initialState) {
   return state
 }
 
-function renderAlertToTop(error = {}, languageIndex) {
-  const { errorType = '', errorExtraText = '' } = error
-  const alertContainer = document.getElementById('alert-placeholder')
-  const alertContainerRoot = createRoot(alertContainer)
-  if (alertContainer) {
-    alertContainerRoot.render(
-      <StatisticsAlert alertType={errorType} languageIndex={languageIndex}>
-        {errorExtraText}
-      </StatisticsAlert>
-    )
-  }
-}
-function dismountTopAlert() {
-  const alertContainer = document.getElementById('alert-placeholder')
-  // TODO React complains that this should use the containerRoot from above
-  const alertContainerRoot = createRoot(alertContainer)
-  if (alertContainer) alertContainerRoot.unmount()
-}
-
 function _getThisHost(thisHostBaseUrl) {
   return thisHostBaseUrl.slice(-1) === '/' ? thisHostBaseUrl.slice(0, -1) : thisHostBaseUrl
 }
 
 function useStatisticsAsync(chosenOptions, loadType = 'onChange') {
   const { proxyPrefixPath } = useWebContext()
-  const { languageShortname, languageIndex } = useLanguage()
+  const { languageShortname } = useLanguage()
   const { documentType } = chosenOptions
   const dependenciesList = loadType === 'onChange' ? [chosenOptions] : []
   const asyncCallback = React.useCallback(() => {
@@ -120,19 +99,6 @@ function useStatisticsAsync(chosenOptions, loadType = 'onChange') {
   const initialStatus = { status: STATUS.idle }
 
   const state = useAsync(asyncCallback, initialStatus)
-
-  const { status: statisticsStatus, error = {} } = state || {}
-  const { errorType = '' } = error
-
-  useEffect(() => {
-    let isMounted = true
-    if (isMounted) {
-      if (errorType && errorType !== null) {
-        renderAlertToTop(error, languageIndex)
-      } else dismountTopAlert()
-    }
-    return () => (isMounted = false)
-  }, [statisticsStatus])
 
   return state
 }
