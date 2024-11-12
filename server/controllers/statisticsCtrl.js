@@ -144,8 +144,7 @@ async function fetchMemoStatistics(req, res, next) {
  * @param {Object} req.params
  * @param {string} req.params.year              Year for which statistics will be fetched
  * @param {Object} req.query
- * @param {Object[]} req.query.analysesSeasons  - Transformed seasons chosen by users to use in analysis api, there are exists only autumn and/or spring semester, summer is replaced by autumn and spring seasons
- * @param {Object[]} req.query.seasons          - Seasons chosen by user in raw format, summer is not replaced
+ * @param {number} req.query.semester          - Semester chosen by user in raw format
  * @param {string} req.query.school
  * @param {string} req.query.l                  - Language "sv" or "en"
  * @param {*} res
@@ -157,19 +156,16 @@ async function fetchAnalysisStatistics(req, res, next) {
   log.info(` trying to fetch course analysis statistics `, { params, query })
 
   const { year } = params
-  const { analysesSeasons, seasons, school, l: language } = query
-  // in analysis api, exists only autumn and/or spring semester, summer is replaced by autumn and spring seasons
-  if (!analysesSeasons) log.error('analysesSeasons must be set', analysesSeasons)
-  // seasons chosen by user, summer/autumn/spring
-  if (!seasons) log.error('seasons must be set', seasons)
+  const { semester, school, l: language } = query
+  if (!semester) log.error('semester must be set', semester)
   if (!school) log.error('school must be set', school)
 
-  const chosenSemesters = analysesSeasons.map(season => `${year}${season}`).sort()
+  const semesterWithYear = `${year}${semester}`
 
   try {
-    const courses = await _getCourses(chosenSemesters)
+    const courses = await _getCourses([semesterWithYear])
 
-    const parsedOfferings = filterOfferingsForAnalysis(courses, chosenSemesters, seasons, school, language)
+    const parsedOfferings = filterOfferingsForAnalysis(courses, semesterWithYear, school, language)
     // Find start semesters found in parsed offerings.
     const startSemestersInAnalyses = semestersInParsedOfferings(parsedOfferings)
 
@@ -177,7 +173,7 @@ async function fetchAnalysisStatistics(req, res, next) {
     const analyses = await courseAnalysesApi.getCourseAnalysesForStatistics(startSemestersInAnalyses)
 
     // Compiles statistics per school, including totals, for analyses.
-    const { offeringsWithAnalyses, combinedAnalysesPerSchool } = await analysesPerSchool(parsedOfferings, analyses)
+    const { offeringsWithAnalyses, combinedAnalysesPerSchool } = analysesPerSchool(parsedOfferings, analyses)
 
     return res.json({
       combinedAnalysesPerSchool, // small table // in kursinfo-admin-web combinedMemosDataPerSchool,
@@ -190,9 +186,7 @@ async function fetchAnalysisStatistics(req, res, next) {
       }${serverConfig.nodeApi.kursutvecklingApi.proxyBasePath}`,
       school,
       offeringsWithAnalyses, // big Table // in kursinfo-admin-web  combinedDataPerDepartment,
-      seasons,
-      semesters: chosenSemesters, // prev semester
-      semestersInAnalyses: startSemestersInAnalyses,
+      semester,
       totalOfferings: courses.length,
       year,
     })

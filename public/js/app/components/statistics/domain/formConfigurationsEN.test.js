@@ -102,7 +102,7 @@ describe('Get list of  for each option on statistics page in English', () => {
   })
 
   test('get options list of seasons seasons', () => {
-    const seasons = getOptionsValues(PARAMS.seasons, EN_INDEX)
+    const seasons = getOptionsValues(PARAMS.semester, EN_INDEX)
     expect(seasons).toMatchInlineSnapshot(`
       [
         {
@@ -114,11 +114,6 @@ describe('Get list of  for each option on statistics page in English', () => {
           "id": 1,
           "label": "Spring",
           "value": 1,
-        },
-        {
-          "id": 0,
-          "label": "Summer",
-          "value": 0,
         },
       ]
     `)

@@ -1,4 +1,4 @@
-const { labelSeason, seasonConstants } = require('../../../domain/statistics/seasons')
+const { labelSeason } = require('../../../domain/statistics/seasons')
 const { isCorrectSchool, SCHOOL_MAP } = require('./schools')
 
 /**
@@ -123,24 +123,6 @@ function filterOfferingsForMemos(courses = [], chosenSemesters = [], chosenPerio
 }
 
 /**
- * I så fall skulle logiken bli följande:
- * Spring VT - kurser slutar mellan vecka 3-23,
- * Autumn HT - kurser slutar mellan vecka 35-2,
- * Summer Sommar - kurser slutar mellan veckor 24-34
- * @param {string} endWeek    A number of a end week, the range is 0-35
- * @returns {number}          Return number 0-2 for a season, 0 Summer, 1 Spring, 2 Autumn
- */
-
-function _parseTermSeasonForNthWeek(nthWeek) {
-  const week = Number(nthWeek)
-  let seasonNumber
-  if (week >= 35 || week <= 2) return seasonConstants.AUTUMN_TERM_NUMBER
-  if (week >= 3 && week <= 23) return seasonConstants.SPRING_TERM_NUMBER
-  if (week >= 24 && week <= 34) return seasonConstants.SUMMER_TERM_NUMBER
-  return seasonNumber
-}
-
-/**
  * Parses courses offerings from Kopps and returns an object with one list for course analyses which are created after course ends:
  * - List containing offerings that ends with semester parameter. This is used for course analyses.
  * @param {Object[]} courses      Courses as returned by '/api/kopps/v2/courses/offerings'.
@@ -150,57 +132,47 @@ function _parseTermSeasonForNthWeek(nthWeek) {
  * @param {string} courses[].offered_semesters[].end_week - The end week of a course offering to calculate the end period
  * @param {string} courses[].offered_semesters[].semester - The current semester of a course offering
  * @param {string} courses[].offered_semesters[].start_date - The start date of a course offering
- * @param {Object[]} chosenSemesters    Semesters strings for which data is fetched
- * @param {string} chosenSemesters[]    Semester string chosen by user, 5 digits in string format
- * @param {Object[]} chosenSeasons    Seasons strings chosen by user to compare with end week's season to filter terms, 0-2 (summer, spring, autumn)
- * @param {string} chosenSeasons[]    Season string chosen by user to compare with end week's season to filter term, 1 digit in string format, 0-2 (summer, spring, autumn)
+ * @param {string} chosenSemester   Semester string for which data is fetched, 5 digits in string format
  * @param {string} chosenSchool    School name, or if all schools are chosen then 'allSchools
  * @param {string} language    User interface language, "sv" or "en"
  * @returns {[]}           Array, containing offerings’ relevant data
  */
-function filterOfferingsForAnalysis(
-  courses = [],
-  chosenSemesters = [],
-  chosenSeasons = [],
-  chosenSchool = '',
-  language = 'sv'
-) {
+function filterOfferingsForAnalysis(courses = [], chosenSemester, chosenSchool = '', language = 'sv') {
   const parsedOfferings = []
-  if (Array.isArray(courses)) {
-    courses.forEach(course => {
-      // eslint-disable-next-line camelcase
-      const {
-        first_yearsemester: firstSemester,
-        offered_semesters: courseOfferedSemesters,
-        school_code: schoolCode,
-        course_round_applications: courseRoundApplications,
-      } = course
 
-      const { endDate, endWeek, lastSemester, startDate } = _findCourseStartEndDates(courseOfferedSemesters)
+  courses.forEach(course => {
+    const {
+      first_yearsemester: firstSemester,
+      offered_semesters: courseOfferedSemesters,
+      school_code: schoolCode,
+      course_round_applications: courseRoundApplications,
+    } = course
 
-      const lastTermSeasonNumber = endDate ? _parseTermSeasonForNthWeek(endWeek) : ''
-      const lastTermSeasonLabel = endDate ? labelSeason(Number(lastTermSeasonNumber), language === 'en' ? 0 : 1) : ''
+    const { endDate, lastSemester, startDate } = _findCourseStartEndDates(courseOfferedSemesters)
 
-      const isFinishedInChosenSemesters =
-        chosenSemesters.includes(String(lastSemester)) && chosenSeasons.includes(String(lastTermSeasonNumber))
-      const isChosenSchool = isCorrectSchool(chosenSchool, schoolCode)
+    const lastTermSeasonNumber = lastSemester.at(4)
+    const lastTermSeasonLabel = lastTermSeasonNumber
+      ? labelSeason(Number(lastTermSeasonNumber), language === 'en' ? 0 : 1)
+      : ''
 
-      if (isFinishedInChosenSemesters && isChosenSchool) {
-        const offering = _formOffering(firstSemester, startDate, endDate, course)
-        parsedOfferings.push({
-          ...offering,
-          lastSemesterLabel: lastTermSeasonLabel,
-          lastSemester,
-          courseRoundApplications,
-        })
-      }
-    })
-  }
+    const isFinishedInChosenSemesters = chosenSemester === lastSemester
+    const isChosenSchool = isCorrectSchool(chosenSchool, schoolCode)
+
+    if (isFinishedInChosenSemesters && isChosenSchool) {
+      const offering = _formOffering(firstSemester, startDate, endDate, course)
+      parsedOfferings.push({
+        ...offering,
+        lastSemesterLabel: lastTermSeasonLabel,
+        lastSemester,
+        courseRoundApplications,
+      })
+    }
+  })
+
   return parsedOfferings
 }
 
 module.exports = {
-  parsePeriodForNthWeek: _parseTermSeasonForNthWeek,
   filterOfferingsForMemos,
   filterOfferingsForAnalysis,
   findCourseStartEndDates: _findCourseStartEndDates,

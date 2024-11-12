@@ -31,9 +31,7 @@ SortableCoursesAndDocuments.propTypes = {
   languageIndex: PropTypes.oneOf([0, 1]),
   statisticsStatus: PropTypes.oneOf([...Object.values(STATUS), null]),
   statisticsResult: PropTypes.shape({
-    documentsApiBasePath: PropTypes.string,
     documentType: PropTypes.oneOf(documentTypes()),
-    koppsApiBasePath: PropTypes.string,
   }),
   error: PropTypes.shape({
     errorType: PropTypes.oneOf([...Object.values(ERROR_ASYNC), '']),
