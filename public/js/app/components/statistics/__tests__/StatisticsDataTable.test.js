@@ -38,7 +38,7 @@ const statisticsResultForMemo = {
 
 const statisticsResultForAnalysis = {
   year: 2019,
-  seasons: ['1'],
+  semester: '1',
   offeringsWithAnalyses: [
     {
       endDate: '2020-01-14',

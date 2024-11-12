@@ -7,14 +7,14 @@ import { StatisticsForm, StatisticsResults } from '../components/statistics/inde
 import { useStatisticsAsync } from '../hooks/statisticsUseAsync'
 import { useLanguage } from '../hooks/useLanguage'
 
-function _parseValues({ documentType, periods, school, seasons, year }) {
+function _parseValues({ documentType, periods, school, semester, year }) {
   // clean params
 
   const optionsValues = {}
 
   if (hasValue(documentType)) optionsValues.documentType = documentType
   if (hasValue(periods)) optionsValues.periods = periods
-  if (hasValue(seasons)) optionsValues.seasons = seasons
+  if (hasValue(semester)) optionsValues.semester = semester
   if (hasValue(school)) optionsValues.school = school
   if (hasValue(year)) optionsValues.year = year
 
@@ -44,13 +44,13 @@ function CourseStatisticsPage() {
      * @property {string} documentType
      * @property {array} periods
      * @property {string} school
-     * @property {array} seasons
+     * @property {string} semester
      * @property {number} year
      */
     documentType: null,
     periods: null,
     school: null,
-    seasons: null,
+    semester: null,
     year: null,
   })
   const [hasSubmittedEmptyValue, setHasSubmittedEmptyValue] = React.useState(false)

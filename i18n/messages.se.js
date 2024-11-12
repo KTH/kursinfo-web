@@ -284,14 +284,14 @@ module.exports = {
         documentType: 'Område',
         periods: 'Läsperiod',
         school: 'Skola',
-        seasons: 'Termin',
+        semester: 'Termin',
         year: 'År',
       },
       formShortIntro: {
         documentType: 'Välj det område du vill se statistik för',
         periods: 'Kryssa i ett eller flera val',
         school: 'Välj skola',
-        seasons: 'Kryssa i ett eller flera val',
+        semester: 'Välj en termin',
         year: 'Välj år',
       },
       missingParameters: {

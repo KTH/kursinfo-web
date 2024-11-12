@@ -1,5 +1,3 @@
-const log = require('@kth/log')
-
 const { findAnalysesForApplicationCode } = require('./docs')
 
 /**
@@ -8,9 +6,9 @@ const { findAnalysesForApplicationCode } = require('./docs')
  * @param {[]} analyses           Collection of course analyses
  * @returns {[]}                  Array, each containing offerings and their documents.
  */
-const _analysesPerCourseOffering = async (parsedOfferings, analyses) => {
+const _analysesPerCourseOffering = (parsedOfferings, analyses) => {
   const courseOfferings = []
-  await parsedOfferings.forEach(offering => {
+  parsedOfferings.forEach(offering => {
     const { courseCode, firstSemester, courseRoundApplications } = offering
     const [courseRoundApplication] = courseRoundApplications
     const { course_round_application_code: applicationCode } = courseRoundApplication
@@ -129,7 +127,6 @@ function _countAnalysesDataPerSchool(courseOfferings) {
     schools,
     ..._calculateTotals(schools),
   }
-  log.error('dataPerSchool', dataPerSchool)
   return dataPerSchool
 }
 
@@ -139,13 +136,13 @@ function _countAnalysesDataPerSchool(courseOfferings) {
  * @param {[]} analyses            Array containing existing analyses
  * @returns {{}}                Collection with statistics per school, and totals, for analyses
  */
-async function analysesPerSchool(parsedOfferings, analyses) {
+function analysesPerSchool(parsedOfferings, analyses) {
   // Matches analyses and analyses with course offerings.
   // Returns an object with two arrays, each containing offerings and their documents.
-  const offeringsWithAnalyses = await _analysesPerCourseOffering(parsedOfferings, analyses) // prev combinedDataPerDepartment
+  const offeringsWithAnalyses = _analysesPerCourseOffering(parsedOfferings, analyses) // prev combinedDataPerDepartment
 
   // Compiles statistics per school, including totals, for analyses.
-  const combinedAnalysesPerSchool = await _countAnalysesDataPerSchool(offeringsWithAnalyses)
+  const combinedAnalysesPerSchool = _countAnalysesDataPerSchool(offeringsWithAnalyses)
   return { offeringsWithAnalyses, combinedAnalysesPerSchool }
 }
 
