@@ -66,7 +66,7 @@ function Charts({ chartNames = [], schools = {} }) {
 
 function Chart({ data = [], label = '' }) {
   const styles = {
-    font: { fontFamily: 'Open Sans', fontSize: 'font-heading-xs' },
+    font: { fontFamily: 'Figtree, sans-serif', fontSize: 16 },
   }
   return (
     <VictoryChart height={405} width={405} theme={VictoryTheme.material} domainPadding={20} style={styles.font}>
