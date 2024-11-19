@@ -111,10 +111,6 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
       })
     }
     examination.push({
-      header: translation.courseInformation.course_possibility_to_completions,
-      text: courseInfo.course_possibility_to_completions,
-    })
-    examination.push({
       header: translation.courseInformation.course_possibility_to_addition,
       text: courseInfo.course_possibility_to_addition,
     })
