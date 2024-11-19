@@ -102,13 +102,7 @@ describe('Discontinued course to test', () => {
     expect(response.render).toHaveBeenCalled()
     expect(testResponse.title).toBe(mockedDiscontinuedCourse.course.courseCode)
     expect(testResponse.compressedData.courseCode).toBe(mockedDiscontinuedCourse.course.courseCode)
-    expect(testResponse.compressedData.courseData.courseInfo.course_application_info).toBe(
-      mockedDiscontinuedCourse.course.applicationInfo
-    )
     expect(testResponse.html.context.courseCode).toBe(mockedDiscontinuedCourse.course.courseCode)
-    expect(testResponse.html.context.courseData.courseInfo.course_application_info).toBe(
-      mockedDiscontinuedCourse.course.applicationInfo
-    )
 
     expect(testResponse.html).toMatchInlineSnapshot(`
 {
@@ -123,7 +117,6 @@ describe('Discontinued course to test', () => {
     "courseCode": "FCK3305",
     "courseData": {
       "courseInfo": {
-        "course_application_info": "<p>Kursen ges inte l&#228;s&#229;ret 22/23.</p><p>Kontakta examinator / kursansvarig f&#246;r information.</p>",
         "course_code": "FCK3305",
         "course_department": "CBH/Kemi",
         "course_department_code": "CE",

@@ -25,7 +25,7 @@ function CoursePage() {
     browserConfig,
     courseCode,
     courseData = {
-      courseInfo: { course_application_info: '' },
+      courseInfo: {},
       syllabusList: [],
     },
     isCancelledOrDeactivated,

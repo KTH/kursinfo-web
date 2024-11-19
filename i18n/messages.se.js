@@ -173,7 +173,6 @@ module.exports = {
     course_room_canvas: 'Kursrum i Canvas',
     course_room_canvas_info:
       'Registrerade studenter hittar information för genomförande av kursen i kursrummet i Canvas. En länk till kursrummet finns under fliken Studier i Personliga menyn vid kursstart.',
-    course_application_info: 'Information för forskarstuderande om när kursen ges',
   },
   courseRoundInformation: {
     round_header: 'Information för',

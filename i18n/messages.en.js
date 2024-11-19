@@ -171,7 +171,6 @@ module.exports = {
     course_room_canvas: 'Course room in Canvas',
     course_room_canvas_info:
       'Registered students find further information about the implementation of the course in the course room in Canvas. A link to the course room can be found under the tab Studies in the Personal menu at the start of the course.',
-    course_application_info: 'Information for research students about course offerings',
   },
   courseRoundInformation: {
     round_header: 'Information for',
