@@ -159,7 +159,6 @@ module.exports = {
       RESEARCH: 'Third cycle',
     },
     course_department: 'Offered by',
-    course_contact_name: 'Contact ',
     course_prerequisites: 'Recommended prerequisites',
     course_prerequisites_description:
       'Describes the knowledge and skills (in addition to the eligibility requirements) that you need to be able to take the course.',

@@ -15,20 +15,11 @@ const {
 const koppsCourseData = require('./koppsCourseData')
 const courseApi = require('./kursinfoApi')
 
-function parceContactName(infoContactName, language) {
-  const courseContactName = parseOrSetEmpty(infoContactName, language)
-  if (courseContactName === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) return courseContactName
-  const emailBracketsRexEx = /<|>/gi
-  const contact = courseContactName.replace(emailBracketsRexEx, '')
-  return contact
-}
-
 function _parseCourseDefaultInformation(courseDetails, language) {
   const { course, formattedGradeScales, mainSubjects } = courseDetails
   return {
     course_application_info: parseOrSetEmpty(course.applicationInfo, language, true), // applicationInfo is info for research students (Label in Kopps: "Information for research students about course offerings")
     course_code: parseOrSetEmpty(course.courseCode),
-    course_contact_name: parceContactName(course.infoContactName, language),
     course_department: parseOrSetEmpty(course.department.name, language),
     course_department_code: parseOrSetEmpty(course.department.code, language),
     course_department_link: buildCourseDepartmentLink(course.department, language),

@@ -125,7 +125,6 @@ describe('Discontinued course to test', () => {
       "courseInfo": {
         "course_application_info": "<p>Kursen ges inte l&#228;s&#229;ret 22/23.</p><p>Kontakta examinator / kursansvarig f&#246;r information.</p>",
         "course_code": "FCK3305",
-        "course_contact_name": "<i>Ingen information tillagd</i>",
         "course_department": "CBH/Kemi",
         "course_department_code": "CE",
         "course_department_link": "<a href="/cbh/" target="blank">CBH/Kemi</a>",

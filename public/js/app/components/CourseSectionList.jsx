@@ -152,8 +152,6 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
         text: courseInfo.course_suggested_addon_studies,
       },
     ]
-    if (!isMissingInfoLabel(courseInfo.course_contact_name))
-      prepare.push({ header: translation.courseInformation.course_contact_name, text: courseInfo.course_contact_name })
     if (syllabus.course_transitional_reg !== '')
       prepare.push({
         header: translation.courseInformation.course_transitional_reg,

@@ -161,7 +161,6 @@ module.exports = {
       RESEARCH: 'Forskarnivå',
     },
     course_department: 'Ges av',
-    course_contact_name: 'Kontaktperson',
     course_prerequisites: 'Rekommenderade förkunskaper',
     course_prerequisites_description:
       'Beskriver vilka kunskaper och färdigheter (utöver behörighetskraven) som du behöver för att kunna ta till dig kursen.',
