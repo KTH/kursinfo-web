@@ -32,7 +32,6 @@ function _parseCourseDefaultInformation(courseDetails, language) {
       mainSubjects && mainSubjects.length > 0
         ? mainSubjects.join(', ')
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
-    course_possibility_to_addition: parseOrSetEmpty(course.possibilityToAddition, language),
     course_recruitment_text: parseOrSetEmpty(course.recruitmentText, language, true),
     course_required_equipment: parseOrSetEmpty(course.requiredEquipment, language),
     course_state: parseOrSetEmpty(course.state, language, true),

@@ -110,10 +110,6 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
         syllabusMarker: true,
       })
     }
-    examination.push({
-      header: translation.courseInformation.course_possibility_to_addition,
-      text: courseInfo.course_possibility_to_addition,
-    })
     examination.push({ header: translation.courseInformation.course_examiners, text: courseInfo.course_examiners })
     examination.push({
       header: translation.courseInformation.course_ethical,
