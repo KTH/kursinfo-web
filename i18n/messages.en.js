@@ -163,7 +163,6 @@ module.exports = {
     course_prerequisites_description:
       'Describes the knowledge and skills (in addition to the eligibility requirements) that you need to be able to take the course.',
     course_prerequisites_menu_aria_label: 'Information about recommended prerequisites',
-    course_suggested_addon_studies: 'Add-on studies',
     course_supplemental_information_url: 'Supplementary information link',
     course_supplemental_information_url_text: 'Supplementary information link text',
     course_supplemental_information: 'Supplementary information ',

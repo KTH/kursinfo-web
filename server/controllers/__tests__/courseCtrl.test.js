@@ -142,7 +142,6 @@ describe('Discontinued course to test', () => {
         "course_recruitment_text": "<p>Teori och metoder inom glykovetenskap.</p>",
         "course_required_equipment": "<i>Ingen information tillagd</i>",
         "course_state": "ESTABLISHED",
-        "course_suggested_addon_studies": "<i>Ingen information tillagd</i>",
         "course_supplemental_information": "",
         "imageFromAdmin": "own_image",
         "sellingText": "<p>Fantastisk kurs</p>",

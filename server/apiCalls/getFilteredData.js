@@ -37,7 +37,6 @@ function _parseCourseDefaultInformation(courseDetails, language) {
     course_possibility_to_completions: parseOrSetEmpty(course.possibilityToCompletion, language),
     course_recruitment_text: parseOrSetEmpty(course.recruitmentText, language, true),
     course_required_equipment: parseOrSetEmpty(course.requiredEquipment, language),
-    course_suggested_addon_studies: parseOrSetEmpty(course.addOn, language),
     course_state: parseOrSetEmpty(course.state, language, true),
   }
 }

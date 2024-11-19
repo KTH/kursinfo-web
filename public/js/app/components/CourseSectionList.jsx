@@ -147,10 +147,6 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
         text: translation.courseInformation.course_level_code_label[courseInfo.course_level_code],
         syllabusMarker: true,
       },
-      {
-        header: translation.courseInformation.course_suggested_addon_studies,
-        text: courseInfo.course_suggested_addon_studies,
-      },
     ]
     if (syllabus.course_transitional_reg !== '')
       prepare.push({
