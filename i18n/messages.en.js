@@ -141,7 +141,6 @@ module.exports = {
     course_valid_from: 'Valid from',
     course_main_subject: 'Main field of study',
     course_language: 'Language of instruction',
-    course_required_equipment: 'Equipment',
     course_level_code: 'Education cycle',
     course_decision_to_discontinue: 'Avvecklingsbeslut',
     course_transitional_reg: 'Transitional regulations',

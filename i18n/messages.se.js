@@ -143,7 +143,6 @@ module.exports = {
     course_valid_from: 'Giltig från',
     course_main_subject: 'Huvudområde',
     course_language: 'Undervisningsspråk',
-    course_required_equipment: 'Utrustning',
     course_level_code: 'Utbildningsnivå',
     course_decision_to_discontinue: 'Avvecklingsbeslut',
     course_transitional_reg: 'Övergångsbestämmelser',

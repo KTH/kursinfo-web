@@ -53,10 +53,6 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
       literatureText = `${syllabus.course_literature_comment}`
     }
 
-    const courseRequiredEquipment = !isMissingInfoLabel(courseInfo.course_required_equipment)
-      ? courseInfo.course_required_equipment
-      : syllabus.course_required_equipment
-
     const eligibility = getEligibility()
 
     const during = [
@@ -70,7 +66,6 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
           ariaLabel: translation.courseInformation.course_prerequisites_menu_aria_label,
         },
       },
-      { header: translation.courseInformation.course_required_equipment, text: courseRequiredEquipment },
       { header: translation.courseInformation.course_literature, text: literatureText },
     ]
 
