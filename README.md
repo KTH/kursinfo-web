@@ -125,6 +125,40 @@ Add to .vscode file launch.json:
 }
 ```
 
+## Run Locally Using Docker
+
+You can run the project locally using Docker for an isolated and consistent environment. Follow these steps:
+
+#### Build Docker Image
+
+First, build the Docker image by running the following command:
+
+If you are using mac change `docker build -f Dockerfile-dev -t "$IMAGE_NAME"` with `docker build --platform linux/arm64/v8 -f Dockerfile-dev -t "$IMAGE_NAME"`.
+
+
+```sh
+npm run docker:build
+```
+
+This will execute the `docker-build-image.sh` script in development mode `(dev)` this script will create Dockerfile-dev file which will be used for running the project locally using docker.
+
+#### Run Docker Container
+
+After the image has been built, you can start the Docker container using the following command:
+
+```sh
+npm run docker:run
+```
+
+This will execute the `docker-run-image.sh` script in development mode `(dev)`, running the application locally in Docker.
+
+The application now will be accessible at http://localhost:3000/student/kurser/kurs/:courseCode.
+
+#### Notes
+
+- Run `az acr login --name kthregistry` before running the scripts.
+- Ensure your .env file is properly set up in the project root to provide the necessary environment variables to the Docker container.
+
 ## Deploy
 
 The deployment process is described in [Build, release, deploy](https://confluence.sys.kth.se/confluence/x/aY3_Ag). Technical details, such as configuration, is described in [How to deploy your 🐳 application using Cellus-Registy](https://gita.sys.kth.se/Infosys/cellus-registry/blob/master/HOW-TO-DEPLOY.md) and [🔧 How To Configure Your Application For The Pipeline](https://gita.sys.kth.se/Infosys/cellus-registry/blob/master/HOW-TO-CONFIGURE.md).
