@@ -7,7 +7,7 @@ import { SyllabusInformation } from './SyllabusInformation'
 
 function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabusName }) {
   const { translation } = useLanguage()
-  const { isMissingInfoLabel, missingInfoLabel } = useMissingInfo()
+  const { isMissingInfoLabel } = useMissingInfo()
 
   function getContent() {
     const content = [
@@ -38,15 +38,12 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
   }
 
   function getExecution() {
-    let literatureText = missingInfoLabel
-    const courseHasLiterature = courseInfo.course_literature && !isMissingInfoLabel(courseInfo.course_literature)
+    let literatureText = translation.courseInformation.course_literature_not_exist
     const syllabusHasLiterature = syllabus.course_literature && !isMissingInfoLabel(syllabus.course_literature)
     const syllabusHasLiteratureComment =
       syllabus.course_literature_comment && !isMissingInfoLabel(syllabus.course_literature_comment)
 
-    if (courseHasLiterature) {
-      literatureText = courseInfo.course_literature
-    } else if (syllabusHasLiterature) {
+    if (syllabusHasLiterature) {
       const literatureComment = syllabusHasLiteratureComment ? `<br />${syllabus.course_literature_comment}` : ''
       literatureText = `${syllabus.course_literature}${literatureComment}`
     } else if (syllabusHasLiteratureComment) {
