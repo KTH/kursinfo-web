@@ -34,7 +34,6 @@ dist
 
 # Docker
 *.env*
-Dockerfile-dev
 
 # KTH Node Web Common imported files
 server/views/system/error.handlebars

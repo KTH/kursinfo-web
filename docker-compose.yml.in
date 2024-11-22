@@ -10,8 +10,10 @@ services:
     # Existing image in repository
     # image: kthse/docker pull kthse/kth-nodejs-web:13.37
     
-    # Build from Dockerfile in current directory
-    build: .
+    # Build from Dockerfile-dev in current directory
+    build:
+      context: .
+      dockerfile: Dockerfile-dev  # if it does not exist you can generate it by runing the docker-build-image.sh script
 
     environment:
       # Cellus Deployment
