@@ -27,7 +27,6 @@ function _parseCourseDefaultInformation(courseDetails, language) {
     course_grade_scale: parseOrSetEmpty(formattedGradeScales[course.gradeScaleCode], language),
     course_last_exam: course.lastExamTerm ? parseSemesterIntoYearSemesterNumberArray(course.lastExamTerm.term) : [],
     course_level_code: parseOrSetEmpty(course.educationalLevelCode),
-    course_literature: parseOrSetEmpty(course.courseLiterature, language),
     course_main_subject:
       mainSubjects && mainSubjects.length > 0
         ? mainSubjects.join(', ')

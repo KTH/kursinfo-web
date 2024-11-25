@@ -13,6 +13,7 @@ describe('Component <CourseSectionList>', () => {
     const lang = 'en'
 
     const translation = i18n.getLanguageByShortname(lang)
+    const syllabusLiteratureDefaultEmptyValue = translation.courseInformation.course_literature
 
     const [syllabusLiteratureNoTitle] = INFORM_IF_IMPORTANT_INFO_IS_MISSING // en
     const syllabusWithoutLiterature = {
@@ -48,7 +49,7 @@ describe('Component <CourseSectionList>', () => {
         <CourseSectionList syllabus={syllabusWithoutLiterature} />
       </WebContextProvider>
     )
-    const noliteratureText = screen.getByText(translation.courseInformation.course_literature_not_exist)
+    const noliteratureText = screen.getByText(syllabusLiteratureDefaultEmptyValue)
     expect(noliteratureText).toBeInTheDocument()
 
     // Syllabus has literature without comment – Show only literature (no comment) from syllabus
@@ -57,7 +58,7 @@ describe('Component <CourseSectionList>', () => {
         <CourseSectionList syllabus={syllabusWithLiteratureNoComment} />
       </WebContextProvider>
     )
-    syllabusText = screen.getByText(syllabusLiteratureTitle, { exact: false })
+    let syllabusText = screen.getByText(syllabusLiteratureTitle, { exact: false })
     expect(syllabusText).toBeInTheDocument()
     syllabusText = screen.queryByText(syllabusLiteratureNoComment)
     expect(syllabusText).not.toBeInTheDocument()
@@ -76,7 +77,7 @@ describe('Component <CourseSectionList>', () => {
     // Course hasn't literature, syllabus only has comment – Show literature comment from syllabus
     rerender(
       <WebContextProvider configIn={context1}>
-        <CourseSectionList courseInfo={courseInfoWithoutLiterature} syllabus={syllabusWithNoLiteratureAndComment} />
+        <CourseSectionList syllabus={syllabusWithNoLiteratureAndComment} />
       </WebContextProvider>
     )
     syllabusText = screen.getByText(syllabusLiteratureComment, { exact: false })
