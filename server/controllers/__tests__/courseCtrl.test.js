@@ -102,13 +102,7 @@ describe('Discontinued course to test', () => {
     expect(response.render).toHaveBeenCalled()
     expect(testResponse.title).toBe(mockedDiscontinuedCourse.course.courseCode)
     expect(testResponse.compressedData.courseCode).toBe(mockedDiscontinuedCourse.course.courseCode)
-    expect(testResponse.compressedData.courseData.courseInfo.course_application_info).toBe(
-      mockedDiscontinuedCourse.course.applicationInfo
-    )
     expect(testResponse.html.context.courseCode).toBe(mockedDiscontinuedCourse.course.courseCode)
-    expect(testResponse.html.context.courseData.courseInfo.course_application_info).toBe(
-      mockedDiscontinuedCourse.course.applicationInfo
-    )
 
     expect(testResponse.html).toMatchInlineSnapshot(`
 {
@@ -123,9 +117,7 @@ describe('Discontinued course to test', () => {
     "courseCode": "FCK3305",
     "courseData": {
       "courseInfo": {
-        "course_application_info": "<p>Kursen ges inte l&#228;s&#229;ret 22/23.</p><p>Kontakta examinator / kursansvarig f&#246;r information.</p>",
         "course_code": "FCK3305",
-        "course_contact_name": "<i>Ingen information tillagd</i>",
         "course_department": "CBH/Kemi",
         "course_department_code": "CE",
         "course_department_link": "<a href="/cbh/" target="blank">CBH/Kemi</a>",
@@ -137,13 +129,9 @@ describe('Discontinued course to test', () => {
         "course_level_code": "RESEARCH",
         "course_literature": "<p>Litteratur anvisas vid kursstart.</p>",
         "course_main_subject": "Denna kurs tillhör inget huvudområde.",
-        "course_possibility_to_addition": "<i>Ingen information tillagd</i>",
-        "course_possibility_to_completions": "<i>Ingen information tillagd</i>",
         "course_recommended_prerequisites": "",
         "course_recruitment_text": "<p>Teori och metoder inom glykovetenskap.</p>",
-        "course_required_equipment": "<i>Ingen information tillagd</i>",
         "course_state": "ESTABLISHED",
-        "course_suggested_addon_studies": "<i>Ingen information tillagd</i>",
         "course_supplemental_information": "",
         "imageFromAdmin": "own_image",
         "sellingText": "<p>Fantastisk kurs</p>",
@@ -166,7 +154,6 @@ describe('Discontinued course to test', () => {
         "course_goals": "<i>Ingen information tillagd</i>",
         "course_literature": "<i>Ingen information tillagd</i>",
         "course_literature_comment": "<i>Ingen information tillagd</i>",
-        "course_required_equipment": "",
         "course_requirments_for_final_grade": "",
         "course_transitional_reg": "",
         "course_valid_from": undefined,
@@ -198,7 +185,6 @@ describe('Discontinued course to test', () => {
           "course_goals": "<p>Efter fullf&#246;ljande av kursen f&#246;rv&#228;ntas studenten kunna</p><ul><li>Visa kunskap om kolhydraters m&#229;ngfald, dess betydelse f&#246;r biologiska system, samt hur de kan f&#246;r&#228;ndra struktur och funktion hos andra biologiska molekyler.</li><li>Visa kunskap om cellv&#228;ggens struktur och funktion hos vedbildande v&#228;xter, samt &#246;vergripande f&#246;rst&#229;else f&#246;r hur dess sammans&#228;ttning kan f&#246;r&#228;ndras f&#246;r att m&#246;jligg&#246;ra nya till&#228;mpningar, t.ex. f&#246;r att underl&#228;tta bearbetning f&#246;r energi- och biomaterialproduktion.</li><li>Visa f&#246;rm&#229;ga att redog&#246;ra och reflektera &#246;ver koncept och metoder som anv&#228;nds f&#246;r att producera byggstenar fr&#229;n v&#228;xtbiomassa, och hur de kan s&#228;ttas ihop till nya material med skr&#228;ddarsydda egenskaper och funktionaliteter.</li><li>Visa f&#246;rm&#229;ga att planera och utf&#246;ra praktiska experiment inom kolhydratteknik, samt att analysera och redog&#246;ra resultaten i form av skriftliga rapporter.</li><li>Visa f&#246;rm&#229;ga att identifiera och diskutera hur kolhydratteknik kan bidra till en h&#229;llbar samh&#228;llsutveckling inom konsumtion, produktion och material, t.ex. genom att &#229;teranv&#228;nda redan existerande produkter, eller tillverkning av nya resurssmarta och f&#246;rnyelsebara material.</li></ul>",
           "course_literature": "<i>Ingen information tillagd</i>",
           "course_literature_comment": "<i>Ingen information tillagd</i>",
-          "course_required_equipment": "<i>Ingen information tillagd</i>",
           "course_requirments_for_final_grade": "<p>Godk&#228;nd skriftlig tentamen, godk&#228;nda inl&#228;mningsuppgifter kopplade till f&#246;rel&#228;sningarna, 100% n&#228;rvaro p&#229; laborationer och slutf&#246;rande av laborationer, samt godk&#228;nda laborationsrapporter.</p>",
           "course_transitional_reg": "",
           "course_valid_from": {
