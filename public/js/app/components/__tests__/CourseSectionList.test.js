@@ -63,7 +63,7 @@ describe('Component <CourseSectionList>', () => {
     syllabusText = screen.queryByText(syllabusLiteratureNoComment)
     expect(syllabusText).not.toBeInTheDocument()
 
-    // Course hasn't literature, syllabus does with comment – Show literature and literature comment from syllabus
+    // Syllabus has literature with comment – Show literature and literature comment from syllabus
     rerender(
       <WebContextProvider configIn={context1}>
         <CourseSectionList syllabus={syllabusWithLiteratureAndComment} />
@@ -74,7 +74,7 @@ describe('Component <CourseSectionList>', () => {
     syllabusText = screen.getByText(syllabusLiteratureComment, { exact: false })
     expect(syllabusText).toBeInTheDocument()
 
-    // Course hasn't literature, syllabus only has comment – Show literature comment from syllabus
+    // Syllabus hasn't literature and only has comment – Show literature comment from syllabus
     rerender(
       <WebContextProvider configIn={context1}>
         <CourseSectionList syllabus={syllabusWithNoLiteratureAndComment} />
