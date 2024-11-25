@@ -137,7 +137,7 @@ module.exports = {
     course_literature: 'Kurslitteratur',
     course_literature_comment: 'Kommentar till kurslitteratur',
     course_literature_not_exist:
-      'Du finner information om kurslitteratur antingen i kursomgångens kurs-PM eller i kursomgångens kursrum i Canvas.',
+      'Du hittar information om kurslitteratur antingen i kursomgångens kurs-PM eller i kursomgångens kursrum i Canvas.',
     course_examination_comments: 'Kommentar till examinationsmoment',
     course_examination: 'Examination',
     course_examination_disclaimer:
