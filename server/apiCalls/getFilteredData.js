@@ -248,7 +248,10 @@ function _parseRounds({ roundInfos: koppsRoundInfos, courseCode, language, memoL
 const getFilteredData = async ({ courseCode, language, memoList }) => {
   const { body: koppsCourseDetails } = await koppsCourseData.getKoppsCourseData(courseCode, language)
   const { course: ladokCourse, rounds: ladokRounds } = await ladokApi.getCourseAndActiveRounds(courseCode, language)
+  const utbildningstillfalleUids = koppsCourseDetails.roundInfos.map(info => info.round.ladokUID)
 
+  // Just pick one
+  const examinationModules = await ladokApi.getExaminationModules(utbildningstillfalleUids[0], language)
   if (!koppsCourseDetails || !ladokCourse) {
     // TODO(Ladok-POC): What to do if we find course in only in Ladok or only in Kopps?
     return {}
@@ -275,7 +278,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   const courseTitleData = _parseTitleData(ladokCourse, language)
 
   //* **** Get list of syllabuses and valid syllabus semesters *****//
-  const { syllabusList, emptySyllabusData } = createSyllabusList(koppsCourseDetails, language)
+  const { syllabusList, emptySyllabusData } = createSyllabusList(koppsCourseDetails, examinationModules, language)
 
   //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from UG Rest API *****//
   const { roundsBySemester, activeSemesters, employees } = _parseRounds({
