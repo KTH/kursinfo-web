@@ -36,4 +36,4 @@ EXPOSE 3000
 
 ENV TZ Europe/Stockholm
 
-CMD ["npm", "run", "start-dev"]
+CMD ["npm", "run", "start"]
