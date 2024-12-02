@@ -14,7 +14,6 @@
     "build-dev": "bash ./build.sh dev",
     "docker:build": "bash ./docker-build-image.sh dev",
     "docker:run": "bash ./docker-run-image.sh dev",
-    "docker:start": "bash -c 'cat /KTH_NODEJS; NODE_ENV=development node app.js'",
     "test": "NODE_ENV=test jest",
     "test-win": "cross-env NODE_ENV=test jest",
     "test:watch": "jest --watch",

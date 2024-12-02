@@ -13,7 +13,7 @@ services:
     # Build from Dockerfile-dev in current directory
     build:
       context: .
-      dockerfile: Dockerfile-dev  # if it does not exist you can generate it by runing the docker-build-image.sh script
+      dockerfile: Dockerfile-dev
 
     environment:
       # Cellus Deployment

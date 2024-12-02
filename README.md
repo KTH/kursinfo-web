@@ -154,6 +154,16 @@ This will execute the `docker-run-image.sh` script in development mode `(dev)`, 
 
 The application now will be accessible at http://localhost:3000/student/kurser/kurs/:courseCode.
 
+#### Alternative approach for running locally using Docker
+
+alternatively you can run the following command:
+
+```sh
+docker-compose up
+```
+
+Here you need to remove the .in at the end of the `docker-compose.yml.in`.
+
 #### Notes
 
 - Run `az acr login --name kthregistry` before running the scripts.
