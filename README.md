@@ -72,6 +72,13 @@ npm install cross-env
 npm install concurrently
 ```
 
+### Environment variables
+The required environment variables to run this project for development are listed in the `.env.in` file. You can retrieve their corresponding values from the Azure portal and populate the environment variables accordingly. To fetch all the environment variables, use the following command:
+
+- Ensure you are logged in to Azure before running this command. You can log in by using the `az acr login` command. 
+
+- For running this command you need to be logge in on Azure for this you can run `az acr login` command
+
 ### Usage
 
 Start the service on [localhost:3000/student/kurser/kurs/:courseCode](http://localhost:3000/student/kurser/kurs/:courseCode).
@@ -154,6 +161,8 @@ This will execute the `docker-run-image.sh` script in development mode `(dev)`, 
 
 The application now will be accessible at http://localhost:3000/student/kurser/kurs/:courseCode.
 
+- To run this project locally, ensure all required environment variables are set. You can do this by running the command: `npm run fetch-all-env-variables`.
+
 #### Alternative approach for running locally using Docker
 
 alternatively you can run the following command:
@@ -164,10 +173,8 @@ docker-compose up
 
 Here you need to remove the .in at the end of the `docker-compose.yml.in`.
 
-#### Notes
 
 - Run `az acr login --name kthregistry` before running the scripts.
-- Ensure your .env file is properly set up in the project root to provide the necessary environment variables to the Docker container.
 
 ## Deploy
 

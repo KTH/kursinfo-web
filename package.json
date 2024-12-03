@@ -23,7 +23,8 @@
     "lint": "eslint \"{public,server}/**/*.{js,jsx}\"",
     "prepare": "husky",
     "start": "bash -c 'cat /KTH_NODEJS; NODE_ENV=production node app.js'",
-    "start-dev": "bash -c 'NODE_ENV=development concurrently --kill-others -n build,app \"npm run build-dev\" \"nodemon app.js\"'"
+    "start-dev": "bash -c 'NODE_ENV=development concurrently --kill-others -n build,app \"npm run build-dev\" \"nodemon app.js\"'",
+    "fetch-all-env-variables": "bash ./fetch-env.sh kursinfo-web-ref kursinfo-web-ref"
   },
   "dependencies": {
     "@kth/api-call": "^4.1.0",
