@@ -2,28 +2,16 @@ const { INFORM_IF_IMPORTANT_INFO_IS_MISSING } = require('../util/constants')
 const { calcPreviousSemester, parseSemesterIntoYearSemesterNumber } = require('../util/semesterUtils')
 const { parseOrSetEmpty } = require('./courseCtrlHelpers')
 
-const _parseExamObject = (language = 0, semester = '', examinationModules) => {
-  let activeExaminationModule = {}
-
-  examinationModules.forEach(examinationModule => {
-    const giltigFrom = examinationModule.giltigFrom.code.includes('VT')
-      ? examinationModule.giltigFrom.code.slice(2) + 1
-      : examinationModule.giltigFrom.code.slice(2) + 2
-    // Pick the latest examination module by comparing to current semester
-    if (Number(semester) >= Number(giltigFrom)) {
-      activeExaminationModule = examinationModule
-    }
-  })
+const _parseExamObject = examinationModules => {
   let examString = "<ul class='ul-no-padding' >"
-  if (activeExaminationModule) {
-    examString += `<li>${activeExaminationModule.kod} - 
-                          ${activeExaminationModule.benamning},
-                          ${activeExaminationModule.omfattning.formattedWithUnit},  
-                          ${language === 'en' ? 'grading scale' : 'betygsskala'}: ${
-                            activeExaminationModule.betygsskala.code
-                          }              
-                          </li>`
-  }
+  examinationModules.forEach(examinationModule => {
+    examString += `<li>${examinationModule.kod} - 
+                            ${examinationModule.benamning},
+                            ${examinationModule.omfattning.formattedWithUnit},  
+                            ${examinationModule.betygsskala.name}: ${examinationModule.betygsskala.code}              
+                            </li>`
+  })
+
   examString += '</ul>'
   return examString
 }
@@ -70,7 +58,7 @@ const _parseSyllabusData = (courseDetails, examinationModules, semesterIndex = 0
     course_valid_from: parseSemesterIntoYearSemesterNumber(parseOrSetEmpty(semesterSyllabus.validFromTerm.term)),
     course_valid_to: undefined,
     course_required_equipment: parseOrSetEmpty(semesterSyllabus.courseSyllabus.requiredEquipment, language),
-    course_examination: _parseExamObject(language, semesterSyllabus.validFromTerm.term, examinationModules),
+    course_examination: _parseExamObject(examinationModules),
     course_examination_comments: parseOrSetEmpty(semesterSyllabus.courseSyllabus.examComments, language, true),
     course_ethical: parseOrSetEmpty(semesterSyllabus.courseSyllabus.ethicalApproach, language, true),
     course_additional_regulations: parseOrSetEmpty(

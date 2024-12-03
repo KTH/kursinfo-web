@@ -182,10 +182,10 @@ describe('Discontinued course to test', () => {
           "course_eligibility": "<p>Beh&#246;rig till studier p&#229; forskarniv&#229;. Goda kunskaper i engelska.</p>",
           "course_ethical": "<ul><li>Vid grupparbete har alla i gruppen ansvar för gruppens arbete.</li><li>Vid examination ska varje student ärligt redovisa hjälp som erhållits och källor som använts.</li><li>Vid muntlig examination ska varje student kunna redogöra för hela uppgiften och hela lösningen.</li></ul>",
           "course_examination": "<ul class='ul-no-padding' ><li>TEN1 - 
-                          Examination,
-                          7.5 credits,  
-                          betygsskala: AF              
-                          </li></ul>",
+                            Examination,
+                            7.5 credits,  
+                            Seven point grading scale: AF              
+                            </li></ul>",
           "course_examination_comments": "Examinator beslutar, baserat på rekommendation från KTH:s samordnare för funktionsnedsättning, om eventuell anpassad examination för studenter med dokumenterad, varaktig funktionsnedsättning. <br><br>Examinator får medge annan examinationsform vid omexamination av enstaka studenter.<p>Betygskriterier redovisas i kurs-PM.</p>",
           "course_goals": "<p>Efter fullf&#246;ljande av kursen f&#246;rv&#228;ntas studenten kunna</p><ul><li>Visa kunskap om kolhydraters m&#229;ngfald, dess betydelse f&#246;r biologiska system, samt hur de kan f&#246;r&#228;ndra struktur och funktion hos andra biologiska molekyler.</li><li>Visa kunskap om cellv&#228;ggens struktur och funktion hos vedbildande v&#228;xter, samt &#246;vergripande f&#246;rst&#229;else f&#246;r hur dess sammans&#228;ttning kan f&#246;r&#228;ndras f&#246;r att m&#246;jligg&#246;ra nya till&#228;mpningar, t.ex. f&#246;r att underl&#228;tta bearbetning f&#246;r energi- och biomaterialproduktion.</li><li>Visa f&#246;rm&#229;ga att redog&#246;ra och reflektera &#246;ver koncept och metoder som anv&#228;nds f&#246;r att producera byggstenar fr&#229;n v&#228;xtbiomassa, och hur de kan s&#228;ttas ihop till nya material med skr&#228;ddarsydda egenskaper och funktionaliteter.</li><li>Visa f&#246;rm&#229;ga att planera och utf&#246;ra praktiska experiment inom kolhydratteknik, samt att analysera och redog&#246;ra resultaten i form av skriftliga rapporter.</li><li>Visa f&#246;rm&#229;ga att identifiera och diskutera hur kolhydratteknik kan bidra till en h&#229;llbar samh&#228;llsutveckling inom konsumtion, produktion och material, t.ex. genom att &#229;teranv&#228;nda redan existerande produkter, eller tillverkning av nya resurssmarta och f&#246;rnyelsebara material.</li></ul>",
           "course_literature": "<i>Ingen information tillagd</i>",
