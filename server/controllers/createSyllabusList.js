@@ -9,6 +9,7 @@ const _parseExamObject = (language = 0, semester = '', examinationModules) => {
     const giltigFrom = examinationModule.giltigFrom.code.includes('VT')
       ? examinationModule.giltigFrom.code.slice(2) + 1
       : examinationModule.giltigFrom.code.slice(2) + 2
+    // Pick the latest examination module by comparing to current semester
     if (Number(semester) >= Number(giltigFrom)) {
       activeExaminationModule = examinationModule
     }
