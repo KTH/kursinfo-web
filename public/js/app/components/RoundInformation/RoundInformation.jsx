@@ -9,7 +9,7 @@ import { usePlannedModules } from '../../hooks/usePlannedModules'
 import { RoundInformationInfoGrid } from './RoundInformationInfoGrid'
 import { RoundInformationContacts } from './RoundInformationContacts'
 
-function RoundInformation({ courseCode, courseRound, semesterRoundState }) {
+function RoundInformation({ courseCode, courseData, courseRound, semesterRoundState }) {
   const { translation } = useLanguage()
 
   const { createRoundHeader } = useRoundUtils()
@@ -75,7 +75,7 @@ function RoundInformation({ courseCode, courseRound, semesterRoundState }) {
       )}
 
       <h3>{translation.courseLabels.header_contact}</h3>
-      <RoundInformationContacts courseRoundEmployees={courseRoundEmployees ?? {}} />
+      <RoundInformationContacts courseData={courseData} courseRoundEmployees={courseRoundEmployees ?? {}} />
     </div>
   )
 }

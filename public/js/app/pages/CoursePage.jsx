@@ -25,7 +25,7 @@ function CoursePage() {
     browserConfig,
     courseCode,
     courseData = {
-      courseInfo: {},
+      courseInfo: { course_application_info: '' },
       syllabusList: [],
     },
     isCancelledOrDeactivated,
@@ -59,6 +59,16 @@ function CoursePage() {
   courseImage = `${browserConfig.imageStorageUri}${courseImage}`
 
   const decisionToDiscontinue = hasSyllabus ? activeSyllabus.course_decision_to_discontinue : ''
+  const course_valid_from = hasSyllabus ? activeSyllabus.course_valid_from : ''
+
+  const courseInformationToRounds = {
+    course_code: courseCode,
+    course_examiners: courseInfo.course_examiners,
+    course_contact_name: courseInfo.course_contact_name,
+    course_main_subject: courseInfo.course_main_subject,
+    course_level_code: courseInfo.course_level_code,
+    course_valid_from,
+  }
 
   useEffect(() => {
     let isMounted = true
@@ -119,7 +129,12 @@ function CoursePage() {
         <RoundSelector activeSemesters={activeSemesters} semesterRoundState={semesterRoundState} />
 
         {showRoundData && (
-          <RoundInformation courseCode={courseCode} courseRound={activeRound} semesterRoundState={semesterRoundState} />
+          <RoundInformation
+            courseCode={courseCode}
+            courseData={courseInformationToRounds}
+            courseRound={activeRound}
+            semesterRoundState={semesterRoundState}
+          />
         )}
 
         <MainCourseInformation

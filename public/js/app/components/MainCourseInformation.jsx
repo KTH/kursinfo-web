@@ -44,6 +44,12 @@ const MainCourseInformation = ({ courseCode, courseData, semesterRoundState }) =
         </Alert>
       )}
 
+      {courseInfo.course_application_info.length > 0 && (
+        <Alert type="info" header={translation.courseInformation.course_application_info}>
+          <span dangerouslySetInnerHTML={{ __html: courseInfo.course_application_info }} />
+        </Alert>
+      )}
+
       <CourseSectionList
         courseInfo={courseInfo}
         // if there is no syllabus, we still want to display empty syllabus data

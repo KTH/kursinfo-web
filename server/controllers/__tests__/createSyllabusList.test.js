@@ -13,6 +13,7 @@ const expectedSyllabusList = [
       '<p>Announced no later than 4 weeks before the start of the course on the course web page.</p>',
     course_valid_from: { year: 2019, semesterNumber: 2 },
     course_valid_to: undefined,
+    course_required_equipment: '<i>No information inserted</i>',
     course_examination:
       "<ul class='ul-no-padding' ><li>TEN1 - \n                          Examination,\n                          7.5  credits,  \n                          grading scale: A, B, C, D, E, FX, F              \n                          </li></ul>",
     course_examination_comments:
@@ -35,6 +36,7 @@ const expectedSyllabusList = [
     course_literature_comment: '<i>No information inserted</i>',
     course_valid_from: { year: 2010, semesterNumber: 2 },
     course_valid_to: { year: 2019, semesterNumber: 1 },
+    course_required_equipment: '<i>No information inserted</i>',
     course_examination:
       "<ul class='ul-no-padding' ><li>TEN1 - \n                          Examination,\n                          7.5  credits,  \n                          grading scale: A, B, C, D, E, FX, F              \n                          </li></ul>",
     course_examination_comments:
@@ -54,6 +56,7 @@ const expectedSyllabusList = [
     course_literature_comment: '<i>No information inserted</i>',
     course_valid_from: { year: 2009, semesterNumber: 2 },
     course_valid_to: { year: 2010, semesterNumber: 1 },
+    course_required_equipment: '<i>No information inserted</i>',
     course_examination:
       "<ul class='ul-no-padding' ><li>TEN1 - \n                          Examination,\n                          7.5  credits,  \n                          grading scale: A, B, C, D, E, FX, F              \n                          </li></ul>",
     course_examination_comments:
@@ -73,6 +76,7 @@ const expectedSyllabusList = [
     course_literature_comment: '<i>No information inserted</i>',
     course_valid_from: { year: 2008, semesterNumber: 2 },
     course_valid_to: { year: 2009, semesterNumber: 1 },
+    course_required_equipment: '<i>No information inserted</i>',
     course_examination:
       "<ul class='ul-no-padding' ><li>TEN1 - \n                          Examination,\n                          7.5  credits,  \n                          grading scale: A, B, C, D, E, FX, F              \n                          </li></ul>",
     course_examination_comments:
