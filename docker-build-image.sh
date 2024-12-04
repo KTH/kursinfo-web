@@ -13,6 +13,7 @@ echoYellow "|    Building the Docker image for development env       |"
 echoYellow "|--------------------------------------------------------|\n"
 
 IMAGE_NAME="kursinfo-web-image"
+DOCKERFILE="Dockerfile-dev"
 
 
 if [ "$ENV" == "dev" ]; then
@@ -27,7 +28,7 @@ if [ "$ENV" == "dev" ]; then
 
   echo
   echoYellow "  3. Build Docker image: a name tag is $IMAGE_NAME\n"
-  docker build -f Dockerfile-dev -t "$IMAGE_NAME" .
+  docker build -f Dockerfile -t "$IMAGE_NAME" .
 
   echo
   echoYellow "  4. List images\n"

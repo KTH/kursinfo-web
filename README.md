@@ -72,6 +72,13 @@ npm install cross-env
 npm install concurrently
 ```
 
+### Environment variables
+The required environment variables to run this project for development are listed in the `.env.in` file. You can retrieve their corresponding values from the Azure portal and populate the environment variables accordingly. To fetch all the environment variables, use the following command:
+
+- Ensure you are logged in to Azure before running this command. You can log in by using the `az acr login` command. 
+
+- For running this command you need to be logge in on Azure for this you can run `az acr login` command
+
 ### Usage
 
 Start the service on [localhost:3000/student/kurser/kurs/:courseCode](http://localhost:3000/student/kurser/kurs/:courseCode).
@@ -124,6 +131,50 @@ Add to .vscode file launch.json:
   ]
 }
 ```
+
+## Run Locally Using Docker
+
+You can run the project locally using Docker for an isolated and consistent environment. Follow these steps:
+
+#### Build Docker Image
+
+First, build the Docker image by running the following command:
+
+If you are using mac change `docker build -f Dockerfile-dev -t "$IMAGE_NAME"` with `docker build --platform linux/arm64/v8 -f Dockerfile-dev -t "$IMAGE_NAME"`.
+
+
+```sh
+npm run docker:build
+```
+
+This will execute the `docker-build-image.sh` script in development mode `(dev)` this script will create Dockerfile-dev file which will be used for running the project locally using docker.
+
+#### Run Docker Container
+
+After the image has been built, you can start the Docker container using the following command:
+
+```sh
+npm run docker:run
+```
+
+This will execute the `docker-run-image.sh` script in development mode `(dev)`, running the application locally in Docker.
+
+The application now will be accessible at http://localhost:3000/student/kurser/kurs/:courseCode.
+
+- To run this project locally, ensure all required environment variables are set. You can do this by running the command: `npm run fetch-all-env-variables`.
+
+#### Alternative approach for running locally using Docker
+
+alternatively you can run the following command:
+
+```sh
+docker-compose up
+```
+
+Here you need to remove the .in at the end of the `docker-compose.yml.in`.
+
+
+- Run `az acr login --name kthregistry` before running the scripts.
 
 ## Deploy
 
