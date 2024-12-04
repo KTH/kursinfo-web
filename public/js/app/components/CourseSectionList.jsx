@@ -53,6 +53,10 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
       literatureText = `${syllabus.course_literature_comment}`
     }
 
+    const courseRequiredEquipment = !isMissingInfoLabel(courseInfo.course_required_equipment)
+      ? courseInfo.course_required_equipment
+      : syllabus.course_required_equipment
+
     const eligibility = getEligibility()
 
     const during = [
@@ -66,6 +70,7 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
           ariaLabel: translation.courseInformation.course_prerequisites_menu_aria_label,
         },
       },
+      { header: translation.courseInformation.course_required_equipment, text: courseRequiredEquipment },
       { header: translation.courseInformation.course_literature, text: literatureText },
     ]
 
@@ -105,6 +110,14 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
         syllabusMarker: true,
       })
     }
+    examination.push({
+      header: translation.courseInformation.course_possibility_to_completions,
+      text: courseInfo.course_possibility_to_completions,
+    })
+    examination.push({
+      header: translation.courseInformation.course_possibility_to_addition,
+      text: courseInfo.course_possibility_to_addition,
+    })
     examination.push({ header: translation.courseInformation.course_examiners, text: courseInfo.course_examiners })
     examination.push({
       header: translation.courseInformation.course_ethical,
@@ -134,7 +147,13 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
         text: translation.courseInformation.course_level_code_label[courseInfo.course_level_code],
         syllabusMarker: true,
       },
+      {
+        header: translation.courseInformation.course_suggested_addon_studies,
+        text: courseInfo.course_suggested_addon_studies,
+      },
     ]
+    if (!isMissingInfoLabel(courseInfo.course_contact_name))
+      prepare.push({ header: translation.courseInformation.course_contact_name, text: courseInfo.course_contact_name })
     if (syllabus.course_transitional_reg !== '')
       prepare.push({
         header: translation.courseInformation.course_transitional_reg,

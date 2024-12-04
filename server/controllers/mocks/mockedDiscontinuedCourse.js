@@ -1,5 +1,7 @@
 const mockedDiscontinuedCourse = {
   course: {
+    applicationInfo:
+      '<p>Kursen ges inte l&#228;s&#229;ret 22/23.</p><p>Kontakta examinator / kursansvarig f&#246;r information.</p>',
     courseCode: 'FCK3305',
     versionNumber: 1,
     departmentCode: 'CE',

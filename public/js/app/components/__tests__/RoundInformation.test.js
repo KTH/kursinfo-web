@@ -42,6 +42,7 @@ describe('Component <RoundInformation>', () => {
     const propsWithStudyPace = {
       memoStorageUri: '',
       semesterRoundState: defaultSemesterRoundState,
+      courseData: {},
       courseRound: {
         round_course_term: ['2018', '1'],
         round_study_pace: '25',
@@ -66,6 +67,7 @@ describe('Component <RoundInformation>', () => {
     const propsWithEmployees = {
       memoStorageUri: '',
       semesterRoundState: defaultSemesterRoundState,
+      courseData: {},
       courseCode: 'SF1624',
       courseRound: mockCourseRound,
     }
@@ -95,6 +97,7 @@ describe('Component <RoundInformation>', () => {
     const propsWithEmptyEmployees = {
       memoStorageUri: '',
       semesterRoundState: defaultSemesterRoundState,
+      courseData: {},
       courseCode: 'SF1624',
       courseRound: mockCourseRound,
     }
@@ -112,6 +115,7 @@ describe('Component <RoundInformation>', () => {
     const propsWithoutEmployees = {
       memoStorageUri: '',
       semesterRoundState: defaultSemesterRoundState,
+      courseData: {},
       courseCode: 'SF1624',
       courseRound: mockCourseRound,
     }
@@ -167,6 +171,7 @@ describe('Component <RoundInformation>', () => {
     const propsWithoutSeatsNum = {
       memoStorageUri: '',
       semesterRoundState: defaultSemesterRoundState,
+      courseData: {},
       courseRound: {
         round_course_term: ['2018', '1'],
         round_selection_criteria: '<p>English. Spicy jalapeno bacon ipsum</p>',
@@ -195,6 +200,7 @@ describe('Component <RoundInformation>', () => {
     const propsWithEmptyCriteria = {
       memoStorageUri: '',
       semesterRoundState: defaultSemesterRoundState,
+      courseData: {},
       courseRound: {
         round_course_term: ['2018', '1'],
         round_selection_criteria: '<p></p>',

@@ -29,7 +29,9 @@ describe('Component <CoursePage>', () => {
     ],
     courseCode: 'MF1016',
     courseData: {
-      courseInfo: {},
+      courseInfo: {
+        course_application_info: '',
+      },
       courseTitleData: {
         course_code: 'MF1016',
         course_credits: 9,
