@@ -127,6 +127,7 @@ describe('Discontinued course to test', () => {
         "course_grade_scale": "P, F",
         "course_last_exam": [],
         "course_level_code": "RESEARCH",
+        "course_literature": "<p>Litteratur anvisas vid kursstart.</p>",
         "course_main_subject": "Denna kurs tillhör inget huvudområde.",
         "course_recommended_prerequisites": "",
         "course_recruitment_text": "<p>Teori och metoder inom glykovetenskap.</p>",

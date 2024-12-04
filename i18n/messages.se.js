@@ -136,8 +136,6 @@ module.exports = {
     course_requirments_for_final_grade: 'Övriga krav för slutbetyg',
     course_literature: 'Kurslitteratur',
     course_literature_comment: 'Kommentar till kurslitteratur',
-    course_literature_not_exist:
-      'Du hittar information om kurslitteratur antingen i kursomgångens kurs-PM eller i kursomgångens kursrum i Canvas.',
     course_examination_comments: 'Kommentar till examinationsmoment',
     course_examination: 'Examination',
     course_examination_disclaimer:
