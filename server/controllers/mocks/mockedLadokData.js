@@ -21,6 +21,30 @@ const mockedLadokCourseVersion = {
 
 const mockedLadokRounds = []
 
-const mockedLadokData = { mockedLadokCourseVersion, mockedLadokRounds }
+const mockedExaminationModules = [
+  {
+    ladokUID: '7f20dbb6-73d8-11e8-b4e0-063f9afb40e3',
+    kod: 'TEN1',
+    benamning: 'Examination',
+    betygsskala: {
+      id: '131657',
+      code: 'AF',
+      name: 'Seven point grading scale',
+      nameOther: 'Sjugradig betygsskala',
+    },
+    omfattning: {
+      number: '7.5',
+      formattedWithUnit: '7.5 credits',
+    },
+    giltigFrom: {
+      id: '133040',
+      code: 'HT2007',
+      sv: 'Hösttermin 2007',
+      en: 'Autumn semester 2007',
+    },
+  },
+]
+
+const mockedLadokData = { mockedLadokCourseVersion, mockedLadokRounds, mockedExaminationModules }
 
 module.exports = { mockedLadokData }

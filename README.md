@@ -30,6 +30,8 @@ Kursinfo-web fetches data from:
 - API för kurs- och programinformation
   - Dev (Stage): [api-r.referens.sys.kth.se/api/kopps/v2/](https://api-r.referens.sys.kth.se/api/kopps/v2/)
   - Prod (Active): [api.kth.se/api/kopps/v2/](https://api.kth.se/api/kopps/v2/)
+- Ladok Mellanlager
+  - Dev (Stage): [https://ladok-mellanlagring-lab.azure-api.net]
 
 ### Related projects
 
@@ -38,6 +40,7 @@ Kursinfo-web fetches data from:
 - [kursplan-api](https://github.com/KTH/kursplan-api)
 - [kurs-pm-data-api](https://github.com/KTH/kurs-pm-data-api)
 - [node-web](https://github.com/KTH/node-web)
+- [studadm-om-kursen-packages](https://github.com/KTH/studadm-om-kursen-packages)
 
 ## Prerequisites
 

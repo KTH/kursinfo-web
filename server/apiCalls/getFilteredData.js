@@ -139,15 +139,26 @@ function _getRound(koppsRoundObject = {}, ladokRound, language = 'sv') {
     round_start_date: getDateFormat(parseOrSetEmpty(ladokRound.forstaUndervisningsdatum.date, language), language),
     round_end_date: getDateFormat(parseOrSetEmpty(ladokRound.sistaUndervisningsdatum.date, language), language),
     round_target_group: parseOrSetEmpty(ladokRound.malgrupp, language),
-    round_tutoring_form: ladokRound.undervisningsform.code,
-    round_tutoring_time: ladokRound.undervisningstid.code,
+    round_tutoring_form:
+      ladokRound.undervisningsform && ladokRound.undervisningsform.code ? ladokRound.undervisningsform.code : '',
+    round_tutoring_time:
+      ladokRound.undervisningstid && ladokRound.undervisningstid.code ? ladokRound.undervisningstid.code : '',
     round_tutoring_language: parseOrSetEmpty(ladokRound.undervisningssprak?.name, language),
-    round_course_place: parseOrSetEmpty(ladokRound.studieort.name, language),
+    round_course_place: parseOrSetEmpty(
+      ladokRound.studieort && ladokRound.studieort.name ? ladokRound.studieort.name : '',
+      language
+    ),
     round_short_name: parseOrSetEmpty(ladokRound.kortnamn, language),
     round_application_code: parseOrSetEmpty(ladokRound.tillfalleskod, language),
-    round_study_pace: parseOrSetEmpty(ladokRound.studietakt.takt, language),
+    round_study_pace: parseOrSetEmpty(
+      ladokRound.studietakt && ladokRound.studietakt.takt ? ladokRound.studietakt.takt : '',
+      language
+    ),
     round_course_term: parseSemesterIntoYearSemesterNumberArray(ladokRound.startperiod.inDigits),
-    round_funding_type: parseOrSetEmpty(ladokRound.finansieringsform.code, language),
+    round_funding_type: parseOrSetEmpty(
+      ladokRound.finansieringsform && ladokRound.finansieringsform.code ? ladokRound.finansieringsform.code : '',
+      language
+    ),
     round_seats:
       _parseRoundSeatsMsg(
         parseOrSetEmpty(ladokRound.utbildningsplatser, language, true),
@@ -238,6 +249,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   const { body: koppsCourseDetails } = await koppsCourseData.getKoppsCourseData(courseCode, language)
   const { course: ladokCourse, rounds: ladokRounds } = await ladokApi.getCourseAndActiveRounds(courseCode, language)
 
+  const examinationModules = await ladokApi.getExaminationModules(ladokCourse.uid, language)
   if (!koppsCourseDetails || !ladokCourse) {
     // TODO(Ladok-POC): What to do if we find course in only in Ladok or only in Kopps?
     return {}
@@ -264,7 +276,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   const courseTitleData = _parseTitleData(ladokCourse, language)
 
   //* **** Get list of syllabuses and valid syllabus semesters *****//
-  const { syllabusList, emptySyllabusData } = createSyllabusList(koppsCourseDetails, language)
+  const { syllabusList, emptySyllabusData } = createSyllabusList(koppsCourseDetails, examinationModules, language)
 
   //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from UG Rest API *****//
   const { roundsBySemester, activeSemesters, employees } = _parseRounds({

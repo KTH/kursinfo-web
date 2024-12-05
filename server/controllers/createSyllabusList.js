@@ -2,34 +2,16 @@ const { INFORM_IF_IMPORTANT_INFO_IS_MISSING } = require('../util/constants')
 const { calcPreviousSemester, parseSemesterIntoYearSemesterNumber } = require('../util/semesterUtils')
 const { parseOrSetEmpty } = require('./courseCtrlHelpers')
 
-const _parseExamObject = (exams, grades, language = 0, semester = '', creditUnitAbbr) => {
-  let matchingExamSemester = ''
-  Object.keys(exams).forEach(key => {
-    if (Number(semester) >= Number(key)) {
-      matchingExamSemester = key
-    }
-  })
+const _parseExamObject = examinationModules => {
   let examString = "<ul class='ul-no-padding' >"
-  if (exams[matchingExamSemester] && exams[matchingExamSemester].examinationRounds.length > 0) {
-    for (const exam of exams[matchingExamSemester].examinationRounds) {
-      if (exam.credits) {
-        //* * Adding a decimal if it's missing in credits **/
-        exam.credits =
-          exam.credits !== '' && exam.credits.toString().indexOf('.') < 0 ? exam.credits + '.0' : exam.credits
-      } else {
-        exam.credits = '-'
-      }
-      examString += `<li>${exam.examCode} - 
-                          ${exam.title},
-                          ${language === 'en' ? exam.credits : exam.credits.toString().replace('.', ',')} ${
-                            language === 'en' && creditUnitAbbr != 'fup' ? ' credits' : creditUnitAbbr
-                          },  
-                          ${language === 'en' ? 'grading scale' : 'betygsskala'}: ${
-                            grades[exam.gradeScaleCode]
-                          }              
-                          </li>`
-    }
-  }
+  examinationModules.forEach(examinationModule => {
+    examString += `<li>${examinationModule.kod} - 
+                            ${examinationModule.benamning},
+                            ${examinationModule.omfattning.formattedWithUnit},  
+                            ${examinationModule.betygsskala.name}: ${examinationModule.betygsskala.code}              
+                            </li>`
+  })
+
   examString += '</ul>'
   return examString
 }
@@ -52,8 +34,8 @@ const _createEmptySyllabusData = language => ({
   course_decision_to_discontinue: '',
 })
 
-const _parseSyllabusData = (courseDetails, semesterIndex = 0, language) => {
-  const { course, examinationSets, formattedGradeScales, publicSyllabusVersions } = courseDetails
+const _parseSyllabusData = (courseDetails, examinationModules, semesterIndex = 0, language) => {
+  const { publicSyllabusVersions } = courseDetails
   const hasSyllabusData = publicSyllabusVersions && publicSyllabusVersions.length > 0
   const semesterSyllabus =
     hasSyllabusData && publicSyllabusVersions[semesterIndex] ? publicSyllabusVersions[semesterIndex] : null
@@ -77,14 +59,8 @@ const _parseSyllabusData = (courseDetails, semesterIndex = 0, language) => {
     course_valid_to: undefined,
     course_required_equipment: parseOrSetEmpty(semesterSyllabus.courseSyllabus.requiredEquipment, language),
     course_examination:
-      examinationSets && Object.keys(examinationSets).length > 0
-        ? _parseExamObject(
-            examinationSets,
-            formattedGradeScales,
-            language,
-            semesterSyllabus.validFromTerm.term,
-            course.creditUnitAbbr
-          )
+      examinationModules && examinationModules.length > 0
+        ? _parseExamObject(examinationModules)
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_examination_comments: parseOrSetEmpty(semesterSyllabus.courseSyllabus.examComments, language, true),
     course_ethical: parseOrSetEmpty(semesterSyllabus.courseSyllabus.ethicalApproach, language, true),
@@ -98,7 +74,7 @@ const _parseSyllabusData = (courseDetails, semesterIndex = 0, language) => {
   }
 }
 
-const createSyllabusList = (koppsCourseDetails, lang) => {
+const createSyllabusList = (koppsCourseDetails, examinationModules, lang) => {
   const { publicSyllabusVersions } = koppsCourseDetails
   const emptySyllabusData = _createEmptySyllabusData(lang)
 
@@ -113,7 +89,7 @@ const createSyllabusList = (koppsCourseDetails, lang) => {
 
   for (let index = 0; index < publicSyllabusVersions.length; index++) {
     const previousSyllabus = index > 0 ? syllabusList[index - 1] : undefined
-    const syllabus = _parseSyllabusData(koppsCourseDetails, index, lang)
+    const syllabus = _parseSyllabusData(koppsCourseDetails, examinationModules, index, lang)
 
     if (previousSyllabus) {
       syllabus.course_valid_to = calcPreviousSemester(previousSyllabus.course_valid_from)
