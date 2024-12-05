@@ -248,10 +248,8 @@ function _parseRounds({ roundInfos: koppsRoundInfos, courseCode, language, memoL
 const getFilteredData = async ({ courseCode, language, memoList }) => {
   const { body: koppsCourseDetails } = await koppsCourseData.getKoppsCourseData(courseCode, language)
   const { course: ladokCourse, rounds: ladokRounds } = await ladokApi.getCourseAndActiveRounds(courseCode, language)
-  const utbildningstillfalleUids = koppsCourseDetails.roundInfos.map(info => info.round.ladokUID)
 
-  // Just pick one
-  const examinationModules = await ladokApi.getExaminationModules(utbildningstillfalleUids[0], language)
+  const examinationModules = await ladokApi.getExaminationModules(ladokCourse.uid, language)
   if (!koppsCourseDetails || !ladokCourse) {
     // TODO(Ladok-POC): What to do if we find course in only in Ladok or only in Kopps?
     return {}

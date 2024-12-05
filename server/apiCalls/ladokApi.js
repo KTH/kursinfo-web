@@ -13,12 +13,9 @@ async function getCourseAndActiveRounds(courseCode, language) {
   return { course, rounds }
 }
 
-async function getExaminationModules(utbildningstillfalleUid, language) {
+async function getExaminationModules(courseUid, language) {
   try {
-    const examinationModules = await client.getExaminationModulesByUtbildningstillfalleUid(
-      utbildningstillfalleUid,
-      language
-    )
+    const examinationModules = await client.getExaminationModulesByUtbildningsinstansUid(courseUid, language)
     return examinationModules
   } catch (error) {
     throw new Error(error.message)

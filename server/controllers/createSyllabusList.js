@@ -58,7 +58,10 @@ const _parseSyllabusData = (courseDetails, examinationModules, semesterIndex = 0
     course_valid_from: parseSemesterIntoYearSemesterNumber(parseOrSetEmpty(semesterSyllabus.validFromTerm.term)),
     course_valid_to: undefined,
     course_required_equipment: parseOrSetEmpty(semesterSyllabus.courseSyllabus.requiredEquipment, language),
-    course_examination: _parseExamObject(examinationModules),
+    course_examination:
+      examinationModules && examinationModules.length > 0
+        ? _parseExamObject(examinationModules)
+        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_examination_comments: parseOrSetEmpty(semesterSyllabus.courseSyllabus.examComments, language, true),
     course_ethical: parseOrSetEmpty(semesterSyllabus.courseSyllabus.ethicalApproach, language, true),
     course_additional_regulations: parseOrSetEmpty(
