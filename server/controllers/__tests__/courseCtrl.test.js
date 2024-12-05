@@ -38,6 +38,7 @@ jest.mock('om-kursen-ladok-client', () => ({
     getLatestCourseVersion: () => mockedLadokData.mockedLadokCourseVersion,
     getActiveCourseRounds: () => mockedLadokData.mockedLadokRounds,
     getExaminationModulesByUtbildningstillfalleUid: () => mockedLadokData.mockedExaminationModules,
+    getExaminationModulesByUtbildningsinstansUid: () => mockedLadokData.mockedExaminationModules,
   }),
 }))
 // jest.mock('@kth/kth-node-response')
