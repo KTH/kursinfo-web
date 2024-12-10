@@ -139,26 +139,15 @@ function _getRound(koppsRoundObject = {}, ladokRound, language = 'sv') {
     round_start_date: getDateFormat(parseOrSetEmpty(ladokRound.forstaUndervisningsdatum.date, language), language),
     round_end_date: getDateFormat(parseOrSetEmpty(ladokRound.sistaUndervisningsdatum.date, language), language),
     round_target_group: parseOrSetEmpty(ladokRound.malgrupp, language),
-    round_tutoring_form:
-      ladokRound.undervisningsform && ladokRound.undervisningsform.code ? ladokRound.undervisningsform.code : '',
-    round_tutoring_time:
-      ladokRound.undervisningstid && ladokRound.undervisningstid.code ? ladokRound.undervisningstid.code : '',
+    round_tutoring_form: parseOrSetEmpty(ladokRound.undervisningsform?.code, language),
+    round_tutoring_time: parseOrSetEmpty(ladokRound.undervisningstid?.code, language),
     round_tutoring_language: parseOrSetEmpty(ladokRound.undervisningssprak?.name, language),
-    round_course_place: parseOrSetEmpty(
-      ladokRound.studieort && ladokRound.studieort.name ? ladokRound.studieort.name : '',
-      language
-    ),
+    round_course_place: parseOrSetEmpty(ladokRound.studieort?.name, language),
     round_short_name: parseOrSetEmpty(ladokRound.kortnamn, language),
     round_application_code: parseOrSetEmpty(ladokRound.tillfalleskod, language),
-    round_study_pace: parseOrSetEmpty(
-      ladokRound.studietakt && ladokRound.studietakt.takt ? ladokRound.studietakt.takt : '',
-      language
-    ),
-    round_course_term: parseSemesterIntoYearSemesterNumberArray(ladokRound.startperiod.inDigits),
-    round_funding_type: parseOrSetEmpty(
-      ladokRound.finansieringsform && ladokRound.finansieringsform.code ? ladokRound.finansieringsform.code : '',
-      language
-    ),
+    round_study_pace: parseOrSetEmpty(ladokRound.studietakt?.takt, language),
+    round_course_term: parseSemesterIntoYearSemesterNumberArray(ladokRound.startperiod?.inDigits),
+    round_funding_type: parseOrSetEmpty(ladokRound.finansieringsform?.code, language),
     round_seats:
       _parseRoundSeatsMsg(
         parseOrSetEmpty(ladokRound.utbildningsplatser, language, true),
