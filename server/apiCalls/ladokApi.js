@@ -1,6 +1,6 @@
 'use strict'
 
-const { createApiClient } = require('om-kursen-ladok-client')
+const { createApiClient } = require('@kth/om-kursen-ladok-client')
 const { server: serverConfig } = require('../configuration')
 
 const client = createApiClient(serverConfig.ladokMellanlagerApi)
