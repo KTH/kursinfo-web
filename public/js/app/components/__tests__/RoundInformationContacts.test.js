@@ -22,7 +22,7 @@ const withinNextSibling = element => within(nextSibling(element))
 describe('Component <RoundInformationContacts>', () => {
   describe('examiners, responsibles and teachers', () => {
     test('shoud show headers with "missing info" text when data is missing', () => {
-      render(<RoundInformationContacts courseData={{}} courseRoundEmployees={{}} />)
+      render(<RoundInformationContacts courseRoundEmployees={{}} />)
       const examinerLabel = screen.getByText('Examiner')
       expect(nextSibling(examinerLabel)).toHaveTextContent('No information inserted')
 
@@ -36,7 +36,6 @@ describe('Component <RoundInformationContacts>', () => {
     test('shoud show headers with data inserted as html', () => {
       render(
         <RoundInformationContacts
-          courseData={{ courseInfo: { course_contact_name: undefined } }}
           courseRoundEmployees={{
             examiners: '<p class="person"><a href="/profile/testexaminers/">Test examiners</a></p>',
             responsibles: '<p class="person"><a href="/profile/testresponsibles/">Test responsibles</a></p>',
@@ -59,25 +58,5 @@ describe('Component <RoundInformationContacts>', () => {
       expect(teacherLink).toHaveTextContent('Test teachers')
       expect(teacherLink).toHaveAttribute('href', '/profile/testteachers/')
     })
-  })
-
-  describe('cource contact', () => {
-    test('should show header and content for course contact name', () => {
-      render(
-        <RoundInformationContacts courseData={{ course_contact_name: 'Contact name' }} courseRoundEmployees={{}} />
-      )
-      const contactLabel = screen.getByText('Contact')
-      expect(contactLabel).toBeInTheDocument()
-    })
-    test.each([undefined, '<i>No information inserted</i>'])(
-      "shoud NOT show header if contact name is '%s'",
-      contactNameArg => {
-        render(
-          <RoundInformationContacts courseData={{ course_contact_name: contactNameArg }} courseRoundEmployees={{}} />
-        )
-        const contactLabel = screen.queryByText('Contact')
-        expect(contactLabel).not.toBeInTheDocument()
-      }
-    )
   })
 })
