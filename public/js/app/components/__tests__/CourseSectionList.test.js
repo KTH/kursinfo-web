@@ -2,6 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { WebContextProvider } from '../../context/WebContext'
+import i18n from '../../../../../i18n'
 
 import CourseSectionList from '../CourseSectionList'
 
@@ -10,11 +11,9 @@ const INFORM_IF_IMPORTANT_INFO_IS_MISSING = ['No information inserted', 'Ingen i
 describe('Component <CourseSectionList>', () => {
   test('renders course literature correctly', () => {
     const lang = 'en'
-    const [courseLiteratureNoTitle] = INFORM_IF_IMPORTANT_INFO_IS_MISSING // en
-    const courseInfoWithoutLiterature = { course_literature: `<i>${courseLiteratureNoTitle}</i>` }
 
-    const courseLiteratureTitle = 'Course Literature (1970)'
-    const courseInfoWithLiterature = { course_literature: courseLiteratureTitle }
+    const translation = i18n.getLanguageByShortname(lang)
+    const syllabusLiteratureDefaultEmptyValue = translation.courseInformation.course_literature
 
     const [syllabusLiteratureNoTitle] = INFORM_IF_IMPORTANT_INFO_IS_MISSING // en
     const syllabusWithoutLiterature = {
@@ -44,41 +43,30 @@ describe('Component <CourseSectionList>', () => {
       lang,
     }
 
-    // Course has no literature, and syllabus has no literature – Show 'No information inserted'
+    // Syllabus has no literature – Show the default text
     const { rerender } = render(
       <WebContextProvider configIn={context1}>
-        <CourseSectionList courseInfo={courseInfoWithoutLiterature} syllabus={syllabusWithoutLiterature} />
+        <CourseSectionList syllabus={syllabusWithoutLiterature} />
       </WebContextProvider>
     )
-    const noliteratureText = screen.getByText(courseLiteratureNoTitle)
+    const noliteratureText = screen.getByText(syllabusLiteratureDefaultEmptyValue)
     expect(noliteratureText).toBeInTheDocument()
 
-    // Course has literature – Show only literature from course
+    // Syllabus has literature without comment – Show only literature (no comment) from syllabus
     rerender(
       <WebContextProvider configIn={context1}>
-        <CourseSectionList courseInfo={courseInfoWithLiterature} syllabus={syllabusWithLiteratureAndComment} />
+        <CourseSectionList syllabus={syllabusWithLiteratureNoComment} />
       </WebContextProvider>
     )
-    const literatureText = screen.getByText(courseLiteratureTitle)
-    expect(literatureText).toBeInTheDocument()
-    let syllabusText = screen.queryByText(syllabusLiteratureTitle)
-    expect(syllabusText).not.toBeInTheDocument()
-
-    // Course hasn't literature, syllabus does without comment – Show only literature (no comment) from syllabus
-    rerender(
-      <WebContextProvider configIn={context1}>
-        <CourseSectionList courseInfo={courseInfoWithoutLiterature} syllabus={syllabusWithLiteratureNoComment} />
-      </WebContextProvider>
-    )
-    syllabusText = screen.getByText(syllabusLiteratureTitle, { exact: false })
+    let syllabusText = screen.getByText(syllabusLiteratureTitle, { exact: false })
     expect(syllabusText).toBeInTheDocument()
     syllabusText = screen.queryByText(syllabusLiteratureNoComment)
     expect(syllabusText).not.toBeInTheDocument()
 
-    // Course hasn't literature, syllabus does with comment – Show literature and literature comment from syllabus
+    // Syllabus has literature with comment – Show literature and literature comment from syllabus
     rerender(
       <WebContextProvider configIn={context1}>
-        <CourseSectionList courseInfo={courseInfoWithoutLiterature} syllabus={syllabusWithLiteratureAndComment} />
+        <CourseSectionList syllabus={syllabusWithLiteratureAndComment} />
       </WebContextProvider>
     )
     syllabusText = screen.getByText(syllabusLiteratureTitle, { exact: false })
@@ -86,10 +74,10 @@ describe('Component <CourseSectionList>', () => {
     syllabusText = screen.getByText(syllabusLiteratureComment, { exact: false })
     expect(syllabusText).toBeInTheDocument()
 
-    // Course hasn't literature, syllabus only has comment – Show literature comment from syllabus
+    // Syllabus hasn't literature and only has comment – Show literature comment from syllabus
     rerender(
       <WebContextProvider configIn={context1}>
-        <CourseSectionList courseInfo={courseInfoWithoutLiterature} syllabus={syllabusWithNoLiteratureAndComment} />
+        <CourseSectionList syllabus={syllabusWithNoLiteratureAndComment} />
       </WebContextProvider>
     )
     syllabusText = screen.getByText(syllabusLiteratureComment, { exact: false })

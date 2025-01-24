@@ -2,7 +2,7 @@ import React from 'react'
 import { useLanguage } from '../../hooks/useLanguage'
 import { useMissingInfo } from '../../hooks/useMissingInfo'
 
-function RoundInformationContacts({ courseData, courseRoundEmployees }) {
+function RoundInformationContacts({ courseRoundEmployees }) {
   const { translation } = useLanguage()
   const { missingInfoLabel } = useMissingInfo()
 
@@ -26,15 +26,6 @@ function RoundInformationContacts({ courseData, courseRoundEmployees }) {
         <dt>{translation.courseRoundInformation.round_teacher}</dt>
         <dd dangerouslySetInnerHTML={{ __html: courseRoundEmployees.teachers || missingInfoLabel }} />
       </div>
-
-      {courseData.course_contact_name && courseData.course_contact_name !== missingInfoLabel && (
-        <div>
-          <dt>{translation.courseInformation.course_contact_name}</dt>
-          <dd>
-            <p>{courseData.course_contact_name}</p>
-          </dd>
-        </div>
-      )}
     </div>
   )
 }
