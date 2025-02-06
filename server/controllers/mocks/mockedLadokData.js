@@ -15,6 +15,7 @@ const mockedLadokCourseVersion = {
   },
   betygsskala: {
     code: 'PF',
+    formatted: 'P, F',
   },
   huvudomraden: [],
 }
@@ -31,6 +32,7 @@ const mockedExaminationModules = [
       code: 'AF',
       name: 'Seven point grading scale',
       nameOther: 'Sjugradig betygsskala',
+      formatted: 'A, B, C, D, E, FX, F',
     },
     omfattning: {
       number: '7.5',

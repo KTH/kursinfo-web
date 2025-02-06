@@ -17,7 +17,7 @@ const ladokApi = require('./ladokApi')
 const courseApi = require('./kursinfoApi')
 
 function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, language) {
-  const { course: koppsCourse, formattedGradeScales: koppsFormattedGradeScales } = koppsCourseDetails
+  const { course: koppsCourse } = koppsCourseDetails
 
   const mainSubjects = ladokCourse.huvudomraden?.map(x => x.name)
 
@@ -32,9 +32,9 @@ function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, languag
       mainSubjects && mainSubjects.length > 0
         ? mainSubjects.join(', ')
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
+    course_grade_scale: parseOrSetEmpty(ladokCourse.betygsskala.formatted),
 
     // From Kopps for now
-    course_grade_scale: parseOrSetEmpty(koppsFormattedGradeScales[ladokCourse.betygsskala.code], language),
     course_last_exam: koppsCourse.lastExamTerm
       ? parseSemesterIntoYearSemesterNumberArray(koppsCourse.lastExamTerm.term)
       : [],
