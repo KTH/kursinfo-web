@@ -25,7 +25,6 @@ const _createEmptySyllabusData = language => ({
   course_literature_comment: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
   course_valid_from: undefined,
   course_valid_to: undefined,
-  course_required_equipment: '',
   course_examination: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
   course_examination_comments: '',
   course_ethical: '',
@@ -57,7 +56,6 @@ const _parseSyllabusData = (courseDetails, examinationModules, semesterIndex = 0
     course_literature_comment: parseOrSetEmpty(semesterSyllabus.courseSyllabus.literatureComment, language),
     course_valid_from: parseSemesterIntoYearSemesterNumber(parseOrSetEmpty(semesterSyllabus.validFromTerm.term)),
     course_valid_to: undefined,
-    course_required_equipment: parseOrSetEmpty(semesterSyllabus.courseSyllabus.requiredEquipment, language),
     course_examination:
       examinationModules && examinationModules.length > 0
         ? _parseExamObject(examinationModules)

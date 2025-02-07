@@ -21,9 +21,7 @@ const englishAnalysisSummarySection = {
       <p>
         Course analyzes with course rounds that were not completed during semester 20221 are filtered out. This is done
         by discarding courses that do not meet the criteria: course.offered_semesters[&#123;{'last-element'}
-        &#125;].semester === 20221 and course.offered_semesters[&#123;{'last-element'}&#125;].end_week {'<='} (than last
-        week of a spring semester) and course.offered_semesters[&#123;{'last-element'}&#125;].end_week {'>='} (than
-        first week of a spring semester){' '}
+        &#125;].semester === 20221
       </p>
     </div>
   ),
@@ -53,7 +51,7 @@ const englishAnalysisSummarySection = {
           >
             the division of the academic year
           </a>
-          : Spring week 3-23, Autumn week 35-2, Summer week 24-34.
+          .
         </li>
         <li>
           The number of courses is calculated based on the number of unique course codes. Courses that have several
@@ -88,8 +86,7 @@ const swedishAnalysisSummarySection = {
       <p>
         Kursanalyser med kursomgångar som inte avslutades under terminen 20221 filtreras bort. Detta görs genom att
         förkasta kursomgångar som inte uppfyller kriterierna: course.offered_semesters[&#123;{'sista - element'}
-        &#125;].semester === 20221 och course.offered_semesters[&#123;{'sista - element'}&#125;].end_week {'<='} (VTs
-        sista veckan) och course.offered_semesters[&#123;{'sista - element'}&#125;].end_week {'>='} (VTs första veckan)
+        &#125;].semester === 20221.
       </p>
     </div>
   ),
@@ -117,7 +114,7 @@ const swedishAnalysisSummarySection = {
           >
             läsårsindelningen
           </a>
-          : VT vecka 3-23, HT vecka 35-2, sommar vecka 24-34 .
+          .
         </li>
         <li>
           Antal kurser räknas utifrån antal unika kurskoder. Kurser som har flera kurstillfällen med exakt samma start-

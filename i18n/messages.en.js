@@ -133,6 +133,8 @@ module.exports = {
     course_requirments_for_final_grade: 'Other requirements for final grade',
     course_literature: 'Literature',
     course_literature_comment: 'Literature comment',
+    course_literature_not_exist:
+      'You can find information about course literature either in the course memo for the course offering or in the course room in Canvas.',
     course_examination_comments: 'Examination comment',
     course_examination: 'Examination',
     course_examination_disclaimer:
@@ -140,13 +142,10 @@ module.exports = {
     course_valid_from: 'Valid from',
     course_main_subject: 'Main field of study',
     course_language: 'Language of instruction',
-    course_required_equipment: 'Equipment',
     course_level_code: 'Education cycle',
     course_decision_to_discontinue: 'Avvecklingsbeslut',
     course_transitional_reg: 'Transitional regulations',
     course_ethical: 'Ethical approach',
-    course_possibility_to_completions: 'Opportunity to complete the requirements via supplementary examination',
-    course_possibility_to_addition: 'Opportunity to raise an approved grade via renewed examination',
     course_short_semester: {
       1: 'Spring ',
       2: 'Autumn ',
@@ -164,12 +163,10 @@ module.exports = {
       3: 'Third cycle',
     },
     course_department: 'Offered by',
-    course_contact_name: 'Contact ',
     course_prerequisites: 'Recommended prerequisites',
     course_prerequisites_description:
       'Describes the knowledge and skills (in addition to the eligibility requirements) that you need to be able to take the course.',
     course_prerequisites_menu_aria_label: 'Information about recommended prerequisites',
-    course_suggested_addon_studies: 'Add-on studies',
     course_supplemental_information_url: 'Supplementary information link',
     course_supplemental_information_url_text: 'Supplementary information link text',
     course_supplemental_information: 'Supplementary information ',
@@ -178,7 +175,6 @@ module.exports = {
     course_room_canvas: 'Course room in Canvas',
     course_room_canvas_info:
       'Registered students find further information about the implementation of the course in the course room in Canvas. A link to the course room can be found under the tab Studies in the Personal menu at the start of the course.',
-    course_application_info: 'Information for research students about course offerings',
   },
   courseRoundInformation: {
     round_header: 'Information for',
@@ -316,14 +312,14 @@ module.exports = {
         documentType: 'Area',
         periods: 'Study period',
         school: 'School',
-        seasons: 'Semester',
+        semester: 'Semester',
         year: 'Year',
       },
       formShortIntro: {
         documentType: 'Select the area you would like to see statistics for  ',
         periods: 'Choose one or more option(s)',
         school: 'Select school',
-        seasons: 'Choose one or more option(s)',
+        semester: 'Choose one semester',
         year: 'Select year',
       },
       missingParameters: { text: extra => `You have to select a ${extra} to view statistics.` },

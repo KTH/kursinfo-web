@@ -1,7 +1,5 @@
 const mockedDiscontinuedCourse = {
   course: {
-    applicationInfo:
-      '<p>Kursen ges inte l&#228;s&#229;ret 22/23.</p><p>Kontakta examinator / kursansvarig f&#246;r information.</p>',
     courseCode: 'FCK3305',
     versionNumber: 1,
     departmentCode: 'CE',
@@ -22,7 +20,6 @@ const mockedDiscontinuedCourse = {
     state: 'ESTABLISHED',
     courseDeposition:
       '<p>Kursen omfattar cirka 200 heltidsstudietimmar och utg&#246;rs av f&#246;rel&#228;sningar och praktiska laborationer. Laborationerna omfattar relevanta och aktuella experimentella metoder inom kolhydratteknik, t.ex. kolhydratanalys, produktion av kolhydrataktiva enzymer, preparation och karakterisering av vedbaserade nanomaterial och kolhydratsyntes. En mer detaljerad beskrivning av kursens inneh&#229;ll och uppl&#228;gg &#229;terfinns i kurs-PM.</p>',
-    courseLiterature: '<p>Litteratur anvisas vid kursstart.</p>',
   },
   examiners: [
     {

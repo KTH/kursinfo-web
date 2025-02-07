@@ -45,16 +45,12 @@ function ResultNumbersSummary({ statisticsResult }) {
 }
 
 ResultNumbersSummary.propTypes = {
-  statisticsResult: PropTypes.oneOf([
-    PropTypes.shape({
-      combinedMemosPerSchool: PropTypes.shape({}),
-      documentType: PropTypes.oneOf(documentTypes()),
-      koppsApiBasePath: PropTypes.string,
-      documentsApiBasePath: PropTypes.string,
-      school: PropTypes.oneOf(schools.orderedSchoolsFormOptions()),
-    }),
-  ]),
+  statisticsResult: PropTypes.shape({
+    combinedMemosPerSchool: PropTypes.shape({}),
+    documentType: PropTypes.oneOf(documentTypes()),
+    koppsApiBasePath: PropTypes.string,
+    documentsApiBasePath: PropTypes.string,
+    school: PropTypes.oneOf(schools.orderedSchoolsFormOptions()),
+  }),
 }
-
-ResultNumbersSummary.defaultProps = {}
 export default ResultNumbersSummary

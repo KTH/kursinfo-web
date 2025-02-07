@@ -7,7 +7,7 @@ import { useLanguage } from '../../hooks/useLanguage'
 import { TableSummary } from './TableSummaryRows'
 import { Charts } from './Chart'
 import { periods as periodsLib } from './domain/index'
-import { Results } from './index'
+import { Results, StatisticsAlert } from './index'
 
 function getSchoolNumbers(school = {}) {
   return [
@@ -145,7 +145,6 @@ function MemosNumbersCharts({ statisticsResult }) {
 function MemosNumbersChartsYearAgo({ statisticsResult }) {
   const { school, documentType, periods, year } = statisticsResult
 
-  if (!documentType) return null
   const oneYearAgo = Number(year) - 1
 
   const state = useStatisticsAsync({ periods, year: oneYearAgo, documentType, school }, 'once')
@@ -154,6 +153,8 @@ function MemosNumbersChartsYearAgo({ statisticsResult }) {
 
   return (
     <>
+      {error?.errorType && <StatisticsAlert alertType={error.errorType}>{error.errorExtraText}</StatisticsAlert>}
+
       <Results statisticsStatus={statisticsStatus} error={error}>
         <MemosNumbersCharts statisticsResult={statisticsResultYearAgo} />
       </Results>
@@ -182,5 +183,4 @@ function MemosSummary({ statisticsResult }) {
   )
 }
 
-MemosSummary.defaultProps = {}
 export default MemosSummary

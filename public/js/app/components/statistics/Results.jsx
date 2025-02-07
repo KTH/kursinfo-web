@@ -28,7 +28,7 @@ const errorItalicParagraph = (error = {}, labels) => {
   )
 }
 
-function Results({ statisticsStatus, error = {}, children }) {
+function Results({ statisticsStatus = null, error = {}, children }) {
   const {
     translation: { statisticsLabels },
   } = useLanguage()
@@ -55,11 +55,6 @@ Results.propTypes = {
     errorType: PropTypes.oneOf([...Object.values(ERROR_ASYNC), '']),
     errorExtraText: PropTypes.string,
   }),
-}
-
-Results.defaultProps = {
-  error: {},
-  statisticsStatus: null,
 }
 
 export default Results

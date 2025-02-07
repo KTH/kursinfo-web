@@ -135,6 +135,8 @@ module.exports = {
     course_requirments_for_final_grade: 'Övriga krav för slutbetyg',
     course_literature: 'Kurslitteratur',
     course_literature_comment: 'Kommentar till kurslitteratur',
+    course_literature_not_exist:
+      'Du hittar information om kurslitteratur antingen i kursomgångens kurs-PM eller i kursomgångens kursrum i Canvas.',
     course_examination_comments: 'Kommentar till examinationsmoment',
     course_examination: 'Examination',
     course_examination_disclaimer:
@@ -142,13 +144,10 @@ module.exports = {
     course_valid_from: 'Giltig från',
     course_main_subject: 'Huvudområde',
     course_language: 'Undervisningsspråk',
-    course_required_equipment: 'Utrustning',
     course_level_code: 'Utbildningsnivå',
     course_decision_to_discontinue: 'Avvecklingsbeslut',
     course_transitional_reg: 'Övergångsbestämmelser',
     course_ethical: 'Etiskt förhållningssätt',
-    course_possibility_to_completions: 'Möjlighet till komplettering',
-    course_possibility_to_addition: 'Möjlighet till plussning',
     course_short_semester: {
       1: 'VT ',
       2: 'HT ',
@@ -168,12 +167,10 @@ module.exports = {
       3: 'Forskarnivå',
     },
     course_department: 'Ges av',
-    course_contact_name: 'Kontaktperson',
     course_prerequisites: 'Rekommenderade förkunskaper',
     course_prerequisites_description:
       'Beskriver vilka kunskaper och färdigheter (utöver behörighetskraven) som du behöver för att kunna ta till dig kursen.',
     course_prerequisites_menu_aria_label: 'Information om rekommenderade förkunskaper',
-    course_suggested_addon_studies: 'Påbyggnad',
     course_supplemental_information_url: 'Övrig information - länk',
     course_supplemental_information_url_text: 'Övrig information - länk text',
     course_supplemental_information: 'Övrig information',
@@ -182,7 +179,6 @@ module.exports = {
     course_room_canvas: 'Kursrum i Canvas',
     course_room_canvas_info:
       'Registrerade studenter hittar information för genomförande av kursen i kursrummet i Canvas. En länk till kursrummet finns under fliken Studier i Personliga menyn vid kursstart.',
-    course_application_info: 'Information för forskarstuderande om när kursen ges',
   },
   courseRoundInformation: {
     round_header: 'Information för',
@@ -291,14 +287,14 @@ module.exports = {
         documentType: 'Område',
         periods: 'Läsperiod',
         school: 'Skola',
-        seasons: 'Termin',
+        semester: 'Termin',
         year: 'År',
       },
       formShortIntro: {
         documentType: 'Välj det område du vill se statistik för',
         periods: 'Kryssa i ett eller flera val',
         school: 'Välj skola',
-        seasons: 'Kryssa i ett eller flera val',
+        semester: 'Välj en termin',
         year: 'Välj år',
       },
       missingParameters: {

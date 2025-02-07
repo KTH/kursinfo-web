@@ -27,6 +27,7 @@ describe('Component <StatisticsForm>', () => {
   beforeAll(() => {
     jest.useFakeTimers({ advanceTimers: true })
     jest.setSystemTime(new Date(2023, 3, 1))
+    submittedResults = undefined
   })
 
   afterAll(() => {
@@ -268,10 +269,11 @@ describe('Component <StatisticsForm>', () => {
     expect(screen.getByRole('heading', { name: /termin/i })).toBeInTheDocument()
 
     await userEvent.click(screen.getByLabelText(/HT/i))
-    await userEvent.click(screen.getByLabelText(/sommar/i))
-
     expect(screen.getByLabelText(/HT/i)).toBeChecked()
-    expect(screen.getByLabelText(/sommar/i)).toBeChecked()
+
+    await userEvent.click(screen.getByLabelText(/VT/i))
+    expect(screen.getByLabelText(/VT/i)).toBeChecked()
+    expect(screen.getByLabelText(/HT/i)).not.toBeChecked()
 
     await userEvent.click(btn)
     expect(submittedResults).toMatchInlineSnapshot(`
@@ -279,10 +281,7 @@ describe('Component <StatisticsForm>', () => {
         "documentType": "courseAnalysis",
         "periods": [],
         "school": undefined,
-        "seasons": [
-          2,
-          0,
-        ],
+        "semester": "1",
         "year": undefined,
       }
     `)
@@ -297,7 +296,7 @@ describe('Component <StatisticsForm>', () => {
     expect(courseAnalysis).toBeChecked()
 
     expect(screen.getByLabelText(/HT/i)).not.toBeChecked()
-    expect(screen.getByLabelText(/sommar/i)).not.toBeChecked()
+    expect(screen.getByLabelText(/VT/i)).not.toBeChecked()
 
     await userEvent.click(btn)
     expect(submittedResults).toMatchInlineSnapshot(`
@@ -305,7 +304,7 @@ describe('Component <StatisticsForm>', () => {
         "documentType": "courseAnalysis",
         "periods": [],
         "school": undefined,
-        "seasons": [],
+        "semester": undefined,
         "year": undefined,
       }
     `)
@@ -320,12 +319,14 @@ describe('Component <StatisticsForm>', () => {
     await userEvent.click(courseMemo)
     expect(courseMemo).toBeChecked()
 
+    const btn = screen.getByRole('button', { name: /visa statistik/i })
+    await userEvent.click(btn)
+
     expect(submittedResults).toMatchInlineSnapshot(`
       {
-        "documentType": "courseAnalysis",
+        "documentType": "courseMemo",
         "periods": [],
         "school": undefined,
-        "seasons": [],
         "year": undefined,
       }
     `)
@@ -333,12 +334,14 @@ describe('Component <StatisticsForm>', () => {
     await userEvent.click(courseAnalysis)
     expect(courseAnalysis).toBeChecked()
 
+    await userEvent.click(btn)
+
     expect(submittedResults).toMatchInlineSnapshot(`
       {
         "documentType": "courseAnalysis",
         "periods": [],
         "school": undefined,
-        "seasons": [],
+        "semester": undefined,
         "year": undefined,
       }
     `)
@@ -383,10 +386,11 @@ describe('Component <StatisticsForm>', () => {
     expect(screen.getByRole('heading', { name: /termin/i })).toBeInTheDocument()
 
     await userEvent.click(screen.getByLabelText(/HT/i))
-    await userEvent.click(screen.getByLabelText(/sommar/i))
-
     expect(screen.getByLabelText(/HT/i)).toBeChecked()
-    expect(screen.getByLabelText(/sommar/i)).toBeChecked()
+
+    await userEvent.click(screen.getByLabelText(/VT/i))
+    expect(screen.getByLabelText(/VT/i)).toBeChecked()
+    expect(screen.getByLabelText(/HT/i)).not.toBeChecked()
 
     await userEvent.selectOptions(screen.getByRole('combobox', { name: /välj år/i }), '2019')
 
@@ -396,10 +400,7 @@ describe('Component <StatisticsForm>', () => {
         "documentType": "courseAnalysis",
         "periods": [],
         "school": "SCI",
-        "seasons": [
-          2,
-          0,
-        ],
+        "semester": "1",
         "year": 2019,
       }
     `)
@@ -477,11 +478,9 @@ describe('Component <StatisticsForm>', () => {
 
     await userEvent.selectOptions(screen.getByRole('combobox', { name: /välj år/i }), '2020')
 
-    await userEvent.click(screen.getByLabelText(/HT/i))
-    await userEvent.click(screen.getByLabelText(/sommar/i))
-
-    expect(screen.getByLabelText(/HT/i)).toBeChecked()
-    expect(screen.getByLabelText(/sommar/i)).toBeChecked()
+    await userEvent.click(screen.getByLabelText(/VT/i))
+    expect(screen.getByLabelText(/VT/i)).toBeChecked()
+    expect(screen.getByLabelText(/HT/i)).not.toBeChecked()
 
     const btn = screen.getByRole('button', { name: /visa statistik/i })
     await userEvent.click(btn)
@@ -490,10 +489,7 @@ describe('Component <StatisticsForm>', () => {
       {
         "documentType": "courseAnalysis",
         "school": "allSchools",
-        "seasons": [
-          2,
-          0,
-        ],
+        "semester": "1",
         "year": 2020,
       }
     `)
@@ -504,7 +500,8 @@ describe('Component <StatisticsForm>', () => {
     await userEvent.selectOptions(screen.getByRole('combobox', { name: /välj år/i }), '2020')
 
     await userEvent.click(screen.getByLabelText(/HT/i))
-    expect(screen.getByLabelText(/HT/i)).not.toBeChecked()
+    expect(screen.getByLabelText(/HT/i)).toBeChecked()
+    expect(screen.getByLabelText(/VT/i)).not.toBeChecked()
 
     await userEvent.click(btn)
 
@@ -512,9 +509,7 @@ describe('Component <StatisticsForm>', () => {
           {
             "documentType": "courseAnalysis",
             "school": "ITM",
-            "seasons": [
-              0,
-            ],
+            "semester": "2",
             "year": 2020,
           }
         `)

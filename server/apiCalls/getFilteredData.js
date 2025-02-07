@@ -32,7 +32,6 @@ function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, languag
       mainSubjects && mainSubjects.length > 0
         ? mainSubjects.join(', ')
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
-
     // From Kopps for now
     course_grade_scale: parseOrSetEmpty(koppsFormattedGradeScales[ladokCourse.betygsskala.code], language),
     course_last_exam: koppsCourse.lastExamTerm
@@ -40,14 +39,6 @@ function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, languag
       : [],
     course_literature: parseOrSetEmpty(koppsCourse.courseLiterature, language),
     course_state: parseOrSetEmpty(koppsCourse.state, language, true),
-
-    // TODO(Ladok-POC): Following should be removed (KUI-1387) set to emport for now
-    course_contact_name: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_suggested_addon_studies: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_application_info: '',
-    course_possibility_to_addition: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_possibility_to_completions: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_required_equipment: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
 
     // TODO(Ladok-POC): Will be replaced with field from Om kursen-admin
     course_prerequisites: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
