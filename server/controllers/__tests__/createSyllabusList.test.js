@@ -15,7 +15,7 @@ const expectedSyllabusList = [
     course_valid_to: undefined,
     course_required_equipment: '<i>No information inserted</i>',
     course_examination:
-      "<ul class='ul-no-padding' ><li>TEN1 - \n                            Examination,\n                            7.5 credits,  \n                            Seven point grading scale: AF              \n                            </li></ul>",
+      "<ul class='ul-no-padding' ><li>TEN1 - \n                            Examination,\n                            7.5 credits,  \n                            Seven point grading scale: A, B, C, D, E, FX, F              \n                            </li></ul>",
     course_examination_comments:
       'Based on recommendation from KTH’s coordinator for disabilities, the examiner will decide how to adapt an examination for students with documented disability. <br><br>The examiner may apply another examination format when re-examining individual students.<p>The examiner decides, in consultation with KTHs Coordinator of students with disabilities (Funka), about any customized examination for students with documented, lasting disability.&#160;</p>',
     course_ethical:
@@ -38,7 +38,7 @@ const expectedSyllabusList = [
     course_valid_to: { year: 2019, semesterNumber: 1 },
     course_required_equipment: '<i>No information inserted</i>',
     course_examination:
-      "<ul class='ul-no-padding' ><li>TEN1 - \n                            Examination,\n                            7.5 credits,  \n                            Seven point grading scale: AF              \n                            </li></ul>",
+      "<ul class='ul-no-padding' ><li>TEN1 - \n                            Examination,\n                            7.5 credits,  \n                            Seven point grading scale: A, B, C, D, E, FX, F              \n                            </li></ul>",
     course_examination_comments:
       'Based on recommendation from KTH’s coordinator for disabilities, the examiner will decide how to adapt an examination for students with documented disability. <br><br>The examiner may apply another examination format when re-examining individual students.',
     course_ethical:
@@ -58,7 +58,7 @@ const expectedSyllabusList = [
     course_valid_to: { year: 2010, semesterNumber: 1 },
     course_required_equipment: '<i>No information inserted</i>',
     course_examination:
-      "<ul class='ul-no-padding' ><li>TEN1 - \n                            Examination,\n                            7.5 credits,  \n                            Seven point grading scale: AF              \n                            </li></ul>",
+      "<ul class='ul-no-padding' ><li>TEN1 - \n                            Examination,\n                            7.5 credits,  \n                            Seven point grading scale: A, B, C, D, E, FX, F              \n                            </li></ul>",
     course_examination_comments:
       'Based on recommendation from KTH’s coordinator for disabilities, the examiner will decide how to adapt an examination for students with documented disability. <br><br>The examiner may apply another examination format when re-examining individual students.',
     course_ethical:
@@ -78,7 +78,7 @@ const expectedSyllabusList = [
     course_valid_to: { year: 2009, semesterNumber: 1 },
     course_required_equipment: '<i>No information inserted</i>',
     course_examination:
-      "<ul class='ul-no-padding' ><li>TEN1 - \n                            Examination,\n                            7.5 credits,  \n                            Seven point grading scale: AF              \n                            </li></ul>",
+      "<ul class='ul-no-padding' ><li>TEN1 - \n                            Examination,\n                            7.5 credits,  \n                            Seven point grading scale: A, B, C, D, E, FX, F              \n                            </li></ul>",
     course_examination_comments:
       'Based on recommendation from KTH’s coordinator for disabilities, the examiner will decide how to adapt an examination for students with documented disability. <br><br>The examiner may apply another examination format when re-examining individual students.',
     course_ethical:
@@ -228,6 +228,7 @@ const examinationModulesEn = [
       code: 'AF',
       name: 'Seven point grading scale',
       nameOther: 'Sjugradig betygsskala',
+      formatted: 'A, B, C, D, E, FX, F',
     },
     omfattning: {
       number: '7.5',
