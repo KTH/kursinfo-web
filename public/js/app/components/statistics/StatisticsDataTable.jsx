@@ -303,7 +303,7 @@ function StatisticsDataTable({ statisticsResult }) {
     (statisticsResult.offeringsWithAnalyses && statisticsResult.offeringsWithAnalyses.length === 0)
   )
     return <NoDataMessage labels={sortableTable} />
-  const { year, offeringsWithMemos, periods = [], seasons = [], offeringsWithAnalyses } = statisticsResult
+  const { year, offeringsWithMemos, periods = [], semester = '', offeringsWithAnalyses } = statisticsResult
   const isMemoPage = offeringsWithMemos && offeringsWithMemos.length > 0 ? true : false
   const isAnalysisPage = offeringsWithAnalyses && offeringsWithAnalyses.length > 0 ? true : false
 
@@ -342,7 +342,9 @@ function StatisticsDataTable({ statisticsResult }) {
     selector: group => group[columnName],
     sortable: true,
     wrap: true,
-    minWidth: '137px',
+    style: {
+      minWidth: '137px',
+    },
   }))
   let dataRows = []
   if (isMemoPage) {
@@ -402,7 +404,7 @@ function StatisticsDataTable({ statisticsResult }) {
                 fileName={
                   isMemoPage
                     ? `course-information-statistics-memos-${year}-periods-${periods.join('-')}`
-                    : `course-information-statistics-analyses-${year}-periods-${seasons.join('-')}`
+                    : `course-information-statistics-analyses-${year}-periods-${semester}`
                 }
               ></StatisticsExport>
             </Row>

@@ -1,11 +1,12 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import Alert from '../../components-shared/Alert'
+import React from 'react'
 import i18n from '../../../../../i18n'
+import Alert from '../../components-shared/Alert'
 import { ERROR_ASYNC } from '../../hooks/statisticsUseAsync'
+import { useLanguage } from '../../hooks/useLanguage'
 
-function StatisticsAlert({ alertType, languageIndex, children }) {
-  // We cannot use useLanguage or useWebContext here, as this component will be rendered outside of our component tree
+function StatisticsAlert({ alertType, children }) {
+  const { languageIndex } = useLanguage()
   const { statisticsLabels } = i18n.messages[languageIndex]
   const { header = '', help = '', text = '' } = statisticsLabels[alertType] || {}
 
@@ -20,7 +21,6 @@ function StatisticsAlert({ alertType, languageIndex, children }) {
 
 StatisticsAlert.propTypes = {
   alertType: PropTypes.oneOf([...Object.values(ERROR_ASYNC), null]).isRequired,
-  languageIndex: PropTypes.oneOf([0, 1]).isRequired,
 }
 
 export default StatisticsAlert

@@ -3,13 +3,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Col, Row } from 'reactstrap'
 
-import { STATUS, ERROR_ASYNC, useStatisticsAsync } from '../../hooks/statisticsUseAsync'
+import { ERROR_ASYNC, STATUS } from '../../hooks/statisticsUseAsync'
 
-import { periods, schools, seasons } from './domain/index'
 import { documentTypes } from './domain/formConfigurations'
 import { ResultNumbersSummary, Results, StatisticsDataTable } from './index'
 
-function SortableCoursesAndDocuments({ statisticsStatus, error = {}, statisticsResult }) {
+function SortableCoursesAndDocuments({ statisticsStatus = null, error = {}, statisticsResult }) {
   return (
     <Results statisticsStatus={statisticsStatus} error={error}>
       <Row>
@@ -32,9 +31,7 @@ SortableCoursesAndDocuments.propTypes = {
   languageIndex: PropTypes.oneOf([0, 1]),
   statisticsStatus: PropTypes.oneOf([...Object.values(STATUS), null]),
   statisticsResult: PropTypes.shape({
-    documentsApiBasePath: PropTypes.string,
     documentType: PropTypes.oneOf(documentTypes()),
-    koppsApiBasePath: PropTypes.string,
   }),
   error: PropTypes.shape({
     errorType: PropTypes.oneOf([...Object.values(ERROR_ASYNC), '']),
@@ -42,18 +39,8 @@ SortableCoursesAndDocuments.propTypes = {
   }),
 }
 
-SortableCoursesAndDocuments.defaultProps = {
-  languageIndex: 0,
-  error: {},
-  statisticsResult: {},
-  statisticsStatus: null,
-}
-
-function StatisticsResults({ chosenOptions }) {
-  const state = useStatisticsAsync(chosenOptions, 'onChange')
-
-  const { data: statisticsResult, status: statisticsStatus, error = {} } = state || {}
-
+function StatisticsResults({ result }) {
+  const { data: statisticsResult, status: statisticsStatus, error = {} } = result || {}
   return (
     <Row style={{ marginTop: '22px' }}>
       <Col>
@@ -68,17 +55,7 @@ function StatisticsResults({ chosenOptions }) {
 }
 
 StatisticsResults.propTypes = {
-  chosenOptions: PropTypes.shape({
-    documentType: PropTypes.oneOf(documentTypes()),
-    year: PropTypes.number,
-    periods: PropTypes.arrayOf(PropTypes.oneOf(periods.orderedPeriods())),
-    school: PropTypes.oneOf(schools.orderedSchoolsFormOptions()),
-    seasons: PropTypes.arrayOf(PropTypes.oneOf(seasons.orderedSeasons())),
-  }),
-}
-
-StatisticsResults.defaultProps = {
-  chosenOptions: {},
+  result: PropTypes.object,
 }
 
 export default StatisticsResults

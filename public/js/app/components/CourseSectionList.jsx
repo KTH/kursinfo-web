@@ -7,7 +7,7 @@ import { SyllabusInformation } from './SyllabusInformation'
 
 function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabusName }) {
   const { translation } = useLanguage()
-  const { isMissingInfoLabel, missingInfoLabel } = useMissingInfo()
+  const { isMissingInfoLabel } = useMissingInfo()
 
   function getContent() {
     const content = [
@@ -38,24 +38,17 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
   }
 
   function getExecution() {
-    let literatureText = missingInfoLabel
-    const courseHasLiterature = courseInfo.course_literature && !isMissingInfoLabel(courseInfo.course_literature)
+    let literatureText = translation.courseInformation.course_literature_not_exist
     const syllabusHasLiterature = syllabus.course_literature && !isMissingInfoLabel(syllabus.course_literature)
     const syllabusHasLiteratureComment =
       syllabus.course_literature_comment && !isMissingInfoLabel(syllabus.course_literature_comment)
 
-    if (courseHasLiterature) {
-      literatureText = courseInfo.course_literature
-    } else if (syllabusHasLiterature) {
+    if (syllabusHasLiterature) {
       const literatureComment = syllabusHasLiteratureComment ? `<br />${syllabus.course_literature_comment}` : ''
       literatureText = `${syllabus.course_literature}${literatureComment}`
     } else if (syllabusHasLiteratureComment) {
       literatureText = `${syllabus.course_literature_comment}`
     }
-
-    const courseRequiredEquipment = !isMissingInfoLabel(courseInfo.course_required_equipment)
-      ? courseInfo.course_required_equipment
-      : syllabus.course_required_equipment
 
     const eligibility = getEligibility()
 
@@ -70,7 +63,6 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
           ariaLabel: translation.courseInformation.course_prerequisites_menu_aria_label,
         },
       },
-      { header: translation.courseInformation.course_required_equipment, text: courseRequiredEquipment },
       { header: translation.courseInformation.course_literature, text: literatureText },
     ]
 
@@ -110,14 +102,6 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
         syllabusMarker: true,
       })
     }
-    examination.push({
-      header: translation.courseInformation.course_possibility_to_completions,
-      text: courseInfo.course_possibility_to_completions,
-    })
-    examination.push({
-      header: translation.courseInformation.course_possibility_to_addition,
-      text: courseInfo.course_possibility_to_addition,
-    })
     examination.push({ header: translation.courseInformation.course_examiners, text: courseInfo.course_examiners })
     examination.push({
       header: translation.courseInformation.course_ethical,
@@ -147,13 +131,7 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
         text: translation.courseInformation.course_level_code_label[courseInfo.course_level_code],
         syllabusMarker: true,
       },
-      {
-        header: translation.courseInformation.course_suggested_addon_studies,
-        text: courseInfo.course_suggested_addon_studies,
-      },
     ]
-    if (!isMissingInfoLabel(courseInfo.course_contact_name))
-      prepare.push({ header: translation.courseInformation.course_contact_name, text: courseInfo.course_contact_name })
     if (syllabus.course_transitional_reg !== '')
       prepare.push({
         header: translation.courseInformation.course_transitional_reg,

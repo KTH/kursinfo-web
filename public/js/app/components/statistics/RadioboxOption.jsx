@@ -71,7 +71,7 @@ function RadioboxOption({ paramName, onChange }) {
 }
 
 RadioboxOption.propTypes = {
-  paramName: PropTypes.oneOf(['documentType', 'school']).isRequired,
+  paramName: PropTypes.oneOf(['documentType', 'school', 'semester']).isRequired,
   onChange: PropTypes.func.isRequired,
 }
 

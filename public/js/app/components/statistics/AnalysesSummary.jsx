@@ -7,7 +7,7 @@ import { useLanguage } from '../../hooks/useLanguage'
 import { TableSummary } from './TableSummaryRows'
 import { seasons as seasonLib } from './domain/index'
 import { Charts } from './Chart'
-import { Results } from './index'
+import { Results, StatisticsAlert } from './index'
 
 function getSchoolNumbers(school) {
   const { numberOfCourses, numberOfUniqAnalyses } = school
@@ -25,7 +25,7 @@ function addAllSchoolsData({ totalCourses, totalUniqPublishedAnalyses }) {
   return allSchools
 }
 
-function Captions({ school, year, seasons }) {
+function Captions({ school, year, semester }) {
   const {
     languageIndex,
     translation: {
@@ -41,7 +41,7 @@ function Captions({ school, year, seasons }) {
     return schoolName
   }
 
-  const seasonsStr = seasons.map(season => seasonLib.labelSeason(season, languageIndex)).join(', ')
+  const semesterStr = seasonLib.labelSeason(semester, languageIndex)
   return (
     <Row>
       <Col xs="4" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
@@ -53,8 +53,8 @@ function Captions({ school, year, seasons }) {
         {`: ${year}`}
       </Col>
       <Col xs="4" style={{ flex: 'none', width: 'auto', paddingBottom: '20px' }}>
-        <label>{formSubHeaders.seasons}</label>
-        {`: ${seasonsStr}`}
+        <label>{formSubHeaders.semester}</label>
+        {`: ${semesterStr}`}
       </Col>
     </Row>
   )
@@ -63,12 +63,12 @@ function Captions({ school, year, seasons }) {
 function AnalysesNumbersTable({ statisticsResult }) {
   const { translation } = useLanguage()
   const { analysesNumbersTable } = translation.statisticsLabels.summaryLabels
-  const { combinedAnalysesPerSchool, year, seasons, school } = statisticsResult
+  const { combinedAnalysesPerSchool, year, semester, school } = statisticsResult
   const cellNames = ['totalCourses', 'totalUniqPublishedAnalyses']
 
   return (
     <>
-      <Captions school={school} year={year} seasons={seasons} />
+      <Captions school={school} year={year} semester={semester} />
 
       <TableSummary
         docsPerSchool={combinedAnalysesPerSchool}
@@ -83,7 +83,7 @@ function AnalysesNumbersTable({ statisticsResult }) {
 
 function AnalysesNumbersCharts({ statisticsResult }) {
   const chartNames = ['numberOfUniqAnalyses']
-  const { combinedAnalysesPerSchool: docsPerSchool, seasons, year, school } = statisticsResult
+  const { combinedAnalysesPerSchool: docsPerSchool, semester, year, school } = statisticsResult
   const { schools = {} } = docsPerSchool
   if (school === 'allSchools') {
     schools.allSchools = addAllSchoolsData(docsPerSchool)
@@ -91,24 +91,24 @@ function AnalysesNumbersCharts({ statisticsResult }) {
 
   return (
     <>
-      <Captions school={school} year={year} seasons={seasons} />
+      <Captions school={school} year={year} semester={semester} />
 
       <Charts chartNames={chartNames} schools={schools} />
     </>
   )
 }
 function AnalysesNumbersChartsYearAgo({ statisticsResult }) {
-  const { school, documentType, seasons, year } = statisticsResult
+  const { school, documentType, semester, year } = statisticsResult
 
-  if (!documentType) return null
   const oneYearAgo = Number(year) - 1
 
-  const state = useStatisticsAsync({ seasons, year: oneYearAgo, documentType, school }, 'once')
+  const state = useStatisticsAsync({ semester, year: oneYearAgo, documentType, school }, 'once')
 
   const { data: statisticsResultYearAgo, status: statisticsStatus, error = {} } = state || {}
 
   return (
     <>
+      {error?.errorType && <StatisticsAlert alertType={error.errorType}>{error.errorExtraText}</StatisticsAlert>}
       <Results statisticsStatus={statisticsStatus} error={error}>
         <AnalysesNumbersCharts statisticsResult={statisticsResultYearAgo} />
       </Results>

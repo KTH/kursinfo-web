@@ -298,8 +298,7 @@ describe('Component <CourseStatisticsPage> show compilation data in for course a
       koppsApiBasePath: 'https://api-r.referens.sys.kth.se/api/kopps/v2/',
       documentsApiBasePath: 'http://localhost/api/kurs-pm-data',
       school: 'allSchools',
-      seasons: ['0', '1', '2'],
-      semesters: ['20211', '20212'],
+      semester: '1',
       year: '2021',
     }
 
@@ -319,17 +318,15 @@ describe('Component <CourseStatisticsPage> show compilation data in for course a
     // check all checkboxes
 
     await userEvent.click(screen.getByLabelText(/HT/i))
-    await userEvent.click(screen.getByLabelText(/sommar/i))
-    await userEvent.click(screen.getByLabelText(/VT/i))
-
     expect(screen.getByLabelText(/HT/i)).toBeChecked()
-    expect(screen.getByLabelText(/sommar/i)).toBeChecked()
+    await userEvent.click(screen.getByLabelText(/VT/i))
+    expect(screen.getByLabelText(/HT/i)).not.toBeChecked()
     expect(screen.getByLabelText(/VT/i)).toBeChecked()
 
     const btn = screen.getByRole('button', { name: /visa statistik/i })
     await userEvent.click(btn)
     const url = 'node/api/kursinfo/statistics/courseAnalysis/year/2021'
-    const paramsPeriod1 = { params: { l: 'sv', analysesSeasons: [1, 2], school: 'allSchools', seasons: [0, 1, 2] } }
+    const paramsPeriod1 = { params: { l: 'sv', semester: 1, school: 'allSchools' } }
     expect(axios.get).toHaveBeenCalledWith(url, paramsPeriod1)
 
     expect(

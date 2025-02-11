@@ -22,6 +22,7 @@ describe('Component <StatisticsForm> in english', () => {
   beforeAll(() => {
     jest.useFakeTimers({ advanceTimers: true })
     jest.setSystemTime(new Date(2023, 3, 1))
+    submittedResults = undefined
   })
 
   afterAll(() => {
@@ -267,10 +268,11 @@ describe('Component <StatisticsForm> in english', () => {
     expect(screen.getByRole('heading', { name: /semester/i })).toBeInTheDocument()
 
     await userEvent.click(screen.getByLabelText(/autumn/i))
-    await userEvent.click(screen.getByLabelText(/summer/i))
-
     expect(screen.getByLabelText(/autumn/i)).toBeChecked()
-    expect(screen.getByLabelText(/summer/i)).toBeChecked()
+
+    await userEvent.click(screen.getByLabelText(/spring/i))
+    expect(screen.getByLabelText(/spring/i)).toBeChecked()
+    expect(screen.getByLabelText(/autumn/i)).not.toBeChecked()
 
     await userEvent.click(btn)
     expect(submittedResults).toMatchInlineSnapshot(`
@@ -278,10 +280,7 @@ describe('Component <StatisticsForm> in english', () => {
         "documentType": "courseAnalysis",
         "periods": [],
         "school": undefined,
-        "seasons": [
-          2,
-          0,
-        ],
+        "semester": "1",
         "year": undefined,
       }
     `)
@@ -296,7 +295,7 @@ describe('Component <StatisticsForm> in english', () => {
     expect(courseAnalysis).toBeChecked()
 
     expect(screen.getByLabelText(/autumn/i)).not.toBeChecked()
-    expect(screen.getByLabelText(/summer/i)).not.toBeChecked()
+    expect(screen.getByLabelText(/spring/i)).not.toBeChecked()
 
     await userEvent.click(btn)
     expect(submittedResults).toMatchInlineSnapshot(`
@@ -304,7 +303,7 @@ describe('Component <StatisticsForm> in english', () => {
         "documentType": "courseAnalysis",
         "periods": [],
         "school": undefined,
-        "seasons": [],
+        "semester": undefined,
         "year": undefined,
       }
     `)
@@ -349,10 +348,11 @@ describe('Component <StatisticsForm> in english', () => {
     expect(screen.getByRole('heading', { name: /semester/i })).toBeInTheDocument()
 
     await userEvent.click(screen.getByLabelText(/autumn/i))
-    await userEvent.click(screen.getByLabelText(/summer/i))
-
     expect(screen.getByLabelText(/autumn/i)).toBeChecked()
-    expect(screen.getByLabelText(/summer/i)).toBeChecked()
+
+    await userEvent.click(screen.getByLabelText(/spring/i))
+    expect(screen.getByLabelText(/spring/i)).toBeChecked()
+    expect(screen.getByLabelText(/autumn/i)).not.toBeChecked()
 
     await userEvent.selectOptions(screen.getByRole('combobox', { name: /Select year/i }), '2019')
 
@@ -362,10 +362,7 @@ describe('Component <StatisticsForm> in english', () => {
         "documentType": "courseAnalysis",
         "periods": [],
         "school": "SCI",
-        "seasons": [
-          2,
-          0,
-        ],
+        "semester": "1",
         "year": 2019,
       }
     `)
@@ -402,7 +399,7 @@ describe('Component <StatisticsForm> in english', () => {
         "documentType": "courseAnalysis",
         "periods": [],
         "school": undefined,
-        "seasons": [],
+        "semester": undefined,
         "year": undefined,
       }
     `)
@@ -546,10 +543,8 @@ describe('Component <StatisticsForm> in english', () => {
     await userEvent.selectOptions(screen.getByRole('combobox', { name: /Select year/i }), '2019')
 
     await userEvent.click(screen.getByLabelText(/spring/i))
-    await userEvent.click(screen.getByLabelText(/summer/i))
-
     expect(screen.getByLabelText(/spring/i)).toBeChecked()
-    expect(screen.getByLabelText(/summer/i)).toBeChecked()
+    expect(screen.getByLabelText(/autumn/i)).not.toBeChecked()
 
     const btn = screen.getByRole('button', { name: /show statistics/i })
     await userEvent.click(btn)
@@ -558,10 +553,7 @@ describe('Component <StatisticsForm> in english', () => {
       {
         "documentType": "courseAnalysis",
         "school": "EECS",
-        "seasons": [
-          1,
-          0,
-        ],
+        "semester": "1",
         "year": 2019,
       }
     `)
@@ -574,6 +566,7 @@ describe('Component <StatisticsForm> in english', () => {
 
     await userEvent.click(screen.getByLabelText(/autumn/i))
     expect(screen.getByLabelText(/autumn/i)).toBeChecked()
+    expect(screen.getByLabelText(/spring/i)).not.toBeChecked()
 
     await userEvent.click(btn)
 
@@ -581,11 +574,7 @@ describe('Component <StatisticsForm> in english', () => {
       {
         "documentType": "courseAnalysis",
         "school": "ITM",
-        "seasons": [
-          1,
-          0,
-          2,
-        ],
+        "semester": "2",
         "year": 2020,
       }
     `)

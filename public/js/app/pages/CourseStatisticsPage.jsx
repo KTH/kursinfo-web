@@ -2,18 +2,19 @@
 import React from 'react'
 
 import { introductionTexts } from '../components/statistics/StatisticsTexts'
-import { StatisticsForm, StatisticsResults } from '../components/statistics/index'
 import { findMissingParametersKeys, hasValue } from '../components/statistics/domain/validation'
+import { StatisticsForm, StatisticsResults } from '../components/statistics/index'
+import { useStatisticsAsync } from '../hooks/statisticsUseAsync'
 import { useLanguage } from '../hooks/useLanguage'
 
-function _parseValues({ documentType, periods, school, seasons, year }) {
+function _parseValues({ documentType, periods, school, semester, year }) {
   // clean params
 
   const optionsValues = {}
 
   if (hasValue(documentType)) optionsValues.documentType = documentType
   if (hasValue(periods)) optionsValues.periods = periods
-  if (hasValue(seasons)) optionsValues.seasons = seasons
+  if (hasValue(semester)) optionsValues.semester = semester
   if (hasValue(school)) optionsValues.school = school
   if (hasValue(year)) optionsValues.year = year
 
@@ -43,13 +44,13 @@ function CourseStatisticsPage() {
      * @property {string} documentType
      * @property {array} periods
      * @property {string} school
-     * @property {array} seasons
+     * @property {string} semester
      * @property {number} year
      */
     documentType: null,
     periods: null,
     school: null,
-    seasons: null,
+    semester: null,
     year: null,
   })
   const [hasSubmittedEmptyValue, setHasSubmittedEmptyValue] = React.useState(false)
@@ -61,13 +62,16 @@ function CourseStatisticsPage() {
     const missingParams = findMissingParametersKeys(finalSearchParams)
     setHasSubmittedEmptyValue(missingParams.length > 0)
   }
+
+  const resultState = useStatisticsAsync(params, 'onChange')
+
   return (
     <div id="kursstatistik-main-page" className={hasSubmittedEmptyValue ? 'error-missing-parameters-in-query' : ''}>
       <h1>{labels.pageHeader}</h1>
       {texts.pageDescription()}
       <h2>{labels.formLabels.formHeader}</h2>
-      <StatisticsForm onSubmit={handleSubmit} />
-      <StatisticsResults chosenOptions={params} />
+      <StatisticsForm onSubmit={handleSubmit} resultError={resultState.error} />
+      <StatisticsResults result={resultState} />
     </div>
   )
 }
