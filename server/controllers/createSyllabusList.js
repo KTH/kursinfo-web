@@ -8,7 +8,7 @@ const _parseExamObject = examinationModules => {
     examString += `<li>${examinationModule.kod} - 
                             ${examinationModule.benamning},
                             ${examinationModule.omfattning.formattedWithUnit},  
-                            ${examinationModule.betygsskala.name}: ${examinationModule.betygsskala.code}              
+                            ${examinationModule.betygsskala.name}: ${examinationModule.betygsskala.formatted}              
                             </li>`
   })
 
