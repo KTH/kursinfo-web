@@ -194,11 +194,6 @@ appRoute.get(
   config.proxyPrefixPath.uri + '/api/kursinfo/statistics/courseMemo/year/:year',
   StatisticsCtrl.fetchMemoStatistics
 )
-appRoute.get(
-  'api.statisticsAnalysis',
-  config.proxyPrefixPath.uri + '/api/kursinfo/statistics/courseAnalysis/year/:year',
-  StatisticsCtrl.fetchAnalysisStatistics
-)
 
 appRoute.get(
   'SyllabusPdf.getPdfProxy',
