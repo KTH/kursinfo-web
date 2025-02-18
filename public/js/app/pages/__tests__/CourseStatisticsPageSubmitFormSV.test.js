@@ -48,19 +48,6 @@ describe('Component <CourseStatisticsPage> submit data', () => {
     expect(within(alertMemoMessage).getByText(emptyMemoFieldsNamesMessage)).toBeInTheDocument()
 
     expect(screen.getAllByText(emptyMemoFieldsNamesMessage, { exact: true }).length).toBe(1)
-
-    // choose course analysis
-    const courseAnalysis = screen.getByLabelText(/kursanalys/i)
-    await userEvent.click(courseAnalysis)
-    // submit
-    await userEvent.click(btn)
-
-    const emptyAnalysisFieldsNames = /Du måste välja skola, år och termin för att kunna visa statistik/i
-    const alertnalysisMemoMessage = screen.getByRole('alert')
-    expect(alertnalysisMemoMessage).toBeInTheDocument()
-    expect(within(alertnalysisMemoMessage).getByText(emptyAnalysisFieldsNames)).toBeInTheDocument()
-
-    expect(screen.getAllByText(emptyAnalysisFieldsNames, { exact: true }).length).toBe(1)
   })
 
   test('choose a course memo, chose/unchoose different periods (läsperiod) and submit the rest of the form empty', async () => {

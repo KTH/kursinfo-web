@@ -289,14 +289,11 @@ module.exports = {
     allSchools: 'All schools',
     chartsLabels: {
       headerMemo: 'Percentage of courses that have published course memos',
-      headerAnalysis: 'Percentage of courses (ending the chosen semester) that have a published course analysis',
       headerYearAgo: 'Compare with the result for the selected study period from the previous year',
-      numberOfUniqAnalyses: 'During the semester (s)',
       numberOfUniqWebAndPdfMemos: 'Under study period(s)',
       numberOfMemosPublishedBeforeStart: 'Before course start',
       numberOfMemosPublishedBeforeDeadline: 'One week before course start',
     },
-    courseAnalysis: 'Course analysis',
     courseMemo: 'Course memo',
     btnShowResults: 'Show statistics',
     errorUnknown: { text: 'An unknown error occurred - failed to retrieve course data.' },
@@ -337,12 +334,6 @@ module.exports = {
         1: 'Spring',
         2: 'Autumn',
       },
-      courseAnalysis: {
-        header: 'Table of courses and course analyses',
-        details:
-          'Here it is possible to see a table with data for all course offerings for the selected school and semester. It is possible to sort the information in the table columns. It is also possible to download the table as an Excel or CSV file to do your own filtering and sorting of the data.',
-        sourceOfData: 'See table with data for course analysis',
-      },
       courseMemo: {
         header: 'Table of courses and course memos',
         details:
@@ -367,14 +358,12 @@ module.exports = {
         linkToCoursePM: 'Link to course memo',
         term: 'Semester',
         courseEndDate: 'Offering end date',
-        linkToCourseAnalysis: 'Link to course analysis',
       },
     },
     summaryLabels: {
       sourceOfData: 'Read about the API:s and the source of data',
       subHeaders: {
         courseMemo: 'Compilation of the number of published course memos',
-        courseAnalysis: 'Compilation of the number of published course analyses',
       },
       memosNumbersTable: {
         school: 'School',
@@ -384,12 +373,6 @@ module.exports = {
         totalPublPdfMemos: 'Memos as PDF',
         totalMemosPublishedBeforeCourseStart: 'Memos published latest at course start',
         totalMemosPublishedBeforeDeadline: 'Memos published one week before course start',
-      },
-      analysesNumbersTable: {
-        school: 'School',
-        totalCourses: 'Number of courses ending the chosen semesters',
-        totalUniqPublishedAnalyses:
-          'Number of published course analyses for course offerings ending the chosen semester',
       },
     },
     earlierYearThan2019: { text: 'There is no data earlier than 2019' },

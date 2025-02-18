@@ -7,7 +7,7 @@ import { summaryTexts } from './StatisticsTexts'
 
 import { DOCS, documentTypes } from './domain/formConfigurations'
 import { schools } from './domain/index'
-import { AnalysesSummary, MemosSummary } from './index'
+import { MemosSummary } from './index'
 
 function ResultNumbersSummary({ statisticsResult }) {
   const { documentType, koppsApiBasePath } = statisticsResult
@@ -34,11 +34,7 @@ function ResultNumbersSummary({ statisticsResult }) {
         </details>
       </article>
       <article key="documents-and-courses-compilation">
-        {documentType === DOCS.courseMemo ? (
-          <MemosSummary statisticsResult={statisticsResult} />
-        ) : (
-          <AnalysesSummary statisticsResult={statisticsResult} />
-        )}
+        {documentType === DOCS.courseMemo ? <MemosSummary statisticsResult={statisticsResult} /> : null}
       </article>
     </>
   )
