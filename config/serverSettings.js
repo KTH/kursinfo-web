@@ -46,6 +46,7 @@ module.exports = {
     kursplanApi: getEnv('KURSPLAN_API_KEY', devDefaults('5678')),
     kursPmDataApi: getEnv('KURS_PM_DATA_API_KEY', devDefaults('9876')),
     kursutvecklingApi: getEnv('KURSUTVECKLING_API_KEY', devDefaults('1234')),
+    socialApi: getEnv('SOCIAL_KEY', devDefaults('')),
   },
 
   nodeApi: {
@@ -53,6 +54,10 @@ module.exports = {
     kursplanApi: unpackNodeApiConfig('KURSPLAN_API_URI', devKursplanApi),
     kursPmDataApi: unpackNodeApiConfig('KURS_PM_DATA_API_URI', devKursPmDataApi),
     kursutvecklingApi: unpackNodeApiConfig('KURSUTVECKLING_API_URI', devKursutvecklingApi),
+  },
+
+  socialApi: {
+    baseUrl: getEnv('SOCIAL_USER_URI', devDefaults('https://www.kth.se/social/user')),
   },
 
   // TODO(Ladok-POC): Replace devDefaults and add values to ref/prod.parameters.json when final mellanlager is deployed
