@@ -15,6 +15,7 @@ const callApiAndPossiblyHandle404 = async ({ client, uri, lang = undefined }) =>
     const error = createInvalidCourseCodeError(lang, uri)
     throw error
   }
+  console.log('A very beautiful response: ', JSON.stringify(response, null, 4))
   return response
 }
 

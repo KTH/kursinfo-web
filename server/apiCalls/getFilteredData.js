@@ -15,6 +15,8 @@ const {
 const koppsCourseData = require('./koppsCourseData')
 const ladokApi = require('./ladokApi')
 const courseApi = require('./kursinfoApi')
+const { socialApi } = require('../../config/serverSettings')
+const { getSocial } = require('./socialApi')
 
 function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, language) {
   const { course: koppsCourse } = koppsCourseDetails
@@ -228,6 +230,8 @@ function _parseRounds({ roundInfos: koppsRoundInfos, courseCode, language, memoL
 const getFilteredData = async ({ courseCode, language, memoList }) => {
   const { body: koppsCourseDetails } = await koppsCourseData.getKoppsCourseData(courseCode, language)
   const { course: ladokCourse, rounds: ladokRounds } = await ladokApi.getCourseAndActiveRounds(courseCode, language)
+
+  const socialSchedules = await getSocial(courseCode, language)
 
   const examinationModules = await ladokApi.getExaminationModules(ladokCourse.uid, language)
   if (!koppsCourseDetails || !ladokCourse) {
