@@ -3,13 +3,10 @@ const { calcPreviousSemester, parseSemesterIntoYearSemesterNumber } = require('.
 const { parseOrSetEmpty } = require('./courseCtrlHelpers')
 
 const _parseExamObject = examinationModules => {
+  const { completeExaminationStrings } = examinationModules
   let examString = "<ul class='ul-no-padding' >"
-  examinationModules.forEach(examinationModule => {
-    examString += `<li>${examinationModule.kod} - 
-                            ${examinationModule.benamning},
-                            ${examinationModule.omfattning.formattedWithUnit},  
-                            ${examinationModule.betygsskala.name}: ${examinationModule.betygsskala.formatted}              
-                            </li>`
+  completeExaminationStrings.forEach(examinationModule => {
+    examString += `<li>${examinationModule}</li>`
   })
 
   examString += '</ul>'
@@ -57,7 +54,7 @@ const _parseSyllabusData = (courseDetails, examinationModules, semesterIndex = 0
     course_valid_from: parseSemesterIntoYearSemesterNumber(parseOrSetEmpty(semesterSyllabus.validFromTerm.term)),
     course_valid_to: undefined,
     course_examination:
-      examinationModules && examinationModules.length > 0
+      examinationModules && examinationModules.completeExaminationStrings.length > 0
         ? _parseExamObject(examinationModules)
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     course_examination_comments: parseOrSetEmpty(semesterSyllabus.courseSyllabus.examComments, language, true),
