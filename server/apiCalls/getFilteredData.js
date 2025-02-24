@@ -231,6 +231,8 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   const { body: koppsCourseDetails } = await koppsCourseData.getKoppsCourseData(courseCode, language)
   const { course: ladokCourse, rounds: ladokRounds } = await ladokApi.getCourseAndActiveRounds(courseCode, language)
 
+  console.log(`YOUR DATA: ${JSON.stringify(koppsCourseDetails, null, 4)}`)
+
   const socialSchedules = await getSocial(courseCode, language)
 
   const examinationModules = await ladokApi.getExaminationModules(ladokCourse.uid, language)
