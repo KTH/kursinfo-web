@@ -6,6 +6,7 @@ const config = require('./configuration').server
 require('./api')
 const AppRouter = require('kth-node-express-routing').PageRouter
 const { getPaths } = require('kth-node-express-routing')
+const { cortinaMiddleware } = require('@kth/cortina-block')
 
 // Expose the server and paths
 server.locals.secret = new Map()
@@ -134,13 +135,13 @@ server.use(config.proxyPrefixPath.uri, languageHandler)
  */
 server.use(
   config.proxyPrefixPath.uri,
-  require('@kth/kth-node-web-common/lib/web/cortina')({
-    blockUrl: config.blockApi.blockUrl,
+  cortinaMiddleware({
+    blockApiUrl: config.blockApi.blockUrl,
     proxyPrefixPath: config.proxyPrefixPath.uri,
     hostUrl: config.hostUrl,
     redisConfig: config.cache.cortinaBlock.redis,
     globalLink: config.blockApi.globalLink,
-    addBlocks: config.blockApi.addBlocks,
+    blocksConfig: config.blockApi.addBlocks,
     redisKey: config.cache.cortinaBlock.redisKey,
     useStyle10: true,
     // globalLink: true ---> don't use it, because we use local site language link, not global kth link
