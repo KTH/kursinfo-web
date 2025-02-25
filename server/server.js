@@ -137,14 +137,9 @@ server.use(
   config.proxyPrefixPath.uri,
   cortinaMiddleware({
     blockApiUrl: config.blockApi.blockUrl,
-    proxyPrefixPath: config.proxyPrefixPath.uri,
-    hostUrl: config.hostUrl,
     redisConfig: config.cache.cortinaBlock.redis,
-    globalLink: config.blockApi.globalLink,
     blocksConfig: config.blockApi.addBlocks,
     redisKey: config.cache.cortinaBlock.redisKey,
-    useStyle10: true,
-    // globalLink: true ---> don't use it, because we use local site language link, not global kth link
   })
 )
 

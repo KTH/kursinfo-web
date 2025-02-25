@@ -69,7 +69,6 @@ module.exports = {
       studentSearch: '1.1066521',
       studentFooter: '1.1066523',
     },
-    globalLink: false,
   },
 
   // Logging
