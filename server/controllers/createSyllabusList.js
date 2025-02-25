@@ -116,50 +116,49 @@ const _createEmptySyllabusData = language => ({
   course_decision_to_discontinue: '',
 })
 
-const _parseSyllabusData = (courseDetails, examinationModules, semesterIndex = 0, language) => {
-  const { publicSyllabusVersions } = courseDetails
-  const hasSyllabusData = publicSyllabusVersions && publicSyllabusVersions.length > 0
-  const semesterSyllabus =
-    hasSyllabusData && publicSyllabusVersions[semesterIndex] ? publicSyllabusVersions[semesterIndex] : null
+const _parseSyllabusData = (courseDetails, examinationModules, syllabuses, semesterIndex = 0, language) => {
+  // const { publicSyllabusVersions } = courseDetails
+  // const hasSyllabusData = publicSyllabusVersions && publicSyllabusVersions.length > 0
+  const hasSyllabusData = syllabuses && syllabuses.length > 0
+  const semesterSyllabus = hasSyllabusData && syllabuses[semesterIndex] ? syllabuses[semesterIndex] : null
+
+  console.log('SEMESTER SYLLABUS: ', semesterSyllabus.kursplan.kursinnehall)
 
   if (!semesterSyllabus) {
     return _createEmptySyllabusData(language)
   }
-
   return {
-    course_goals: parseOrSetEmpty(semesterSyllabus.courseSyllabus.goals, language),
-    course_content: parseOrSetEmpty(semesterSyllabus.courseSyllabus.content, language),
-    course_eligibility: parseOrSetEmpty(semesterSyllabus.courseSyllabus.eligibility, language),
+    course_goals: parseOrSetEmpty(semesterSyllabus.kursplan.larandemal, language),
+    course_content: parseOrSetEmpty(semesterSyllabus.kursplan.kursinnehall, language),
+    course_eligibility: parseOrSetEmpty(semesterSyllabus.kursplan.sarskildbehorighet, language),
     course_requirments_for_final_grade: parseOrSetEmpty(
-      semesterSyllabus.courseSyllabus.reqsForFinalGrade,
+      semesterSyllabus.kursplan.ovrigakravforslutbetyg,
       language,
       true
     ),
-    course_literature: parseOrSetEmpty(semesterSyllabus.courseSyllabus.literature, language),
-    course_literature_comment: parseOrSetEmpty(semesterSyllabus.courseSyllabus.literatureComment, language),
-    course_valid_from: parseSemesterIntoYearSemesterNumber(parseOrSetEmpty(semesterSyllabus.validFromTerm.term)),
+    course_literature: parseOrSetEmpty(semesterSyllabus.kursplan.kurslitteratur, language),
+    // course_literature_comment: parseOrSetEmpty(semesterSyllabus.courseSyllabus.literatureComment, language),
+    course_valid_from: parseSemesterIntoYearSemesterNumber(parseOrSetEmpty(semesterSyllabus.kursplan.giltigfrom)),
     course_valid_to: undefined,
     course_examination:
       examinationModules && examinationModules.completeExaminationStrings.length > 0
         ? _parseExamObject(examinationModules)
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_examination_comments: parseOrSetEmpty(semesterSyllabus.courseSyllabus.examComments, language, true),
-    course_ethical: parseOrSetEmpty(semesterSyllabus.courseSyllabus.ethicalApproach, language, true),
-    course_additional_regulations: parseOrSetEmpty(
-      semesterSyllabus.courseSyllabus.additionalRegulations,
-      language,
-      true
-    ),
-    course_transitional_reg: parseOrSetEmpty(semesterSyllabus.courseSyllabus.transitionalRegulations, language, true),
-    course_decision_to_discontinue: parseOrSetEmpty(semesterSyllabus.courseSyllabus.decisionToDiscontinue, language),
+    course_examination_comments: parseOrSetEmpty(semesterSyllabus.kursplan.kommentartillexamination, language, true),
+    course_ethical: parseOrSetEmpty(semesterSyllabus.kursplan.etisktforhallandesatt, language, true),
+    course_additional_regulations: parseOrSetEmpty(semesterSyllabus.kursplan.faststallande, language, true),
+    course_transitional_reg: parseOrSetEmpty(semesterSyllabus.kursplan.overgangsbestammelser, language, true),
+    // course_decision_to_discontinue: parseOrSetEmpty(semesterSyllabus.courseSyllabus.decisionToDiscontinue, language),
   }
 }
 
 const createSyllabusList = (koppsCourseDetails, examinationModules, syllabuses, lang) => {
+  // console.log(`SYLLABUSES FROM LADOK: ${JSON.stringify(syllabuses, null, 4)}`)
   const { publicSyllabusVersions } = koppsCourseDetails
+  // console.log(`PUBLIC SYLLABUS VERSIONS: ${JSON.stringify(publicSyllabusVersions, null, 4)}`)
   const emptySyllabusData = _createEmptySyllabusData(lang)
 
-  if (publicSyllabusVersions.length === 0) {
+  if (syllabuses.length === 0) {
     return {
       syllabusList: [],
       emptySyllabusData,
@@ -167,10 +166,9 @@ const createSyllabusList = (koppsCourseDetails, examinationModules, syllabuses, 
   }
 
   const syllabusList = []
-
-  for (let index = 0; index < publicSyllabusVersions.length; index++) {
+  for (let index = 0; index < syllabuses.length; index++) {
     const previousSyllabus = index > 0 ? syllabusList[index - 1] : undefined
-    const syllabus = _parseSyllabusData(koppsCourseDetails, examinationModules, index, lang)
+    const syllabus = _parseSyllabusData(koppsCourseDetails, examinationModules, syllabuses, index, lang)
 
     if (previousSyllabus) {
       syllabus.course_valid_to = calcPreviousSemester(previousSyllabus.course_valid_from)

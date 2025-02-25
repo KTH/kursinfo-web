@@ -229,7 +229,6 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   const { body: koppsCourseDetails } = await koppsCourseData.getKoppsCourseData(courseCode, language)
   const { course: ladokCourse, rounds: ladokRounds } = await ladokApi.getCourseAndActiveRounds(courseCode, language)
   const syllabuses = await ladokApi.getLadokSyllabuses(courseCode, language)
-  console.log(`SYLLABUSES FROM LADOK: ${JSON.stringify(syllabuses, null, 4)}`)
 
   const examinationModules = await ladokApi.getExaminationModules(ladokCourse.uid, language)
   if (!koppsCourseDetails || !ladokCourse) {

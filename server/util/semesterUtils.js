@@ -43,8 +43,20 @@ const parseSemesterIntoYearSemesterNumberArray = semester => {
   return yearSemesterNumberArrayStrings.map(str => Number(str))
 }
 
+const parseLadokSemester = semester => {
+  const match = semester.match(/(HT|VT)(\d{4})/)
+
+  if (!match) throw new Error("Invalid semester format. Expected 'HTYYYY' or 'VTYYYY'.")
+
+  const [, term, year] = match
+  const semesterNumber = term === 'VT' ? 1 : 2
+
+  return [Number(year), semesterNumber]
+}
+
 const parseSemesterIntoYearSemesterNumber = semester => {
-  const [year, semesterNumber] = parseSemesterIntoYearSemesterNumberArray(semester)
+  // const [year, semesterNumber] = parseSemesterIntoYearSemesterNumberArray(semester)
+  const [year, semesterNumber] = parseLadokSemester(semester)
 
   return {
     year,
