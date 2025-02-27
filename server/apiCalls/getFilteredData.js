@@ -241,8 +241,6 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   const { course: ladokCourse, rounds: ladokRounds } = await ladokApi.getCourseAndActiveRounds(courseCode, language)
   const syllabus = await ladokApi.getLadokSyllabus(courseCode, period, language)
 
-  console.log('SYLLABUS: ', syllabus)
-
   if (!koppsCourseDetails || !ladokCourse) {
     // TODO(Ladok-POC): What to do if we find course in only in Ladok or only in Kopps?
     return {}
