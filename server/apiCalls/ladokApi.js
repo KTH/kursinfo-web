@@ -32,9 +32,19 @@ async function getLadokSyllabuses(courseCode, lang) {
     throw new Error(error.message)
   }
 }
+async function getLadokSyllabus(courseCode, semester, lang) {
+  try {
+    const course = await client.getCourseSyllabus(courseCode, semester, lang)
+
+    return course
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
 
 module.exports = {
   getCourseAndActiveRounds,
   getExaminationModules,
+  getLadokSyllabus,
   getLadokSyllabuses,
 }
