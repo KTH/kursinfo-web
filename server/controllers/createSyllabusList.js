@@ -19,7 +19,6 @@ const _createEmptySyllabusData = language => ({
   course_eligibility: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
   course_requirments_for_final_grade: '',
   course_literature: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-  course_literature_comment: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
   course_valid_from: undefined,
   course_valid_to: undefined,
   course_examination: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],

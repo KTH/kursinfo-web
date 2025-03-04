@@ -161,7 +161,6 @@ describe('Discontinued course to test', () => {
         "course_examination_comments": "",
         "course_goals": "<i>Ingen information tillagd</i>",
         "course_literature": "<i>Ingen information tillagd</i>",
-        "course_literature_comment": "<i>Ingen information tillagd</i>",
         "course_requirments_for_final_grade": "",
         "course_transitional_reg": "",
         "course_valid_from": undefined,
