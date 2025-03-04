@@ -43,6 +43,14 @@ const parseSemesterIntoYearSemesterNumberArray = semester => {
   return yearSemesterNumberArrayStrings.map(str => Number(str))
 }
 
+const getPeriodCodeForDate = date => {
+  const JULY = 6
+  const year = date.getFullYear()
+  const month = date.getMonth()
+  const semester = month < JULY ? '1' : '2'
+  return `${year}${semester}`
+}
+
 const parseLadokSemester = semester => {
   let match = undefined
   if (semester) {
@@ -122,6 +130,7 @@ const convertToYearSemesterNumberOrGetCurrent = semester => {
 }
 
 module.exports = {
+  getPeriodCodeForDate,
   calcPreviousSemester,
   parseSemesterIntoYearSemesterNumberArray,
   parseSemesterIntoYearSemesterNumber,

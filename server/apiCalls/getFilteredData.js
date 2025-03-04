@@ -11,6 +11,7 @@ const i18n = require('../../i18n')
 const {
   parseSemesterIntoYearSemesterNumber,
   parseSemesterIntoYearSemesterNumberArray,
+  getPeriodCodeForDate,
 } = require('../util/semesterUtils')
 const koppsCourseData = require('./koppsCourseData')
 const ladokApi = require('./ladokApi')
@@ -223,14 +224,6 @@ function _parseRounds({ roundInfos: koppsRoundInfos, courseCode, language, memoL
   }))
 
   return { roundsBySemester, activeSemesters, employees }
-}
-
-const getPeriodCodeForDate = date => {
-  const JULY = 6
-  const year = date.getFullYear()
-  const month = date.getMonth()
-  const semester = month < JULY ? '1' : '2'
-  return `${year}${semester}`
 }
 
 const getFilteredData = async ({ courseCode, language, memoList }) => {
