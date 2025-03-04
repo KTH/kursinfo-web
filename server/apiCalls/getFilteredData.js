@@ -15,7 +15,6 @@ const {
 const koppsCourseData = require('./koppsCourseData')
 const ladokApi = require('./ladokApi')
 const courseApi = require('./kursinfoApi')
-const { socialApi } = require('../../config/serverSettings')
 const { getSocial } = require('./socialApi')
 
 function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, language) {
@@ -117,16 +116,14 @@ function _getRoundProgramme(programmes, language = 0) {
   return programmeString
 }
 
-function _getRound(koppsRoundObject = {}, ladokRound, language = 'sv') {
-  const {
-    admissionLinkUrl: koppsAdmissionLinkUrl,
-    round: koppsRound = {},
-    schemaUrl: koppsSchemaUrl,
-    usage: koppsUsage,
-  } = koppsRoundObject
+function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, language = 'sv') {
+  const { admissionLinkUrl: koppsAdmissionLinkUrl, round: koppsRound = {}, usage: koppsUsage } = koppsRoundObject
   const { applicationCodes = [] } = koppsRound
   const hasApplicationCodes = applicationCodes.length > 0
   const [koppsLatestApplicationCode] = applicationCodes
+  const round = socialSchedules.rounds.find(schedule => schedule.applicationCode === ladokRound.tillfalleskod)
+
+  const schemaUrl = round && round.has_events ? round.calendar_url : null
 
   const courseRoundModel = {
     round_start_date: getDateFormat(parseOrSetEmpty(ladokRound.forstaUndervisningsdatum.date, language), language),
@@ -147,7 +144,7 @@ function _getRound(koppsRoundObject = {}, ladokRound, language = 'sv') {
         parseOrSetEmpty(ladokRound.minantalplatser, language, true)
       ) || '',
 
-    round_schedule: parseOrSetEmpty(koppsSchemaUrl, language),
+    round_schedule: parseOrSetEmpty(schemaUrl, language),
     round_periods: koppsRound.courseRoundTerms ? _getRoundPeriodes(koppsRound.courseRoundTerms, language) : [],
     round_selection_criteria: parseOrSetEmpty(
       koppsRound[language === 'en' ? 'selectionCriteriaEn' : 'selectionCriteriaSv'],
@@ -174,7 +171,7 @@ function _getRound(koppsRoundObject = {}, ladokRound, language = 'sv') {
   return courseRoundModel
 }
 
-function _parseRounds({ roundInfos: koppsRoundInfos, courseCode, language, memoList, ladokRounds }) {
+function _parseRounds({ ladokRounds, socialSchedules, roundInfos: koppsRoundInfos, courseCode, language, memoList }) {
   const activeSemesterArray = []
   const tempList = []
   const employees = {
@@ -185,7 +182,7 @@ function _parseRounds({ roundInfos: koppsRoundInfos, courseCode, language, memoL
   const roundsBySemester = {}
   for (const ladokRound of ladokRounds) {
     const koppsRoundInfo = koppsRoundInfos.find(x => x.round.ladokUID === ladokRound.uid) ?? {}
-    const courseRound = _getRound(koppsRoundInfo, ladokRound, language)
+    const courseRound = _getRound(koppsRoundInfo, ladokRound, socialSchedules, language)
     const { round_course_term: yearAndTermArr, round_application_code: applicationCode } = courseRound
     const semester = yearAndTermArr.join('')
 
@@ -231,9 +228,12 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   const { body: koppsCourseDetails } = await koppsCourseData.getKoppsCourseData(courseCode, language)
   const { course: ladokCourse, rounds: ladokRounds } = await ladokApi.getCourseAndActiveRounds(courseCode, language)
 
-  console.log(`YOUR DATA: ${JSON.stringify(koppsCourseDetails, null, 4)}`)
+  // console.log(`YOUR DATA: ${JSON.stringify(koppsCourseDetails, null, 4)}`)
 
   const socialSchedules = await getSocial(courseCode, language)
+
+  console.log('ladokRounds: ', ladokRounds)
+  // console.log('socialSchedules: ', socialSchedules)
 
   const examinationModules = await ladokApi.getExaminationModules(ladokCourse.uid, language)
   if (!koppsCourseDetails || !ladokCourse) {
@@ -267,6 +267,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from UG Rest API *****//
   const { roundsBySemester, activeSemesters, employees } = _parseRounds({
     ladokRounds,
+    socialSchedules,
     roundInfos: koppsCourseDetails.roundInfos,
     courseCode,
     language,

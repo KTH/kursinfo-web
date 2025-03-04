@@ -99,8 +99,6 @@ async function getIndex(req, res, next) {
 
     const filteredData = await getFilteredData({ courseCode, language, memoList, startSemesterFromQuery })
 
-    getSocial()
-
     const initiallySelectedSemester = calculateInitiallySelectedSemester(
       filteredData.activeSemesters,
       startSemesterFromQuery
