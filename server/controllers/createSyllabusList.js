@@ -40,7 +40,6 @@ const _mapSyllabus = (syllabus, language) => {
     course_eligibility: parseOrSetEmpty(syllabus.kursplan.sarskildbehorighet, language),
     course_requirments_for_final_grade: parseOrSetEmpty(syllabus.kursplan.ovrigakravforslutbetyg, language, true),
     course_literature: parseOrSetEmpty(syllabus.kursplan.kurslitteratur, language),
-    // course_literature_comment: parseOrSetEmpty(semesterSyllabus.courseSyllabus.literatureComment, language),
     course_valid_from: parseSemesterIntoYearSemesterNumber(parseOrSetEmpty(syllabus.kursplan.giltigfrom)),
     course_valid_to: undefined,
     course_examination:

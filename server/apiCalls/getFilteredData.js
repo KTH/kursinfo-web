@@ -245,7 +245,6 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
     // TODO(Ladok-POC): What to do if we find course in only in Ladok or only in Kopps?
     return {}
   }
-
   const isCancelledOrDeactivated = koppsCourseDetails.course.cancelled || koppsCourseDetails.course.deactivated
 
   //* **** Course information that is static on the course side *****//
