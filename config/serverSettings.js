@@ -57,7 +57,7 @@ module.exports = {
   },
 
   socialApi: {
-    baseUrl: getEnv('SOCIAL_USER_URI', devDefaults('https://www.kth.se/social/user')),
+    baseUrl: getEnv('SOCIAL_API_URI', devDefaults('https://www-r.referens.sys.kth.se/social/api/course/1.0')),
   },
 
   // TODO(Ladok-POC): Replace devDefaults and add values to ref/prod.parameters.json when final mellanlager is deployed
