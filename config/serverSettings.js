@@ -46,7 +46,6 @@ module.exports = {
     kursplanApi: getEnv('KURSPLAN_API_KEY', devDefaults('5678')),
     kursPmDataApi: getEnv('KURS_PM_DATA_API_KEY', devDefaults('9876')),
     kursutvecklingApi: getEnv('KURSUTVECKLING_API_KEY', devDefaults('1234')),
-    socialApi: getEnv('SOCIAL_KEY', devDefaults('')),
   },
 
   nodeApi: {
