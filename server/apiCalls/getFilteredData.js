@@ -17,10 +17,10 @@ const koppsCourseData = require('./koppsCourseData')
 const ladokApi = require('./ladokApi')
 const courseApi = require('./kursinfoApi')
 
-function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, syllabus, language) {
+function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, ladokSyllabus, language) {
   const { course: koppsCourse } = koppsCourseDetails
 
-  const mainSubjects = syllabus.course.huvudomraden.map(huvudomrade => huvudomrade[language])
+  const mainSubjects = ladokSyllabus.course.huvudomraden.map(huvudomrade => huvudomrade[language])
 
   return {
     course_code: parseOrSetEmpty(ladokCourse.kod),
@@ -28,12 +28,12 @@ function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, syllabu
     course_department_code: parseOrSetEmpty(ladokCourse.organisation.code, language),
     course_department_link: buildCourseDepartmentLink(ladokCourse.organisation, language),
     course_education_type_id: ladokCourse.utbildningstyp?.id,
-    course_level_code: parseOrSetEmpty(syllabus.course.nivainomstudieordning.level.code),
+    course_level_code: parseOrSetEmpty(ladokSyllabus.course.nivainomstudieordning.level.code),
     course_main_subject:
       mainSubjects && mainSubjects.length > 0
         ? mainSubjects.join(', ')
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
-    course_grade_scale: parseOrSetEmpty(syllabus.course.betygsskala),
+    course_grade_scale: parseOrSetEmpty(ladokSyllabus.course.betygsskala),
     // From Kopps for now
     course_last_exam: koppsCourse.lastExamTerm
       ? parseSemesterIntoYearSemesterNumberArray(koppsCourse.lastExamTerm.term)
@@ -232,7 +232,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
 
   const { body: koppsCourseDetails } = await koppsCourseData.getKoppsCourseData(courseCode, language)
   const { course: ladokCourse, rounds: ladokRounds } = await ladokApi.getCourseAndActiveRounds(courseCode, language)
-  const syllabus = await ladokApi.getLadokSyllabus(courseCode, period, language)
+  const ladokSyllabus = await ladokApi.getLadokSyllabus(courseCode, period, language)
 
   if (!koppsCourseDetails || !ladokCourse) {
     // TODO(Ladok-POC): What to do if we find course in only in Ladok or only in Kopps?
@@ -241,7 +241,12 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   const isCancelledOrDeactivated = koppsCourseDetails.course.cancelled || koppsCourseDetails.course.deactivated
 
   //* **** Course information that is static on the course side *****//
-  const courseDefaultInformation = _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, syllabus, language)
+  const courseDefaultInformation = _parseCourseDefaultInformation(
+    koppsCourseDetails,
+    ladokCourse,
+    ladokSyllabus,
+    language
+  )
 
   const { sellingText, courseDisposition, recommendedPrerequisites, supplementaryInfo, imageInfo } =
     await courseApi.getCourseInfo(courseCode)
@@ -259,7 +264,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   const courseTitleData = _parseTitleData(ladokCourse, language)
 
   //* **** Get list of syllabuses and valid syllabus semesters *****//
-  const { syllabusList, emptySyllabusData } = createSyllabusList(syllabus, language)
+  const { syllabusList, emptySyllabusData } = createSyllabusList(ladokSyllabus, language)
 
   //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from UG Rest API *****//
   const { roundsBySemester, activeSemesters, employees } = _parseRounds({
