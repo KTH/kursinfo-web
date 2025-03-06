@@ -1,15 +1,12 @@
 const { INFORM_IF_IMPORTANT_INFO_IS_MISSING } = require('../util/constants')
-const { calcPreviousSemester, parseSemesterIntoYearSemesterNumber } = require('../util/semesterUtils')
+const { parseSemesterIntoYearSemesterNumber } = require('../util/semesterUtils')
 const { parseOrSetEmpty } = require('./courseCtrlHelpers')
 
 const _parseExamObject = examinationModules => {
+  const { completeExaminationStrings } = examinationModules
   let examString = "<ul class='ul-no-padding' >"
-  examinationModules.forEach(examinationModule => {
-    examString += `<li>${examinationModule.kod} - 
-                            ${examinationModule.benamning},
-                            ${examinationModule.omfattning.formattedWithUnit},  
-                            ${examinationModule.betygsskala.name}: ${examinationModule.betygsskala.formatted}              
-                            </li>`
+  completeExaminationStrings.forEach(examinationModule => {
+    examString += `<li>${examinationModule}</li>`
   })
 
   examString += '</ul>'
@@ -22,7 +19,6 @@ const _createEmptySyllabusData = language => ({
   course_eligibility: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
   course_requirments_for_final_grade: '',
   course_literature: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-  course_literature_comment: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
   course_valid_from: undefined,
   course_valid_to: undefined,
   course_examination: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
@@ -33,50 +29,34 @@ const _createEmptySyllabusData = language => ({
   course_decision_to_discontinue: '',
 })
 
-const _parseSyllabusData = (courseDetails, examinationModules, semesterIndex = 0, language) => {
-  const { publicSyllabusVersions } = courseDetails
-  const hasSyllabusData = publicSyllabusVersions && publicSyllabusVersions.length > 0
-  const semesterSyllabus =
-    hasSyllabusData && publicSyllabusVersions[semesterIndex] ? publicSyllabusVersions[semesterIndex] : null
-
-  if (!semesterSyllabus) {
+const _mapSyllabus = (syllabus, language) => {
+  if (!syllabus) {
     return _createEmptySyllabusData(language)
   }
-
   return {
-    course_goals: parseOrSetEmpty(semesterSyllabus.courseSyllabus.goals, language),
-    course_content: parseOrSetEmpty(semesterSyllabus.courseSyllabus.content, language),
-    course_eligibility: parseOrSetEmpty(semesterSyllabus.courseSyllabus.eligibility, language),
-    course_requirments_for_final_grade: parseOrSetEmpty(
-      semesterSyllabus.courseSyllabus.reqsForFinalGrade,
-      language,
-      true
-    ),
-    course_literature: parseOrSetEmpty(semesterSyllabus.courseSyllabus.literature, language),
-    course_literature_comment: parseOrSetEmpty(semesterSyllabus.courseSyllabus.literatureComment, language),
-    course_valid_from: parseSemesterIntoYearSemesterNumber(parseOrSetEmpty(semesterSyllabus.validFromTerm.term)),
+    course_goals: parseOrSetEmpty(syllabus.kursplan.larandemal, language),
+    course_content: parseOrSetEmpty(syllabus.kursplan.kursinnehall, language),
+    course_eligibility: parseOrSetEmpty(syllabus.kursplan.sarskildbehorighet, language),
+    course_requirments_for_final_grade: parseOrSetEmpty(syllabus.kursplan.ovrigakravforslutbetyg, language, true),
+    course_literature: parseOrSetEmpty(syllabus.kursplan.kurslitteratur, language),
+    course_valid_from: parseSemesterIntoYearSemesterNumber(parseOrSetEmpty(syllabus.kursplan.giltigfrom)),
     course_valid_to: undefined,
     course_examination:
-      examinationModules && examinationModules.length > 0
-        ? _parseExamObject(examinationModules)
+      syllabus.kursplan.examinationModules && syllabus.kursplan.examinationModules.completeExaminationStrings.length > 0
+        ? _parseExamObject(syllabus.kursplan.examinationModules)
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-    course_examination_comments: parseOrSetEmpty(semesterSyllabus.courseSyllabus.examComments, language, true),
-    course_ethical: parseOrSetEmpty(semesterSyllabus.courseSyllabus.ethicalApproach, language, true),
-    course_additional_regulations: parseOrSetEmpty(
-      semesterSyllabus.courseSyllabus.additionalRegulations,
-      language,
-      true
-    ),
-    course_transitional_reg: parseOrSetEmpty(semesterSyllabus.courseSyllabus.transitionalRegulations, language, true),
-    course_decision_to_discontinue: parseOrSetEmpty(semesterSyllabus.courseSyllabus.decisionToDiscontinue, language),
+    course_examination_comments: parseOrSetEmpty(syllabus.kursplan.kommentartillexamination, language, true),
+    course_ethical: parseOrSetEmpty(syllabus.kursplan.etisktforhallandesatt, language, true),
+    course_additional_regulations: parseOrSetEmpty(syllabus.kursplan.faststallande, language, true),
+    course_transitional_reg: parseOrSetEmpty(syllabus.course.overgangsbestammelser, language, true),
+    course_decision_to_discontinue: parseOrSetEmpty(syllabus.kursplan.avvecklingsbeslut, language),
   }
 }
 
-const createSyllabusList = (koppsCourseDetails, examinationModules, lang) => {
-  const { publicSyllabusVersions } = koppsCourseDetails
+const createSyllabusList = (syllabus, lang) => {
   const emptySyllabusData = _createEmptySyllabusData(lang)
 
-  if (publicSyllabusVersions.length === 0) {
+  if (!syllabus) {
     return {
       syllabusList: [],
       emptySyllabusData,
@@ -85,16 +65,9 @@ const createSyllabusList = (koppsCourseDetails, examinationModules, lang) => {
 
   const syllabusList = []
 
-  for (let index = 0; index < publicSyllabusVersions.length; index++) {
-    const previousSyllabus = index > 0 ? syllabusList[index - 1] : undefined
-    const syllabus = _parseSyllabusData(koppsCourseDetails, examinationModules, index, lang)
+  const mappedSyllabus = _mapSyllabus(syllabus, lang)
 
-    if (previousSyllabus) {
-      syllabus.course_valid_to = calcPreviousSemester(previousSyllabus.course_valid_from)
-    }
-
-    syllabusList.push(syllabus)
-  }
+  syllabusList.push(mappedSyllabus)
 
   return {
     syllabusList,
