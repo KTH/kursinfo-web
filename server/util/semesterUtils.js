@@ -43,12 +43,56 @@ const parseSemesterIntoYearSemesterNumberArray = semester => {
   return yearSemesterNumberArrayStrings.map(str => Number(str))
 }
 
-const parseSemesterIntoYearSemesterNumber = semester => {
-  const [year, semesterNumber] = parseSemesterIntoYearSemesterNumberArray(semester)
+const getPeriodCodeForDate = date => {
+  const JULY = 6
+  const year = date.getFullYear()
+  const month = date.getMonth()
+  const semester = month < JULY ? '1' : '2'
+  return `${year}${semester}`
+}
 
-  return {
-    year,
-    semesterNumber,
+const parseLadokSemester = semester => {
+  let match = undefined
+  if (semester) {
+    match = semester.match(/(HT|VT)(\d{4})/)
+  }
+
+  if (!match) throw new Error("Invalid semester format. Expected 'HTYYYY' or 'VTYYYY'.")
+
+  const [, term, year] = match
+  const semesterNumber = term === 'VT' ? 1 : 2
+
+  return [Number(year), semesterNumber]
+}
+function parseSemester(semester) {
+  let match = undefined
+  if (semester) {
+    match = semester.match(/^(\d{4})([1|2])$/)
+  }
+
+  if (!match) throw new Error("Invalid semester format. Expected 'YYYYS' where S is 1 for VT or 2 for HT.")
+
+  const [, year, term] = match
+  const semesterNumber = term === '1' ? 1 : 2
+
+  return [Number(year), semesterNumber]
+}
+
+const parseSemesterIntoYearSemesterNumber = semester => {
+  const semesterRegex = /^([A-Za-z]{2}\d{4})$/
+  const ladokFormat = semesterRegex.test(semester)
+  if (ladokFormat) {
+    const [year, semesterNumber] = parseLadokSemester(semester)
+    return {
+      year,
+      semesterNumber,
+    }
+  } else {
+    const [year, semesterNumber] = parseSemester(String(semester))
+    return {
+      year,
+      semesterNumber,
+    }
   }
 }
 
@@ -86,6 +130,7 @@ const convertToYearSemesterNumberOrGetCurrent = semester => {
 }
 
 module.exports = {
+  getPeriodCodeForDate,
   calcPreviousSemester,
   parseSemesterIntoYearSemesterNumberArray,
   parseSemesterIntoYearSemesterNumber,

@@ -40,14 +40,9 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
   function getExecution() {
     let literatureText = translation.courseInformation.course_literature_not_exist
     const syllabusHasLiterature = syllabus.course_literature && !isMissingInfoLabel(syllabus.course_literature)
-    const syllabusHasLiteratureComment =
-      syllabus.course_literature_comment && !isMissingInfoLabel(syllabus.course_literature_comment)
 
     if (syllabusHasLiterature) {
-      const literatureComment = syllabusHasLiteratureComment ? `<br />${syllabus.course_literature_comment}` : ''
-      literatureText = `${syllabus.course_literature}${literatureComment}`
-    } else if (syllabusHasLiteratureComment) {
-      literatureText = `${syllabus.course_literature_comment}`
+      literatureText = `${syllabus.course_literature}`
     }
 
     const eligibility = getEligibility()

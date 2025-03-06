@@ -132,7 +132,6 @@ module.exports = {
     course_eligibility: 'Specific prerequisites',
     course_requirments_for_final_grade: 'Other requirements for final grade',
     course_literature: 'Literature',
-    course_literature_comment: 'Literature comment',
     course_literature_not_exist:
       'You can find information about course literature either in the course memo for the course offering or in the course room in Canvas.',
     course_examination_comments: 'Examination comment',
@@ -150,12 +149,6 @@ module.exports = {
       1: 'Spring ',
       2: 'Autumn ',
     },
-    // course_level_code_label: {
-    //   PREPARATORY: 'Pre-university level',
-    //   BASIC: 'First cycle',
-    //   ADVANCED: 'Second cycle',
-    //   RESEARCH: 'Third cycle',
-    // },
     course_level_code_label: {
       // PREPARATORY: 'Pre-university level',
       1: 'First cycle',
