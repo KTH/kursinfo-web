@@ -73,6 +73,20 @@ const getCurrentYearAndSemesterNumber = () => {
   }
 }
 
+const getSemester = (dateStr, language) => {
+  const [yearStr, monthStr] = dateStr.split('-')
+  const year = parseInt(yearStr, 10)
+  const month = parseInt(monthStr, 10)
+
+  if (month >= 1 && month <= 7) {
+    return `${language === 'sv' ? 'VT' : 'Spring'} ${year}`
+  } else if (month >= 8 && month <= 12) {
+    return `${language === 'sv' ? 'HT' : 'Autumn'} ${year}`
+  }
+
+  throw new Error('Invalid date format or value')
+}
+
 // I want global isNaN
 // eslint-disable-next-line no-restricted-globals
 const isFiveDigitNumber = semester => semester.toString().length === 5 && !isNaN(semester)
@@ -91,5 +105,7 @@ module.exports = {
   parseSemesterIntoYearSemesterNumber,
   convertYearSemesterNumberIntoSemester,
   convertToYearSemesterNumberOrGetCurrent,
+  getCurrentYearAndSemesterNumber,
+  getSemester,
   SEMESTER_NUMBER,
 }

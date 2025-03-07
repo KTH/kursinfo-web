@@ -11,6 +11,7 @@ const i18n = require('../../i18n')
 const {
   parseSemesterIntoYearSemesterNumber,
   parseSemesterIntoYearSemesterNumberArray,
+  getSemester,
 } = require('../util/semesterUtils')
 const koppsCourseData = require('./koppsCourseData')
 const ladokApi = require('./ladokApi')
@@ -115,6 +116,25 @@ function _getRoundProgramme(programmes, language = 0) {
   return programmeString
 }
 
+const createPeriodString = (ladokRound, language) => {
+  const { tillfallesPerioder } = ladokRound
+
+  return tillfallesPerioder
+    .map(period => {
+      const yearAndSemester = getSemester(period.ForstaUndervisningsdatum, language)
+      const periodString = `<p class="periode-list">${yearAndSemester}: `
+
+      const periodCodes = period.Lasperiodsfordelning
+        ? period.Lasperiodsfordelning.map(
+            fordelning => `${fordelning.Lasperiodskod} (${fordelning.Omfattningsvarde} ${ladokRound.utbildningstyp})`
+          )
+        : []
+
+      return periodCodes.length > 0 ? `${periodString}${periodCodes.join(', ')}</p>` : ''
+    })
+    .join('')
+}
+
 function _getRound(koppsRoundObject = {}, ladokRound, language = 'sv') {
   const {
     admissionLinkUrl: koppsAdmissionLinkUrl,
@@ -146,7 +166,7 @@ function _getRound(koppsRoundObject = {}, ladokRound, language = 'sv') {
       ) || '',
 
     round_schedule: parseOrSetEmpty(koppsSchemaUrl, language),
-    round_periods: koppsRound.courseRoundTerms ? _getRoundPeriodes(koppsRound.courseRoundTerms, language) : [],
+    round_periods: createPeriodString(ladokRound, language),
     round_selection_criteria: parseOrSetEmpty(
       koppsRound[language === 'en' ? 'selectionCriteriaEn' : 'selectionCriteriaSv'],
       language,
