@@ -55,6 +55,10 @@ module.exports = {
     kursutvecklingApi: unpackNodeApiConfig('KURSUTVECKLING_API_URI', devKursutvecklingApi),
   },
 
+  socialApi: {
+    baseUrl: getEnv('SOCIAL_API_URI', devDefaults('https://www-r.referens.sys.kth.se/social/api/course/1.0')),
+  },
+
   // TODO(Ladok-POC): Replace devDefaults and add values to ref/prod.parameters.json when final mellanlager is deployed
   ladokMellanlagerApi: {
     clientId: getEnv('LADOK_AUTH_CLIENT_ID', devDefaults('c978bff4-80c6-42d2-8d64-a6d90227013b')),

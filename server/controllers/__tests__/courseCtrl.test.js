@@ -2,6 +2,7 @@
 
 import { mockedCourseMemosForDiscontinuedCourse, mockedDiscontinuedCourse } from '../mocks/mockedDiscontinuedCourse'
 import { mockedLadokData } from '../mocks/mockedLadokData'
+import { mockedSocialApiResponse } from '../mocks/mockedSocialApiResponse'
 
 const applicationPaths = {
   system: {
@@ -63,6 +64,9 @@ jest.mock('../../apiCalls/kursinfoApi', () => ({
 }))
 jest.mock('../../apiCalls/memoApi', () => ({
   getPrioritizedCourseMemos: () => ({ body: mockedCourseMemosForDiscontinuedCourse }),
+}))
+jest.mock('../../apiCalls/socialApi', () => ({
+  getSocial: () => ({ body: mockedSocialApiResponse }),
 }))
 jest.mock('../../apiCalls/koppsCourseData', () => ({ getKoppsCourseData: () => ({ body: mockedDiscontinuedCourse }) }))
 jest.mock('../../apiCalls/ugRestApi', () => ({
