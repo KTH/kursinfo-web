@@ -7,12 +7,7 @@ const {
 } = require('../util/constants')
 const { buildCourseDepartmentLink } = require('../util/courseDepartmentUtils')
 const { getDateFormat, formatVersionDate } = require('../util/dates')
-const i18n = require('../../i18n')
-const {
-  parseSemesterIntoYearSemesterNumber,
-  parseSemesterIntoYearSemesterNumberArray,
-  getPeriodCodeForDate,
-} = require('../util/semesterUtils')
+const { parseSemesterIntoYearSemesterNumberArray, getSemester, getPeriodCodeForDate } = require('../util/semesterUtils')
 const koppsCourseData = require('./koppsCourseData')
 const ladokApi = require('./ladokApi')
 const courseApi = require('./kursinfoApi')
@@ -62,31 +57,6 @@ function _parseTitleData(ladokCourse) {
   }
 }
 
-function _getRoundPeriodes(courseRoundTerms, language = 'sv') {
-  let periodeString = ''
-  if (courseRoundTerms) {
-    if (courseRoundTerms.length > 1) {
-      courseRoundTerms.forEach(periode => {
-        const yearTerm = parseSemesterIntoYearSemesterNumber(periode.term.term)
-
-        periodeString += `<p class="periode-list">
-                                ${
-                                  i18n.messages[language === 'en' ? 0 : 1].courseInformation.course_short_semester[
-                                    yearTerm.semesterNumber
-                                  ]
-                                } 
-                                ${yearTerm.year}: 
-                                ${periode.formattedPeriodsAndCredits}
-                                </p>`
-      })
-      return periodeString
-    } else {
-      return courseRoundTerms[0].formattedPeriodsAndCredits
-    }
-  }
-  return INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
-}
-
 function _parseRoundSeatsMsg(max, min) {
   if (!max && !min) {
     return ''
@@ -117,6 +87,25 @@ function _getRoundProgramme(programmes, language = 0) {
   return programmeString
 }
 
+const createPeriodString = (ladokRound, language) => {
+  const { tillfallesPerioder } = ladokRound
+
+  return tillfallesPerioder
+    .map(period => {
+      const yearAndSemester = getSemester(period.ForstaUndervisningsdatum, language)
+      const periodString = `<p class="periode-list">${yearAndSemester}: `
+
+      const periodCodes = period.Lasperiodsfordelning
+        ? period.Lasperiodsfordelning.map(
+            fordelning => `${fordelning.Lasperiodskod} (${fordelning.Omfattningsvarde} ${ladokRound.utbildningstyp})`
+          )
+        : []
+
+      return periodCodes.length > 0 ? `${periodString}${periodCodes.join(', ')}</p>` : ''
+    })
+    .join('')
+}
+
 function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, language = 'sv') {
   const { admissionLinkUrl: koppsAdmissionLinkUrl, round: koppsRound = {}, usage: koppsUsage } = koppsRoundObject
   const { applicationCodes = [] } = koppsRound
@@ -145,8 +134,8 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, language 
         parseOrSetEmpty(ladokRound.minantalplatser, language, true)
       ) || '',
 
+    round_periods: createPeriodString(ladokRound, language),
     round_schedule: parseOrSetEmpty(schemaUrl, language),
-    round_periods: koppsRound.courseRoundTerms ? _getRoundPeriodes(koppsRound.courseRoundTerms, language) : [],
     round_selection_criteria: parseOrSetEmpty(
       koppsRound[language === 'en' ? 'selectionCriteriaEn' : 'selectionCriteriaSv'],
       language,
