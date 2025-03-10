@@ -151,8 +151,6 @@ const syllabusList = [
     course_eligibility: '<p>Basic requirements.&#160;</p><p><strong>&#160;</strong></p>',
     course_requirments_for_final_grade: '<p>Written exam, possibly with the possibility of continuous examination.</p>',
     course_literature: '<i>No information inserted</i>',
-    course_literature_comment:
-      '<p>Announced no later than 4 weeks before the start of the course on the course web page.</p>',
     course_valid_from: {
       year: 2019,
       semesterNumber: 2,
@@ -177,7 +175,6 @@ const syllabusList = [
       '<p>Basic and specific requirements for engineering program.<br /><strong>Mandatory for first year, can not be read by other students</strong></p>',
     course_requirments_for_final_grade: '<p>Written exam, possibly with the possibility of continuous examination.</p>',
     course_literature: '<i>No information inserted</i>',
-    course_literature_comment: '<i>No information inserted</i>',
     course_valid_from: {
       year: 2010,
       semesterNumber: 2,
