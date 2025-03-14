@@ -29,6 +29,7 @@
   "dependencies": {
     "@kth/api-call": "^4.1.0",
     "@kth/appinsights": "^0.4.0",
+    "@kth/cortina-block": "^7.0.0",
     "@kth/kth-node-response": "^1.0.7",
     "@kth/kth-node-web-common": "^9.3.1",
     "@kth/log": "^4.0.7",
