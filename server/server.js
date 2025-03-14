@@ -140,7 +140,6 @@ server.use(
     redisConfig: config.cache.cortinaBlock.redis,
     blocksConfig: config.blockApi.addBlocks,
     redisKey: config.cache.cortinaBlock.redisKey,
-    // globalLink: true ---> don't use it, because we use local site language link, not global kth link
   })
 )
 
