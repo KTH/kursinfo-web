@@ -7,6 +7,8 @@
  *
  */
 
+const { getPeriods } = require('../apiCalls/ladokApi')
+
 const SEMESTER_NUMBER = {
   SPRING: 1,
   AUTUMN: 2,
@@ -131,6 +133,21 @@ const getSemester = (dateStr, language) => {
   throw new Error('Invalid date format or value')
 }
 
+const getSemesterForDate = (date, periods, language) => {
+  const [year] = date.split('-')
+  if (periods) {
+    const springPeriod = periods.data.Period.find(item => item.Kod === `VT${year}`)
+    if (date >= springPeriod.Giltighetsperiod.Startdatum && date <= springPeriod.Giltighetsperiod.Slutdatum) {
+      return `${language === 'sv' ? 'VT' : 'Spring'} ${year}`
+    }
+    const autumnPeriod = periods.data.Period.find(item => item.Kod === `HT${year}`)
+    if (date >= autumnPeriod.Giltighetsperiod.Startdatum && date <= autumnPeriod.Giltighetsperiod.Slutdatum) {
+      return `${language === 'sv' ? 'HT' : 'Autumn'} ${year}`
+    }
+  }
+  return ''
+}
+
 // I want global isNaN
 // eslint-disable-next-line no-restricted-globals
 const isFiveDigitNumber = semester => semester.toString().length === 5 && !isNaN(semester)
@@ -152,5 +169,6 @@ module.exports = {
   convertToYearSemesterNumberOrGetCurrent,
   getCurrentYearAndSemesterNumber,
   getSemester,
+  getSemesterForDate,
   SEMESTER_NUMBER,
 }

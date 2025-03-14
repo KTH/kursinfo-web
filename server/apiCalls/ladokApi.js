@@ -1,6 +1,6 @@
 'use strict'
 
-const { createApiClient } = require('@kth/om-kursen-ladok-client')
+const { createApiClient } = require('om-kursen-ladok-client')
 
 const serverConfig = require('../configuration').server
 
@@ -33,8 +33,19 @@ async function getLadokSyllabus(courseCode, semester, lang) {
   }
 }
 
+async function getPeriods() {
+  try {
+    const course = await client.getPeriods()
+
+    return course
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
 module.exports = {
   getCourseAndActiveRounds,
   getExaminationModules,
   getLadokSyllabus,
+  getPeriods,
 }

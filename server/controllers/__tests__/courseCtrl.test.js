@@ -34,13 +34,14 @@ jest.mock('@kth/kth-node-web-common/lib/language', () => ({
 jest.mock('kth-node-express-routing', () => ({
   getPaths: jest.fn(() => applicationPaths),
 }))
-jest.mock('@kth/om-kursen-ladok-client', () => ({
+jest.mock('om-kursen-ladok-client', () => ({
   createApiClient: () => ({
     getLatestCourseVersion: () => mockedLadokData.mockedLadokCourseVersion,
     getActiveCourseRounds: () => mockedLadokData.mockedLadokRounds,
     getExaminationModulesByUtbildningstillfalleUid: () => mockedLadokData.mockedExaminationModules,
     getExaminationModulesByUtbildningsinstansUid: () => mockedLadokData.mockedExaminationModules,
     getCourseSyllabus: () => mockedLadokData.mockedCourseSyllabus,
+    getPeriods: () => mockedLadokData.mockedPeriods,
   }),
 }))
 // jest.mock('@kth/kth-node-response')
