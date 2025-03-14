@@ -8,9 +8,9 @@ const PARAMS = {
   semester: 'semester',
   year: 'year',
 }
-const DOCS = { courseMemo: 'courseMemo', courseAnalysis: 'courseAnalysis' }
+const DOCS = { courseMemo: 'courseMemo' }
 
-const documentTypes = () => [DOCS.courseMemo, DOCS.courseAnalysis]
+const documentTypes = () => [DOCS.courseMemo]
 
 const studyLengthParamName = documentType => (documentType === DOCS.courseMemo ? PARAMS.periods : PARAMS.semester)
 
@@ -51,7 +51,7 @@ function getOptionsValues(paramName, langIndex) {
       return parseData(schools.orderedSchoolsFormOptions(), langIndex)
     case PARAMS.year:
       return parseData(year.getYears(), langIndex)
-    case PARAMS.semester: // Course analysis
+    case PARAMS.semester: // Other
       return parseData(seasons.orderedSeasons(), langIndex, seasons.labelSeason)
     case PARAMS.periods: // Kurs-pm
       return parseData(periods.orderedPeriods(), langIndex, periods.labelPeriod)

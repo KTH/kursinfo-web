@@ -21,11 +21,6 @@ describe('Get list of  for each option on statistics page in English', () => {
           "label": "Course memo",
           "value": "courseMemo",
         },
-        {
-          "id": "courseAnalysis",
-          "label": "Course analysis",
-          "value": "courseAnalysis",
-        },
       ]
     `)
   })

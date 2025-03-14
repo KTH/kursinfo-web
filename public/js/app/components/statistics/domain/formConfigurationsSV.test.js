@@ -21,11 +21,6 @@ describe('Get list of  for each option on statistics page  in Swedish', () => {
           "label": "Kurs-PM",
           "value": "courseMemo",
         },
-        {
-          "id": "courseAnalysis",
-          "label": "Kursanalys",
-          "value": "courseAnalysis",
-        },
       ]
     `)
   })

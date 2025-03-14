@@ -89,73 +89,6 @@ function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, seme
   return dataRows
 }
 
-function _getDataRowsForCourseAnalysis(offeringsWithAnalysis, year, browserConfig, languageIndex) {
-  const dataRows = []
-  offeringsWithAnalysis.forEach(offering => {
-    const departmentNames = offering.departmentName.split('/')
-    const institution = departmentNames && departmentNames.length > 1 ? departmentNames[1] : offering.departmentName
-    const offeringBase = {
-      year,
-      school: offering.schoolMainCode,
-      institution,
-      courseCode: offering.courseCode,
-      linkedProgram: offering.connectedPrograms,
-      applicationCode:
-        offering.courseRoundApplications && offering.courseRoundApplications.length > 0
-          ? offering.courseRoundApplications[0].course_round_application_code
-          : '',
-      term: offering.lastSemesterLabel,
-      courseStart:
-        languageIndex === 0 && offering.startDate && offering.startDate !== ''
-          ? new Date(offering.startDate).toLocaleString('en-GB', {
-              day: 'numeric',
-              month: 'short',
-              year: 'numeric',
-            })
-          : offering.startDate,
-      courseEndDate:
-        languageIndex === 0 && offering.endDate && offering.endDate !== ''
-          ? new Date(offering.endDate).toLocaleString('en-GB', {
-              day: 'numeric',
-              month: 'short',
-              year: 'numeric',
-            })
-          : offering.endDate,
-      publishDate: '',
-      linkToCourseAnalysis: '',
-    }
-    const hasAnalysis = offering.courseAnalysisInfo && Object.keys(offering.courseAnalysisInfo).length > 0
-    let analysisBase = {}
-    if (hasAnalysis) {
-      const { analysisFileName, publishedDate } = offering.courseAnalysisInfo
-
-      const analysisId = analysisFileName
-      let publishDate = ''
-      if (publishedDate && publishedDate !== '') {
-        const date = new Date(publishedDate)
-
-        publishDate =
-          languageIndex === 0
-            ? date.toLocaleString('en-GB', {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric',
-              })
-            : date.toLocaleString('sv-SE', {
-                dateStyle: 'short',
-              })
-      }
-      analysisBase = {
-        publishDate,
-        linkToCourseAnalysis: buildLink(`${browserConfig.analysisStorageUri}${analysisId}`, `${analysisId}`),
-      }
-    }
-    dataRows.push({ ...offeringBase, ...analysisBase })
-  })
-  _sortDataForTable(dataRows)
-  return dataRows
-}
-
 function _searchInDataByText(text, data) {
   if (text && text !== '') {
     const dataAfterSearch = []
@@ -203,26 +136,12 @@ function StatisticsExport({
       { wch: 20 },
       { wch: 50 },
     ],
-    courseAnalysis: [
-      { wch: 10 },
-      { wch: 20 },
-      { wch: 10 },
-      { wch: 50 },
-      { wch: 20 },
-      { wch: 20 },
-      { wch: 20 },
-      { wch: 20 },
-      { wch: 20 },
-      { wch: 20 },
-      { wch: 50 },
-    ],
   }
   const exportDataTable = fileType => {
     if (dataRows.length > 0 && fileType) {
       const file = `${fileName}.${fileType}`
       const workSheetRows = []
-      const linkToCourseColumnName =
-        dataRows[0].linkToCoursePM !== undefined ? 'linkToCoursePM' : 'linkToCourseAnalysis'
+      const linkToCourseColumnName = dataRows[0].linkToCoursePM !== undefined ? 'linkToCoursePM' : ''
       dataRows.forEach(dataRow => {
         const row = {}
         columns.forEach((column, index) => {
@@ -240,7 +159,7 @@ function StatisticsExport({
         workSheetRows.push(row)
       })
       const worksheet = xlsx.utils.json_to_sheet(workSheetRows)
-      worksheet['!cols'] = isMemoPage ? wscols.courseMemo : wscols.courseAnalysis
+      worksheet['!cols'] = isMemoPage ? wscols.courseMemo : null
       if (fileType === 'xlsx') {
         dataRows.forEach((row, index) => {
           if (row[linkToCourseColumnName] && row[linkToCourseColumnName] !== '') {
@@ -295,17 +214,12 @@ function StatisticsDataTable({ statisticsResult }) {
     languageIndex,
   } = useLanguage()
   const { sortableTable, exportLabels } = statisticsLabels
-  const { statisticsDataColumns, courseMemo, courseAnalysis, semester: semesterTranslationObject } = sortableTable
+  const { statisticsDataColumns, courseMemo, semester: semesterTranslationObject } = sortableTable
 
-  if (
-    !statisticsResult ||
-    (statisticsResult.offeringsWithMemos && statisticsResult.offeringsWithMemos.length === 0) ||
-    (statisticsResult.offeringsWithAnalyses && statisticsResult.offeringsWithAnalyses.length === 0)
-  )
+  if (!statisticsResult || (statisticsResult.offeringsWithMemos && statisticsResult.offeringsWithMemos.length === 0))
     return <NoDataMessage labels={sortableTable} />
-  const { year, offeringsWithMemos, periods = [], semester = '', offeringsWithAnalyses } = statisticsResult
+  const { year, offeringsWithMemos, periods = [] } = statisticsResult
   const isMemoPage = offeringsWithMemos && offeringsWithMemos.length > 0 ? true : false
-  const isAnalysisPage = offeringsWithAnalyses && offeringsWithAnalyses.length > 0 ? true : false
 
   let columnNames = []
   if (isMemoPage) {
@@ -320,21 +234,6 @@ function StatisticsDataTable({ statisticsResult }) {
       'courseStart',
       'publishDate',
       'linkToCoursePM',
-    ]
-  } else if (isAnalysisPage) {
-    // prepare columns for analysis table
-    columnNames = [
-      'year',
-      'term',
-      'school',
-      'institution',
-      'courseCode',
-      'linkedProgram',
-      'applicationCode',
-      'courseStart',
-      'courseEndDate',
-      'publishDate',
-      'linkToCourseAnalysis',
     ]
   }
   const columns = columnNames.map(columnName => ({
@@ -355,10 +254,9 @@ function StatisticsDataTable({ statisticsResult }) {
       semesterTranslationObject,
       languageIndex
     )
-  } else if (isAnalysisPage) {
-    dataRows = _getDataRowsForCourseAnalysis(offeringsWithAnalyses, year, browserConfig, languageIndex)
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [tableData, setTableData] = useState(
     dataRows.map((d, index) => ({
       id: index,
@@ -368,13 +266,13 @@ function StatisticsDataTable({ statisticsResult }) {
 
   return (
     <>
-      <h3>{isMemoPage ? courseMemo.header : courseAnalysis.header}</h3>
-      <article key="statistics-memo-analysis-description">
-        <p>{isMemoPage ? courseMemo.details : courseAnalysis.details}</p>
+      <h3>{isMemoPage ? courseMemo.header : null}</h3>
+      <article key="statistics-memo-description">
+        <p>{isMemoPage ? courseMemo.details : null}</p>
         <p>{sortableTable.moreColumnsNote}</p>
         <details>
           <summary className="white" style={{ paddingTop: '20px' }}>
-            {isMemoPage ? courseMemo.sourceOfData : courseAnalysis.sourceOfData}
+            {isMemoPage ? courseMemo.sourceOfData : null}
           </summary>
           <div className="padding-bottom-1">
             <Row>
@@ -398,14 +296,10 @@ function StatisticsDataTable({ statisticsResult }) {
                 columns={columns}
                 dataRows={dataRows}
                 exportLabels={exportLabels}
-                sheetName={isMemoPage ? `statistics-memos` : `statistics-analyses`}
+                sheetName={isMemoPage ? `statistics-memos` : ''}
                 languageIndex={languageIndex}
                 isMemoPage={isMemoPage}
-                fileName={
-                  isMemoPage
-                    ? `course-information-statistics-memos-${year}-periods-${periods.join('-')}`
-                    : `course-information-statistics-analyses-${year}-periods-${semester}`
-                }
+                fileName={isMemoPage ? `course-information-statistics-memos-${year}-periods-${periods.join('-')}` : ''}
               ></StatisticsExport>
             </Row>
           </div>

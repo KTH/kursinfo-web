@@ -2,16 +2,10 @@
 
 const log = require('@kth/log')
 const languageUtils = require('@kth/kth-node-web-common/lib/language')
-const courseAnalysesApi = require('../apiCalls/courseAnalysesApi')
 const memoApi = require('../apiCalls/memoApi')
 const koppsCourseData = require('../apiCalls/koppsCourseData')
-const {
-  filterOfferingsForAnalysis,
-  filterOfferingsForMemos,
-  semestersInParsedOfferings,
-} = require('../apiCalls/transformers/offerings')
+const { filterOfferingsForMemos, semestersInParsedOfferings } = require('../apiCalls/transformers/offerings')
 
-const { analysesPerSchool } = require('../apiCalls/transformers/analyses')
 const { memosPerSchool } = require('../apiCalls/transformers/memos')
 
 const browserConfig = require('../configuration').browser
@@ -138,66 +132,8 @@ async function fetchMemoStatistics(req, res, next) {
     return next(error)
   }
 }
-/**
- *
- * @param {Object} req
- * @param {Object} req.params
- * @param {string} req.params.year              Year for which statistics will be fetched
- * @param {Object} req.query
- * @param {number} req.query.semester          - Semester chosen by user in raw format
- * @param {string} req.query.school
- * @param {string} req.query.l                  - Language "sv" or "en"
- * @param {*} res
- * @param {*} next
- * @returns
- */
-async function fetchAnalysisStatistics(req, res, next) {
-  const { params, query } = req
-  log.info(` trying to fetch course analysis statistics `, { params, query })
-
-  const { year } = params
-  const { semester, school, l: language } = query
-  if (!semester) log.error('semester must be set', semester)
-  if (!school) log.error('school must be set', school)
-
-  const semesterWithYear = `${year}${semester}`
-
-  try {
-    const courses = await _getCourses([semesterWithYear])
-
-    const parsedOfferings = filterOfferingsForAnalysis(courses, semesterWithYear, school, language)
-    // Find start semesters found in parsed offerings.
-    const startSemestersInAnalyses = semestersInParsedOfferings(parsedOfferings)
-
-    // Course analyses for start semesters
-    const analyses = await courseAnalysesApi.getCourseAnalysesForStatistics(startSemestersInAnalyses)
-
-    // Compiles statistics per school, including totals, for analyses.
-    const { offeringsWithAnalyses, combinedAnalysesPerSchool } = analysesPerSchool(parsedOfferings, analyses)
-
-    return res.json({
-      combinedAnalysesPerSchool, // small table // in kursinfo-admin-web combinedMemosDataPerSchool,
-      documentType: 'courseAnalysis',
-      koppsApiBasePath: `${serverConfig.koppsApi.https ? 'https' : 'http'}://${serverConfig.koppsApi.host}${
-        serverConfig.koppsApi.basePath
-      }`,
-      documentsApiBasePath: `${serverConfig.nodeApi.kursutvecklingApi.https ? 'https' : 'http'}://${
-        serverConfig.nodeApi.kursutvecklingApi.host
-      }${serverConfig.nodeApi.kursutvecklingApi.proxyBasePath}`,
-      school,
-      offeringsWithAnalyses, // big Table // in kursinfo-admin-web  combinedDataPerDepartment,
-      semester,
-      totalOfferings: courses.length,
-      year,
-    })
-  } catch (error) {
-    log.debug(` Exception`, { error })
-    return next(error)
-  }
-}
 
 module.exports = {
   getIndex,
-  fetchAnalysisStatistics,
   fetchMemoStatistics,
 }

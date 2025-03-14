@@ -1,4 +1,3 @@
-import AnalysesSummary from './AnalysesSummary'
 import CheckboxOption from './CheckboxOption'
 import DropdownOption from './DropdownOption'
 import MemosSummary from './MemosSummary'
@@ -13,7 +12,6 @@ import StatisticsDataTable from './StatisticsDataTable'
 import SortableDataTable from './SortableDataTable'
 
 export {
-  AnalysesSummary,
   CheckboxOption,
   DropdownOption,
   introductionTexts,

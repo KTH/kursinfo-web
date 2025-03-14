@@ -2,7 +2,7 @@ const { firstPublishData, publishData } = require('./dates')
 const { findMemosForApplicationCode } = require('./docs')
 
 /**
- * Matches analyses and memos with course offerings.
+ * Matches memos with course offerings.
  * @param {[]} parsedOfferings Array of offerings’ relevant data
  * @param {[]} memos           Collection of course memos
  * @returns {[]}               Array, each containing offerings and their documents.
@@ -188,7 +188,7 @@ function _countMemosDataPerSchool(courseOfferings) {
  * @returns {{}}                Collection with statistics per school, and totals, for memos
  */
 async function memosPerSchool(parsedOfferings, memos) {
-  // Matches analyses and memos with course offerings.
+  // Matches memos with course offerings.
   // Returns an object with two arrays, each containing offerings and their documents.
   const offeringsWithMemos = await _memosPerCourseOffering(parsedOfferings, memos) // prev combinedDataPerDepartment
 
