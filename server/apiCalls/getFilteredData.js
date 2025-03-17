@@ -101,7 +101,7 @@ const createPeriodString = (ladokRound, periods, language) => {
 
       const periodCodes = period.Lasperiodsfordelning
         ? period.Lasperiodsfordelning.map(
-            fordelning => `${fordelning.Lasperiodskod} (${fordelning.Omfattningsvarde} ${ladokRound.utbildningstyp})`
+            fordelning => `${fordelning.Lasperiodskod} (${fordelning.Omfattningsvarde} hp)`
           )
         : []
 
