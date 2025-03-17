@@ -34,7 +34,7 @@ jest.mock('@kth/kth-node-web-common/lib/language', () => ({
 jest.mock('kth-node-express-routing', () => ({
   getPaths: jest.fn(() => applicationPaths),
 }))
-jest.mock('om-kursen-ladok-client', () => ({
+jest.mock('@kth/om-kursen-ladok-client', () => ({
   createApiClient: () => ({
     getLatestCourseVersion: () => mockedLadokData.mockedLadokCourseVersion,
     getActiveCourseRounds: () => mockedLadokData.mockedLadokRounds,

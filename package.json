@@ -53,7 +53,7 @@
     "kth-node-i18n": "^1.0.18",
     "kth-node-redis": "^3.3.0",
     "kth-style": "^10.3.3",
-    "om-kursen-ladok-client": "file:../studadm-om-kursen-packages/packages/om-kursen-ladok-client",
+    "@kth/om-kursen-ladok-client": "^1.1.0",
     "react": "^18.3.1",
     "react-data-table-component": "^7.6.2",
     "react-dom": "^18.3.1",

@@ -230,24 +230,19 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   const now = new Date()
   const period = getPeriodCodeForDate(now)
 
-  const { body: koppsCourseDetails } = await koppsCourseData.getKoppsCourseData(courseCode, language)
-  const { course: ladokCourse, rounds: ladokRounds } = await ladokApi.getCourseAndActiveRounds(courseCode, language)
-  const ladokSyllabus = await ladokApi.getLadokSyllabus(courseCode, period, language)
-  const periods = await ladokApi.getPeriods()
-  const socialSchedules = await getSocial(courseCode, language)
-  // const [
-  //   { body: koppsCourseDetails },
-  //   { course: ladokCourse, rounds: ladokRounds },
-  //   ladokSyllabus,
-  //   periods,
-  //   socialSchedules,
-  // ] = await Promise.all([
-  //   koppsCourseData.getKoppsCourseData(courseCode, language),
-  //   ladokApi.getCourseAndActiveRounds(courseCode, language),
-  //   ladokApi.getLadokSyllabus(courseCode, period, language),
-  //   ladokApi.getPeriods(),
-  //   getSocial(courseCode, language),
-  // ])
+  const [
+    { body: koppsCourseDetails },
+    { course: ladokCourse, rounds: ladokRounds },
+    ladokSyllabus,
+    periods,
+    socialSchedules,
+  ] = await Promise.all([
+    koppsCourseData.getKoppsCourseData(courseCode, language),
+    ladokApi.getCourseAndActiveRounds(courseCode, language),
+    ladokApi.getLadokSyllabus(courseCode, period, language),
+    ladokApi.getPeriods(),
+    getSocial(courseCode, language),
+  ])
 
   if (!koppsCourseDetails || !ladokCourse) {
     // TODO(Ladok-POC): What to do if we find course in only in Ladok or only in Kopps?

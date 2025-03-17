@@ -7,8 +7,6 @@
  *
  */
 
-const { getPeriods } = require('../apiCalls/ladokApi')
-
 const SEMESTER_NUMBER = {
   SPRING: 1,
   AUTUMN: 2,
