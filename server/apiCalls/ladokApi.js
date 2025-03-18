@@ -35,9 +35,9 @@ async function getLadokSyllabus(courseCode, semester, lang) {
 
 async function getPeriods() {
   try {
-    const course = await client.getPeriods()
+    const periods = await client.getPeriods()
 
-    return course
+    return periods
   } catch (error) {
     throw new Error(error.message)
   }
