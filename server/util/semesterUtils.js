@@ -117,6 +117,35 @@ const getCurrentYearAndSemesterNumber = () => {
   }
 }
 
+const getSemester = (dateStr, language) => {
+  const [yearStr, monthStr] = dateStr.split('-')
+  const year = parseInt(yearStr, 10)
+  const month = parseInt(monthStr, 10)
+
+  if (month >= 1 && month <= 7) {
+    return `${language === 'sv' ? 'VT' : 'Spring'} ${year}`
+  } else if (month >= 8 && month <= 12) {
+    return `${language === 'sv' ? 'HT' : 'Autumn'} ${year}`
+  }
+
+  throw new Error('Invalid date format or value')
+}
+
+const getSemesterForDate = (date, periods, language) => {
+  const [year] = date.split('-')
+  if (periods) {
+    const springPeriod = periods.data.Period.find(item => item.Kod === `VT${year}`)
+    if (date >= springPeriod.Giltighetsperiod.Startdatum && date <= springPeriod.Giltighetsperiod.Slutdatum) {
+      return `${language === 'sv' ? 'VT' : 'Spring'} ${year}`
+    }
+    const autumnPeriod = periods.data.Period.find(item => item.Kod === `HT${year}`)
+    if (date >= autumnPeriod.Giltighetsperiod.Startdatum && date <= autumnPeriod.Giltighetsperiod.Slutdatum) {
+      return `${language === 'sv' ? 'HT' : 'Autumn'} ${year}`
+    }
+  }
+  return ''
+}
+
 // I want global isNaN
 // eslint-disable-next-line no-restricted-globals
 const isFiveDigitNumber = semester => semester.toString().length === 5 && !isNaN(semester)
@@ -136,5 +165,8 @@ module.exports = {
   parseSemesterIntoYearSemesterNumber,
   convertYearSemesterNumberIntoSemester,
   convertToYearSemesterNumberOrGetCurrent,
+  getCurrentYearAndSemesterNumber,
+  getSemester,
+  getSemesterForDate,
   SEMESTER_NUMBER,
 }

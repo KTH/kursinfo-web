@@ -163,6 +163,81 @@ const mockedUndefinedCourseSyllabus = {
   },
 }
 
+const mockedPeriods = {
+  Period: [
+    {
+      Benamning: {
+        sv: 'Första halvår 1953',
+        en: 'First six months of 1953',
+      },
+      Beskrivning: {},
+      Dolt: false,
+      FromDatum: '1953-01-01',
+      Giltighetsperiod: {
+        Slutdatum: '1953-06-30',
+        Startdatum: '1953-01-01',
+        link: [],
+      },
+      ID: '29257',
+      Kod: '1953V',
+      LarosateID: 29,
+      PeriodtypID: 3,
+      TomDatum: '1953-06-30',
+      link: [
+        {
+          method: 'PUT',
+          uri: 'https://api.integrationstest.ladok.se:443/kataloginformation/grunddata/period/lokal',
+          mediaType:
+            'application/vnd.ladok+xml,application/vnd.ladok-kataloginformation+xml,application/vnd.ladok-kataloginformation+json',
+          rel: 'http://relations.ladok.se/grunddata/uppdatera',
+        },
+        {
+          method: 'PUT',
+          uri: 'https://api.integrationstest.ladok.se:443/kataloginformation/grunddata/period/29257/uppdaterautifrannationellmall',
+          mediaType:
+            'application/vnd.ladok+xml,application/vnd.ladok-kataloginformation+xml,application/vnd.ladok-kataloginformation+json',
+          rel: 'http://relations.ladok.se/kataloginformation/period/uppdaterautifrannationellmall',
+        },
+      ],
+    },
+    {
+      Benamning: {
+        sv: 'Andra halvår 1954',
+        en: 'Last six months of 1954',
+      },
+      Beskrivning: {},
+      Dolt: false,
+      FromDatum: '1954-07-01',
+      Giltighetsperiod: {
+        Slutdatum: '1954-12-31',
+        Startdatum: '1954-07-01',
+        link: [],
+      },
+      ID: '29186',
+      Kod: '1954H',
+      LarosateID: 29,
+      PeriodtypID: 3,
+      TomDatum: '1954-12-31',
+      link: [
+        {
+          method: 'PUT',
+          uri: 'https://api.integrationstest.ladok.se:443/kataloginformation/grunddata/period/lokal',
+          mediaType:
+            'application/vnd.ladok+xml,application/vnd.ladok-kataloginformation+xml,application/vnd.ladok-kataloginformation+json',
+          rel: 'http://relations.ladok.se/grunddata/uppdatera',
+        },
+        {
+          method: 'PUT',
+          uri: 'https://api.integrationstest.ladok.se:443/kataloginformation/grunddata/period/29186/uppdaterautifrannationellmall',
+          mediaType:
+            'application/vnd.ladok+xml,application/vnd.ladok-kataloginformation+xml,application/vnd.ladok-kataloginformation+json',
+          rel: 'http://relations.ladok.se/kataloginformation/period/uppdaterautifrannationellmall',
+        },
+      ],
+    },
+  ],
+}
+
 const mockedLadokData = {
   mockedLadokCourseVersion,
   mockedLadokRounds,

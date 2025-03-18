@@ -41,6 +41,7 @@ jest.mock('@kth/om-kursen-ladok-client', () => ({
     getExaminationModulesByUtbildningstillfalleUid: () => mockedLadokData.mockedExaminationModules,
     getExaminationModulesByUtbildningsinstansUid: () => mockedLadokData.mockedExaminationModules,
     getCourseSyllabus: () => mockedLadokData.mockedCourseSyllabus,
+    getPeriods: () => mockedLadokData.mockedPeriods,
   }),
 }))
 // jest.mock('@kth/kth-node-response')

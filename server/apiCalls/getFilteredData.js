@@ -7,11 +7,10 @@ const {
 } = require('../util/constants')
 const { buildCourseDepartmentLink } = require('../util/courseDepartmentUtils')
 const { getDateFormat, formatVersionDate } = require('../util/dates')
-const i18n = require('../../i18n')
 const {
-  parseSemesterIntoYearSemesterNumber,
   parseSemesterIntoYearSemesterNumberArray,
   getPeriodCodeForDate,
+  getSemesterForDate,
 } = require('../util/semesterUtils')
 const koppsCourseData = require('./koppsCourseData')
 const ladokApi = require('./ladokApi')
@@ -62,31 +61,6 @@ function _parseTitleData(ladokCourse) {
   }
 }
 
-function _getRoundPeriodes(courseRoundTerms, language = 'sv') {
-  let periodeString = ''
-  if (courseRoundTerms) {
-    if (courseRoundTerms.length > 1) {
-      courseRoundTerms.forEach(periode => {
-        const yearTerm = parseSemesterIntoYearSemesterNumber(periode.term.term)
-
-        periodeString += `<p class="periode-list">
-                                ${
-                                  i18n.messages[language === 'en' ? 0 : 1].courseInformation.course_short_semester[
-                                    yearTerm.semesterNumber
-                                  ]
-                                } 
-                                ${yearTerm.year}: 
-                                ${periode.formattedPeriodsAndCredits}
-                                </p>`
-      })
-      return periodeString
-    } else {
-      return courseRoundTerms[0].formattedPeriodsAndCredits
-    }
-  }
-  return INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
-}
-
 function _parseRoundSeatsMsg(max, min) {
   if (!max && !min) {
     return ''
@@ -117,7 +91,26 @@ function _getRoundProgramme(programmes, language = 0) {
   return programmeString
 }
 
-function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, language = 'sv') {
+const createPeriodString = (ladokRound, periods, language) => {
+  const { tillfallesPerioder } = ladokRound
+
+  return tillfallesPerioder
+    .map(period => {
+      const semesterAndYear = getSemesterForDate(period.ForstaUndervisningsdatum, periods, language)
+      const periodString = `<p class="periode-list">${semesterAndYear}: `
+
+      const periodCodes = period.Lasperiodsfordelning
+        ? period.Lasperiodsfordelning.map(
+            fordelning => `${fordelning.Lasperiodskod} (${fordelning.Omfattningsvarde} hp)`
+          )
+        : []
+
+      return periodCodes.length > 0 ? `${periodString}${periodCodes.join(', ')}</p>` : ''
+    })
+    .join('')
+}
+
+function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, language = 'sv') {
   const { admissionLinkUrl: koppsAdmissionLinkUrl, round: koppsRound = {}, usage: koppsUsage } = koppsRoundObject
   const { applicationCodes = [] } = koppsRound
   const hasApplicationCodes = applicationCodes.length > 0
@@ -145,8 +138,8 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, language 
         parseOrSetEmpty(ladokRound.minantalplatser, language, true)
       ) || '',
 
+    round_periods: createPeriodString(ladokRound, periods, language),
     round_schedule: parseOrSetEmpty(schemaUrl, language),
-    round_periods: koppsRound.courseRoundTerms ? _getRoundPeriodes(koppsRound.courseRoundTerms, language) : [],
     round_selection_criteria: parseOrSetEmpty(
       koppsRound[language === 'en' ? 'selectionCriteriaEn' : 'selectionCriteriaSv'],
       language,
@@ -172,7 +165,15 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, language 
   return courseRoundModel
 }
 
-function _parseRounds({ ladokRounds, socialSchedules, roundInfos: koppsRoundInfos, courseCode, language, memoList }) {
+function _parseRounds({
+  ladokRounds,
+  socialSchedules,
+  roundInfos: koppsRoundInfos,
+  courseCode,
+  language,
+  memoList,
+  periods,
+}) {
   const activeSemesterArray = []
   const tempList = []
   const employees = {
@@ -183,7 +184,7 @@ function _parseRounds({ ladokRounds, socialSchedules, roundInfos: koppsRoundInfo
   const roundsBySemester = {}
   for (const ladokRound of ladokRounds) {
     const koppsRoundInfo = koppsRoundInfos.find(x => x.round.ladokUID === ladokRound.uid) ?? {}
-    const courseRound = _getRound(koppsRoundInfo, ladokRound, socialSchedules, language)
+    const courseRound = _getRound(koppsRoundInfo, ladokRound, socialSchedules, periods, language)
     const { round_course_term: yearAndTermArr, round_application_code: applicationCode } = courseRound
     const semester = yearAndTermArr.join('')
 
@@ -229,11 +230,19 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   const now = new Date()
   const period = getPeriodCodeForDate(now)
 
-  const { body: koppsCourseDetails } = await koppsCourseData.getKoppsCourseData(courseCode, language)
-  const { course: ladokCourse, rounds: ladokRounds } = await ladokApi.getCourseAndActiveRounds(courseCode, language)
-  const ladokSyllabus = await ladokApi.getLadokSyllabus(courseCode, period, language)
-
-  const socialSchedules = await getSocial(courseCode, language)
+  const [
+    { body: koppsCourseDetails },
+    { course: ladokCourse, rounds: ladokRounds },
+    ladokSyllabus,
+    periods,
+    socialSchedules,
+  ] = await Promise.all([
+    koppsCourseData.getKoppsCourseData(courseCode, language),
+    ladokApi.getCourseAndActiveRounds(courseCode, language),
+    ladokApi.getLadokSyllabus(courseCode, period, language),
+    ladokApi.getPeriods(),
+    getSocial(courseCode, language),
+  ])
 
   if (!koppsCourseDetails || !ladokCourse) {
     // TODO(Ladok-POC): What to do if we find course in only in Ladok or only in Kopps?
@@ -275,6 +284,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
     courseCode,
     language,
     memoList,
+    periods,
   })
 
   const courseData = {

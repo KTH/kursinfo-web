@@ -33,8 +33,19 @@ async function getLadokSyllabus(courseCode, semester, lang) {
   }
 }
 
+async function getPeriods() {
+  try {
+    const periods = await client.getPeriods()
+
+    return periods
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
 module.exports = {
   getCourseAndActiveRounds,
   getExaminationModules,
   getLadokSyllabus,
+  getPeriods,
 }
