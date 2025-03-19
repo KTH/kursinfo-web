@@ -154,9 +154,6 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
         ? _getRoundProgramme(koppsUsage, language)
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     round_state: parseOrSetEmpty(koppsRound.state, language),
-    round_category: hasApplicationCodes
-      ? parseOrSetEmpty(koppsLatestApplicationCode.courseRoundType.category, language)
-      : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
   }
   if (courseRoundModel.round_short_name === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) {
     courseRoundModel.round_short_name = `${language === 0 ? 'Start' : 'Start'}  ${courseRoundModel.round_start_date}`
