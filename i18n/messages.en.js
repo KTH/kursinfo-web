@@ -203,16 +203,12 @@ module.exports = {
     },
     round_time_slots: 'Planned modular schedule',
     round_application_link: 'Go to the registration',
-    round_category: {
-      PU: 'programme students',
-      VU: 'single courses students',
-      pu_and_vu: 'programme and single courses students',
-    },
-    round_type: {
+    round_type_suffix: {
       ORD: 'programme students',
       UPP: 'contract education',
       PER: 'course for KTH staff',
       SAP: 'Study Abroad Programme',
+      VU: 'single courses students',
     },
   },
   courseMainSubjects: {
