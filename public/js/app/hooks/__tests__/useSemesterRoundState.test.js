@@ -25,7 +25,6 @@ const roundsBySemester = {
         '<p>\n          <a href="/student/kurser/program/CSAMH/20232/arskurs1">\n            Degree Programme in Civil Engineering and Urban Management, åk 1, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CTKEM/20232/arskurs1">\n            Degree Programme in Engineering Chemistry, åk 1, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CMATD/20232/arskurs1">\n            Degree Programme in Materials Design and Engineering, åk 1, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CLGYM/20222/arskurs2#inrMAKE">\n            Master of Science in Engineering and in Education, åk 2, MAKE, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CLGYM/20222/arskurs2#inrTEDA">\n            Master of Science in Engineering and in Education, åk 2, TEDA, Mandatory\n        </a>\n      </p>',
       round_state: 'APPROVED',
       round_comment: '',
-      round_category: 'PU',
     },
   ],
   20232: [
@@ -54,7 +53,6 @@ const roundsBySemester = {
         '<p>\n          <a href="/student/kurser/program/CSAMH/20232/arskurs1">\n            Degree Programme in Civil Engineering and Urban Management, åk 1, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CTKEM/20232/arskurs1">\n            Degree Programme in Engineering Chemistry, åk 1, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CMATD/20232/arskurs1">\n            Degree Programme in Materials Design and Engineering, åk 1, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CLGYM/20222/arskurs2#inrMAKE">\n            Master of Science in Engineering and in Education, åk 2, MAKE, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CLGYM/20222/arskurs2#inrTEDA">\n            Master of Science in Engineering and in Education, åk 2, TEDA, Mandatory\n        </a>\n      </p>',
       round_state: 'APPROVED',
       round_comment: '',
-      round_category: 'PU',
     },
     {
       round_time_slots: '<i>No information inserted</i>',
@@ -81,7 +79,6 @@ const roundsBySemester = {
         '<p>\n          <a href="/student/kurser/program/CDATE/20232/arskurs1">\n            Degree Programme in Computer Science and Engineering, åk 1, Mandatory\n        </a>\n      </p>',
       round_state: 'APPROVED',
       round_comment: '',
-      round_category: 'PU',
     },
   ],
   20242: [
@@ -110,7 +107,6 @@ const roundsBySemester = {
         '<p>\n          <a href="/student/kurser/program/COPEN/20242/arskurs1">\n            Degree Programme Open Entrance, åk 1, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CMETE/20242/arskurs1">\n            Degree Programme in Media Technology, åk 1, Mandatory\n        </a>\n      </p>',
       round_state: 'APPROVED',
       round_comment: '',
-      round_category: 'PU',
     },
     {
       round_time_slots: '<i>No information inserted</i>',
@@ -137,7 +133,6 @@ const roundsBySemester = {
         '<p>\n          <a href="/student/kurser/program/CINTE/20242/arskurs1">\n            Degree Programme in Information and Communication Technology, åk 1, Mandatory\n        </a>\n      </p>',
       round_state: 'APPROVED',
       round_comment: '',
-      round_category: 'PU',
     },
   ],
 }

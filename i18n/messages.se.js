@@ -213,16 +213,12 @@ module.exports = {
     },
     round_time_slots: 'Planerade schemamoduler',
     round_application_link: 'Till anmälan',
-    round_category: {
-      PU: 'programstuderande',
-      VU: 'fristående studerande',
-      pu_and_vu: 'programstuderande och fristående studerande',
-    },
-    round_type: {
+    round_type_suffix: {
       ORD: 'programstuderande',
       UPP: 'uppdragsutbildning',
       PER: 'kurser för KTHs personal',
       SAP: 'Study Abroad Programme',
+      VU: 'fristående studerande',
     },
   },
   courseImage: {
