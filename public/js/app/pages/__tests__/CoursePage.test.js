@@ -62,7 +62,6 @@ describe('Component <CoursePage>', () => {
             round_tutoring_form: 'NML',
             round_tutoring_language: 'Swedish',
             round_tutoring_time: 'DAG',
-            round_type: 'Programutbildning',
           },
           {
             has_round_published_memo: true,
@@ -89,7 +88,6 @@ describe('Component <CoursePage>', () => {
             round_tutoring_form: 'NML',
             round_tutoring_language: 'Swedish',
             round_tutoring_time: 'DAG',
-            round_type: 'Programutbildning',
           },
         ],
         20222: [
@@ -118,7 +116,6 @@ describe('Component <CoursePage>', () => {
             round_tutoring_form: 'NML',
             round_tutoring_language: 'Swedish',
             round_tutoring_time: 'DAG',
-            round_type: 'Programutbildning',
           },
         ],
         20231: [
@@ -147,7 +144,6 @@ describe('Component <CoursePage>', () => {
             round_tutoring_form: 'NML',
             round_tutoring_language: 'Swedish',
             round_tutoring_time: 'DAG',
-            round_type: 'Programutbildning',
           },
         ],
       },

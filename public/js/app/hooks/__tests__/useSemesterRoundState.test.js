@@ -18,7 +18,6 @@ const roundsBySemester = {
       round_periods: 'P2 (7.5 hp)',
       round_seats: '',
       round_selection_criteria: '<p></p>',
-      round_type: 'Programutbildning',
       round_funding_type: 'ORD',
       round_application_link: '<i>No information inserted</i>',
       round_part_of_programme:
@@ -46,7 +45,6 @@ const roundsBySemester = {
       round_periods: 'P2 (7.5 hp)',
       round_seats: '',
       round_selection_criteria: '<p></p>',
-      round_type: 'Programutbildning',
       round_funding_type: 'ORD',
       round_application_link: '<i>No information inserted</i>',
       round_part_of_programme:
@@ -72,7 +70,6 @@ const roundsBySemester = {
       round_periods: 'P2 (7.5 hp)',
       round_seats: '',
       round_selection_criteria: '<p></p>',
-      round_type: 'Programutbildning',
       round_funding_type: 'ORD',
       round_application_link: '<i>No information inserted</i>',
       round_part_of_programme:
@@ -100,7 +97,6 @@ const roundsBySemester = {
       round_periods: 'P2 (7.5 hp)',
       round_seats: '',
       round_selection_criteria: '<p></p>',
-      round_type: 'Programutbildning',
       round_funding_type: 'ORD',
       round_application_link: '<i>No information inserted</i>',
       round_part_of_programme:
@@ -126,7 +122,6 @@ const roundsBySemester = {
       round_periods: 'P2 (7.5 hp)',
       round_seats: '',
       round_selection_criteria: '<p></p>',
-      round_type: 'Programutbildning',
       round_funding_type: 'ORD',
       round_application_link: '<i>No information inserted</i>',
       round_part_of_programme:

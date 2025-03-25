@@ -112,9 +112,6 @@ const createPeriodString = (ladokRound, periods, language) => {
 
 function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, language = 'sv') {
   const { admissionLinkUrl: koppsAdmissionLinkUrl, round: koppsRound = {}, usage: koppsUsage } = koppsRoundObject
-  const { applicationCodes = [] } = koppsRound
-  const hasApplicationCodes = applicationCodes.length > 0
-  const [koppsLatestApplicationCode] = applicationCodes
   const round = socialSchedules.rounds.find(schedule => schedule.applicationCode === ladokRound.tillfalleskod)
 
   const schemaUrl = round && round.has_events ? round.calendar_url : null
@@ -145,9 +142,6 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
       language,
       true
     ),
-    round_type: hasApplicationCodes
-      ? parseOrSetEmpty(koppsLatestApplicationCode.courseRoundType.name, language)
-      : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     round_application_link: parseOrSetEmpty(koppsAdmissionLinkUrl, language),
     round_part_of_programme:
       koppsUsage && koppsUsage.length > 0
