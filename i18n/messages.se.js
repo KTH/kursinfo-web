@@ -367,6 +367,11 @@ module.exports = {
       },
     },
     earlierYearThan2019: { text: 'Det finns inga data tidigare än 2019' },
+    courseAnalysis_alert_header: 'Viktigt: Nya rutiner för kursanalyser',
+    courseAnalysis_alert_p1:
+      'Från juni 2025 kommer statistik över kursanalyser inte längre att visas. Från och med läsperiod 3 i VT25 ska kursanalyser fyllas i och publiceras i Canvas. Eftersom detta blir obligatoriskt för alla kurser, slutar vi att visa statistik över publicerade analyser.',
+    courseAnalysis_alert_p2: 'Läs om det nya automatiserade systemet i Canvas här: ',
+    courseAnalysis_alert_link_text: 'Nytt IT-systemstöd för kursvärdering och kursanalys',
   },
   breadCrumbs: {
     student: 'Studentwebben',
