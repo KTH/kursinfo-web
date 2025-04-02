@@ -43,7 +43,7 @@ describe('Component <CourseStatisticsPage> submit data', () => {
 
     // show alert message without calling axios
     expect(axios.get).toHaveBeenCalledTimes(0)
-    const alertMemoMessage = screen.getByRole('alert')
+    const alertMemoMessage = screen.getAllByRole('alert').at(-1)
     const emptyMemoFieldsNamesMessage = /Du måste välja skola, år och läsperiod för att kunna visa statistik/i
     expect(within(alertMemoMessage).getByText(emptyMemoFieldsNamesMessage)).toBeInTheDocument()
 
@@ -56,9 +56,9 @@ describe('Component <CourseStatisticsPage> submit data', () => {
     await userEvent.click(btn)
 
     const emptyAnalysisFieldsNames = /Du måste välja skola, år och termin för att kunna visa statistik/i
-    const alertnalysisMemoMessage = screen.getByRole('alert')
-    expect(alertnalysisMemoMessage).toBeInTheDocument()
-    expect(within(alertnalysisMemoMessage).getByText(emptyAnalysisFieldsNames)).toBeInTheDocument()
+    const alertAnalysisMessage = screen.getAllByRole('alert').at(-1)
+    expect(alertAnalysisMessage).toBeInTheDocument()
+    expect(within(alertAnalysisMessage).getByText(emptyAnalysisFieldsNames)).toBeInTheDocument()
 
     expect(screen.getAllByText(emptyAnalysisFieldsNames, { exact: true }).length).toBe(1)
   })
@@ -79,7 +79,7 @@ describe('Component <CourseStatisticsPage> submit data', () => {
 
     // show alert message without calling axios
     expect(axios.get).toHaveBeenCalledTimes(0)
-    const alertMemoMessage1 = screen.getByRole('alert')
+    const alertMemoMessage1 = screen.getAllByRole('alert').at(-1)
     const errorMessage = /Du måste välja skola och år för att kunna visa statistik/i
 
     expect(alertMemoMessage1).toBeInTheDocument()
@@ -90,7 +90,7 @@ describe('Component <CourseStatisticsPage> submit data', () => {
     expect(periodOneCheckbox).not.toBeChecked()
     await userEvent.click(btn)
 
-    const alertMemoMessage2 = screen.getByRole('alert')
+    const alertMemoMessage2 = screen.getAllByRole('alert').at(-1)
     expect(within(alertMemoMessage2).getByText(/skola, år och läsperiod/i)).toBeInTheDocument()
 
     // Summer period
@@ -103,7 +103,7 @@ describe('Component <CourseStatisticsPage> submit data', () => {
 
     // show alert message without calling axios
     expect(axios.get).toHaveBeenCalledTimes(0)
-    const alertMemoMessage3 = screen.getByRole('alert')
+    const alertMemoMessage3 = screen.getAllByRole('alert').at(-1)
 
     expect(alertMemoMessage3).toBeInTheDocument()
     expect(within(alertMemoMessage3).getByText(errorMessage)).toBeInTheDocument()
@@ -114,7 +114,7 @@ describe('Component <CourseStatisticsPage> submit data', () => {
     expect(periodSummerCheckbox).not.toBeChecked()
     await userEvent.click(btn)
 
-    const alertMemoMessage4 = screen.getByRole('alert')
+    const alertMemoMessage4 = screen.getAllByRole('alert').at(-1)
     expect(within(alertMemoMessage4).getByText(/skola, år och läsperiod/i)).toBeInTheDocument()
   })
 
@@ -151,7 +151,7 @@ describe('Component <CourseStatisticsPage> submit data', () => {
     expect(axios.get).toHaveBeenCalledTimes(1)
     expect(axios.get).toHaveBeenCalledWith(url, paramsPeriod1)
     const rejectMsg = /Ett okänt fel inträffade - misslyckad hämtning av kursdata./i
-    const alertMemoMessage1 = await screen.findByRole('alert')
+    const alertMemoMessage1 = screen.getAllByRole('alert').at(-1)
 
     expect(alertMemoMessage1).toBeInTheDocument()
     expect(within(alertMemoMessage1).getByText(rejectMsg)).toBeInTheDocument()
@@ -168,7 +168,7 @@ describe('Component <CourseStatisticsPage> submit data', () => {
     await userEvent.click(btn)
 
     const errorMessage = /Du måste välja läsperiod för att kunna visa statistik/i
-    const alertMemoMessage2 = screen.getByRole('alert')
+    const alertMemoMessage2 = screen.getAllByRole('alert').at(-1)
     expect(within(alertMemoMessage2).getByText(errorMessage)).toBeInTheDocument()
   })
 })
