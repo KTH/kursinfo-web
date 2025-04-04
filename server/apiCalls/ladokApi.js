@@ -6,10 +6,10 @@ const serverConfig = require('../configuration').server
 
 const client = createApiClient(serverConfig.ladokMellanlagerApi)
 
-async function getCourseAndActiveRounds(courseCode, language) {
+async function getCourseAndRounds(courseCode, language) {
   const [course, rounds] = await Promise.all([
     client.getLatestCourseVersion(courseCode, language),
-    client.getActiveCourseRounds(courseCode, language),
+    client.getActiveAndFutureCourseRounds(courseCode, language),
   ])
   return { course, rounds }
 }
@@ -44,7 +44,7 @@ async function getPeriods() {
 }
 
 module.exports = {
-  getCourseAndActiveRounds,
+  getCourseAndRounds,
   getExaminationModules,
   getLadokSyllabus,
   getPeriods,
