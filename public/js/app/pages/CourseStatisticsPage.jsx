@@ -6,6 +6,9 @@ import { findMissingParametersKeys, hasValue } from '../components/statistics/do
 import { StatisticsForm, StatisticsResults } from '../components/statistics/index'
 import { useStatisticsAsync } from '../hooks/statisticsUseAsync'
 import { useLanguage } from '../hooks/useLanguage'
+import Alert from '../components-shared/Alert'
+import { NEW_COURSE_ANALYSIS_ADMIN_TOOL_URL } from '../util/constants'
+import { useWebContext } from '../context/WebContext'
 
 function _parseValues({ documentType, periods, school, semester, year }) {
   // clean params
@@ -31,6 +34,8 @@ function _parseResultValues(props) {
 }
 
 function CourseStatisticsPage() {
+  const { lang } = useWebContext()
+
   // labels are for headers and short texts
   const {
     translation: { statisticsLabels: labels },
@@ -69,6 +74,13 @@ function CourseStatisticsPage() {
     <div id="kursstatistik-main-page" className={hasSubmittedEmptyValue ? 'error-missing-parameters-in-query' : ''}>
       <h1>{labels.pageHeader}</h1>
       {texts.pageDescription()}
+      <Alert type="info" header={labels.courseAnalysis_alert_header}>
+        <p>{labels.courseAnalysis_alert_p1}</p>
+        <p>
+          {labels.courseAnalysis_alert_p2}
+          <a href={NEW_COURSE_ANALYSIS_ADMIN_TOOL_URL[lang]}>{labels.courseAnalysis_alert_link_text}</a>
+        </p>
+      </Alert>
       <h2>{labels.formLabels.formHeader}</h2>
       <StatisticsForm onSubmit={handleSubmit} resultError={resultState.error} />
       <StatisticsResults result={resultState} />
