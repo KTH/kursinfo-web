@@ -229,7 +229,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
     socialSchedules,
   ] = await Promise.all([
     koppsCourseData.getKoppsCourseData(courseCode, language),
-    ladokApi.getCourseAndActiveRounds(courseCode, language),
+    ladokApi.getCourseAndRounds(courseCode, language),
     ladokApi.getLadokSyllabus(courseCode, period, language),
     ladokApi.getPeriods(),
     getSocial(courseCode, language),
