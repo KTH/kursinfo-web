@@ -12,6 +12,7 @@ const {
   getPeriodCodeForDate,
   getSemesterForDate,
 } = require('../util/semesterUtils')
+const i18n = require('../../i18n')
 const koppsCourseData = require('./koppsCourseData')
 const ladokApi = require('./ladokApi')
 const courseApi = require('./kursinfoApi')
@@ -74,13 +75,13 @@ function _parseRoundSeatsMsg(max, min) {
   return min ? 'Min: ' + min : ''
 }
 
-function _getRoundProgramme(programmes, language = 0) {
+function _getRoundProgramme(programmes, language = 'en') {
   let programmeString = ''
   programmes.forEach(programme => {
     const { kod, benamning, arskurs, startperiod, inriktning, valinformation } = programme
     programmeString += `<p>
           <a href="${PROGRAMME_URL}/${kod}/${startperiod.inDigits}/arskurs${arskurs}${inriktning ? '#inr' + inriktning : ''}">
-            ${benamning[language]}, ${language === 'en' ? 'year' : 'åk'} ${arskurs}${inriktning ? ', ' + inriktning : ''}${valinformation[language] ? ', ' + valinformation[language] : ''}
+            ${benamning[language]}, ${i18n.messages[language === 'en' ? 0 : 1].courseRoundInformation.round_study_year} ${arskurs}${inriktning ? ', ' + inriktning : ''}${valinformation[language] ? ', ' + valinformation[language] : ''}
         </a>
       </p>`
   })

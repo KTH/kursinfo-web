@@ -210,6 +210,7 @@ module.exports = {
       SAP: 'Study Abroad Programme',
       VU: 'single courses students',
     },
+    round_study_year: 'year',
   },
   courseMainSubjects: {
     Architecture: 'Arkitektur',
