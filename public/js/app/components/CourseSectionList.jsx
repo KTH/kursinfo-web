@@ -123,7 +123,7 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
       },
       {
         header: translation.courseInformation.course_level_code,
-        text: translation.courseInformation.course_level_code_label[courseInfo.course_level_code],
+        text: courseInfo.course_level_code_label,
         syllabusMarker: true,
       },
     ]
