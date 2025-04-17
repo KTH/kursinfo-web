@@ -12,6 +12,7 @@ const {
   getPeriodCodeForDate,
   getSemesterForDate,
 } = require('../util/semesterUtils')
+const i18n = require('../../i18n')
 const koppsCourseData = require('./koppsCourseData')
 const ladokApi = require('./ladokApi')
 const courseApi = require('./kursinfoApi')
@@ -74,17 +75,13 @@ function _parseRoundSeatsMsg(max, min) {
   return min ? 'Min: ' + min : ''
 }
 
-function _getRoundProgramme(programmes, language = 0) {
+function _getRoundProgramme(programmes, language = 'en') {
   let programmeString = ''
   programmes.forEach(programme => {
-    const { electiveCondition, progAdmissionTerm, programmeCode, specCode, studyYear, title } = programme
+    const { kod, benamning, arskurs, startperiod, inriktning, valinformation } = programme
     programmeString += `<p>
-          <a href="${PROGRAMME_URL}/${programmeCode}/${progAdmissionTerm.term}/arskurs${studyYear}${
-            specCode ? '#inr' + specCode : ''
-          }">
-            ${title}, ${language === 0 ? 'year' : 'åk'} ${studyYear}, ${specCode ? specCode + ', ' : ''}${
-              electiveCondition.abbrLabel
-            }
+          <a href="${PROGRAMME_URL}/${kod}/${startperiod.inDigits}/arskurs${arskurs}${inriktning ? '#inr' + inriktning : ''}">
+            ${benamning[language]}, ${i18n.messages[language === 'en' ? 0 : 1].courseRoundInformation.round_study_year} ${arskurs}${inriktning ? ', ' + inriktning : ''}${valinformation[language] ? ', ' + valinformation[language] : ''}
         </a>
       </p>`
   })
@@ -111,7 +108,7 @@ const createPeriodString = (ladokRound, periods, language) => {
 }
 
 function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, language = 'sv') {
-  const { admissionLinkUrl: koppsAdmissionLinkUrl, round: koppsRound = {}, usage: koppsUsage } = koppsRoundObject
+  const { admissionLinkUrl: koppsAdmissionLinkUrl, round: koppsRound = {} } = koppsRoundObject
   const round = socialSchedules.rounds.find(schedule => schedule.applicationCode === ladokRound.tillfalleskod)
 
   const schemaUrl = round && round.has_events ? round.calendar_url : null
@@ -144,8 +141,8 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
     ),
     round_application_link: parseOrSetEmpty(koppsAdmissionLinkUrl, language),
     round_part_of_programme:
-      koppsUsage && koppsUsage.length > 0
-        ? _getRoundProgramme(koppsUsage, language)
+      ladokRound.delAvProgram?.length > 0
+        ? _getRoundProgramme(ladokRound.delAvProgram, language)
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     round_state: parseOrSetEmpty(koppsRound.state, language),
   }

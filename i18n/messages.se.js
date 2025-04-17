@@ -220,6 +220,7 @@ module.exports = {
       SAP: 'Study Abroad Programme',
       VU: 'fristående studerande',
     },
+    round_study_year: 'åk',
   },
   courseImage: {
     Arkitektur: 'Picture_by_MainFieldOfStudy_01_Architecture.jpg',
