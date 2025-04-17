@@ -151,20 +151,6 @@ module.exports = {
       1: 'VT ',
       2: 'HT ',
     },
-    // course_level_code_label: {
-    //   PREPARATORY: 'Förberedande nivå',
-    //   BASIC: 'Grundnivå',
-    //   ADVANCED: 'Avancerad nivå',
-    //   RESEARCH: 'Forskarnivå',
-    // },
-    // TODO(Ladok-POC): Use nameSv/nameEn from utbildningstyp.niva.inom.studieordning instead?
-    // TODO(Ladok-POC): level code doesn't work for PREPARATORY, look into ladok data more
-    course_level_code_label: {
-      // PREPARATORY: 'Förberedande nivå',
-      1: 'Grundnivå',
-      2: 'Avancerad nivå',
-      3: 'Forskarnivå',
-    },
     course_department: 'Ges av',
     course_prerequisites: 'Rekommenderade förkunskaper',
     course_prerequisites_description:
@@ -174,7 +160,6 @@ module.exports = {
     course_supplemental_information_url_text: 'Övrig information - länk text',
     course_supplemental_information: 'Övrig information',
     course_examiners: 'Examinator',
-    course_recruitment_text: 'Kort beskrivning svenska',
     course_room_canvas: 'Kursrum i Canvas',
     course_room_canvas_info:
       'Registrerade studenter hittar information för genomförande av kursen i kursrummet i Canvas. En länk till kursrummet finns under fliken Studier i Personliga menyn vid kursstart.',

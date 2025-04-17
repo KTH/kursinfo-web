@@ -53,7 +53,7 @@ const MainCourseInformation = ({ courseCode, courseData, semesterRoundState }) =
       />
 
       {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
-      {courseInfo.course_level_code === 'RESEARCH' && (
+      {courseInfo.course_level_code === '3' && (
         <span>
           <h3>{translation.courseLabels.header_postgraduate_course}</h3>
           {translation.courseLabels.label_postgraduate_course}

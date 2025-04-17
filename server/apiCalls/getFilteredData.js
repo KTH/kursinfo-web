@@ -21,7 +21,7 @@ const { getSocial } = require('./socialApi')
 function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, ladokSyllabus, language) {
   const { course: koppsCourse } = koppsCourseDetails
 
-  const mainSubjects = ladokSyllabus.course.huvudomraden.map(huvudomrade => huvudomrade[language])
+  const mainSubjects = ladokSyllabus.course.huvudomraden?.map(huvudomrade => huvudomrade[language])
 
   return {
     course_code: parseOrSetEmpty(ladokCourse.kod),
@@ -30,6 +30,7 @@ function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, ladokSy
     course_department_link: buildCourseDepartmentLink(ladokCourse.organisation, language),
     course_education_type_id: ladokCourse.utbildningstyp?.id,
     course_level_code: parseOrSetEmpty(ladokSyllabus.course.nivainomstudieordning.level.code),
+    course_level_code_label: parseOrSetEmpty(ladokSyllabus.course.nivainomstudieordning.level[language], language),
     course_main_subject:
       mainSubjects && mainSubjects.length > 0
         ? mainSubjects.join(', ')

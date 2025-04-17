@@ -142,6 +142,7 @@ describe('Discontinued course to test', () => {
         "course_grade_scale": "A, B, C, D, E, FX, F",
         "course_last_exam": [],
         "course_level_code": "1",
+        "course_level_code_label": "Grundnivå",
         "course_literature": "<i>Ingen information tillagd</i>",
         "course_main_subject": "Samhällsbyggnad, Teknik",
         "course_prerequisites": "<i>Ingen information tillagd</i>",
