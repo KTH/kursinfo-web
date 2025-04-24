@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { EducationalLevelCode } from '@kth/om-kursen-ladok-client'
 import Alert from '../components-shared/Alert'
 
 import { FORSKARUTB_URL } from '../util/constants'
@@ -53,12 +54,12 @@ const MainCourseInformation = ({ courseCode, courseData, semesterRoundState }) =
       />
 
       {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
-      {courseInfo.course_level_code === '3' && (
-        <span>
+      {courseInfo.course_level_code === EducationalLevelCode.Research && (
+        <div className="course-section-list">
           <h3>{translation.courseLabels.header_postgraduate_course}</h3>
           {translation.courseLabels.label_postgraduate_course}
           <a href={`${FORSKARUTB_URL}${courseInfo.course_department_code}`}>{courseInfo.course_department}</a>
-        </span>
+        </div>
       )}
     </>
   )
