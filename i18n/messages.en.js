@@ -149,12 +149,6 @@ module.exports = {
       1: 'Spring ',
       2: 'Autumn ',
     },
-    course_level_code_label: {
-      // PREPARATORY: 'Pre-university level',
-      1: 'First cycle',
-      2: 'Second cycle',
-      3: 'Third cycle',
-    },
     course_department: 'Offered by',
     course_prerequisites: 'Recommended prerequisites',
     course_prerequisites_description:
@@ -164,7 +158,6 @@ module.exports = {
     course_supplemental_information_url_text: 'Supplementary information link text',
     course_supplemental_information: 'Supplementary information ',
     course_examiners: 'Examiner',
-    course_recruitment_text: 'Abstract',
     course_room_canvas: 'Course room in Canvas',
     course_room_canvas_info:
       'Registered students find further information about the implementation of the course in the course room in Canvas. A link to the course room can be found under the tab Studies in the Personal menu at the start of the course.',

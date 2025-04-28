@@ -33,7 +33,7 @@
     "@kth/kth-node-web-common": "^9.3.1",
     "@kth/log": "^4.0.7",
     "@kth/monitor": "^4.3.1",
-    "@kth/om-kursen-ladok-client": "^1.3.0",
+    "@kth/om-kursen-ladok-client": "^1.3.2",
     "@kth/server": "^4.1.0",
     "@kth/session": "^3.0.9",
     "@kth/style": "^1.4.2",
