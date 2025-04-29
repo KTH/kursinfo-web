@@ -79,10 +79,8 @@ module.exports = {
       placeholder: 'Choose semester',
       label_dropdown: 'Semester',
     },
-    lable_round_state: {
-      CANCELLED: 'This offering is cancelled',
-      FULL: 'This offering is full',
-    },
+    label_round_status_canceled: 'This offering is cancelled',
+    label_round_is_full: 'This offering is full',
     header_dropdown_menu_navigation:
       'Choose semester and course offering to see current information and more about the course, such as course syllabus, study period, and application information.',
     header_dropdown_menu: 'Information per course offering',
