@@ -146,6 +146,7 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
         ? _getRoundProgramme(ladokRound.delAvProgram, language)
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     round_status: parseOrSetEmpty(ladokRound.status?.code, language),
+    round_is_cancelled: ladokRound.installt,
     round_is_full: ladokRound.fullsatt,
   }
   if (courseRoundModel.round_short_name === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) {

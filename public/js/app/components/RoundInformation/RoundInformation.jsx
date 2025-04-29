@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { EducationalInstanceStatus } from '@kth/om-kursen-ladok-client'
 import Alert from '../../components-shared/Alert'
 import BankIdAlert from '../../components/BankIdAlert'
 import { useLanguage } from '../../hooks/useLanguage'
@@ -71,8 +70,8 @@ function RoundInformation({ courseCode, courseRound, semesterRoundState }) {
 
       <BankIdAlert tutoringForm={courseRound.round_tutoring_form} fundingType={courseRound.round_funding_type} />
 
-      {courseRound.round_status === EducationalInstanceStatus.Canceled && (
-        <Alert type="info">{translation.courseLabels.label_round_status_canceled}</Alert>
+      {courseRound.round_is_cancelled === true && (
+        <Alert type="info">{translation.courseLabels.label_round_is_cancelled}</Alert>
       )}
       {courseRound.round_is_full && <Alert type="info">{translation.courseLabels.label_round_is_full}</Alert>}
 
