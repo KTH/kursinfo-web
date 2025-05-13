@@ -70,9 +70,8 @@ function RoundInformation({ courseCode, courseRound, semesterRoundState }) {
 
       <BankIdAlert tutoringForm={courseRound.round_tutoring_form} fundingType={courseRound.round_funding_type} />
 
-      {courseRound.round_state !== 'APPROVED' && (
-        <Alert type="info">{translation.courseLabels.lable_round_state[courseRound.round_state]}</Alert>
-      )}
+      {courseRound.round_is_cancelled && <Alert type="info">{translation.courseLabels.label_round_is_cancelled}</Alert>}
+      {courseRound.round_is_full && <Alert type="info">{translation.courseLabels.label_round_is_full}</Alert>}
 
       <h3>{translation.courseLabels.header_contact}</h3>
       <RoundInformationContacts courseRoundEmployees={courseRoundEmployees ?? {}} />

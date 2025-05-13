@@ -81,10 +81,8 @@ module.exports = {
       label_dropdown: 'Termin',
     },
 
-    lable_round_state: {
-      CANCELLED: 'Kursomgång inställd',
-      FULL: 'Kursomgång fullsatt',
-    },
+    label_round_is_cancelled: 'Kursomgång inställd',
+    label_round_is_full: 'Kursomgång fullsatt',
     header_dropdown_menu_navigation:
       'Välj termin och kursomgång för att se aktuell information och mer om kursen, såsom kursplan, studieperiod och anmälningsinformation.',
     header_dropdown_menu: 'Information per kursomgång',

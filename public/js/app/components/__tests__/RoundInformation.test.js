@@ -229,4 +229,46 @@ describe('Component <RoundInformation>', () => {
     const criteriaText = screen.queryByText('The selection results are based on:')
     expect(criteriaText).not.toBeInTheDocument()
   })
+
+  test('renders course offering round is cancelled', () => {
+    const propsWithCancelledRound = {
+      memoStorageUri: '',
+      semesterRoundState: defaultSemesterRoundState,
+      courseCode: 'SF1624',
+      courseRound: {
+        ...mockCourseRound,
+        round_is_cancelled: true,
+      },
+    }
+
+    render(
+      <WebContextProvider configIn={context}>
+        <RoundInformation {...propsWithCancelledRound} />{' '}
+      </WebContextProvider>
+    )
+
+    const cancelMessage = screen.getByText('This offering is cancelled')
+    expect(cancelMessage).toBeInTheDocument()
+  })
+
+  test('renders course offering round is full', () => {
+    const propsWithFullRound = {
+      memoStorageUri: '',
+      semesterRoundState: defaultSemesterRoundState,
+      courseCode: 'SF1624',
+      courseRound: {
+        ...mockCourseRound,
+        round_is_full: true,
+      },
+    }
+
+    render(
+      <WebContextProvider configIn={context}>
+        <RoundInformation {...propsWithFullRound} />{' '}
+      </WebContextProvider>
+    )
+
+    const fullMessage = screen.getByText('This offering is full')
+    expect(fullMessage).toBeInTheDocument()
+  })
 })

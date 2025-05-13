@@ -22,7 +22,8 @@ const roundsBySemester = {
       round_application_link: '<i>No information inserted</i>',
       round_part_of_programme:
         '<p>\n          <a href="/student/kurser/program/CSAMH/20232/arskurs1">\n            Degree Programme in Civil Engineering and Urban Management, åk 1, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CTKEM/20232/arskurs1">\n            Degree Programme in Engineering Chemistry, åk 1, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CMATD/20232/arskurs1">\n            Degree Programme in Materials Design and Engineering, åk 1, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CLGYM/20222/arskurs2#inrMAKE">\n            Master of Science in Engineering and in Education, åk 2, MAKE, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CLGYM/20222/arskurs2#inrTEDA">\n            Master of Science in Engineering and in Education, åk 2, TEDA, Mandatory\n        </a>\n      </p>',
-      round_state: 'APPROVED',
+      round_status: 'S2',
+      round_is_cancelled: true,
       round_comment: '',
     },
   ],
@@ -49,7 +50,8 @@ const roundsBySemester = {
       round_application_link: '<i>No information inserted</i>',
       round_part_of_programme:
         '<p>\n          <a href="/student/kurser/program/CSAMH/20232/arskurs1">\n            Degree Programme in Civil Engineering and Urban Management, åk 1, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CTKEM/20232/arskurs1">\n            Degree Programme in Engineering Chemistry, åk 1, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CMATD/20232/arskurs1">\n            Degree Programme in Materials Design and Engineering, åk 1, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CLGYM/20222/arskurs2#inrMAKE">\n            Master of Science in Engineering and in Education, åk 2, MAKE, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CLGYM/20222/arskurs2#inrTEDA">\n            Master of Science in Engineering and in Education, åk 2, TEDA, Mandatory\n        </a>\n      </p>',
-      round_state: 'APPROVED',
+      round_status: 'S3',
+      round_is_full: true,
       round_comment: '',
     },
     {
@@ -74,7 +76,7 @@ const roundsBySemester = {
       round_application_link: '<i>No information inserted</i>',
       round_part_of_programme:
         '<p>\n          <a href="/student/kurser/program/CDATE/20232/arskurs1">\n            Degree Programme in Computer Science and Engineering, åk 1, Mandatory\n        </a>\n      </p>',
-      round_state: 'APPROVED',
+      round_status: 'S3',
       round_comment: '',
     },
   ],
@@ -101,7 +103,8 @@ const roundsBySemester = {
       round_application_link: '<i>No information inserted</i>',
       round_part_of_programme:
         '<p>\n          <a href="/student/kurser/program/COPEN/20242/arskurs1">\n            Degree Programme Open Entrance, åk 1, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CMETE/20242/arskurs1">\n            Degree Programme in Media Technology, åk 1, Mandatory\n        </a>\n      </p>',
-      round_state: 'APPROVED',
+      round_status: 'S2',
+      round_is_full: true,
       round_comment: '',
     },
     {
@@ -126,7 +129,35 @@ const roundsBySemester = {
       round_application_link: '<i>No information inserted</i>',
       round_part_of_programme:
         '<p>\n          <a href="/student/kurser/program/CINTE/20242/arskurs1">\n            Degree Programme in Information and Communication Technology, åk 1, Mandatory\n        </a>\n      </p>',
-      round_state: 'APPROVED',
+      round_status: 'S3',
+      round_is_cancelled: true,
+      round_comment: '',
+    },
+  ],
+  20251: [
+    {
+      round_time_slots: '<i>No information inserted</i>',
+      round_start_date: '13 Jan 2025',
+      round_end_date: '25 Mar 2025',
+      round_target_group: '<i>No information inserted</i>',
+      round_tutoring_form: 'NML',
+      round_tutoring_time: 'DAG',
+      round_tutoring_language: 'Swedish',
+      round_course_place: 'KTH Campus',
+      round_campus: 'KTH Campus',
+      round_short_name: 'CMETE1 m.fl.',
+      round_application_code: '50237',
+      round_schedule: '<i>No information inserted</i>',
+      round_study_pace: 50,
+      round_course_term: ['2025', '1'],
+      round_periods: 'P2 (7.5 hp)',
+      round_seats: '',
+      round_selection_criteria: '<p></p>',
+      round_funding_type: 'ORD',
+      round_application_link: '<i>No information inserted</i>',
+      round_part_of_programme:
+        '<p>\n          <a href="/student/kurser/program/COPEN/20251/arskurs1">\n            Degree Programme Open Entrance, åk 1, Mandatory\n        </a>\n      </p><p>\n          <a href="/student/kurser/program/CMETE/20242/arskurs1">\n            Degree Programme in Media Technology, åk 1, Mandatory\n        </a>\n      </p>',
+      round_status: 'S2',
       round_comment: '',
     },
   ],
