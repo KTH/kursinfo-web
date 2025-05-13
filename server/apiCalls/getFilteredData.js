@@ -40,7 +40,6 @@ function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, ladokSy
     course_last_exam: koppsCourse.lastExamTerm
       ? parseSemesterIntoYearSemesterNumberArray(koppsCourse.lastExamTerm.term)
       : [],
-    course_literature: parseOrSetEmpty(koppsCourse.courseLiterature, language),
     course_state: parseOrSetEmpty(koppsCourse.state, language, true),
 
     // TODO(Ladok-POC): Will be replaced with field from Om kursen-admin
