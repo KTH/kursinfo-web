@@ -15,7 +15,6 @@ const { INFORM_IF_IMPORTANT_INFO_IS_MISSING } = require('../util/constants')
 const { getFilteredData } = require('../apiCalls/getFilteredData')
 const { createCourseWebContext } = require('../util/webContextUtil')
 const { HttpError } = require('../HttpError')
-const { getSocial } = require('../apiCalls/socialApi')
 const { calculateInitiallySelectedSemester, isValidCourseCode } = require('./courseCtrlHelpers')
 
 const extractUpperCaseCourseCodeOrThrow = req => {
