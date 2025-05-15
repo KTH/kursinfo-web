@@ -9,7 +9,7 @@ const client = createApiClient(serverConfig.ladokMellanlagerApi)
 async function getCourseAndRounds(courseCode, language) {
   try {
     const [course, rounds] = await Promise.all([
-      client.getLatestCourseVersion(courseCode, language),
+      client.getLatestCourseVersionIncludingCancelled(courseCode, language),
       client.getActiveAndFutureCourseRounds(courseCode, language),
     ])
     return { course, rounds }
