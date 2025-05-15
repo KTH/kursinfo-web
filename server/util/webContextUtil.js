@@ -6,7 +6,6 @@ const serverConfig = require('../configuration').server
 const addBaseData = (context, language) => {
   context.lang = language
   context.proxyPrefixPath = serverConfig.proxyPrefixPath
-  context.isCancelledOrDeactivated = false
   context.initiallySelectedRoundIndex = undefined
   context.browserConfig = browserConfig
   context.paths = paths
@@ -14,7 +13,6 @@ const addBaseData = (context, language) => {
 }
 
 const addCourseData = (context, { filteredData, examiners, initiallySelectedSemester }) => {
-  context.isCancelledOrDeactivated = filteredData.isCancelledOrDeactivated
   context.activeSemesters = filteredData.activeSemesters
   context.employees = filteredData.employees
   context.initiallySelectedSemester = initiallySelectedSemester

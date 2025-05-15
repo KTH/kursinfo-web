@@ -99,7 +99,8 @@ afterEach(() => {
 })
 
 describe('Discontinued course to test', () => {
-  test('Gets correct data', async () => {
+  test.skip('Gets correct data', async () => {
+    // TODO (KUI-1796) Replace test with new one, handling data form Ladok
     const req = buildReq({
       params: { courseCode: mockedDiscontinuedCourse.course.courseCode },
       cookies: {

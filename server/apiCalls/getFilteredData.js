@@ -18,30 +18,46 @@ const ladokApi = require('./ladokApi')
 const courseApi = require('./kursinfoApi')
 const { getSocial } = require('./socialApi')
 
-function _parseCourseDefaultInformation(koppsCourseDetails, ladokCourse, ladokSyllabus, language) {
-  const { course: koppsCourse } = koppsCourseDetails
+function _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
+  const courseMainSubjects = ladokSyllabus?.course?.huvudomraden
+    ? ladokSyllabus?.course?.huvudomraden?.map(subject => subject[language]).join(', ')
+    : ladokCourse.huvudomraden?.map(subject => subject.name).join(', ')
 
-  const mainSubjects = ladokSyllabus.course.huvudomraden?.map(huvudomrade => huvudomrade[language])
+  const courseLevelCode = ladokSyllabus?.course?.nivainomstudieordning
+    ? ladokSyllabus?.course?.nivainomstudieordning?.level?.code
+    : ladokCourse?.utbildningstyp?.level?.code
+
+  const courseLevelLabel = ladokSyllabus?.course?.nivainomstudieordning?.level?.[language]
+    ? ladokSyllabus?.course?.nivainomstudieordning?.level?.[language]
+    : ladokCourse?.utbildningstyp?.level?.name
+
+  const gradeScale = ladokSyllabus?.course?.betygsskala
+    ? ladokSyllabus?.course?.betygsskala
+    : ladokCourse?.betygsskala?.formatted
+
+  const discontinuationDecision = ladokSyllabus?.kursplan?.avvecklingsbeslut
+    ? ladokSyllabus?.kursplan?.avvecklingsbeslut
+    : ladokCourse?.avvecklingsbeslut
 
   return {
     course_code: parseOrSetEmpty(ladokCourse.kod),
-    course_department: parseOrSetEmpty(ladokCourse.organisation.name, language),
-    course_department_code: parseOrSetEmpty(ladokCourse.organisation.code, language),
+    course_department: parseOrSetEmpty(ladokCourse.organisation?.name, language),
+    course_department_code: parseOrSetEmpty(ladokCourse.organisation?.code, language),
     course_department_link: buildCourseDepartmentLink(ladokCourse.organisation, language),
     course_education_type_id: ladokCourse.utbildningstyp?.id,
-    course_level_code: parseOrSetEmpty(ladokSyllabus.course.nivainomstudieordning.level.code),
-    course_level_code_label: parseOrSetEmpty(ladokSyllabus.course.nivainomstudieordning.level[language], language),
+    course_level_code: courseLevelCode,
+    course_level_code_label: parseOrSetEmpty(courseLevelLabel, language),
     course_main_subject:
-      mainSubjects && mainSubjects.length > 0
-        ? mainSubjects.join(', ')
+      courseMainSubjects !== ''
+        ? courseMainSubjects
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
-    course_grade_scale: parseOrSetEmpty(ladokSyllabus.course.betygsskala),
-    // From Kopps for now
-    course_last_exam: koppsCourse.lastExamTerm
-      ? parseSemesterIntoYearSemesterNumberArray(koppsCourse.lastExamTerm.term)
-      : [],
-    course_literature: parseOrSetEmpty(koppsCourse.courseLiterature, language),
-    course_state: parseOrSetEmpty(koppsCourse.state, language, true),
+    course_grade_scale: parseOrSetEmpty(gradeScale),
+    course_is_discontinued: ladokCourse.avvecklad,
+    course_is_being_discontinued: ladokCourse.underavveckling,
+    course_decision_to_discontinue: parseOrSetEmpty(discontinuationDecision, language),
+    course_last_exam: ladokCourse.sistaexaminationstermin
+      ? parseSemesterIntoYearSemesterNumberArray(ladokCourse.sistaexaminationstermin)
+      : '',
 
     // TODO(Ladok-POC): Will be replaced with field from Om kursen-admin
     course_prerequisites: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
@@ -110,8 +126,8 @@ const createPeriodString = (ladokRound, periods, language) => {
 
 function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, language = 'sv') {
   const { admissionLinkUrl: koppsAdmissionLinkUrl, round: koppsRound = {} } = koppsRoundObject
-  const round = socialSchedules.rounds.find(schedule => schedule.applicationCode === ladokRound.tillfalleskod)
 
+  const round = socialSchedules.rounds.find(schedule => schedule.applicationCode === ladokRound.tillfalleskod)
   const schemaUrl = round && round.has_events ? round.calendar_url : null
 
   const courseRoundModel = {
@@ -235,19 +251,8 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
     getSocial(courseCode, language),
   ])
 
-  if (!koppsCourseDetails || !ladokCourse) {
-    // TODO(Ladok-POC): What to do if we find course in only in Ladok or only in Kopps?
-    return {}
-  }
-  const isCancelledOrDeactivated = koppsCourseDetails.course.cancelled || koppsCourseDetails.course.deactivated
-
   //* **** Course information that is static on the course side *****//
-  const courseDefaultInformation = _parseCourseDefaultInformation(
-    koppsCourseDetails,
-    ladokCourse,
-    ladokSyllabus,
-    language
-  )
+  const courseDefaultInformation = _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language)
 
   const { sellingText, courseDisposition, recommendedPrerequisites, supplementaryInfo, imageInfo } =
     await courseApi.getCourseInfo(courseCode)
@@ -288,7 +293,6 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   }
 
   return {
-    isCancelledOrDeactivated,
     activeSemesters,
     employees,
     courseData,

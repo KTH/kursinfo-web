@@ -136,8 +136,6 @@ module.exports = {
       'Du hittar information om kurslitteratur antingen i kursomgångens kurs-PM eller i kursomgångens kursrum i Canvas.',
     course_examination_comments: 'Kommentar till examinationsmoment',
     course_examination: 'Examination',
-    course_examination_disclaimer:
-      '<p>När kurs inte längre ges har student möjlighet att examineras under ytterligare två läsår.</p>',
     course_valid_from: 'Giltig från',
     course_main_subject: 'Huvudområde',
     course_language: 'Undervisningsspråk',
@@ -233,16 +231,10 @@ module.exports = {
     default: 'Picture_by_MainFieldOfStudy_26_Default_picture.jpg',
   },
   course_state_alert: {
-    DEACTIVATED: {
-      header: 'Denna kurs är under avveckling.',
-      examination: 'Sista planerade examination: ',
-      decision: 'Avvecklingsbeslut: ',
-    },
-    CANCELLED: {
-      header: 'Denna kurs är avvecklad.',
-      examination: 'Sista planerade examination: ',
-      decision: 'Avvecklingsbeslut: ',
-    },
+    last_examination: 'Sista planerade examination: ',
+    discontinuation_decision: 'Avvecklingsbeslut: ',
+    is_being_discontinued: 'Denna kurs är under avveckling.',
+    discontinued: 'Denna kurs är avvecklad.',
   },
   statisticsLabels: {
     allSchools: 'Alla skolor',
