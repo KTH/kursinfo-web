@@ -1,5 +1,6 @@
 'use strict'
 
+const log = require('@kth/log')
 const axios = require('axios')
 
 async function getSocial(courseCode, language) {
@@ -11,7 +12,8 @@ async function getSocial(courseCode, language) {
     })
     return response.data
   } catch (error) {
-    throw new Error(`Failed to fetch from social api. Error: ${error}`)
+    log.error(`Failed to fetch from social api. Error: ${error}`)
+    return undefined
   }
 }
 
