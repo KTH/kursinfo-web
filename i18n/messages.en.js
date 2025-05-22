@@ -134,8 +134,6 @@ module.exports = {
       'You can find information about course literature either in the course memo for the course offering or in the course room in Canvas.',
     course_examination_comments: 'Examination comment',
     course_examination: 'Examination',
-    course_examination_disclaimer:
-      '<p>If the course is discontinued, students may request to be examined during the following two academic years.</p>',
     course_valid_from: 'Valid from',
     course_main_subject: 'Main field of study',
     course_language: 'Language of instruction',
@@ -260,16 +258,10 @@ module.exports = {
     default: 'Picture_by_MainFieldOfStudy_26_Default_picture.jpg',
   },
   course_state_alert: {
-    DEACTIVATED: {
-      header: 'This course will be discontinued.',
-      examination: 'Last planned examination: ',
-      decision: 'Decision to discontinue this course: ',
-    },
-    CANCELLED: {
-      header: 'This course has been discontinued.',
-      examination: 'Last planned examination: ',
-      decision: 'Decision to discontinue this course: ',
-    },
+    last_examination: 'Last planned examination: ',
+    discontinuation_decision: 'Decision to discontinue this course: ',
+    discontinued: 'This course has been discontinued.',
+    is_being_discontinued: 'This course will be discontinued.',
   },
   statisticsLabels: {
     allSchools: 'All schools',

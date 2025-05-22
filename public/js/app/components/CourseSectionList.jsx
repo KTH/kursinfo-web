@@ -76,7 +76,6 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
 
   function getExamination() {
     const examination = [
-      { header: '', text: translation.courseInformation.course_examination_disclaimer },
       {
         header: translation.courseInformation.course_grade_scale,
         text: courseInfo.course_grade_scale,
