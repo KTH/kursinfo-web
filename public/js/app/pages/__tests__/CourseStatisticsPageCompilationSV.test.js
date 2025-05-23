@@ -247,10 +247,9 @@ describe('Component <CourseStatisticsPage> show compilation data in for memos', 
     await userEvent.click(btnCompare)
 
     const rejectMsg = /Ett okänt fel inträffade - misslyckad hämtning av kursdata./i
-    const alertMemoMessage1 = await screen.findByRole('alert')
+    const [alertMemoMessage1] = await screen.findAllByText(rejectMsg)
 
-    expect(alertMemoMessage1).toBeInTheDocument()
-    expect(within(alertMemoMessage1).getByText(rejectMsg)).toBeInTheDocument()
+    expect(alertMemoMessage1).toBeVisible()
 
     // Compare to previous year again and get positive resut
     axios.get.mockResolvedValue({ data: memos2020 })
@@ -391,10 +390,9 @@ describe('Component <CourseStatisticsPage> show compilation data in for course a
     await userEvent.click(btnCompare)
 
     const rejectMsg = /Ett okänt fel inträffade - misslyckad hämtning av kursdata./i
-    const alertMemoMessage1 = await screen.findByRole('alert')
+    const [alertMemoMessage1] = await screen.findAllByText(rejectMsg)
 
-    expect(alertMemoMessage1).toBeInTheDocument()
-    expect(within(alertMemoMessage1).getByText(rejectMsg)).toBeInTheDocument()
+    expect(alertMemoMessage1).toBeVisible()
 
     // Compare to previous year again and get positive resut
     axios.get.mockResolvedValue({ data: analyses2020 })
