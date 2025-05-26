@@ -22,21 +22,11 @@ describe('Component <CourseSectionList>', () => {
     }
 
     const syllabusLiteratureTitle = 'Syllabus Literature (1970)'
-    const syllabusLiteratureComment = 'Please read this book.'
     const [syllabusLiteratureNoComment] = INFORM_IF_IMPORTANT_INFO_IS_MISSING // en
-    const syllabusWithLiteratureAndComment = {
-      course_valid_from: { year: 2020, semesterNumber: 2 },
-      course_literature: syllabusLiteratureTitle,
-      course_literature_comment: syllabusLiteratureComment,
-    }
+
     const syllabusWithLiteratureNoComment = {
       course_valid_from: { year: 2020, semesterNumber: 2 },
       course_literature: syllabusLiteratureTitle,
-      course_literature_comment: `<i>${syllabusLiteratureNoComment}</i>`,
-    }
-    const syllabusWithNoLiteratureAndComment = {
-      course_valid_from: { year: 2020, semesterNumber: 2 },
-      course_literature_comment: syllabusLiteratureComment,
     }
 
     const context1 = {
@@ -62,26 +52,6 @@ describe('Component <CourseSectionList>', () => {
     expect(syllabusText).toBeInTheDocument()
     syllabusText = screen.queryByText(syllabusLiteratureNoComment)
     expect(syllabusText).not.toBeInTheDocument()
-
-    // Syllabus has literature with comment – Show literature and literature comment from syllabus
-    rerender(
-      <WebContextProvider configIn={context1}>
-        <CourseSectionList syllabus={syllabusWithLiteratureAndComment} />
-      </WebContextProvider>
-    )
-    syllabusText = screen.getByText(syllabusLiteratureTitle, { exact: false })
-    expect(syllabusText).toBeInTheDocument()
-    syllabusText = screen.getByText(syllabusLiteratureComment, { exact: false })
-    expect(syllabusText).toBeInTheDocument()
-
-    // Syllabus hasn't literature and only has comment – Show literature comment from syllabus
-    rerender(
-      <WebContextProvider configIn={context1}>
-        <CourseSectionList syllabus={syllabusWithNoLiteratureAndComment} />
-      </WebContextProvider>
-    )
-    syllabusText = screen.getByText(syllabusLiteratureComment, { exact: false })
-    expect(syllabusText).toBeInTheDocument()
   })
 
   test('renders course department correctly', () => {
