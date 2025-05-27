@@ -83,6 +83,7 @@ const mockedCourseSyllabus = {
     etisktforhallandesatt:
       '<ul>\n<li>Vid grupparbete har alla i gruppen ansvar för gruppens arbete.</li>\n<li>Vid examination ska varje student ärligt redovisa hjälp som erhållits och källor som använts.</li>\n<li>Vid muntlig examination ska varje student kunna redogöra för hela uppgiften och hela lösningen.</li>\n</ul>',
     faststallande: '<p>Kursplanen gäller från HT19.</p>',
+    ovrigaForeskrifter: '<p>The course is primarily open for PhD students in environmental strategic analysis.</p>',
     examinationModules: {
       completeExaminationStrings: [
         'ÖVN1 - Fältövningar, 3,0 hp, Tvågradig betygsskala: P, F',

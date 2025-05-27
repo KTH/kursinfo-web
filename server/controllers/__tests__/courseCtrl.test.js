@@ -177,7 +177,7 @@ describe('Discontinued course to test', () => {
       "roundsBySemester": {},
       "syllabusList": [
         {
-          "course_additional_regulations": "<p>Kursplanen gäller från HT19.</p>",
+          "course_additional_regulations": "<p>The course is primarily open for PhD students in environmental strategic analysis.</p>",
           "course_content": "<ul>
 <li>Referenssystem i plan och höjd</li>
 <li>Polär utsättning</li>

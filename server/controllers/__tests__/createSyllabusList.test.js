@@ -22,7 +22,8 @@ const expectedSyllabusList = [
       '<p>Examinator beslutar, baserat på rekommendation från KTH:s handläggare av stöd till studenter med funktionsnedsättning, om eventuell anpassad examination för studenter med dokumenterad, varaktig funktionsnedsättning.</p>\n<p>Examinator får medge annan examinationsform vid omexamination av enstaka studenter.</p>\n<p>När kurs inte längre ges har student möjlighet att examineras under ytterligare två läsår.</p>',
     course_ethical:
       '<ul>\n<li>Vid grupparbete har alla i gruppen ansvar för gruppens arbete.</li>\n<li>Vid examination ska varje student ärligt redovisa hjälp som erhållits och källor som använts.</li>\n<li>Vid muntlig examination ska varje student kunna redogöra för hela uppgiften och hela lösningen.</li>\n</ul>',
-    course_additional_regulations: '<p>Kursplanen gäller från HT19.</p>',
+    course_additional_regulations:
+      '<p>The course is primarily open for PhD students in environmental strategic analysis.</p>',
     course_transitional_reg:
       '<p>Sista examinationstillfället: VT21</p>\n<p>Antal examinationstillfällen per läsår under övergångsperioden: 2</p>\n<p>Undervisning under övergångsperioden: Nej</p>\n<p>Kursen ersätts av annan kurs: AF1736</p>',
     course_decision_to_discontinue:
