@@ -23,8 +23,9 @@ const mockedLadokCourseVersion = {
 const mockedLadokRounds = []
 
 const mockedExaminationModules = {
-  completeExaminationStrings: ['TEN1 - Examination, 7.5 credits, Seven point grading scale: A, B, C, D, E, FX, F'],
-  titles: ['TEN1 - Examination, 7.5 credits'],
+  completeExaminationStrings:
+    '<ul><li>TEN1 - Examination, 7.5 credits, Seven point grading scale: A, B, C, D, E, FX, F</li></ul>',
+  titles: '<h4>TEN1 - Examination, 7.5 credits</h4>',
 }
 
 const mockedCourseSyllabus = {
@@ -84,11 +85,9 @@ const mockedCourseSyllabus = {
       '<ul>\n<li>Vid grupparbete har alla i gruppen ansvar för gruppens arbete.</li>\n<li>Vid examination ska varje student ärligt redovisa hjälp som erhållits och källor som använts.</li>\n<li>Vid muntlig examination ska varje student kunna redogöra för hela uppgiften och hela lösningen.</li>\n</ul>',
     faststallande: '<p>Kursplanen gäller från HT19.</p>',
     examinationModules: {
-      completeExaminationStrings: [
-        'ÖVN1 - Fältövningar, 3,0 hp, Tvågradig betygsskala: P, F',
-        'TEN1 - Tentamen, 4,5 hp, Sjugradig betygsskala: A, B, C, D, E, FX, F',
-      ],
-      titles: ['ÖVN1 - Fältövningar, 3,0 hp', 'TEN1 - Tentamen, 4,5 hp'],
+      completeExaminationStrings:
+        '<ul><li>ÖVN1 - Fältövningar, 3,0 hp, Tvågradig betygsskala: P, F</li><li>TEN1 - Tentamen, 4,5 hp, Sjugradig betygsskala: A, B, C, D, E, FX, F</li></ul>',
+      titles: '<h4>ÖVN1 - Fältövningar, 3,0 hp</h4><h4>TEN1 - Tentamen, 4,5 hp</h4>',
     },
     kommentartillexamination:
       '<p>Examinator beslutar, baserat på rekommendation från KTH:s handläggare av stöd till studenter med funktionsnedsättning, om eventuell anpassad examination för studenter med dokumenterad, varaktig funktionsnedsättning.</p>\n<p>Examinator får medge annan examinationsform vid omexamination av enstaka studenter.</p>\n<p>När kurs inte längre ges har student möjlighet att examineras under ytterligare två läsår.</p>',
@@ -153,8 +152,8 @@ const mockedUndefinedCourseSyllabus = {
     etisktforhallandesatt: '',
     faststallande: '',
     examinationModules: {
-      completeExaminationStrings: ['', ''],
-      titles: ['', ''],
+      completeExaminationStrings: '',
+      titles: '',
     },
     kommentartillexamination: '',
     ovrigakravforslutbetyg: '',

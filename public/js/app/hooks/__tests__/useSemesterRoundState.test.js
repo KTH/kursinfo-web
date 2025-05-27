@@ -177,8 +177,7 @@ const syllabusList = [
       semesterNumber: 2,
     },
     course_valid_to: [],
-    course_examination:
-      "<ul class='ul-no-padding' ><li>TEN1 - \n                          Examination,\n                          7.5  credits,  \n                          grading scale: A, B, C, D, E, FX, F              \n                          </li></ul>",
+    course_examination: '<ul><li>TEN1 - Examination, 7.5 credits, grading scale: A, B, C, D, E, FX, F</li></ul>',
     course_examination_comments:
       'Based on recommendation from KTH’s coordinator for disabilities, the examiner will decide how to adapt an examination for students with documented disability. <br><br>The examiner may apply another examination format when re-examining individual students.<p>The examiner decides, in consultation with KTHs Coordinator of students with disabilities (Funka), about any customized examination for students with documented, lasting disability.&#160;</p>',
     course_ethical:
@@ -204,8 +203,7 @@ const syllabusList = [
       year: 2019,
       semesterNumber: 1,
     },
-    course_examination:
-      "<ul class='ul-no-padding' ><li>TEN1 - \n                          Examination,\n                          7.5  credits,  \n                          grading scale: A, B, C, D, E, FX, F              \n                          </li></ul>",
+    course_examination: '<ul><li>TEN1 - Examination, 7.5  credits, grading scale: A, B, C, D, E, FX, F</li></ul>',
     course_examination_comments:
       'Based on recommendation from KTH’s coordinator for disabilities, the examiner will decide how to adapt an examination for students with documented disability. <br><br>The examiner may apply another examination format when re-examining individual students.',
     course_ethical:

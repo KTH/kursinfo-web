@@ -2,17 +2,6 @@ const { INFORM_IF_IMPORTANT_INFO_IS_MISSING } = require('../util/constants')
 const { parseSemesterIntoYearSemesterNumber } = require('../util/semesterUtils')
 const { parseOrSetEmpty } = require('./courseCtrlHelpers')
 
-const _parseExamObject = examinationModules => {
-  const { completeExaminationStrings } = examinationModules
-  let examString = "<ul class='ul-no-padding' >"
-  completeExaminationStrings.forEach(examinationModule => {
-    examString += `<li>${examinationModule}</li>`
-  })
-
-  examString += '</ul>'
-  return examString
-}
-
 const _createEmptySyllabusData = language => ({
   course_goals: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
   course_content: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
@@ -41,10 +30,7 @@ const _mapSyllabus = (syllabus, language) => {
     course_literature: parseOrSetEmpty(syllabus.kursplan.kurslitteratur, language),
     course_valid_from: parseSemesterIntoYearSemesterNumber(parseOrSetEmpty(syllabus.kursplan.giltigfrom)),
     course_valid_to: undefined,
-    course_examination:
-      syllabus.kursplan.examinationModules && syllabus.kursplan.examinationModules.completeExaminationStrings.length > 0
-        ? _parseExamObject(syllabus.kursplan.examinationModules)
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
+    course_examination: syllabus.kursplan.examinationModules.completeExaminationStrings,
     course_examination_comments: parseOrSetEmpty(syllabus.kursplan.kommentartillexamination, language, true),
     course_ethical: parseOrSetEmpty(syllabus.kursplan.etisktforhallandesatt, language, true),
     course_additional_regulations: parseOrSetEmpty(syllabus.kursplan.faststallande, language, true),
