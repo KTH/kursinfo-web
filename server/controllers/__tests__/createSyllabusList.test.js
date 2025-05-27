@@ -17,7 +17,7 @@ const expectedSyllabusList = [
     },
     course_valid_to: undefined,
     course_examination:
-      "<ul class='ul-no-padding' ><li>ÖVN1 - Fältövningar, 3,0 hp, Tvågradig betygsskala: P, F</li><li>TEN1 - Tentamen, 4,5 hp, Sjugradig betygsskala: A, B, C, D, E, FX, F</li></ul>",
+      '<ul><li>ÖVN1 - Fältövningar, 3,0 hp, Tvågradig betygsskala: P, F</li><li>TEN1 - Tentamen, 4,5 hp, Sjugradig betygsskala: A, B, C, D, E, FX, F</li></ul>',
     course_examination_comments:
       '<p>Examinator beslutar, baserat på rekommendation från KTH:s handläggare av stöd till studenter med funktionsnedsättning, om eventuell anpassad examination för studenter med dokumenterad, varaktig funktionsnedsättning.</p>\n<p>Examinator får medge annan examinationsform vid omexamination av enstaka studenter.</p>\n<p>När kurs inte längre ges har student möjlighet att examineras under ytterligare två läsår.</p>',
     course_ethical:
@@ -37,7 +37,7 @@ const expectedEmpty = [
     course_decision_to_discontinue: '<i>Ingen information tillagd</i>',
     course_eligibility: '<i>Ingen information tillagd</i>',
     course_ethical: '',
-    course_examination: "<ul class='ul-no-padding' ><li></li><li></li></ul>",
+    course_examination: '',
     course_examination_comments: '',
     course_goals: '<i>Ingen information tillagd</i>',
     course_literature: '<i>Ingen information tillagd</i>',

@@ -197,7 +197,7 @@ describe('Discontinued course to test', () => {
 <li>Vid examination ska varje student ärligt redovisa hjälp som erhållits och källor som använts.</li>
 <li>Vid muntlig examination ska varje student kunna redogöra för hela uppgiften och hela lösningen.</li>
 </ul>",
-          "course_examination": "<ul class='ul-no-padding' ><li>ÖVN1 - Fältövningar, 3,0 hp, Tvågradig betygsskala: P, F</li><li>TEN1 - Tentamen, 4,5 hp, Sjugradig betygsskala: A, B, C, D, E, FX, F</li></ul>",
+          "course_examination": "<ul><li>ÖVN1 - Fältövningar, 3,0 hp, Tvågradig betygsskala: P, F</li><li>TEN1 - Tentamen, 4,5 hp, Sjugradig betygsskala: A, B, C, D, E, FX, F</li></ul>",
           "course_examination_comments": "<p>Examinator beslutar, baserat på rekommendation från KTH:s handläggare av stöd till studenter med funktionsnedsättning, om eventuell anpassad examination för studenter med dokumenterad, varaktig funktionsnedsättning.</p>
 <p>Examinator får medge annan examinationsform vid omexamination av enstaka studenter.</p>
 <p>När kurs inte längre ges har student möjlighet att examineras under ytterligare två läsår.</p>",
