@@ -60,34 +60,30 @@ describe('getKoppsCourseData', () => {
     }
   }
 
-  it('should throw error if getAsync called with language=en and resolves with 404', async () => {
+  const expectedReturnedObjectOn404 = { statusCode: 404, body: {} }
+
+  it('should ignore error if getAsync called with language=en and resolves with 404', async () => {
     const { mockGetAsync } = require('../mocks/mockedKthApiCall')
 
-    const expectedErrorEnglish = new Error(
-      `Sorry, we can't find your requested page: basePath/course/someCourseCode/detailedinformation?l=en`
-    )
     mockGetAsync.mockResolvedValueOnce({
       statusCode: 404,
     })
 
-    const error = await getError(getKoppsCourseData('someCourseCode', 'en'))
+    const error = await getKoppsCourseData('someCourseCode', 'en')
 
-    expect(error).toEqual(expectedErrorEnglish)
+    expect(error).toEqual(expectedReturnedObjectOn404)
   })
 
-  it('should throw error if getAsync called with language=sv and resolves with 404', async () => {
+  it('should ignore error if getAsync called with language=sv and resolves with 404', async () => {
     const { mockGetAsync } = require('../mocks/mockedKthApiCall')
 
-    const expectedErrorSwedish = new Error(
-      `Tyvärr kunde vi inte hitta sidan du efterfrågade: basePath/course/someCourseCode/detailedinformation?l=sv`
-    )
     mockGetAsync.mockResolvedValueOnce({
       statusCode: 404,
     })
 
-    const error = await getError(getKoppsCourseData('someCourseCode', 'sv'))
+    const error = await getKoppsCourseData('someCourseCode', 'sv')
 
-    expect(error).toEqual(expectedErrorSwedish)
+    expect(error).toEqual(expectedReturnedObjectOn404)
   })
 
   it('should throw error if getAsync rejects with error', async () => {
