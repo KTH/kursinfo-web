@@ -18,6 +18,15 @@ const callApiAndPossiblyHandle404 = async ({ client, uri, lang = undefined }) =>
   return response
 }
 
+const callApiAndIgnore404 = async ({ client, uri }) => {
+  const response = await client.getAsync({ uri, useCache: true })
+  if (response.statusCode === HTTP_CODE_404) {
+    return { body: {}, statusCode: HTTP_CODE_404 }
+  }
+  return response
+}
+
 module.exports = {
   callApiAndPossiblyHandle404,
+  callApiAndIgnore404,
 }

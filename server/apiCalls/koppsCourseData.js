@@ -4,7 +4,7 @@ const log = require('@kth/log')
 const redis = require('kth-node-redis')
 const connections = require('@kth/api-call').Connections
 const { server: config } = require('../configuration')
-const { callApiAndPossiblyHandle404 } = require('./errorUtils')
+const { callApiAndIgnore404 } = require('./errorUtils')
 
 const koppsOpts = {
   log,
@@ -30,7 +30,7 @@ async function getKoppsCourseData(courseCode, lang = 'sv') {
   const { client } = api.koppsApi
   const uri = `${config.koppsApi.basePath}course/${encodeURIComponent(courseCode)}/detailedinformation?l=${lang}`
   try {
-    return callApiAndPossiblyHandle404({ client, uri, lang })
+    return callApiAndIgnore404({ client, uri, lang })
   } catch (err) {
     log.debug('Kopps is not available', err)
     return err
