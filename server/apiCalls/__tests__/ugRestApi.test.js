@@ -1,74 +1,140 @@
-jest.mock('../../configuration', () => ({ server: {} }))
-jest.mock('@kth/ug-rest-api-helper', () => ({}))
-const log = require('@kth/log')
+jest.mock('../../configuration', () => ({
+  server: {
+    ugRestApiURL: {
+      url: 'https://ug.test.api',
+      key: 'dummy-subscription-key',
+    },
+    ugAuth: {
+      authTokenURL: 'https://auth.test.token',
+      authClientId: 'dummy-client-id',
+      authClientSecret: 'dummy-client-secret',
+    },
+  },
+}))
+
+jest.mock('@kth/ug-rest-api-helper', () => ({
+  ugRestApiHelper: {
+    initConnectionProperties: jest.fn(),
+    getUGGroups: jest.fn(),
+    getUGUsers: jest.fn(),
+  },
+}))
+
 const { faker } = require('@faker-js/faker')
-const { getMembersFromGroups } = require('../ugRestApi')
+const { ugRestApiHelper } = require('@kth/ug-rest-api-helper')
+const log = require('@kth/log')
 
 jest.mock('@kth/log')
 log.info = jest.fn()
 log.debug = jest.fn()
 log.error = jest.fn()
 
-jest.mock('../koppsCourseData', () => ({ getLadokRoundIdsFromApplicationCodes: () => [] }))
+const { getCourseEmployees } = require('../ugRestApi')
 
-const userInfoToCheckDuplicate = {
-  email: faker.internet.email(),
-  givenName: faker.person.firstName(),
-  id: faker.string.uuid(),
-  surname: faker.person.lastName(),
-}
-
-const users = [
-  {
-    email: faker.internet.email(),
+describe('getCourseEmployees', () => {
+  const createUser = () => ({
+    username: faker.internet.userName(),
+    kthid: faker.string.uuid(),
     givenName: faker.person.firstName(),
-    id: faker.string.uuid(),
     surname: faker.person.lastName(),
-  },
-  {
-    email: faker.internet.email(),
-    givenName: faker.person.firstName(),
-    id: faker.string.uuid(),
-    surname: faker.person.lastName(),
-  },
-  {
-    email: faker.internet.email(),
-    givenName: faker.person.firstName(),
-    id: faker.string.uuid(),
-    surname: faker.person.lastName(),
-  },
-  userInfoToCheckDuplicate,
-  userInfoToCheckDuplicate,
-]
+  })
 
-const groupData = [
-  {
-    name: 'edu.courses.SF.SF1624.examiner',
-    members: users,
-  },
-  {
-    name: 'edu.courses.SF.SF1624.1.courseresponsible',
-    members: users,
-  },
-]
+  const examiners = [createUser(), createUser()]
+  const teachers = [createUser()]
+  const courseCoordinators = [createUser()]
 
-describe('Check Examiner and responsilbes with duplicate list', () => {
-  test('Passing examiner list and responsible list to check duplicate list', async () => {
-    const employeeTestData = getMembersFromGroups(
-      groupData,
-      ['edu.courses.SF.SF1624.1.assistants'],
-      ['edu.courses.SF.SF1624.1.teachers'],
-      ['edu.courses.SF.SF1624.examiner'],
-      ['edu.courses.SF.SF1624.1.courseresponsible', 'edu.courses.SF.SF1624.2.courseresponsible'],
-      'SF1624',
-      20222
-    )
-    const { examiner, teacher, responsibles, assistants } = employeeTestData
-    expect(teacher.length).toEqual(0)
-    expect(assistants.length).toEqual(0)
-    expect(examiner.length).toEqual(4)
-    expect(responsibles.length).toEqual(4)
-    expect(examiner.filter(x => x.id === userInfoToCheckDuplicate.id).length).toEqual(1)
-    expect(responsibles.filter(x => x.id === userInfoToCheckDuplicate.id).length).toEqual(1)
+  const mockGroups = [
+    {
+      name: 'edu.courses.SF.1624',
+      examiners: examiners.map(u => u.kthid),
+    },
+    {
+      name: 'edu.courses.SF.1624.20222.11111',
+      teachers: teachers.map(u => u.kthid),
+      courseCoordinators: courseCoordinators.map(u => u.kthid),
+    },
+  ]
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+
+    ugRestApiHelper.getUGGroups.mockResolvedValue(mockGroups)
+
+    ugRestApiHelper.getUGUsers.mockImplementation((_key, _op, kthid) => {
+      const all = [...examiners, ...teachers, ...courseCoordinators]
+      return Promise.resolve([all.find(u => u.kthid === kthid)])
+    })
+  })
+
+  test('should return expected HTML for examiners, teachers, and responsibles', async () => {
+    const result = await getCourseEmployees({
+      courseCode: 'SF1624',
+      semester: '20222',
+      applicationCodes: ['11111'],
+    })
+
+    // Basic structural assertions
+    expect(result.examiners).toContain('<p class = "person">')
+    expect(result.teachers).toContain('<p class = "person">')
+    expect(result.responsibles).toContain('<p class = "person">')
+
+    // Spot-check known names in the HTML output
+    examiners.forEach(user => {
+      expect(result.examiners).toContain(user.username)
+      expect(result.examiners).toContain(user.givenName)
+    })
+
+    teachers.forEach(user => {
+      expect(result.teachers).toContain(user.username)
+    })
+
+    courseCoordinators.forEach(user => {
+      expect(result.responsibles).toContain(user.username)
+    })
+  })
+
+  test('should return undefined for missing roles', async () => {
+    const modifiedGroups = mockGroups.map(group => ({
+      ...group,
+      teachers: [],
+      courseCoordinators: [],
+    }))
+    ugRestApiHelper.getUGGroups.mockResolvedValue(modifiedGroups)
+
+    const result = await getCourseEmployees({
+      courseCode: 'SF1624',
+      semester: '20222',
+      applicationCodes: ['11111'],
+    })
+
+    expect(result.teachers).toBeUndefined()
+    expect(result.responsibles).toBeUndefined()
+    expect(result.examiners).toContain('<p class = "person">')
+  })
+
+  test('should handle UG API error and log it', async () => {
+    const error = new Error('UG API failure')
+    ugRestApiHelper.getUGGroups.mockRejectedValue(error)
+
+    const result = await getCourseEmployees({
+      courseCode: 'SF1624',
+      semester: '20222',
+      applicationCodes: ['11111'],
+    })
+
+    expect(log.info).toHaveBeenCalledWith('Exception from UG Rest API - multi', { error })
+    expect(result).toBe(error)
+  })
+
+  test('should return empty object when no groups found', async () => {
+    ugRestApiHelper.getUGGroups.mockResolvedValue([])
+
+    const result = await getCourseEmployees({
+      courseCode: 'SF1624',
+      semester: '20222',
+      applicationCodes: ['11111'],
+    })
+
+    expect(result).toEqual({})
   })
 })
