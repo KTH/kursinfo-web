@@ -242,7 +242,7 @@ Slutbetyg sätts enligt betygsskala A-F.</p>
       ],
     },
     "employees": {
-      "responsibles": [],
+      "courseCoordinators": [],
       "teachers": [],
     },
     "hostUrl": undefined,

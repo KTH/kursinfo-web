@@ -66,7 +66,7 @@ describe('getCourseEmployees', () => {
     })
   })
 
-  test('should return expected HTML for examiners, teachers, and responsibles', async () => {
+  test('should return expected HTML for examiners, teachers, and courseCoordinators', async () => {
     const result = await getCourseEmployees({
       courseCode: 'SF1624',
       semester: '20222',
@@ -74,9 +74,9 @@ describe('getCourseEmployees', () => {
     })
 
     // Basic structural assertions
-    expect(result.examiners).toContain('<p class = "person">')
-    expect(result.teachers).toContain('<p class = "person">')
-    expect(result.responsibles).toContain('<p class = "person">')
+    expect(result.examiners).toContain('<p class="person">')
+    expect(result.teachers).toContain('<p class="person">')
+    expect(result.courseCoordinators).toContain('<p class="person">')
 
     // Spot-check known names in the HTML output
     examiners.forEach(user => {
@@ -89,7 +89,7 @@ describe('getCourseEmployees', () => {
     })
 
     courseCoordinators.forEach(user => {
-      expect(result.responsibles).toContain(user.username)
+      expect(result.courseCoordinators).toContain(user.username)
     })
   })
 
@@ -108,8 +108,8 @@ describe('getCourseEmployees', () => {
     })
 
     expect(result.teachers).toBeUndefined()
-    expect(result.responsibles).toBeUndefined()
-    expect(result.examiners).toContain('<p class = "person">')
+    expect(result.courseCoordinators).toBeUndefined()
+    expect(result.examiners).toContain('<p class="person">')
   })
 
   test('should handle UG API error and log it', async () => {

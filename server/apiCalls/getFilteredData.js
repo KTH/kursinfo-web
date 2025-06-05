@@ -185,7 +185,7 @@ function _parseRounds({
   const tempList = []
   const employees = {
     teachers: [],
-    responsibles: [],
+    courseCoordinators: [],
   }
 
   const roundsBySemester = {}
@@ -217,10 +217,10 @@ function _parseRounds({
     const { round = {} } = koppsRoundInfo
     const { ladokRoundId } = round
     employees.teachers.push(`${courseCode}.${semester}.${ladokRoundId}.teachers`)
-    employees.responsibles.push(`${courseCode}.${semester}.${ladokRoundId}.courseresponsible`)
+    employees.courseCoordinators.push(`${courseCode}.${semester}.${ladokRoundId}.courseresponsible`)
   }
   employees.teachers.sort()
-  employees.responsibles.sort()
+  employees.courseCoordinators.sort()
 
   activeSemesterArray.sort()
 
@@ -272,7 +272,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   //* **** Get list of syllabuses and valid syllabus semesters *****//
   const { syllabusList, emptySyllabusData } = createSyllabusList(ladokSyllabus, language)
 
-  //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from UG Rest API *****//
+  //* **** Get a list of rounds and a list of redis keys for using to get teachers and courseCoordinators from UG Rest API *****//
   const { roundsBySemester, activeSemesters, employees } = _parseRounds({
     ladokRounds,
     socialSchedules,

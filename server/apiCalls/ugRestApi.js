@@ -15,14 +15,14 @@ const _createPersonHtml = (personList = []) => {
   let personString = ''
   personList.forEach(person => {
     if (person) {
-      personString += `<p class = "person">
+      personString += `<p class="person">
       <img class="profile-picture" src="https://www.kth.se/files/thumbnail/${
         person.username
       }" alt="Profile picture" width="31" height="31">
       <a href="/profile/${person.username}/" property="teach:teacher">
           ${person.givenName} ${person.surname} 
       </a> 
-    </p>  `
+    </p>`
     }
   })
   return personString
@@ -43,7 +43,7 @@ const _getAllGroups = (course, courseRound) => {
   return groups
 }
 
-const _getEmployeeObject = (examiners, teachers, responsibles) => {
+const _getEmployeeObject = (examiners, teachers, courseCoordinators) => {
   const employee = {}
   if (examiners && examiners.length > 0) {
     employee.examiners = _createPersonHtml(examiners)
@@ -51,8 +51,8 @@ const _getEmployeeObject = (examiners, teachers, responsibles) => {
   if (teachers && teachers.length > 0) {
     employee.teachers = _createPersonHtml(teachers)
   }
-  if (responsibles && responsibles.length > 0) {
-    employee.responsibles = _createPersonHtml(responsibles)
+  if (courseCoordinators && courseCoordinators.length > 0) {
+    employee.courseCoordinators = _createPersonHtml(courseCoordinators)
   }
   return employee
 }
@@ -168,13 +168,13 @@ async function getCourseEmployees({ courseCode, semester, applicationCodes = [] 
       semester
     )
     // get all users based on above attributes from UG Rest Api
-    const {
-      examiners,
-      teachers,
-      courseCoordinators: responsibles,
-    } = await _getUsersFromGroupAttributes(groupsAlongWithAttributes, courseCode, semester)
+    const { examiners, teachers, courseCoordinators } = await _getUsersFromGroupAttributes(
+      groupsAlongWithAttributes,
+      courseCode,
+      semester
+    )
 
-    return _getEmployeeObject(examiners, teachers, responsibles)
+    return _getEmployeeObject(examiners, teachers, courseCoordinators)
   } catch (err) {
     log.info('Exception from UG Rest API - multi', { error: err })
     return err
