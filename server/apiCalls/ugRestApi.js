@@ -64,6 +64,7 @@ const _getCurrentDateTime = () => {
   const dateTime = date + ' ' + time
   return dateTime
 }
+
 /**
  * Initialize connection properties for UG REST API.
  */
