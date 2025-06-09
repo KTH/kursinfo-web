@@ -356,7 +356,7 @@ module.exports = {
     earlierYearThan2019: { text: 'There is no data earlier than 2019' },
     courseAnalysis_alert_header: 'Important: New Procedures for Course Analyses',
     courseAnalysis_alert_p1:
-      'From June 2025, statistics on course analyses will no longer be displayed. Starting from study period 3 in Spring 2025, course analyses must be completed and published in Canvas. Since this will be mandatory for all courses, we will no longer display statistics on published analyses.',
+      'From June 2025, statistics on course analyses are no longer displayed. Starting from study period 3 in Spring 2025, course analyses are completed and published in Canvas. Since this will be mandatory for all courses, we will no longer display statistics on published analyses.',
     courseAnalysis_alert_p2: 'Read about the new automated system in Canvas here: ',
     courseAnalysis_alert_link_text: 'New IT system support for course evaluation and course analysis',
   },
