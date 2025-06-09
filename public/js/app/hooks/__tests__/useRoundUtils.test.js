@@ -6,21 +6,51 @@ import translationEn from '../../../../../i18n/messages.en'
 
 jest.mock('../useLanguage')
 
-const POSSIBLE_ROUND_CATEGORIES = {
-  PU: { round_category: 'PU', sv: 'programstuderande', en: 'programme students' },
-  VU: { round_category: 'VU', sv: 'fristående studerande', en: 'single courses students' },
-  PU_AND_VU: {
-    round_category: 'pu_and_vu',
-    sv: 'programstuderande och fristående studerande',
-    en: 'programme and single courses students',
-  },
-}
+const FUNDING_TYPES_SWEDISH = [
+  ['UPP', 'uppdragsutbildning'],
+  ['IND', 'programstuderande'],
+  ['EXA', 'programstuderande'],
+  ['SÖ', 'programstuderande'],
+  ['LHS', 'programstuderande'],
+  ['PER', 'kurser för KTHs personal'],
+  ['ORD', 'programstuderande'],
+  ['B', 'programstuderande'],
+  ['FOR', 'programstuderande'],
+  ['GYM', 'programstuderande'],
+  ['EIS', 'programstuderande'],
+  ['SU', 'programstuderande'],
+  ['BDR', 'programstuderande'],
+  ['UFH', 'programstuderande'],
+  ['KPL', 'programstuderande'],
+  ['UPS', 'programstuderande'],
+  ['SAP', 'Study Abroad Programme'],
+  ['FOA', 'fristående studerande'],
+  ['MH', 'fristående studerande'],
+  ['LL', 'fristående studerande'],
+]
 
-const FUNDING_TYPES_WITH_SPECIAL_HANDLING = {
-  PER: { round_funding_type: 'PER', sv: 'kurser för KTHs personal', en: 'course for KTH staff' },
-  UPP: { round_funding_type: 'UPP', sv: 'uppdragsutbildning', en: 'contract education' },
-  SAP: { round_funding_type: 'SAP', sv: 'Study Abroad Programme', en: 'Study Abroad Programme' },
-}
+const FUNDING_TYPES_ENGLISH = [
+  ['UPP', 'contract education'],
+  ['IND', 'programme students'],
+  ['EXA', 'programme students'],
+  ['SÖ', 'programme students'],
+  ['LHS', 'programme students'],
+  ['PER', 'course for KTH staff'],
+  ['ORD', 'programme students'],
+  ['B', 'programme students'],
+  ['FOR', 'programme students'],
+  ['GYM', 'programme students'],
+  ['EIS', 'programme students'],
+  ['SU', 'programme students'],
+  ['BDR', 'programme students'],
+  ['UFH', 'programme students'],
+  ['KPL', 'programme students'],
+  ['UPS', 'programme students'],
+  ['SAP', 'Study Abroad Programme'],
+  ['FOA', 'single courses students'],
+  ['MH', 'single courses students'],
+  ['LL', 'single courses students'],
+]
 
 describe('useRoundUtils', () => {
   describe('swedish', () => {
@@ -31,52 +61,25 @@ describe('useRoundUtils', () => {
       })
     })
 
-    test.each([
-      FUNDING_TYPES_WITH_SPECIAL_HANDLING.PER,
-      FUNDING_TYPES_WITH_SPECIAL_HANDLING.UPP,
-      FUNDING_TYPES_WITH_SPECIAL_HANDLING.SAP,
-    ])('handles special case regardless of round category', ({ round_funding_type, sv }) => {
-      const { result } = renderHook(() => useRoundUtils())
-
-      expect(
-        result.current.createRoundLabel({
-          round_short_name: 'someShortName',
-          round_category: POSSIBLE_ROUND_CATEGORIES.PU,
-          round_funding_type,
-        })
-      ).toStrictEqual(`someShortName ${sv}`)
-
-      expect(
-        result.current.createRoundHeader({
-          round_short_name: 'someShortName',
-          round_category: POSSIBLE_ROUND_CATEGORIES.VU,
-          round_funding_type,
-          round_course_term: ['2024', '2'],
-        })
-      ).toStrictEqual(`HT 2024 someShortName ${sv}`)
-    })
-
-    test.each([POSSIBLE_ROUND_CATEGORIES.PU, POSSIBLE_ROUND_CATEGORIES.VU, POSSIBLE_ROUND_CATEGORIES.PU_AND_VU])(
-      'handles default case, displaying round category',
-      ({ round_category, sv }) => {
+    test.each(FUNDING_TYPES_SWEDISH)(
+      'for funding type "%s", displays correct suffix "%s"',
+      (round_funding_type, expectedSuffix) => {
         const { result } = renderHook(() => useRoundUtils())
 
         expect(
           result.current.createRoundLabel({
             round_short_name: 'someShortName',
-            round_category,
-            round_funding_type: 'someNonSpecialFundingType',
+            round_funding_type,
           })
-        ).toStrictEqual(`someShortName ${sv}`)
+        ).toStrictEqual(`someShortName ${expectedSuffix}`)
 
         expect(
           result.current.createRoundHeader({
             round_short_name: 'someShortName',
-            round_category,
-            round_funding_type: 'someNonSpecialFundingType',
+            round_funding_type,
             round_course_term: ['2024', '2'],
           })
-        ).toStrictEqual(`HT 2024 someShortName ${sv}`)
+        ).toStrictEqual(`HT 2024 someShortName ${expectedSuffix}`)
       }
     )
 
@@ -90,13 +93,10 @@ describe('useRoundUtils', () => {
       expect(
         result.current.createRoundHeader({
           round_short_name: 'someShortName',
-          round_category: POSSIBLE_ROUND_CATEGORIES.PU.round_category,
-          round_funding_type: 'someNonSpecialFundingType',
+          round_funding_type: 'LL',
           round_course_term,
         })
-      ).toStrictEqual(
-        `${expectedSemesterString} ${round_course_term[0]} someShortName ${POSSIBLE_ROUND_CATEGORIES.PU.sv}`
-      )
+      ).toStrictEqual(`${expectedSemesterString} ${round_course_term[0]} someShortName fristående studerande`)
     })
   })
 
@@ -108,52 +108,25 @@ describe('useRoundUtils', () => {
       })
     })
 
-    test.each([
-      FUNDING_TYPES_WITH_SPECIAL_HANDLING.PER,
-      FUNDING_TYPES_WITH_SPECIAL_HANDLING.UPP,
-      FUNDING_TYPES_WITH_SPECIAL_HANDLING.SAP,
-    ])('handles special case regardless of round category', ({ round_funding_type, en }) => {
-      const { result } = renderHook(() => useRoundUtils())
-
-      expect(
-        result.current.createRoundLabel({
-          round_short_name: 'someShortName',
-          round_category: POSSIBLE_ROUND_CATEGORIES.PU,
-          round_funding_type,
-        })
-      ).toStrictEqual(`someShortName ${en}`)
-
-      expect(
-        result.current.createRoundHeader({
-          round_short_name: 'someShortName',
-          round_category: POSSIBLE_ROUND_CATEGORIES.VU,
-          round_funding_type,
-          round_course_term: ['2024', '2'],
-        })
-      ).toStrictEqual(`Autumn 2024 someShortName ${en}`)
-    })
-
-    test.each([POSSIBLE_ROUND_CATEGORIES.PU, POSSIBLE_ROUND_CATEGORIES.VU, POSSIBLE_ROUND_CATEGORIES.PU_AND_VU])(
-      'handles default case, displaying round category',
-      ({ round_category, en }) => {
+    test.each(FUNDING_TYPES_ENGLISH)(
+      'for funding type "%s", displays correct suffix "%s"',
+      (round_funding_type, expectedSuffix) => {
         const { result } = renderHook(() => useRoundUtils())
 
         expect(
           result.current.createRoundLabel({
             round_short_name: 'someShortName',
-            round_category,
-            round_funding_type: 'someNonSpecialFundingType',
+            round_funding_type,
           })
-        ).toStrictEqual(`someShortName ${en}`)
+        ).toStrictEqual(`someShortName ${expectedSuffix}`)
 
         expect(
           result.current.createRoundHeader({
             round_short_name: 'someShortName',
-            round_category,
-            round_funding_type: 'someNonSpecialFundingType',
+            round_funding_type,
             round_course_term: ['2024', '2'],
           })
-        ).toStrictEqual(`Autumn 2024 someShortName ${en}`)
+        ).toStrictEqual(`Autumn 2024 someShortName ${expectedSuffix}`)
       }
     )
 
@@ -167,13 +140,10 @@ describe('useRoundUtils', () => {
       expect(
         result.current.createRoundHeader({
           round_short_name: 'someShortName',
-          round_category: POSSIBLE_ROUND_CATEGORIES.PU.round_category,
-          round_funding_type: 'someNonSpecialFundingType',
+          round_funding_type: 'LL',
           round_course_term,
         })
-      ).toStrictEqual(
-        `${expectedSemesterString} ${round_course_term[0]} someShortName ${POSSIBLE_ROUND_CATEGORIES.PU.en}`
-      )
+      ).toStrictEqual(`${expectedSemesterString} ${round_course_term[0]} someShortName single courses students`)
     })
   })
 })

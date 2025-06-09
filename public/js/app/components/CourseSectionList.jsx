@@ -40,14 +40,9 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
   function getExecution() {
     let literatureText = translation.courseInformation.course_literature_not_exist
     const syllabusHasLiterature = syllabus.course_literature && !isMissingInfoLabel(syllabus.course_literature)
-    const syllabusHasLiteratureComment =
-      syllabus.course_literature_comment && !isMissingInfoLabel(syllabus.course_literature_comment)
 
     if (syllabusHasLiterature) {
-      const literatureComment = syllabusHasLiteratureComment ? `<br />${syllabus.course_literature_comment}` : ''
-      literatureText = `${syllabus.course_literature}${literatureComment}`
-    } else if (syllabusHasLiteratureComment) {
-      literatureText = `${syllabus.course_literature_comment}`
+      literatureText = `${syllabus.course_literature}`
     }
 
     const eligibility = getEligibility()
@@ -81,7 +76,6 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
 
   function getExamination() {
     const examination = [
-      { header: '', text: translation.courseInformation.course_examination_disclaimer },
       {
         header: translation.courseInformation.course_grade_scale,
         text: courseInfo.course_grade_scale,
@@ -128,7 +122,7 @@ function CourseSectionList({ courseInfo = {}, partToShow, syllabus = {}, syllabu
       },
       {
         header: translation.courseInformation.course_level_code,
-        text: translation.courseInformation.course_level_code_label[courseInfo.course_level_code],
+        text: courseInfo.course_level_code_label,
         syllabusMarker: true,
       },
     ]

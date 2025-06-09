@@ -79,10 +79,8 @@ module.exports = {
       placeholder: 'Choose semester',
       label_dropdown: 'Semester',
     },
-    lable_round_state: {
-      CANCELLED: 'This offering is cancelled',
-      FULL: 'This offering is full',
-    },
+    label_round_is_cancelled: 'This offering is cancelled',
+    label_round_is_full: 'This offering is full',
     header_dropdown_menu_navigation:
       'Choose semester and course offering to see current information and more about the course, such as course syllabus, study period, and application information.',
     header_dropdown_menu: 'Information per course offering',
@@ -125,7 +123,6 @@ module.exports = {
     course_title: 'Title english',
     course_other_title: 'Title swedish',
     course_code: 'Course code',
-    course_credits: 'Credits',
     course_grade_scale: 'Grading scale',
     course_goals: 'Intended learning outcomes',
     course_content: 'Course contents',
@@ -133,13 +130,10 @@ module.exports = {
     course_eligibility: 'Specific prerequisites',
     course_requirments_for_final_grade: 'Other requirements for final grade',
     course_literature: 'Literature',
-    course_literature_comment: 'Literature comment',
     course_literature_not_exist:
       'You can find information about course literature either in the course memo for the course offering or in the course room in Canvas.',
     course_examination_comments: 'Examination comment',
     course_examination: 'Examination',
-    course_examination_disclaimer:
-      '<p>If the course is discontinued, students may request to be examined during the following two academic years.</p>',
     course_valid_from: 'Valid from',
     course_main_subject: 'Main field of study',
     course_language: 'Language of instruction',
@@ -151,12 +145,6 @@ module.exports = {
       1: 'Spring ',
       2: 'Autumn ',
     },
-    course_level_code_label: {
-      PREPARATORY: 'Pre-university level',
-      BASIC: 'First cycle',
-      ADVANCED: 'Second cycle',
-      RESEARCH: 'Third cycle',
-    },
     course_department: 'Offered by',
     course_prerequisites: 'Recommended prerequisites',
     course_prerequisites_description:
@@ -166,7 +154,6 @@ module.exports = {
     course_supplemental_information_url_text: 'Supplementary information link text',
     course_supplemental_information: 'Supplementary information ',
     course_examiners: 'Examiner',
-    course_recruitment_text: 'Abstract',
     course_room_canvas: 'Course room in Canvas',
     course_room_canvas_info:
       'Registered students find further information about the implementation of the course in the course room in Canvas. A link to the course room can be found under the tab Studies in the Personal menu at the start of the course.',
@@ -205,17 +192,14 @@ module.exports = {
     },
     round_time_slots: 'Planned modular schedule',
     round_application_link: 'Go to the registration',
-    round_category: {
-      PU: 'programme students',
-      VU: 'single courses students',
-      pu_and_vu: 'programme and single courses students',
-    },
-    round_type: {
+    round_type_suffix: {
       ORD: 'programme students',
       UPP: 'contract education',
       PER: 'course for KTH staff',
       SAP: 'Study Abroad Programme',
+      VU: 'single courses students',
     },
+    round_study_year: 'year',
   },
   courseMainSubjects: {
     Architecture: 'Arkitektur',
@@ -274,16 +258,10 @@ module.exports = {
     default: 'Picture_by_MainFieldOfStudy_26_Default_picture.jpg',
   },
   course_state_alert: {
-    DEACTIVATED: {
-      header: 'This course will be discontinued.',
-      examination: 'Last planned examination: ',
-      decision: 'Decision to discontinue this course: ',
-    },
-    CANCELLED: {
-      header: 'This course has been discontinued.',
-      examination: 'Last planned examination: ',
-      decision: 'Decision to discontinue this course: ',
-    },
+    last_examination: 'Last planned examination: ',
+    discontinuation_decision: 'Decision to discontinue this course: ',
+    discontinued: 'This course has been discontinued.',
+    is_being_discontinued: 'This course will be discontinued.',
   },
   statisticsLabels: {
     allSchools: 'All schools',
@@ -376,6 +354,11 @@ module.exports = {
       },
     },
     earlierYearThan2019: { text: 'There is no data earlier than 2019' },
+    courseAnalysis_alert_header: 'Important: New Procedures for Course Analyses',
+    courseAnalysis_alert_p1:
+      'From June 2025, statistics on course analyses will no longer be displayed. Starting from study period 3 in Spring 2025, course analyses must be completed and published in Canvas. Since this will be mandatory for all courses, we will no longer display statistics on published analyses.',
+    courseAnalysis_alert_p2: 'Read about the new automated system in Canvas here: ',
+    courseAnalysis_alert_link_text: 'New IT system support for course evaluation and course analysis',
   },
   breadCrumbs: {
     student: 'Student web',

@@ -55,6 +55,19 @@ module.exports = {
     kursutvecklingApi: unpackNodeApiConfig('KURSUTVECKLING_API_URI', devKursutvecklingApi),
   },
 
+  socialApi: {
+    baseUrl: getEnv('SOCIAL_API_URI', devDefaults('https://www-r.referens.sys.kth.se/social/api/course/1.0')),
+  },
+
+  ladokMellanlagerApi: {
+    clientId: getEnv('LADOK_AUTH_CLIENT_ID', null),
+    clientSecret: getEnv('LADOK_AUTH_CLIENT_SECRET', null),
+    tokenUrl: getEnv('LADOK_AUTH_TOKEN_URL', null),
+    scope: getEnv('LADOK_AUTH_SCOPE', null),
+    baseUrl: getEnv('LADOK_BASE_URL', null),
+    ocpApimSubscriptionKey: getEnv('LADOK_OCP_APIM_SUBSCRIPTION_KEY', null),
+  },
+
   koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
 
   // TimeTableApi is not Kopps, but the unpacking works nevertheless
@@ -64,12 +77,10 @@ module.exports = {
   blockApi: {
     blockUrl: getEnv('CM_HOST_URL', devDefaults('https://www-r.referens.sys.kth.se/cm/')), // Block API base URL
     addBlocks: {
-      secondaryMenu: '1.1066515',
       studentMegaMenu: '1.1066510',
       studentSearch: '1.1066521',
       studentFooter: '1.1066523',
     },
-    globalLink: false,
   },
 
   // Logging

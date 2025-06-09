@@ -81,10 +81,8 @@ module.exports = {
       label_dropdown: 'Termin',
     },
 
-    lable_round_state: {
-      CANCELLED: 'Kursomgång inställd',
-      FULL: 'Kursomgång fullsatt',
-    },
+    label_round_is_cancelled: 'Kursomgång inställd',
+    label_round_is_full: 'Kursomgång fullsatt',
     header_dropdown_menu_navigation:
       'Välj termin och kursomgång för att se aktuell information och mer om kursen, såsom kursplan, studieperiod och anmälningsinformation.',
     header_dropdown_menu: 'Information per kursomgång',
@@ -127,7 +125,6 @@ module.exports = {
     course_title: 'Benämning svenska',
     course_other_title: 'Benämning engelska',
     course_code: 'Kurskod',
-    course_credits: 'Högskolepoäng',
     course_grade_scale: 'Betygsskala',
     course_goals: 'Lärandemål',
     course_content: 'Kursinnehåll',
@@ -135,13 +132,10 @@ module.exports = {
     course_eligibility: 'Särskild behörighet',
     course_requirments_for_final_grade: 'Övriga krav för slutbetyg',
     course_literature: 'Kurslitteratur',
-    course_literature_comment: 'Kommentar till kurslitteratur',
     course_literature_not_exist:
       'Du hittar information om kurslitteratur antingen i kursomgångens kurs-PM eller i kursomgångens kursrum i Canvas.',
     course_examination_comments: 'Kommentar till examinationsmoment',
     course_examination: 'Examination',
-    course_examination_disclaimer:
-      '<p>När kurs inte längre ges har student möjlighet att examineras under ytterligare två läsår.</p>',
     course_valid_from: 'Giltig från',
     course_main_subject: 'Huvudområde',
     course_language: 'Undervisningsspråk',
@@ -153,12 +147,6 @@ module.exports = {
       1: 'VT ',
       2: 'HT ',
     },
-    course_level_code_label: {
-      PREPARATORY: 'Förberedande nivå',
-      BASIC: 'Grundnivå',
-      ADVANCED: 'Avancerad nivå',
-      RESEARCH: 'Forskarnivå',
-    },
     course_department: 'Ges av',
     course_prerequisites: 'Rekommenderade förkunskaper',
     course_prerequisites_description:
@@ -168,7 +156,6 @@ module.exports = {
     course_supplemental_information_url_text: 'Övrig information - länk text',
     course_supplemental_information: 'Övrig information',
     course_examiners: 'Examinator',
-    course_recruitment_text: 'Kort beskrivning svenska',
     course_room_canvas: 'Kursrum i Canvas',
     course_room_canvas_info:
       'Registrerade studenter hittar information för genomförande av kursen i kursrummet i Canvas. En länk till kursrummet finns under fliken Studier i Personliga menyn vid kursstart.',
@@ -207,17 +194,14 @@ module.exports = {
     },
     round_time_slots: 'Planerade schemamoduler',
     round_application_link: 'Till anmälan',
-    round_category: {
-      PU: 'programstuderande',
-      VU: 'fristående studerande',
-      pu_and_vu: 'programstuderande och fristående studerande',
-    },
-    round_type: {
+    round_type_suffix: {
       ORD: 'programstuderande',
       UPP: 'uppdragsutbildning',
       PER: 'kurser för KTHs personal',
       SAP: 'Study Abroad Programme',
+      VU: 'fristående studerande',
     },
+    round_study_year: 'åk',
   },
   courseImage: {
     Arkitektur: 'Picture_by_MainFieldOfStudy_01_Architecture.jpg',
@@ -247,16 +231,10 @@ module.exports = {
     default: 'Picture_by_MainFieldOfStudy_26_Default_picture.jpg',
   },
   course_state_alert: {
-    DEACTIVATED: {
-      header: 'Denna kurs är under avveckling.',
-      examination: 'Sista planerade examination: ',
-      decision: 'Avvecklingsbeslut: ',
-    },
-    CANCELLED: {
-      header: 'Denna kurs är avvecklad.',
-      examination: 'Sista planerade examination: ',
-      decision: 'Avvecklingsbeslut: ',
-    },
+    last_examination: 'Sista planerade examination: ',
+    discontinuation_decision: 'Avvecklingsbeslut: ',
+    is_being_discontinued: 'Denna kurs är under avveckling.',
+    discontinued: 'Denna kurs är avvecklad.',
   },
   statisticsLabels: {
     allSchools: 'Alla skolor',
@@ -351,6 +329,11 @@ module.exports = {
       },
     },
     earlierYearThan2019: { text: 'Det finns inga data tidigare än 2019' },
+    courseAnalysis_alert_header: 'Viktigt: Nya rutiner för kursanalyser',
+    courseAnalysis_alert_p1:
+      'Från juni 2025 kommer statistik över kursanalyser inte längre att visas. Från och med läsperiod 3 i VT25 ska kursanalyser fyllas i och publiceras i Canvas. Eftersom detta blir obligatoriskt för alla kurser, slutar vi att visa statistik över publicerade analyser.',
+    courseAnalysis_alert_p2: 'Läs om det nya automatiserade systemet i Canvas här: ',
+    courseAnalysis_alert_link_text: 'Nytt IT-systemstöd för kursvärdering och kursanalys',
   },
   breadCrumbs: {
     student: 'Studentwebben',

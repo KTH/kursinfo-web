@@ -28,7 +28,6 @@ function CoursePage() {
       courseInfo: {},
       syllabusList: [],
     },
-    isCancelledOrDeactivated,
   } = context
 
   const semesterRoundState = useSemesterRoundState({
@@ -58,8 +57,6 @@ function CoursePage() {
   }
   courseImage = `${browserConfig.imageStorageUri}${courseImage}`
 
-  const decisionToDiscontinue = hasSyllabus ? activeSyllabus.course_decision_to_discontinue : ''
-
   useEffect(() => {
     let isMounted = true
     if (isMounted) {
@@ -79,27 +76,36 @@ function CoursePage() {
         <CourseTitle
           key="title"
           courseTitleData={courseData.courseTitleData}
-          courseLevelCode={courseData.courseInfo.course_level_code}
           language={languageShortname}
           pageTitle={translation.courseLabels.sideMenu.page_before_course}
         />
 
-        {isCancelledOrDeactivated && (
+        {(courseInfo.course_is_discontinued || courseInfo.course_is_being_discontinued) && (
           <div className="isCancelled">
             <Alert
               color="info"
               aria-live="polite"
-              header={translation.course_state_alert[courseInfo.course_state].header}
+              header={
+                courseInfo.course_is_discontinued
+                  ? translation.course_state_alert.discontinued
+                  : translation.course_state_alert.is_being_discontinued
+              }
             >
-              <p>
-                {translation.course_state_alert[courseInfo.course_state].examination}
-                {translation.courseInformation.course_short_semester[courseInfo.course_last_exam[1]]}
-                {courseInfo.course_last_exam[0]}
-              </p>
+              {courseInfo.course_last_exam && (
+                <p>
+                  {translation.course_state_alert.last_examination}
+                  {translation.courseInformation.course_short_semester[courseInfo.course_last_exam[1]]}
+                  {courseInfo.course_last_exam[0]}
+                </p>
+              )}
               <p />
-              <p>{translation.course_state_alert[courseInfo.course_state].decision}</p>
+              <p>{translation.course_state_alert.discontinuation_decision}</p>
               <p />
-              <span dangerouslySetInnerHTML={{ __html: decisionToDiscontinue }} />
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: courseInfo.course_decision_to_discontinue,
+                }}
+              />
             </Alert>
           </div>
         )}

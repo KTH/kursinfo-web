@@ -286,10 +286,6 @@
   }
 }
 
-.ul-no-padding {
-  padding-left: 20px;
-}
-
 /****ICONS*****/
 .icon-schedule {
   position: relative;
@@ -374,4 +370,12 @@ div::-webkit-scrollbar-thumb {
 
 .margin-top-1-5 {
   margin-top: 1.5rem;
+}
+
+.kth-alert {
+  max-width: 700px;
+  
+  h4 {
+    margin-block-start: 0.5rem !important;
+  }
 }
