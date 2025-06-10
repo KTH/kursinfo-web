@@ -289,7 +289,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
 
   const courseData = { syllabusList, courseInfo, roundsBySemester, courseTitleData, language, emptySyllabusData }
 
-  return { activeSemesters, employees, courseData, periods }
+  return { activeSemesters, employees, courseData }
 }
 
 module.exports = { getFilteredData }
