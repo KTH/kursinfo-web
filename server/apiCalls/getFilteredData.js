@@ -296,6 +296,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
     activeSemesters,
     employees,
     courseData,
+    periods,
   }
 }
 

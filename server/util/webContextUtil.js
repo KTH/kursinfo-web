@@ -21,17 +21,19 @@ const addCourseData = (context, { filteredData, examiners, initiallySelectedSeme
   context.courseData.courseInfo.course_examiners = examiners
 }
 
+const addPeriodsData = (context, { filteredData }) => {
+  context.periods = filteredData.periods
+}
+
 const createCourseWebContext = ({ filteredData, courseCode, language, examiners, initiallySelectedSemester }) => {
   const context = {}
 
   addBaseData(context, language)
   addCourseData(context, { filteredData, examiners, initiallySelectedSemester })
+  addPeriodsData(context, { filteredData })
 
   context.courseCode = courseCode
-
   return context
 }
 
-module.exports = {
-  createCourseWebContext,
-}
+module.exports = { createCourseWebContext }
