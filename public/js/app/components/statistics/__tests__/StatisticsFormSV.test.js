@@ -44,7 +44,7 @@ describe('Component <StatisticsForm>', () => {
     expect(courseMemo).toBeInTheDocument()
 
     const allRadios = screen.getAllByRole('radio')
-    expect(allRadios.length).toBe(2)
+    expect(allRadios.length).toBe(1)
 
     const checkbox = screen.queryByRole('checkbox')
     expect(checkbox).not.toBeInTheDocument()
@@ -69,7 +69,7 @@ describe('Component <StatisticsForm>', () => {
     expect(termin).not.toBeInTheDocument()
 
     const allRadios = screen.getAllByRole('radio')
-    expect(allRadios.length).toBe(8)
+    expect(allRadios.length).toBe(7)
     expect(allRadios).toMatchInlineSnapshot(`
       [
         <input
@@ -78,13 +78,6 @@ describe('Component <StatisticsForm>', () => {
           name="documentType"
           type="radio"
           value="courseMemo"
-        />,
-        <input
-          class="form-check-input"
-          id="courseAnalysis"
-          name="documentType"
-          type="radio"
-          value="courseAnalysis"
         />,
         <input
           class="form-check-input"
@@ -228,93 +221,10 @@ describe('Component <StatisticsForm>', () => {
     `)
   })
 
-  test('renders switch between kurs-pm and analyses and check for clean up state', async () => {
-    render(<StatisticsFormWithContext context={context_sv} />)
-
-    const courseMemo = screen.getByLabelText(/kurs-pm/i)
-    const courseAnalysis = screen.getByLabelText(/kursanalys/i)
-    const btn = screen.getByRole('button', { name: /visa statistik/i })
-
-    await userEvent.click(courseMemo)
-    expect(courseMemo).toBeChecked()
-
-    expect(screen.getByRole('heading', { name: /läsperiod/i })).toBeInTheDocument()
-
-    expect(screen.queryByRole('heading', { name: /termin/i })).not.toBeInTheDocument()
-
-    await userEvent.click(screen.getByLabelText(/period 1, HT/i))
-    await userEvent.click(screen.getByLabelText(/period 2, HT/i))
-
-    expect(screen.getByLabelText(/period 1, HT/i)).toBeChecked()
-    expect(screen.getByLabelText(/period 2, HT/i)).toBeChecked()
-
-    await userEvent.click(btn)
-    expect(submittedResults).toMatchInlineSnapshot(`
-      {
-        "documentType": "courseMemo",
-        "periods": [
-          1,
-          2,
-        ],
-        "school": undefined,
-        "year": undefined,
-      }
-    `)
-
-    await userEvent.click(courseAnalysis)
-    expect(courseAnalysis).toBeChecked()
-
-    expect(screen.queryByRole('heading', { name: /läsperiod/i })).not.toBeInTheDocument()
-
-    expect(screen.getByRole('heading', { name: /termin/i })).toBeInTheDocument()
-
-    await userEvent.click(screen.getByLabelText(/HT/i))
-    expect(screen.getByLabelText(/HT/i)).toBeChecked()
-
-    await userEvent.click(screen.getByLabelText(/VT/i))
-    expect(screen.getByLabelText(/VT/i)).toBeChecked()
-    expect(screen.getByLabelText(/HT/i)).not.toBeChecked()
-
-    await userEvent.click(btn)
-    expect(submittedResults).toMatchInlineSnapshot(`
-      {
-        "documentType": "courseAnalysis",
-        "periods": [],
-        "school": undefined,
-        "semester": "1",
-        "year": undefined,
-      }
-    `)
-
-    await userEvent.click(courseMemo)
-    expect(courseMemo).toBeChecked()
-
-    expect(screen.getByLabelText(/period 1, HT/i)).not.toBeChecked()
-    expect(screen.getByLabelText(/period 2, HT/i)).not.toBeChecked()
-
-    await userEvent.click(courseAnalysis)
-    expect(courseAnalysis).toBeChecked()
-
-    expect(screen.getByLabelText(/HT/i)).not.toBeChecked()
-    expect(screen.getByLabelText(/VT/i)).not.toBeChecked()
-
-    await userEvent.click(btn)
-    expect(submittedResults).toMatchInlineSnapshot(`
-      {
-        "documentType": "courseAnalysis",
-        "periods": [],
-        "school": undefined,
-        "semester": undefined,
-        "year": undefined,
-      }
-    `)
-  })
-
   test('submit for empty submitted state', async () => {
     render(<StatisticsFormWithContext context={context_sv} />)
 
     const courseMemo = screen.getByLabelText(/kurs-pm/i)
-    const courseAnalysis = screen.getByLabelText(/kursanalys/i)
 
     await userEvent.click(courseMemo)
     expect(courseMemo).toBeChecked()
@@ -328,80 +238,6 @@ describe('Component <StatisticsForm>', () => {
         "periods": [],
         "school": undefined,
         "year": undefined,
-      }
-    `)
-
-    await userEvent.click(courseAnalysis)
-    expect(courseAnalysis).toBeChecked()
-
-    await userEvent.click(btn)
-
-    expect(submittedResults).toMatchInlineSnapshot(`
-      {
-        "documentType": "courseAnalysis",
-        "periods": [],
-        "school": undefined,
-        "semester": undefined,
-        "year": undefined,
-      }
-    `)
-  })
-
-  test('renders switch between course memo and analyses and check state continue working', async () => {
-    render(<StatisticsFormWithContext context={context_sv} />)
-
-    const courseMemo = screen.getByLabelText(/kurs-pm/i)
-    const courseAnalysis = screen.getByLabelText(/kursanalys/i)
-    const btn = screen.getByRole('button', { name: /visa statistik/i })
-
-    await userEvent.click(courseMemo)
-    expect(courseMemo).toBeChecked()
-
-    await userEvent.click(screen.getByLabelText(/SCI/i))
-    expect(screen.getByLabelText(/SCI/i)).toBeChecked()
-
-    await userEvent.selectOptions(screen.getByRole('combobox', { name: /välj år/i }), '2020')
-
-    await userEvent.click(screen.getByLabelText(/period 1, HT/i))
-
-    expect(screen.getByLabelText(/period 1, HT/i)).toBeChecked()
-
-    await userEvent.click(btn)
-    expect(submittedResults).toMatchInlineSnapshot(`
-      {
-        "documentType": "courseMemo",
-        "periods": [
-          1,
-        ],
-        "school": "SCI",
-        "year": 2020,
-      }
-    `)
-
-    await userEvent.click(courseAnalysis)
-    expect(courseAnalysis).toBeChecked()
-
-    expect(screen.queryByRole('heading', { name: /läsperiod/i })).not.toBeInTheDocument()
-
-    expect(screen.getByRole('heading', { name: /termin/i })).toBeInTheDocument()
-
-    await userEvent.click(screen.getByLabelText(/HT/i))
-    expect(screen.getByLabelText(/HT/i)).toBeChecked()
-
-    await userEvent.click(screen.getByLabelText(/VT/i))
-    expect(screen.getByLabelText(/VT/i)).toBeChecked()
-    expect(screen.getByLabelText(/HT/i)).not.toBeChecked()
-
-    await userEvent.selectOptions(screen.getByRole('combobox', { name: /välj år/i }), '2019')
-
-    await userEvent.click(btn)
-    expect(submittedResults).toMatchInlineSnapshot(`
-      {
-        "documentType": "courseAnalysis",
-        "periods": [],
-        "school": "SCI",
-        "semester": "1",
-        "year": 2019,
       }
     `)
   })
@@ -461,56 +297,6 @@ describe('Component <StatisticsForm>', () => {
             ],
             "school": "allSchools",
             "year": 2021,
-          }
-        `)
-  })
-
-  test('check or select all inputs for course analysis', async () => {
-    render(<StatisticsFormWithContext context={context_sv} />)
-
-    const courseanalysis = screen.getByLabelText(/kursanalys/i)
-
-    await userEvent.click(courseanalysis)
-    expect(courseanalysis).toBeChecked()
-
-    await userEvent.click(screen.getByLabelText(/alla skolor/i))
-    expect(screen.getByLabelText(/alla skolor/i)).toBeChecked()
-
-    await userEvent.selectOptions(screen.getByRole('combobox', { name: /välj år/i }), '2020')
-
-    await userEvent.click(screen.getByLabelText(/VT/i))
-    expect(screen.getByLabelText(/VT/i)).toBeChecked()
-    expect(screen.getByLabelText(/HT/i)).not.toBeChecked()
-
-    const btn = screen.getByRole('button', { name: /visa statistik/i })
-    await userEvent.click(btn)
-
-    expect(submittedResults).toMatchInlineSnapshot(`
-      {
-        "documentType": "courseAnalysis",
-        "school": "allSchools",
-        "semester": "1",
-        "year": 2020,
-      }
-    `)
-    // change school and year and termin
-    await userEvent.click(screen.getByLabelText(/itm/i))
-    expect(screen.getByLabelText(/itm/i)).toBeChecked()
-
-    await userEvent.selectOptions(screen.getByRole('combobox', { name: /välj år/i }), '2020')
-
-    await userEvent.click(screen.getByLabelText(/HT/i))
-    expect(screen.getByLabelText(/HT/i)).toBeChecked()
-    expect(screen.getByLabelText(/VT/i)).not.toBeChecked()
-
-    await userEvent.click(btn)
-
-    expect(submittedResults).toMatchInlineSnapshot(`
-          {
-            "documentType": "courseAnalysis",
-            "school": "ITM",
-            "semester": "2",
-            "year": 2020,
           }
         `)
   })

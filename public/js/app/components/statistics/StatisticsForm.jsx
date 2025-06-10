@@ -85,15 +85,13 @@ function StatisticsForm({ onSubmit, resultError }) {
           </Row>
           <Row key={`row-for-periods-or-seasons-choice`} className={`row-for-periods-or-seasons-choice`}>
             <Col>
-              {documentType === 'courseAnalysis' ? (
-                <RadioboxOption paramName={studyLengthParamName(documentType)} onChange={handleParamChange} />
-              ) : (
+              {
                 <CheckboxOption
                   paramName={studyLengthParamName(documentType)}
                   onChange={handleParamChange}
                   stateMode={stateMode}
                 />
-              )}
+              }
             </Col>
           </Row>
         </>

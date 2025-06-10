@@ -15,7 +15,6 @@ const devSsl = false
 const devPrefixPath = devDefaults('/student/kurser/kurs')
 const devImageStorageUri = 'https://kursinfostoragestage.blob.core.windows.net/kursinfo-image-container/'
 const devMemoStorageUri = 'https://kursinfostoragestage.blob.core.windows.net/memo-blob-container/'
-const devAnalysisStorageUri = 'https://kursinfostoragestage.blob.core.windows.net/kursutveckling-blob-container/'
 
 module.exports = {
   hostUrl: getEnv('SERVER_HOST_URL', devUrl),
@@ -27,5 +26,4 @@ module.exports = {
   },
   imageStorageUri: getEnv('IMAGE_STORAGE_URI', devImageStorageUri),
   memoStorageUri: getEnv('MEMO_STORAGE_URI', devMemoStorageUri),
-  analysisStorageUri: getEnv('ANALYSES_STORAGE_URL', devAnalysisStorageUri),
 }
