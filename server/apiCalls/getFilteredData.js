@@ -234,9 +234,6 @@ function _parseRounds({
 }
 
 const getFilteredData = async ({ courseCode, language, memoList }) => {
-  const now = new Date()
-  const period = getPeriodCodeForDate(now)
-
   const [
     { body: koppsCourseDetails },
     { course: ladokCourse, rounds: ladokRounds },
