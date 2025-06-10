@@ -277,24 +277,6 @@ describe('Component <CoursePage>', () => {
         },
       ],
     },
-    periods: {
-      data: {
-        Period: [
-          {
-            Benamning: { sv: 'Hösttermin 2025', en: 'Autumn semester 2025' },
-            Beskrivning: {},
-            Dolt: false,
-            Giltighetsperiod: { Slutdatum: '2026-01-12', Startdatum: '2025-08-25', link: [] },
-            ID: '153192',
-            Kod: 'HT2025',
-            PeriodtypID: '2',
-            Slutdatum: '2026-01-12',
-            Startdatum: '2025-08-25',
-            link: [],
-          },
-        ],
-      },
-    },
   }
 
   test('should render correct information when changing semester', async () => {
