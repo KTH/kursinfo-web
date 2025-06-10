@@ -55,7 +55,7 @@ const createSyllabusList = (syllabuses, lang) => {
 
     const previousSyllabus = syllabusList[index - 1]
     if (previousSyllabus) {
-      syllabus.course_valid_to = calcPreviousSemester(syllabus.course_valid_from)
+      syllabus.course_valid_to = calcPreviousSemester(previousSyllabus.course_valid_from)
     }
 
     syllabusList.push(syllabus)
