@@ -124,15 +124,60 @@ const createPeriodString = (ladokRound, periods, language) => {
     .join('')
 }
 
+const checkIfOngoingRegistration = (startDate, periods) => {
+  const registrationDates = { HT: '03-15', VT: '09-15', ST: '02-15' }
+  let code = ''
+  let semester = ''
+  let year = ''
+  let registrationDateString = ''
+  const matchedPeriod = periods.find(
+    period =>
+      startDate >= period.Giltighetsperiod.Startdatum &&
+      startDate <= period.Giltighetsperiod.Slutdatum &&
+      ['HT', 'VT'].includes(period.Kod.slice(0, 2))
+  )
+  if (!matchedPeriod) {
+    // Summer
+    semester = 'ST'
+    year = startDate.substring(0, 4)
+    registrationDateString = `${year}-${registrationDates.ST}`
+  } else {
+    code = matchedPeriod?.Kod
+    semester = code?.slice(0, 2)
+    year = code?.slice(2, 6)
+    registrationDateString = `${year}-${registrationDates[semester]}`
+  }
+
+  const date = new Date(registrationDateString)
+  const day = date.getDay()
+
+  if (day === 6) {
+    date.setDate(date.getDate() + 2)
+  } else if (day === 0) {
+    date.setDate(date.getDate() + 1)
+  }
+  const [firstRegistrationDate] = date.toISOString().split('T')
+
+  const currentDate = new Date()
+  const [formattedCurrentDate] = currentDate.toISOString().split('T')
+
+  return formattedCurrentDate >= firstRegistrationDate && formattedCurrentDate < startDate
+}
+
 function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, language = 'sv') {
   const { admissionLinkUrl: koppsAdmissionLinkUrl, round: koppsRound = {} } = koppsRoundObject
 
   const round = socialSchedules.rounds.find(schedule => schedule.applicationCode === ladokRound.tillfalleskod)
   const schemaUrl = round && round.has_events ? round.calendar_url : null
 
+  const startDate = getDateFormat(parseOrSetEmpty(ladokRound.forstaUndervisningsdatum.date, language), language)
+  const endDate = getDateFormat(parseOrSetEmpty(ladokRound.sistaUndervisningsdatum.date, language), language)
+
+  const registrationOngoing = checkIfOngoingRegistration(startDate, periods.data.Period)
+
   const courseRoundModel = {
-    round_start_date: getDateFormat(parseOrSetEmpty(ladokRound.forstaUndervisningsdatum.date, language), language),
-    round_end_date: getDateFormat(parseOrSetEmpty(ladokRound.sistaUndervisningsdatum.date, language), language),
+    round_start_date: startDate,
+    round_end_date: endDate,
     round_target_group: parseOrSetEmpty(ladokRound.malgrupp, language),
     round_tutoring_form: parseOrSetEmpty(ladokRound.undervisningsform?.code, language),
     round_tutoring_time: parseOrSetEmpty(ladokRound.undervisningstid?.code, language),
@@ -164,6 +209,7 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
     round_status: parseOrSetEmpty(ladokRound.status?.code, language),
     round_is_cancelled: ladokRound.installt,
     round_is_full: ladokRound.fullsatt,
+    round_registration_ongoing: registrationOngoing,
   }
   if (courseRoundModel.round_short_name === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) {
     courseRoundModel.round_short_name = `${language === 0 ? 'Start' : 'Start'}  ${courseRoundModel.round_start_date}`
@@ -183,10 +229,7 @@ function _parseRounds({
 }) {
   const activeSemesterArray = []
   const tempList = []
-  const employees = {
-    teachers: [],
-    responsibles: [],
-  }
+  const employees = { teachers: [], responsibles: [] }
 
   const roundsBySemester = {}
   for (const ladokRound of ladokRounds) {
@@ -251,6 +294,8 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
     getSocial(courseCode, language),
   ])
 
+  console.log(`LADOK ROUNDS: ${JSON.stringify(ladokRounds, null, 4)}`)
+
   //* **** Course information that is static on the course side *****//
   const courseDefaultInformation = _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language)
 
@@ -283,23 +328,9 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
     periods,
   })
 
-  const courseData = {
-    syllabusList,
-    courseInfo,
-    roundsBySemester,
-    courseTitleData,
-    language,
-    emptySyllabusData,
-  }
+  const courseData = { syllabusList, courseInfo, roundsBySemester, courseTitleData, language, emptySyllabusData }
 
-  return {
-    activeSemesters,
-    employees,
-    courseData,
-    periods,
-  }
+  return { activeSemesters, employees, courseData, periods }
 }
 
-module.exports = {
-  getFilteredData,
-}
+module.exports = { getFilteredData }
