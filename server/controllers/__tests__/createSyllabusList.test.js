@@ -54,12 +54,12 @@ const expectedEmpty = [
 
 describe('createSyllabusList', () => {
   test('creates syllabus list', () => {
-    const { syllabusList } = createSyllabusList(mockedLadokData.mockedCourseSyllabus, 'sv')
+    const { syllabusList } = createSyllabusList([mockedLadokData.mockedCourseSyllabus], 'sv')
 
     expect(syllabusList).toEqual(expectedSyllabusList)
   })
   test('if empty publicSyllabusVersions, returns empty array', () => {
-    const { syllabusList } = createSyllabusList(mockedLadokData.mockedUndefinedCourseSyllabus, 'sv')
+    const { syllabusList } = createSyllabusList([mockedLadokData.mockedUndefinedCourseSyllabus], 'sv')
 
     expect(syllabusList).toEqual(expectedEmpty)
   })

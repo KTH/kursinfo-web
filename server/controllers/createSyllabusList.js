@@ -1,5 +1,5 @@
 const { INFORM_IF_IMPORTANT_INFO_IS_MISSING } = require('../util/constants')
-const { parseSemesterIntoYearSemesterNumber } = require('../util/semesterUtils')
+const { parseSemesterIntoYearSemesterNumber, calcPreviousSemester } = require('../util/semesterUtils')
 const { parseOrSetEmpty } = require('./courseCtrlHelpers')
 
 const _createEmptySyllabusData = language => ({
@@ -39,10 +39,10 @@ const _mapSyllabus = (syllabus, language) => {
   }
 }
 
-const createSyllabusList = (syllabus, lang) => {
+const createSyllabusList = (syllabuses, lang) => {
   const emptySyllabusData = _createEmptySyllabusData(lang)
 
-  if (!syllabus) {
+  if (!syllabuses || !syllabuses.length) {
     return {
       syllabusList: [],
       emptySyllabusData,
@@ -50,10 +50,16 @@ const createSyllabusList = (syllabus, lang) => {
   }
 
   const syllabusList = []
+  for (let index = 0; index < syllabuses.length; index++) {
+    const syllabus = _mapSyllabus(syllabuses[index], lang)
 
-  const mappedSyllabus = _mapSyllabus(syllabus, lang)
+    const previousSyllabus = syllabusList[index - 1]
+    if (previousSyllabus) {
+      syllabus.course_valid_to = calcPreviousSemester(syllabus.course_valid_from)
+    }
 
-  syllabusList.push(mappedSyllabus)
+    syllabusList.push(syllabus)
+  }
 
   return {
     syllabusList,
