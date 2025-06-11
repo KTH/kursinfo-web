@@ -1,6 +1,6 @@
 const { parseSemesterIntoYearSemesterNumber, findMatchedPeriod, SEMESTER_NUMBER } = require('./semesterUtils')
 
-export const computeFirstRegistrationDate = ladokSemester => {
+const computeFirstRegistrationDate = ladokSemester => {
   const registrationDates = { [SEMESTER_NUMBER.SPRING]: '09-15', [SEMESTER_NUMBER.AUTUMN]: '03-15' }
   const summerRegistrationDate = '02-15'
   const registrationDateString = `${ladokSemester.year}-${ladokSemester.semesterNumber != 3 ? registrationDates[ladokSemester.semesterNumber] : summerRegistrationDate}`
@@ -13,7 +13,7 @@ export const computeFirstRegistrationDate = ladokSemester => {
   return date.toISOString().split('T')[0]
 }
 
-export const checkIfOngoingRegistration = (startDate, periods) => {
+const checkIfOngoingRegistration = (startDate, periods) => {
   let ladokSemester = []
 
   const matchedPeriod = findMatchedPeriod(startDate, periods)
@@ -28,3 +28,5 @@ export const checkIfOngoingRegistration = (startDate, periods) => {
 
   return formattedCurrentDate >= firstRegistrationDate && formattedCurrentDate < startDate
 }
+
+module.exports = { computeFirstRegistrationDate, checkIfOngoingRegistration }
