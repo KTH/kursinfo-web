@@ -29,11 +29,11 @@ async function getExaminationModules(courseUid, language) {
   }
 }
 
-async function getLadokSyllabus(courseCode, semester, lang) {
+async function getLadokSyllabuses(courseCode, lang) {
   try {
-    const course = await client.getCourseSyllabus(courseCode, semester, lang)
+    const syllabuses = await client.getAllValidCourseSyllabuses(courseCode, lang)
 
-    return course
+    return syllabuses
   } catch (error) {
     log.error(error.message)
     return undefined
@@ -54,6 +54,6 @@ async function getPeriods() {
 module.exports = {
   getCourseAndRounds,
   getExaminationModules,
-  getLadokSyllabus,
+  getLadokSyllabuses,
   getPeriods,
 }

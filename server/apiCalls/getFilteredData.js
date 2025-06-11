@@ -234,25 +234,23 @@ function _parseRounds({
 }
 
 const getFilteredData = async ({ courseCode, language, memoList }) => {
-  const now = new Date()
-  const period = getPeriodCodeForDate(now)
-
   const [
     { body: koppsCourseDetails },
     { course: ladokCourse, rounds: ladokRounds },
-    ladokSyllabus,
+    ladokSyllabuses,
     periods,
     socialSchedules,
   ] = await Promise.all([
     koppsCourseData.getKoppsCourseData(courseCode, language),
     ladokApi.getCourseAndRounds(courseCode, language),
-    ladokApi.getLadokSyllabus(courseCode, period, language),
+    ladokApi.getLadokSyllabuses(courseCode, language),
     ladokApi.getPeriods(),
     getSocial(courseCode, language),
   ])
 
   //* **** Course information that is static on the course side *****//
-  const courseDefaultInformation = _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language)
+  // We use the latest valid ladok syllabus here since the information that we are using inside _parseCourseDefaultInformation are general data inside syllabuses
+  const courseDefaultInformation = _parseCourseDefaultInformation(ladokCourse, ladokSyllabuses[0], language)
 
   const { sellingText, courseDisposition, recommendedPrerequisites, supplementaryInfo, imageInfo } =
     await courseApi.getCourseInfo(courseCode)
@@ -270,7 +268,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   const courseTitleData = _parseTitleData(ladokCourse, language)
 
   //* **** Get list of syllabuses and valid syllabus semesters *****//
-  const { syllabusList, emptySyllabusData } = createSyllabusList(ladokSyllabus, language)
+  const { syllabusList, emptySyllabusData } = createSyllabusList(ladokSyllabuses, language)
 
   //* **** Get a list of rounds and a list of redis keys for using to get teachers and responsibles from UG Rest API *****//
   const { roundsBySemester, activeSemesters, employees } = _parseRounds({
