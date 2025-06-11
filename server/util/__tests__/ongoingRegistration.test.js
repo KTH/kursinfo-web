@@ -1,4 +1,5 @@
-import { checkIfOngoingRegistration, findMatchedPeriod, computeFirstRegistrationDate } from '../ongoingRegistration'
+import { checkIfOngoingRegistration, computeFirstRegistrationDate } from '../ongoingRegistration'
+import { findMatchedPeriod } from '../semesterUtils'
 
 const mockedPeriods = [
   {
@@ -54,7 +55,6 @@ describe('Tests the logic of the checkIfOngoingRegistration function', () => {
     expect(findMatchedPeriod('2025-07-05', mockedPeriods)).toEqual(undefined)
   })
   it('Should adjust to monday for a first registration date that occurs during a weekend', () => {
-    jest.setSystemTime(new Date('2025-03-15'))
-    expect(computeFirstRegistrationDate('HT', '2025')).toEqual('2025-03-17')
+    expect(computeFirstRegistrationDate({ year: 2025, semesterNumber: 2 })).toEqual('2025-03-17')
   })
 })

@@ -1,6 +1,9 @@
-export const computeFirstRegistrationDate = (semester, year) => {
-  const registrationDates = { HT: '03-15', VT: '09-15', ST: '02-15' }
-  const registrationDateString = `${year}-${registrationDates[semester]}`
+const { parseSemesterIntoYearSemesterNumber, findMatchedPeriod, SEMESTER_NUMBER } = require('./semesterUtils')
+
+export const computeFirstRegistrationDate = ladokSemester => {
+  const registrationDates = { [SEMESTER_NUMBER.SPRING]: '09-15', [SEMESTER_NUMBER.AUTUMN]: '03-15' }
+  const summerRegistrationDate = '02-15'
+  const registrationDateString = `${ladokSemester.year}-${ladokSemester.semesterNumber != 3 ? registrationDates[ladokSemester.semesterNumber] : summerRegistrationDate}`
 
   // Check if registration date occurs on a weekend and adjust to monday in that case
   const date = new Date(registrationDateString)
@@ -10,31 +13,15 @@ export const computeFirstRegistrationDate = (semester, year) => {
   return date.toISOString().split('T')[0]
 }
 
-export const findMatchedPeriod = (startDate, periods) => {
-  const matchedPeriod = periods.find(
-    period =>
-      startDate >= period.Giltighetsperiod.Startdatum &&
-      startDate <= period.Giltighetsperiod.Slutdatum &&
-      ['HT', 'VT'].includes(period.Kod.slice(0, 2))
-  )
-  return matchedPeriod
-}
-
 export const checkIfOngoingRegistration = (startDate, periods) => {
-  let semester = ''
-  let year = ''
+  let ladokSemester = []
 
   const matchedPeriod = findMatchedPeriod(startDate, periods)
 
-  if (!matchedPeriod) {
-    // Summer
-    semester = 'ST'
-    year = startDate.substring(0, 4)
-  } else {
-    semester = matchedPeriod?.Kod.slice(0, 2)
-    year = matchedPeriod?.Kod.slice(2, 6)
-  }
-  const firstRegistrationDate = computeFirstRegistrationDate(semester, year)
+  ladokSemester = matchedPeriod
+    ? (ladokSemester = parseSemesterIntoYearSemesterNumber(matchedPeriod.Kod))
+    : (ladokSemester = { year: Number(startDate.substring(0, 4)), semesterNumber: 3 })
+  const firstRegistrationDate = computeFirstRegistrationDate(ladokSemester)
 
   const currentDate = new Date()
   const [formattedCurrentDate] = currentDate.toISOString().split('T')
