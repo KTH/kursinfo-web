@@ -42,7 +42,7 @@ const _mapSyllabus = (syllabus, language) => {
 const createSyllabusList = (syllabuses, lang) => {
   const emptySyllabusData = _createEmptySyllabusData(lang)
 
-  if (!syllabuses || !syllabuses.length) {
+  if (!syllabuses?.length) {
     return {
       syllabusList: [],
       emptySyllabusData,
@@ -53,9 +53,13 @@ const createSyllabusList = (syllabuses, lang) => {
   for (let index = 0; index < syllabuses.length; index++) {
     const syllabus = _mapSyllabus(syllabuses[index], lang)
 
-    const previousSyllabus = syllabusList[index - 1]
-    if (previousSyllabus) {
-      syllabus.course_valid_to = calcPreviousSemester(previousSyllabus.course_valid_from)
+    /* The syllabuses list we get from the om-kursen-ladok-client package is sorted from newest to oldest.
+     * This means we can determine how long each syllabus is valid by looking at the previous item in the list
+     * — which is the newer syllabus — to know until which semester it's valid.
+     */
+    const newerSyllabus = syllabusList[index - 1]
+    if (newerSyllabus) {
+      syllabus.course_valid_to = calcPreviousSemester(newerSyllabus.course_valid_from)
     }
 
     syllabusList.push(syllabus)
