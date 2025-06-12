@@ -4,6 +4,7 @@ const {
   INFORM_IF_IMPORTANT_INFO_IS_MISSING,
   INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY,
   PROGRAMME_URL,
+  INDEPENDENT_COURSE,
 } = require('../util/constants')
 const { buildCourseDepartmentLink } = require('../util/courseDepartmentUtils')
 const { getDateFormat, formatVersionDate } = require('../util/dates')
@@ -134,7 +135,11 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
   const startDate = getDateFormat(parseOrSetEmpty(ladokRound.forstaUndervisningsdatum.date, language), language)
   const endDate = getDateFormat(parseOrSetEmpty(ladokRound.sistaUndervisningsdatum.date, language), language)
 
-  const registrationOngoing = checkIfOngoingRegistration(startDate, periods.data.Period)
+  const round_registration_ongoing = checkIfOngoingRegistration(startDate, periods.data.Period)
+  const round_funding_type = parseOrSetEmpty(ladokRound.finansieringsform?.code, language)
+  const round_is_full = ladokRound.fullsatt
+  const round_application_link_conditions =
+    round_funding_type === INDEPENDENT_COURSE && round_registration_ongoing && !round_is_full
 
   const courseRoundModel = {
     round_start_date: startDate,
@@ -148,7 +153,7 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
     round_application_code: parseOrSetEmpty(ladokRound.tillfalleskod, language),
     round_study_pace: parseOrSetEmpty(ladokRound.studietakt?.takt, language),
     round_course_term: parseSemesterIntoYearSemesterNumberArray(ladokRound.startperiod?.inDigits),
-    round_funding_type: parseOrSetEmpty(ladokRound.finansieringsform?.code, language),
+    round_funding_type,
     round_seats:
       _parseRoundSeatsMsg(
         parseOrSetEmpty(ladokRound.utbildningsplatser, language, true),
@@ -169,8 +174,8 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     round_status: parseOrSetEmpty(ladokRound.status?.code, language),
     round_is_cancelled: ladokRound.installt,
-    round_is_full: ladokRound.fullsatt,
-    round_registration_ongoing: registrationOngoing,
+    round_is_full,
+    round_application_link_conditions,
   }
   if (courseRoundModel.round_short_name === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) {
     courseRoundModel.round_short_name = `${language === 0 ? 'Start' : 'Start'}  ${courseRoundModel.round_start_date}`

@@ -14,13 +14,11 @@ const computeFirstRegistrationDate = ladokSemester => {
 }
 
 const checkIfOngoingRegistration = (startDate, periods) => {
-  let ladokSemester = []
-
   const matchedPeriod = findMatchedPeriod(startDate, periods)
 
-  ladokSemester = matchedPeriod
-    ? (ladokSemester = parseSemesterIntoYearSemesterNumber(matchedPeriod.Kod))
-    : (ladokSemester = { year: Number(startDate.substring(0, 4)), semesterNumber: 3 })
+  const ladokSemester = matchedPeriod
+    ? parseSemesterIntoYearSemesterNumber(matchedPeriod.Kod)
+    : { year: Number(startDate.substring(0, 4)), semesterNumber: 3 }
   const firstRegistrationDate = computeFirstRegistrationDate(ladokSemester)
 
   const currentDate = new Date()

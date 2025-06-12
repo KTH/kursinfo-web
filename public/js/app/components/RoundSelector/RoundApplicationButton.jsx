@@ -7,14 +7,11 @@ const RoundApplicationButton = ({ courseRound, showRoundData }) => {
     translation: { courseRoundInformation },
   } = useLanguage()
   const { isMissingInfoLabel } = useMissingInfo()
-  const fundingType = courseRound.round_funding_type
   const showApplicationLink =
-    showRoundData &&
-    fundingType === 'LL' &&
     courseRound &&
+    showRoundData &&
     !isMissingInfoLabel(courseRound.round_application_link) &&
-    courseRound.round_registration_ongoing &&
-    !courseRound.round_is_full
+    courseRound.round_application_link_conditions
 
   return !showApplicationLink ? null : (
     <a className="kth-button next" href={courseRound.round_application_link}>
