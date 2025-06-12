@@ -166,7 +166,7 @@ module.exports = {
     round_max_seats: 'Antal platser',
     round_no_seats_limit: 'Ingen platsbegränsning',
     round_part_of_programme: 'Del av program',
-    round_responsibles: 'Kursansvarig',
+    round_course_coordinator: 'Kursansvarig',
     round_end_date: 'Kursen slutar',
     round_start_date: 'Varaktighet',
     round_pace_of_study: 'Studietakt',

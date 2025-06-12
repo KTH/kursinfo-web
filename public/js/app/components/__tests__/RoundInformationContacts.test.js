@@ -12,7 +12,7 @@ jest.mock('../../hooks/useCourseEmployees')
 jest.mock('../../hooks/useLanguage')
 
 useLanguage.mockReturnValue({ translation: translationEn, languageIndex: 0 })
-useCourseEmployees.mockReturnValue({ courseRoundEmployees: { examiners: '', responsibles: '', teachers: '' } })
+useCourseEmployees.mockReturnValue({ courseRoundEmployees: { examiners: '', courseCoordinators: '', teachers: '' } })
 
 // Helpers to get element directly after headings
 // eslint-disable-next-line testing-library/no-node-access
@@ -20,7 +20,7 @@ const nextSibling = element => element.nextSibling
 const withinNextSibling = element => within(nextSibling(element))
 
 describe('Component <RoundInformationContacts>', () => {
-  describe('examiners, responsibles and teachers', () => {
+  describe('examiners, courseCoordinators and teachers', () => {
     test('shoud show headers with "missing info" text when data is missing', () => {
       render(<RoundInformationContacts courseRoundEmployees={{}} />)
       const examinerLabel = screen.getByText('Examiner')
@@ -38,7 +38,8 @@ describe('Component <RoundInformationContacts>', () => {
         <RoundInformationContacts
           courseRoundEmployees={{
             examiners: '<p class="person"><a href="/profile/testexaminers/">Test examiners</a></p>',
-            responsibles: '<p class="person"><a href="/profile/testresponsibles/">Test responsibles</a></p>',
+            courseCoordinators:
+              '<p class="person"><a href="/profile/testcourseCoordinators/">Test courseCoordinators</a></p>',
             teachers: '<p class="person"><a href="/profile/testteachers/">Test teachers</a></p>',
           }}
         />
@@ -50,8 +51,8 @@ describe('Component <RoundInformationContacts>', () => {
 
       const responsibleLabel = screen.getByText('Course coordinator')
       const responsibleLink = withinNextSibling(responsibleLabel).getByRole('link')
-      expect(responsibleLink).toHaveTextContent('Test responsibles')
-      expect(responsibleLink).toHaveAttribute('href', '/profile/testresponsibles/')
+      expect(responsibleLink).toHaveTextContent('Test courseCoordinators')
+      expect(responsibleLink).toHaveAttribute('href', '/profile/testcourseCoordinators/')
 
       const teacherLabel = screen.getByText('Teachers')
       const teacherLink = withinNextSibling(teacherLabel).getByRole('link')

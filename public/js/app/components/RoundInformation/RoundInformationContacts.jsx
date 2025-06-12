@@ -14,10 +14,10 @@ function RoundInformationContacts({ courseRoundEmployees }) {
       </div>
 
       <div>
-        <dt>{translation.courseRoundInformation.round_responsibles}</dt>
+        <dt>{translation.courseRoundInformation.round_course_coordinator}</dt>
         <dd
           dangerouslySetInnerHTML={{
-            __html: courseRoundEmployees.responsibles || missingInfoLabel,
+            __html: courseRoundEmployees.courseCoordinators || missingInfoLabel,
           }}
         />
       </div>

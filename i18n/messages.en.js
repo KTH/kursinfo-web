@@ -164,7 +164,7 @@ module.exports = {
     round_max_seats: 'Number of places',
     round_no_seats_limit: 'Places are not limited',
     round_part_of_programme: 'Part of programme',
-    round_responsibles: 'Course coordinator',
+    round_course_coordinator: 'Course coordinator',
     round_end_date: 'End date',
     round_start_date: 'Duration',
     round_pace_of_study: 'Pace of study',
