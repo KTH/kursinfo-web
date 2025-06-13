@@ -1,17 +1,11 @@
 import React from 'react'
 import { useLanguage } from '../../hooks/useLanguage'
-import { useMissingInfo } from '../../hooks/useMissingInfo'
 
 const RoundApplicationButton = ({ courseRound, showRoundData }) => {
   const {
     translation: { courseRoundInformation },
   } = useLanguage()
-  const { isMissingInfoLabel } = useMissingInfo()
-  const showApplicationLink =
-    courseRound &&
-    showRoundData &&
-    !isMissingInfoLabel(courseRound.round_application_link) &&
-    courseRound.round_application_link_conditions
+  const showApplicationLink = courseRound && showRoundData && courseRound.show_application_link
 
   return !showApplicationLink ? null : (
     <a className="kth-button next" href={courseRound.round_application_link}>

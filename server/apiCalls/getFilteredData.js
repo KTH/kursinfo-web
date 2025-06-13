@@ -138,8 +138,8 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
   const round_registration_ongoing = checkIfOngoingRegistration(startDate, periods.data.Period)
   const round_funding_type = parseOrSetEmpty(ladokRound.finansieringsform?.code, language)
   const round_is_full = ladokRound.fullsatt
-  const round_application_link_conditions =
-    round_funding_type === INDEPENDENT_COURSE && round_registration_ongoing && !round_is_full
+  const show_application_link =
+    round_funding_type === INDEPENDENT_COURSE && round_registration_ongoing && !round_is_full && koppsAdmissionLinkUrl
 
   const courseRoundModel = {
     round_start_date: startDate,
@@ -175,7 +175,7 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
     round_status: parseOrSetEmpty(ladokRound.status?.code, language),
     round_is_cancelled: ladokRound.installt,
     round_is_full,
-    round_application_link_conditions,
+    show_application_link,
   }
   if (courseRoundModel.round_short_name === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) {
     courseRoundModel.round_short_name = `${language === 0 ? 'Start' : 'Start'}  ${courseRoundModel.round_start_date}`
