@@ -37,7 +37,7 @@ function CoursePage() {
     syllabusList: courseData.syllabusList,
     activeSemesters,
   })
-  const { activeRound, showRoundData, activeSyllabus, hasSyllabus } = semesterRoundState
+  const { activeRound, showRoundData } = semesterRoundState
 
   const { courseInfo } = courseData
   const { translation, languageShortname } = useLanguage()

@@ -4,6 +4,7 @@ const {
   INFORM_IF_IMPORTANT_INFO_IS_MISSING,
   INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY,
   PROGRAMME_URL,
+  INDEPENDENT_COURSE,
 } = require('../util/constants')
 const { buildCourseDepartmentLink } = require('../util/courseDepartmentUtils')
 const { getDateFormat, formatVersionDate } = require('../util/dates')
@@ -13,6 +14,7 @@ const {
   getSemesterForDate,
 } = require('../util/semesterUtils')
 const i18n = require('../../i18n')
+const { checkIfOngoingRegistration } = require('../util/ongoingRegistration')
 const koppsCourseData = require('./koppsCourseData')
 const ladokApi = require('./ladokApi')
 const courseApi = require('./kursinfoApi')
@@ -130,9 +132,18 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
   const round = socialSchedules.rounds.find(schedule => schedule.applicationCode === ladokRound.tillfalleskod)
   const schemaUrl = round && round.has_events ? round.calendar_url : null
 
+  const startDate = getDateFormat(parseOrSetEmpty(ladokRound.forstaUndervisningsdatum.date, language), language)
+  const endDate = getDateFormat(parseOrSetEmpty(ladokRound.sistaUndervisningsdatum.date, language), language)
+
+  const round_registration_ongoing = checkIfOngoingRegistration(startDate, periods.data.Period)
+  const round_funding_type = parseOrSetEmpty(ladokRound.finansieringsform?.code, language)
+  const round_is_full = ladokRound.fullsatt
+  const show_application_link =
+    round_funding_type === INDEPENDENT_COURSE && round_registration_ongoing && !round_is_full && koppsAdmissionLinkUrl
+
   const courseRoundModel = {
-    round_start_date: getDateFormat(parseOrSetEmpty(ladokRound.forstaUndervisningsdatum.date, language), language),
-    round_end_date: getDateFormat(parseOrSetEmpty(ladokRound.sistaUndervisningsdatum.date, language), language),
+    round_start_date: startDate,
+    round_end_date: endDate,
     round_target_group: parseOrSetEmpty(ladokRound.malgrupp, language),
     round_tutoring_form: parseOrSetEmpty(ladokRound.undervisningsform?.code, language),
     round_tutoring_time: parseOrSetEmpty(ladokRound.undervisningstid?.code, language),
@@ -142,7 +153,7 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
     round_application_code: parseOrSetEmpty(ladokRound.tillfalleskod, language),
     round_study_pace: parseOrSetEmpty(ladokRound.studietakt?.takt, language),
     round_course_term: parseSemesterIntoYearSemesterNumberArray(ladokRound.startperiod?.inDigits),
-    round_funding_type: parseOrSetEmpty(ladokRound.finansieringsform?.code, language),
+    round_funding_type,
     round_seats:
       _parseRoundSeatsMsg(
         parseOrSetEmpty(ladokRound.utbildningsplatser, language, true),
@@ -163,7 +174,8 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
         : INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
     round_status: parseOrSetEmpty(ladokRound.status?.code, language),
     round_is_cancelled: ladokRound.installt,
-    round_is_full: ladokRound.fullsatt,
+    round_is_full,
+    show_application_link,
   }
   if (courseRoundModel.round_short_name === INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]) {
     courseRoundModel.round_short_name = `${language === 0 ? 'Start' : 'Start'}  ${courseRoundModel.round_start_date}`
@@ -183,10 +195,7 @@ function _parseRounds({
 }) {
   const activeSemesterArray = []
   const tempList = []
-  const employees = {
-    teachers: [],
-    responsibles: [],
-  }
+  const employees = { teachers: [], responsibles: [] }
 
   const roundsBySemester = {}
   for (const ladokRound of ladokRounds) {
@@ -281,22 +290,9 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
     periods,
   })
 
-  const courseData = {
-    syllabusList,
-    courseInfo,
-    roundsBySemester,
-    courseTitleData,
-    language,
-    emptySyllabusData,
-  }
+  const courseData = { syllabusList, courseInfo, roundsBySemester, courseTitleData, language, emptySyllabusData }
 
-  return {
-    activeSemesters,
-    employees,
-    courseData,
-  }
+  return { activeSemesters, employees, courseData }
 }
 
-module.exports = {
-  getFilteredData,
-}
+module.exports = { getFilteredData }

@@ -28,10 +28,7 @@ const createCourseWebContext = ({ filteredData, courseCode, language, examiners,
   addCourseData(context, { filteredData, examiners, initiallySelectedSemester })
 
   context.courseCode = courseCode
-
   return context
 }
 
-module.exports = {
-  createCourseWebContext,
-}
+module.exports = { createCourseWebContext }

@@ -16,9 +16,7 @@ usePlannedModules.mockReturnValue({ plannedModules: 'somePlannedModules' })
 
 describe('Component <CoursePage>', () => {
   const contextToTest = {
-    browserConfig: {
-      memoStorageUri: '',
-    },
+    browserConfig: { memoStorageUri: '' },
     lang: 'en',
     initiallySelectedSemester: 20222,
     initiallySelectedRoundIndex: undefined,
@@ -271,10 +269,7 @@ describe('Component <CoursePage>', () => {
         ],
       },
       syllabusList: [
-        {
-          course_content: 'Course content in syllabus v2',
-          course_valid_from: { year: 2022, semesterNumber: 2 },
-        },
+        { course_content: 'Course content in syllabus v2', course_valid_from: { year: 2022, semesterNumber: 2 } },
         {
           course_content: 'Course content in syllabus v1',
           course_valid_from: { year: 2015, semesterNumber: 1 },
