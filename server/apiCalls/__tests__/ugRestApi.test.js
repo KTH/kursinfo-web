@@ -22,9 +22,10 @@ jest.mock('@kth/ug-rest-api-helper', () => ({
 
 const { faker } = require('@faker-js/faker')
 const { ugRestApiHelper } = require('@kth/ug-rest-api-helper')
-const log = require('@kth/log')
 
 jest.mock('@kth/log')
+const log = require('@kth/log')
+
 log.info = jest.fn()
 log.debug = jest.fn()
 log.error = jest.fn()
@@ -66,7 +67,7 @@ describe('getCourseEmployees', () => {
     })
   })
 
-  test('should return expected HTML for examiners, teachers, and courseCoordinators', async () => {
+  test('should return expected HTML for examiners, teachers, and course coordinators', async () => {
     const result = await getCourseEmployees({
       courseCode: 'SF1624',
       semester: '20222',

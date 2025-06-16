@@ -2,14 +2,30 @@ const { ugRestApiHelper } = require('@kth/ug-rest-api-helper')
 const log = require('@kth/log')
 const serverConfig = require('../configuration').server
 
-const _groupNames = (courseCode, semester, applicationCodes) => ({
-  // Used to get examiners, teachers and course coordinators from UG Redis
-  course: [`ladok2.kurser.${String(courseCode).slice(0, 2)}.${courseCode.slice(2)}`],
-  courseRound: applicationCodes.map(
-    applicationCode =>
-      `ladok2.kurser.${String(courseCode).slice(0, 2)}.${courseCode.slice(2)}.${semester}.${applicationCode}`
-  ),
-})
+const _getOrgPart = courseCode => {
+  if (courseCode.length === 7) return courseCode.slice(0, 3)
+  if (courseCode.length === 6) return courseCode.slice(0, 2)
+  return undefined
+}
+
+const _getNumberPart = courseCode => {
+  if (courseCode.length === 7) return courseCode.slice(3)
+  if (courseCode.length === 6) return courseCode.slice(2)
+  return undefined
+}
+
+const _groupNames = (courseCode, semester, applicationCodes) => {
+  const courseOrgPart = _getOrgPart(courseCode)
+  const courseNumberPart = _getNumberPart(courseCode)
+
+  return {
+    // Used to get examiners, teachers and course coordinators from UG Redis
+    course: [`ladok2.kurser.${courseOrgPart}.${courseNumberPart}`],
+    courseRound: applicationCodes.map(
+      applicationCode => `ladok2.kurser.${courseOrgPart}.${courseNumberPart}.${semester}.${applicationCode}`
+    ),
+  }
+}
 
 const _createPersonHtml = (personList = []) => {
   let personString = ''
@@ -28,16 +44,16 @@ const _createPersonHtml = (personList = []) => {
   return personString
 }
 
-const _getAllGroups = (course, courseRound) => {
+const _getAllGroups = (courseGroups, courseRoundGroups) => {
   const groups = []
-  if (course.length) {
-    course.forEach(examiner => {
-      groups.push(examiner)
+  if (courseGroups.length) {
+    courseGroups.forEach(courseGroup => {
+      groups.push(courseGroup)
     })
   }
-  if (courseRound.length) {
-    courseRound.forEach(other => {
-      groups.push(other)
+  if (courseRoundGroups.length) {
+    courseRoundGroups.forEach(courseRoundGroup => {
+      groups.push(courseRoundGroup)
     })
   }
   return groups
@@ -85,16 +101,16 @@ function _initializeUGConnection() {
 
 /**
  * Fetches group data along with attributes from the UG REST API.
- * @param {string} courseGroup - Course group name.
- * @param {string} courseRoundGroups - Course round group names.
+ * @param {string[]} courseGroups - Course group name.
+ * @param {string[]} courseRoundGroups - Course round group names.
  * @param {string} courseCode - Course code, used for logging.
  * @param {string} semester - Semester, used for logging.
  * @returns {Promise<Object[]>} Group details with attributes.
  */
-async function _getGroupsWithAttributes(courseGroup, courseRoundGroups, courseCode, semester) {
+async function _getGroupsWithAttributes(courseGroups, courseRoundGroups, courseCode, semester) {
   _initializeUGConnection()
 
-  const groups = _getAllGroups(courseGroup, courseRoundGroups)
+  const groups = _getAllGroups(courseGroups, courseRoundGroups)
 
   log.info('Fetching course and course round groups with attributes', {
     courseCode,
@@ -159,11 +175,11 @@ async function _getUsersFromGroupAttributes(groupsWithAttributes, courseCode, se
 
 async function getCourseEmployees({ courseCode, semester, applicationCodes = [] }) {
   try {
-    const { course: courseGroup, courseRound: courseRoundGroups } = _groupNames(courseCode, semester, applicationCodes)
+    const { course: courseGroups, courseRound: courseRoundGroups } = _groupNames(courseCode, semester, applicationCodes)
 
     // get all groups along with attributes from UG Rest Api
     const groupsAlongWithAttributes = await _getGroupsWithAttributes(
-      courseGroup,
+      courseGroups,
       courseRoundGroups,
       courseCode,
       semester
