@@ -146,6 +146,17 @@ const getSemesterForDate = (date, periods, language) => {
   return ''
 }
 
+const findMatchedPeriod = (date, periods) => {
+  // Excludes calendar years and doesn't take language into consideration
+  const matchedPeriod = periods.find(
+    period =>
+      date >= period.Giltighetsperiod.Startdatum &&
+      date <= period.Giltighetsperiod.Slutdatum &&
+      ['HT', 'VT'].includes(period.Kod.slice(0, 2))
+  )
+  return matchedPeriod
+}
+
 // I want global isNaN
 // eslint-disable-next-line no-restricted-globals
 const isFiveDigitNumber = semester => semester.toString().length === 5 && !isNaN(semester)
@@ -168,5 +179,6 @@ module.exports = {
   getCurrentYearAndSemesterNumber,
   getSemester,
   getSemesterForDate,
+  findMatchedPeriod,
   SEMESTER_NUMBER,
 }
