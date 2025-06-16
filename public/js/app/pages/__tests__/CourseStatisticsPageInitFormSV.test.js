@@ -30,11 +30,9 @@ describe('Component <CourseStatisticsPage> form', () => {
 
     const courseMemo = screen.getByLabelText(/kurs-pm/i)
     expect(courseMemo).toBeInTheDocument()
-    const courseAnalysis = screen.getByLabelText(/kursanalys/i)
-    expect(courseAnalysis).toBeInTheDocument()
 
     const allRadios = screen.getAllByRole('radio')
-    expect(allRadios.length).toBe(2)
+    expect(allRadios.length).toBe(1)
 
     const checkbox = screen.queryByRole('checkbox')
     expect(checkbox).not.toBeInTheDocument()
@@ -60,7 +58,7 @@ describe('Component <CourseStatisticsPage> form', () => {
     expect(termin).not.toBeInTheDocument()
 
     const allRadios = screen.getAllByRole('radio')
-    expect(allRadios.length).toBe(8)
+    expect(allRadios.length).toBe(7)
 
     const checkboxes = screen.getAllByRole('checkbox')
     expect(checkboxes.length).toBe(5)

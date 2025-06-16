@@ -9,7 +9,7 @@ function formatTimeToLocaleDateSV(parsedTime) {
  * Calculates and compiles document publish data.
  * @param {[]} offeringStartDate  Offering’s start date, in format accepted by Date.parse
  * @param {{}} docChangeDate     Document's change date, in format accepted by Date.parse
- * @returns {{}}                  Object with publish data for memo or for analysis
+ * @returns {{}}                  Object with publish data for memo
  */
 const publishData = (offeringStartDate, docChangeDate) => {
   const offeringStartTime = Date.parse(offeringStartDate)

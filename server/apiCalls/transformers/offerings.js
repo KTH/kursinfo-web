@@ -1,4 +1,3 @@
-const { labelSeason } = require('../../../domain/statistics/seasons')
 const { isCorrectSchool, SCHOOL_MAP } = require('./schools')
 
 /**
@@ -122,59 +121,8 @@ function filterOfferingsForMemos(courses = [], chosenSemesters = [], chosenPerio
   return parsedOfferings
 }
 
-/**
- * Parses courses offerings from Kopps and returns an object with one list for course analyses which are created after course ends:
- * - List containing offerings that ends with semester parameter. This is used for course analyses.
- * @param {Object[]} courses      Courses as returned by '/api/kopps/v2/courses/offerings'.
- * @param {string} courses[].first_yearsemester - The start semester of a course
- * @param {Object[]} courses[].offered_semesters - The list of offered semesters of a course
- * @param {string} courses[].offered_semesters[].end_date - The end date of a course offering
- * @param {string} courses[].offered_semesters[].end_week - The end week of a course offering to calculate the end period
- * @param {string} courses[].offered_semesters[].semester - The current semester of a course offering
- * @param {string} courses[].offered_semesters[].start_date - The start date of a course offering
- * @param {string} chosenSemester   Semester string for which data is fetched, 5 digits in string format
- * @param {string} chosenSchool    School name, or if all schools are chosen then 'allSchools
- * @param {string} language    User interface language, "sv" or "en"
- * @returns {[]}           Array, containing offerings’ relevant data
- */
-function filterOfferingsForAnalysis(courses = [], chosenSemester, chosenSchool = '', language = 'sv') {
-  const parsedOfferings = []
-
-  courses.forEach(course => {
-    const {
-      first_yearsemester: firstSemester,
-      offered_semesters: courseOfferedSemesters,
-      school_code: schoolCode,
-      course_round_applications: courseRoundApplications,
-    } = course
-
-    const { endDate, lastSemester, startDate } = _findCourseStartEndDates(courseOfferedSemesters)
-
-    const lastTermSeasonNumber = lastSemester.at(4)
-    const lastTermSeasonLabel = lastTermSeasonNumber
-      ? labelSeason(Number(lastTermSeasonNumber), language === 'en' ? 0 : 1)
-      : ''
-
-    const isFinishedInChosenSemesters = chosenSemester === lastSemester
-    const isChosenSchool = isCorrectSchool(chosenSchool, schoolCode)
-
-    if (isFinishedInChosenSemesters && isChosenSchool) {
-      const offering = _formOffering(firstSemester, startDate, endDate, course)
-      parsedOfferings.push({
-        ...offering,
-        lastSemesterLabel: lastTermSeasonLabel,
-        lastSemester,
-        courseRoundApplications,
-      })
-    }
-  })
-
-  return parsedOfferings
-}
-
 module.exports = {
   filterOfferingsForMemos,
-  filterOfferingsForAnalysis,
   findCourseStartEndDates: _findCourseStartEndDates,
   semestersInParsedOfferings,
   sortOfferedSemesters: _sortOfferedSemesters,

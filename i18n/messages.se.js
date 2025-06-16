@@ -240,14 +240,11 @@ module.exports = {
     allSchools: 'Alla skolor',
     chartsLabels: {
       headerMemo: 'Andel kurser som har publicerade kurs-PM ',
-      headerAnalysis: 'Andel kurser (som slutar vald termin) som har en publicerad kursanalys',
       headerYearAgo: 'Jämför med resultatet för vald läsperiod från föregående år',
-      numberOfUniqAnalyses: 'Under terminen',
       numberOfUniqWebAndPdfMemos: 'Under läsperiod/erna',
       numberOfMemosPublishedBeforeStart: 'Senast vid kursstart',
       numberOfMemosPublishedBeforeDeadline: 'En vecka före kursstart',
     },
-    courseAnalysis: 'Kursanalys',
     courseMemo: 'Kurs-PM',
     btnShowResults: 'Visa statistik',
     errorUnknown: { text: 'Ett okänt fel inträffade - misslyckad hämtning av kursdata.' },
@@ -290,12 +287,6 @@ module.exports = {
         1: 'VT',
         2: 'HT',
       },
-      courseAnalysis: {
-        header: 'Tabell med kurser och kursanalyser',
-        details:
-          'Här finns möjlighet att se en tabell med data för alla kurstillfällen, för vald skola och läsperiod. Det går att sortera informationen i tabellens kolumner. Det är även möjligt att ladda ner tabellen som en Excel- eller CSV-fil för att göra egna filtreringar och sorteringar av datan.',
-        sourceOfData: 'Se tabell med data för kursanalys',
-      },
       courseMemo: {
         header: 'Tabell med kurser och kurs-PM',
         details:
@@ -320,14 +311,12 @@ module.exports = {
         linkToCoursePM: 'Länk till kurs-PM',
         term: 'Termin',
         courseEndDate: 'Kursens slutdatum',
-        linkToCourseAnalysis: 'Länk till kursanalys',
       },
     },
     summaryLabels: {
       sourceOfData: 'Läs om API:erna och källkoden',
       subHeaders: {
         courseMemo: 'Sammanställning av antalet publicerade kurs-PM',
-        courseAnalysis: 'Sammanställning av antal publicerade kursanalyser',
       },
       memosNumbersTable: {
         school: 'Skola',
@@ -338,16 +327,11 @@ module.exports = {
         totalMemosPublishedBeforeCourseStart: 'Kurs-PM publicerade  senast vid kursstart',
         totalMemosPublishedBeforeDeadline: 'Kurs-PM publicerade en vecka före kursstart',
       },
-      analysesNumbersTable: {
-        school: 'School',
-        totalCourses: 'Antal kurser som slutar vald termin',
-        totalUniqPublishedAnalyses: 'Antal publicerade kursanalyser för kursomgångar som slutar vald termin',
-      },
     },
     earlierYearThan2019: { text: 'Det finns inga data tidigare än 2019' },
     courseAnalysis_alert_header: 'Viktigt: Nya rutiner för kursanalyser',
     courseAnalysis_alert_p1:
-      'Från juni 2025 kommer statistik över kursanalyser inte längre att visas. Från och med läsperiod 3 i VT25 ska kursanalyser fyllas i och publiceras i Canvas. Eftersom detta blir obligatoriskt för alla kurser, slutar vi att visa statistik över publicerade analyser.',
+      'Från juni 2025 visas inte statistik över kursanalyser längre. Från och med läsperiod 3 i VT25 fylls kursanalyser i och publiceras i Canvas. Eftersom detta blir obligatoriskt för alla kurser, slutar vi att visa statistik över publicerade analyser.',
     courseAnalysis_alert_p2: 'Läs om det nya automatiserade systemet i Canvas här: ',
     courseAnalysis_alert_link_text: 'Nytt IT-systemstöd för kursvärdering och kursanalys',
   },

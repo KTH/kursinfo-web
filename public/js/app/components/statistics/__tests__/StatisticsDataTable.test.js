@@ -36,32 +36,6 @@ const statisticsResultForMemo = {
   ],
 }
 
-const statisticsResultForAnalysis = {
-  year: 2019,
-  semester: '1',
-  offeringsWithAnalyses: [
-    {
-      endDate: '2020-01-14',
-      firstSemester: '20192',
-      startDate: '2019-08-26',
-      schoolMainCode: 'ABE',
-      departmentName: 'ABE/CDE, Gru 1-2-3',
-      connectedPrograms: 'ARKIT-3',
-      courseCode: 'A31REA',
-      period: 'P1',
-      courseAnalysisInfo: {
-        courseCode: 'A31REA',
-        analysisFileName: 'analysis-123-3456.pdf',
-        applicationCodes: ['1'],
-        semester: '20192',
-        isPublished: true,
-        lastChangeDate: 'Wed Dec 04 2019 22:36:39 GMT+0000 (Coordinated Universal Time)',
-        publishedDate: '2019-12-04',
-      },
-    },
-  ],
-}
-
 const context_en = {
   browserConfig: {
     hostUrl: 'http://localhost:3000',
@@ -98,21 +72,6 @@ describe('Component <StatisticsDataTable> in english', () => {
     expect(screen.getByText('memo-123-3456.pdf')).toBeInTheDocument()
     expect(screen.getByText('ABE')).toBeInTheDocument()
     expect(screen.getByText('26 Aug 2019')).toBeInTheDocument()
-    const csvDownloadButton = screen.getByRole('button', { name: /Download table as csv file/i })
-    expect(csvDownloadButton).toBeInTheDocument()
-    await userEvent.click(csvDownloadButton)
-    const excelDownloadButton = screen.getByRole('button', { name: /Download table as excel file/i })
-    expect(excelDownloadButton).toBeInTheDocument()
-    await userEvent.click(excelDownloadButton)
-  })
-
-  test('Renders a table for a statistics page for course analysis', async () => {
-    render(<StatisticsDataTableWithContext context={context_en} statisticsResult={statisticsResultForAnalysis} />)
-    expect(screen.getByText('A31REA')).toBeInTheDocument()
-    expect(screen.getByText('CDE, Gru 1-2-3')).toBeInTheDocument()
-    expect(screen.getByText('analysis-123-3456.pdf')).toBeInTheDocument()
-    expect(screen.getByText('ABE')).toBeInTheDocument()
-    expect(screen.getByText('14 Jan 2020')).toBeInTheDocument()
     const csvDownloadButton = screen.getByRole('button', { name: /Download table as csv file/i })
     expect(csvDownloadButton).toBeInTheDocument()
     await userEvent.click(csvDownloadButton)
