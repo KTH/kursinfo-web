@@ -1,3 +1,5 @@
+// Be aware that this entire file, or most of it, is replicated in multiple apps, so changes here should probably be synced to the other apps.
+// See https://confluence.sys.kth.se/confluence/x/6wYJDQ for more information.
 const { ugRestApiHelper } = require('@kth/ug-rest-api-helper')
 const log = require('@kth/log')
 const serverConfig = require('../configuration').server
