@@ -11,7 +11,7 @@ import CoursePage from '../CoursePage'
 jest.mock('../../hooks/useCourseEmployees')
 jest.mock('../../hooks/usePlannedModules')
 
-useCourseEmployees.mockReturnValue({ courseRoundEmployees: { examiners: '', responsibles: '', teachers: '' } })
+useCourseEmployees.mockReturnValue({ courseRoundEmployees: { examiners: '', courseCoordinators: '', teachers: '' } })
 usePlannedModules.mockReturnValue({ plannedModules: 'somePlannedModules' })
 
 describe('Component <CoursePage>', () => {

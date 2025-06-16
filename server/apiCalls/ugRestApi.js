@@ -1,83 +1,67 @@
+// Be aware that this entire file, or most of it, is replicated in multiple apps, so changes here should probably be synced to the other apps.
+// See https://confluence.sys.kth.se/confluence/x/6wYJDQ for more information.
 const { ugRestApiHelper } = require('@kth/ug-rest-api-helper')
 const log = require('@kth/log')
 const serverConfig = require('../configuration').server
-const { getLadokRoundIdsFromApplicationCodes } = require('./koppsCourseData')
 
-const _groupNames = (courseCode, semester, ladokRoundIds) => ({
-  // Used to get examiners and responsibles from UG Redis
-  teachers: ladokRoundIds.map(
-    round => `edu.courses.${String(courseCode).slice(0, 2)}.${courseCode}.${semester}.${round}.teachers`
-  ),
-  examiners: [`edu.courses.${String(courseCode).slice(0, 2)}.${courseCode}.examiner`],
-  responsibles: ladokRoundIds.map(
-    round => `edu.courses.${String(courseCode).slice(0, 2)}.${courseCode}.${semester}.${round}.courseresponsible`
-  ),
-  assistants: ladokRoundIds.map(
-    round => `edu.courses.${String(courseCode).slice(0, 2)}.${courseCode}.${semester}.${round}.assistants`
-  ), // edu.courses.SF.SF1624.20191.1.assistants
-})
+const _getOrgPart = courseCode => {
+  if (courseCode.length === 7) return courseCode.slice(0, 3)
+  if (courseCode.length === 6) return courseCode.slice(0, 2)
+  return undefined
+}
 
-const _removeDuplicates = personListWithDublicates =>
-  personListWithDublicates
-    .map(person => JSON.stringify(person))
-    .filter((person, index, array) => array.indexOf(person) === index)
-    .map(personStr => JSON.parse(personStr))
+const _getNumberPart = courseCode => {
+  if (courseCode.length === 7) return courseCode.slice(3)
+  if (courseCode.length === 6) return courseCode.slice(2)
+  return undefined
+}
+
+const _groupNames = (courseCode, semester, applicationCodes) => {
+  const courseOrgPart = _getOrgPart(courseCode)
+  const courseNumberPart = _getNumberPart(courseCode)
+
+  return {
+    // Used to get examiners, teachers and course coordinators from UG Redis
+    course: [`ladok2.kurser.${courseOrgPart}.${courseNumberPart}`],
+    courseRound: applicationCodes.map(
+      applicationCode => `ladok2.kurser.${courseOrgPart}.${courseNumberPart}.${semester}.${applicationCode}`
+    ),
+  }
+}
 
 const _createPersonHtml = (personList = []) => {
   let personString = ''
   personList.forEach(person => {
     if (person) {
-      personString += `<p class = "person">
+      personString += `<p class="person">
       <img class="profile-picture" src="https://www.kth.se/files/thumbnail/${
         person.username
       }" alt="Profile picture" width="31" height="31">
       <a href="/profile/${person.username}/" property="teach:teacher">
-          ${person.givenName} ${person.lastName ? person.lastName : person.surname} 
+          ${person.givenName} ${person.surname} 
       </a> 
-    </p>  `
+    </p>`
     }
   })
   return personString
 }
 
-const _getAllGroups = (assistants, teachers, examiners, responsibles) => {
+const _getAllGroups = (courseGroups, courseRoundGroups) => {
   const groups = []
-  if (assistants.length) {
-    assistants.forEach(assistant => {
-      groups.push(assistant)
+  if (courseGroups.length) {
+    courseGroups.forEach(courseGroup => {
+      groups.push(courseGroup)
     })
   }
-  if (teachers.length) {
-    teachers.forEach(teacher => {
-      groups.push(teacher)
-    })
-  }
-  if (examiners.length) {
-    examiners.forEach(examiner => {
-      groups.push(examiner)
-    })
-  }
-  if (responsibles.length) {
-    responsibles.forEach(responsible => {
-      groups.push(responsible)
+  if (courseRoundGroups.length) {
+    courseRoundGroups.forEach(courseRoundGroup => {
+      groups.push(courseRoundGroup)
     })
   }
   return groups
 }
 
-const _getGroupCategory = group => {
-  if (group.includes('teachers')) {
-    return 'teachers'
-  } else if (group.includes('examiner')) {
-    return 'examiners'
-  } else if (group.includes('courseresponsible')) {
-    return 'responsibles'
-  } else {
-    return 'assistants'
-  }
-}
-
-const _getEmployeeObject = (examiners, teachers, responsibles, assistants) => {
+const _getEmployeeObject = (examiners, teachers, courseCoordinators) => {
   const employee = {}
   if (examiners && examiners.length > 0) {
     employee.examiners = _createPersonHtml(examiners)
@@ -85,11 +69,8 @@ const _getEmployeeObject = (examiners, teachers, responsibles, assistants) => {
   if (teachers && teachers.length > 0) {
     employee.teachers = _createPersonHtml(teachers)
   }
-  if (responsibles && responsibles.length > 0) {
-    employee.responsibles = _createPersonHtml(responsibles)
-  }
-  if (assistants && assistants.length > 0) {
-    employee.assistants = _createPersonHtml(assistants)
+  if (courseCoordinators && courseCoordinators.length > 0) {
+    employee.courseCoordinators = _createPersonHtml(courseCoordinators)
   }
   return employee
 }
@@ -102,125 +83,117 @@ const _getCurrentDateTime = () => {
   return dateTime
 }
 
-const _getMembersFromGroups = (
-  groupsAlongWithMembers,
-  assistants,
-  teachers,
-  examiners,
-  responsibles,
-  courseCode,
-  semester
-) => {
-  let membersAsTeachers = []
-  let membersAsExaminers = []
-  let membersAsCourseCoordinators = []
-  let membersAsTeacherAssistants = []
-  if (groupsAlongWithMembers && groupsAlongWithMembers.length > 0) {
-    const groups = _getAllGroups(assistants, teachers, examiners, responsibles)
-    groupsAlongWithMembers.forEach(group => {
-      const isGroupMatched = groups.some(x => x === group.name)
-      if (isGroupMatched) {
-        const groupCategory = _getGroupCategory(group.name)
-        if (groupCategory === 'teachers') {
-          membersAsTeachers = membersAsTeachers.concat(group.members)
-        } else if (groupCategory === 'examiners') {
-          membersAsExaminers = membersAsExaminers.concat(group.members)
-        } else if (groupCategory === 'responsibles') {
-          membersAsCourseCoordinators = membersAsCourseCoordinators.concat(group.members)
-        } else {
-          membersAsTeacherAssistants = membersAsTeacherAssistants.concat(group.members)
-        }
-        log.debug(
-          ` Ug Rest Api, : ${groupCategory}`,
-          group.members.length,
-          ' for course ',
-          courseCode,
-          ' for semester ',
-          semester
-        )
-      }
-    })
-  }
-  return {
-    teacher: _removeDuplicates(membersAsTeachers),
-    examiner: _removeDuplicates(membersAsExaminers),
-    responsibles: _removeDuplicates(membersAsCourseCoordinators),
-    assistants: _removeDuplicates(membersAsTeacherAssistants),
-  }
-}
-
 /**
- * This will first prepare filter query then pass that query to ug rest api and then return groups data along with members.
- * @param assistants Assistants group name
- * @param teachers Teachers group name
- * @param examiners Examiners group name
- * @param responsibles Responsibles group name
- * @param courseCode Course code is needed for logs
- * @param semester Semester is needed for logs
- * @returns Will return groups along with members from ug rest api.
+ * Initialize connection properties for UG REST API.
  */
-async function _getAllGroupsAlongWithMembersRelatedToCourse(
-  assistants,
-  teachers,
-  examiners,
-  responsibles,
-  courseCode,
-  semester
-) {
+function _initializeUGConnection() {
   const { url, key } = serverConfig.ugRestApiURL
   const { authTokenURL, authClientId, authClientSecret } = serverConfig.ugAuth
-  const ugConnectionProperties = {
+
+  const connectionProperties = {
     authorityURL: authTokenURL,
     clientId: authClientId,
     clientSecret: authClientSecret,
     ugURL: url,
     subscriptionKey: key,
   }
-  ugRestApiHelper.initConnectionProperties(ugConnectionProperties)
-  const groups = _getAllGroups(assistants, teachers, examiners, responsibles)
-  log.info('Going to fetch groups along with members', {
+
+  ugRestApiHelper.initConnectionProperties(connectionProperties)
+}
+
+/**
+ * Fetches group data along with attributes from the UG REST API.
+ * @param {string[]} courseGroups - Course group name.
+ * @param {string[]} courseRoundGroups - Course round group names.
+ * @param {string} courseCode - Course code, used for logging.
+ * @param {string} semester - Semester, used for logging.
+ * @returns {Promise<Object[]>} Group details with attributes.
+ */
+async function _getGroupsWithAttributes(courseGroups, courseRoundGroups, courseCode, semester) {
+  _initializeUGConnection()
+
+  const groups = _getAllGroups(courseGroups, courseRoundGroups)
+
+  log.info('Fetching course and course round groups with attributes', {
     courseCode,
     semester,
     requestStartTime: _getCurrentDateTime(),
   })
-  const groupDetails = await ugRestApiHelper.getUGGroups('name', 'in', groups, true)
-  log.info('Successfully fetched groups along with members', {
+
+  const groupDetails = await ugRestApiHelper.getUGGroups('name', 'in', groups, false)
+
+  log.info('Fetched course and course round groups with attributes successfully', {
     courseCode,
     semester,
     requestEndTime: _getCurrentDateTime(),
   })
+
   return groupDetails
 }
 
-// ------- EXAMINATOR AND RESPONSIBLES FROM UG-REST_API: ------- /
+/**
+ * Fetches users from group attributes by KTH ID.
+ * @param {Object[]} groupsWithAttributes - List of groups with role-based attributes.
+ * @param {string} courseCode - Course code, used for logging.
+ * @param {string} semester - Semester, used for logging.
+ * @returns {Promise<Object>} Object containing arrays of users categorized by role.
+ */
+async function _getUsersFromGroupAttributes(groupsWithAttributes, courseCode, semester) {
+  _initializeUGConnection()
+
+  const usersByRole = {
+    examiners: [],
+    teachers: [],
+    courseCoordinators: [],
+  }
+
+  log.info('Fetching users from group attributes (KTH IDs)', {
+    courseCode,
+    semester,
+    requestStartTime: _getCurrentDateTime(),
+  })
+
+  for (const group of groupsWithAttributes) {
+    await Promise.all(
+      Object.keys(usersByRole).map(async role => {
+        const kthIds = group[role]
+        if (!Array.isArray(kthIds)) return // Skip undefined or invalid roles
+
+        const userPromises = kthIds.map(kthId => ugRestApiHelper.getUGUsers('kthid', 'eq', kthId))
+        const usersPerRole = await Promise.all(userPromises)
+        usersByRole[role].push(...usersPerRole.flat())
+      })
+    )
+  }
+
+  log.info('Fetched users from group attributes successfully', {
+    courseCode,
+    semester,
+    requestEndTime: _getCurrentDateTime(),
+  })
+
+  return usersByRole
+}
+
 async function getCourseEmployees({ courseCode, semester, applicationCodes = [] }) {
   try {
-    // TODO: This will be removed. Because UG Rest Api is still using ladokRoundId. So once it get replaced by application code then this will be removed.
-    const ladokRoundIds = await getLadokRoundIdsFromApplicationCodes(courseCode, semester, new Array(applicationCodes))
-    const { assistants, teachers, examiners, responsibles } = _groupNames(courseCode, semester, ladokRoundIds)
-    log.debug(
-      '_getEmployeeObject for with key(s): ',
-      assistants.length ? assistants : '',
-      teachers.length ? teachers : '',
-      examiners.length ? examiners : '',
-      responsibles.length ? responsibles : ''
-    )
-    // get all groups along with member of given course code from UG Rest Api
-    const groupsAlongWithMembers = await _getAllGroupsAlongWithMembersRelatedToCourse(
-      assistants,
-      teachers,
-      examiners,
-      responsibles,
+    const { course: courseGroups, courseRound: courseRoundGroups } = _groupNames(courseCode, semester, applicationCodes)
+
+    // get all groups along with attributes from UG Rest Api
+    const groupsAlongWithAttributes = await _getGroupsWithAttributes(
+      courseGroups,
+      courseRoundGroups,
       courseCode,
       semester
     )
-    const membersObject = _getMembersFromGroups(groupsAlongWithMembers, assistants, teachers, examiners, responsibles)
-    return _getEmployeeObject(
-      membersObject.examiner,
-      membersObject.teacher,
-      membersObject.responsibles,
-      membersObject.assistants
+    // get all users based on above attributes from UG Rest Api
+    const { examiners, teachers, courseCoordinators } = await _getUsersFromGroupAttributes(
+      groupsAlongWithAttributes,
+      courseCode,
+      semester
     )
+
+    return _getEmployeeObject(examiners, teachers, courseCoordinators)
   } catch (err) {
     log.info('Exception from UG Rest API - multi', { error: err })
     return err
@@ -229,5 +202,4 @@ async function getCourseEmployees({ courseCode, semester, applicationCodes = [] 
 
 module.exports = {
   getCourseEmployees,
-  getMembersFromGroups: _getMembersFromGroups,
 }

@@ -32,7 +32,7 @@ describe('Component <RoundInformation>', () => {
     useCourseEmployees.mockReturnValue({
       courseRoundEmployees: {
         examiners: '',
-        responsibles: '',
+        courseCoordinators: '',
         teachers: '',
       },
     })
@@ -61,7 +61,7 @@ describe('Component <RoundInformation>', () => {
 
   test('renders course offering employees correctly', () => {
     const examinersData = 'Examiners’ data'
-    const responsiblesData = 'Responsibles’ data'
+    const courseCoordinatorsData = 'Course coordinators’ data'
     const teachersData = 'Teachers’ data'
     const propsWithEmployees = {
       memoStorageUri: '',
@@ -73,7 +73,7 @@ describe('Component <RoundInformation>', () => {
     useCourseEmployees.mockReturnValue({
       courseRoundEmployees: {
         examiners: `<span>${examinersData}</span>'`,
-        responsibles: `<span>${responsiblesData}</span>`,
+        courseCoordinators: `<span>${courseCoordinatorsData}</span>`,
         teachers: `<span>${teachersData}</span>`,
       },
     })
@@ -85,8 +85,8 @@ describe('Component <RoundInformation>', () => {
     )
     const examiners = screen.getByText(examinersData)
     expect(examiners).toBeInTheDocument()
-    const responsibles = screen.getByText(responsiblesData)
-    expect(responsibles).toBeInTheDocument()
+    const courseCoordinators = screen.getByText(courseCoordinatorsData)
+    expect(courseCoordinators).toBeInTheDocument()
     const teachers = screen.getByText(teachersData)
     expect(teachers).toBeInTheDocument()
   })
