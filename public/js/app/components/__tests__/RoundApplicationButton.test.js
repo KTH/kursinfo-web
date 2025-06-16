@@ -17,4 +17,13 @@ describe('RoundApplicationButton', () => {
 
     expect(tillAnmalan).toBeInTheDocument()
   })
+  it('Does not render "Till anmälan" when showApplicationLink is false', () => {
+    const courseRound = { show_application_link: false, round_application_link: 'https://example.com/apply' }
+
+    render(<RoundApplicationButton courseRound={courseRound} showRoundData={true} />)
+
+    const tillAnmalan = screen.queryByText('Till anmälan')
+
+    expect(tillAnmalan).not.toBeInTheDocument()
+  })
 })
