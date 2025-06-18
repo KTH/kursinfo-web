@@ -5,13 +5,13 @@ const {
   INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY,
   PROGRAMME_URL,
   INDEPENDENT_COURSE,
-  ANTAGNING_BASE_URL,
 } = require('../util/constants')
 const { buildCourseDepartmentLink } = require('../util/courseDepartmentUtils')
 const { getDateFormat, formatVersionDate } = require('../util/dates')
 const { parseSemesterIntoYearSemesterNumberArray, getSemesterForDate } = require('../util/semesterUtils')
 const i18n = require('../../i18n')
 const { checkIfOngoingRegistration } = require('../util/ongoingRegistration')
+const { createApplicationLink } = require('../util/createApplicationLink')
 const koppsCourseData = require('./koppsCourseData')
 const ladokApi = require('./ladokApi')
 const courseApi = require('./kursinfoApi')
@@ -123,15 +123,8 @@ const createPeriodString = (ladokRound, periods, language) => {
     .join('')
 }
 
-const createApplicationLink = ladokRound => {
-  const { tillfalleskod } = ladokRound
-  const semester = ladokRound.startperiod.code.replace(/([A-Za-z]+)(\d+)/, '$1_$2')
-  return `${ANTAGNING_BASE_URL}/se/addtobasket?period=${semester}&id=KTH-${tillfalleskod}`
-}
-
 function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, language = 'sv') {
   const { round: koppsRound = {} } = koppsRoundObject
-  const applicationLink = createApplicationLink(ladokRound, language)
 
   const round = socialSchedules.rounds.find(schedule => schedule.applicationCode === ladokRound.tillfalleskod)
   const schemaUrl = round && round.has_events ? round.calendar_url : null
@@ -144,6 +137,7 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
   const round_is_full = ladokRound.fullsatt
   const show_application_link =
     round_funding_type === INDEPENDENT_COURSE && round_registration_ongoing && !round_is_full
+  const applicationLink = show_application_link ? createApplicationLink(ladokRound, language) : ''
 
   const courseRoundModel = {
     round_start_date: startDate,
@@ -299,4 +293,4 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   return { activeSemesters, employees, courseData }
 }
 
-module.exports = { getFilteredData }
+module.exports = { getFilteredData, createApplicationLink }

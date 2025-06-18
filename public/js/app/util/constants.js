@@ -15,5 +15,3 @@ export const NEW_COURSE_ANALYSIS_ADMIN_TOOL_URL = {
   en: 'https://intra.kth.se/en/utbildning/systemstod/kursvardering-och-kursanalys/nytt-it-systemstod-for-kursvardering-och-kursanalys-1.1300051',
   sv: 'https://intra.kth.se/utbildning/systemstod/kursvardering-och-kursanalys/nytt-it-systemstod-for-kursvardering-och-kursanalys-1.1300051',
 }
-
-export const ANTAGNING_BASE_URL = 'https://www.antagning.se/'
