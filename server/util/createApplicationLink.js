@@ -5,7 +5,7 @@ const createApplicationLink = ladokRound => {
   const startperiodCode = ladokRound?.startperiod?.code
 
   if (!tillfalleskod || !startperiodCode) {
-    return ANTAGNING_BASE_URL
+    return ''
   }
 
   const semester = startperiodCode.replace(/([A-Za-z]+)(\d+)/, '$1_$2')

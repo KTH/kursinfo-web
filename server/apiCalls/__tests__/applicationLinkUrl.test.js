@@ -7,8 +7,8 @@ describe('Tests the logic for creating the link to antagning.se', () => {
       'https://www.antagning.se/se/addtobasket?period=VT_2025&id=KTH-20083'
     )
   })
-  it('should return antagning.se as the url if tillfalleskod or startperiod.code do not exist', () => {
+  it('should return an empty url if tillfalleskod or startperiod.code do not exist', () => {
     const ladokRound = {}
-    expect(createApplicationLink(ladokRound)).toEqual('https://www.antagning.se')
+    expect(createApplicationLink(ladokRound)).toEqual('')
   })
 })

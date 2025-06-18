@@ -137,7 +137,7 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
   const round_is_full = ladokRound.fullsatt
   const show_application_link =
     round_funding_type === INDEPENDENT_COURSE && round_registration_ongoing && !round_is_full
-  const applicationLink = show_application_link ? createApplicationLink(ladokRound, language) : ''
+  const applicationLinkUrl = createApplicationLink(ladokRound, language)
 
   const courseRoundModel = {
     round_start_date: startDate,
@@ -165,7 +165,7 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
       language,
       true
     ),
-    round_application_link: applicationLink,
+    round_application_link: parseOrSetEmpty(applicationLinkUrl),
     round_part_of_programme:
       ladokRound.delAvProgram?.length > 0
         ? _getRoundProgramme(ladokRound.delAvProgram, language)
