@@ -4,7 +4,7 @@ const createApplicationLink = ladokRound => {
   const tillfalleskod = ladokRound?.tillfalleskod
   const startperiodCode = ladokRound?.startperiod?.code
 
-  if (!tillfalleskod || !startperiodCode) {
+  if (!tillfalleskod || !startperiodCode || !startperiodCode.match(/^(HT|VT)\d{4}$/)) {
     return ''
   }
 

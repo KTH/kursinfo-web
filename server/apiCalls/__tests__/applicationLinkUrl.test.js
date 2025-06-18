@@ -11,4 +11,8 @@ describe('Tests the logic for creating the link to antagning.se', () => {
     const ladokRound = {}
     expect(createApplicationLink(ladokRound)).toEqual('')
   })
+  it('should return an empty url if startperiod.code is on the wrong format', () => {
+    const ladokRound = { tillfalleskod: '20083', startperiod: { code: '2025' } }
+    expect(createApplicationLink(ladokRound)).toEqual('')
+  })
 })
