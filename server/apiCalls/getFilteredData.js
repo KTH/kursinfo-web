@@ -5,14 +5,11 @@ const {
   INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY,
   PROGRAMME_URL,
   INDEPENDENT_COURSE,
+  ANTAGNING_BASE_URL,
 } = require('../util/constants')
 const { buildCourseDepartmentLink } = require('../util/courseDepartmentUtils')
 const { getDateFormat, formatVersionDate } = require('../util/dates')
-const {
-  parseSemesterIntoYearSemesterNumberArray,
-  getPeriodCodeForDate,
-  getSemesterForDate,
-} = require('../util/semesterUtils')
+const { parseSemesterIntoYearSemesterNumberArray, getSemesterForDate } = require('../util/semesterUtils')
 const i18n = require('../../i18n')
 const { checkIfOngoingRegistration } = require('../util/ongoingRegistration')
 const koppsCourseData = require('./koppsCourseData')
@@ -126,8 +123,15 @@ const createPeriodString = (ladokRound, periods, language) => {
     .join('')
 }
 
+const createApplicationLink = ladokRound => {
+  const { tillfalleskod } = ladokRound
+  const semester = ladokRound.startperiod.code.replace(/([A-Za-z]+)(\d+)/, '$1_$2')
+  return `${ANTAGNING_BASE_URL}/se/addtobasket?period=${semester}&id=KTH-${tillfalleskod}`
+}
+
 function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, language = 'sv') {
-  const { admissionLinkUrl: koppsAdmissionLinkUrl, round: koppsRound = {} } = koppsRoundObject
+  const { round: koppsRound = {} } = koppsRoundObject
+  const applicationLink = createApplicationLink(ladokRound, language)
 
   const round = socialSchedules.rounds.find(schedule => schedule.applicationCode === ladokRound.tillfalleskod)
   const schemaUrl = round && round.has_events ? round.calendar_url : null
@@ -139,7 +143,7 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
   const round_funding_type = parseOrSetEmpty(ladokRound.finansieringsform?.code, language)
   const round_is_full = ladokRound.fullsatt
   const show_application_link =
-    round_funding_type === INDEPENDENT_COURSE && round_registration_ongoing && !round_is_full && koppsAdmissionLinkUrl
+    round_funding_type === INDEPENDENT_COURSE && round_registration_ongoing && !round_is_full
 
   const courseRoundModel = {
     round_start_date: startDate,
@@ -167,7 +171,7 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
       language,
       true
     ),
-    round_application_link: parseOrSetEmpty(koppsAdmissionLinkUrl, language),
+    round_application_link: applicationLink,
     round_part_of_programme:
       ladokRound.delAvProgram?.length > 0
         ? _getRoundProgramme(ladokRound.delAvProgram, language)
@@ -195,10 +199,7 @@ function _parseRounds({
 }) {
   const activeSemesterArray = []
   const tempList = []
-  const employees = {
-    teachers: [],
-    courseCoordinators: [],
-  }
+  const employees = { teachers: [], courseCoordinators: [] }
 
   const roundsBySemester = {}
   for (const ladokRound of ladokRounds) {
