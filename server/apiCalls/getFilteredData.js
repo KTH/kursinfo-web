@@ -8,13 +8,10 @@ const {
 } = require('../util/constants')
 const { buildCourseDepartmentLink } = require('../util/courseDepartmentUtils')
 const { getDateFormat, formatVersionDate } = require('../util/dates')
-const {
-  parseSemesterIntoYearSemesterNumberArray,
-  getPeriodCodeForDate,
-  getSemesterForDate,
-} = require('../util/semesterUtils')
+const { parseSemesterIntoYearSemesterNumberArray, getSemesterForDate } = require('../util/semesterUtils')
 const i18n = require('../../i18n')
 const { checkIfOngoingRegistration } = require('../util/ongoingRegistration')
+const { createApplicationLink } = require('../util/createApplicationLink')
 const koppsCourseData = require('./koppsCourseData')
 const ladokApi = require('./ladokApi')
 const courseApi = require('./kursinfoApi')
@@ -127,7 +124,7 @@ const createPeriodString = (ladokRound, periods, language) => {
 }
 
 function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, language = 'sv') {
-  const { admissionLinkUrl: koppsAdmissionLinkUrl, round: koppsRound = {} } = koppsRoundObject
+  const { round: koppsRound = {} } = koppsRoundObject
 
   const round = socialSchedules.rounds.find(schedule => schedule.applicationCode === ladokRound.tillfalleskod)
   const schemaUrl = round && round.has_events ? round.calendar_url : null
@@ -139,7 +136,8 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
   const round_funding_type = parseOrSetEmpty(ladokRound.finansieringsform?.code, language)
   const round_is_full = ladokRound.fullsatt
   const show_application_link =
-    round_funding_type === INDEPENDENT_COURSE && round_registration_ongoing && !round_is_full && koppsAdmissionLinkUrl
+    round_funding_type === INDEPENDENT_COURSE && round_registration_ongoing && !round_is_full
+  const applicationLinkUrl = createApplicationLink(ladokRound, language)
 
   const courseRoundModel = {
     round_start_date: startDate,
@@ -167,7 +165,7 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
       language,
       true
     ),
-    round_application_link: parseOrSetEmpty(koppsAdmissionLinkUrl, language),
+    round_application_link: parseOrSetEmpty(applicationLinkUrl),
     round_part_of_programme:
       ladokRound.delAvProgram?.length > 0
         ? _getRoundProgramme(ladokRound.delAvProgram, language)
@@ -195,10 +193,7 @@ function _parseRounds({
 }) {
   const activeSemesterArray = []
   const tempList = []
-  const employees = {
-    teachers: [],
-    courseCoordinators: [],
-  }
+  const employees = { teachers: [], courseCoordinators: [] }
 
   const roundsBySemester = {}
   for (const ladokRound of ladokRounds) {
@@ -298,4 +293,4 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   return { activeSemesters, employees, courseData }
 }
 
-module.exports = { getFilteredData }
+module.exports = { getFilteredData, createApplicationLink }
