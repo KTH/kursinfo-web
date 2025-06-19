@@ -123,9 +123,7 @@ const createPeriodString = (ladokRound, periods, language) => {
     .join('')
 }
 
-function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, language = 'sv') {
-  const { round: koppsRound = {} } = koppsRoundObject
-
+function _getRound(ladokRound, socialSchedules, periods, language = 'sv') {
   const round = socialSchedules.rounds.find(schedule => schedule.applicationCode === ladokRound.tillfalleskod)
   const schemaUrl = round && round.has_events ? round.calendar_url : null
 
@@ -160,11 +158,7 @@ function _getRound(koppsRoundObject = {}, ladokRound, socialSchedules, periods, 
 
     round_periods: createPeriodString(ladokRound, periods, language),
     round_schedule: parseOrSetEmpty(schemaUrl, language),
-    round_selection_criteria: parseOrSetEmpty(
-      koppsRound[language === 'en' ? 'selectionCriteriaEn' : 'selectionCriteriaSv'],
-      language,
-      true
-    ),
+    round_selection_criteria: parseOrSetEmpty(ladokRound.urvalskriterier, language, true),
     round_application_link: parseOrSetEmpty(applicationLinkUrl),
     round_part_of_programme:
       ladokRound.delAvProgram?.length > 0
@@ -198,7 +192,7 @@ function _parseRounds({
   const roundsBySemester = {}
   for (const ladokRound of ladokRounds) {
     const koppsRoundInfo = koppsRoundInfos.find(x => x.round.ladokUID === ladokRound.uid) ?? {}
-    const courseRound = _getRound(koppsRoundInfo, ladokRound, socialSchedules, periods, language)
+    const courseRound = _getRound(ladokRound, socialSchedules, periods, language)
     const { round_course_term: yearAndTermArr, round_application_code: applicationCode } = courseRound
     const semester = yearAndTermArr.join('')
 
