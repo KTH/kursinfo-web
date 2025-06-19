@@ -1,5 +1,11 @@
 const { createApplicationLink } = require('../../util/createApplicationLink')
 
+jest.mock('../../configuration', () => ({
+  server: {
+    antagningSubmitUrl: 'https://www.antagning.se/se/addtobasket',
+  },
+}))
+
 describe('Tests the logic for creating the link to antagning.se', () => {
   it('should take the ladok round data and return a url on the correct format', () => {
     const ladokRound = { tillfalleskod: '20083', startperiod: { code: 'VT2025' } }
