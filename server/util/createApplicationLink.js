@@ -1,4 +1,4 @@
-const ANTAGNING_BASE_URL = 'https://www.antagning.se'
+const serverConfig = require('../configuration').server
 
 const createApplicationLink = ladokRound => {
   const tillfalleskod = ladokRound?.tillfalleskod
@@ -9,7 +9,7 @@ const createApplicationLink = ladokRound => {
   }
 
   const semester = startperiodCode.replace(/([A-Za-z]+)(\d+)/, '$1_$2')
-  return `${ANTAGNING_BASE_URL}/se/addtobasket?period=${semester}&id=KTH-${tillfalleskod}`
+  return `${serverConfig.antagningSubmitUrl}?period=${semester}&id=KTH-${tillfalleskod}`
 }
 
 module.exports = { createApplicationLink }

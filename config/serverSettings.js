@@ -76,25 +76,15 @@ module.exports = {
   // Cortina
   blockApi: {
     blockUrl: getEnv('CM_HOST_URL', devDefaults('https://www-r.referens.sys.kth.se/cm/')), // Block API base URL
-    addBlocks: {
-      studentMegaMenu: '1.1066510',
-      studentSearch: '1.1066521',
-      studentFooter: '1.1066523',
-    },
+    addBlocks: { studentMegaMenu: '1.1066510', studentSearch: '1.1066521', studentFooter: '1.1066523' },
   },
 
   // Logging
   logging: {
-    log: {
-      level: getEnv('LOGGING_LEVEL', 'info'),
-    },
-    accessLog: {
-      useAccessLog: getEnv('LOGGING_ACCESS_LOG', true),
-    },
+    log: { level: getEnv('LOGGING_LEVEL', 'info') },
+    accessLog: { useAccessLog: getEnv('LOGGING_ACCESS_LOG', true) },
   },
-  clientLogging: {
-    level: 'info',
-  },
+  clientLogging: { level: 'info' },
   cache: {
     koppsApi: {
       redis: unpackRedisConfig('REDIS_URI', devRedis),
@@ -116,10 +106,7 @@ module.exports = {
       redis: unpackRedisConfig('REDIS_URI', devRedis),
       expireTime: getEnv('KURSUTVECKLING_API_CACHE_EXPIRE_TIME', 2 * 60),
     }, // 2 * 60 s = 2 MINUTES},
-    cortinaBlock: {
-      redis: unpackRedisConfig('REDIS_URI', devRedis),
-      redisKey: 'CortinaBlock_kursinfo-web_',
-    },
+    cortinaBlock: { redis: unpackRedisConfig('REDIS_URI', devRedis), redisKey: 'CortinaBlock_kursinfo-web_' },
   },
   redisServer: unpackRedisConfig('REDIS_URI', devRedis),
 
@@ -130,10 +117,7 @@ module.exports = {
     authClientSecret: getEnv('UG_REST_AUTH_CLIENT_SECRET', null),
   },
   // ug redis api base url
-  ugRestApiURL: {
-    url: getEnv('UG_REST_API_URI', null),
-    key: getEnv('UG_REST_API_SUBSCRIPTION_KEY', null),
-  },
+  ugRestApiURL: { url: getEnv('UG_REST_API_URI', null), key: getEnv('UG_REST_API_SUBSCRIPTION_KEY', null) },
 
   // Session
   sessionSecret: getEnv('SESSION_SECRET', devDefaults('1234567890')),
@@ -152,7 +136,6 @@ module.exports = {
     redisOptions: unpackRedisConfig('REDIS_URI', devRedis),
   },
 
-  toolbar: {
-    url: getEnv('TOOLBAR_URL', devDefaults('https://www-r.referens.sys.kth.se/social/toolbar/widget.js')),
-  },
+  toolbar: { url: getEnv('TOOLBAR_URL', devDefaults('https://www-r.referens.sys.kth.se/social/toolbar/widget.js')) },
+  antagningSubmitUrl: getEnv('ANTAGNING_SE_SUBMITURL', devDefaults('https://www.testa.antagning.se/se/addtobasket')),
 }
