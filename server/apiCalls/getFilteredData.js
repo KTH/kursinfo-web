@@ -12,7 +12,6 @@ const { parseSemesterIntoYearSemesterNumberArray, getSemesterForDate } = require
 const i18n = require('../../i18n')
 const { checkIfOngoingRegistration } = require('../util/ongoingRegistration')
 const { createApplicationLink } = require('../util/createApplicationLink')
-const koppsCourseData = require('./koppsCourseData')
 const ladokApi = require('./ladokApi')
 const courseApi = require('./kursinfoApi')
 const { getSocial } = require('./socialApi')
@@ -176,22 +175,12 @@ function _getRound(ladokRound, socialSchedules, periods, language = 'sv') {
   return courseRoundModel
 }
 
-function _parseRounds({
-  ladokRounds,
-  socialSchedules,
-  roundInfos: koppsRoundInfos,
-  courseCode,
-  language,
-  memoList,
-  periods,
-}) {
+function _parseRounds({ ladokRounds, socialSchedules, language, memoList, periods }) {
   const activeSemesterArray = []
   const tempList = []
-  const employees = { teachers: [], courseCoordinators: [] }
 
   const roundsBySemester = {}
   for (const ladokRound of ladokRounds) {
-    const koppsRoundInfo = koppsRoundInfos.find(x => x.round.ladokUID === ladokRound.uid) ?? {}
     const courseRound = _getRound(ladokRound, socialSchedules, periods, language)
     const { round_course_term: yearAndTermArr, round_application_code: applicationCode } = courseRound
     const semester = yearAndTermArr.join('')
@@ -214,14 +203,7 @@ function _parseRounds({
       courseRound.has_round_published_memo = true
     }
     roundsBySemester[semester].push(courseRound)
-    // TODO: This will be removed. Because UG Rest Api is still using ladokRoundId. So once it get replaced by application code then this will be removed.
-    const { round = {} } = koppsRoundInfo
-    const { ladokRoundId } = round
-    employees.teachers.push(`${courseCode}.${semester}.${ladokRoundId}.teachers`)
-    employees.courseCoordinators.push(`${courseCode}.${semester}.${ladokRoundId}.courseresponsible`)
   }
-  employees.teachers.sort()
-  employees.courseCoordinators.sort()
 
   activeSemesterArray.sort()
 
@@ -231,18 +213,11 @@ function _parseRounds({
     semester,
   }))
 
-  return { roundsBySemester, activeSemesters, employees }
+  return { roundsBySemester, activeSemesters }
 }
 
 const getFilteredData = async ({ courseCode, language, memoList }) => {
-  const [
-    { body: koppsCourseDetails },
-    { course: ladokCourse, rounds: ladokRounds },
-    ladokSyllabuses,
-    periods,
-    socialSchedules,
-  ] = await Promise.all([
-    koppsCourseData.getKoppsCourseData(courseCode, language),
+  const [{ course: ladokCourse, rounds: ladokRounds }, ladokSyllabuses, periods, socialSchedules] = await Promise.all([
     ladokApi.getCourseAndRounds(courseCode, language),
     ladokApi.getLadokSyllabuses(courseCode, language),
     ladokApi.getPeriods(),
@@ -272,11 +247,9 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   const { syllabusList, emptySyllabusData } = createSyllabusList(ladokSyllabuses, language)
 
   //* **** Get a list of rounds and a list of redis keys for using to get teachers and courseCoordinators from UG Rest API *****//
-  const { roundsBySemester, activeSemesters, employees } = _parseRounds({
+  const { roundsBySemester, activeSemesters } = _parseRounds({
     ladokRounds,
     socialSchedules,
-    roundInfos: koppsCourseDetails.roundInfos,
-    courseCode,
     language,
     memoList,
     periods,
@@ -284,7 +257,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
 
   const courseData = { syllabusList, courseInfo, roundsBySemester, courseTitleData, language, emptySyllabusData }
 
-  return { activeSemesters, employees, courseData }
+  return { activeSemesters, courseData }
 }
 
 module.exports = { getFilteredData, createApplicationLink }

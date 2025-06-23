@@ -14,7 +14,6 @@ const addBaseData = (context, language) => {
 
 const addCourseData = (context, { filteredData, examiners, initiallySelectedSemester }) => {
   context.activeSemesters = filteredData.activeSemesters
-  context.employees = filteredData.employees
   context.initiallySelectedSemester = initiallySelectedSemester
   context.courseData = filteredData.courseData
 
