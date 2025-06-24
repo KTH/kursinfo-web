@@ -166,7 +166,7 @@ server.use(require('./utils/noIndexMiddleware.js'))
  * ******* APPLICATION ROUTES *******
  * **********************************
  */
-const { System, Course, noCourse, StatisticsCtrl, TimeTableApi, Kopps, Employees } = require('./controllers')
+const { System, Course, noCourse, StatisticsCtrl, TimeTableApi, Employees } = require('./controllers')
 const { SyllabusPdf } = require('./middleware')
 
 // System routes
@@ -200,12 +200,6 @@ appRoute.get('system.experiment.index', config.proxyPrefixPath.uri + '/experimen
 
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', Course.getIndex)
 appRoute.get('system.home', config.proxyPrefixPath.uri + '/', noCourse.getIndex)
-
-appRoute.get(
-  'api.koppsCourseData',
-  config.proxyPrefixPath.uri + '/api/kursinfo/getKoppsCourseDataByCourse/:courseCode/:language',
-  Kopps.getKoppsCourseData
-)
 
 appRoute.get(
   'api.plannedSchemaModules',
