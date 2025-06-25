@@ -28,8 +28,8 @@ Kursinfo-web fetches data from:
   - Dev (Stage): [api-r.referens.sys.kth.se/api/kurs-pm-data](https://api-r.referens.sys.kth.se/api/kurs-pm-data)
   - Prod (Active): [api.kth.se/api/kurs-pm-data](https://api.kth.se/api/kurs-pm-data)
 - API för kurs- och programinformation
-  - Dev (Stage): [api-r.referens.sys.kth.se/api/kopps/v2/](https://api-r.referens.sys.kth.se/api/kopps/v2/)
-  - Prod (Active): [api.kth.se/api/kopps/v2/](https://api.kth.se/api/kopps/v2/)
+  - Dev (Stage): [https://ladok-mellanlagring-lab.azure-api.net]
+  - Prod (Active): [https://ladok-mellanlagring.azure-api.net]
 - Ladok Mellanlager
   - Dev (Stage): [https://ladok-mellanlagring-lab.azure-api.net]
 
