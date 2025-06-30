@@ -69,7 +69,6 @@ jest.mock('../../apiCalls/memoApi', () => ({
 jest.mock('../../apiCalls/socialApi', () => ({
   getSocial: () => ({ body: mockedSocialApiResponse }),
 }))
-jest.mock('../../apiCalls/koppsCourseData', () => ({ getKoppsCourseData: () => ({ body: mockedDiscontinuedCourse }) }))
 jest.mock('../../apiCalls/ugRestApi', () => ({
   getCourseEmployees: jest.fn(() => ({ examiners: '<p>Examiner 1 </p>' })),
 }))
