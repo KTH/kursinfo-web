@@ -81,7 +81,7 @@ const mockedCourseSyllabus = {
       '<p>Målformulering för betyget E.</p>\n<p>Efter genomgången kurs skall studenten kunna:</p>\n<p>Beräkna polära utsättningsdata för punkter</p>\n<p>Beräkna plankoordinater för nya punkter med inmätningsmetoderna:</p>\n<ul>\n<li>Polär inmätning</li>\n<li>Ortogonal inmätning</li>\n<li>Inbindning</li>\n<li>Skärbindning</li>\n</ul>\n<p>Beräkna höjdkoordinater för nya punkter med inmätningsmetoderna:</p>\n<ul>\n<li>Avvägning</li>\n<li>Trigonometrisk höjdmätning</li>\n</ul>\n<p>Instrumentuppställning och mätning med totalstation och avvägningsinstrument<br />\nProtokollföring och beräkning av mätprotokoll<br />\nFörstå GPS-systemets uppbyggnad och funktion</p>\n<p>Kunna redogöra för:</p>\n<ul>\n<li>Täktverksamhet</li>\n<li>Fältundersökningar, kartering av markegenskaper.</li>\n</ul>',
     kursinnehall:
       '<ul>\n<li>Referenssystem i plan och höjd</li>\n<li>Polär utsättning</li>\n<li>Polär- och ortogonal inmätning</li>\n<li>Fri station</li>\n<li>Polygontåg</li>\n<li>Avvägning och trigonometrisk höjdmätning</li>\n<li>GPS</li>\n<li>Studiebesök</li>\n<li>Täktverksamhet</li>\n<li>Fältundersökning - kartering av markegenskaper</li>\n</ul>',
-    etisktforhallandesatt:
+    etisktforhallningssatt:
       '<ul>\n<li>Vid grupparbete har alla i gruppen ansvar för gruppens arbete.</li>\n<li>Vid examination ska varje student ärligt redovisa hjälp som erhållits och källor som använts.</li>\n<li>Vid muntlig examination ska varje student kunna redogöra för hela uppgiften och hela lösningen.</li>\n</ul>',
     faststallande: '<p>Kursplanen gäller från HT19.</p>',
     ovrigaForeskrifter: '<p>The course is primarily open for PhD students in environmental strategic analysis.</p>',
@@ -150,7 +150,7 @@ const mockedUndefinedCourseSyllabus = {
     undervisningssprak: '',
     larandemal: '',
     kursinnehall: '',
-    etisktforhallandesatt: '',
+    etisktforhallningssatt: '',
     faststallande: '',
     examinationModules: {
       completeExaminationStrings: '',
