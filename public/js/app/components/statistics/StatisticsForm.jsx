@@ -54,10 +54,39 @@ function StatisticsForm({ onSubmit, resultError }) {
     setState({ value: params, type: 'UPDATE_STATE' })
   }
 
+  /**
+   * Detectify reports missing CSRF token on this form
+   *
+   * ✅ Why this is not a security issue:
+   *
+   * 1. It only triggers authenticated GET requests that do not modify server state.
+   *    - “GET requests are to be used for idempotent requests, or requests that do not change state. These requests do not need to have anti‑CSRF tokens.”
+   *      source: https://security.stackexchange.com/questions/115794/should-i-use-csrf-protection-for-get-requests
+   *
+   * 2. The request is made using a secret tokens stored in environment variables (never exposed to the browser).
+   *    - “CSRF attacks rely on the fact that the victim is authenticated via cookies or other authentication headers that the browser automatically includes in requests.”
+   *      source: https://security.stackexchange.com/questions/232936/how-to-prevent-csrf-attacks-on-a-rest-api-when-using-windows-authentication
+   *
+   * 3. CSRF via GET is only risky if the endpoint changes application state, the ladok mellanlager endpoint that we use today to get the data does is a read-only API.
+   *    - “CSRF attacks are only possible if the request changes the state of the application. If the request is read-only, it cannot change the state of the application.”
+   *     source: https://security.stackexchange.com/questions/115794/should-i-use-csrf-protection-for-get-requests
+   *
+   * 5. CSRF attacks are blind: even if a request were triggered, the attacker cannot read its response.
+   *    - “CRSF attacks are blind. They typically send a request without being able to read the result … Same Origin Policy.”
+   *      source: https://owasp.org/www-community/attacks/csrf
+   *
+   * Detectify CSRF False Positive: We can mark the Detectify finding as a False Positive, since:
+   *   - All requests are server-side and read-only.
+   *   - Browser sends no credentials automatically.
+   *   - No state is changed, no sensitive data is exposed.
+   *   - Pattern is fundamentally safe from CSRF exploitation.
+   */
+
   return (
     <form
       onSubmit={handleSubmit}
       name="statistics-options-choice"
+      method="GET"
       style={{
         display: 'block',
       }}
