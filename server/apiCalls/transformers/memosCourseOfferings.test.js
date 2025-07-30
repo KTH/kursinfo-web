@@ -12,11 +12,7 @@ const offering_SF1625_202121 = {
   connectedPrograms: 'TTGTM-2',
   courseCode: 'SF1625',
   period: 'P1',
-  courseRoundApplications: [
-    {
-      course_round_application_code: '1',
-    },
-  ],
+  courseRoundApplicationCode: '1',
 }
 const memo_SF1625_202121_base = {
   courseCode: 'SF1625',
@@ -40,11 +36,7 @@ const offering_SF1625_202122 = {
   connectedPrograms: '',
   courseCode: 'SF1625',
   period: 'P1',
-  courseRoundApplications: [
-    {
-      course_round_application_code: '2',
-    },
-  ],
+  courseRoundApplicationCode: '2',
 }
 const memo_SF1625_202122_base = {
   courseCode: 'SF1625',
@@ -65,43 +57,39 @@ describe('Count memos and courses', () => {
     const offeringsWithMemos = await memosPerCourseOffering(offerings, memos)
 
     expect(offeringsWithMemos).toMatchInlineSnapshot(`
-      [
-        {
-          "connectedPrograms": "TTGTM-2",
-          "courseCode": "SF1625",
-          "courseMemoInfo": {
-            "applicationCodes": [
-              "1",
-            ],
-            "courseCode": "SF1625",
-            "isPdf": false,
-            "lastChangeDate": "Tue Aug 02 2021 10:19:17 GMT+0000 (Coordinated Universal Time)",
-            "memoCommonLangAbbr": "sv",
-            "memoEndPoint": "SF162520212-1",
-            "memoName": "CMEDT1  (Startdatum 2021-08-30, Svenska)",
-            "publishedData": {
-              "offeringStartTime": "2021-08-30",
-              "publishedBeforeDeadline": true,
-              "publishedBeforeStart": true,
-              "publishedTime": "2021-08-02",
-            },
-            "semester": "20212",
-            "version": 1,
-          },
-          "courseRoundApplications": [
-            {
-              "course_round_application_code": "1",
-            },
-          ],
-          "departmentName": "ABE/Geoinformatik",
-          "endDate": "2021-10-29",
-          "firstSemester": "20212",
-          "period": "P1",
-          "schoolMainCode": "ABE",
-          "startDate": "2021-08-30",
-        },
-      ]
-    `)
+[
+  {
+    "connectedPrograms": "TTGTM-2",
+    "courseCode": "SF1625",
+    "courseMemoInfo": {
+      "applicationCodes": [
+        "1",
+      ],
+      "courseCode": "SF1625",
+      "isPdf": false,
+      "lastChangeDate": "Tue Aug 02 2021 10:19:17 GMT+0000 (Coordinated Universal Time)",
+      "memoCommonLangAbbr": "sv",
+      "memoEndPoint": "SF162520212-1",
+      "memoName": "CMEDT1  (Startdatum 2021-08-30, Svenska)",
+      "publishedData": {
+        "offeringStartTime": "2021-08-30",
+        "publishedBeforeDeadline": true,
+        "publishedBeforeStart": true,
+        "publishedTime": "2021-08-02",
+      },
+      "semester": "20212",
+      "version": 1,
+    },
+    "courseRoundApplicationCode": "1",
+    "departmentName": "ABE/Geoinformatik",
+    "endDate": "2021-10-29",
+    "firstSemester": "20212",
+    "period": "P1",
+    "schoolMainCode": "ABE",
+    "startDate": "2021-08-30",
+  },
+]
+`)
   })
 
   test('One course (two offerings) and one offering has a published memo', async () => {
@@ -116,23 +104,19 @@ describe('Count memos and courses', () => {
 
     expect(offeringWithoutMemos.courseMemoInfo).toMatchInlineSnapshot(`{}`)
     expect(offeringWithoutMemos).toMatchInlineSnapshot(`
-      {
-        "connectedPrograms": "",
-        "courseCode": "SF1625",
-        "courseMemoInfo": {},
-        "courseRoundApplications": [
-          {
-            "course_round_application_code": "2",
-          },
-        ],
-        "departmentName": "ABE/Geoinformatik",
-        "endDate": "2021-10-29",
-        "firstSemester": "20212",
-        "period": "P1",
-        "schoolMainCode": "ABE",
-        "startDate": "2021-08-30",
-      }
-    `)
+{
+  "connectedPrograms": "",
+  "courseCode": "SF1625",
+  "courseMemoInfo": {},
+  "courseRoundApplicationCode": "2",
+  "departmentName": "ABE/Geoinformatik",
+  "endDate": "2021-10-29",
+  "firstSemester": "20212",
+  "period": "P1",
+  "schoolMainCode": "ABE",
+  "startDate": "2021-08-30",
+}
+`)
   })
   test('One course (two offerings) and each offering has a published memo', async () => {
     const offerings = [offering_SF1625_202121, offering_SF1625_202122]

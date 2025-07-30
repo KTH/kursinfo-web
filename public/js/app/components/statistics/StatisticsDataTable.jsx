@@ -48,10 +48,7 @@ function _getDataRowsForCourseMemo(offeringsWithMemos, year, browserConfig, seme
       institution,
       courseCode: offering.courseCode,
       linkedProgram: offering.connectedPrograms,
-      applicationCode:
-        offering.courseRoundApplications && offering.courseRoundApplications.length > 0
-          ? offering.courseRoundApplications[0].course_round_application_code
-          : '',
+      applicationCode: offering.courseRoundApplicationCode ?? '',
       period,
       courseStart:
         languageIndex === 0 && offering.startDate && offering.startDate !== ''

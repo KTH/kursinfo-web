@@ -2,14 +2,14 @@ const { isCorrectSchool, SCHOOL_MAP } = require('./schools')
 
 /**
  * Creates string of programs in list.
- * @param {[]} programs   Programs as returned by '/api/kopps/v2/courses/offerings' in 'connected_programs'.
+ * @param {[]} programs   Programs as returned by courseOfferings[].delAvProgram.
  * @returns {string}      String with program data, separated by comma
  */
 function _getProgramList(programs) {
   const programsList =
     (programs &&
       programs.map(
-        ({ code, study_year: studyYear, spec_code: specCode }) =>
+        ({ kod: code, arskurs: studyYear, inriktning: specCode }) =>
           `${code}${specCode ? '-' + specCode : ''}-${studyYear}`
       )) ||
     []
@@ -20,11 +20,11 @@ function _getProgramList(programs) {
 
 /**
  * Creates object of offering to save essential informations.
- * @param {string} firstSemester   semester when course offering is started
+ * @param {string} firstSemester   semester when course offering is started (We use startPeriod from ladok)
  * @param {number} startDate       date when course offering is started
- * @param {{}} course   Each course as returned by '/api/kopps/v2/courses/offerings' in 'courses'.
- * @param {string} course.course_code - The course code
- * @param {string} course.department_name - The ddepartment name
+ * @param {{}} courseOffering   Each courseOffering as returned by 'SokUtbildningsTillfalleSlimItem' in 'courses'.
+ * @param {string} courseOffering.kod - The course code
+ * @param {string} courseOffering.organisation.name - The ddepartment name
  * @returns {{}}        Object with course offering data
  */
 function _formOffering(firstSemester, startDate, endDate, course) {
@@ -32,10 +32,10 @@ function _formOffering(firstSemester, startDate, endDate, course) {
     endDate,
     firstSemester,
     startDate,
-    schoolMainCode: SCHOOL_MAP[course.school_code] || 'Others',
-    departmentName: course.department_name,
-    connectedPrograms: _getProgramList(course.connected_programs),
-    courseCode: course.course_code,
+    schoolMainCode: SCHOOL_MAP[course.schoolCode] || 'Others',
+    departmentName: course?.organisation?.name,
+    connectedPrograms: _getProgramList(course.delAvProgram),
+    courseCode: course.kod,
   }
 }
 /**
@@ -58,32 +58,14 @@ function _sortOfferedSemesters(offeredSemesters) {
 }
 
 /**
- * @param {Object[]} courseOfferedSemesters    Courses offerings
- * @param {Object} courseOfferedSemesters[]    Course offering
- * @returns {{}}           Array, containing offered semesters and startDate
- */
-function _findCourseStartEndDates(courseOfferedSemesters) {
-  const offeredSemesters = Array.isArray(courseOfferedSemesters) ? courseOfferedSemesters : []
-  const sortedArray = _sortOfferedSemesters(offeredSemesters)
-
-  const firstOffering = sortedArray.at(0) ?? {}
-  const lastOffering = sortedArray.at(-1) ?? {}
-
-  const { start_date: courseStartDate = '' } = firstOffering
-  const { semester: lastSemester = '', end_date: courseEndDate = '', end_week: courseEndWeek } = lastOffering
-
-  return { endDate: courseEndDate, endWeek: courseEndWeek, lastSemester, startDate: courseStartDate }
-}
-
-/**
- * Parses courses offerings from Kopps and returns an object with one list for course memos which are created before course starts:
+ * Parses courses offerings from ladok and returns an object with one list for course memos which are created before course starts:
  * - List containing offerings that starts with semester parameter. This is used for course memos.
- * @param {Object[]} courses      Courses as returned by '/api/kopps/v2/courses/offerings'.
- * @param {string} courses[].first_yearsemester - The start semester of a course
- * @param {Object[]} courses[].offered_semesters - The list of offered semesters of a course
- * @param {string} courses[].offered_semesters[].end_date - The end date of a course offering
- * @param {string} courses[].offered_semesters[].semester - The current semester of a course offering
- * @param {string} courses[].offered_semesters[].start_date - The start date of a course offering
+ * @param {Object[]} courseOfferings      CourseOfferings as returned by 'SokUtbildningsTillfalleSlimItem'.
+ * @param {string} courseOfferings[].first_yearsemester - The start semester of a course
+ * @param {Object[]} courseOfferings[].offered_semesters - The list of offered semesters of a course
+ * @param {string} courseOfferings[].offered_semesters[].end_date - The end date of a course offering
+ * @param {string} courseOfferings[].offered_semesters[].semester - The current semester of a course offering
+ * @param {string} courseOfferings[].offered_semesters[].start_date - The start date of a course offering
  * @param {Object[]} chosenSemesters    Semesters strings for which data is fetched
  * @param {string} chosenSemesters[]    Semester string chosen by user, 5 digits in string format
  * @param {Object[]} chosenPeriods    Periods strings for which data is fetched, 0-5
@@ -91,30 +73,25 @@ function _findCourseStartEndDates(courseOfferedSemesters) {
  * @param {string} chosenSchool    School name, or if all schools are chosen then 'allSchools
  * @returns {[]}           Array, containing offerings’ relevant data
  */
-function filterOfferingsForMemos(courses = [], chosenSemesters = [], chosenPeriods = [], chosenSchool = '') {
+function filterOfferingsForMemos(courseOfferings = [], chosenSemesters = [], chosenPeriods = [], chosenSchool = '') {
   const parsedOfferings = []
-  // const courses = [coursesR[0], coursesR[1]]
-  if (Array.isArray(courses)) {
-    courses.forEach(course => {
+  if (Array.isArray(courseOfferings)) {
+    courseOfferings.forEach(course => {
       // eslint-disable-next-line camelcase
-      const {
-        first_yearsemester: firstSemester,
-        first_period: firstYearAndPeriod,
-        offered_semesters: courseOfferedSemesters,
-        school_code: schoolCode,
-        course_round_applications: courseRoundApplications,
-      } = course
+      const { schoolCode, tillfalleskod: courseRoundApplicationCode } = course
 
-      const firstPeriodNumber = firstYearAndPeriod.substr(-1)
-      const firstPerioLabel = firstYearAndPeriod.substr(-2)
+      const firstSemester = course?.startperiod?.inDigits
+      const startDate = course?.forstaUndervisningsdatum?.date
+      const endDate = course?.sistaUndervisningsdatum?.date
+      const firstPeriodNumber = course?.forstaUndervisningsdatum?.period
+      const firstPerioLabel = firstPeriodNumber ? `P${firstPeriodNumber}` : undefined
       const isStartedInChosenPeriods =
         chosenSemesters.includes(String(firstSemester)) && chosenPeriods.includes(String(firstPeriodNumber))
       const isChosenSchool = isCorrectSchool(chosenSchool, schoolCode)
 
       if (isStartedInChosenPeriods && isChosenSchool) {
-        const { endDate, startDate } = _findCourseStartEndDates(courseOfferedSemesters)
         const offering = _formOffering(firstSemester, startDate, endDate, course)
-        parsedOfferings.push({ ...offering, period: firstPerioLabel, courseRoundApplications })
+        parsedOfferings.push({ ...offering, period: firstPerioLabel, courseRoundApplicationCode })
       }
     })
   }
@@ -123,7 +100,6 @@ function filterOfferingsForMemos(courses = [], chosenSemesters = [], chosenPerio
 
 module.exports = {
   filterOfferingsForMemos,
-  findCourseStartEndDates: _findCourseStartEndDates,
   semestersInParsedOfferings,
   sortOfferedSemesters: _sortOfferedSemesters,
 }

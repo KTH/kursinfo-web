@@ -12,11 +12,7 @@ const offering_SF1625_202121 = {
   connectedPrograms: 'TTGTM-2',
   courseCode: 'SF1625',
   period: 'P1',
-  courseRoundApplications: [
-    {
-      course_round_application_code: '1',
-    },
-  ],
+  courseRoundApplicationCode: '1',
 }
 const memo_SF1625_202121_base = (courseCode = 'SF1625') => ({
   courseCode,
@@ -39,11 +35,7 @@ const offering_SF1625_202122 = {
   connectedPrograms: '',
   courseCode: 'SF1625',
   period: 'P1',
-  courseRoundApplications: [
-    {
-      course_round_application_code: '2',
-    },
-  ],
+  courseRoundApplicationCode: '2',
 }
 const memo_SF1625_202122_base = (courseCode = 'SF1625') => ({
   courseCode,
@@ -119,28 +111,28 @@ describe('Memos functions to count memos for one school', () => {
     const { combinedMemosPerSchool } = await memosPerSchool(offerings, memos)
 
     expect(combinedMemosPerSchool).toMatchInlineSnapshot(`
-      {
-        "schools": {
-          "ABE": {
-            "numberOfCourses": 1,
-            "numberOfMemosPublishedBeforeDeadline": 1,
-            "numberOfMemosPublishedBeforeStart": 1,
-            "numberOfUniqPdfMemos": 0,
-            "numberOfUniqWebAndPdfMemos": 1,
-            "numberOfUniqWebMemos": 1,
-            "uniqueCourseCodeDates": [
-              "SF1625-2021-08-30-2021-10-29",
-            ],
-            "uniqueCourseCodeDatesWithoutMemo": [],
-          },
-        },
-        "totalCourses": 1,
-        "totalNumberOfMemosPublishedBeforeDeadline": 1,
-        "totalNumberOfMemosPublishedBeforeStart": 1,
-        "totalNumberOfPdfMemos": 0,
-        "totalNumberOfWebMemos": 1,
-      }
-    `)
+{
+  "schools": {
+    "ABE": {
+      "numberOfCourses": 1,
+      "numberOfMemosPublishedBeforeDeadline": 1,
+      "numberOfMemosPublishedBeforeStart": 1,
+      "numberOfUniqPdfMemos": 0,
+      "numberOfUniqWebAndPdfMemos": 1,
+      "numberOfUniqWebMemos": 1,
+      "uniqueCourseCodeDates": [
+        "SF1625-2021-08-30-2021-10-29",
+      ],
+      "uniqueCourseCodeDatesWithoutMemo": [],
+    },
+  },
+  "totalCourses": 1,
+  "totalNumberOfMemosPublishedBeforeDeadline": 1,
+  "totalNumberOfMemosPublishedBeforeStart": 1,
+  "totalNumberOfPdfMemos": 0,
+  "totalNumberOfWebMemos": 1,
+}
+`)
 
     expect(Object.keys(combinedMemosPerSchool.schools).length).toBe(1)
     expect(combinedMemosPerSchool.schools.ABE.numberOfCourses).toBe(1)
@@ -191,67 +183,63 @@ describe('Memos functions to count memos for one school', () => {
     const { combinedMemosPerSchool, offeringsWithMemos } = await memosPerSchool(offerings, memos)
     expect(offeringsWithMemos.length).toBe(1)
     expect(offeringsWithMemos).toMatchInlineSnapshot(`
-      [
-        {
-          "connectedPrograms": "TTGTM-2",
-          "courseCode": "SF1625",
-          "courseMemoInfo": {
-            "applicationCodes": [
-              "1",
-            ],
-            "courseCode": "SF1625",
-            "isPdf": false,
-            "lastChangeDate": "Tue Aug 02 2021 10:19:17 GMT+0000 (Coordinated Universal Time)",
-            "memoCommonLangAbbr": "sv",
-            "memoEndPoint": "SF162520212-1",
-            "memoName": "SF1625CMEDT1  (Startdatum 2021-08-30, Svenska)",
-            "publishedData": {
-              "offeringStartTime": "2021-08-30",
-              "publishedBeforeDeadline": true,
-              "publishedBeforeStart": true,
-              "publishedTime": "2021-08-02",
-            },
-            "semester": "20212",
-            "version": 1,
-          },
-          "courseRoundApplications": [
-            {
-              "course_round_application_code": "1",
-            },
-          ],
-          "departmentName": "ABE/Geoinformatik",
-          "endDate": "2021-10-29",
-          "firstSemester": "20212",
-          "period": "P1",
-          "schoolMainCode": "ABE",
-          "startDate": "2021-08-30",
-        },
-      ]
-    `)
+[
+  {
+    "connectedPrograms": "TTGTM-2",
+    "courseCode": "SF1625",
+    "courseMemoInfo": {
+      "applicationCodes": [
+        "1",
+      ],
+      "courseCode": "SF1625",
+      "isPdf": false,
+      "lastChangeDate": "Tue Aug 02 2021 10:19:17 GMT+0000 (Coordinated Universal Time)",
+      "memoCommonLangAbbr": "sv",
+      "memoEndPoint": "SF162520212-1",
+      "memoName": "SF1625CMEDT1  (Startdatum 2021-08-30, Svenska)",
+      "publishedData": {
+        "offeringStartTime": "2021-08-30",
+        "publishedBeforeDeadline": true,
+        "publishedBeforeStart": true,
+        "publishedTime": "2021-08-02",
+      },
+      "semester": "20212",
+      "version": 1,
+    },
+    "courseRoundApplicationCode": "1",
+    "departmentName": "ABE/Geoinformatik",
+    "endDate": "2021-10-29",
+    "firstSemester": "20212",
+    "period": "P1",
+    "schoolMainCode": "ABE",
+    "startDate": "2021-08-30",
+  },
+]
+`)
 
     expect(combinedMemosPerSchool).toMatchInlineSnapshot(`
-      {
-        "schools": {
-          "ABE": {
-            "numberOfCourses": 1,
-            "numberOfMemosPublishedBeforeDeadline": 1,
-            "numberOfMemosPublishedBeforeStart": 1,
-            "numberOfUniqPdfMemos": 0,
-            "numberOfUniqWebAndPdfMemos": 1,
-            "numberOfUniqWebMemos": 1,
-            "uniqueCourseCodeDates": [
-              "SF1625-2021-08-30-2021-10-29",
-            ],
-            "uniqueCourseCodeDatesWithoutMemo": [],
-          },
-        },
-        "totalCourses": 1,
-        "totalNumberOfMemosPublishedBeforeDeadline": 1,
-        "totalNumberOfMemosPublishedBeforeStart": 1,
-        "totalNumberOfPdfMemos": 0,
-        "totalNumberOfWebMemos": 1,
-      }
-    `)
+{
+  "schools": {
+    "ABE": {
+      "numberOfCourses": 1,
+      "numberOfMemosPublishedBeforeDeadline": 1,
+      "numberOfMemosPublishedBeforeStart": 1,
+      "numberOfUniqPdfMemos": 0,
+      "numberOfUniqWebAndPdfMemos": 1,
+      "numberOfUniqWebMemos": 1,
+      "uniqueCourseCodeDates": [
+        "SF1625-2021-08-30-2021-10-29",
+      ],
+      "uniqueCourseCodeDatesWithoutMemo": [],
+    },
+  },
+  "totalCourses": 1,
+  "totalNumberOfMemosPublishedBeforeDeadline": 1,
+  "totalNumberOfMemosPublishedBeforeStart": 1,
+  "totalNumberOfPdfMemos": 0,
+  "totalNumberOfWebMemos": 1,
+}
+`)
   })
 
   test('One course (one offering) and this offering has a memo published after course start', async () => {

@@ -10,11 +10,14 @@ const { findMemosForApplicationCode } = require('./docs')
 const _memosPerCourseOffering = async (parsedOfferings, memos) => {
   const courseOfferings = []
   await parsedOfferings.forEach(offering => {
-    const { courseCode, firstSemester, courseRoundApplications } = offering
-    const [courseRoundApplication] = courseRoundApplications
-    const { course_round_application_code: applicationCode } = courseRoundApplication
+    const { courseCode, firstSemester, courseRoundApplicationCode } = offering
     let courseMemoInfo = {}
-    const memosForApplicationCode = findMemosForApplicationCode(memos, courseCode, firstSemester, applicationCode)
+    const memosForApplicationCode = findMemosForApplicationCode(
+      memos,
+      courseCode,
+      firstSemester,
+      courseRoundApplicationCode
+    )
 
     if (memosForApplicationCode.length === 1) {
       const [publishedMemo] = memosForApplicationCode

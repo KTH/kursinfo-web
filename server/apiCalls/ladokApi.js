@@ -51,9 +51,21 @@ async function getPeriods() {
   }
 }
 
+async function getAllCourseRounds(query, lang) {
+  try {
+    const courseRounds = await client.getAllCourseRounds(query, lang)
+
+    return courseRounds
+  } catch (error) {
+    log.error(error)
+    return undefined
+  }
+}
+
 module.exports = {
   getCourseAndRounds,
   getExaminationModules,
   getLadokSyllabuses,
   getPeriods,
+  getAllCourseRounds,
 }
