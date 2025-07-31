@@ -1,27 +1,27 @@
 import React from 'react'
 
 const englishMemosSummarySection = {
-  courseDataApiDescription: koppsApiUrl => (
+  courseDataApiDescription: ladokApiUrl => (
     <div>
-      <p>Example for how data is fetched for Spring 2022, period P3, school ABE:</p>
+      <p>Example for how data is fetched for Spring 2025, period P3, school ABE:</p>
       <p>
-        Course data is retrieved from&nbsp; KOPPS API for Courses, endpoint&nbsp; /api/kopps/v2/courses/offerings. Data
-        for the current page was fetched from&nbsp;
+        Course data is retrieved from&nbsp; LADOK Mellanlager API, endpoint&nbsp; /sokUtbildningstillfalle. In this
+        example, data is fetched from&nbsp;
         <a
-          href={`${koppsApiUrl}courses/offerings?from=20221&skip_coordinator_info=true`}
+          href={`${ladokApiUrl}/sokUtbildningstillfalle?striktKod=false&kodEllerBenamning=*&startPeriod=VT2025&organisation=AIJ,AEH,AFO,AA,ADD,ADB,ADC,ADA,ADI,ADJ,ADH,AFB,AFD,AFC,AGD,AFA,AF,AFF,AID,AFK,AM,AMB,AHG,AFV,AEB,AEE,AFG,AEF,AGE,ALD,AEK,AFL,AGC,AIG,AHC,AGF,AFI,AKC,ALB,AFJ,ALC,AE,AEA,ADF,AKA,AK,AKB,AIE,AIB,AIC,AIA,AI,AFM,AEG,AHE,AHF,AIF,A,AAB,AAC,AD,AFH,AFE,ALF,AFT,ALA,AL,AHD,AFP,AHB,AHA,AH,AGI,AGA,AG,AGB,AEC,ALI,AED`}
           target="_blank"
           className="external-link"
           rel="noreferrer"
         >
-          {`${koppsApiUrl}courses/offerings?from=20221&skip_coordinator_info=true`}
+          {`${ladokApiUrl}/sokUtbildningstillfalle?striktKod=false&kodEllerBenamning=*&startPeriod=VT2025&organisation=AIJ,AEH,AFO,AA,ADD,ADB,ADC,ADA,ADI,ADJ,ADH,AFB,AFD,AFC,AGD,AFA,AF,AFF,AID,AFK,AM,AMB,AHG,AFV,AEB,AEE,AFG,AEF,AGE,ALD,AEK,AFL,AGC,AIG,AHC,AGF,AFI,AKC,ALB,AFJ,ALC,AE,AEA,ADF,AKA,AK,AKB,AIE,AIB,AIC,AIA,AI,AFM,AEG,AHE,AHF,AIF,A,AAB,AAC,AD,AFH,AFE,ALF,AFT,ALA,AL,AHD,AFP,AHB,AHA,AH,AGI,AGA,AG,AGB,AEC,ALI,AED`}
         </a>
         .
       </p>
       <p>
-        For course memos, offerings that didn’t start during the 20221 semester are filtered out. This is done by
-        discarding offerings that doesn’t meet the criteria: course.first_yearsemester == 20221,
-        course.first_period===20221P3, SCHOOL_MAP[course.school_code]=== &apos;ABE&apos;. Date used to determine if memo
-        was published before the offering started is course.offered_semesters[&#123;{20221}&#125;].start_date.
+        For course memos, offerings that didn’t start during the VT2025 semester are filtered out. This is done by
+        discarding offerings that doesn’t meet the criteria: course.startPeriod == VT2025,
+        course.forstaUndervisningsdatum.period == 3, SCHOOL_MAP[course.school_code] === &apos;ABE&apos;. Date used to
+        determine if memo was published before the offering started is course.forstaUndervisningsdatum.date.
       </p>
       <p>
         An earlier version of <i>Publish new course analysis and course data</i> had the option to upload course memos
@@ -34,7 +34,7 @@ const englishMemosSummarySection = {
     <div>
       <p>
         Here is a summary of the number of published course memos for the selected school, year and study period. The
-        data used is taken from Kopps and About course.
+        data used is taken from LADOK and About course.
       </p>
       <p>
         The table shows the number of courses that started and number of course memos that were published during the
@@ -70,23 +70,24 @@ const englishMemosSummarySection = {
 }
 
 const swedishMemosSummarySection = {
-  courseDataApiDescription: koppsApiUrl => (
+  courseDataApiDescription: ladokApiUrl => (
     <div>
-      <p>Exempel för hur data hämtas för en termin - VT 2022, period P3:</p>
+      <p>Exempel för hur data hämtas för en termin - VT 2025, period P3, school ABE:</p>
       <p>
-        Kursdata hämtas från KOPPS API för kurser, endpoint: /api/kopps/v2/courses/offerings. För att hämta data för VT
-        2022 så används:{' '}
+        Kursdata hämtas från LADOK Mellanlager API, endpoint: /sokUtbildningstillfalle. För att hämta data för VT 2025,
+        period P3, school ABE så används:{' '}
         <a
-          href={`${koppsApiUrl}courses/offerings?from=20221&skip_coordinator_info=true`}
+          href={`${ladokApiUrl}/sokUtbildningstillfalle?striktKod=false&kodEllerBenamning=*&startPeriod=VT2025&organisation=AIJ,AEH,AFO,AA,ADD,ADB,ADC,ADA,ADI,ADJ,ADH,AFB,AFD,AFC,AGD,AFA,AF,AFF,AID,AFK,AM,AMB,AHG,AFV,AEB,AEE,AFG,AEF,AGE,ALD,AEK,AFL,AGC,AIG,AHC,AGF,AFI,AKC,ALB,AFJ,ALC,AE,AEA,ADF,AKA,AK,AKB,AIE,AIB,AIC,AIA,AI,AFM,AEG,AHE,AHF,AIF,A,AAB,AAC,AD,AFH,AFE,ALF,AFT,ALA,AL,AHD,AFP,AHB,AHA,AH,AGI,AGA,AG,AGB,AEC,ALI,AED`}
           target="_blank"
           rel="noreferrer"
         >
-          {`${koppsApiUrl}courses/offerings?from=20221&skip_coordinator_info=true`}
+          {`${ladokApiUrl}/sokUtbildningstillfalle?striktKod=false&kodEllerBenamning=*&startPeriod=VT2025&organisation=AIJ,AEH,AFO,AA,ADD,ADB,ADC,ADA,ADI,ADJ,ADH,AFB,AFD,AFC,AGD,AFA,AF,AFF,AID,AFK,AM,AMB,AHG,AFV,AEB,AEE,AFG,AEF,AGE,ALD,AEK,AFL,AGC,AIG,AHC,AGF,AFI,AKC,ALB,AFJ,ALC,AE,AEA,ADF,AKA,AK,AKB,AIE,AIB,AIC,AIA,AI,AFM,AEG,AHE,AHF,AIF,A,AAB,AAC,AD,AFH,AFE,ALF,AFT,ALA,AL,AHD,AFP,AHB,AHA,AH,AGI,AGA,AG,AGB,AEC,ALI,AED`}
         </a>
         . Kurs-PM med kursomgångar som inte startar under VT 2022 filtreras bort. Detta görs genom att förkasta
-        kursomgångar som inte uppfyller kriterierna: course.first_yearsemester == 20221, course.first_period===20221P3,
-        SCHOOL_MAP[course.school_code]=== &apos;ABE&apos;. Datum som används för att avgöra om kurs-PM publicerades
-        innan kursomgången startade är: course.offered_semesters[&#123;{20221}&#125;].start_date.
+        kursomgångar som inte uppfyller kriterierna: course.startPeriod == VT2025,
+        course.forstaUndervisningsdatum.period == 3, SCHOOL_MAP[course.school_code] === &apos;ABE&apos;. Datum som
+        används för att avgöra om kurs-PM publicerades innan kursomgången startade är:
+        course.forstaUndervisningsdatum.date.
       </p>
       <p>
         En tidigare version av <i>Publicera ny kursanalys och kursdata</i> innehöll möjligheten att ladda upp kurs-PM
@@ -99,7 +100,7 @@ const swedishMemosSummarySection = {
     <div>
       <p>
         Här visas en sammanställning över antalet publicerade kurs-PM för vald skola, år och läsperiod. Den data som
-        används hämtas från Kopps och Om kursen.
+        används hämtas från LADOK och Om kursen.
       </p>
       <p>
         Tabellen visar antalet kurser som startade och antalet kurs-PM som publicerades under den valda läsperioden. De

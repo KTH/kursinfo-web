@@ -21,7 +21,6 @@ const devSsl = devDefaults(false)
 const devUrl = devDefaults('http://localhost:' + devPort)
 const devKursInfoApi = devDefaults('http://api-r.referens.sys.kth.se/api/kursinfo?defaultTimeout=10000') // required=true&
 const devKursplanApi = devDefaults('http://api-r.referens.sys.kth.se/api/kursplan?defaultTimeout=10000')
-const devKoppsApi = devDefaults('https://api-r.referens.sys.kth.se/api/kopps/v2/?defaultTimeout=10000')
 const devKursPmDataApi = devDefaults('http://api-r.referens.sys.kth.se/api/kurs-pm-data?defaultTimeout=10000')
 const devKursutvecklingApi = devDefaults('http://api-r.referens.sys.kth.se/api/kursutveckling?defaultTimeout=10000') // required=true&
 const devTimeTableApiUri = devDefaults('https://api-r.referens.sys.kth.se/api/timetable/v1/?defaultTimeout=10000')
@@ -68,8 +67,6 @@ module.exports = {
     ocpApimSubscriptionKey: getEnv('LADOK_OCP_APIM_SUBSCRIPTION_KEY', null),
   },
 
-  koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
-
   // TimeTableApi is not Kopps, but the unpacking works nevertheless
   timeTableApi: unpackKOPPSConfig('TIME_TABLE_API_URI', devTimeTableApiUri),
 
@@ -86,10 +83,6 @@ module.exports = {
   },
   clientLogging: { level: 'info' },
   cache: {
-    koppsApi: {
-      redis: unpackRedisConfig('REDIS_URI', devRedis),
-      expireTime: getEnv('KOPPS_API_CACHE_EXPIRE_TIME', 60 * 60), // 60 minuteS
-    },
     kursinfoApi: {
       redis: unpackRedisConfig('REDIS_URI', devRedis),
       expireTime: getEnv('KURSINFO_API_CACHE_EXPIRE_TIME', 2 * 60), // 2 * 60 s = 2 MINUTES
