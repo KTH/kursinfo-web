@@ -14,6 +14,19 @@ const paths = require('../server').getPaths()
 const { getServerSideFunctions } = require('../utils/serverSideRendering')
 const { createStatisticsServerSideContext } = require('../ssr-context/createStatisticsServerSideContext')
 
+// Add mapping function for school codes
+function _mapSchoolCode(school) {
+  const schoolMapping = {
+    ABE: 'A',
+    CBH: 'C',
+    EES: 'J',
+    ITM: 'I',
+    SCI: 'S',
+  }
+
+  return schoolMapping[school] || school
+}
+
 async function getIndex(req, res, next) {
   const lang = languageUtils.getLanguage(res) || 'sv'
   try {
@@ -87,7 +100,8 @@ async function fetchMemoStatistics(req, res, next) {
   const sortedPeriods = periods.sort()
 
   try {
-    const courseOfferings = await _getCourseOfferings(chosenSemesters, school)
+    const mappedSchool = _mapSchoolCode(school)
+    const courseOfferings = await _getCourseOfferings(chosenSemesters, mappedSchool)
 
     const parsedOfferings = filterOfferingsForMemos(courseOfferings, chosenSemestersInDigits, sortedPeriods, school)
 
