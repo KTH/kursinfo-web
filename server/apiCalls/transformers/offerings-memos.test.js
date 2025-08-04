@@ -9,7 +9,7 @@ describe('Memos functions to parse and filter offerings', () => {
       kod: 'SF1624',
       organisation: { name: 'CBH/Fiber- och Polymerteknologi' },
       startperiod: { inDigits: '20202' },
-      forstaUndervisningsdatum: { date: '2020-10-10', period: '1' },
+      forstaUndervisningsdatum: { date: '2020-10-10', kthStudyPeriod: '1' },
       sistaUndervisningsdatum: { date: '2021-01-10' },
       schoolCode: 'CBH',
     }
@@ -18,7 +18,7 @@ describe('Memos functions to parse and filter offerings', () => {
       delAvProgram: [{ kod: 'CINTE1', arskurs: '2020', inriktning: 'k' }],
       kod: 'SF1625',
       startperiod: { inDigits: '20192' },
-      forstaUndervisningsdatum: { date: '2019-08-01', period: '1' },
+      forstaUndervisningsdatum: { date: '2019-08-01', kthStudyPeriod: '1' },
       sistaUndervisningsdatum: { date: '2019-10-10' },
       schoolCode: 'CBH',
     }
@@ -28,7 +28,7 @@ describe('Memos functions to parse and filter offerings', () => {
       kod: 'SF1629',
       organisation: { name: 'ITM/Production' },
       startperiod: { inDigits: '20202' },
-      forstaUndervisningsdatum: { date: '2020-10-10', period: '1' },
+      forstaUndervisningsdatum: { date: '2020-10-10', kthStudyPeriod: '1' },
       sistaUndervisningsdatum: { date: '2021-01-10' },
       schoolCode: 'ITM',
     }

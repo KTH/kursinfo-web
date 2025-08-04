@@ -83,7 +83,7 @@ function filterOfferingsForMemos(courseOfferings = [], chosenSemesters = [], cho
       const firstSemester = course?.startperiod?.inDigits
       const startDate = course?.forstaUndervisningsdatum?.date
       const endDate = course?.sistaUndervisningsdatum?.date
-      const firstPeriodNumber = course?.forstaUndervisningsdatum?.period
+      const firstPeriodNumber = course?.forstaUndervisningsdatum?.kthStudyPeriod
       const firstPerioLabel = firstPeriodNumber ? `P${firstPeriodNumber}` : undefined
       const isStartedInChosenPeriods =
         chosenSemesters.includes(String(firstSemester)) && chosenPeriods.includes(String(firstPeriodNumber))

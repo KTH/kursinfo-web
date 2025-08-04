@@ -20,8 +20,8 @@ const englishMemosSummarySection = {
       <p>
         For course memos, offerings that didn’t start during the VT2025 semester are filtered out. This is done by
         discarding offerings that doesn’t meet the criteria: course.startPeriod == VT2025,
-        course.forstaUndervisningsdatum.period == 3, SCHOOL_MAP[course.school_code] === &apos;ABE&apos;. Date used to
-        determine if memo was published before the offering started is course.forstaUndervisningsdatum.date.
+        course.forstaUndervisningsdatum.kthStudyPeriod == 3, SCHOOL_MAP[course.school_code] === &apos;ABE&apos;. Date
+        used to determine if memo was published before the offering started is course.forstaUndervisningsdatum.date.
       </p>
       <p>
         An earlier version of <i>Publish new course analysis and course data</i> had the option to upload course memos
@@ -85,8 +85,8 @@ const swedishMemosSummarySection = {
         </a>
         . Kurs-PM med kursomgångar som inte startar under VT 2022 filtreras bort. Detta görs genom att förkasta
         kursomgångar som inte uppfyller kriterierna: course.startPeriod == VT2025,
-        course.forstaUndervisningsdatum.period == 3, SCHOOL_MAP[course.school_code] === &apos;ABE&apos;. Datum som
-        används för att avgöra om kurs-PM publicerades innan kursomgången startade är:
+        course.forstaUndervisningsdatum.kthStudyPeriod == 3, SCHOOL_MAP[course.school_code] === &apos;ABE&apos;. Datum
+        som används för att avgöra om kurs-PM publicerades innan kursomgången startade är:
         course.forstaUndervisningsdatum.date.
       </p>
       <p>
