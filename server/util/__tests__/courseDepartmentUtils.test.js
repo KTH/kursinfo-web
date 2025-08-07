@@ -11,8 +11,9 @@ function htmlStringToElement(html) {
 
 describe('course department link utils', () => {
   test('returns department link', () => {
-    const department = { code: 'JH', name: 'EECS/Computer Science' }
-    const result = buildCourseDepartmentLink(department, 'en')
+    const departmentName = 'EECS/Computer Science'
+    const departmentCode = 'JH'
+    const result = buildCourseDepartmentLink(departmentName, departmentCode, 'en')
     expect(result).toBeDefined()
 
     const element = htmlStringToElement(result)
@@ -21,17 +22,21 @@ describe('course department link utils', () => {
   })
 
   test('returns undefined for Stockholm university as department', () => {
-    const department = { code: 'UL', name: 'Stockholms universitet' }
+    const departmentName = 'Stockholms universitet'
+    const departmentCode = 'UL'
 
-    const result = buildCourseDepartmentLink(department, 'en')
+    const result = buildCourseDepartmentLink(departmentName, departmentCode, 'en')
     expect(result).not.toBeDefined()
   })
 
-  test.each([undefined, { name: undefined }])('returns fallback text if department is %p', department => {
-    const resultSv = buildCourseDepartmentLink(department, 'sv')
+  test.each([
+    [undefined, undefined],
+    [undefined, undefined],
+  ])('returns fallback text if departmentName: %p and departmentCode: %p', (departmentName, departmentCode) => {
+    const resultSv = buildCourseDepartmentLink(departmentName, departmentCode, 'sv')
     expect(resultSv).toBe(INFORM_IF_IMPORTANT_INFO_IS_MISSING.sv)
 
-    const resultEn = buildCourseDepartmentLink(department, 'en')
+    const resultEn = buildCourseDepartmentLink(departmentName, departmentCode, 'en')
     expect(resultEn).toBe(INFORM_IF_IMPORTANT_INFO_IS_MISSING.en)
   })
 })
