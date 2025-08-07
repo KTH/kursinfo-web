@@ -96,10 +96,10 @@ function _parseTitleData(ladokCourse, ladokSyllabus, language) {
   const getValue = (courseValue, syllabusValue) =>
     ladokCourse !== undefined && courseValue !== undefined ? courseValue : syllabusValue
   const courseCode = getValue(ladokCourse?.kod, ladokSyllabus?.course?.kod)
-  const courseTitle = getValue(ladokCourse?.benamning, ladokSyllabus.course.benamning[language])
+  const courseTitle = getValue(ladokCourse?.benamning, ladokSyllabus?.course.benamning[language])
   const courseCreditsLabel = getValue(
     ladokCourse?.omfattning.formattedWithUnit,
-    ladokSyllabus.course.omfattning.formattedWithUnit
+    ladokSyllabus?.course.omfattning.formattedWithUnit
   )
   return {
     course_code: parseOrSetEmpty(courseCode),
