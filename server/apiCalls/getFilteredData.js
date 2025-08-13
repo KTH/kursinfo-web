@@ -24,34 +24,28 @@ function _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
 
   const courseMainSubjects = getValue(
     ladokCourse?.huvudomraden?.map(subject => subject.name).join(', '),
-    ladokSyllabus?.course?.huvudomraden?.map(subject => subject[language]).join(', ')
+    ladokSyllabus?.course?.huvudomraden?.map(subject => subject.name).join(', ')
   )
 
   const courseLevelCode = getValue(
     ladokCourse?.utbildningstyp?.level?.code,
-    ladokSyllabus?.course?.nivainomstudieordning?.level?.code
+    ladokSyllabus?.course?.utbildningstyp?.level?.code
   )
 
   const courseLevelLabel = getValue(
     ladokCourse?.utbildningstyp?.level?.name,
-    ladokSyllabus?.course?.nivainomstudieordning?.level?.[language]
+    ladokSyllabus?.course?.utbildningstyp?.level?.name
   )
 
-  const gradeScale = getValue(ladokCourse?.betygsskala?.formatted, ladokSyllabus?.course?.betygsskala)
+  const gradeScale = getValue(ladokCourse?.betygsskala?.formatted, ladokSyllabus?.course?.betygsskala.formatted)
 
   const discontinuationDecision = getValue(ladokCourse?.avvecklingsbeslut, ladokSyllabus?.kursplan?.avvecklingsbeslut)
 
   const courseDepartmentCode = getValue(ladokCourse?.organisation?.code, ladokSyllabus?.course?.organisation?.code)
 
-  const courseDepartmentName = getValue(
-    ladokCourse?.organisation?.name,
-    ladokSyllabus?.course?.organisation?.[language]
-  )
+  const courseDepartmentName = getValue(ladokCourse?.organisation?.name, ladokSyllabus?.course?.organisation?.name)
 
-  const courseEducationType = getValue(
-    ladokCourse?.utbildningstyp?.id,
-    ladokSyllabus?.course?.nivainomstudieordning?.id
-  )
+  const courseEducationType = getValue(ladokCourse?.utbildningstyp?.id, ladokSyllabus?.course?.utbildningstyp?.id)
 
   const courseDiscontinued = getValue(ladokCourse?.avvecklad, ladokSyllabus?.course?.avvecklad)
 
@@ -92,11 +86,11 @@ function resolveText(text = {}, language) {
   return text[language] ?? ''
 }
 
-function _parseTitleData(ladokCourse, ladokSyllabus, language) {
+function _parseTitleData(ladokCourse, ladokSyllabus) {
   const getValue = (courseValue, syllabusValue) =>
     ladokCourse !== undefined && courseValue !== undefined ? courseValue : syllabusValue
   const courseCode = getValue(ladokCourse?.kod, ladokSyllabus?.course?.kod)
-  const courseTitle = getValue(ladokCourse?.benamning, ladokSyllabus?.course.benamning[language])
+  const courseTitle = getValue(ladokCourse?.benamning, ladokSyllabus?.course.benamning)
   const courseCreditsLabel = getValue(
     ladokCourse?.omfattning.formattedWithUnit,
     ladokSyllabus?.course.omfattning.formattedWithUnit
@@ -276,7 +270,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   }
 
   //* **** Course title data  *****//
-  const courseTitleData = _parseTitleData(ladokCourse, ladokSyllabuses[0], language)
+  const courseTitleData = _parseTitleData(ladokCourse, ladokSyllabuses[0])
 
   //* **** Get list of syllabuses and valid syllabus semesters *****//
   const { syllabusList, emptySyllabusData } = createSyllabusList(ladokSyllabuses, language)
