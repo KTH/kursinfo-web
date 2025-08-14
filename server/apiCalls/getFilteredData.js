@@ -123,7 +123,7 @@ const createPeriodString = (ladokRound, periods, language) => {
 }
 
 function _getRound(ladokRound, socialSchedules, periods, language = 'sv') {
-  const round = socialSchedules.rounds.find(schedule => schedule.applicationCode === ladokRound.tillfalleskod)
+  const round = socialSchedules?.rounds.find(schedule => schedule.applicationCode === ladokRound.tillfalleskod)
   const schemaUrl = round && round.has_events ? round.calendar_url : null
 
   const startDate = getDateFormat(parseOrSetEmpty(ladokRound.forstaUndervisningsdatum.date, language), language)
