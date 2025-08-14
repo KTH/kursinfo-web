@@ -123,8 +123,19 @@ const createPeriodString = (ladokRound, periods, language) => {
 }
 
 function _getRound(ladokRound, socialSchedules, periods, language = 'sv') {
-  const round = socialSchedules?.rounds.find(schedule => schedule.applicationCode === ladokRound.tillfalleskod)
-  const schemaUrl = round && round.has_events ? round.calendar_url : null
+  const matchinSocialSchedulesRounds = socialSchedules?.rounds.filter(
+    s => s.applicationCode === ladokRound.tillfalleskod
+  )
+
+  let socialSchedulesRound
+  if (matchinSocialSchedulesRounds.length > 1) {
+    const ladokYear = ladokRound.startperiod?.inDigits?.substring(0, 4)
+    socialSchedulesRound = matchinSocialSchedulesRounds.find(s => ladokYear && s.term?.startsWith(ladokYear))
+  } else {
+    socialSchedulesRound = matchinSocialSchedulesRounds[0]
+  }
+
+  const schemaUrl = socialSchedulesRound?.has_events ? socialSchedulesRound.calendar_url : null
 
   const startDate = getDateFormat(parseOrSetEmpty(ladokRound.forstaUndervisningsdatum.date, language), language)
   const endDate = getDateFormat(parseOrSetEmpty(ladokRound.sistaUndervisningsdatum.date, language), language)
