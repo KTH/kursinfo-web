@@ -10,7 +10,7 @@ import { schools } from './domain/index'
 import { MemosSummary } from './index'
 
 function ResultNumbersSummary({ statisticsResult }) {
-  const { documentType, koppsApiBasePath } = statisticsResult
+  const { documentType, ladokApiBasePath } = statisticsResult
   // labels are for headers and short texts
   const {
     translation: { statisticsLabels: labels },
@@ -30,7 +30,7 @@ function ResultNumbersSummary({ statisticsResult }) {
         {texts.subPageDescription()}
         <details>
           <summary className="white">{summaryLabels.sourceOfData}</summary>
-          {texts.courseDataApiDescription(koppsApiBasePath)}
+          {texts.courseDataApiDescription(ladokApiBasePath)}
         </details>
       </article>
       <article key="documents-and-courses-compilation">
@@ -44,7 +44,7 @@ ResultNumbersSummary.propTypes = {
   statisticsResult: PropTypes.shape({
     combinedMemosPerSchool: PropTypes.shape({}),
     documentType: PropTypes.oneOf(documentTypes()),
-    koppsApiBasePath: PropTypes.string,
+    ladokApiBasePath: PropTypes.string,
     documentsApiBasePath: PropTypes.string,
     school: PropTypes.oneOf(schools.orderedSchoolsFormOptions()),
   }),
