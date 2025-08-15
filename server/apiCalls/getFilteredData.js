@@ -150,11 +150,13 @@ function _getRound(ladokRound, socialSchedules, periods, language = 'sv') {
   )
 
   let socialSchedulesRound
-  if (matchinSocialSchedulesRounds.length > 1) {
-    const ladokYear = ladokRound.startperiod?.inDigits?.substring(0, 4)
-    socialSchedulesRound = matchinSocialSchedulesRounds.find(s => ladokYear && s.term?.startsWith(ladokYear))
-  } else {
-    socialSchedulesRound = matchinSocialSchedulesRounds[0]
+  if (matchinSocialSchedulesRounds) {
+    if (matchinSocialSchedulesRounds.length > 1) {
+      const ladokYear = ladokRound.startperiod?.inDigits?.substring(0, 4)
+      socialSchedulesRound = matchinSocialSchedulesRounds.find(s => ladokYear && s.term?.startsWith(ladokYear))
+    } else {
+      socialSchedulesRound = matchinSocialSchedulesRounds[0]
+    }
   }
 
   const schemaUrl = socialSchedulesRound?.has_events ? socialSchedulesRound.calendar_url : null
