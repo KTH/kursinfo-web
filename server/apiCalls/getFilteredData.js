@@ -17,46 +17,56 @@ const courseApi = require('./kursinfoApi')
 const { getSocial } = require('./socialApi')
 
 function _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
-  const getValue = (courseValue, syllabusValue) => (courseValue !== undefined ? courseValue : syllabusValue)
+  const pickCourseOrSyllabusValue = (courseValue, syllabusValue) =>
+    courseValue !== undefined ? courseValue : syllabusValue
 
-  const courseCode = getValue(ladokCourse?.kod, ladokSyllabus?.course?.kod)
+  const courseCode = pickCourseOrSyllabusValue(ladokCourse?.kod, ladokSyllabus?.course?.kod)
 
-  const courseMainSubjects = getValue(
+  const courseMainSubjects = pickCourseOrSyllabusValue(
     ladokCourse?.huvudomraden?.map(subject => subject.name).join(', '),
     ladokSyllabus?.course?.huvudomraden?.map(subject => subject[language]).join(', ')
   )
 
-  const courseLevelCode = getValue(
+  const courseLevelCode = pickCourseOrSyllabusValue(
     ladokCourse?.utbildningstyp?.level?.code,
     ladokSyllabus?.course?.nivainomstudieordning?.level?.code
   )
 
-  const courseLevelLabel = getValue(
+  const courseLevelLabel = pickCourseOrSyllabusValue(
     ladokCourse?.utbildningstyp?.level?.name,
     ladokSyllabus?.course?.nivainomstudieordning?.level?.[language]
   )
 
-  const gradeScale = getValue(ladokCourse?.betygsskala?.formatted, ladokSyllabus?.course?.betygsskala)
+  const gradeScale = pickCourseOrSyllabusValue(ladokCourse?.betygsskala?.formatted, ladokSyllabus?.course?.betygsskala)
 
-  const discontinuationDecision = getValue(ladokCourse?.avvecklingsbeslut, ladokSyllabus?.kursplan?.avvecklingsbeslut)
+  const discontinuationDecision = pickCourseOrSyllabusValue(
+    ladokCourse?.avvecklingsbeslut,
+    ladokSyllabus?.kursplan?.avvecklingsbeslut
+  )
 
-  const courseDepartmentCode = getValue(ladokCourse?.organisation?.code, ladokSyllabus?.course?.organisation?.code)
+  const courseDepartmentCode = pickCourseOrSyllabusValue(
+    ladokCourse?.organisation?.code,
+    ladokSyllabus?.course?.organisation?.code
+  )
 
-  const courseDepartmentName = getValue(
+  const courseDepartmentName = pickCourseOrSyllabusValue(
     ladokCourse?.organisation?.name,
     ladokSyllabus?.course?.organisation?.[language]
   )
 
-  const courseEducationType = getValue(
+  const courseEducationType = pickCourseOrSyllabusValue(
     ladokCourse?.utbildningstyp?.id,
     ladokSyllabus?.course?.nivainomstudieordning?.id
   )
 
-  const courseDiscontinued = getValue(ladokCourse?.avvecklad, ladokSyllabus?.course?.avvecklad)
+  const courseDiscontinued = pickCourseOrSyllabusValue(ladokCourse?.avvecklad, ladokSyllabus?.course?.avvecklad)
 
-  const courseBeingDiscontinued = getValue(ladokCourse?.underavveckling, ladokSyllabus?.course?.underavveckling)
+  const courseBeingDiscontinued = pickCourseOrSyllabusValue(
+    ladokCourse?.underavveckling,
+    ladokSyllabus?.course?.underavveckling
+  )
 
-  const lastExaminationTerm = getValue(
+  const lastExaminationTerm = pickCourseOrSyllabusValue(
     ladokCourse?.sistaexaminationstermin,
     ladokSyllabus?.course?.sistaexaminationstermin
   )
@@ -92,10 +102,11 @@ function resolveText(text = {}, language) {
 }
 
 function _parseTitleData(ladokCourse, ladokSyllabus, language) {
-  const getValue = (courseValue, syllabusValue) => (courseValue !== undefined ? courseValue : syllabusValue)
-  const courseCode = getValue(ladokCourse?.kod, ladokSyllabus?.course?.kod)
-  const courseTitle = getValue(ladokCourse?.benamning, ladokSyllabus?.course.benamning[language])
-  const courseCreditsLabel = getValue(
+  const pickCourseOrSyllabusValue = (courseValue, syllabusValue) =>
+    courseValue !== undefined ? courseValue : syllabusValue
+  const courseCode = pickCourseOrSyllabusValue(ladokCourse?.kod, ladokSyllabus?.course?.kod)
+  const courseTitle = pickCourseOrSyllabusValue(ladokCourse?.benamning, ladokSyllabus?.course.benamning[language])
+  const courseCreditsLabel = pickCourseOrSyllabusValue(
     ladokCourse?.omfattning.formattedWithUnit,
     ladokSyllabus?.course.omfattning.formattedWithUnit
   )
