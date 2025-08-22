@@ -17,8 +17,7 @@ const courseApi = require('./kursinfoApi')
 const { getSocial } = require('./socialApi')
 
 function _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
-  const getValue = (courseValue, syllabusValue) =>
-    ladokCourse !== undefined && courseValue !== undefined ? courseValue : syllabusValue
+  const getValue = (courseValue, syllabusValue) => (courseValue !== undefined ? courseValue : syllabusValue)
 
   const courseCode = getValue(ladokCourse?.kod, ladokSyllabus?.course?.kod)
 
@@ -93,8 +92,7 @@ function resolveText(text = {}, language) {
 }
 
 function _parseTitleData(ladokCourse, ladokSyllabus, language) {
-  const getValue = (courseValue, syllabusValue) =>
-    ladokCourse !== undefined && courseValue !== undefined ? courseValue : syllabusValue
+  const getValue = (courseValue, syllabusValue) => (courseValue !== undefined ? courseValue : syllabusValue)
   const courseCode = getValue(ladokCourse?.kod, ladokSyllabus?.course?.kod)
   const courseTitle = getValue(ladokCourse?.benamning, ladokSyllabus?.course.benamning[language])
   const courseCreditsLabel = getValue(
