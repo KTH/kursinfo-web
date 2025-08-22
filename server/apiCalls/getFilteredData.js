@@ -16,10 +16,10 @@ const ladokApi = require('./ladokApi')
 const courseApi = require('./kursinfoApi')
 const { getSocial } = require('./socialApi')
 
-function _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
-  const pickCourseOrSyllabusValue = (courseValue, syllabusValue) =>
-    courseValue !== undefined ? courseValue : syllabusValue
+const pickCourseOrSyllabusValue = (courseValue, syllabusValue) =>
+  courseValue !== undefined ? courseValue : syllabusValue
 
+function _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
   const courseCode = pickCourseOrSyllabusValue(ladokCourse?.kod, ladokSyllabus?.course?.kod)
 
   const courseMainSubjects = pickCourseOrSyllabusValue(
@@ -102,8 +102,6 @@ function resolveText(text = {}, language) {
 }
 
 function _parseTitleData(ladokCourse, ladokSyllabus, language) {
-  const pickCourseOrSyllabusValue = (courseValue, syllabusValue) =>
-    courseValue !== undefined ? courseValue : syllabusValue
   const courseCode = pickCourseOrSyllabusValue(ladokCourse?.kod, ladokSyllabus?.course?.kod)
   const courseTitle = pickCourseOrSyllabusValue(ladokCourse?.benamning, ladokSyllabus?.course.benamning[language])
   const courseCreditsLabel = pickCourseOrSyllabusValue(
@@ -258,9 +256,10 @@ function _parseRounds({ ladokRounds, socialSchedules, language, memoList, period
 
 const getFilteredData = async ({ courseCode, language, memoList }) => {
   let ladokCourse = undefined
-  const [ladokRounds, ladokSyllabuses, periods, socialSchedules] = await Promise.all([
+  const [ladokRounds, ladokSyllabuses, ladokSyllabus, periods, socialSchedules] = await Promise.all([
     ladokApi.getRounds(courseCode, language),
     ladokApi.getLadokSyllabuses(courseCode, language),
+    ladokApi.getLadokSyllabus(courseCode, language),
     ladokApi.getPeriods(),
     getSocial(courseCode, language),
   ])
@@ -270,7 +269,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
 
   //* **** Course information that is static on the course side *****//
   // We use the latest valid ladok syllabus here since the information that we are using inside _parseCourseDefaultInformation are general data inside syllabuses
-  const courseDefaultInformation = _parseCourseDefaultInformation(ladokCourse, ladokSyllabuses[0], language)
+  const courseDefaultInformation = _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language)
 
   const { sellingText, courseDisposition, recommendedPrerequisites, supplementaryInfo, imageInfo } =
     await courseApi.getCourseInfo(courseCode)
@@ -285,7 +284,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   }
 
   //* **** Course title data  *****//
-  const courseTitleData = _parseTitleData(ladokCourse, ladokSyllabuses[0], language)
+  const courseTitleData = _parseTitleData(ladokCourse, ladokSyllabus, language)
 
   //* **** Get list of syllabuses and valid syllabus semesters *****//
   const { syllabusList, emptySyllabusData } = createSyllabusList(ladokSyllabuses, language)
