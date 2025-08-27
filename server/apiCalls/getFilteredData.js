@@ -256,10 +256,9 @@ function _parseRounds({ ladokRounds, socialSchedules, language, memoList, period
 
 const getFilteredData = async ({ courseCode, language, memoList }) => {
   let ladokCourse = undefined
-  const [ladokRounds, ladokSyllabuses, ladokSyllabus, periods, socialSchedules] = await Promise.all([
+  const [ladokRounds, ladokSyllabuses, periods, socialSchedules] = await Promise.all([
     ladokApi.getRounds(courseCode, language),
     ladokApi.getLadokSyllabuses(courseCode, language),
-    ladokApi.getLadokSyllabus(courseCode, language),
     ladokApi.getPeriods(),
     getSocial(courseCode, language),
   ])
@@ -269,7 +268,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
 
   //* **** Course information that is static on the course side *****//
   // We use the latest valid ladok syllabus here since the information that we are using inside _parseCourseDefaultInformation are general data inside syllabuses
-  const courseDefaultInformation = _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language)
+  const courseDefaultInformation = _parseCourseDefaultInformation(ladokCourse, ladokSyllabuses.latest, language)
 
   const { sellingText, courseDisposition, recommendedPrerequisites, supplementaryInfo, imageInfo } =
     await courseApi.getCourseInfo(courseCode)
@@ -284,10 +283,10 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   }
 
   //* **** Course title data  *****//
-  const courseTitleData = _parseTitleData(ladokCourse, ladokSyllabus, language)
+  const courseTitleData = _parseTitleData(ladokCourse, ladokSyllabuses.latest, language)
 
   //* **** Get list of syllabuses and valid syllabus semesters *****//
-  const { syllabusList, emptySyllabusData } = createSyllabusList(ladokSyllabuses, language)
+  const { syllabusList, emptySyllabusData } = createSyllabusList(ladokSyllabuses.fullList, language)
 
   //* **** Get a list of rounds and a list of redis keys for using to get teachers and courseCoordinators from UG Rest API *****//
   const { roundsBySemester, activeSemesters } = _parseRounds({
