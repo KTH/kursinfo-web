@@ -39,7 +39,7 @@ function _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
 
   const gradeScale = pickCourseOrSyllabusValue(
     ladokCourse?.betygsskala?.formatted,
-    ladokSyllabus?.course?.betygsskala.formatted
+    ladokSyllabus?.course?.betygsskala?.formatted
   )
 
   const discontinuationDecision = pickCourseOrSyllabusValue(
