@@ -1,21 +1,20 @@
 const { INFORM_IF_IMPORTANT_INFO_IS_MISSING, DEPARTMENT_CODE_STOCKHOLM_UNIVERSITY } = require('./constants')
 
-function isDepartmentStockholmUniversity(courseDepartment) {
-  return courseDepartment.code === DEPARTMENT_CODE_STOCKHOLM_UNIVERSITY
+function isDepartmentStockholmUniversity(courseDepartmentCode) {
+  return courseDepartmentCode === DEPARTMENT_CODE_STOCKHOLM_UNIVERSITY
 }
 
-function buildCourseDepartmentLink(courseDepartment, language) {
-  const name = courseDepartment?.name
-  if (!name) {
+function buildCourseDepartmentLink(courseDepartmentName, courseDepartmentCode, language) {
+  if (!courseDepartmentName) {
     return INFORM_IF_IMPORTANT_INFO_IS_MISSING[language]
   }
 
-  if (isDepartmentStockholmUniversity(courseDepartment)) {
+  if (isDepartmentStockholmUniversity(courseDepartmentCode)) {
     return undefined
   }
 
-  const departmentLinkPart = name.split('/')[0].toLowerCase()
-  return `<a href="/${departmentLinkPart}/" target="blank">${name}</a>`
+  const departmentLinkPart = courseDepartmentName.split('/')[0].toLowerCase()
+  return `<a href="/${departmentLinkPart}/" target="blank">${courseDepartmentName}</a>`
 }
 
 module.exports = {

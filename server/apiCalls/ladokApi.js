@@ -6,13 +6,21 @@ const serverConfig = require('../configuration').server
 
 const client = createApiClient(serverConfig.ladokMellanlagerApi)
 
-async function getCourseAndRounds(courseCode, language) {
+async function getCourse(courseCode, language) {
   try {
-    const [course, rounds] = await Promise.all([
-      client.getLatestCourseVersionIncludingCancelled(courseCode, language),
-      client.getActiveAndFutureCourseRounds(courseCode, language),
-    ])
-    return { course, rounds }
+    const course = await client.getLatestCourseVersionIncludingCancelled(courseCode, language)
+
+    return course
+  } catch (error) {
+    log.error(error.message)
+    return undefined
+  }
+}
+async function getRounds(courseCode, language) {
+  try {
+    const rounds = await client.getActiveAndFutureCourseRounds(courseCode, language)
+
+    return rounds
   } catch (error) {
     log.error(error.message)
     return undefined
@@ -33,7 +41,7 @@ async function getLadokSyllabuses(courseCode, lang) {
   try {
     const syllabuses = await client.getAllValidCourseSyllabuses(courseCode, lang)
 
-    return syllabuses
+    return { latest: syllabuses[0], fullList: syllabuses }
   } catch (error) {
     log.error(error.message)
     return undefined
@@ -52,7 +60,8 @@ async function getPeriods() {
 }
 
 module.exports = {
-  getCourseAndRounds,
+  getCourse,
+  getRounds,
   getExaminationModules,
   getLadokSyllabuses,
   getPeriods,
