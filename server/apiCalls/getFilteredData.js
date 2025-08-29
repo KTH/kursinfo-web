@@ -37,7 +37,10 @@ function _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
     ladokSyllabus?.course?.utbildningstyp?.level?.name
   )
 
-  const gradeScale = pickCourseOrSyllabusValue(ladokCourse?.betygsskala?.formatted, ladokSyllabus?.course?.betygsskala)
+  const gradeScale = pickCourseOrSyllabusValue(
+    ladokCourse?.betygsskala?.formatted,
+    ladokSyllabus?.course?.betygsskala.formatted
+  )
 
   const discontinuationDecision = pickCourseOrSyllabusValue(
     ladokCourse?.avvecklingsbeslut,
@@ -100,7 +103,6 @@ function _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
 function resolveText(text = {}, language) {
   return text[language] ?? ''
 }
-
 
 function _parseTitleData(ladokCourse, ladokSyllabus) {
   const courseCode = pickCourseOrSyllabusValue(ladokCourse?.kod, ladokSyllabus?.course?.kod)
