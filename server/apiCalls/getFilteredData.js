@@ -24,20 +24,23 @@ function _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
 
   const courseMainSubjects = pickCourseOrSyllabusValue(
     ladokCourse?.huvudomraden?.map(subject => subject.name).join(', '),
-    ladokSyllabus?.course?.huvudomraden?.map(subject => subject[language]).join(', ')
+    ladokSyllabus?.course?.huvudomraden?.map(subject => subject.name).join(', ')
   )
 
   const courseLevelCode = pickCourseOrSyllabusValue(
     ladokCourse?.utbildningstyp?.level?.code,
-    ladokSyllabus?.course?.nivainomstudieordning?.level?.code
+    ladokSyllabus?.course?.utbildningstyp?.level?.code
   )
 
   const courseLevelLabel = pickCourseOrSyllabusValue(
     ladokCourse?.utbildningstyp?.level?.name,
-    ladokSyllabus?.course?.nivainomstudieordning?.level?.[language]
+    ladokSyllabus?.course?.utbildningstyp?.level?.name
   )
 
-  const gradeScale = pickCourseOrSyllabusValue(ladokCourse?.betygsskala?.formatted, ladokSyllabus?.course?.betygsskala)
+  const gradeScale = pickCourseOrSyllabusValue(
+    ladokCourse?.betygsskala?.formatted,
+    ladokSyllabus?.course?.betygsskala.formatted
+  )
 
   const discontinuationDecision = pickCourseOrSyllabusValue(
     ladokCourse?.avvecklingsbeslut,
@@ -51,12 +54,12 @@ function _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
 
   const courseDepartmentName = pickCourseOrSyllabusValue(
     ladokCourse?.organisation?.name,
-    ladokSyllabus?.course?.organisation?.[language]
+    ladokSyllabus?.course?.organisation?.name
   )
 
   const courseEducationType = pickCourseOrSyllabusValue(
     ladokCourse?.utbildningstyp?.id,
-    ladokSyllabus?.course?.nivainomstudieordning?.id
+    ladokSyllabus?.course?.utbildningstyp?.id
   )
 
   const courseDiscontinued = pickCourseOrSyllabusValue(ladokCourse?.avvecklad, ladokSyllabus?.course?.avvecklad)
@@ -101,9 +104,9 @@ function resolveText(text = {}, language) {
   return text[language] ?? ''
 }
 
-function _parseTitleData(ladokCourse, ladokSyllabus, language) {
+function _parseTitleData(ladokCourse, ladokSyllabus) {
   const courseCode = pickCourseOrSyllabusValue(ladokCourse?.kod, ladokSyllabus?.course?.kod)
-  const courseTitle = pickCourseOrSyllabusValue(ladokCourse?.benamning, ladokSyllabus?.course.benamning[language])
+  const courseTitle = pickCourseOrSyllabusValue(ladokCourse?.benamning, ladokSyllabus?.course.benamning)
   const courseCreditsLabel = pickCourseOrSyllabusValue(
     ladokCourse?.omfattning.formattedWithUnit,
     ladokSyllabus?.course.omfattning.formattedWithUnit
