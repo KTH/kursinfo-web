@@ -106,7 +106,7 @@ function resolveText(text = {}, language) {
 
 function _parseTitleData(ladokCourse, ladokSyllabus) {
   const courseCode = pickCourseOrSyllabusValue(ladokCourse?.kod, ladokSyllabus?.course?.kod)
-  const courseTitle = pickCourseOrSyllabusValue(ladokCourse?.benamning, ladokSyllabus?.course.benamning)
+  const courseTitle = pickCourseOrSyllabusValue(ladokCourse?.benamning.name, ladokSyllabus?.course.benamning.name)
   const courseCreditsLabel = pickCourseOrSyllabusValue(
     ladokCourse?.omfattning.formattedWithUnit,
     ladokSyllabus?.course.omfattning.formattedWithUnit
@@ -284,7 +284,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
 
   //* **** Course information that is static on the course side *****//
   // We use the latest valid ladok syllabus here since the information that we are using inside _parseCourseDefaultInformation are general data inside syllabuses
-  const courseDefaultInformation = _parseCourseDefaultInformation(ladokCourse, ladokSyllabuses.latest, language)
+  const courseDefaultInformation = _parseCourseDefaultInformation(ladokCourse, ladokSyllabuses?.latest, language)
 
   const { sellingText, courseDisposition, recommendedPrerequisites, supplementaryInfo, imageInfo } =
     await courseApi.getCourseInfo(courseCode)
@@ -299,10 +299,10 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   }
 
   //* **** Course title data  *****//
-  const courseTitleData = _parseTitleData(ladokCourse, ladokSyllabuses.latest, language)
+  const courseTitleData = _parseTitleData(ladokCourse, ladokSyllabuses?.latest)
 
   //* **** Get list of syllabuses and valid syllabus semesters *****//
-  const { syllabusList, emptySyllabusData } = createSyllabusList(ladokSyllabuses.fullList, language)
+  const { syllabusList, emptySyllabusData } = createSyllabusList(ladokSyllabuses?.fullList, language)
 
   //* **** Get a list of rounds and a list of redis keys for using to get teachers and courseCoordinators from UG Rest API *****//
   const { roundsBySemester, activeSemesters } = _parseRounds({
