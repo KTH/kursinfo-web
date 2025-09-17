@@ -1,5 +1,9 @@
-import { checkIfOngoingRegistration, computeFirstRegistrationDate } from '../ongoingRegistration'
-import { findMatchedPeriod } from '../semesterUtils'
+import {
+  checkIfOngoingRegistration,
+  computeFirstRegistrationDate,
+  EXTENDED_SEMESTER_NUMBER,
+} from '../ongoingRegistration'
+import { findMatchedPeriod, SEMESTER_NUMBER } from '../semesterUtils'
 
 const mockedPeriods = [
   {
@@ -56,5 +60,61 @@ describe('Tests the logic of the checkIfOngoingRegistration function', () => {
   })
   it('Should adjust to monday for a first registration date that occurs during a weekend', () => {
     expect(computeFirstRegistrationDate({ year: 2025, semesterNumber: 2 })).toEqual('2025-03-17')
+  })
+})
+
+describe('computeFirstRegistrationDate', () => {
+  test('should work for autumn semester if date is on a weekday', () => {
+    expect(
+      computeFirstRegistrationDate({
+        year: 2024,
+        semesterNumber: SEMESTER_NUMBER.AUTUMN,
+      })
+    ).toStrictEqual('2024-03-15')
+  })
+
+  test('should work for autumn semester if date is on a weekend', () => {
+    expect(
+      computeFirstRegistrationDate({
+        year: 2025,
+        semesterNumber: SEMESTER_NUMBER.AUTUMN,
+      })
+    ).toStrictEqual('2025-03-17')
+  })
+
+  test('should work for summer semester if date is on a weekday', () => {
+    expect(
+      computeFirstRegistrationDate({
+        year: 2024,
+        semesterNumber: EXTENDED_SEMESTER_NUMBER.SUMMER,
+      })
+    ).toStrictEqual('2024-02-15')
+  })
+
+  test('should work for summer semester if date is on a weekend', () => {
+    expect(
+      computeFirstRegistrationDate({
+        year: 2025,
+        semesterNumber: EXTENDED_SEMESTER_NUMBER.SUMMER,
+      })
+    ).toStrictEqual('2025-02-17')
+  })
+
+  test('should work for spring semester if date is on a weekday', () => {
+    expect(
+      computeFirstRegistrationDate({
+        year: 2026,
+        semesterNumber: SEMESTER_NUMBER.SPRING,
+      })
+    ).toStrictEqual('2025-09-15')
+  })
+
+  test('should work for spring semester if date is on a weekend', () => {
+    expect(
+      computeFirstRegistrationDate({
+        year: 2025,
+        semesterNumber: SEMESTER_NUMBER.SPRING,
+      })
+    ).toStrictEqual('2024-09-16')
   })
 })
