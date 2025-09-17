@@ -180,10 +180,11 @@ function _getRound(ladokRound, socialSchedules, periods, language = 'sv') {
 
   const schemaUrl = socialSchedulesRound?.has_events ? socialSchedulesRound.calendar_url : null
 
-  const startDate = getDateFormat(parseOrSetEmpty(ladokRound.forstaUndervisningsdatum.date, language), language)
+  const firstTutitionDateString = ladokRound.forstaUndervisningsdatum.date
+  const formattedStartDate = getDateFormat(parseOrSetEmpty(firstTutitionDateString, language), language)
   const endDate = getDateFormat(parseOrSetEmpty(ladokRound.sistaUndervisningsdatum.date, language), language)
 
-  const round_registration_ongoing = checkIfOngoingRegistration(startDate, periods.data.Period)
+  const round_registration_ongoing = checkIfOngoingRegistration(firstTutitionDateString, periods.data.Period)
   const round_funding_type = parseOrSetEmpty(ladokRound.finansieringsform?.code, language)
   const round_is_full = ladokRound.fullsatt
   const show_application_link =
@@ -191,7 +192,7 @@ function _getRound(ladokRound, socialSchedules, periods, language = 'sv') {
   const applicationLinkUrl = createApplicationLink(ladokRound, language)
 
   const courseRoundModel = {
-    round_start_date: startDate,
+    round_start_date: formattedStartDate,
     round_end_date: endDate,
     round_target_group: parseOrSetEmpty(ladokRound.malgrupp, language),
     round_tutoring_form: parseOrSetEmpty(ladokRound.undervisningsform?.code, language),
