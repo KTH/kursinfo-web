@@ -18,7 +18,7 @@ async function getCourse(courseCode, language) {
 }
 async function getRounds(courseCode, language) {
   try {
-    const rounds = await client.getActiveAndFutureCourseRounds(courseCode, language)
+    const rounds = await client.getActiveAndFutureCourseInstances(courseCode, language)
 
     return rounds
   } catch (error) {
