@@ -3,7 +3,7 @@
 const log = require('@kth/log')
 const languageUtils = require('@kth/kth-node-web-common/lib/language')
 const memoApi = require('../apiCalls/memoApi')
-const koppsCourseData = require('../apiCalls/koppsCourseData')
+const ladokApi = require('../apiCalls/ladokApi')
 const { filterOfferingsForMemos, semestersInParsedOfferings } = require('../apiCalls/transformers/offerings')
 
 const { memosPerSchool } = require('../apiCalls/transformers/memos')
@@ -13,6 +13,19 @@ const serverConfig = require('../configuration').server
 const paths = require('../server').getPaths()
 const { getServerSideFunctions } = require('../utils/serverSideRendering')
 const { createStatisticsServerSideContext } = require('../ssr-context/createStatisticsServerSideContext')
+
+// Add mapping function for school codes
+function _mapSchoolCode(school) {
+  const schoolMapping = {
+    ABE: 'A',
+    CBH: 'C',
+    EES: 'J',
+    ITM: 'I',
+    SCI: 'S',
+  }
+
+  return schoolMapping[school] || school
+}
 
 async function getIndex(req, res, next) {
   const lang = languageUtils.getLanguage(res) || 'sv'
@@ -65,21 +78,10 @@ async function getIndex(req, res, next) {
   }
 }
 
-async function _getCoursesPerSemester(semester) {
-  // TODO: FETCH DATA FROM KOOPPS AND FROM KURS-PM/KURSANALYS API depending on document type
-  const { body: courses } = await koppsCourseData.getCoursesAndOfferings(semester)
-  // Object with one array, containing offerings’ relevant data for memo
+async function _getCourseOfferings(startPeriod, organisation) {
+  const startPeriods = startPeriod.join(',')
 
-  return courses
-}
-
-async function _getCourses(semesters) {
-  const courses = []
-  for await (const semester of semesters) {
-    const courseOfferingsPerSemester = await _getCoursesPerSemester(semester)
-    courses.push(...courseOfferingsPerSemester)
-  }
-  return courses
+  return await ladokApi.getAllCourseRounds({ startPeriod: startPeriods, organisation }, 'en')
 }
 
 async function fetchMemoStatistics(req, res, next) {
@@ -92,13 +94,16 @@ async function fetchMemoStatistics(req, res, next) {
   if (!periods) log.error('periods must be set', periods)
   if (!school) log.error('school must be set', school)
 
-  const chosenSemesters = seasons.map(season => `${year}${season}`).sort()
+  const chosenSemesters = seasons.map(season => `${season == 1 ? 'VT' : 'HT'}${year}`).sort()
+  const chosenSemestersInDigits = seasons.map(season => `${year}${season}`).sort()
+
   const sortedPeriods = periods.sort()
 
   try {
-    const courses = await _getCourses(chosenSemesters)
+    const mappedSchool = _mapSchoolCode(school)
+    const courseOfferings = await _getCourseOfferings(chosenSemesters, mappedSchool)
 
-    const parsedOfferings = filterOfferingsForMemos(courses, chosenSemesters, sortedPeriods, school)
+    const parsedOfferings = filterOfferingsForMemos(courseOfferings, chosenSemestersInDigits, sortedPeriods, school)
 
     // // Semesters found in parsed offerings. Not necessary, startSemesters is the same.
     const semestersInMemos = semestersInParsedOfferings(parsedOfferings)
@@ -112,9 +117,7 @@ async function fetchMemoStatistics(req, res, next) {
     return res.json({
       combinedMemosPerSchool, // small table // in kursinfo-admin-web combinedMemosDataPerSchool,
       documentType: 'courseMemo',
-      koppsApiBasePath: `${serverConfig.koppsApi.https ? 'https' : 'http'}://${serverConfig.koppsApi.host}${
-        serverConfig.koppsApi.basePath
-      }`,
+      ladokApiBasePath: serverConfig.ladokMellanlagerApi.baseUrl,
       documentsApiBasePath: `${serverConfig.nodeApi.kursPmDataApi.https ? 'https' : 'http'}://${
         serverConfig.nodeApi.kursPmDataApi.host
       }${serverConfig.nodeApi.kursPmDataApi.proxyBasePath}`,
@@ -124,7 +127,7 @@ async function fetchMemoStatistics(req, res, next) {
       seasons,
       semesters: chosenSemesters,
       semestersInMemos,
-      totalOfferings: courses.length,
+      totalOfferings: courseOfferings.length,
       year,
     })
   } catch (error) {
