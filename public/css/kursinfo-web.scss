@@ -20,6 +20,7 @@
 @use '~@kth/style/scss/components/content.scss';
 @use '~@kth/style/scss/components/local-navigation.scss';
 @use '~@kth/style/scss/components/kpm.scss';
+@use '@kth/style/scss/components/breadcrumbs.scss';
 
 @import 'shared';
 
@@ -374,7 +375,7 @@ div::-webkit-scrollbar-thumb {
 
 .kth-alert {
   max-width: 700px;
-  
+
   h4 {
     margin-block-start: 0.5rem !important;
   }

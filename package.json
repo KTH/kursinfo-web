@@ -31,7 +31,7 @@
     "@kth/appinsights": "^0.6.0",
     "@kth/cortina-block": "^7.1.1",
     "@kth/kth-node-response": "^1.0.8",
-    "@kth/kth-node-web-common": "9.4.1",
+    "@kth/kth-node-web-common": "^9.6.1",
     "@kth/log": "^4.0.7",
     "@kth/monitor": "^4.3.1",
     "@kth/om-kursen-ladok-client": "^2.4.0",
