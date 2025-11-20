@@ -15,7 +15,6 @@ const _createEmptySyllabusData = language => ({
   course_ethical: '',
   course_additional_regulations: '',
   course_transitional_reg: '',
-  course_decision_to_discontinue: '',
 })
 
 const _mapSyllabus = (syllabus, language) => {
@@ -35,7 +34,6 @@ const _mapSyllabus = (syllabus, language) => {
     course_ethical: parseOrSetEmpty(syllabus.kursplan.etisktforhallningssatt, language, true),
     course_additional_regulations: parseOrSetEmpty(syllabus.kursplan.ovrigaForeskrifter, language, true),
     course_transitional_reg: parseOrSetEmpty(syllabus.course.overgangsbestammelser, language, true),
-    course_decision_to_discontinue: parseOrSetEmpty(syllabus.kursplan.avvecklingsbeslut, language),
   }
 }
 
