@@ -44,7 +44,7 @@ function _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
 
   const discontinuationDecision = pickCourseOrSyllabusValue(
     ladokCourse?.avvecklingsbeslut,
-    ladokSyllabus?.kursplan?.avvecklingsbeslut
+    ladokSyllabus?.course?.avvecklingsbeslut
   )
 
   const courseDepartmentCode = pickCourseOrSyllabusValue(

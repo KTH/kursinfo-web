@@ -26,8 +26,6 @@ const expectedSyllabusList = [
       '<p>The course is primarily open for PhD students in environmental strategic analysis.</p>',
     course_transitional_reg:
       '<p>Sista examinationstillfället: VT21</p>\n<p>Antal examinationstillfällen per läsår under övergångsperioden: 2</p>\n<p>Undervisning under övergångsperioden: Nej</p>\n<p>Kursen ersätts av annan kurs: AF1736</p>',
-    course_decision_to_discontinue:
-      '<p>Skolchef vid ABE-skolan har 2019-10-09 beslutat att kursen avvecklas från och med HT 2019, diarienummer: A-2019-2027.</p>',
   },
 ]
 
@@ -35,7 +33,6 @@ const expectedEmpty = [
   {
     course_additional_regulations: '',
     course_content: '<i>Ingen information tillagd</i>',
-    course_decision_to_discontinue: '<i>Ingen information tillagd</i>',
     course_eligibility: '<i>Ingen information tillagd</i>',
     course_ethical: '',
     course_examination: '',
