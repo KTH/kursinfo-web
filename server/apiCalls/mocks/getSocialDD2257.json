@@ -1,0 +1,223 @@
+{
+  "code": "DD2257",
+  "url": "https://www-r.referens.sys.kth.se/social/course/DD2257/",
+  "rounds": [
+    {
+      "code": "2010:1-1",
+      "applicationCode": "80118",
+      "term": "2010:1",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/visual10/calendar/",
+      "has_events": false
+    },
+    {
+      "code": "2011:1-1",
+      "applicationCode": "50220",
+      "term": "2011:1",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/vt-2011-visual/calendar/",
+      "has_events": true
+    },
+    {
+      "code": "2012:1-1",
+      "applicationCode": "70321",
+      "term": "2012:1",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/vt-2012-thcim/calendar/",
+      "has_events": true
+    },
+    {
+      "code": "2013:1-1",
+      "applicationCode": "60206",
+      "term": "2013:1",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/vt-2013-thcim/calendar/",
+      "has_events": true
+    },
+    {
+      "code": "2014:1-1",
+      "applicationCode": "60083",
+      "term": "2014:1",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/visual14/calendar/",
+      "has_events": true
+    },
+    {
+      "code": "2014:1-2",
+      "applicationCode": "60292",
+      "term": "2014:1",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/visual14-2/calendar/",
+      "has_events": false
+    },
+    {
+      "code": "2014:1-3",
+      "applicationCode": "61314",
+      "term": "2014:1",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/visual14-3/calendar/",
+      "has_events": false
+    },
+    {
+      "code": "2015:1-2",
+      "applicationCode": "60039",
+      "term": "2015:1",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/vt-2015-thcim/calendar/",
+      "has_events": true
+    },
+    {
+      "code": "2015:1-1",
+      "applicationCode": "60062",
+      "term": "2015:1",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/vt-2015-visual14/calendar/",
+      "has_events": false
+    },
+    {
+      "code": "2016:1-1",
+      "applicationCode": "60647",
+      "term": "2016:1",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/visualization-2016/calendar/",
+      "has_events": true
+    },
+    {
+      "code": "2016:1-2",
+      "applicationCode": "60646",
+      "term": "2016:1",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/visualization-2016/calendar/",
+      "has_events": true
+    },
+    {
+      "code": "2017:1-1",
+      "applicationCode": "60355",
+      "term": "2017:1",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/vt-2017-visual17/calendar/",
+      "has_events": true
+    },
+    {
+      "code": "2017:1-2",
+      "applicationCode": "61060",
+      "term": "2017:1",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/vt-2017-sap-2/calendar/",
+      "has_events": false
+    },
+    {
+      "code": "2017:2-1",
+      "applicationCode": "10006",
+      "term": "2017:2",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/ht-2017-sap/calendar/",
+      "has_events": true
+    },
+    {
+      "code": "2018:1-1",
+      "applicationCode": null,
+      "term": "2018:1",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/vt-2018-visual17/calendar/",
+      "has_events": false
+    },
+    {
+      "code": "2017:2-2",
+      "applicationCode": "50639",
+      "term": "2017:2",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/ht-2017-visual17/calendar/",
+      "has_events": true
+    },
+    {
+      "code": "2017:2-3",
+      "applicationCode": "10123",
+      "term": "2017:2",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/ht-2017-doktorand-11/calendar/",
+      "has_events": false
+    },
+    {
+      "code": "2018:2-1",
+      "applicationCode": "50660",
+      "term": "2018:2",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/ht-2018-visual18/calendar/",
+      "has_events": true
+    },
+    {
+      "code": "2018:2-2",
+      "applicationCode": null,
+      "term": "2018:2",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/ht-2018-visual17/calendar/",
+      "has_events": false
+    },
+    {
+      "code": "2019:2-1",
+      "applicationCode": "51036",
+      "term": "2019:2",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/ht-2019-visual18/calendar/",
+      "has_events": false
+    },
+    {
+      "code": "2020:2-1",
+      "applicationCode": "50670",
+      "term": "2020:2",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/ht-2020-752/calendar/",
+      "has_events": true
+    },
+    {
+      "code": "2021:2-1",
+      "applicationCode": "50478",
+      "term": "2021:2",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/ht-2021-visual21/calendar/",
+      "has_events": true
+    },
+    {
+      "code": "2021:2-2",
+      "applicationCode": "51311",
+      "term": "2021:2",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/ht-2021-doktorand-10/calendar/",
+      "has_events": false
+    },
+    {
+      "code": "2022:2-1",
+      "applicationCode": "51444",
+      "term": "2022:2",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/ht-2022-visual21/calendar/",
+      "has_events": false
+    },
+    {
+      "code": "2023:2-1",
+      "applicationCode": "51346",
+      "term": "2023:2",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/ht-2023-visual/calendar/",
+      "has_events": false
+    },
+    {
+      "code": "2009:1-1",
+      "applicationCode": "60265",
+      "term": "2009:1",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/vt-2009-visual09/calendar/",
+      "has_events": false
+    },
+    {
+      "code": "2008:1-1",
+      "applicationCode": "DD025",
+      "term": "2008:1",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/vt-2008-413/calendar/",
+      "has_events": false
+    },
+    {
+      "code": "2007:2-1",
+      "applicationCode": "DD025",
+      "term": "2007:2",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/ht-2007-416/calendar/",
+      "has_events": false
+    },
+    {
+      "code": "2024:2-1",
+      "applicationCode": "50330",
+      "term": "2024:2",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/ht-2024-visual24/calendar/",
+      "has_events": false
+    },
+    {
+      "code": "2025:2-1",
+      "applicationCode": "50373",
+      "term": "2025:2",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/ht-2025-visual25/calendar/",
+      "has_events": false
+    },
+    {
+      "code": "2023:2-2",
+      "applicationCode": "50723",
+      "term": "2023:2",
+      "calendar_url": "https://www-r.referens.sys.kth.se/social/course/DD2257/subgroup/ht-2023-doktorand-49/calendar/",
+      "has_events": false
+    }
+  ]
+}
