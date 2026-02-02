@@ -191,7 +191,7 @@ module.exports = {
       VSL: 'Weekends',
     },
     round_time_slots: 'Planned modular schedule',
-    round_application_link: 'Go to the registration',
+    round_application_link: 'Apply now',
     round_type_suffix: {
       ORD: 'programme students',
       UPP: 'contract education',
