@@ -272,16 +272,13 @@ function _parseRounds({ ladokRounds, socialSchedules, language, memoList, period
 }
 
 const getFilteredData = async ({ courseCode, language, memoList }) => {
-  let ladokCourse = undefined
-  const [ladokRounds, ladokSyllabuses, periods, socialSchedules] = await Promise.all([
+  const [ladokRounds, ladokCourse, ladokSyllabuses, periods, socialSchedules] = await Promise.all([
     ladokApi.getRounds(courseCode, language),
+    ladokApi.getCourse(courseCode, language),
     ladokApi.getLadokSyllabuses(courseCode, language),
     ladokApi.getPeriods(),
     getSocial(courseCode, language),
   ])
-  if (!ladokSyllabuses) {
-    ladokCourse = await ladokApi.getCourse(courseCode, language)
-  }
 
   //* **** Course information that is static on the course side *****//
   // We use the latest valid ladok syllabus here since the information that we are using inside _parseCourseDefaultInformation are general data inside syllabuses
