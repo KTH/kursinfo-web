@@ -1,12 +1,6 @@
 const { parseOrSetEmpty } = require('../controllers/courseCtrlHelpers')
 const { createSyllabusList } = require('../controllers/createSyllabusList')
-const {
-  INFORM_IF_IMPORTANT_INFO_IS_MISSING,
-  INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY,
-  PROGRAMME_URL,
-  INDEPENDENT_COURSE,
-} = require('../util/constants')
-const { buildCourseDepartmentLink } = require('../util/courseDepartmentUtils')
+const { INFORM_IF_IMPORTANT_INFO_IS_MISSING, PROGRAMME_URL, INDEPENDENT_COURSE } = require('../util/constants')
 const { getDateFormat, formatVersionDate } = require('../util/dates')
 const { parseSemesterIntoYearSemesterNumberArray, getSemesterForDate } = require('../util/semesterUtils')
 const i18n = require('../../i18n')
@@ -15,49 +9,10 @@ const { createApplicationLink } = require('../util/createApplicationLink')
 const ladokApi = require('./ladokApi')
 const courseApi = require('./kursinfoApi')
 const { getSocial } = require('./socialApi')
+const { parseCourseDefaultInformation } = require('./parseCourseDefaultInformation')
 
 const pickCourseOrSyllabusValue = (courseValue, syllabusValue) =>
   courseValue !== undefined ? courseValue : syllabusValue
-
-function _parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
-  const courseCode = ladokSyllabus?.course?.kod
-  const courseMainSubjects = ladokSyllabus?.course?.huvudomraden?.map(subject => subject.name).join(', ')
-  const courseLevelCode = ladokSyllabus?.course?.utbildningstyp?.level?.code
-  const courseLevelLabel = ladokSyllabus?.course?.utbildningstyp?.level?.name
-  const gradeScale = ladokSyllabus?.course?.betygsskala?.formatted
-  const discontinuationDecision = ladokSyllabus?.course?.avvecklingsbeslut
-  const courseDepartmentCode = ladokSyllabus?.course?.organisation?.code
-  const courseDepartmentName = ladokSyllabus?.course?.organisation?.name
-  const courseEducationType = ladokSyllabus?.course?.utbildningstyp?.id
-  const lastExaminationTerm = ladokSyllabus?.course?.sistaexaminationstermin
-  const courseBeingDiscontinued = ladokSyllabus?.course?.underavveckling
-  const courseDiscontinued = ladokCourse?.avvecklad ? true : ladokSyllabus?.course?.avvecklad ? true : false
-
-  return {
-    course_code: parseOrSetEmpty(courseCode),
-    course_department: parseOrSetEmpty(courseDepartmentName),
-    course_department_code: parseOrSetEmpty(courseDepartmentCode),
-    course_department_link: buildCourseDepartmentLink(courseDepartmentName, courseDepartmentCode, language),
-    course_education_type_id: courseEducationType,
-    course_level_code: courseLevelCode,
-    course_level_code_label: parseOrSetEmpty(courseLevelLabel, language),
-    course_main_subject:
-      courseMainSubjects !== ''
-        ? courseMainSubjects
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
-    course_grade_scale: parseOrSetEmpty(gradeScale),
-    course_is_discontinued: courseDiscontinued,
-    course_is_being_discontinued: parseOrSetEmpty(courseBeingDiscontinued),
-    course_decision_to_discontinue: parseOrSetEmpty(discontinuationDecision, language),
-    course_last_exam: lastExaminationTerm ? parseSemesterIntoYearSemesterNumberArray(lastExaminationTerm) : '',
-
-    // TODO(Ladok-POC): Will be replaced with field from Om kursen-admin
-    course_prerequisites: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-
-    // TODO(Ladok-POC): Do we need to set course_examiners to empty here?
-    course_examiners: INFORM_IF_IMPORTANT_INFO_IS_MISSING[language],
-  }
-}
 
 function resolveText(text = {}, language) {
   return text[language] ?? ''
@@ -240,8 +195,8 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   ])
 
   //* **** Course information that is static on the course side *****//
-  // We use the latest valid ladok syllabus here since the information that we are using inside _parseCourseDefaultInformation are general data inside syllabuses
-  const courseDefaultInformation = _parseCourseDefaultInformation(ladokCourse, ladokSyllabuses?.latest, language)
+  // We use the latest valid ladok syllabus here since the information that we are using inside parseCourseDefaultInformation are general data inside syllabuses
+  const courseDefaultInformation = parseCourseDefaultInformation(ladokCourse, ladokSyllabuses?.latest, language)
 
   const { sellingText, courseDisposition, recommendedPrerequisites, supplementaryInfo, imageInfo } =
     await courseApi.getCourseInfo(courseCode)
