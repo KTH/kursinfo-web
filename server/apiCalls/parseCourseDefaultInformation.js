@@ -12,9 +12,9 @@ const pickSyllabusOrCourseValue = (syllabusValue, courseValue) =>
 function parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
   const courseCode = pickSyllabusOrCourseValue(ladokSyllabus?.course?.kod, ladokCourse?.kod)
 
-  const courseTitle = pickSyllabusOrCourseValue(ladokSyllabus?.course.benamning?.name, ladokCourse?.benamning?.name)
+  const courseTitle = pickSyllabusOrCourseValue(ladokSyllabus?.course?.benamning?.name, ladokCourse?.benamning?.name)
   const courseCreditsLabel = pickSyllabusOrCourseValue(
-    ladokSyllabus?.course.omfattning?.formattedWithUnit,
+    ladokSyllabus?.course?.omfattning?.formattedWithUnit,
     ladokCourse?.omfattning?.formattedWithUnit
   )
 

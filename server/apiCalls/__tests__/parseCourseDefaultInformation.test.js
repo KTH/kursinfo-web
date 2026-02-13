@@ -118,6 +118,28 @@ describe('parseCourseDefaultInformation', () => {
     })
   })
 
+  test('ladokCourse is fallback if syllabus.course is undefined', () => {
+    expect(parseCourseDefaultInformation(ladokCourse, { course: undefined }, 'sv')).toStrictEqual({
+      course_code: 'BBBBB',
+      course_title: 'benamningname',
+      course_credits_label: 'omfattningformattedwithunit',
+      course_department: 'bar/organisationname',
+      course_department_code: 'organisationcode',
+      course_department_link: '<a href="/bar/" target="blank">bar/organisationname</a>',
+      course_education_type_id: 'utbildningstypid',
+      course_level_code: 'utbildningstyplevelcode',
+      course_level_code_label: 'utbildningstyplevelname',
+      course_main_subject: 'Boll, plank',
+      course_grade_scale: 'betygsskalaformatted',
+      course_is_discontinued: true,
+      course_is_being_discontinued: false,
+      course_decision_to_discontinue: '<i>Ingen information tillagd</i>',
+      course_last_exam: '',
+      course_prerequisites: '<i>Ingen information tillagd</i>',
+      course_examiners: '<i>Ingen information tillagd</i>',
+    })
+  })
+
   test('course_is_discontinued = false for avvecklad = false', () => {
     expect(parseCourseDefaultInformation({ avvecklad: false }, ladokSyllabus, 'sv').course_is_discontinued).toBeFalse()
   })
@@ -149,7 +171,7 @@ describe('parseCourseDefaultInformation', () => {
     expect(course_last_exam).toStrictEqual([2024, 1])
   })
 
-  test('syllabus data is not used as fallback', () => {
+  test('syllabus data is not used as fallback for avvecklad', () => {
     expect(
       parseCourseDefaultInformation(
         {},
