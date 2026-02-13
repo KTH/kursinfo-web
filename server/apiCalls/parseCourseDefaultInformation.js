@@ -75,13 +75,12 @@ function parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
     course_education_type_id: courseEducationType,
     course_level_code: courseLevelCode,
     course_level_code_label: parseOrSetEmpty(courseLevelLabel, language),
-    course_main_subject:
-      courseMainSubjects !== ''
-        ? courseMainSubjects
-        : INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language],
+    course_main_subject: !courseMainSubjects
+      ? INFORM_IF_IMPORTANT_INFO_IS_MISSING_ABOUT_MIN_FIELD_OF_STUDY[language]
+      : courseMainSubjects,
     course_grade_scale: parseOrSetEmpty(gradeScale),
     course_is_discontinued: courseDiscontinued,
-    course_is_being_discontinued: parseOrSetEmpty(courseBeingDiscontinued),
+    course_is_being_discontinued: Boolean(courseBeingDiscontinued),
     course_decision_to_discontinue: parseOrSetEmpty(discontinuationDecision, language),
     course_last_exam: lastExaminationTerm ? parseSemesterIntoYearSemesterNumberArray(lastExaminationTerm) : '',
 
