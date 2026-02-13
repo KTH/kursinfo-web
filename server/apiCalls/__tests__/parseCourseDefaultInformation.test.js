@@ -1,6 +1,31 @@
 const { parseCourseDefaultInformation } = require('../parseCourseDefaultInformation')
 
 describe('parseCourseDefaultInformation', () => {
+  const ladokCourse = {
+    kod: 'BBBBB',
+    huvudomraden: [
+      {
+        name: 'Boll',
+      },
+      { name: 'plank' },
+    ],
+    utbildningstyp: {
+      id: 'utbildningstypid',
+      level: {
+        code: 'utbildningstyplevelcode',
+        name: 'utbildningstyplevelname',
+      },
+    },
+    betygsskala: {
+      formatted: 'betygsskalaformatted',
+    },
+    organisation: {
+      code: 'organisationcode',
+      name: 'bar/organisationname',
+    },
+    avvecklad: true,
+  }
+
   const ladokSyllabus = {
     course: {
       kod: 'AI2810',
@@ -57,6 +82,26 @@ describe('parseCourseDefaultInformation', () => {
     })
   })
 
+  test('ladokCourse is fallback if syllabus is undefined', () => {
+    expect(parseCourseDefaultInformation(ladokCourse, undefined, 'sv')).toStrictEqual({
+      course_code: 'BBBBB',
+      course_department: 'bar/organisationname',
+      course_department_code: 'organisationcode',
+      course_department_link: '<a href="/bar/" target="blank">bar/organisationname</a>',
+      course_education_type_id: 'utbildningstypid',
+      course_level_code: 'utbildningstyplevelcode',
+      course_level_code_label: 'utbildningstyplevelname',
+      course_main_subject: 'Boll, plank',
+      course_grade_scale: 'betygsskalaformatted',
+      course_is_discontinued: true,
+      course_is_being_discontinued: undefined,
+      course_decision_to_discontinue: '<i>Ingen information tillagd</i>',
+      course_last_exam: '',
+      course_prerequisites: '<i>Ingen information tillagd</i>',
+      course_examiners: '<i>Ingen information tillagd</i>',
+    })
+  })
+
   test('course_is_discontinued = false for avvecklad = false', () => {
     expect(parseCourseDefaultInformation({ avvecklad: false }, ladokSyllabus, 'sv').course_is_discontinued).toBeFalse()
   })
@@ -77,5 +122,18 @@ describe('parseCourseDefaultInformation', () => {
         'sv'
       ).course_is_discontinued
     ).toBeFalse()
+  })
+
+  test('empty courseMainSubjects', () => {
+    expect(
+      parseCourseDefaultInformation({ avvecklad: false }, { course: { huvudomraden: [] } }, 'sv').course_main_subject
+    ).toStrictEqual('Denna kurs tillhör inget huvudområde.')
+  })
+
+  test('lastExaminationTerm is set', () => {
+    expect(
+      parseCourseDefaultInformation({ avvecklad: false }, { course: { sistaexaminationstermin: '20251' } }, 'sv')
+        .course_last_exam
+    ).toStrictEqual([2025, 1])
   })
 })

@@ -6,18 +6,57 @@ const {
 const { buildCourseDepartmentLink } = require('../util/courseDepartmentUtils')
 const { parseSemesterIntoYearSemesterNumberArray } = require('../util/semesterUtils')
 
+const pickSyllabusOrCourseValue = (syllabusValue, courseValue) =>
+  syllabusValue !== undefined ? syllabusValue : courseValue
+
 function parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
-  const courseCode = ladokSyllabus?.course?.kod
-  const courseMainSubjects = ladokSyllabus?.course?.huvudomraden?.map(subject => subject.name).join(', ')
-  const courseLevelCode = ladokSyllabus?.course?.utbildningstyp?.level?.code
-  const courseLevelLabel = ladokSyllabus?.course?.utbildningstyp?.level?.name
-  const gradeScale = ladokSyllabus?.course?.betygsskala?.formatted
-  const discontinuationDecision = ladokSyllabus?.course?.avvecklingsbeslut
-  const courseDepartmentCode = ladokSyllabus?.course?.organisation?.code
-  const courseDepartmentName = ladokSyllabus?.course?.organisation?.name
-  const courseEducationType = ladokSyllabus?.course?.utbildningstyp?.id
-  const lastExaminationTerm = ladokSyllabus?.course?.sistaexaminationstermin
+  const courseCode = pickSyllabusOrCourseValue(ladokSyllabus?.course?.kod, ladokCourse?.kod)
+
+  const courseMainSubjects = pickSyllabusOrCourseValue(
+    ladokSyllabus?.course?.huvudomraden?.map(subject => subject.name).join(', '),
+    ladokCourse?.huvudomraden?.map(subject => subject.name).join(', ')
+  )
+
+  const courseLevelCode = pickSyllabusOrCourseValue(
+    ladokSyllabus?.course?.utbildningstyp?.level?.code,
+    ladokCourse?.utbildningstyp?.level?.code
+  )
+
+  const courseLevelLabel = pickSyllabusOrCourseValue(
+    ladokSyllabus?.course?.utbildningstyp?.level?.name,
+    ladokCourse?.utbildningstyp?.level?.name
+  )
+
+  const gradeScale = pickSyllabusOrCourseValue(
+    ladokSyllabus?.course?.betygsskala?.formatted,
+    ladokCourse?.betygsskala?.formatted
+  )
+
+  const courseDepartmentCode = pickSyllabusOrCourseValue(
+    ladokSyllabus?.course?.organisation?.code,
+    ladokCourse?.organisation?.code
+  )
+
+  const courseDepartmentName = pickSyllabusOrCourseValue(
+    ladokSyllabus?.course?.organisation?.name,
+    ladokCourse?.organisation?.name
+  )
+
+  const courseEducationType = pickSyllabusOrCourseValue(
+    ladokSyllabus?.course?.utbildningstyp?.id,
+    ladokCourse?.utbildningstyp?.id
+  )
+
+  /**
+   * Fetched only from syllabus
+   */
   const courseBeingDiscontinued = ladokSyllabus?.course?.underavveckling
+  const discontinuationDecision = ladokSyllabus?.course?.avvecklingsbeslut
+  const lastExaminationTerm = ladokSyllabus?.course?.sistaexaminationstermin
+
+  /**
+   * Fetched only from course version
+   */
   const courseDiscontinued = !!ladokCourse?.avvecklad
 
   return {
