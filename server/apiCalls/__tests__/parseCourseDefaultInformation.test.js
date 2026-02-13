@@ -24,6 +24,12 @@ describe('parseCourseDefaultInformation', () => {
       name: 'bar/organisationname',
     },
     avvecklad: true,
+    benamning: {
+      name: 'benamningname',
+    },
+    omfattning: {
+      formattedWithUnit: 'omfattningformattedwithunit',
+    },
   }
 
   const ladokSyllabus = {
@@ -58,12 +64,20 @@ describe('parseCourseDefaultInformation', () => {
       underavveckling: false,
       sistaexaminationstermin: undefined,
       avvecklingsbeslut: undefined,
+      benamning: {
+        name: 'benamningnameFromSyllabus',
+      },
+      omfattning: {
+        formattedWithUnit: 'omfattningformattedwithunitFromSyllabus',
+      },
     },
   }
 
   test('maps correctly', () => {
     expect(parseCourseDefaultInformation({ avvecklad: false }, ladokSyllabus, 'sv')).toStrictEqual({
       course_code: 'AI2810',
+      course_title: 'benamningnameFromSyllabus',
+      course_credits_label: 'omfattningformattedwithunitFromSyllabus',
       course_department: 'ABE/Ledning och organisering i byggande och förvaltning',
       course_department_code: 'AID',
       course_department_link:
@@ -85,6 +99,8 @@ describe('parseCourseDefaultInformation', () => {
   test('ladokCourse is fallback if syllabus is undefined', () => {
     expect(parseCourseDefaultInformation(ladokCourse, undefined, 'sv')).toStrictEqual({
       course_code: 'BBBBB',
+      course_title: 'benamningname',
+      course_credits_label: 'omfattningformattedwithunit',
       course_department: 'bar/organisationname',
       course_department_code: 'organisationcode',
       course_department_link: '<a href="/bar/" target="blank">bar/organisationname</a>',

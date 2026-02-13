@@ -12,6 +12,12 @@ const pickSyllabusOrCourseValue = (syllabusValue, courseValue) =>
 function parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
   const courseCode = pickSyllabusOrCourseValue(ladokSyllabus?.course?.kod, ladokCourse?.kod)
 
+  const courseTitle = pickSyllabusOrCourseValue(ladokSyllabus?.course.benamning?.name, ladokCourse?.benamning?.name)
+  const courseCreditsLabel = pickSyllabusOrCourseValue(
+    ladokSyllabus?.course.omfattning?.formattedWithUnit,
+    ladokCourse?.omfattning?.formattedWithUnit
+  )
+
   const courseMainSubjects = pickSyllabusOrCourseValue(
     ladokSyllabus?.course?.huvudomraden?.map(subject => subject.name).join(', '),
     ladokCourse?.huvudomraden?.map(subject => subject.name).join(', ')
@@ -61,6 +67,8 @@ function parseCourseDefaultInformation(ladokCourse, ladokSyllabus, language) {
 
   return {
     course_code: parseOrSetEmpty(courseCode),
+    course_title: parseOrSetEmpty(courseTitle),
+    course_credits_label: parseOrSetEmpty(courseCreditsLabel),
     course_department: parseOrSetEmpty(courseDepartmentName),
     course_department_code: parseOrSetEmpty(courseDepartmentCode),
     course_department_link: buildCourseDepartmentLink(courseDepartmentName, courseDepartmentCode, language),

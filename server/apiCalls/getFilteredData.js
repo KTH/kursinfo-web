@@ -11,25 +11,8 @@ const courseApi = require('./kursinfoApi')
 const { getSocial } = require('./socialApi')
 const { parseCourseDefaultInformation } = require('./parseCourseDefaultInformation')
 
-const pickCourseOrSyllabusValue = (courseValue, syllabusValue) =>
-  courseValue !== undefined ? courseValue : syllabusValue
-
 function resolveText(text = {}, language) {
   return text[language] ?? ''
-}
-
-function _parseTitleData(ladokCourse, ladokSyllabus) {
-  const courseCode = pickCourseOrSyllabusValue(ladokCourse?.kod, ladokSyllabus?.course?.kod)
-  const courseTitle = pickCourseOrSyllabusValue(ladokCourse?.benamning.name, ladokSyllabus?.course.benamning.name)
-  const courseCreditsLabel = pickCourseOrSyllabusValue(
-    ladokCourse?.omfattning.formattedWithUnit,
-    ladokSyllabus?.course.omfattning.formattedWithUnit
-  )
-  return {
-    course_code: parseOrSetEmpty(courseCode),
-    course_title: parseOrSetEmpty(courseTitle),
-    course_credits_label: parseOrSetEmpty(courseCreditsLabel),
-  }
 }
 
 function _parseRoundSeatsMsg(max, min) {
@@ -211,7 +194,11 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   }
 
   //* **** Course title data  *****//
-  const courseTitleData = _parseTitleData(ladokCourse, ladokSyllabuses?.latest)
+  const courseTitleData = {
+    course_code: courseDefaultInformation.course_code,
+    course_title: courseDefaultInformation.course_title,
+    course_credits_label: courseDefaultInformation.course_credits_label,
+  }
 
   //* **** Get list of syllabuses and valid syllabus semesters *****//
   const { syllabusList, emptySyllabusData } = createSyllabusList(ladokSyllabuses?.fullList, language)
