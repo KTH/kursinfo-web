@@ -178,7 +178,7 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   ])
 
   //* **** Course information that is static on the course side *****//
-  // We use the latest valid ladok syllabus here since the information that we are using inside parseCourseDefaultInformation are general data inside syllabuses
+  // We use both the course and the latest valid Ladok syllabus to get default course information, preferring syllabus values when available, except for avvecklad which comes only from the course
   const courseDefaultInformation = parseCourseDefaultInformation(ladokCourse, ladokSyllabuses?.latest, language)
 
   const { sellingText, courseDisposition, recommendedPrerequisites, supplementaryInfo, imageInfo } =
