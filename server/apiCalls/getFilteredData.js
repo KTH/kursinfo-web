@@ -189,7 +189,10 @@ function _getRound(ladokRound, socialSchedules, periods, language = 'sv') {
   const round_is_full = ladokRound.fullsatt
   const show_application_link =
     round_funding_type === INDEPENDENT_COURSE && round_registration_ongoing && !round_is_full
-  const applicationLinkUrl = createApplicationLink(ladokRound, language)
+  const applicationLinkUrl = createApplicationLink({
+    tillfalleskod: ladokRound.tillfalleskod,
+    startingKTHPeriod: ladokRound.startingKTHPeriod,
+  })
 
   const courseRoundModel = {
     round_start_date: formattedStartDate,
@@ -319,4 +322,4 @@ const getFilteredData = async ({ courseCode, language, memoList }) => {
   return { activeSemesters, courseData }
 }
 
-module.exports = { getFilteredData, createApplicationLink }
+module.exports = { getFilteredData }
