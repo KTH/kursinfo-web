@@ -46,11 +46,11 @@ describe('getCourseEmployees', () => {
 
   const mockGroups = [
     {
-      name: 'edu.courses.SF.1624',
+      name: 'ladok2.kurser.SF.1624',
       examiners: examiners.map(u => u.kthid),
     },
     {
-      name: 'edu.courses.SF.1624.20222.11111',
+      name: 'ladok2.kurser.SF.1624.20222.11111',
       teachers: teachers.map(u => u.kthid),
       courseCoordinators: courseCoordinators.map(u => u.kthid),
     },
