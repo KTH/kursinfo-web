@@ -24,6 +24,9 @@
     "prepare": "husky",
     "start": "bash -c 'cat /KTH_NODEJS; NODE_ENV=production node app.js'",
     "start-dev": "bash -c 'NODE_ENV=development concurrently --kill-others -n build,app \"npm run build-dev\" \"nodemon app.js\"'",
+    "use-local-oklc": "npm install file:../studadm-om-kursen-packages/packages/om-kursen-ladok-client --no-save",
+    "use-published-oklc": "npm ci",
+    "start-dev-debug": "bash -c 'NODE_ENV=development concurrently --kill-others -n build,app \"npm run build-dev\" \"nodemon --inspect app.js\"'",
     "fetch-all-env-variables": "bash ./fetch-env.sh kursinfo-web-ref kursinfo-web-ref"
   },
   "dependencies": {
@@ -34,7 +37,7 @@
     "@kth/kth-node-web-common": "^9.6.1",
     "@kth/log": "^4.0.8",
     "@kth/monitor": "^4.3.2",
-    "@kth/om-kursen-ladok-client": "^3.1.2",
+    "@kth/om-kursen-ladok-client": "^3.2.1",
     "@kth/server": "^4.1.0",
     "@kth/session": "^3.1.1",
     "@kth/style": "^1.13.1",
